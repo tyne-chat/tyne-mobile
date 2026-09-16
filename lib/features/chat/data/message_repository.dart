@@ -54,10 +54,14 @@ Map<String, dynamic> buildMessageCreateBody({
   List<ApiAttachmentMetadata>? attachments,
   int? messageFlags,
   bool tts = false,
+  Map<String, dynamic>? subprofile,
 }) {
   final body = <String, dynamic>{};
   if (content.isNotEmpty) {
     body['content'] = content;
+  }
+  if (subprofile != null) {
+    body['subprofile'] = subprofile;
   }
   if (replyToId != null) {
     body['message_reference'] = <String, dynamic>{'message_id': replyToId};
@@ -798,6 +802,7 @@ class MessageRepository {
     bool tts = false,
     CancelToken? cancelToken,
     ProgressCallback? onSendProgress,
+    Map<String, dynamic>? subprofile,
   }) async {
     try {
       final Map<String, dynamic> body = buildMessageCreateBody(
@@ -810,6 +815,7 @@ class MessageRepository {
         attachments: attachmentMetadata,
         messageFlags: messageFlags,
         tts: tts,
+        subprofile: subprofile,
       );
 
       if (attachmentFiles != null && attachmentFiles.isNotEmpty) {
