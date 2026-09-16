@@ -980,6 +980,7 @@ class Message {
   final String? personaName;
   final String? personaAvatar;
   final String? personaTag;
+  final String? personaTagIcon;
 
   bool get isPersona =>
       (personaName != null && personaName!.isNotEmpty) ||
@@ -1027,6 +1028,7 @@ class Message {
     this.personaName,
     this.personaAvatar,
     this.personaTag,
+    this.personaTagIcon,
   });
 
   factory Message.fromSdk(MessageResponseSchema sdk, {String? currentUserId}) {
@@ -1091,6 +1093,7 @@ class Message {
           sdk.subprofile?.displayTagText ??
           sdk.subprofile?.systemName ??
           sdk.personaTag,
+      personaTagIcon: sdk.subprofile?.displayTagIcon,
     );
   }
 
@@ -1158,6 +1161,7 @@ class Message {
           sdk.subprofile?.displayTagText ??
           sdk.subprofile?.systemName ??
           sdk.personaTag,
+      personaTagIcon: sdk.subprofile?.displayTagIcon,
     );
   }
 
@@ -1428,7 +1432,8 @@ class Message {
         personaId == other.personaId &&
         personaName == other.personaName &&
         personaAvatar == other.personaAvatar &&
-        personaTag == other.personaTag;
+        personaTag == other.personaTag &&
+        personaTagIcon == other.personaTagIcon;
   }
 
   static bool _translationEquals(MessageTranslation? a, MessageTranslation? b) {
@@ -1593,6 +1598,7 @@ class Message {
     Object? personaName = _unset,
     Object? personaAvatar = _unset,
     Object? personaTag = _unset,
+    Object? personaTagIcon = _unset,
   }) {
     return Message(
       id: id ?? this.id,
@@ -1650,6 +1656,9 @@ class Message {
       personaTag: personaTag == _unset
           ? this.personaTag
           : personaTag as String?,
+      personaTagIcon: personaTagIcon == _unset
+          ? this.personaTagIcon
+          : personaTagIcon as String?,
     );
   }
 
@@ -1691,6 +1700,7 @@ class Message {
       personaName: incoming.personaName ?? personaName,
       personaAvatar: incoming.personaAvatar ?? personaAvatar,
       personaTag: incoming.personaTag ?? personaTag,
+      personaTagIcon: incoming.personaTagIcon ?? personaTagIcon,
       translation: contentChanged ? null : _unset,
     );
   }
