@@ -994,6 +994,14 @@ class Message {
   final String? threadJson;
   final bool tts;
   final MessageTranslation? translation;
+  final String? personaId;
+  final String? personaName;
+  final String? personaAvatar;
+  final String? personaTag;
+
+  bool get isPersona =>
+      (personaName != null && personaName!.isNotEmpty) ||
+      (personaId != null && personaId!.isNotEmpty);
 
   const Message({
     required this.id,
@@ -1033,6 +1041,10 @@ class Message {
     this.threadJson,
     this.tts = false,
     this.translation,
+    this.personaId,
+    this.personaName,
+    this.personaAvatar,
+    this.personaTag,
   });
 
   factory Message.fromSdk(MessageResponseSchema sdk, {String? currentUserId}) {
@@ -1090,6 +1102,13 @@ class Message {
       call: messageCallFromSdk(sdk.call),
       threadJson: _encodeThread(sdk.thread),
       tts: sdk.tts,
+      personaId: sdk.subprofile?.id ?? sdk.personaId,
+      personaName: sdk.subprofile?.name ?? sdk.personaName,
+      personaAvatar: sdk.subprofile?.avatar ?? sdk.personaAvatar,
+      personaTag:
+          sdk.subprofile?.displayTagText ??
+          sdk.subprofile?.systemName ??
+          sdk.personaTag,
     );
   }
 
@@ -1150,6 +1169,13 @@ class Message {
       clientNonce: sdk.nonce,
       call: messageCallFromReferencedSdk(sdk.call),
       threadJson: _encodeThread(sdk.thread),
+      personaId: sdk.subprofile?.id ?? sdk.personaId,
+      personaName: sdk.subprofile?.name ?? sdk.personaName,
+      personaAvatar: sdk.subprofile?.avatar ?? sdk.personaAvatar,
+      personaTag:
+          sdk.subprofile?.displayTagText ??
+          sdk.subprofile?.systemName ??
+          sdk.personaTag,
     );
   }
 
@@ -1321,6 +1347,10 @@ class Message {
             ),
       threadJson: row.threadJson,
       translation: translationFromRow(row),
+      personaId: row.personaId,
+      personaName: row.personaName,
+      personaAvatar: row.personaAvatar,
+      personaTag: row.personaTag,
     );
   }
 
@@ -1408,7 +1438,11 @@ class Message {
           other.mentionChannels,
           (mention) => mention.toJson(),
         ) &&
-        _translationEquals(translation, other.translation);
+        _translationEquals(translation, other.translation) &&
+        personaId == other.personaId &&
+        personaName == other.personaName &&
+        personaAvatar == other.personaAvatar &&
+        personaTag == other.personaTag;
   }
 
   static bool _translationEquals(MessageTranslation? a, MessageTranslation? b) {
@@ -1545,6 +1579,10 @@ class Message {
       sendError: Value(sendError),
       callJson: Value(call == null ? null : jsonEncode(call!.toJson())),
       threadJson: Value(threadJson),
+      personaId: Value(personaId),
+      personaName: Value(personaName),
+      personaAvatar: Value(personaAvatar),
+      personaTag: Value(personaTag),
     );
   }
 
@@ -1586,6 +1624,10 @@ class Message {
     Object? threadJson = _unset,
     bool? tts,
     Object? translation = _unset,
+    Object? personaId = _unset,
+    Object? personaName = _unset,
+    Object? personaAvatar = _unset,
+    Object? personaTag = _unset,
   }) {
     return Message(
       id: id ?? this.id,
@@ -1633,6 +1675,16 @@ class Message {
       translation: translation == _unset
           ? this.translation
           : translation as MessageTranslation?,
+      personaId: personaId == _unset ? this.personaId : personaId as String?,
+      personaName: personaName == _unset
+          ? this.personaName
+          : personaName as String?,
+      personaAvatar: personaAvatar == _unset
+          ? this.personaAvatar
+          : personaAvatar as String?,
+      personaTag: personaTag == _unset
+          ? this.personaTag
+          : personaTag as String?,
     );
   }
 
@@ -1670,6 +1722,10 @@ class Message {
       flags: incoming.flags,
       call: incoming.call ?? call,
       threadJson: incoming.threadJson ?? threadJson,
+      personaId: incoming.personaId ?? personaId,
+      personaName: incoming.personaName ?? personaName,
+      personaAvatar: incoming.personaAvatar ?? personaAvatar,
+      personaTag: incoming.personaTag ?? personaTag,
       translation: contentChanged ? null : _unset,
     );
   }
