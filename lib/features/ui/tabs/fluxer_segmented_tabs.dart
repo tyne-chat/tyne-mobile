@@ -10,12 +10,14 @@ class FluxerSegmentedTabs extends StatelessWidget {
     required this.tabs,
     required this.selectedIndex,
     required this.onChanged,
+    this.expanded = false,
     super.key,
   });
 
   final List<FluxerTab> tabs;
   final int selectedIndex;
   final ValueChanged<int> onChanged;
+  final bool expanded;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +48,7 @@ class FluxerSegmentedTabs extends StatelessWidget {
       );
     }
 
-    return DecoratedBox(
+    final content = DecoratedBox(
       decoration: BoxDecoration(
         color: colors.backgroundTertiary,
         borderRadius: layout.radiusLg,
@@ -54,18 +56,33 @@ class FluxerSegmentedTabs extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(layout.s1 / 2),
         child: Row(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: expanded ? MainAxisSize.max : MainAxisSize.min,
           children: [
             for (var i = 0; i < tabs.length; i++)
-              _FluxerSegmentedTabItem(
-                tab: tabs[i],
-                isSelected: i == selectedIndex,
-                onTap: () => onChanged(i),
-              ),
+              if (expanded)
+                Expanded(
+                  child: _FluxerSegmentedTabItem(
+                    tab: tabs[i],
+                    isSelected: i == selectedIndex,
+                    onTap: () => onChanged(i),
+                    expanded: true,
+                  ),
+                )
+              else
+                _FluxerSegmentedTabItem(
+                  tab: tabs[i],
+                  isSelected: i == selectedIndex,
+                  onTap: () => onChanged(i),
+                ),
           ],
         ),
       ),
     );
+
+    if (expanded) {
+      return SizedBox(width: double.infinity, child: content);
+    }
+    return content;
   }
 }
 
@@ -137,11 +154,13 @@ class _FluxerSegmentedTabItem extends StatelessWidget {
     required this.tab,
     required this.isSelected,
     required this.onTap,
+    this.expanded = false,
   });
 
   final FluxerTab tab;
   final bool isSelected;
   final VoidCallback onTap;
+  final bool expanded;
 
   @override
   Widget build(BuildContext context) {
@@ -159,16 +178,20 @@ class _FluxerSegmentedTabItem extends StatelessWidget {
         return AnimatedContainer(
           duration: motion.normal,
           curve: motion.curve,
+          alignment: expanded ? Alignment.center : null,
           decoration: BoxDecoration(
             color: isSelected ? colors.brandPrimary : Colors.transparent,
             borderRadius: layout.radiusMd,
           ),
           padding: EdgeInsets.symmetric(
             horizontal: layout.s2,
-            vertical: layout.s1,
+            vertical: expanded ? layout.s1_5 : layout.s1,
           ),
           child: Row(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: expanded ? MainAxisSize.max : MainAxisSize.min,
+            mainAxisAlignment: expanded
+                ? MainAxisAlignment.center
+                : MainAxisAlignment.start,
             children: [
               if (tab.icon != null) ...[
                 Icon(
@@ -189,7 +212,7 @@ class _FluxerSegmentedTabItem extends StatelessWidget {
                       ? colors.textOnBrandPrimary
                       : colors.textSecondary,
                 ),
-                child: Text(tab.label),
+                child: Text(tab.label, textAlign: TextAlign.center),
               ),
             ],
           ),
