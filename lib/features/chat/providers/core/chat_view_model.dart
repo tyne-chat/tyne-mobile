@@ -4694,11 +4694,16 @@ class ChatViewModel extends _$ChatViewModel {
     }
   }
 
-  Future<void> sendMessage({String? text, bool tts = false}) async {
+  Future<void> sendMessage({
+    String? text,
+    bool tts = false,
+    Map<String, dynamic>? subprofile,
+  }) async {
     await _sendContent(
       text ?? state.messageText.trim(),
       clearMessageText: true,
       tts: tts,
+      subprofile: subprofile,
     );
   }
 
@@ -5020,6 +5025,7 @@ class ChatViewModel extends _$ChatViewModel {
     List<String> stickerIds = const [],
     String? favoriteMemeId,
     bool tts = false,
+    Map<String, dynamic>? subprofile,
   }) async {
     if (state.editingMessage != null) {
       try {
@@ -5051,6 +5057,7 @@ class ChatViewModel extends _$ChatViewModel {
             stickerIds: stickerIds,
             favoriteMemeId: favoriteMemeId,
             tts: tts,
+            subprofile: subprofile,
           );
         } finally {
           if (!consumed && claimNonce != null) {
@@ -5246,6 +5253,7 @@ class ChatViewModel extends _$ChatViewModel {
     List<String> stickerIds = const [],
     String? favoriteMemeId,
     bool tts = false,
+    Map<String, dynamic>? subprofile,
   }) async {
     final String channelId = state.channelId;
     if (channelId.isEmpty) {
@@ -5390,6 +5398,7 @@ class ChatViewModel extends _$ChatViewModel {
           ? <String>[state.replyingTo!.authorId]
           : const <String>[],
       flags: messageFlags,
+      subprofile: subprofile,
     );
     _retrySendOptions[optimisticMessage.id] = _RetrySendOptions(
       replyMention: replyMention,
@@ -5437,6 +5446,7 @@ class ChatViewModel extends _$ChatViewModel {
           optimisticMessageId: optimisticMessage.id,
           messageFlags: messageFlags,
           tts: tts,
+          subprofile: subprofile,
         ),
       );
       return true;
@@ -5456,6 +5466,7 @@ class ChatViewModel extends _$ChatViewModel {
         uploadNotifier: uploadNotifier,
         messageFlags: messageFlags,
         tts: tts,
+        subprofile: subprofile,
       ),
     );
     return true;
@@ -5472,6 +5483,7 @@ class ChatViewModel extends _$ChatViewModel {
     required String optimisticMessageId,
     int? messageFlags,
     bool tts = false,
+    Map<String, dynamic>? subprofile,
   }) async {
     final DateTime sendStartedAt = DateTime.now();
     try {
@@ -5488,6 +5500,7 @@ class ChatViewModel extends _$ChatViewModel {
               favoriteMemeId: favoriteMemeId,
               messageFlags: messageFlags,
               tts: tts,
+              subprofile: subprofile,
             ),
       );
       _retrySendOptions.remove(optimisticMessageId);
@@ -5533,6 +5546,7 @@ class ChatViewModel extends _$ChatViewModel {
     required CloudUploadController uploadNotifier,
     int? messageFlags,
     bool tts = false,
+    Map<String, dynamic>? subprofile,
   }) async {
     final int fileCount =
         ref
@@ -5583,6 +5597,7 @@ class ChatViewModel extends _$ChatViewModel {
               attachmentFiles: prepared.attachmentFiles,
               messageFlags: messageFlags,
               tts: tts,
+              subprofile: subprofile,
               cancelToken: uploadNotifier.sendCancelToken(clientNonce),
               onSendProgress: (int sent, int total) =>
                   uploadNotifier.reportSendProgress(
@@ -7527,15 +7542,25 @@ class ChatViewModel extends _$ChatViewModel {
     List<Attachment> attachments = const <Attachment>[],
     List<String> mentionedUserIds = const <String>[],
     int flags = 0,
+    Map<String, dynamic>? subprofile,
   }) {
     final DateTime now = DateTime.now();
+    final String? pId = subprofile?['id'] as String?;
+    final String? pName = subprofile?['name'] as String?;
+    final String? pAvatar = subprofile?['avatar'] as String?;
+    final String? pTag =
+        (subprofile?['display_tag_text'] as String?) ??
+        (subprofile?['system_name'] as String?);
+    final String? pTagIcon = subprofile?['display_tag_icon'] as String?;
+
     return Message(
       id: clientNonce,
       channelId: channelId,
       authorId: currentUserId ?? '',
-      authorName: authorName,
-      authorAvatar: authorAvatar,
-      authorAvatarColor: authorAvatarColor,
+      authorName: pName ?? authorName,
+      authorAvatar: pAvatar ?? authorAvatar,
+      authorAvatarColor:
+          (subprofile?['color'] as num?)?.toInt() ?? authorAvatarColor,
       authorIsBot: authorIsBot,
       authorIsSystem: authorIsSystem,
       content: content,
@@ -7552,6 +7577,11 @@ class ChatViewModel extends _$ChatViewModel {
       deliveryState: MessageDeliveryState.sending,
       clientNonce: clientNonce,
       flags: flags,
+      personaId: pId,
+      personaName: pName,
+      personaAvatar: pAvatar,
+      personaTag: pTag,
+      personaTagIcon: pTagIcon,
     );
   }
 
