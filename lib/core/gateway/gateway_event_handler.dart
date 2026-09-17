@@ -117,6 +117,14 @@ typedef ForumUnreadsCallback = void Function(ForumUnreadsEvent event);
 typedef UserPersonasUpdateCallback =
     void Function(String eventType, dynamic data);
 
+/// Who a typing user is typing as: the event's `subprofile`, or null for the account.
+typedef TypingPersonaCallback =
+    void Function(
+      String channelId,
+      String userId,
+      MessageSubprofileResponse? subprofile,
+    );
+
 String? _presenceCustomStatusFromMap(Map<String, dynamic> presence) {
   final Map<String, dynamic>? customStatusMap =
       presence['custom_status'] as Map<String, dynamic>?;
@@ -207,6 +215,7 @@ class GatewayEventHandler {
     this.onThreadMemberListUpdate,
     this.onForumUnreads,
     this.onUserPersonasUpdate,
+    this.onTypingPersona,
   }) {
     final ReactionWriteBatcher? batcher = reactionWriteBatcher;
     if (batcher == null) {
@@ -288,6 +297,9 @@ class GatewayEventHandler {
   final ThreadMemberListUpdateCallback? onThreadMemberListUpdate;
   final ForumUnreadsCallback? onForumUnreads;
   final UserPersonasUpdateCallback? onUserPersonasUpdate;
+
+  /// Who each typing user is typing as (tyne-chat/tyne#136).
+  final TypingPersonaCallback? onTypingPersona;
 
   late final PresenceUpdateBatcher _presenceUpdateBatcher =
       PresenceUpdateBatcher(database: database, currentUserId: currentUserId);
@@ -2217,6 +2229,14 @@ class GatewayEventHandler {
   void _handleTypingStart(TypingStartEvent event) {
     _hydrateEmbeddedMember(event.guildId, event.member);
     _emit(() => onTypingStart?.call(event.channelId, event.userId));
+    // Fork: who they are typing as (tyne-chat/tyne#136).
+    _emit(
+      () => onTypingPersona?.call(
+        event.channelId,
+        event.userId,
+        event.subprofile,
+      ),
+    );
   }
 
   void _hydrateEmbeddedMember(String? guildId, GuildMemberResponse? member) {
