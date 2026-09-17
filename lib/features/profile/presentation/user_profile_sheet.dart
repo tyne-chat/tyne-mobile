@@ -15,11 +15,24 @@ class FluxerUserProfileSheet {
   static Future<void> show(
     BuildContext context, {
     required String userId,
+    String? personaId,
     String? guildId,
     bool autoFocusNote = false,
     bool isWebhook = false,
     Message? message,
   }) {
+    // Fork: the popout card has no persona view, so a persona's profile opens the full sheet.
+    if (personaId != null) {
+      return showFull(
+        context,
+        userId: userId,
+        personaId: personaId,
+        guildId: guildId,
+        autoFocusNote: autoFocusNote,
+        isWebhook: isWebhook,
+        message: message,
+      );
+    }
     if (!autoFocusNote && usesDesktopPointerUi(context)) {
       final BuildContext hostContext = Navigator.of(
         context,
@@ -63,6 +76,7 @@ class FluxerUserProfileSheet {
   static Future<void> showFull(
     BuildContext context, {
     required String userId,
+    String? personaId,
     String? guildId,
     bool autoFocusNote = false,
     bool isWebhook = false,
@@ -75,6 +89,7 @@ class FluxerUserProfileSheet {
       showDragHandle: false,
       builder: (sheetContext, scrollController, close) => _SheetBody(
         userId: userId,
+        personaId: personaId,
         autoFocusNote: autoFocusNote,
         scrollController: scrollController,
         onClose: close,
@@ -92,12 +107,14 @@ class _SheetBody extends ConsumerStatefulWidget {
     required this.autoFocusNote,
     required this.scrollController,
     required this.onClose,
+    this.personaId,
     this.guildId,
     this.isWebhook = false,
     this.message,
   });
 
   final String userId;
+  final String? personaId;
   final String? guildId;
   final bool autoFocusNote;
   final ScrollController scrollController;
@@ -114,6 +131,7 @@ class _SheetBodyState extends ConsumerState<_SheetBody> {
   Widget build(BuildContext context) {
     return UserProfileView(
       userId: widget.userId,
+      personaId: widget.personaId,
       guildId: widget.guildId,
       autoFocusNote: widget.autoFocusNote,
       scrollController: widget.scrollController,
