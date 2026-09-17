@@ -241,6 +241,10 @@ const _userSettingsDesktopNavYourAccount = [
     UserSettingsSection.connections,
     icon: PhosphorIconsFill.userList,
   ),
+  UserSettingsDesktopNavEntry.link(
+    UserSettingsSection.personas,
+    icon: PhosphorIconsFill.identificationCard,
+  ),
 ];
 
 const _userSettingsDesktopNavBilling = [
@@ -494,6 +498,10 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
         link(UserSettingsSection.blockedUsers, PhosphorIconsFill.prohibit),
         link(UserSettingsSection.linkedDevices, PhosphorIconsFill.devices),
         link(UserSettingsSection.connections, PhosphorIconsFill.userList),
+        link(
+          UserSettingsSection.personas,
+          PhosphorIconsFill.identificationCard,
+        ),
       ],
     ),
     if (showBilling)
