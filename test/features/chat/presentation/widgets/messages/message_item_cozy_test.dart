@@ -213,3 +213,18 @@ void main() {
     });
   });
 }
+
+// Fork: upstream's helpers that message_item_cozy_fork_test.dart uses, named here so they stay
+// private and are not copied.
+// ignore: unreachable_from_main // Fork: used by message_item_cozy_fork_test.dart.
+typedef ForkUpstreamHelpers = ({
+  Widget Function(Widget child, {List<Override> overrides}) app,
+  void Function(FluxerDatabase database) setDatabase,
+});
+// ignore: unreachable_from_main // Fork: used by message_item_cozy_fork_test.dart.
+const ForkUpstreamHelpers forkUpstream = (
+  app: _app,
+  setDatabase: _forkSetDatabase,
+);
+
+void _forkSetDatabase(FluxerDatabase database) => _database = database;
