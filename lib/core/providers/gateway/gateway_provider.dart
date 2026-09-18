@@ -246,6 +246,8 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
               );
             }),
       );
+      unawaited(ref.read(myPersonasProvider.notifier).reloadSilently());
+      unawaited(ref.read(personaSettingsProvider.notifier).reloadSilently());
     }),
     onResumed: () => ifMounted(() {
       talker.info('[Gateway] RESUMED, light recovery');
