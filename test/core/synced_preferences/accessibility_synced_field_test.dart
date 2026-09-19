@@ -425,3 +425,15 @@ void main() {
     );
   });
 }
+
+// Fork: upstream's helpers that accessibility_synced_field_fork_test.dart uses, named here so they stay private
+// and are not copied.
+// ignore: unreachable_from_main // Fork: used by accessibility_synced_field_fork_test.dart.
+const AdvancedAccessibilityLocalState forkDefaultAdvancedAccessibility =
+    _defaultAdvancedAccessibility;
+// ignore: unreachable_from_main // Fork: used by accessibility_synced_field_fork_test.dart.
+typedef ForkUpstreamHelpers = ({
+  AccessibilitySyncedField Function() splashZoomField,
+});
+// ignore: unreachable_from_main // Fork: used by accessibility_synced_field_fork_test.dart.
+const ForkUpstreamHelpers forkUpstream = (splashZoomField: _splashZoomField);
