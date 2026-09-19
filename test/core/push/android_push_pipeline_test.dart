@@ -12,6 +12,10 @@ import 'package:fluxer_app/core/push/web_push/web_push_crypto.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_key_store.dart';
 import 'package:image/image.dart' as img;
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/instance/instance_endpoints.dart';
+
 void main() {
   test('background ciphertext notifications show locally', () {
     expect(
@@ -173,28 +177,31 @@ void main() {
       }, endpoints: endpoints),
       'https://cdn.example/avatars/99/a.webp?format=png&animated=false&size=160',
     );
+    // Fork: the instance's default hosts, not upstream's (the fork's differ).
     expect(
       pushAuthorAvatarUrl(<String, String>{
         'icon': 'https://cdn.example/icon.png',
         'author_id': '7',
       }, endpoints: endpoints),
-      'https://fluxerstatic.com/avatars/1.png',
+      '${InstanceEndpoints.defaultStaticCdn}/avatars/1.png',
     );
   });
 
   test('avatar uses default static avatars like the in-app avatar', () {
     final PushMediaInstanceUrls endpoints = PushMediaInstanceUrls.official();
+    // Fork: the instance's default hosts, not upstream's (the fork's differ).
     expect(
       pushAuthorAvatarUrl(<String, String>{
         'author_id': '7',
       }, endpoints: endpoints),
-      'https://fluxerstatic.com/avatars/1.png',
+      '${InstanceEndpoints.defaultStaticCdn}/avatars/1.png',
     );
+    // Fork: the instance's default hosts, not upstream's (the fork's differ).
     expect(
       pushAuthorAvatarUrl(<String, String>{
-        'icon': 'https://fluxerstatic.com/avatars/3.png',
+        'icon': '${InstanceEndpoints.defaultStaticCdn}/avatars/3.png',
       }, endpoints: endpoints),
-      'https://fluxerstatic.com/avatars/3.png',
+      '${InstanceEndpoints.defaultStaticCdn}/avatars/3.png',
     );
     expect(
       pushNotificationStaticImageUrl(
@@ -222,17 +229,20 @@ void main() {
       }, endpoints: endpoints),
       'https://static.selfhosted.test/avatars/1.png',
     );
+    // Fork: the instance's default hosts, not upstream's (the fork's differ).
     expect(
       pushAuthorAvatarUrl(<String, String>{
         'author_avatar_url':
-            'https://fluxerusercontent.com/avatars/1/deadbeef.webp?size=160',
+            '${InstanceEndpoints.defaultMedia}/avatars/1/deadbeef.webp?size=160',
       }, endpoints: endpoints),
       'https://media.selfhosted.test/avatars/1/deadbeef.webp?format=png&animated=false&size=160',
     );
+    // Fork: the instance's default hosts, not upstream's (the fork's differ).
     expect(
       pushAttachmentImageUrl(<String, String>{
         'has_media': 'true',
-        'image_url': 'https://fluxerusercontent.com/attachments/1/preview.webp',
+        'image_url':
+            '${InstanceEndpoints.defaultMedia}/attachments/1/preview.webp',
       }, endpoints: endpoints),
       'https://media.selfhosted.test/attachments/1/preview.webp',
     );
