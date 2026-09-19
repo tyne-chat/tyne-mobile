@@ -838,3 +838,28 @@ void main() {
     }
   });
 }
+
+// Fork: upstream's helpers that accessibility_theme_sync_store_fork_test.dart uses, named here so they stay
+// private and are not copied.
+// ignore: unreachable_from_main // Fork: used by accessibility_theme_sync_store_fork_test.dart.
+typedef ForkFakeUsersApi = _FakeUsersApi;
+// ignore: unreachable_from_main // Fork: used by accessibility_theme_sync_store_fork_test.dart.
+typedef ForkUpstreamHelpers = ({
+  String Function(accessibility_pb.AccessibilitySettings settings)
+  settingsWithAccessibility,
+  UserSettingsResponse Function({required String syncedPreferences})
+  testUserSettings,
+  ProviderContainer Function({
+    required db.FluxerDatabase database,
+    required ForkFakeUsersApi usersApi,
+  })
+  createContainer,
+  Future<void> Function(SyncedPreferencesStore store) waitForDebounce,
+});
+// ignore: unreachable_from_main // Fork: used by accessibility_theme_sync_store_fork_test.dart.
+const ForkUpstreamHelpers forkUpstream = (
+  settingsWithAccessibility: _settingsWithAccessibility,
+  testUserSettings: _testUserSettings,
+  createContainer: _createContainer,
+  waitForDebounce: _waitForDebounce,
+);
