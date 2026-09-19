@@ -155,7 +155,7 @@ android {
             dimension = "environment"
             applicationIdSuffix = ".canary"
             versionNameSuffix = "-canary"
-            manifestPlaceholders["appLabel"] = "Fluxer Canary"
+            manifestPlaceholders["appLabel"] = "Fluxer Temple"
             manifestPlaceholders["buildEnvironment"] = "canary"
             manifestPlaceholders["appIconAliasPrefix"] = "com.fluxer.canary.MainActivity"
             manifestPlaceholders["measureApiKey"] =
