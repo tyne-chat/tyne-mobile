@@ -350,8 +350,13 @@ class AppearancePreferences extends _$AppearancePreferences {
         showFadedUnreadOnMutedChannels: value.showFadedUnreadOnMutedChannels,
         dmMessagePreviewMode: value.dmMessagePreviewMode,
         showFavorites: value.showFavorites,
-        messageGroupSpacing: value.messageGroupSpacing,
-        compactMessageGroupSpacing: value.compactMessageGroupSpacing,
+        messageGroupSpacing: value.hasMobileMessageGroupSpacingInProto
+            ? value.messageGroupSpacing
+            : state.messageGroupSpacing,
+        compactMessageGroupSpacing:
+            value.hasMobileCompactMessageGroupSpacingInProto
+            ? value.compactMessageGroupSpacing
+            : state.compactMessageGroupSpacing,
         showUserAvatarsInCompactMode: value.showUserAvatarsInCompactMode,
         showMediaDeleteButton: value.showMediaDeleteButton,
         showMediaDownloadButton: value.showMediaDownloadButton,
