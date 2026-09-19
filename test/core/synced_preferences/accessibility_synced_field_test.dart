@@ -232,6 +232,8 @@ void main() {
         autoSendKlipyGifs: true,
         syncReducedMotionWithSystem: false,
         reducedMotionOverride: true,
+        fontSize: 24,
+        messageGroupSpacing: 0,
       );
       final pushed = AccessibilitySyncedField.toProtoForPush(
         local: local,
@@ -242,6 +244,10 @@ void main() {
       expect(pushed.hideKeyboardHints, isTrue);
       expect(pushed.syncReducedMotionWithSystem, isTrue);
       expect(pushed.reducedMotionOverride, isFalse);
+      expect(pushed.fontSize, 24);
+      expect(pushed.messageGroupSpacing, 0);
+      expect(pushed.mobileFontSize, 16);
+      expect(pushed.mobileMessageGroupSpacing, 16);
     });
 
     test('roundtrips motion and underline accessibility fields', () {
@@ -425,3 +431,15 @@ void main() {
     );
   });
 }
+
+// Fork: upstream's helpers that accessibility_synced_field_fork_test.dart uses, named here so they stay private
+// and are not copied.
+// ignore: unreachable_from_main // Fork: used by accessibility_synced_field_fork_test.dart.
+const AdvancedAccessibilityLocalState forkDefaultAdvancedAccessibility =
+    _defaultAdvancedAccessibility;
+// ignore: unreachable_from_main // Fork: used by accessibility_synced_field_fork_test.dart.
+typedef ForkUpstreamHelpers = ({
+  AccessibilitySyncedField Function() splashZoomField,
+});
+// ignore: unreachable_from_main // Fork: used by accessibility_synced_field_fork_test.dart.
+const ForkUpstreamHelpers forkUpstream = (splashZoomField: _splashZoomField);
