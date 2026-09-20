@@ -21,6 +21,11 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+
 Future<MessageAction?> showMessageContextMenu(
   BuildContext context, {
   required Offset position,
@@ -226,6 +231,13 @@ class _MessageContextMenuItems extends ConsumerWidget {
             icon: PhosphorIconsFill.pencilSimple,
             action: MessageAction.edit,
             shortcut: 'E',
+          ),
+        if (permissions.isOwnMessage &&
+            (ref.watch(myPersonasProvider).asData?.value.isNotEmpty ?? false))
+          item(
+            label: l10n.fork.chatMessageChangePersona,
+            icon: PhosphorIconsBold.userSwitch,
+            action: MessageAction.changePersona,
           ),
         if (isUserMessage && interactive && permissions.canSendMessages)
           item(
