@@ -290,7 +290,12 @@ class FluxerBottomSheet {
         animationStyle: fluxerBottomSheetAnimationStyle(context),
         useSafeArea: reserveBottomInset,
         builder: (sheetContext) {
-          void close() => _closeSheet(sheetContext);
+          void close() {
+            if (canDismissNotifier != null && !canDismissNotifier.value) {
+              return;
+            }
+            _closeSheet(sheetContext);
+          }
 
           final bool isMenuVariant = variant == FluxerBottomSheetVariant.menu;
           final bool hasHeader = _hasSheetHeader(
@@ -436,7 +441,12 @@ class FluxerBottomSheet {
             ),
         useSafeArea: reserveBottomInset,
         builder: (sheetContext) {
-          void close() => _closeSheet(sheetContext);
+          void close() {
+            if (canDismissNotifier != null && !canDismissNotifier.value) {
+              return;
+            }
+            _closeSheet(sheetContext);
+          }
 
           final bool hasHeader = _hasSheetHeader(
             title: title,
@@ -489,6 +499,7 @@ class FluxerBottomSheet {
                 ),
                 sheetContext: sheetContext,
                 builder: builder,
+                canDismissNotifier: canDismissNotifier,
               );
             },
           );
@@ -946,6 +957,7 @@ class FluxerDraggableScrollableSheet extends StatefulWidget {
     required this.bottomScrollPadding,
     required this.sheetContext,
     required this.builder,
+    this.canDismissNotifier,
     super.key,
   });
 
@@ -968,6 +980,7 @@ class FluxerDraggableScrollableSheet extends StatefulWidget {
   final double bottomScrollPadding;
   final BuildContext sheetContext;
   final FluxerScrollableBottomSheetBuilder builder;
+  final ValueNotifier<bool>? canDismissNotifier;
 
   @override
   State<FluxerDraggableScrollableSheet> createState() =>
@@ -1193,6 +1206,10 @@ class _FluxerDraggableScrollableSheetState
   }
 
   void _dismiss() {
+    if (widget.canDismissNotifier != null &&
+        !widget.canDismissNotifier!.value) {
+      return;
+    }
     if (_dismissed) {
       return;
     }
@@ -1239,6 +1256,11 @@ class _FluxerDraggableScrollableSheetState
       availablePixels: _available,
     );
     if (target == null) {
+      if (widget.canDismissNotifier != null &&
+          !widget.canDismissNotifier!.value) {
+        _moveTo(widget.minChildSize);
+        return;
+      }
       _dismiss();
       return;
     }
