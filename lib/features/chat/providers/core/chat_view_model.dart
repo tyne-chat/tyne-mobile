@@ -4917,17 +4917,34 @@ class ChatViewModel extends _$ChatViewModel {
     );
   }
 
-  Future<void> sendStickerMessage(StickerEntry sticker) => _sendContent(
+  Future<void> sendStickerMessage(
+    StickerEntry sticker, {
+    Map<String, dynamic>? personaData,
+  }) => _sendContent(
     state.messageText.trim(),
     clearMessageText: true,
     stickerIds: [sticker.id],
+    personaData: personaData,
   );
 
-  Future<void> sendFavoriteMemeMessage(FavoriteMeme meme) =>
-      _sendContent('', clearMessageText: true, favoriteMemeId: meme.id);
+  Future<void> sendFavoriteMemeMessage(
+    FavoriteMeme meme, {
+    Map<String, dynamic>? personaData,
+  }) => _sendContent(
+    '',
+    clearMessageText: true,
+    favoriteMemeId: meme.id,
+    personaData: personaData,
+  );
 
-  Future<void> sendStandaloneMessage(String content) =>
-      _sendContent(content.trim(), clearMessageText: false);
+  Future<void> sendStandaloneMessage(
+    String content, {
+    Map<String, dynamic>? personaData,
+  }) => _sendContent(
+    content.trim(),
+    clearMessageText: false,
+    personaData: personaData,
+  );
 
   Future<void> forwardMessage({
     required String sourceChannelId,
@@ -7384,7 +7401,8 @@ class ChatViewModel extends _$ChatViewModel {
       content: rawText,
       personas: personas,
       currentPersonaId: editingMessage.personaId,
-      hasAttachments: editingMessage.hasAttachments,
+      hasAttachments:
+          editingMessage.hasAttachments || editingMessage.hasStickers,
     );
 
     final String sanitized = _maybeSanitizeOutgoing(
@@ -7392,7 +7410,9 @@ class ChatViewModel extends _$ChatViewModel {
     );
     final String editedContent = hasVisibleContent(sanitized)
         ? sanitized
-        : (editingMessage.hasAttachments ? '' : '');
+        : (editingMessage.hasAttachments || editingMessage.hasStickers
+              ? ''
+              : '');
     final bool keepAttachmentsOnly =
         editedContent.isEmpty &&
         editingMessage.content.isNotEmpty &&
@@ -7426,7 +7446,9 @@ class ChatViewModel extends _$ChatViewModel {
       return;
     }
 
-    if (editedContent.isEmpty && !editingMessage.hasAttachments) {
+    if (editedContent.isEmpty &&
+        !editingMessage.hasAttachments &&
+        !editingMessage.hasStickers) {
       return;
     }
 
