@@ -1521,7 +1521,7 @@ class _MarkdownInlineRenderer {
 
     return TextSpan(
       text: '$prefix${element.textContent}',
-      style: style.copyWith(fontWeight: FontWeight.w500),
+      style: style.copyWith(fontWeight: FontWeight.w400),
     );
   }
 
@@ -1540,7 +1540,7 @@ class _MarkdownInlineRenderer {
 
     return TextSpan(
       text: element.textContent,
-      style: style.copyWith(fontWeight: FontWeight.w500),
+      style: style.copyWith(fontWeight: FontWeight.w400),
     );
   }
 
@@ -1563,7 +1563,7 @@ class _MarkdownInlineRenderer {
     final String label = '/${segments.join(' ')}';
     return TextSpan(
       text: label,
-      style: style.copyWith(fontWeight: FontWeight.w500),
+      style: style.copyWith(fontWeight: FontWeight.w400),
     );
   }
 
@@ -1590,7 +1590,7 @@ class _MarkdownInlineRenderer {
         : '<id:$navTypeRaw:$navigationId>';
     return TextSpan(
       text: label,
-      style: style.copyWith(fontWeight: FontWeight.w500),
+      style: style.copyWith(fontWeight: FontWeight.w400),
     );
   }
 
