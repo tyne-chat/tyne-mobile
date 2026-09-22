@@ -43,6 +43,10 @@ import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinat
 import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/quick_switcher/providers/recent_channel_visits_provider.dart';
+
 class ShellRouteListeners extends ConsumerStatefulWidget {
   const ShellRouteListeners({required this.child, super.key});
 
@@ -74,6 +78,12 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
       if (activeGuildId != null) {
         _applyActiveGuildEffects(activeGuildId);
       }
+      final String? activeChannelId = ref.read(activeChannelIdProvider);
+      if (activeChannelId != null) {
+        ref
+            .read(recentChannelVisitsProvider.notifier)
+            .recordVisit(channelId: activeChannelId, guildId: activeGuildId);
+      }
     });
     ref
       ..listenManual<String>(shellLocationProvider, (
@@ -102,6 +112,14 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
       ) {
         if (previous == next) {
           return;
+        }
+        if (next != null) {
+          ref
+              .read(recentChannelVisitsProvider.notifier)
+              .recordVisit(
+                channelId: next,
+                guildId: ref.read(activeGuildIdProvider),
+              );
         }
         final String? previousChannelId = previous;
         WidgetsBinding.instance.addPostFrameCallback((_) {
