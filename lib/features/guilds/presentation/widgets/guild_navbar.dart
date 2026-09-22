@@ -287,6 +287,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     required bool showAddCommunity,
     required bool showExplore,
     required bool hideDirectMessages,
+    required InstanceServerListButtons serverListButtons,
     bool showHelp = true,
   }) {
     final List<_NavbarListEntry> entries = <_NavbarListEntry>[];
@@ -295,7 +296,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
         const _NavbarListEntry(kind: _NavbarListEntryKind.directMessages),
       );
     }
-    if (showFavorites) {
+    if (showFavorites && serverListButtons.favorites) {
       entries.add(const _NavbarListEntry(kind: _NavbarListEntryKind.favorites));
     }
     if (!hideDirectMessages) {
@@ -339,17 +340,20 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
           );
       }
     }
-    if (showExplore) {
+    final bool showExploreButton = showExplore && serverListButtons.explore;
+    final bool showAdd = showAddCommunity && serverListButtons.createJoin;
+    final bool showHelpButton = showHelp && serverListButtons.help;
+    if (showExploreButton) {
       entries.add(
         const _NavbarListEntry(kind: _NavbarListEntryKind.exploreCommunities),
       );
     }
-    if (showAddCommunity) {
+    if (showAdd) {
       entries.add(
         const _NavbarListEntry(kind: _NavbarListEntryKind.addCommunity),
       );
     }
-    if (showHelp) {
+    if (showHelpButton) {
       entries.add(const _NavbarListEntry(kind: _NavbarListEntryKind.help));
     }
     return entries;
@@ -502,6 +506,11 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
         (config) => config.directMessagesDisabled,
       ),
     );
+    final InstanceServerListButtons serverListButtons = ref.watch(
+      instanceRuntimeConfigProvider.select(
+        (config) => config.serverListButtons,
+      ),
+    );
     final double topPadding = max<double>(MediaQuery.paddingOf(context).top, 4);
     final List<_NavbarListEntry> navbarEntries = _buildNavbarEntries(
       showFavorites: showFavorites,
@@ -513,6 +522,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       showAddCommunity: showAddCommunity,
       showExplore: showExplore,
       hideDirectMessages: hideDirectMessages,
+      serverListButtons: serverListButtons,
       showHelp: !ref.watch(
         syncedExtrasPreferencesProvider.select(
           (SyncedExtrasState state) => state.hideHelpButton,
