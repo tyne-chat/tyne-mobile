@@ -330,6 +330,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
 
   late final VoidCallback _requestComposerFocus;
   late final ComposerFocusCoordinator _composerFocus;
+  late final ActiveVoiceRecordingTarget _activeVoiceTarget;
   ProviderSubscription<int>? _chatKeybindEffectsSubscription;
 
   @override
@@ -393,14 +394,13 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       onPrepareUi: _prepareVoiceRecordingUi,
     );
     _textSession.onChannelChanged();
+    _activeVoiceTarget = ActiveVoiceRecordingTarget(
+      controller: _voiceRecording,
+      startLockedRecording: _startLockedVoiceRecording,
+    );
     ref
-        .read(activeVoiceRecordingTargetProvider.notifier)
-        .setTarget(
-          ActiveVoiceRecordingTarget(
-            controller: _voiceRecording,
-            startLockedRecording: _startLockedVoiceRecording,
-          ),
-        );
+        .read(activeVoiceRecordingCoordinatorProvider)
+        .register(_activeVoiceTarget);
     unawaited(FluxerHaptics.warmSend());
   }
 
@@ -628,7 +628,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       ..removeListener(_onComposerControllerChanged)
       ..dispose();
     _showComposerCounter.dispose();
-    ref.read(activeVoiceRecordingTargetProvider.notifier).setTarget(null);
+    ref
+        .read(activeVoiceRecordingCoordinatorProvider)
+        .unregister(_activeVoiceTarget);
     _voiceRecording.dispose();
     super.dispose();
   }
