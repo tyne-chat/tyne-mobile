@@ -40,6 +40,10 @@ import 'package:image_picker_android/image_picker_android.dart';
 import 'package:image_picker_platform_interface/image_picker_platform_interface.dart';
 import 'package:window_manager/window_manager.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/settings/providers/quick_switcher_button_preferences_provider.dart';
+
 Future<void> _showDesktopWindow() async {
   await windowManager.show();
   await windowManager.focus();
@@ -103,6 +107,7 @@ Future<void> _bootstrapFluxer(List<String> args) async {
     ),
     () async {
       await Future.wait<void>([
+        container.read(quickSwitcherButtonPreferencesProvider.notifier).load(),
         container.read(observabilityReportingProvider.notifier).load(),
         container.read(pushRelayConsentProvider.notifier).load(),
         container.read(localSettingsProvider.notifier).load(),
