@@ -49,6 +49,10 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:image_picker_android/image_picker_android.dart';
 import 'package:image_picker_platform_interface/image_picker_platform_interface.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/settings/providers/quick_switcher_button_preferences_provider.dart';
+
 void _configureImagePicker() {
   if (!Platform.isAndroid) {
     return;
@@ -177,6 +181,9 @@ Future<void> _bootstrapFluxer(List<String> args) async {
       );
       await _bootstrapStep('app.bootstrap.settings', () async {
         await Future.wait<void>([
+          container
+              .read(quickSwitcherButtonPreferencesProvider.notifier)
+              .load(),
           container.read(observabilityReportingProvider.notifier).load(),
           container.read(pushRelayConsentProvider.notifier).load(),
           container.read(localSettingsProvider.notifier).load(),
