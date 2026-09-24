@@ -461,6 +461,24 @@ class FluxerInput extends StatelessWidget {
                 EdgeInsets.zero)
             .resolve(Directionality.of(context));
     final double suffixInset = layout.s2 + _multilineSuffixExtent + layout.s2;
+    // Fork: also pad the bottom so text clears the character counter.
+    final bool hasCounter =
+        showCounter && (counterMax != null || maxLength != null);
+    final double bottomInset = hasCounter
+        ? math.max(themePadding.bottom, layout.s6 + layout.s1)
+        : themePadding.bottom;
+    final bool suffixOnLeft = Directionality.of(context) == TextDirection.rtl;
+    final EdgeInsets? forkContentPadding = (suffix != null || hasCounter)
+        ? themePadding.copyWith(
+            left: suffix != null && suffixOnLeft
+                ? math.max(themePadding.left, suffixInset)
+                : null,
+            right: suffix != null && !suffixOnLeft
+                ? math.max(themePadding.right, suffixInset)
+                : null,
+            bottom: bottomInset,
+          )
+        : null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -490,21 +508,7 @@ class FluxerInput extends StatelessWidget {
                           errorMaxLines: 4,
                           prefixIcon: prefixIcon,
                           counterText: maxLength != null ? '' : null,
-                          contentPadding: suffix == null
-                              ? null
-                              : Directionality.of(context) == TextDirection.rtl
-                              ? themePadding.copyWith(
-                                  left: math.max(
-                                    themePadding.left,
-                                    suffixInset,
-                                  ),
-                                )
-                              : themePadding.copyWith(
-                                  right: math.max(
-                                    themePadding.right,
-                                    suffixInset,
-                                  ),
-                                ),
+                          contentPadding: forkContentPadding,
                         ),
                         obscureText: obscureText,
                         autofillHints: autofillHints,
