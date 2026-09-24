@@ -71,6 +71,7 @@ export 'gateway_reconnect_provider.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/core/gateway/providers/typing_personas_provider.dart';
+import 'package:fluxer_app/features/chat/data/channel_persona_mention_cache.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
@@ -570,6 +571,13 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     }),
     onUserPersonasUpdate: (eventType, data) => ifMounted(() {
       talker.info('[Gateway] Received $eventType');
+      final String? guildId = (data is Map && data['guild_id'] != null)
+          ? data['guild_id'].toString()
+          : null;
+      ChannelPersonaMentionCache.instance.invalidate(guildId);
+      if (eventType == 'GUILD_PERSONAS_DIRTY') {
+        return;
+      }
       if (eventType == 'USER_PERSONA_SETTINGS_UPDATE') {
         if (data is Map<String, dynamic>) {
           ref.read(personaSettingsProvider.notifier).updateFromGateway(data);
@@ -597,14 +605,12 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
             : currentUid;
 
         if (id is String && id.isNotEmpty) {
-          if (ownerId != null && ownerId.isNotEmpty) {
+          if (ownerId.isNotEmpty) {
             ref.invalidate(
               publicPersonaProvider((userId: ownerId, personaId: id)),
             );
           }
-          if (currentUid != null &&
-              currentUid.isNotEmpty &&
-              currentUid != ownerId) {
+          if (currentUid.isNotEmpty && currentUid != ownerId) {
             ref.invalidate(
               publicPersonaProvider((userId: currentUid, personaId: id)),
             );
@@ -622,7 +628,7 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
                 : Map<String, dynamic>.from(persona);
             final p = Persona.fromJson(map);
             ref.read(myPersonasProvider.notifier).upsertPersona(p);
-          } catch (e, st) {
+          } on Object catch (e, st) {
             talker.warning(
               '[Gateway] Failed to parse persona from gateway: $e',
               e,
