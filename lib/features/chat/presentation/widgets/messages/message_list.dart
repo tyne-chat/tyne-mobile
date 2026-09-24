@@ -994,12 +994,18 @@ class _MessageListState extends ConsumerState<MessageList> {
               } else if (groupDmConversation != null) {
                 body = Align(
                   alignment: Alignment.bottomCenter,
-                  child: GroupDmWelcomeSection(dm: groupDmConversation),
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: _statusOverlayInset),
+                    child: GroupDmWelcomeSection(dm: groupDmConversation),
+                  ),
                 );
               } else if (channelRow != null) {
                 body = Align(
                   alignment: AlignmentDirectional.bottomStart,
-                  child: ChannelWelcomeSection(channel: channelRow),
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: _statusOverlayInset),
+                    child: ChannelWelcomeSection(channel: channelRow),
+                  ),
                 );
               } else {
                 final FluxerLocalizations l10n = FluxerLocalizations.of(
