@@ -16,7 +16,8 @@ configurations.all {
 }
 
 val requestedTasks = gradle.startParameter.taskNames.joinToString(" ").lowercase()
-if (requestedTasks.contains("fcm")) {
+val googleServicesJson = file("google-services.json")
+if (googleServicesJson.exists() || requestedTasks.contains("fcm")) {
     apply(plugin = "com.google.gms.google-services")
 }
 
@@ -260,6 +261,7 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.robolectric:robolectric:4.14.1")
+    implementation("org.unifiedpush.android:embedded-fcm-distributor:3.1.0")
     add("fcmImplementation", platform("com.google.firebase:firebase-bom:35.2.0"))
     add("fcmImplementation", "com.google.firebase:firebase-messaging")
     add("fcmImplementation", "com.google.android.gms:play-services-cloud-messaging:17.4.0")
