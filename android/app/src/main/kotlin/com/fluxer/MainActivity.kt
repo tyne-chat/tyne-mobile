@@ -80,6 +80,8 @@ class MainActivity : AudioServiceActivity() {
         super.configureFlutterEngine(flutterEngine)
         ownsMainEngine = true
         MainEngineState.onEngineStarted()
+        // Fork: registered first, away from the end of the list where upstream adds its bridges.
+        AppInstallBridge(applicationContext).register(flutterEngine)
         BrowserLaunchBridge(applicationContext).register(flutterEngine)
         PhysicalKeyboardBridge(applicationContext).register(flutterEngine)
         VoiceSpeakerRouteBridge(this).register(flutterEngine)
