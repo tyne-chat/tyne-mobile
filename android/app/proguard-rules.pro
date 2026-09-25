@@ -20,3 +20,6 @@
     public *;
 }
 -dontwarn android.window.BackEvent
+
+# Fork: embedded FCM distributor fallback for push notifications.
+-keep class org.unifiedpush.android.embedded_fcm_distributor.** { *; }
