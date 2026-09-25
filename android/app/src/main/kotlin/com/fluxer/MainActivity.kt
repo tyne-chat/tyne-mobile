@@ -14,7 +14,8 @@ import io.flutter.embedding.android.RenderMode
 import io.flutter.embedding.android.TransparencyMode
 import io.flutter.embedding.engine.FlutterEngine
 
-class MainActivity : AudioServiceFragmentActivity() {
+// Fork: ForkMainActivity holds the fork's hooks; it is AudioServiceFragmentActivity underneath (tyne-chat/tyne#845).
+class MainActivity : ForkMainActivity() {
     private val imeEditingShortcutBridge = ImeEditingShortcutBridge()
     private val appLockBridge = AppLockBridge(this)
 
