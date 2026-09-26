@@ -6536,7 +6536,6 @@ class ChatViewModel extends _$ChatViewModel {
       if (message.personaAvatar != null) 'avatar': message.personaAvatar,
       if (message.personaBanner != null) 'banner': message.personaBanner,
       'display_tag_text': ?pTag,
-      'system_name': ?pTag,
       if (message.personaTagIcon != null)
         'display_tag_icon': message.personaTagIcon,
       if (message.authorAvatarColor != null)
@@ -7317,7 +7316,6 @@ class ChatViewModel extends _$ChatViewModel {
           'banner': ?p.bannerUrl,
           'avatar_color': ?p.color,
           'display_tag_text': ?tagText,
-          'system_name': ?tagText,
           'display_tag_icon': ?tagIcon,
           'pronouns': ?p.pronouns,
           'color': ?p.color,
@@ -7386,7 +7384,6 @@ class ChatViewModel extends _$ChatViewModel {
       if (persona.bannerUrl != null) 'banner': persona.bannerUrl,
       if (persona.color != null) 'avatar_color': persona.color,
       'display_tag_text': ?tagText,
-      'system_name': ?tagText,
       'display_tag_icon': ?tagIcon,
       if (persona.pronouns != null) 'pronouns': persona.pronouns,
       if (persona.color != null) 'color': persona.color,
@@ -8073,9 +8070,7 @@ class ChatViewModel extends _$ChatViewModel {
     final String? pName = personaData?['name'] as String?;
     final String? pAvatar = personaData?['avatar'] as String?;
     final String? pBanner = personaData?['banner'] as String?;
-    final String? pTag =
-        (personaData?['display_tag_text'] as String?) ??
-        (personaData?['system_name'] as String?);
+    final String? pTag = personaData?['display_tag_text'] as String?;
     final String? pTagIcon = personaData?['display_tag_icon'] as String?;
 
     return Message(
