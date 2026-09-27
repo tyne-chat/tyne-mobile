@@ -742,6 +742,8 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
           orElse: () => null,
         );
 
+    final bool personasLoading = myPersonasAsync?.isLoading ?? false;
+
     final AsyncValue<PublicPersona?> publicPersonaAsync =
         (!isCurrentUser && effectivePersonaId.isNotEmpty)
         ? ref.watch(
@@ -766,15 +768,15 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
               rootProfile?.user.username ??
               message?.authorName ??
               '');
-    final String? personaAvatarUrl = publicPersona != null
-        ? publicPersona.avatarUrl
+    final String? rawPersonaAvatar = publicPersona != null
+        ? publicPersona.avatarHash
         : message?.personaAvatar;
-    final String? personaBannerUrl = publicPersona != null
-        ? publicPersona.bannerUrl
+    final String? rawPersonaBanner = publicPersona != null
+        ? publicPersona.bannerHash
         : message?.personaBanner;
     final String? personaTag =
         publicPersona?.displayTagText ?? message?.personaTag;
-    final String? personaTagIcon =
+    final String? rawPersonaTagIcon =
         publicPersona?.displayTagIcon ?? message?.personaTagIcon;
     final String? personaBio = publicPersona?.bio;
     final String? pronouns = publicPersona?.pronouns;
@@ -794,6 +796,42 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
         : message?.authorAvatar;
     final int? rootAvatarColor =
         rootProfile?.user.avatarColor ?? message?.authorAvatarColor;
+
+    final String? personaAvatarUrl = rawPersonaAvatar == null
+        ? null
+        : (rawPersonaAvatar.startsWith('http://') ||
+              rawPersonaAvatar.startsWith('https://') ||
+              rawPersonaAvatar.startsWith('data:'))
+        ? rawPersonaAvatar
+        : FluxerMediaUrl.userAvatar(
+            userId: effectiveUserId,
+            hash: rawPersonaAvatar,
+            size: MediaProxySizes.avatarProfile,
+            animated: true,
+          );
+
+    final String? personaBannerUrl = rawPersonaBanner == null
+        ? null
+        : (rawPersonaBanner.startsWith('http://') ||
+              rawPersonaBanner.startsWith('https://') ||
+              rawPersonaBanner.startsWith('data:'))
+        ? rawPersonaBanner
+        : FluxerMediaUrl.userBanner(
+            userId: effectiveUserId,
+            hash: rawPersonaBanner,
+            animated: true,
+          );
+
+    final String? personaTagIcon = rawPersonaTagIcon == null
+        ? null
+        : (rawPersonaTagIcon.startsWith('http://') ||
+              rawPersonaTagIcon.startsWith('https://') ||
+              rawPersonaTagIcon.startsWith('data:'))
+        ? rawPersonaTagIcon
+        : FluxerMediaUrl.userAvatar(
+            userId: effectiveUserId,
+            hash: rawPersonaTagIcon,
+          );
 
     final bool hasCustomAvatar =
         personaAvatarUrl != null && personaAvatarUrl.isNotEmpty;
@@ -840,6 +878,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                       child: UserProfileBanner(
                         key: ValueKey(personaBannerUrl),
                         bannerUrl: personaBannerUrl,
+                        userId: effectiveUserId,
                         bannerColor: bannerColor,
                       ),
                     ),
@@ -1035,36 +1074,28 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                     child: FluxerButton.primary(
                       label: l10n.fork.personaEditPersona,
                       icon: PhosphorIconsFill.pencil,
-                      onPressed: () async {
-                        final PublicPersona current =
-                            ownPersona?.toPublicPersona() ??
-                            publicPersona ??
-                            PublicPersona(
-                              id: effectivePersonaId,
-                              name: displayName,
-                              avatarUrl: personaAvatarUrl,
-                              bannerUrl: personaBannerUrl,
-                              pronouns: pronouns,
-                              color: personaColor,
-                              bio: personaBio,
-                              personaTags:
-                                  ownPersona?.personaTags ??
-                                  const <PersonaTag>[],
-                            );
-                        final PublicPersona? updated =
-                            await EditPersonaSheet.show(
-                              context,
-                              persona: current,
-                            );
-                        if (updated != null && mounted) {
-                          ref.invalidate(
-                            publicPersonaProvider((
-                              userId: effectiveUserId,
-                              personaId: effectivePersonaId,
-                            )),
-                          );
-                        }
-                      },
+                      // The editor saves every field, so it only ever opens on
+                      // the real persona: a stand-in would wipe its tags and
+                      // emojis. Until it loads this waits, and after a failed
+                      // load a press tries again (tyne-chat/tyne#418).
+                      isLoading: ownPersona == null && personasLoading,
+                      onPressed: ownPersona == null
+                          ? () => ref.invalidate(myPersonasProvider)
+                          : () async {
+                              final PublicPersona? updated =
+                                  await EditPersonaSheet.show(
+                                    context,
+                                    persona: ownPersona.toPublicPersona(),
+                                  );
+                              if (updated != null && mounted) {
+                                ref.invalidate(
+                                  publicPersonaProvider((
+                                    userId: effectiveUserId,
+                                    personaId: effectivePersonaId,
+                                  )),
+                                );
+                              }
+                            },
                     ),
                   )
                 else
