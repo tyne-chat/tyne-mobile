@@ -596,7 +596,7 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
             } else if (persona is Map) {
               final String? name = persona['name']?.toString();
               final String? avatar =
-                  (persona['avatar'] ?? persona['avatar_url'])?.toString();
+                  (persona['avatar_hash'] ?? persona['avatar'])?.toString();
               final String? tag = persona['display_tag_text']?.toString();
               final String? tagIcon = persona['display_tag_icon']?.toString();
 
@@ -700,7 +700,7 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
                 .onPersonaUpdated(
                   personaId: p.id,
                   name: p.name,
-                  avatar: p.avatarUrl,
+                  avatar: p.avatarHash,
                   tag: userPersonaSettings?.displayTagText,
                   tagIcon: userPersonaSettings?.displayTagIcon,
                 );
