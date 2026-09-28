@@ -23,6 +23,10 @@ import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
 import '../../../../helpers/core_test_provider_overrides.dart';
 import '../../../../helpers/test_l10n.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:riverpod/src/framework.dart' show Override;
+
 class _FakeFavoriteEmojiKeys extends FavoriteEmojiKeys {
   @override
   Future<List<String>> build() => Future.value(const <String>[]);
@@ -38,6 +42,7 @@ class _FakeGuildListViewModel extends GuildListViewModel {
 Widget _buildTestApp({
   required Widget child,
   String? currentGuildId = 'guild-1',
+  List<Override> extraOverrides = const [],
 }) {
   final colorTheme = buildDarkColorTheme();
 
@@ -55,6 +60,7 @@ Widget _buildTestApp({
           ),
         ),
         guildByIdProvider('guild-3').overrideWith((ref) => null),
+        ...extraOverrides,
       ],
     ),
     child: MaterialApp(
@@ -374,3 +380,16 @@ void main() {
     );
   });
 }
+
+// Fork: upstream's helpers that emoji_info_bottom_sheet_fork_test.dart uses, named here so they stay private
+// and are not copied.
+// ignore: unreachable_from_main // Fork: used by emoji_info_bottom_sheet_fork_test.dart.
+typedef ForkFakeFavoriteEmojiKeys = _FakeFavoriteEmojiKeys;
+// ignore: unreachable_from_main // Fork: used by emoji_info_bottom_sheet_fork_test.dart.
+typedef ForkFakeGuildListViewModel = _FakeGuildListViewModel;
+// ignore: unreachable_from_main // Fork: used by emoji_info_bottom_sheet_fork_test.dart.
+typedef ForkUpstreamHelpers = ({
+  Widget Function({required Widget child, String? currentGuildId}) buildTestApp,
+});
+// ignore: unreachable_from_main // Fork: used by emoji_info_bottom_sheet_fork_test.dart.
+const ForkUpstreamHelpers forkUpstream = (buildTestApp: _buildTestApp);
