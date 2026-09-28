@@ -2975,6 +2975,7 @@ class GatewayEventHandler {
       emoji: event.emoji,
       isAdd: true,
       userId: event.userId,
+      personaId: event.personaId,
     );
     if (reactionWriteBatcher == null) {
       _emit(
@@ -2991,6 +2992,7 @@ class GatewayEventHandler {
       emoji: event.emoji,
       isAdd: false,
       userId: event.userId,
+      personaId: event.personaId,
     );
     if (reactionWriteBatcher == null) {
       _emit(
@@ -3005,6 +3007,7 @@ class GatewayEventHandler {
     required ReactionEmoji emoji,
     required bool isAdd,
     String? userId,
+    String? personaId,
   }) async {
     final bool isCurrentUser =
         userId != null && currentUserId != null && userId == currentUserId;
@@ -3015,6 +3018,7 @@ class GatewayEventHandler {
         emoji: emoji,
         isAdd: isAdd,
         isCurrentUser: isCurrentUser,
+        personaId: personaId,
       );
       return;
     }
@@ -3024,6 +3028,7 @@ class GatewayEventHandler {
       emoji,
       isAdd: isAdd,
       userId: userId,
+      personaId: personaId,
     );
   }
 
@@ -3062,6 +3067,7 @@ class GatewayEventHandler {
     ReactionEmoji emoji, {
     required bool isAdd,
     String? userId,
+    String? personaId,
   }) async {
     final msg = await database.messageDao.getMessage(channelId, messageId);
     if (msg == null) {
@@ -3077,6 +3083,7 @@ class GatewayEventHandler {
       emoji,
       isAdd: isAdd,
       isCurrentUser: isCurrentUser,
+      personaId: personaId,
     )) {
       return;
     }
