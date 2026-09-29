@@ -792,7 +792,12 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
         rootProfile?.user.username ?? message?.authorName ?? '';
     final String? avatarHash = rootProfile?.user.avatar;
     final String? rootAvatarUrl = avatarHash != null
-        ? FluxerMediaUrl.userAvatar(userId: effectiveUserId, hash: avatarHash)
+        ? FluxerMediaUrl.userAvatar(
+            userId: effectiveUserId,
+            hash: avatarHash,
+            size: MediaProxySizes.avatarProfile,
+            animated: true,
+          )
         : message?.authorAvatar;
     final int? rootAvatarColor =
         rootProfile?.user.avatarColor ?? message?.authorAvatarColor;
@@ -831,6 +836,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
         : FluxerMediaUrl.userAvatar(
             userId: effectiveUserId,
             hash: rawPersonaTagIcon,
+            animated: true,
           );
 
     final bool hasCustomAvatar =
