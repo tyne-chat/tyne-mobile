@@ -516,7 +516,11 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               rawTagIcon.startsWith('https://') ||
               rawTagIcon.startsWith('data:'))
         ? rawTagIcon
-        : FluxerMediaUrl.userAvatar(userId: msg.authorId, hash: rawTagIcon);
+        : FluxerMediaUrl.userAvatar(
+            userId: msg.authorId,
+            hash: rawTagIcon,
+            animated: true,
+          );
 
     final Widget badge;
     if (tagText != null) {
@@ -546,6 +550,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           ? FluxerMediaUrl.userAvatar(
               userId: msg.authorId,
               hash: msg.authorAvatar,
+              animated: true,
             )
           : (msg.authorId == userSettings.userId
                 ? userSettings.avatarUrl
