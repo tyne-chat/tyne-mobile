@@ -93,6 +93,11 @@ import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:cached_network_image_ce/cached_network_image.dart';
+import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+
 const _kMentionColor = Color.from(
   alpha: 1,
   red: 234 / 255,
