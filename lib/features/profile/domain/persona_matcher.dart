@@ -1,6 +1,53 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
+
+final RegExp _shortcodePattern = RegExp(r':([a-zA-Z0-9_+\-]+):');
+
+List<String> _getAffixVariants(String affix) {
+  if (affix.isEmpty) {
+    return const [''];
+  }
+  final variants = <String>[affix];
+
+  if (affix.contains(':')) {
+    final converted = affix.replaceAllMapped(_shortcodePattern, (match) {
+      final name = match[1]!;
+      final surrogate = EmojiRegistry.resolveSync(name);
+      return surrogate ?? match[0]!;
+    });
+    if (converted != affix && !variants.contains(converted)) {
+      variants.add(converted);
+    }
+  }
+
+  final unicodeMatcher = EmojiRegistry.unicodeEmojiMatcherSync;
+  final unicodeMatches =
+      unicodeMatcher?.matches(affix) ?? const <({int start, int end})>[];
+  if (unicodeMatches.isNotEmpty) {
+    final StringBuffer buffer = StringBuffer();
+    int last = 0;
+    for (final ({int start, int end}) match in unicodeMatches) {
+      buffer.write(affix.substring(last, match.start));
+      final surrogate = affix.substring(match.start, match.end);
+      final entry = EmojiRegistry.entryBySurrogates(surrogate);
+      buffer.write(
+        entry != null && entry.namesLower.isNotEmpty
+            ? ':${entry.primaryName}:'
+            : surrogate,
+      );
+      last = match.end;
+    }
+    buffer.write(affix.substring(last));
+    final converted = buffer.toString();
+    if (converted != affix && !variants.contains(converted)) {
+      variants.add(converted);
+    }
+  }
+
+  return variants;
+}
 
 class MatchResult {
   const MatchResult({
@@ -110,65 +157,49 @@ MatchResult matchPersona(
     }
 
     for (final tag in persona.personaTags) {
-      final prefix = tag.prefix ?? '';
-      final suffix = tag.suffix ?? '';
-      if (prefix.isEmpty && suffix.isEmpty) {
+      final rawPrefix = tag.prefix ?? '';
+      final rawSuffix = tag.suffix ?? '';
+      if (rawPrefix.isEmpty && rawSuffix.isEmpty) {
         continue;
       }
 
-      if (text.startsWith(prefix) && text.endsWith(suffix)) {
-        final innerStart = prefix.length;
-        final innerEnd = text.length - suffix.length;
-        if (innerEnd > innerStart) {
-          final inner = text.substring(innerStart, innerEnd).trim();
-          if (inner.isNotEmpty || allowEmptyContent) {
-            candidates.add(
-              _CandidateMatch(
-                persona: persona,
-                prefixLen: prefix.length,
-                suffixLen: suffix.length,
-                totalLen: prefix.length + suffix.length,
-                innerContent: inner,
-              ),
-            );
-          } else if (hasAttachments) {
-            candidates.add(
-              _CandidateMatch(
-                persona: persona,
-                prefixLen: prefix.length,
-                suffixLen: suffix.length,
-                totalLen: prefix.length + suffix.length,
-                innerContent: '',
-              ),
-            );
-          }
-        } else if (innerEnd == innerStart &&
-            (hasAttachments || allowEmptyContent)) {
-          candidates.add(
-            _CandidateMatch(
-              persona: persona,
-              prefixLen: prefix.length,
-              suffixLen: suffix.length,
-              totalLen: prefix.length + suffix.length,
-              innerContent: '',
-            ),
-          );
-        }
-      } else if (hasAttachments || allowEmptyContent) {
-        final trimmed = text.trim();
-        final hasPrefix = prefix.isNotEmpty;
-        final hasSuffix = suffix.isNotEmpty;
+      final prefixVariants = _getAffixVariants(rawPrefix);
+      final suffixVariants = _getAffixVariants(rawSuffix);
 
-        if (hasPrefix && hasSuffix) {
-          // Two-sided tag: ALWAYS requires both prefix and suffix
-          if (trimmed.startsWith(prefix.trim()) &&
-              trimmed.endsWith(suffix.trim())) {
-            final innerStart = prefix.trim().length;
-            final innerEnd = trimmed.length - suffix.trim().length;
-            final inner = innerEnd >= innerStart
-                ? trimmed.substring(innerStart, innerEnd).trim()
-                : '';
-            if (inner.isEmpty) {
+      for (final prefix in prefixVariants) {
+        for (final suffix in suffixVariants) {
+          if (prefix.isEmpty && suffix.isEmpty) {
+            continue;
+          }
+
+          if (text.startsWith(prefix) && text.endsWith(suffix)) {
+            final innerStart = prefix.length;
+            final innerEnd = text.length - suffix.length;
+            if (innerEnd > innerStart) {
+              final inner = text.substring(innerStart, innerEnd).trim();
+              if (inner.isNotEmpty || allowEmptyContent) {
+                candidates.add(
+                  _CandidateMatch(
+                    persona: persona,
+                    prefixLen: prefix.length,
+                    suffixLen: suffix.length,
+                    totalLen: prefix.length + suffix.length,
+                    innerContent: inner,
+                  ),
+                );
+              } else if (hasAttachments) {
+                candidates.add(
+                  _CandidateMatch(
+                    persona: persona,
+                    prefixLen: prefix.length,
+                    suffixLen: suffix.length,
+                    totalLen: prefix.length + suffix.length,
+                    innerContent: '',
+                  ),
+                );
+              }
+            } else if (innerEnd == innerStart &&
+                (hasAttachments || allowEmptyContent)) {
               candidates.add(
                 _CandidateMatch(
                   persona: persona,
@@ -179,41 +210,70 @@ MatchResult matchPersona(
                 ),
               );
             }
-          }
-        } else if (hasPrefix && !hasSuffix) {
-          // Prefix-only tag
-          if (trimmed == prefix.trim() || trimmed.startsWith(prefix)) {
-            final remainder = trimmed.startsWith(prefix)
-                ? trimmed.substring(prefix.length).trim()
-                : '';
-            if (remainder.isEmpty) {
-              candidates.add(
-                _CandidateMatch(
-                  persona: persona,
-                  prefixLen: prefix.length,
-                  suffixLen: 0,
-                  totalLen: prefix.length,
-                  innerContent: '',
-                ),
-              );
-            }
-          }
-        } else if (!hasPrefix && hasSuffix) {
-          // Suffix-only tag
-          if (trimmed == suffix.trim() || trimmed.endsWith(suffix)) {
-            final remainder = trimmed.endsWith(suffix)
-                ? trimmed.substring(0, trimmed.length - suffix.length).trim()
-                : '';
-            if (remainder.isEmpty) {
-              candidates.add(
-                _CandidateMatch(
-                  persona: persona,
-                  prefixLen: 0,
-                  suffixLen: suffix.length,
-                  totalLen: suffix.length,
-                  innerContent: '',
-                ),
-              );
+          } else if (hasAttachments || allowEmptyContent) {
+            final trimmed = text.trim();
+            final hasPrefix = prefix.isNotEmpty;
+            final hasSuffix = suffix.isNotEmpty;
+
+            if (hasPrefix && hasSuffix) {
+              // Two-sided tag: ALWAYS requires both prefix and suffix
+              if (trimmed.startsWith(prefix.trim()) &&
+                  trimmed.endsWith(suffix.trim())) {
+                final innerStart = prefix.trim().length;
+                final innerEnd = trimmed.length - suffix.trim().length;
+                final inner = innerEnd >= innerStart
+                    ? trimmed.substring(innerStart, innerEnd).trim()
+                    : '';
+                if (inner.isEmpty) {
+                  candidates.add(
+                    _CandidateMatch(
+                      persona: persona,
+                      prefixLen: prefix.length,
+                      suffixLen: suffix.length,
+                      totalLen: prefix.length + suffix.length,
+                      innerContent: '',
+                    ),
+                  );
+                }
+              }
+            } else if (hasPrefix && !hasSuffix) {
+              // Prefix-only tag
+              if (trimmed == prefix.trim() || trimmed.startsWith(prefix)) {
+                final remainder = trimmed.startsWith(prefix)
+                    ? trimmed.substring(prefix.length).trim()
+                    : '';
+                if (remainder.isEmpty) {
+                  candidates.add(
+                    _CandidateMatch(
+                      persona: persona,
+                      prefixLen: prefix.length,
+                      suffixLen: 0,
+                      totalLen: prefix.length,
+                      innerContent: '',
+                    ),
+                  );
+                }
+              }
+            } else if (!hasPrefix && hasSuffix) {
+              // Suffix-only tag
+              if (trimmed == suffix.trim() || trimmed.endsWith(suffix)) {
+                final remainder = trimmed.endsWith(suffix)
+                    ? trimmed
+                          .substring(0, trimmed.length - suffix.length)
+                          .trim()
+                    : '';
+                if (remainder.isEmpty) {
+                  candidates.add(
+                    _CandidateMatch(
+                      persona: persona,
+                      prefixLen: 0,
+                      suffixLen: suffix.length,
+                      totalLen: suffix.length,
+                      innerContent: '',
+                    ),
+                  );
+                }
+              }
             }
           }
         }
