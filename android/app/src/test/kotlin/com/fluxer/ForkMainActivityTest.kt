@@ -3,6 +3,7 @@ package com.fluxer
 import com.ryanheise.audioservice.AudioServiceFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertSame
 import org.junit.Test
 
@@ -31,5 +32,18 @@ class ForkMainActivityTest {
             ForkMainActivity::class.java,
             declaredBy("configureFlutterEngine", arrayOf(FlutterEngine::class.java)),
         )
+        // The keyboard inset fix.
+        assertEquals(
+            ForkMainActivity::class.java,
+            declaredBy("onWindowFocusChanged", arrayOf(Boolean::class.javaPrimitiveType!!)),
+        )
+        assertEquals(ForkMainActivity::class.java, declaredBy("onDestroy", arrayOf()))
+    }
+
+    @Test
+    fun mainActivityLeavesFocusChangesToIt() {
+        // An override in MainActivity that skipped super would switch the inset fix off.
+        val overrides = MainActivity::class.java.declaredMethods.map { it.name }
+        assertFalse("onWindowFocusChanged" in overrides)
     }
 }
