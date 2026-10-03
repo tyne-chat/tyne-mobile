@@ -702,7 +702,11 @@ GoRouter fluxerRouter(Ref ref) {
                 name: RouteNames.dms,
                 redirect: (BuildContext context, GoRouterState state) {
                   if (!shouldAutoSelectDmChannel(context)) {
-                    return null;
+                    return forkDmRootRedirectWithoutChannelList(
+                      uri: state.uri,
+                      extra: state.extra,
+                      db: ref.read(fluxerDatabaseProvider),
+                    );
                   }
                   return resolveDmRootRedirect(
                     uri: state.uri,
