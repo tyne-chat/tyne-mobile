@@ -47,6 +47,8 @@ void main() {
     });
 
     test('open drawer on chat returns to dm home', () {
+      // Fork: Back with the drawer open closes the drawer and stays in the chat (the fork's
+      // Discord-like phone navigation), where upstream leaves the chat.
       expect(
         resolveShellBackAction(
           hasPopupOverlay: false,
@@ -56,7 +58,7 @@ void main() {
           revealSide: RevealSide.left,
           shellLocation: '/channels/guild/channel',
         ),
-        ShellBackAction.leaveChat,
+        ShellBackAction.closeDrawer,
       );
     });
 
