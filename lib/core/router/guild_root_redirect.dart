@@ -203,3 +203,18 @@ void persistGuildChannelFromLocation(FluxerDatabase db, String location) {
     db.guildLastChannelDao.setLastChannel(match.group(1)!, match.group(2)!),
   );
 }
+
+// Fork: where the DM list is not shown beside the chat (phones), the DM root also opens the
+// last DM, as a community's root opens its last channel. Upstream does this only where the
+// list stays beside the chat (`shouldAutoSelectDmChannel`). An explicit visit to the list
+// (`shouldStayOnGuildChannelList`) stays on it.
+Future<String?> forkDmRootRedirectWithoutChannelList({
+  required Uri uri,
+  required FluxerDatabase db,
+  Object? extra,
+}) async {
+  if (shouldStayOnGuildChannelList(uri: uri, extra: extra)) {
+    return null;
+  }
+  return resolveDmRootRedirect(fullPath: uri.path, db: db);
+}
