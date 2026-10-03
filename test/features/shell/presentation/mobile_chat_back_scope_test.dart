@@ -41,9 +41,13 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(secondHandled, isTrue);
+      // Fork: Back with the drawer open closes the drawer and stays in the chat, where
+      // upstream leaves for the community's channel list (the fork's Discord-like phone
+      // navigation, `shell_back_resolver.dart`).
+      expect(container.read(currentRevealSideProvider), RevealSide.main);
       expect(
         router.routerDelegate.currentConfiguration.uri.path,
-        '/channels/guild',
+        '/channels/guild/channel',
       );
     },
   );
