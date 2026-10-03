@@ -1458,3 +1458,24 @@ Widget _buildTestApp({
     ),
   );
 }
+
+// Fork: upstream's helpers that dm_list_fork_test.dart uses, named here so they stay private and
+// are not copied.
+// ignore: unreachable_from_main // Fork: used by dm_list_fork_test.dart.
+typedef ForkUpstreamHelpers = ({
+  void Function(WidgetTester tester) setMobileSurface,
+  Widget Function({required List<Override> overrides}) buildTestApp,
+  List<Override> Function({
+    required List<DmConversation> conversations,
+    List<Friend> friendsList,
+  })
+  buildOverrides,
+  DateTime Function() recentTime,
+});
+// ignore: unreachable_from_main // Fork: used by dm_list_fork_test.dart.
+const ForkUpstreamHelpers forkUpstream = (
+  setMobileSurface: _setMobileSurface,
+  buildTestApp: _buildTestApp,
+  buildOverrides: _buildOverrides,
+  recentTime: _recentTime,
+);
