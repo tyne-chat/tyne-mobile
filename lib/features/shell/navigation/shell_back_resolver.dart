@@ -61,9 +61,6 @@ ShellBackAction resolveShellBackAction({
         : ShellBackAction.noop;
   }
   if (revealSide == RevealSide.left) {
-    if (classifyRoute(shellLocation) == RouteKind.chat) {
-      return ShellBackAction.leaveChat;
-    }
     return ShellBackAction.closeDrawer;
   }
   return ShellBackAction.revealDrawer;
