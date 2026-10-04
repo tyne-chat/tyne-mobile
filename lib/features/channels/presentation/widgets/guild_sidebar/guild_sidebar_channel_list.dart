@@ -483,7 +483,10 @@ class _GuildSidebarChannelListState
               ),
             ),
             SliverPadding(
-              padding: EdgeInsets.only(top: desktopPointer ? 10 : 12),
+              padding: EdgeInsets.only(
+                top: desktopPointer ? 10 : 12,
+                bottom: isMobileLayout(context) ? 96 : 0,
+              ),
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate((
                   BuildContext context,
