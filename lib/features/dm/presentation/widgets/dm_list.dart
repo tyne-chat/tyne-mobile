@@ -67,6 +67,10 @@ import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/navigation_item_semantics.dart';
 import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/quick_switcher/presentation/widgets/quick_switcher_fab.dart';
+
 class DMList extends ConsumerStatefulWidget {
   const DMList({super.key});
 
@@ -381,23 +385,13 @@ class _DMListState extends ConsumerState<DMList> {
             ],
           ),
           if (isMobile)
-            PositionedDirectional(
+            const PositionedDirectional(
               end: 16,
               bottom: 16,
-              child: _buildQuickSwitcherFab(context),
+              child: QuickSwitcherFab(),
             ),
         ],
       ),
-    );
-  }
-
-  Widget _buildQuickSwitcherFab(BuildContext context) {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    return FluxerCircleFab(
-      key: const ValueKey<String>('quick-switcher-fab'),
-      icon: PhosphorIconsFill.lightning,
-      semanticLabel: l10n.quickSwitcherTabSearch,
-      onTap: () => unawaited(QuickSwitcherBottomSheet.show(context, ref)),
     );
   }
 
