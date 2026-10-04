@@ -21,6 +21,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
 import 'package:fluxer_app/features/chat/data/persona_emoji_usage_store.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+import 'package:fluxer_app/shared/utils/emoji/fork_custom_emoji_name_order.dart';
 
 part 'emoji_picker_provider.g.dart';
 
@@ -74,6 +75,9 @@ String unicodeEmojiFavoriteKey(EmojiEntry emoji) =>
 
 String customEmojiFavoriteKey(GuildEmojiEntry emoji) =>
     'custom:${emoji.guildId}:${emoji.id}';
+
+int compareGuildEmojiEntriesByName(GuildEmojiEntry a, GuildEmojiEntry b) =>
+    compareCustomEmojiNames(a.name, a.id, b.name, b.id);
 
 sealed class FrecentEmojiItem {
   const FrecentEmojiItem();
@@ -236,6 +240,9 @@ Map<Guild, List<GuildEmojiEntry>> guildEmojiEntriesForPicker({
   final activeEmojis = emojis
       .where((emoji) => emoji.guildId == activeGuildId)
       .toList(growable: false);
+  // Fork: guild emojis are listed A to Z; a separate statement keeps upstream's above intact.
+  // ignore: cascade_invocations
+  activeEmojis.sort(compareGuildEmojiEntriesByName);
   if (activeEmojis.isEmpty) {
     return grouped;
   }
@@ -284,6 +291,7 @@ Map<Guild, List<GuildEmojiEntry>> _groupEmojiEntriesByGuild({
   for (final guild in guilds) {
     final guildEmojis = emojisByGuildId[guild.id];
     if (guildEmojis != null && guildEmojis.isNotEmpty) {
+      guildEmojis.sort(compareGuildEmojiEntriesByName);
       result[guild] = guildEmojis;
     }
   }
