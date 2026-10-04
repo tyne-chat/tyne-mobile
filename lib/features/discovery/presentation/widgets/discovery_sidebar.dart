@@ -4,6 +4,10 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+
 class DiscoverySidebar extends StatelessWidget {
   const DiscoverySidebar({super.key});
 
@@ -15,7 +19,12 @@ class DiscoverySidebar extends StatelessWidget {
     return ColoredBox(
       color: colors.channelSidebarBackground,
       child: ListView(
-        padding: EdgeInsets.all(layout.s2),
+        padding: EdgeInsets.fromLTRB(
+          layout.s2,
+          layout.s2,
+          layout.s2,
+          isMobileLayout(context) ? 96 : layout.s2,
+        ),
         children: <Widget>[
           _DiscoverySidebarItem(
             label: l10n.discoveryCommunities,
