@@ -299,7 +299,7 @@ class GatewayEventHandler {
   final ForumUnreadsCallback? onForumUnreads;
   final UserPersonasUpdateCallback? onUserPersonasUpdate;
 
-  /// CHANNEL_SIGNAL_UPDATE and SIGNAL_BAR_UPDATE, passed through unparsed.
+  /// The signal bar's gateway events, passed through unparsed.
   final void Function(String eventType, Map<String, dynamic> data)?
   onSignalBarEvent;
 
@@ -796,6 +796,7 @@ class GatewayEventHandler {
             event.eventType == 'GUILD_PERSONAS_DIRTY') {
           _emit(() => onUserPersonasUpdate?.call(event.eventType, event.data));
         } else if (event.eventType == 'CHANNEL_SIGNAL_UPDATE' ||
+            event.eventType == 'CHANNEL_SIGNAL_BAR_UPDATE' ||
             event.eventType == 'SIGNAL_BAR_UPDATE') {
           _emit(() => onSignalBarEvent?.call(event.eventType, event.data));
         } else if (event.parseError != null) {
