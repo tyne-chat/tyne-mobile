@@ -103,6 +103,10 @@ import 'package:fluxer_dart/gateway.dart';
 import 'package:go_router/go_router.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/quick_switcher/presentation/widgets/quick_switcher_fab.dart';
+
 part 'guild_sidebar_banner_layout.dart';
 part 'guild_sidebar_category_header.dart';
 part 'guild_sidebar_channel_list.dart';
@@ -187,6 +191,7 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
             !hasReceivedInitialChannelList
         ? ref.read(guildSidebarScrollStoreProvider).offsetFor(guildId) ?? 0
         : 0;
+    final bool isMobile = isMobileLayout(context);
 
     return Container(
       width: channelSidebarHasFixedWidth(context) ? channelSidebarWidth : null,
@@ -195,30 +200,37 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
         color: context.colors.channelSidebarBackground,
         border: Border(right: BorderSide(color: context.colors.borderColor)),
       ),
-      child: Column(
+      child: Stack(
         children: [
-          if (showStaticHeader)
-            GuildSidebarHeader(
-              guild: guild,
-              outageUnavailable: guildOutageUnavailable,
-              channelSidebarWidth: channelSidebarWidth,
-              scrollOffset: savedScrollOffset,
-              onTap: guildOutageUnavailable || guild == null
-                  ? null
-                  : () => unawaited(_handleServerHeaderTap(context, guild)),
-            ),
-          Expanded(
-            child: showStaticHeader
-                ? const GuildSidebarSkeleton()
-                : _GuildSidebarChannelListHost(
-                    activeGuildId: guildId,
-                    guild: guild,
-                    onHeaderTap: guildOutageUnavailable
-                        ? null
-                        : () =>
-                              unawaited(_handleServerHeaderTap(context, guild)),
-                  ),
+          Column(
+            children: [
+              if (showStaticHeader)
+                GuildSidebarHeader(
+                  guild: guild,
+                  outageUnavailable: guildOutageUnavailable,
+                  channelSidebarWidth: channelSidebarWidth,
+                  scrollOffset: savedScrollOffset,
+                  onTap: guildOutageUnavailable || guild == null
+                      ? null
+                      : () => unawaited(_handleServerHeaderTap(context, guild)),
+                ),
+              Expanded(
+                child: showStaticHeader
+                    ? const GuildSidebarSkeleton()
+                    : _GuildSidebarChannelListHost(
+                        activeGuildId: guildId,
+                        guild: guild,
+                        onHeaderTap: guildOutageUnavailable
+                            ? null
+                            : () => unawaited(
+                                _handleServerHeaderTap(context, guild),
+                              ),
+                      ),
+              ),
+            ],
           ),
+          if (isMobile)
+            const Positioned(right: 16, bottom: 16, child: QuickSwitcherFab()),
         ],
       ),
     );
