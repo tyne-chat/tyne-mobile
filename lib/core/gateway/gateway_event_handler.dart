@@ -216,6 +216,7 @@ class GatewayEventHandler {
     this.onThreadMemberListUpdate,
     this.onForumUnreads,
     this.onUserPersonasUpdate,
+    this.onSignalBarEvent,
     this.onTypingPersona,
   }) {
     final ReactionWriteBatcher? batcher = reactionWriteBatcher;
@@ -305,6 +306,10 @@ class GatewayEventHandler {
   final ThreadMemberListUpdateCallback? onThreadMemberListUpdate;
   final ForumUnreadsCallback? onForumUnreads;
   final UserPersonasUpdateCallback? onUserPersonasUpdate;
+
+  /// CHANNEL_SIGNAL_UPDATE and SIGNAL_BAR_UPDATE, passed through unparsed.
+  final void Function(String eventType, Map<String, dynamic> data)?
+  onSignalBarEvent;
 
   /// Who each typing user is typing as (tyne-chat/tyne#136).
   final TypingPersonaCallback? onTypingPersona;
@@ -798,6 +803,9 @@ class GatewayEventHandler {
             event.eventType == 'USER_PERSONA_SETTINGS_UPDATE' ||
             event.eventType == 'GUILD_PERSONAS_DIRTY') {
           _emit(() => onUserPersonasUpdate?.call(event.eventType, event.data));
+        } else if (event.eventType == 'CHANNEL_SIGNAL_UPDATE' ||
+            event.eventType == 'SIGNAL_BAR_UPDATE') {
+          _emit(() => onSignalBarEvent?.call(event.eventType, event.data));
         } else if (event.parseError != null) {
           talker.warning(
             '[Gateway] Failed to parse ${event.eventType}: ${event.parseError}',
