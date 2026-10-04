@@ -10,12 +10,17 @@ import 'package:fluxer_app/features/favorites/utils/navigate_to_favorite_channel
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/material_ui.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/quick_switcher/presentation/widgets/quick_switcher_fab.dart';
+
 class FavoritesSidebar extends ConsumerWidget {
   const FavoritesSidebar({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedChannelId = ref.watch(activeChannelIdProvider);
+    final bool isMobile = isMobileLayout(context);
 
     return Container(
       width: channelSidebarHasFixedWidth(context) ? 240 : null,
@@ -26,25 +31,31 @@ class FavoritesSidebar extends ConsumerWidget {
             ? Border(right: BorderSide(color: context.colors.borderColor))
             : null,
       ),
-      child: Column(
+      child: Stack(
         children: [
-          const FavoritesHeader(),
-          Expanded(
-            child: FavoritesChannelList(
-              selectedChannelId: selectedChannelId,
-              onChannelSelected: (ResolvedFavoriteEntry entry) {
-                unawaited(
-                  navigateToFavoriteChannel(
-                    context: context,
-                    ref: ref,
-                    channelId: entry.channelId,
-                    guildId: entry.guildId,
-                    channel: entry.channel,
-                  ),
-                );
-              },
-            ),
+          Column(
+            children: [
+              const FavoritesHeader(),
+              Expanded(
+                child: FavoritesChannelList(
+                  selectedChannelId: selectedChannelId,
+                  onChannelSelected: (ResolvedFavoriteEntry entry) {
+                    unawaited(
+                      navigateToFavoriteChannel(
+                        context: context,
+                        ref: ref,
+                        channelId: entry.channelId,
+                        guildId: entry.guildId,
+                        channel: entry.channel,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
+          if (isMobile)
+            const Positioned(right: 16, bottom: 16, child: QuickSwitcherFab()),
         ],
       ),
     );
