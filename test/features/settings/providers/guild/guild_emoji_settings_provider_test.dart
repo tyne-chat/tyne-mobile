@@ -90,9 +90,11 @@ void main() {
       final GuildEmojiSettingsState after = container
           .read(guildEmojiSettingsProvider(_guildId))
           .requireValue;
+      // Fork: guild emojis are listed A to Z (commit "feat(emoji): sort
+      // custom server emojis A-Z").
       expect(after.emojis.map((GuildEmojiSettingsEntry e) => e.name), <String>[
-        'newest',
         'middle',
+        'newest',
         'oldest',
       ]);
       expect(after.filteredIndices, <int>[0, 1, 2]);
