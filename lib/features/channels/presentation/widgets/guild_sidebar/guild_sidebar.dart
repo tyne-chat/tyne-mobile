@@ -104,6 +104,10 @@ import 'package:fluxer_dart/gateway.dart';
 import 'package:go_router/go_router.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/quick_switcher/presentation/widgets/quick_switcher_fab.dart';
+
 part 'guild_sidebar_banner_layout.dart';
 part 'guild_sidebar_category_header.dart';
 part 'guild_sidebar_channel_list.dart';
@@ -111,12 +115,14 @@ part 'guild_sidebar_channel_tile.dart';
 part 'guild_sidebar_header.dart';
 part 'guild_sidebar_helpers.dart';
 part 'guild_sidebar_members_tile.dart';
+// Fork parts.
+part 'guild_sidebar_quick_switcher_fork.dart';
 
 class GuildSidebar extends ConsumerStatefulWidget {
   const GuildSidebar({super.key});
 
   @override
-  ConsumerState<GuildSidebar> createState() => _GuildSidebarState();
+  ConsumerState<GuildSidebar> createState() => _ForkGuildSidebarState();
 }
 
 class _GuildSidebarState extends ConsumerState<GuildSidebar> {
