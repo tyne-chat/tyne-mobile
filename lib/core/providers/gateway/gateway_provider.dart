@@ -76,6 +76,7 @@ import 'package:fluxer_app/features/chat/data/channel_persona_mention_cache.dart
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
+import 'package:fluxer_app/features/signal_bar/providers/signal_bar_providers.dart';
 
 part 'gateway_provider.g.dart';
 
@@ -206,6 +207,8 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     isAutoAckActive: (channelId) => _ackPlacement(ref, channelId).auto,
     onReady: () => ifMounted(() {
       talker.info('[Gateway] Setting gatewayReady = true');
+      ref.read(channelSignalsProvider.notifier).invalidate();
+      unawaited(ref.read(signalBarConfigProvider.notifier).refresh());
       if (!kReleaseMode) {
         final stats = connection.compressionStats;
         talker.info(
@@ -618,6 +621,9 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     }),
     onEntranceSoundPlay: (event) => ifMounted(() {
       ref.read(voiceSessionProvider.notifier).handleEntranceSoundPlay(event);
+    }),
+    onSignalBarEvent: (eventType, data) => ifMounted(() {
+      handleSignalBarGatewayEvent(ref, eventType, data);
     }),
     onUserPersonasUpdate: (eventType, data) => ifMounted(() {
       talker.info('[Gateway] Received $eventType');
