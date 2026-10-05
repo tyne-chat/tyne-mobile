@@ -15,6 +15,13 @@ import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../helpers/test_l10n.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/instance/instance_constants.dart';
+// Fork imports stay below upstream's.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/instance/instance_endpoints.dart';
+
 class _AppLockedSensitive extends SensitiveContent {
   @override
   SensitiveContentState build() =>
@@ -63,14 +70,16 @@ void main() {
   testWidgets('shows web opt-in copy without proceed on iOS', (tester) async {
     await tester.pumpWidget(
       _buildTestApp(
-        overrides: webOptInOverrides('https://web.fluxer.app'),
+        overrides: webOptInOverrides(InstanceEndpoints.defaultWebApp),
         child: const MatureContentChannelGate(channelId: 'channel-1'),
       ),
     );
     await tester.pumpAndSettle();
     expect(find.text('Mature channel'), findsOneWidget);
     expect(
-      find.textContaining('channels at fluxer.com in your browser'),
+      find.textContaining(
+        'channels at ${InstanceConstants.defaultInstanceInputUrl} in your browser',
+      ),
       findsOneWidget,
     );
     expect(find.text('Proceed'), findsNothing);
