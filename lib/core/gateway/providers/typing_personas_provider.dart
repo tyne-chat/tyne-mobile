@@ -4,7 +4,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
-import 'package:fluxer_dart/models/message_subprofile_response.dart';
+import 'package:fluxer_dart/models/message_subprofile_response_schema.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'typing_personas_provider.g.dart';
@@ -20,9 +20,9 @@ part 'typing_personas_provider.g.dart';
 @Riverpod(keepAlive: true)
 class TypingPersonas extends _$TypingPersonas {
   @override
-  Map<String, Map<String, MessageSubprofileResponse>> build() {
+  Map<String, Map<String, MessageSubprofileResponseSchema>> build() {
     ref.watch(currentUserIdProvider);
-    return const <String, Map<String, MessageSubprofileResponse>>{};
+    return const <String, Map<String, MessageSubprofileResponseSchema>>{};
   }
 
   /// Records who [userId] is typing as in [channelId]: [subprofile], or the
@@ -31,21 +31,21 @@ class TypingPersonas extends _$TypingPersonas {
   void record(
     String channelId,
     String userId,
-    MessageSubprofileResponse? subprofile,
+    MessageSubprofileResponseSchema? subprofile,
   ) {
     final Map<String, Map<String, DateTime>> typing = ref.read(
       typingIndicatorsProvider,
     );
-    final Map<String, Map<String, MessageSubprofileResponse>> next =
-        <String, Map<String, MessageSubprofileResponse>>{};
+    final Map<String, Map<String, MessageSubprofileResponseSchema>> next =
+        <String, Map<String, MessageSubprofileResponseSchema>>{};
     state.forEach((
       String entryChannelId,
-      Map<String, MessageSubprofileResponse> entries,
+      Map<String, MessageSubprofileResponseSchema> entries,
     ) {
       final Map<String, DateTime>? typers = typing[entryChannelId];
-      final Map<String, MessageSubprofileResponse> kept =
-          <String, MessageSubprofileResponse>{
-            for (final MapEntry<String, MessageSubprofileResponse> entry
+      final Map<String, MessageSubprofileResponseSchema> kept =
+          <String, MessageSubprofileResponseSchema>{
+            for (final MapEntry<String, MessageSubprofileResponseSchema> entry
                 in entries.entries)
               if (typers?.containsKey(entry.key) ?? false)
                 entry.key: entry.value,
@@ -56,7 +56,7 @@ class TypingPersonas extends _$TypingPersonas {
     });
     if (subprofile != null) {
       (next[channelId] ??=
-              <String, MessageSubprofileResponse>{})[userId] =
+              <String, MessageSubprofileResponseSchema>{})[userId] =
           subprofile;
     } else {
       next[channelId]?.remove(userId);
@@ -74,7 +74,7 @@ class TypingPersonas extends _$TypingPersonas {
 // ignore: specify_nonobvious_property_types
 final channelTypingSubprofileProvider = Provider.autoDispose
     .family<
-      MessageSubprofileResponse?,
+      MessageSubprofileResponseSchema?,
       (String channelId, String userId)
     >((Ref ref, (String channelId, String userId) args) {
       final bool isTyping = ref.watch(
@@ -89,7 +89,7 @@ final channelTypingSubprofileProvider = Provider.autoDispose
       return ref.watch(
         typingPersonasProvider.select(
           (
-            Map<String, Map<String, MessageSubprofileResponse>> personas,
+            Map<String, Map<String, MessageSubprofileResponseSchema>> personas,
           ) => personas[args.$1]?[args.$2],
         ),
       );
