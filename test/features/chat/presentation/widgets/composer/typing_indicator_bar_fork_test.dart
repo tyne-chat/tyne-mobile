@@ -3,6 +3,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/gateway/providers/typing_personas_provider.dart';
+import 'package:fluxer_dart/models/message_subprofile_response_schema.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../../helpers/open_test_database.dart';
@@ -38,7 +39,7 @@ void main() {
           .record(
             'channel-1',
             forkKTyperUserId,
-            const MessageSubprofileResponse(
+            const MessageSubprofileResponseSchema(
               id: 'persona-1',
               name: 'Ruby Rose',
               avatar: 'avatars/ruby.png',
