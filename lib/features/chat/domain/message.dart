@@ -1185,11 +1185,11 @@ class Message {
       call: messageCallFromSdk(sdk.call),
       threadJson: _encodeThread(sdk.thread),
       tts: sdk.tts,
-      personaId: sdk.subprofile?.id ?? sdk.personaId,
-      personaName: sdk.subprofile?.name ?? sdk.personaName,
-      personaAvatar: sdk.subprofile?.avatar ?? sdk.personaAvatar,
+      personaId: sdk.subprofile?.id,
+      personaName: sdk.subprofile?.name,
+      personaAvatar: sdk.subprofile?.avatar,
       personaBanner: sdk.subprofile?.banner,
-      personaTag: sdk.subprofile?.displayTagText ?? sdk.personaTag,
+      personaTag: sdk.subprofile?.displayTagText,
       personaTagIcon: sdk.subprofile?.displayTagIcon,
     );
   }
@@ -1251,11 +1251,11 @@ class Message {
       clientNonce: sdk.nonce,
       call: messageCallFromReferencedSdk(sdk.call),
       threadJson: _encodeThread(sdk.thread),
-      personaId: sdk.subprofile?.id ?? sdk.personaId,
-      personaName: sdk.subprofile?.name ?? sdk.personaName,
-      personaAvatar: sdk.subprofile?.avatar ?? sdk.personaAvatar,
+      personaId: sdk.subprofile?.id,
+      personaName: sdk.subprofile?.name,
+      personaAvatar: sdk.subprofile?.avatar,
       personaBanner: sdk.subprofile?.banner,
-      personaTag: sdk.subprofile?.displayTagText ?? sdk.personaTag,
+      personaTag: sdk.subprofile?.displayTagText,
       personaTagIcon: sdk.subprofile?.displayTagIcon,
     );
   }
