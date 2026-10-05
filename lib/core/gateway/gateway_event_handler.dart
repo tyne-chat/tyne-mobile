@@ -122,7 +122,7 @@ typedef TypingPersonaCallback =
     void Function(
       String channelId,
       String userId,
-      MessageSubprofileResponse? subprofile,
+      MessageSubprofileResponseSchema? subprofile,
     );
 
 String? _presenceCustomStatusFromMap(Map<String, dynamic> presence) {
