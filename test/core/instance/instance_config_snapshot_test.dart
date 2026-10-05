@@ -101,8 +101,10 @@ void main() {
             normalizer: const InstanceEndpointNormalizer(),
           );
 
-      expect(snapshot.apiBaseUrl, InstanceConstants.defaultApiBaseUrl);
-      expect(snapshot.gatewayUrl, InstanceConstants.defaultGatewayUrl);
+      // Fork: fluxer.com is not this build's instance (audit F7-1), so its
+      // snapshot keeps its own endpoints, not this build's defaults.
+      expect(snapshot.apiBaseUrl, 'https://fluxer.com/api/v1');
+      expect(snapshot.gatewayUrl, 'wss://gateway.fluxer.com');
       expect(snapshot.displayDomain, 'fluxer.com');
       expect(snapshot.termsUrl, InstanceConstants.defaultTermsUrl);
       expect(snapshot.privacyUrl, InstanceConstants.defaultPrivacyUrl);
