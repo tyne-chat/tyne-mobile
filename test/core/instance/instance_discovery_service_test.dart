@@ -211,7 +211,7 @@ void main() {
         );
 
         final InstanceConfigSnapshot snapshot = await service.connectToEndpoint(
-          'fluxer.com',
+          InstanceConstants.defaultInstanceInputUrl,
         );
 
         expect(snapshot.apiBaseUrl, InstanceConstants.defaultApiBaseUrl);
@@ -221,19 +221,6 @@ void main() {
         );
       },
     );
-
-    test('connectToEndpoint short-circuits fluxer.app without HTTP', () async {
-      final InstanceDiscoveryService service = InstanceDiscoveryService(
-        dio: buildDio(responseJson: buildDiscovery()),
-      );
-
-      final InstanceConfigSnapshot snapshot = await service.connectToEndpoint(
-        'fluxer.app',
-      );
-
-      expect(snapshot.apiBaseUrl, InstanceConstants.defaultApiBaseUrl);
-      expect(snapshot.displayDomain, InstanceConstants.defaultInstanceInputUrl);
-    });
 
     test('rejects http for public hosts when the flag is on', () async {
       final _CountingAdapter adapter = _CountingAdapter();
@@ -275,14 +262,12 @@ void main() {
           dio: buildDio(responseJson: buildOfficialDiscovery()),
         );
 
-        final InstanceConfigSnapshot snapshot = await service.connectToEndpoint(
-          'chat.example.com',
-        );
-
-        expect(snapshot.apiBaseUrl, InstanceConstants.defaultApiBaseUrl);
-        expect(
-          snapshot.displayDomain,
-          InstanceConstants.defaultInstanceInputUrl,
+        // Fork: fluxer.com is not this build's official instance (audit F7-1),
+        // so the endpoint check refuses a chat.example.com document that
+        // points at it, where upstream resolves its api_public.
+        await expectLater(
+          service.connectToEndpoint('chat.example.com'),
+          throwsA(isA<InstanceDiscoveryException>()),
         );
       },
     );
@@ -505,3 +490,8 @@ class _UnreachableOnceAdapter implements HttpClientAdapter {
   @override
   void close({bool force = false}) {}
 }
+
+// Fork: upstream's helpers that instance_discovery_service_fork_test.dart uses, named here so they stay private
+// and are not copied.
+// ignore: unreachable_from_main // Fork: used by instance_discovery_service_fork_test.dart.
+typedef ForkDiscoveryAdapter = _DiscoveryAdapter;
