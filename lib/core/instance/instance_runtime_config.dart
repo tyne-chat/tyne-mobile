@@ -101,6 +101,9 @@ class InstanceRuntimeConfig {
     final bool usernameSignIn =
         response.features.accountIdentity == AccountIdentityModeSchema.username;
     return InstanceRuntimeConfig(
+      serverListButtons: InstanceServerListButtons.fromJson(
+        response.community.serverListButtons?.toJson(),
+      ),
       usernameSignIn: usernameSignIn,
       uniqueUsernames:
           usernameSignIn || response.features.tagStyle == TagStyleSchema.none,
@@ -139,9 +142,6 @@ class InstanceRuntimeConfig {
       adminRegistrationUrlsEnabled:
           response.registration.adminRegistrationUrlsEnabled,
       collectDateOfBirth: response.appPublic.registration.collectDateOfBirth,
-      serverListButtons: InstanceServerListButtons.fromJson(
-        response.community.serverListButtons,
-      ),
     );
   }
 
