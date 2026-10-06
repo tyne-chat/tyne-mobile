@@ -264,6 +264,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   final _hovered = ValueNotifier<bool>(false);
   final _pressHighlight = ValueNotifier<bool>(false);
   final _reactionPickerKey = GlobalKey<FluxerEmojiPickerPopoutState>();
+  // Keeps the row body mounted when the jump highlight swaps its wrapper.
+  final GlobalKey _rowBodyKey = GlobalKey();
   final _reactionPickerOpen = ValueNotifier<bool>(false);
   final _actionBarHovered = ValueNotifier<bool>(false);
   final _moreMenuOpen = ValueNotifier<bool>(false);
@@ -1486,6 +1488,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     required Widget child,
   }) {
     final Widget stacked = Stack(
+      key: _rowBodyKey,
       children: [
         Positioned.fill(
           child: ValueListenableBuilder<bool>(
