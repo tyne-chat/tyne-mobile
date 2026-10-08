@@ -105,6 +105,10 @@ import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:go_router/go_router.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
+
 part 'guild_navbar_dashed_icon.dart';
 part 'guild_navbar_folder.dart';
 part 'guild_navbar_home_buttons.dart';
@@ -275,6 +279,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     required List<GuildNavbarItem> organizedItems,
     required bool showAddCommunity,
     required bool showExplore,
+    required bool isStaff,
     required bool hideDirectMessages,
     required InstanceServerListButtons serverListButtons,
   }) {
@@ -329,7 +334,8 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       }
     }
     final bool showExploreButton = showExplore && serverListButtons.explore;
-    final bool showAdd = showAddCommunity && serverListButtons.createJoin;
+    final bool showAdd =
+        showAddCommunity && (serverListButtons.createJoin || isStaff);
     final bool showHelp = serverListButtons.help;
     if (showExploreButton) {
       entries.add(
@@ -491,6 +497,9 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     final bool showExplore = ref.watch(
       instanceRuntimeConfigProvider.select((config) => config.exploreAvailable),
     );
+    final bool isStaff = ref.watch(
+      currentUserPrivateReadProvider.select((user) => user?.isStaff ?? false),
+    );
     final bool hideDirectMessages = ref.watch(
       instanceRuntimeConfigProvider.select(
         (config) => config.directMessagesDisabled,
@@ -511,6 +520,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       organizedItems: organizedItems,
       showAddCommunity: showAddCommunity,
       showExplore: showExplore,
+      isStaff: isStaff,
       hideDirectMessages: hideDirectMessages,
       serverListButtons: serverListButtons,
     );
