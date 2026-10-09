@@ -7296,7 +7296,8 @@ class ChatViewModel extends _$ChatViewModel {
       personas: personas,
       currentPersonaId: editingMessage.personaId,
       hasAttachments:
-          editingMessage.hasAttachments || editingMessage.hasStickers,
+          editingMessage.attachments.isNotEmpty || editingMessage.hasStickers,
+      originalContent: editingMessage.content,
     );
 
     final String sanitized = _maybeSanitizeOutgoing(
@@ -7304,7 +7305,7 @@ class ChatViewModel extends _$ChatViewModel {
     );
     final String editedContent = hasVisibleContent(sanitized)
         ? sanitized
-        : (editingMessage.hasAttachments || editingMessage.hasStickers
+        : (editingMessage.attachments.isNotEmpty || editingMessage.hasStickers
               ? ''
               : '');
 
@@ -7332,7 +7333,7 @@ class ChatViewModel extends _$ChatViewModel {
     }
 
     if (editedContent.isEmpty &&
-        !editingMessage.hasAttachments &&
+        !editingMessage.attachments.isNotEmpty &&
         !editingMessage.hasStickers) {
       return;
     }
@@ -7676,7 +7677,8 @@ class ChatViewModel extends _$ChatViewModel {
       content: newContent,
       personas: personas,
       currentPersonaId: target.personaId,
-      hasAttachments: target.hasAttachments,
+      hasAttachments: target.attachments.isNotEmpty,
+      originalContent: target.content,
     );
 
     final String sanitized = _maybeSanitizeOutgoing(
@@ -7684,7 +7686,7 @@ class ChatViewModel extends _$ChatViewModel {
     );
     final String editedContent = hasVisibleContent(sanitized)
         ? sanitized
-        : (target.hasAttachments ? '' : '');
+        : (target.attachments.isNotEmpty ? '' : '');
 
     final bool personaChanged =
         (editMatch.isRootAccount && target.personaId != null) ||
@@ -7696,7 +7698,7 @@ class ChatViewModel extends _$ChatViewModel {
       return;
     }
 
-    if (editedContent.isEmpty && !target.hasAttachments) {
+    if (editedContent.isEmpty && !target.attachments.isNotEmpty) {
       return;
     }
 
