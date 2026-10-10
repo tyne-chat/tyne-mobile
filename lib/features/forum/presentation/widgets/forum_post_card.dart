@@ -20,6 +20,10 @@ import 'package:fluxer_app/shared/utils/relative_time.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:intl/intl.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/shared/utils/guild_user_display.dart';
+
 Color _forumCardFill(
   BuildContext context,
   Set<WidgetState> states, {
@@ -432,6 +436,12 @@ class _ForumPostSnippet extends StatelessWidget {
       );
     }
     final String snippet = _snippet(message);
+    // Fork: a post made as a persona is listed under the persona.
+    final GuildUserDisplay? persona = message.isPersona
+        ? resolveMessageAuthorDisplay(message: message)
+        : null;
+    final String forkPostAuthorName =
+        persona?.displayName ?? message.authorName;
     final TextStyle style = context.textStyles.bodySmall.copyWith(
       color: colors.textSecondary,
     );
@@ -440,20 +450,20 @@ class _ForumPostSnippet extends StatelessWidget {
       fontWeight: FontWeight.w600,
     );
     final String text = snippet.isEmpty
-        ? message.authorName
-        : l10n.forumPostSnippet(message.authorName, snippet);
-    final int authorAt = message.authorName.isEmpty
+        ? forkPostAuthorName
+        : l10n.forumPostSnippet(forkPostAuthorName, snippet);
+    final int authorAt = forkPostAuthorName.isEmpty
         ? -1
-        : text.indexOf(message.authorName);
+        : text.indexOf(forkPostAuthorName);
     return Text.rich(
       authorAt < 0
           ? TextSpan(text: text)
           : TextSpan(
               children: <InlineSpan>[
                 TextSpan(text: text.substring(0, authorAt)),
-                TextSpan(text: message.authorName, style: authorStyle),
+                TextSpan(text: forkPostAuthorName, style: authorStyle),
                 TextSpan(
-                  text: text.substring(authorAt + message.authorName.length),
+                  text: text.substring(authorAt + forkPostAuthorName.length),
                 ),
               ],
             ),
