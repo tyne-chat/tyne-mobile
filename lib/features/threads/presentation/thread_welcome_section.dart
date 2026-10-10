@@ -14,6 +14,10 @@ import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/threads/providers/thread_owner_persona_provider.dart';
+
 part 'thread_welcome_section.g.dart';
 
 @riverpod
@@ -43,13 +47,25 @@ class ThreadWelcomeSection extends ConsumerWidget {
     final Set<String> blockedUserIds = ref.watch(blockedUserIdsProvider);
     final bool ownerBlocked = threadOwnerBlocked(thread, blockedUserIds);
     final String? ownerId = thread.ownerId;
+    // Fork: a thread started as a persona is credited to the persona.
+    final String? ownerPersonaName = ownerId == null || ownerBlocked
+        ? null
+        : ref
+              .watch(
+                threadOwnerPersonaNameProvider((
+                  threadId: thread.id,
+                  ownerId: ownerId,
+                )),
+              )
+              .value;
     final String? ownerName = ownerId == null || ownerBlocked
         ? null
-        : watchMentionUserDisplayName(
-            ref: ref,
-            userId: ownerId,
-            guildId: thread.guildId,
-          );
+        : ownerPersonaName ??
+              watchMentionUserDisplayName(
+                ref: ref,
+                userId: ownerId,
+                guildId: thread.guildId,
+              );
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 24, 16, 32),
       child: Column(
