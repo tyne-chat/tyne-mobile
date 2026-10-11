@@ -34,6 +34,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 // ignore: directives_ordering
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/persona_sending_as_row.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 
 bool canStartThreadIn(Channel parent, ThreadActor? actor) {
   if (!isTextThreadParentType(parent.type) || actor == null) {
@@ -259,6 +260,7 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
       rawText: _message.text.trim(),
       channelId: '',
       hasAttachments: false,
+      personaChannelId: parent.id,
     );
     if (!mounted) {
       return;
@@ -295,6 +297,11 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
       return;
     }
     final ChannelResponse created = ChannelResponse.fromJson(json);
+    // Fork: with a persona remembered per channel, the new thread starts as
+    // whoever opened it.
+    ref
+        .read(activePersonaProvider.notifier)
+        .startChannelAs(created.id, personaData?['id'] as String?);
     final Message? source = widget.sourceMessage;
     final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
     await database.transaction(() async {
@@ -474,8 +481,10 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
           SizedBox(height: context.layout.s3),
           ValueListenableBuilder<TextEditingValue>(
             valueListenable: _message,
-            builder: (_, TextEditingValue value, _) =>
-                PersonaSendingAsRow(text: value.text),
+            builder: (_, TextEditingValue value, _) => PersonaSendingAsRow(
+              text: value.text,
+              personaChannelId: widget.parent.id,
+            ),
           ),
           FluxerInput(
             controller: _message,
