@@ -29,6 +29,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 // ignore: directives_ordering
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/persona_sending_as_row.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 
 Future<void> showForumPostComposerSheet(
   BuildContext context,
@@ -160,6 +161,7 @@ class _ForumPostComposerState extends ConsumerState<_ForumPostComposer> {
       channelId: '',
       allowEmptyContent: _files.isNotEmpty,
       hasAttachments: _files.isNotEmpty,
+      personaChannelId: widget.forum.id,
     );
     if (!mounted) {
       return;
@@ -199,6 +201,11 @@ class _ForumPostComposerState extends ConsumerState<_ForumPostComposer> {
             ),
           );
       postId = result.postId;
+      // Fork: with a persona remembered per channel, the new post starts as
+      // whoever opened it.
+      ref
+          .read(activePersonaProvider.notifier)
+          .startChannelAs(postId, outgoing.personaData?['id'] as String?);
       final Message? firstMessage = result.firstMessage;
       if (firstMessage != null) {
         ref.read(forumFirstMessagesProvider.notifier).put(firstMessage);
@@ -301,6 +308,7 @@ class _ForumPostComposerState extends ConsumerState<_ForumPostComposer> {
               text: _content.text,
               hasAttachments: _files.isNotEmpty,
               posting: true,
+              personaChannelId: widget.forum.id,
             ),
             FluxerInput.multiline(
               label: l10n.forumPostMessage,
