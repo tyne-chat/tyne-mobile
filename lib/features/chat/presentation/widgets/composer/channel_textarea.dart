@@ -1854,6 +1854,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                             child: PersonaComposerPill(
                               text: _sendableWireText(),
                               hasAttachments: hasAttachments,
+                              channelId: channelId,
                             ),
                           );
                         },
