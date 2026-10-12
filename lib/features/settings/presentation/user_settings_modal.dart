@@ -79,6 +79,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Fork imports.
 // ignore: directives_ordering
+import 'package:fluxer_app/core/push/fork_push_sign_out_cleanup.dart';
 import 'package:fluxer_app/core/updater/app_update_provider.dart';
 import 'package:fluxer_app/core/updater/app_update_service.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_persona_settings.dart';
@@ -511,6 +512,11 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
 
     final userId = ref.read(currentUserIdProvider) ?? '';
 
+    // Fork: push cleanup reads the current user id, which the invalidation
+    // below resets, so it has to run first. Otherwise the local registration
+    // record survives sign-out and blocks registering again after sign-in.
+    await ref.read(forkPushSignOutCleanupProvider)();
+
     await ref.read(gatewayConnectionProvider).disconnect();
     ref.read(gatewayReadyProvider.notifier).reset();
 
@@ -845,6 +851,11 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
     }
 
     final userId = ref.read(currentUserIdProvider) ?? '';
+
+    // Fork: push cleanup reads the current user id, which the invalidation
+    // below resets, so it has to run first. Otherwise the local registration
+    // record survives sign-out and blocks registering again after sign-in.
+    await ref.read(forkPushSignOutCleanupProvider)();
 
     await ref.read(gatewayConnectionProvider).disconnect();
     ref.read(gatewayReadyProvider.notifier).reset();
