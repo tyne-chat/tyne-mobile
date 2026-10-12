@@ -41,6 +41,7 @@ import 'package:window_manager/window_manager.dart';
 
 // Fork imports.
 // ignore: directives_ordering
+import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/features/settings/providers/quick_switcher_button_preferences_provider.dart';
 
 Future<void> _showDesktopWindow() async {
@@ -139,7 +140,7 @@ Future<void> _bootstrapFluxer(List<String> args) async {
           minimumSize: Size(200, 200),
           center: true,
           titleBarStyle: TitleBarStyle.hidden,
-          title: 'Fluxer',
+          title: InstanceConstants.defaultProductName,
         );
 
         await windowManager.waitUntilReadyToShow(windowOptions);
