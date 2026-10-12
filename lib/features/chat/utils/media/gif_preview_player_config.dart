@@ -2,12 +2,16 @@ import 'package:flutter/foundation.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart' as mkv;
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/instance/instance_constants.dart';
+
 const int gifPreviewPlayerBufferSize = 4 * 1024 * 1024;
 
 const PlayerConfiguration gifPreviewPlayerConfiguration = PlayerConfiguration(
   muted: true,
   bufferSize: gifPreviewPlayerBufferSize,
-  title: 'Fluxer GIF preview',
+  title: '${InstanceConstants.defaultProductName} GIF preview',
 );
 
 mkv.VideoControllerConfiguration gifPreviewVideoControllerConfiguration() =>
