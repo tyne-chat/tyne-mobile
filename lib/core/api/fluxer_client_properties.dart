@@ -7,6 +7,10 @@ import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/app_build_environment.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/instance/instance_constants.dart';
+
 const int fluxerClientPropertiesSchemaVersion = 1;
 
 const String fluxerClientRuntimeFlutter = 'flutter';
@@ -150,11 +154,11 @@ String buildFluxerClientUserAgent({
   String? systemToken,
 }) {
   final String clientName = switch (clientPlatform) {
-    'android' => 'Fluxer Android',
-    'ios' => 'Fluxer iOS',
-    'desktop' => 'Fluxer Oxygen',
-    'client' => 'Fluxer Client',
-    _ => 'Fluxer Client',
+    'android' => '${InstanceConstants.defaultProductName} Android',
+    'ios' => '${InstanceConstants.defaultProductName} iOS',
+    'desktop' => '${InstanceConstants.defaultProductName} Oxygen',
+    'client' => '${InstanceConstants.defaultProductName} Client',
+    _ => '${InstanceConstants.defaultProductName} Client',
   };
   final String? version = normalizeOptionalString(clientVersion);
   final String? channel = normalizeOptionalString(releaseChannel);
