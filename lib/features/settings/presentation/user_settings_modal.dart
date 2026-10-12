@@ -70,6 +70,7 @@ import 'package:fluxer_app/shared/utils/relative_time.dart';
 
 // Fork imports.
 // ignore: directives_ordering
+import 'package:fluxer_app/core/push/fork_push_sign_out_cleanup.dart';
 import 'package:fluxer_app/core/updater/app_update_provider.dart';
 import 'package:fluxer_app/core/updater/app_update_service.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_persona_settings.dart';
@@ -576,6 +577,15 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
       return;
     }
 
+    // Fork: push cleanup reads the current user id, which signOutCurrentAccount
+    // resets before the account manager signs out, so it has to run first.
+    // Otherwise the local registration record survives sign-out and blocks
+    // registering again after sign-in.
+    await ref.read(forkPushSignOutCleanupProvider)();
+    if (!mounted) {
+      return;
+    }
+
     await signOutCurrentAccount(
       ProviderScope.containerOf(context, listen: false),
     );
@@ -931,6 +941,15 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
 
   Future<void> _logout() async {
     if (!await confirmUserSettingsLogout(context) || !mounted) {
+      return;
+    }
+
+    // Fork: push cleanup reads the current user id, which signOutCurrentAccount
+    // resets before the account manager signs out, so it has to run first.
+    // Otherwise the local registration record survives sign-out and blocks
+    // registering again after sign-in.
+    await ref.read(forkPushSignOutCleanupProvider)();
+    if (!mounted) {
       return;
     }
 
