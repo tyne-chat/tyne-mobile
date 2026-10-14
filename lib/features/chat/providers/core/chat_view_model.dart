@@ -111,6 +111,7 @@ import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/signal_bar/providers/signal_persona_affirmation.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
 
 part 'chat_view_model.g.dart';
 
@@ -7399,9 +7400,11 @@ class ChatViewModel extends _$ChatViewModel {
     if (editMatch.shouldUpdatePersona) {
       if (editMatch.persona != null) {
         personaData = _buildPersonaPayload(editMatch.persona!);
-        ref
-            .read(activePersonaProvider.notifier)
-            .recordUsage(editMatch.persona!.id);
+        unawaited(
+          ref
+              .read(activePersonaProvider.notifier)
+              .recordUsage(editMatch.persona!.id),
+        );
       } else if (editMatch.isRootAccount) {
         personaData = null;
       }
@@ -7721,9 +7724,11 @@ class ChatViewModel extends _$ChatViewModel {
     if (editMatch.shouldUpdatePersona) {
       if (editMatch.persona != null) {
         personaData = _buildPersonaPayload(editMatch.persona!);
-        ref
-            .read(activePersonaProvider.notifier)
-            .recordUsage(editMatch.persona!.id);
+        unawaited(
+          ref
+              .read(activePersonaProvider.notifier)
+              .recordUsage(editMatch.persona!.id),
+        );
       } else if (editMatch.isRootAccount) {
         personaData = null;
       }
