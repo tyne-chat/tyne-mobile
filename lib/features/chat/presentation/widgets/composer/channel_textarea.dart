@@ -407,9 +407,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       controller: _voiceRecording,
       startLockedRecording: _startLockedVoiceRecording,
     );
-    _activeVoiceCoordinator = ref.read(
-      activeVoiceRecordingCoordinatorProvider,
-    );
+    _activeVoiceCoordinator = ref.read(activeVoiceRecordingCoordinatorProvider);
     _activeVoiceCoordinator.register(_activeVoiceTarget);
     unawaited(FluxerHaptics.warmSend());
   }
@@ -815,21 +813,21 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         }
         _controller.deleteBackward();
       })
-      ..listen<({int epoch, String style})?>(
-        pendingTimestampInsertProvider,
-        (_, pending) {
-          if (pending == null) {
+      ..listen<({int epoch, String style})?>(pendingTimestampInsertProvider, (
+        _,
+        pending,
+      ) {
+        if (pending == null) {
+          return;
+        }
+        ref.read(pendingTimestampInsertProvider.notifier).consume();
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) {
             return;
           }
-          ref.read(pendingTimestampInsertProvider.notifier).consume();
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (!mounted) {
-              return;
-            }
-            _insertTimestamp(pending.epoch, pending.style);
-          });
-        },
-      )
+          _insertTimestamp(pending.epoch, pending.style);
+        });
+      })
       ..listen<FluxerSelectedGif?>(pendingGifSelectionProvider, (_, pending) {
         if (pending == null) {
           return;
@@ -1043,20 +1041,17 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
           isPanelOpen: isPanelOpen,
           mobileMaxHeight: mobileMaxHeight,
           mobileHeader:
-              // Fork: the header also carries the signal bar, so on mobile it is always shown;
-              // it measures nothing when it has nothing in it.
-              mobileComposer
+              mobileComposer &&
+                  (slashParamBarVisible ||
+                      replyTo != null ||
+                      editingMessage != null ||
+                      hasAttachments ||
+                      _forkHeaderAlwaysOnMobile)
               ? Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     if (editingMessage == null)
-                      SignalBarStrip(
-                        channelId: channelId,
-                        guildId: guildId,
-                        backgroundColor: composerBackgroundColor,
-                        dividerColor:
-                            wideComposerRingColor(context, focused: false),
-                      ),
+                      _forkSignalBarStrip(context, channelId, guildId),
                     if (slashParamBarVisible)
                       SlashCommandParamBar(
                         session: _slashSession,
@@ -1145,7 +1140,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                         SignalBarStrip(
                           channelId: channelId,
                           guildId: guildId,
-                          backgroundColor: composerBackgroundColor,
+                          backgroundColor: context.colors.backgroundTextarea,
                           dividerColor: wideComposerRingColor(
                             context,
                             focused: false,
@@ -1838,7 +1833,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                           }
                           final bool hasAttachments = ref.watch(
                             cloudUploadControllerProvider(channelId).select(
-                              (CloudComposerAttachments a) => a.items.isNotEmpty,
+                              (CloudComposerAttachments a) =>
+                                  a.items.isNotEmpty,
                             ),
                           );
                           return Padding(
@@ -1992,10 +1988,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     _controller.clear();
     ref.read(chatViewModelProvider.notifier).updateMessageText('');
     unawaited(
-      ref.read(chatViewModelProvider.notifier).sendStickerMessage(
-            sticker,
-            personaData: resolution.personaData,
-          ),
+      ref
+          .read(chatViewModelProvider.notifier)
+          .sendStickerMessage(sticker, personaData: resolution.personaData),
     );
     ref.read(expressionPanelProvider.notifier).close();
     _focusNode.requestFocus();
@@ -2038,10 +2033,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     } else if (perms.canShowAttachControls && perms.canShowEmbedControls) {
       await ref
           .read(chatViewModelProvider.notifier)
-          .sendFavoriteMemeMessage(
-            meme,
-            personaData: resolution?.personaData,
-          );
+          .sendFavoriteMemeMessage(meme, personaData: resolution?.personaData);
     } else {
       _insertGifUrl(meme.url);
     }
@@ -2330,20 +2322,18 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         _controller.clear();
         vm.updateMessageText('');
         FluxerHaptics.light();
-        ref.read(toastProvider.notifier).show(
-              const FluxerToast(
-                message: 'Active persona cleared',
-              ),
-            );
+        ref
+            .read(toastProvider.notifier)
+            .show(const FluxerToast(message: 'Active persona cleared'));
         return;
       }
     }
 
     // Match persona tags or active latched persona
     final bool hasPendingAttachments = ref.read(
-      cloudUploadControllerProvider(channelId).select(
-        (CloudComposerAttachments a) => a.items.isNotEmpty,
-      ),
+      cloudUploadControllerProvider(
+        channelId,
+      ).select((CloudComposerAttachments a) => a.items.isNotEmpty),
     );
 
     final OutgoingMessageResolution resolution = await resolveOutgoingPersona(
@@ -2354,8 +2344,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     );
 
     FluxerHaptics.send();
-    final bool proceed =
-        await _confirmMentionsIfNeeded(channelId, resolution.text);
+    final bool proceed = await _confirmMentionsIfNeeded(
+      channelId,
+      resolution.text,
+    );
     if (!proceed) {
       return;
     }
@@ -2595,9 +2587,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     final ChannelMessagePermissions perms =
         readChannelMessagePermissionsForComposer(ref, currentChannelId);
     final bool canUseVoice =
-        showQuickSwitcher &&
-        perms.isVoiceEnabled &&
-        perms.isComposerEnabled;
+        showQuickSwitcher && perms.isVoiceEnabled && perms.isComposerEnabled;
     if (!mounted) {
       return;
     }
@@ -2616,10 +2606,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       if (!context.mounted) {
         return;
       }
-      await TimestampPickerSheet.show(
-        context,
-        onInsert: _insertTimestamp,
-      );
+      await TimestampPickerSheet.show(context, onInsert: _insertTimestamp);
       return;
     }
     await _pickAttachments(source: source);
@@ -2753,3 +2740,19 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     unawaited(showErrorDialog(context, title: copy.title, body: copy.body));
   }
 }
+
+// Fork: the signal bar above the composer on mobile. A function, so the header in
+// buildComposerInput keeps upstream's layout; the strip measures nothing when empty.
+Widget _forkSignalBarStrip(
+  BuildContext context,
+  String channelId,
+  String guildId,
+) => SignalBarStrip(
+  channelId: channelId,
+  guildId: guildId,
+  backgroundColor: context.colors.backgroundTextarea,
+  dividerColor: wideComposerRingColor(context, focused: false),
+);
+
+// Fork: the composer header carries the signal bar, so on mobile it is always shown.
+const bool _forkHeaderAlwaysOnMobile = true;
