@@ -578,6 +578,7 @@ class _GuildSidebarChannelListState
         ),
       ),
     );
+    _forkWatchHiddenList();
     _inactiveList = child;
     return child;
   }
