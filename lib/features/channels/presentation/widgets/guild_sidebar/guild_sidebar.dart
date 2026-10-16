@@ -105,6 +105,8 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Fork imports.
 // ignore: directives_ordering
+import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/features/channels/presentation/widgets/guild_sidebar/fork_hidden_list_watchdog.dart';
 import 'package:fluxer_app/features/quick_switcher/presentation/widgets/quick_switcher_fab.dart';
 
 part 'guild_sidebar_banner_layout.dart';
@@ -114,6 +116,8 @@ part 'guild_sidebar_channel_tile.dart';
 part 'guild_sidebar_header.dart';
 part 'guild_sidebar_helpers.dart';
 part 'guild_sidebar_members_tile.dart';
+// Fork parts.
+part 'guild_sidebar_channel_list_fork.dart';
 
 class GuildSidebar extends ConsumerStatefulWidget {
   const GuildSidebar({super.key});
