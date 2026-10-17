@@ -61,6 +61,7 @@ import 'package:fluxer_app/features/chat/services/composer_mention_controller.da
 import 'package:fluxer_app/features/chat/services/composer_slash_session.dart';
 import 'package:fluxer_app/features/chat/services/composer_text_session.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_native_pickers.dart';
+// ignore: unused_import // Fork: upstream's import, unused since the fork's changes.
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_constants.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validation_l10n.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validator.dart';
@@ -2710,6 +2711,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                 ),
               )
               .items,
+          maxAttachments: ref.read(
+            instanceLimitProvider(LimitKeys.maxAttachmentsPerMessage),
+          ),
         );
         final FileUploadValidationResult result = await ref
             .read(
@@ -2737,7 +2741,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     final FileUploadValidationCopy? copy = fileUploadValidationCopy(
       FluxerLocalizations.of(context),
       result,
-      maxAttachments: kMaxAttachmentsPerMessage,
+      maxAttachments: ref.read(
+        instanceLimitProvider(LimitKeys.maxAttachmentsPerMessage),
+      ),
       maxFileBytes: ref.read(maxAttachmentFileBytesProvider),
     );
     if (copy == null) {
