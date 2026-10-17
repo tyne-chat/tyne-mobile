@@ -25,6 +25,10 @@ import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/profile/data/known_personas.dart';
+
 const int kDmPreviewPreloadBatchSize = 100;
 
 const Duration _kSendLookupClockSkew = Duration(minutes: 2);
@@ -323,6 +327,7 @@ class MessageRepository {
         if (pageUsersById.isNotEmpty) {
           await upsertUsersCompanions(_db, pageUsersById.values);
         }
+        await upsertKnownPersonasFromSdk(_db, data);
         mark('users');
         persisted = await _upsertKeepingTranslations(messages);
         await _pruneStaleMessagesForNetworkPage(
@@ -396,6 +401,7 @@ class MessageRepository {
       }
       await upsertMentionUsersFromSdk(_db, sdk.mentions);
       await upsertSupplementalUsersFromSdk(_db, sdk.users);
+      await upsertKnownPersonasFromSdk(_db, [sdk]);
       final message = Message.fromSdk(sdk, currentUserId: _currentUserId)
           .copyWith(
             isMentioned: await resolveMessageMentionsUser(
@@ -637,6 +643,7 @@ class MessageRepository {
             map['mentions'] as List<dynamic>?,
           );
           await upsertMentionUsersFromJson(_db, map['users'] as List<dynamic>?);
+          await upsertKnownPersonasFromJson(_db, map);
         }
       } on Object catch (e) {
         talker.warning('[MessageRepo] Skipping message: $e');
