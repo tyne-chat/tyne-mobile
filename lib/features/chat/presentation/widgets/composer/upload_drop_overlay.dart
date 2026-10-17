@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_blocked_provider.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/chat/providers/upload/user_upload_limits_provider.dart';
+// ignore: unused_import // Fork: upstream's import, unused since the fork's changes.
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_constants.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validation_l10n.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validator.dart';
@@ -21,6 +22,8 @@ import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 
 // Fork imports.
 // ignore: directives_ordering
+import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
+import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
 
 bool _isDesktopFileDropSupported() {
@@ -120,7 +123,9 @@ class _UploadDropOverlayState extends ConsumerState<UploadDropOverlay> {
     final FileUploadValidationCopy? copy = fileUploadValidationCopy(
       FluxerLocalizations.of(context),
       result,
-      maxAttachments: kMaxAttachmentsPerMessage,
+      maxAttachments: ref.read(
+        instanceLimitProvider(LimitKeys.maxAttachmentsPerMessage),
+      ),
       maxFileBytes: ref.read(maxAttachmentFileBytesProvider),
     );
     if (copy == null) {
