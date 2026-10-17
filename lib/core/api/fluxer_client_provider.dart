@@ -37,6 +37,10 @@ import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/api/fork_call_site_interceptor.dart';
+
 export 'package:fluxer_app/core/providers/instance/active_instance_provider.dart';
 
 part 'fluxer_client_provider.g.dart';
@@ -158,6 +162,7 @@ Dio _buildFluxerDio({
       ),
     );
   }
+  dio.interceptors.add(ForkCallSiteInterceptor());
   return dio;
 }
 
