@@ -121,12 +121,14 @@ const Map<String, String> _extraClipboardMimeToExtension = <String, String>{
   'application/x-msi': 'msi',
 };
 
-Future<List<XFile>> readClipboardAttachmentFiles() async {
+Future<List<XFile>> readClipboardAttachmentFiles({
+  int maxFiles = kMaxAttachmentsPerMessage,
+}) async {
   final List<NativeClipboardItem> items;
   try {
     items = await readNativeClipboardItems(
       mimeTypes: clipboardAttachmentMimeTypes,
-      maxItems: kMaxAttachmentsPerMessage,
+      maxItems: maxFiles,
     );
   } on Object catch (error, stack) {
     talker.warning('[Clipboard] attachment read failed', error, stack);
