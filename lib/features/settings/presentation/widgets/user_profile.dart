@@ -35,6 +35,7 @@ import 'package:fluxer_app/shared/utils/image_utils.dart';
 // ignore: directives_ordering
 import 'package:fluxer_app/features/chat/utils/timezone_data.dart';
 import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+import 'package:fluxer_app/shared/utils/fork_image_upload_limit.dart';
 
 const int _kMaxDisplayNameLength = 32;
 const int _kMaxPronounsLength = 40;
@@ -260,7 +261,7 @@ class _UserProfileState extends ConsumerState<UserProfile> {
       return;
     }
 
-    if (ImageUtils.isOverSizeLimit(picked.bytes)) {
+    if (isImageOverUploadLimit(ref, picked.bytes)) {
       if (!mounted) {
         return;
       }
@@ -270,7 +271,7 @@ class _UserProfileState extends ConsumerState<UserProfile> {
         title: isAvatar
             ? l10n.avatarUploadFailedTitle
             : l10n.bannerUploadFailedTitle,
-        body: l10n.imageFileTooLarge,
+        body: imageFileTooLargeMessage(l10n, ref),
       );
       return;
     }
