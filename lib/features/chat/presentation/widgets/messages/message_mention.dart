@@ -39,12 +39,13 @@ import 'package:fluxer_markdown/fluxer_markdown.dart';
 
 // Fork imports.
 // ignore: directives_ordering
+import 'package:fluxer_app/core/database/fluxer_database.dart'
+    show KnownPersona;
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/profile/data/known_personas.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
-import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
-import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
 
 class ChannelMention extends ConsumerWidget {
   const ChannelMention({
@@ -337,8 +338,11 @@ class UserMention extends ConsumerWidget {
                 .cast<Persona?>()
                 .firstWhere((p) => p?.id == personaId, orElse: () => null)
           : null;
-      final PublicPersona? publicPersona = ref
-          .watch(publicPersonaProvider((userId: userId, personaId: personaId!)))
+      // What the device knows, as upstream's chip reads a mentioned account
+      // from what is stored: every message from the server names the personas
+      // it mentions (mention_personas).
+      final KnownPersona? known = ref
+          .watch(knownPersonaProvider(personaId!))
           .value;
 
       final Message? recentMsg = ref.watch(
@@ -355,7 +359,7 @@ class UserMention extends ConsumerWidget {
 
       final String personaName =
           myPersona?.name ??
-          publicPersona?.name ??
+          known?.name ??
           recentMsg?.personaName ??
           watchMentionUserDisplayName(
             ref: ref,
@@ -365,9 +369,7 @@ class UserMention extends ConsumerWidget {
           );
 
       final int? personaColorInt =
-          myPersona?.color ??
-          publicPersona?.color ??
-          recentMsg?.authorAvatarColor;
+          myPersona?.color ?? known?.color ?? recentMsg?.authorAvatarColor;
 
       final Color? personaColor =
           (personaColorInt != null && personaColorInt != 0)
