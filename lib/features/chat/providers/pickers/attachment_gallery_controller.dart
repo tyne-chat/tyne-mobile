@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_download_service.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_native_pickers.dart';
+// ignore: unused_import // Fork: upstream's import, unused since the fork's changes.
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_constants.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validator.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/gallery_attachment_selection.dart';
@@ -14,6 +15,11 @@ import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dar
 import 'package:fluxer_app/features/settings/providers/preferences/message_ui_preferences_providers.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
+import 'package:fluxer_app/core/limits/limit_key.dart';
 
 part 'attachment_gallery_controller.g.dart';
 
@@ -263,7 +269,7 @@ class AttachmentGalleryController extends _$AttachmentGalleryController {
       return null;
     }
     if (attachments.length + state.resolvingAssetIds.length >=
-        kMaxAttachmentsPerMessage) {
+        ref.read(instanceLimitProvider(LimitKeys.maxAttachmentsPerMessage))) {
       return const FileUploadValidationResult.failure(
         FileUploadValidationError.tooManyAttachments,
       );
@@ -330,7 +336,8 @@ class AttachmentGalleryController extends _$AttachmentGalleryController {
     required String channelId,
     required int attachmentCount,
   }) async {
-    if (attachmentCount >= kMaxAttachmentsPerMessage) {
+    if (attachmentCount >=
+        ref.read(instanceLimitProvider(LimitKeys.maxAttachmentsPerMessage))) {
       return const FileUploadValidationResult.failure(
         FileUploadValidationError.tooManyAttachments,
       );
@@ -356,7 +363,13 @@ class AttachmentGalleryController extends _$AttachmentGalleryController {
     required String channelId,
     required int attachmentCount,
   }) async {
-    final int limit = remainingAttachmentPickLimit(attachmentCount);
+    final int maxAttachments = ref.read(
+      instanceLimitProvider(LimitKeys.maxAttachmentsPerMessage),
+    );
+    final int limit = remainingAttachmentPickLimit(
+      attachmentCount,
+      maxAttachments: maxAttachments,
+    );
     if (limit <= 0) {
       return const FileUploadValidationResult.failure(
         FileUploadValidationError.tooManyAttachments,
@@ -368,6 +381,7 @@ class AttachmentGalleryController extends _$AttachmentGalleryController {
             cloudUploadControllerProvider(readAccountUserId(ref), channelId),
           )
           .items,
+      maxAttachments: maxAttachments,
     );
     return ref
         .read(
