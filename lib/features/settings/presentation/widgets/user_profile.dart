@@ -38,10 +38,10 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 // ignore: directives_ordering
 import 'package:fluxer_app/features/chat/utils/timezone_data.dart';
 import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+import 'package:fluxer_app/shared/utils/fork_image_upload_limit.dart';
 
 const int _kMaxDisplayNameLength = 32;
 const int _kMaxPronounsLength = 40;
-const int _kMaxBioLength = 320;
 const int _kDefaultProfileAccentColor = 0x4641D9;
 
 int _defaultProfileAccentColor(UserSettingsViewState state) {
@@ -174,6 +174,9 @@ class _UserProfileState extends ConsumerState<UserProfile> {
       final controller = state.isPerGuildProfile
           ? _guildBioController
           : _bioController;
+      final maxBioLength = ref.read(
+        instanceLimitProvider(LimitKeys.maxBioLength),
+      );
       unawaited(
         FluxerEmojiPickerSheet.show(
           context,
@@ -182,7 +185,7 @@ class _UserProfileState extends ConsumerState<UserProfile> {
             controller.insertEmoji(
               emoji.name,
               emoji.surrogates,
-              maxActualLength: _kMaxBioLength,
+              maxActualLength: maxBioLength,
             );
             _notifyBioChanged();
           },
@@ -292,7 +295,7 @@ class _UserProfileState extends ConsumerState<UserProfile> {
       return;
     }
 
-    if (ImageUtils.isOverSizeLimit(picked.bytes)) {
+    if (isImageOverUploadLimit(ref, picked.bytes)) {
       if (!mounted) {
         return;
       }
@@ -302,7 +305,7 @@ class _UserProfileState extends ConsumerState<UserProfile> {
         title: isAvatar
             ? l10n.avatarUploadFailedTitle
             : l10n.bannerUploadFailedTitle,
-        body: l10n.imageFileTooLarge,
+        body: imageFileTooLargeMessage(l10n, ref),
       );
       return;
     }
@@ -919,6 +922,9 @@ class _UserProfileState extends ConsumerState<UserProfile> {
     final onChanged = state.isPerGuildProfile
         ? () => vm.updateGuildBio(controller.actualText)
         : () => vm.updateBio(controller.actualText);
+    final maxBioLength = ref.watch(
+      instanceLimitProvider(LimitKeys.maxBioLength),
+    );
 
     return TextFieldTapRegion(
       child: ComposerAutocompleteField(
@@ -928,7 +934,7 @@ class _UserProfileState extends ConsumerState<UserProfile> {
         allowedTriggers: const <ComposerAutocompleteTriggerKind>{
           ComposerAutocompleteTriggerKind.emoji,
         },
-        maxActualLength: _kMaxBioLength,
+        maxActualLength: maxBioLength,
         onApplied: onChanged,
         child: FluxerInput.multiline(
           controller: controller,
@@ -938,12 +944,12 @@ class _UserProfileState extends ConsumerState<UserProfile> {
           maxLines: 8,
           showCounter: true,
           counterLength: () => controller.actualTextLength,
-          counterMax: _kMaxBioLength,
+          counterMax: maxBioLength,
           helperText: l10n.aboutMeHelperText,
           inputFormatters: [
             InlineTokenWireLengthFormatter(
               controller,
-              maxWireLength: _kMaxBioLength,
+              maxWireLength: maxBioLength,
             ),
           ],
           onChanged: (_) => onChanged(),
@@ -955,7 +961,7 @@ class _UserProfileState extends ConsumerState<UserProfile> {
               controller.insertEmoji(
                 emoji.name,
                 emoji.surrogates,
-                maxActualLength: _kMaxBioLength,
+                maxActualLength: maxBioLength,
               );
               onChanged();
             },
