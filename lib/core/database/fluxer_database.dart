@@ -74,6 +74,7 @@ import 'package:fluxer_app/core/synced_preferences/usage_frecency.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/core/database/fork_schema.dart';
+import 'package:fluxer_app/core/database/tables/known_personas.dart';
 
 part 'fluxer_database.g.dart';
 
@@ -84,6 +85,7 @@ part 'fluxer_database.g.dart';
     Servers,
     Channels,
     Messages,
+    KnownPersonas,
     Roles,
     Members,
     MemberCacheAccess,
@@ -1747,6 +1749,7 @@ class FluxerDatabase extends _$FluxerDatabase {
       await guildDao.clearAll();
       await channelDao.clearAll();
       await messageDao.clearAll();
+      await delete(knownPersonas).go();
       await roleDao.clearAll();
       await memberDao.clearAll();
       await relationshipDao.clearAll();
