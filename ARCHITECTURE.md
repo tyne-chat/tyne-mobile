@@ -78,8 +78,9 @@ fork's persona domain.
    instance moves on to the next stored account.
 5. READY rewrites the account's data in Drift in one transaction (messages are kept for the same
    account), marks the gateway ready, bumps the full-recovery counter (which empties typing, voice and
-   call state), and the fork reloads personas and refetches signals. Deep links and notification taps
-   waiting since launch are handled at the end of a successful restore.
+   call state), and the fork reloads personas, empties every channel's signals and refetches the bar
+   (the open channel's strip then refetches its channel). Deep links and notification taps waiting
+   since launch are handled at the end of a successful restore.
 
 ## State
 
@@ -137,19 +138,21 @@ fork's persona domain.
   - Chat: the composer's pill and "sending as" row, `resolveOutgoingPersona`, the persona picker and
     "React as…" sheets, persona fields on `Message`, the header badge, persona mentions.
   - Threads and forum posts start as the persona that created them; typing as a persona
-    (`core/gateway/providers/typing_personas_provider.dart`); settings: the persona list, PluralKit
-    import and export.
+    (`core/gateway/providers/typing_personas_provider.dart`); settings: the Personas page (mode,
+    scope, display tag, the persona list; `lib/features/settings/AGENTS.md`). PluralKit import and
+    export are web-only.
   - Only the persona's id goes to the server; the server builds the `subprofile` object messages
     carry.
 - **Signal bar:** `features/signal_bar` (the strip in the composer, its notifiers and the gateway
-  events).
+  events; guide in its `AGENTS.md`).
 - **Instance defaults:** Tyne's instance as the default, upstream's hosts treated as ordinary instances,
   the server-list buttons.
 - **Updater** (`core/updater`), **inline timestamps** (picker sheet, composer chips, message pills),
   **quick switcher** additions (persistent recents, notes, threads, the floating button), and the
   fork's translation catalogues (`l10n_fork/`, used as `l10n.fork.<key>`).
-- **Build identity:** `tool/dart_defines/canary.json` (`FORK_*` defines), Android's `canary` source set,
-  and `tool/fork_ios_identity.py`, which gives the iOS project Tyne's identifiers at build time.
+- **Build identity:** `tool/dart_defines/canary.json` (`FORK_*` defines), Android's `canary` flavour
+  (`android/app/build.gradle.kts`) and source set (`android/AGENTS.md`), and
+  `tool/fork_ios_identity.py`, which gives the iOS project Tyne's identifiers at build time.
 
 ## Rules that cut across folders
 
@@ -185,7 +188,14 @@ Most are in `AGENTS.md`; the ones that most often surprise:
 These folders have an `AGENTS.md` with their design and traps; read it before changing code under the
 folder. A new folder guide is added to this list in the same commit.
 
+- `android/AGENTS.md`: the Android host: build variants and Tyne's identity, the Kotlin bridges, the
+  keyboard inset fix, and what breaks installs and releases.
 - `lib/core/database/AGENTS.md`: the local Drift database and how the fork changes its schema.
 - `lib/core/gateway/AGENTS.md`: how gateway events reach Drift and the providers.
+- `lib/core/synced_preferences/AGENTS.md`: settings synced through the account: the protobuf copy,
+  how the store merges and pushes, and the fork's mobile layout fields.
 - `lib/features/chat/AGENTS.md`: the message engine and list, the composer, the chat screen.
 - `lib/features/profile/AGENTS.md`: profiles, and the app's persona core.
+- `lib/features/settings/AGENTS.md`: the settings screens, where each setting is stored, and the
+  Personas page.
+- `lib/features/signal_bar/AGENTS.md`: the signal bar strip, its state and the persona hand-overs.
