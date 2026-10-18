@@ -426,4 +426,33 @@ class ForkLocalizationsNb extends ForkLocalizations {
 
   @override
   String get gifPickerSearchKlipyBrand => 'Søk i KLIPY';
+
+  @override
+  String get appUpdateDownloadFailed => 'Kunne ikke laste ned oppdateringen';
+
+  @override
+  String get personaChangeMessageFailed =>
+      'Kunne ikke endre meldingens persona';
+
+  @override
+  String get personaActiveCleared => 'Aktiv persona fjernet';
+
+  @override
+  String get klipyPoweredBy => 'Levert av KLIPY';
+
+  @override
+  String personaTagPairDuplicate(String pattern) {
+    return 'Duplisert tag-par \'$pattern\' på denne personaen';
+  }
+
+  @override
+  String personaAddTagPair(int count) {
+    return 'Legg til tag-par ($count/5)';
+  }
+
+  @override
+  String get personaTagExampleText => 'tekst';
+
+  @override
+  String get personaPreviewNameFallback => 'Bruker';
 }
