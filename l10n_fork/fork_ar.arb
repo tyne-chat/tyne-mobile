@@ -120,5 +120,13 @@
     "personaPickerChannelOnly": "لهذه القناة فقط",
     "personaProfilePrivate": "الملف الشخصي لهذه الشخصية خاص.",
     "imageFileTooLargeMaxSize": "ملف الصورة كبير جدًا. يرجى اختيار ملف أصغر من {maxSize}.",
-    "gifPickerSearchKlipyBrand": "ابحث في KLIPY"
+    "gifPickerSearchKlipyBrand": "ابحث في KLIPY",
+    "appUpdateDownloadFailed": "تعذّر تنزيل التحديث",
+    "personaChangeMessageFailed": "تعذّر تغيير شخصية الرسالة",
+    "personaActiveCleared": "تمت إزالة الشخصية النشطة",
+    "klipyPoweredBy": "بدعم من KLIPY",
+    "personaTagPairDuplicate": "زوج العلامات '{pattern}' مكرر في هذه الشخصية",
+    "personaAddTagPair": "إضافة زوج علامات ({count}/5)",
+    "personaTagExampleText": "نص",
+    "personaPreviewNameFallback": "مستخدم"
 }
