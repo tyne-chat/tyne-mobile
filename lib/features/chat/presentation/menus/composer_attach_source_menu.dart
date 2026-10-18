@@ -7,7 +7,14 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 // ignore: directives_ordering
 import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 
-enum ComposerAttachSource { gallery, files, voice, timestamp }
+enum ComposerAttachSource {
+  gallery,
+  files,
+
+  // Fork values.
+  voice,
+  timestamp,
+}
 
 Future<ComposerAttachSource?> showComposerAttachSourceMenu(
   BuildContext context, {
