@@ -410,6 +410,34 @@ class ForkLocalizationsZh extends ForkLocalizations {
 
   @override
   String get gifPickerSearchKlipyBrand => '搜索 KLIPY';
+
+  @override
+  String get appUpdateDownloadFailed => '下载更新失败';
+
+  @override
+  String get personaChangeMessageFailed => '更改消息的人格失败';
+
+  @override
+  String get personaActiveCleared => '已清除活跃人格';
+
+  @override
+  String get klipyPoweredBy => '由 KLIPY 提供支持';
+
+  @override
+  String personaTagPairDuplicate(String pattern) {
+    return '此人格上存在重复的标签对“$pattern”';
+  }
+
+  @override
+  String personaAddTagPair(int count) {
+    return '添加标签对（$count/5）';
+  }
+
+  @override
+  String get personaTagExampleText => '文本';
+
+  @override
+  String get personaPreviewNameFallback => '用户';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -818,4 +846,32 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get gifPickerSearchKlipyBrand => '搜尋 KLIPY';
+
+  @override
+  String get appUpdateDownloadFailed => '下載更新失敗';
+
+  @override
+  String get personaChangeMessageFailed => '變更訊息的人格失敗';
+
+  @override
+  String get personaActiveCleared => '已清除使用中人格';
+
+  @override
+  String get klipyPoweredBy => '由 KLIPY 提供技術支援';
+
+  @override
+  String personaTagPairDuplicate(String pattern) {
+    return '此人格上有重複的標籤組「$pattern」';
+  }
+
+  @override
+  String personaAddTagPair(int count) {
+    return '新增標籤組（$count/5）';
+  }
+
+  @override
+  String get personaTagExampleText => '文字';
+
+  @override
+  String get personaPreviewNameFallback => '使用者';
 }
