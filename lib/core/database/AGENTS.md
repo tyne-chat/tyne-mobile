@@ -65,8 +65,12 @@ upstream step would be skipped for good. So:
   installs and the "matches fresh onCreate" test do not show it; `fork_schema_test.dart` does.
 - **The repair for old installs.** Files from builds made before 2026-10-09 (fork version 92) are
   detected by a missing `thread_members` table or theme-studio column, and upstream's steps rerun from 90.
-  It relies on upstream's steps staying guarded, and on the name `thread_members`. Its removal waits for
-  data on which builds are still in use (tyne-chat/tyne#127).
+  It relies on upstream's steps staying guarded, and on the name `thread_members`. Its test,
+  `fork_schema_test.dart`, rebuilds such a file by dropping what upstream's steps 91 and 92 add, listed
+  by hand in `_threadColumns` and `_themeStudioColumns`: when upstream changes those steps, change the
+  lists as upstream changes its own migration test (tyne-chat/tyne#157, `read_states.missing_since`).
+  Its removal waits for data on which builds are still in use (tyne-chat/tyne#127, which tracks it with
+  the server's settings workaround).
 - **`beforeOpen`:** if upstream adds one, call `ensureForkSchema` inside it.
 
 ## The fork's tables and columns
