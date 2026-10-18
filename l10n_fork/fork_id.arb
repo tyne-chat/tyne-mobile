@@ -120,5 +120,13 @@
     "personaPickerChannelOnly": "Hanya untuk saluran ini",
     "personaProfilePrivate": "Profil persona ini bersifat pribadi.",
     "imageFileTooLargeMaxSize": "File gambar terlalu besar. Pilih file yang ukurannya kurang dari {maxSize}.",
-    "gifPickerSearchKlipyBrand": "Cari KLIPY"
+    "gifPickerSearchKlipyBrand": "Cari KLIPY",
+    "appUpdateDownloadFailed": "Gagal mengunduh pembaruan",
+    "personaChangeMessageFailed": "Gagal mengubah persona pesan",
+    "personaActiveCleared": "Persona aktif dihapus",
+    "klipyPoweredBy": "Didukung oleh KLIPY",
+    "personaTagPairDuplicate": "Pasangan tag '{pattern}' duplikat pada persona ini",
+    "personaAddTagPair": "Tambah Pasangan Tag ({count}/5)",
+    "personaTagExampleText": "teks",
+    "personaPreviewNameFallback": "Pengguna"
 }

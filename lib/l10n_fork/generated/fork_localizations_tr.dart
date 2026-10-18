@@ -425,4 +425,32 @@ class ForkLocalizationsTr extends ForkLocalizations {
 
   @override
   String get gifPickerSearchKlipyBrand => 'KLIPY\'de ara';
+
+  @override
+  String get appUpdateDownloadFailed => 'Güncelleme indirilemedi';
+
+  @override
+  String get personaChangeMessageFailed => 'Mesajın personası değiştirilemedi';
+
+  @override
+  String get personaActiveCleared => 'Etkin persona temizlendi';
+
+  @override
+  String get klipyPoweredBy => 'KLIPY tarafından desteklenmektedir';
+
+  @override
+  String personaTagPairDuplicate(String pattern) {
+    return 'Bu personada yinelenen \'$pattern\' etiket çifti';
+  }
+
+  @override
+  String personaAddTagPair(int count) {
+    return 'Etiket çifti ekle ($count/5)';
+  }
+
+  @override
+  String get personaTagExampleText => 'metin';
+
+  @override
+  String get personaPreviewNameFallback => 'Kullanıcı';
 }
