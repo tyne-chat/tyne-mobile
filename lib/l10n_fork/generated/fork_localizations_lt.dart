@@ -421,4 +421,7 @@ class ForkLocalizationsLt extends ForkLocalizations {
   String imageFileTooLargeMaxSize(String maxSize) {
     return 'Vaizdo failas yra per didelis. Pasirinkite failą, mažesnį nei $maxSize.';
   }
+
+  @override
+  String get gifPickerSearchKlipyBrand => 'Ieškoti KLIPY';
 }
