@@ -56,7 +56,6 @@ enum MessageAction {
   removeAllReactions,
   retry,
   edit,
-  changePersona,
   reply,
   forward,
   copyText,
@@ -75,6 +74,9 @@ enum MessageAction {
   speak,
   translate,
   createThread,
+
+  // Fork values.
+  changePersona,
 }
 
 Future<MessageAction?> showMessageBottomSheet(
