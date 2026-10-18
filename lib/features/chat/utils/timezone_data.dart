@@ -833,7 +833,9 @@ List<TimezoneOption> _buildTimezoneOptions() {
     // Always include UTC as first-class entry.
     const TimezoneOption(
       value: 'UTC',
+      // i18n-ignore: the time zone names in this file are English for now (tyne-chat/tyne#186).
       label: 'UTC+00:00 UTC',
+      // i18n-ignore: as above.
       searchText: 'UTC Etc/UTC GMT Coordinated Universal Time',
       offsetMinutes: 0,
     ),
