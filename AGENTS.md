@@ -34,10 +34,18 @@ one line where the change is going and why it cannot be a fork-owned file or an 
 file, under a comment saying it is the fork's; (3) one small call or one added line in upstream's
 code that hands over to fork code elsewhere. Rewriting or reordering upstream's lines comes last.
 
-- **Tests** go in `<upstream name>_fork_test.dart` next to upstream's test. Dart cannot reach another
-  file's private helpers, so the fork file carries its own copies of the ones it needs. Never add a
-  test or an assertion to an upstream test file (the exception: a fixture line upstream's test needs
-  in order to compile against a fork type).
+- **Tests** go in `<upstream name>_fork_test.dart` next to upstream's test. Never add a test or an
+  assertion to an upstream test file (the exception: a fixture line upstream's test needs in order
+  to compile against a fork type).
+- **Upstream's private test helpers are not copied.** Dart cannot reach another file's private
+  names, so append a block after `main` in upstream's test file that names the ones the fork test
+  uses: a typed `forkUpstream` record for functions, `const`, typedef or getter aliases for the rest,
+  each under `// ignore: unreachable_from_main // Fork: used by <fork test>.` The fork test imports
+  upstream's file with `hide main` (`message_dao_test.dart` and `message_dao_fork_test.dart` show the
+  shape). Exceptions: code inside upstream's `main` (`setUp` statements, local variables) cannot be
+  named, so it is copied; a helper the fork needs in another shape is wrapped in the fork file around
+  upstream's; and when upstream removes or reshapes a helper the block names, move a copy into the
+  fork test instead of keeping the old version in upstream's file.
 - **Upstream test expectations** that hard-code upstream's hosts must compare against
   `InstanceConstants` / `InstanceEndpoints`, so they hold for the fork's defaults. Other expectations
   where the fork deliberately differs may be changed in place with a `// Fork:` comment saying why,
