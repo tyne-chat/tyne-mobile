@@ -119,5 +119,6 @@
     "personaScopeChannelDescription": "Каждый канал хранит свою персону. Новые каналы начинаются с вашего аккаунта.",
     "personaPickerChannelOnly": "Только для этого канала",
     "personaProfilePrivate": "Профиль этой персоны приватный.",
-    "imageFileTooLargeMaxSize": "Файл изображения слишком большой. Пожалуйста, выберите файл размером менее {maxSize}."
+    "imageFileTooLargeMaxSize": "Файл изображения слишком большой. Пожалуйста, выберите файл размером менее {maxSize}.",
+    "gifPickerSearchKlipyBrand": "Поиск KLIPY"
 }
