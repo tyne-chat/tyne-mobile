@@ -119,5 +119,6 @@
     "personaScopeChannelDescription": "Minden csatorna megtartja a saját personáját. Az új csatornák a fiókoddal indulnak.",
     "personaPickerChannelOnly": "Csak ehhez a csatornához",
     "personaProfilePrivate": "Ennek a personának a profilja privát.",
-    "imageFileTooLargeMaxSize": "A képfájl túl nagy. Válassz kisebb, {maxSize} alatti fájlt."
+    "imageFileTooLargeMaxSize": "A képfájl túl nagy. Válassz kisebb, {maxSize} alatti fájlt.",
+    "gifPickerSearchKlipyBrand": "KLIPY keresése"
 }

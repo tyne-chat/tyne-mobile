@@ -119,5 +119,6 @@
     "personaScopeChannelDescription": "Setiap saluran menyimpan personanya sendiri. Saluran baru dimulai sebagai akunmu.",
     "personaPickerChannelOnly": "Hanya untuk saluran ini",
     "personaProfilePrivate": "Profil persona ini bersifat pribadi.",
-    "imageFileTooLargeMaxSize": "File gambar terlalu besar. Pilih file yang ukurannya kurang dari {maxSize}."
+    "imageFileTooLargeMaxSize": "File gambar terlalu besar. Pilih file yang ukurannya kurang dari {maxSize}.",
+    "gifPickerSearchKlipyBrand": "Cari KLIPY"
 }
