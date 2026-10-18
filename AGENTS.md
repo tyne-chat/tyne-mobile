@@ -138,12 +138,14 @@ use them rather than working around them:
 
 - `lib/features/chat/presentation/widgets/messages/message_list.dart`
 - `lib/features/chat/presentation/widgets/messages/message_list_viewport.dart`
+  (`MessageListScrollViewBuildScope`, which keeps row builds from rebuilding the list's ancestors
+  mid-layout)
 - `lib/shared/widgets/rebuild_safe_layout_builder.dart` (instead of a bare `LayoutBuilder` inside the
   chat panel)
-- `lib/shared/utils/frame_safe_value_notifier.dart` (for values that can be written during layout)
 
-Each has a regression test next to it under `test/`: run the relevant ones after touching this code,
-and add one when fixing a new case.
+Their regression tests (`test/features/chat/presentation/widgets/messages/message_list_build_scope_test.dart`,
+`test/shared/widgets/rebuild_safe_layout_builder_test.dart`) fail on purpose without the guard: run
+them after touching this code, and add one when fixing a new case.
 
 **Android keyboard (IME) insets.** Insets can go stale when the window loses and regains focus,
 leaving the composer misplaced. The handling is split between
