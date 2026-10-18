@@ -426,4 +426,33 @@ class ForkLocalizationsEl extends ForkLocalizations {
 
   @override
   String get gifPickerSearchKlipyBrand => 'Αναζήτηση KLIPY';
+
+  @override
+  String get appUpdateDownloadFailed => 'Η λήψη της ενημέρωσης απέτυχε';
+
+  @override
+  String get personaChangeMessageFailed =>
+      'Η αλλαγή της persona του μηνύματος απέτυχε';
+
+  @override
+  String get personaActiveCleared => 'Η ενεργή persona καταργήθηκε';
+
+  @override
+  String get klipyPoweredBy => 'Με την υποστήριξη του KLIPY';
+
+  @override
+  String personaTagPairDuplicate(String pattern) {
+    return 'Διπλό ζεύγος ετικετών \'$pattern\' σε αυτήν την persona';
+  }
+
+  @override
+  String personaAddTagPair(int count) {
+    return 'Προσθήκη ζεύγους ετικετών ($count/5)';
+  }
+
+  @override
+  String get personaTagExampleText => 'κείμενο';
+
+  @override
+  String get personaPreviewNameFallback => 'Χρήστης';
 }

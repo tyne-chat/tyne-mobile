@@ -120,5 +120,13 @@
     "personaPickerChannelOnly": "このチャンネルのみ",
     "personaProfilePrivate": "このペルソナのプロフィールは非公開です。",
     "imageFileTooLargeMaxSize": "画像ファイルが大きすぎます。{maxSize}未満のファイルを選択してください。",
-    "gifPickerSearchKlipyBrand": "KLIPYを検索"
+    "gifPickerSearchKlipyBrand": "KLIPYを検索",
+    "appUpdateDownloadFailed": "アップデートをダウンロードできませんでした",
+    "personaChangeMessageFailed": "メッセージのペルソナを変更できませんでした",
+    "personaActiveCleared": "アクティブなペルソナを解除しました",
+    "klipyPoweredBy": "KLIPY 提供",
+    "personaTagPairDuplicate": "このペルソナでタグのペア「{pattern}」が重複しています",
+    "personaAddTagPair": "タグのペアを追加 ({count}/5)",
+    "personaTagExampleText": "テキスト",
+    "personaPreviewNameFallback": "ユーザー"
 }
