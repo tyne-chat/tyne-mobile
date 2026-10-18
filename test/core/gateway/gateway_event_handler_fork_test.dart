@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart' as domain;
 import 'package:fluxer_dart/gateway.dart';
+import 'package:fluxer_dart/models/message_subprofile_response_schema.dart';
 
 import '../../helpers/open_test_database.dart';
 
@@ -186,5 +187,56 @@ void main() {
         expect(reaction.personaReactions, equals(['persona_1']));
       },
     );
+  });
+
+  group('typing as a persona (tyne-chat/tyne#136)', () {
+    const MessageSubprofileResponseSchema ruby =
+        MessageSubprofileResponseSchema(id: 'persona-1', name: 'Ruby Rose');
+
+    Future<(List<String>, List<String>)> typingCalls(
+      MessageSubprofileResponseSchema? subprofile,
+    ) async {
+      final List<String> started = <String>[];
+      final List<String> personas = <String>[];
+      final GatewayEventHandler handler = GatewayEventHandler(
+        database: openTestDatabase(),
+        onTypingStart: (String channelId, String userId) {
+          started.add('$channelId:$userId');
+        },
+        onTypingPersona:
+            (
+              String channelId,
+              String userId,
+              MessageSubprofileResponseSchema? persona,
+            ) {
+              personas.add('$channelId:$userId:${persona?.id ?? 'account'}');
+            },
+      );
+      await handler.handle(
+        TypingStartEvent(
+          channelId: 'c1',
+          userId: 'u1',
+          timestamp: DateTime.utc(2026, 10, 17),
+          subprofile: subprofile,
+        ),
+      );
+      return (started, personas);
+    }
+
+    test('upstream gets the typer, the fork gets the persona', () async {
+      final (List<String> started, List<String> personas) = await typingCalls(
+        ruby,
+      );
+      expect(started, <String>['c1:u1']);
+      expect(personas, <String>['c1:u1:persona-1']);
+    });
+
+    test('typing as the account reports no persona', () async {
+      final (List<String> started, List<String> personas) = await typingCalls(
+        null,
+      );
+      expect(started, <String>['c1:u1']);
+      expect(personas, <String>['c1:u1:account']);
+    });
   });
 }
