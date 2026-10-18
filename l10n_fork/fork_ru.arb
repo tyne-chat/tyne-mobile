@@ -120,5 +120,13 @@
     "personaPickerChannelOnly": "Только для этого канала",
     "personaProfilePrivate": "Профиль этой персоны приватный.",
     "imageFileTooLargeMaxSize": "Файл изображения слишком большой. Пожалуйста, выберите файл размером менее {maxSize}.",
-    "gifPickerSearchKlipyBrand": "Поиск KLIPY"
+    "gifPickerSearchKlipyBrand": "Поиск KLIPY",
+    "appUpdateDownloadFailed": "Не удалось скачать обновление",
+    "personaChangeMessageFailed": "Не удалось изменить персону сообщения",
+    "personaActiveCleared": "Активная персона сброшена",
+    "klipyPoweredBy": "При поддержке KLIPY",
+    "personaTagPairDuplicate": "Пара тегов «{pattern}» уже есть у этой персоны",
+    "personaAddTagPair": "Добавить пару тегов ({count}/5)",
+    "personaTagExampleText": "текст",
+    "personaPreviewNameFallback": "Пользователь"
 }
