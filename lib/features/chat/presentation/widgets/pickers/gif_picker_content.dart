@@ -41,6 +41,11 @@ import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_dart/export.dart' as sdk;
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/fork_klipy_gif_picker_header.dart';
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+
 const _kSearchDebounce = Duration(milliseconds: 400);
 const _kMaxSearchLength = 100;
 const _kMasonryMinColumnWidth = 227.0;
@@ -287,7 +292,10 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
       color: context.colors.chatInputBackground,
       child: Column(
         children: [
-          _buildHeader(context, provider),
+          ForkKlipyGifPickerHeader(
+            provider: provider,
+            child: _buildHeader(context, provider),
+          ),
           Expanded(child: _buildBody(context, locale)),
         ],
       ),
@@ -337,7 +345,7 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
       PickerSearchInput(
         controller: _searchController,
         hintText: switch (provider) {
-          GifProviderKind.klipy => l10n.gifPickerSearchKlipy,
+          GifProviderKind.klipy => l10n.fork.gifPickerSearchKlipyBrand,
           GifProviderKind.tenor => l10n.gifPickerSearchTenor,
           null => l10n.gifPickerSearch,
         },
