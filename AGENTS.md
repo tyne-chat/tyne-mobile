@@ -122,12 +122,21 @@ or `@generated` means a tool rewrites it.
 ## Translations
 
 New user-facing strings go into the fork catalogues, with real, idiomatic translations in every
-language (aligned with the web app's fork catalogue where the same string exists):
+language (aligned with the web app's fork catalogue where the same string exists). Never write
+user-facing text as a plain string, not even a toast, an error message, a tooltip or a fallback
+"for now": add the key and its translations in the same change. Untranslated strings that slipped in
+are the reason for step 5's lint.
 
 1. Add the string to `l10n_fork/fork_en.arb` and to every other `l10n_fork/fork_*.arb`.
 2. Run `bash tool/fork_l10n.sh`.
 3. Use it as `l10n.fork.someKey` (import `package:fluxer_app/l10n_fork/fork_localizations_x.dart`).
 4. `flutter test test/l10n_fork` must pass.
+5. `dart run tool/fork_string_lint.dart` must pass. It reports string literals on the fork's lines in
+   places people read them (`Text(...)`, named arguments such as `label:`, `message:` or
+   `errorMessage:`, toasts and error dialogs), which step 4 cannot see because they never reach a
+   catalogue. A literal that really is not translated (a brand name, a process name, a debug
+   screen) gets `// i18n-ignore: <reason>` on its line or the line above. It follows no variables:
+   text built in one place and shown in another still needs your eye.
 
 Never edit upstream's catalogues (`lib/l10n/*.arb`, `lib/l10n/generated/`). Details in
 `l10n_fork/README.md`.
@@ -194,6 +203,8 @@ project pins and Rust (for the markdown package); the maintainers run them in a 
 (cd dart_sdk && dart test test/serialization/model_roundtrip_test.dart test/serialization/fork_model_roundtrip_test.dart)
 # Upstream's code carries warnings and infos, so only errors fail here (as in tool/flutter_analyze.sh).
 flutter analyze lib test --no-fatal-warnings --no-fatal-infos
+# No hard-coded user-facing strings on the fork's lines.
+dart run tool/fork_string_lint.dart --upstream upstream/canary
 flutter test test/l10n_fork test/core test/features/chat test/features/profile test/features/quick_switcher test/features/ui/bottom_sheet test/features/ui/input test/features/settings/presentation/widgets/user_persona_settings_test.dart test/features/emoji/presentation/sheets/emoji_info_bottom_sheet_test.dart
 ```
 
