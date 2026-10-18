@@ -419,6 +419,9 @@ class ForkLocalizationsEn extends ForkLocalizations {
   String imageFileTooLargeMaxSize(String maxSize) {
     return 'Image file is too large. Please choose a file smaller than $maxSize.';
   }
+
+  @override
+  String get gifPickerSearchKlipyBrand => 'Search KLIPY';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -836,6 +839,9 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   String imageFileTooLargeMaxSize(String maxSize) {
     return 'Image file is too large. Please choose a file smaller than $maxSize.';
   }
+
+  @override
+  String get gifPickerSearchKlipyBrand => 'Search KLIPY';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -1253,4 +1259,7 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
   String imageFileTooLargeMaxSize(String maxSize) {
     return 'Image file is too large. Please choose a file smaller than $maxSize.';
   }
+
+  @override
+  String get gifPickerSearchKlipyBrand => 'Search KLIPY';
 }
