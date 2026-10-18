@@ -24,6 +24,13 @@ or `GEMINI.md` to the repository: both tools read this file.
   that apply here too. All issues live on `tyne-chat/tyne`.
 - iOS builds run in GitHub Actions and ship through TestFlight.
 
+## Architecture and folder guides
+
+`ARCHITECTURE.md` describes how the app is put together (layers, start-up, state, the main flows, where
+the fork plugs in) and lists the folders that have an `AGENTS.md` of their own. Read it before a change
+that crosses folders, and read a folder's `AGENTS.md` before changing code under it: some tools load it
+only when they open a file there, others never do. Keep both up to date as you would this file.
+
 ## Keep fork changes out of upstream's way
 
 The fork is rebased onto upstream every night, and upstream restructures whole areas in a day. Every
@@ -157,10 +164,11 @@ Their regression tests (`test/features/chat/presentation/widgets/messages/messag
 them after touching this code, and add one when fixing a new case.
 
 **Android keyboard (IME) insets.** Insets can go stale when the window loses and regains focus,
-leaving the composer misplaced. The handling is split between
-`android/app/src/main/kotlin/com/fluxer/MainActivity.kt` and
-`lib/features/chat/presentation/widgets/pickers/chat_composer_column.dart`; change them together.
-Unit tests cannot confirm it.
+leaving the composer raised over a blank band. The fork's fix is in
+`android/app/src/main/kotlin/com/fluxer/MainActivity.kt`, which replays the window insets when the
+window regains focus. The Dart side is upstream's: `ChatComposerColumn` re-syncs the keyboard metrics on
+resume, and `MobileKeyboardMetrics` and `BottomInputSlot` resolve the space under the composer (see
+`lib/features/chat/AGENTS.md`). Unit tests cannot confirm it.
 
 UI behaviour is verified on a device or emulator by a maintainer. Until then, describe such a change
 as untested on device.
