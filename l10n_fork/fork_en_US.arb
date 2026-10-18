@@ -120,5 +120,13 @@
     "personaPickerChannelOnly": "Only for this channel",
     "personaProfilePrivate": "This persona’s profile is private.",
     "imageFileTooLargeMaxSize": "Image file is too large. Please choose a file smaller than {maxSize}.",
-    "gifPickerSearchKlipyBrand": "Search KLIPY"
+    "gifPickerSearchKlipyBrand": "Search KLIPY",
+    "appUpdateDownloadFailed": "Failed to download update",
+    "personaChangeMessageFailed": "Failed to change message persona",
+    "personaActiveCleared": "Active persona cleared",
+    "klipyPoweredBy": "Powered by KLIPY",
+    "personaTagPairDuplicate": "Duplicate tag pair '{pattern}' on this persona",
+    "personaAddTagPair": "Add Tag Pair ({count}/5)",
+    "personaTagExampleText": "text",
+    "personaPreviewNameFallback": "User"
 }

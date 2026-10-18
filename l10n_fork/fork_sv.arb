@@ -120,5 +120,13 @@
     "personaPickerChannelOnly": "Endast för den här kanalen",
     "personaProfilePrivate": "Den här personans profil är privat.",
     "imageFileTooLargeMaxSize": "Bildfilen är för stor. Välj en fil som är mindre än {maxSize}.",
-    "gifPickerSearchKlipyBrand": "Sök KLIPY"
+    "gifPickerSearchKlipyBrand": "Sök KLIPY",
+    "appUpdateDownloadFailed": "Det gick inte att ladda ned uppdateringen",
+    "personaChangeMessageFailed": "Det gick inte att ändra meddelandets persona",
+    "personaActiveCleared": "Aktiv persona rensad",
+    "klipyPoweredBy": "Drivs av KLIPY",
+    "personaTagPairDuplicate": "Dubblett av taggparet '{pattern}' på denna persona",
+    "personaAddTagPair": "Lägg till taggpar ({count}/5)",
+    "personaTagExampleText": "text",
+    "personaPreviewNameFallback": "Användare"
 }

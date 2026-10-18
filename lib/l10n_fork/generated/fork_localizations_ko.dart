@@ -414,4 +414,32 @@ class ForkLocalizationsKo extends ForkLocalizations {
 
   @override
   String get gifPickerSearchKlipyBrand => 'KLIPY 검색';
+
+  @override
+  String get appUpdateDownloadFailed => '업데이트를 다운로드하지 못했어요';
+
+  @override
+  String get personaChangeMessageFailed => '메시지의 페르소나를 변경하지 못했어요';
+
+  @override
+  String get personaActiveCleared => '활성 페르소나가 해제됐어요';
+
+  @override
+  String get klipyPoweredBy => 'KLIPY 제공';
+
+  @override
+  String personaTagPairDuplicate(String pattern) {
+    return '이 페르소나에 태그 쌍 \'$pattern\'이(가) 중복돼요';
+  }
+
+  @override
+  String personaAddTagPair(int count) {
+    return '태그 쌍 추가 ($count/5)';
+  }
+
+  @override
+  String get personaTagExampleText => '텍스트';
+
+  @override
+  String get personaPreviewNameFallback => '사용자';
 }
