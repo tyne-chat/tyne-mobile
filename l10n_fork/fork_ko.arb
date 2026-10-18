@@ -120,5 +120,13 @@
     "personaPickerChannelOnly": "이 채널에서만",
     "personaProfilePrivate": "이 페르소나의 프로필은 비공개입니다.",
     "imageFileTooLargeMaxSize": "이미지 파일이 너무 큽니다. {maxSize} 미만의 파일을 선택하세요.",
-    "gifPickerSearchKlipyBrand": "KLIPY 검색"
+    "gifPickerSearchKlipyBrand": "KLIPY 검색",
+    "appUpdateDownloadFailed": "업데이트를 다운로드하지 못했어요",
+    "personaChangeMessageFailed": "메시지의 페르소나를 변경하지 못했어요",
+    "personaActiveCleared": "활성 페르소나가 해제됐어요",
+    "klipyPoweredBy": "KLIPY 제공",
+    "personaTagPairDuplicate": "이 페르소나에 태그 쌍 '{pattern}'이(가) 중복돼요",
+    "personaAddTagPair": "태그 쌍 추가 ({count}/5)",
+    "personaTagExampleText": "텍스트",
+    "personaPreviewNameFallback": "사용자"
 }
