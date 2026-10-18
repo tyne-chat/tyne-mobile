@@ -886,6 +886,12 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'Image file is too large. Please choose a file smaller than {maxSize}.'**
   String imageFileTooLargeMaxSize(String maxSize);
+
+  /// Placeholder of the GIF picker search box when GIFs come from KLIPY. KLIPY's attribution guidelines require the brand name in capitals.
+  ///
+  /// In en, this message translates to:
+  /// **'Search KLIPY'**
+  String get gifPickerSearchKlipyBrand;
 }
 
 class _ForkLocalizationsDelegate
