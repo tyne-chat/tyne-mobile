@@ -892,6 +892,54 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'Search KLIPY'**
   String get gifPickerSearchKlipyBrand;
+
+  /// Shown in the in-app updater when downloading the new version fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to download update'**
+  String get appUpdateDownloadFailed;
+
+  /// Error when changing which persona a sent message is from fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to change message persona'**
+  String get personaChangeMessageFailed;
+
+  /// Toast after the backslash command clears the active persona.
+  ///
+  /// In en, this message translates to:
+  /// **'Active persona cleared'**
+  String get personaActiveCleared;
+
+  /// Accessible name of the KLIPY attribution mark in the GIF picker. KLIPY is a brand name, in capitals.
+  ///
+  /// In en, this message translates to:
+  /// **'Powered by KLIPY'**
+  String get klipyPoweredBy;
+
+  /// Toast when saving a persona that lists the same tag pair twice; {pattern} shows the pair, such as a:text.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate tag pair \'{pattern}\' on this persona'**
+  String personaTagPairDuplicate(String pattern);
+
+  /// Button that adds a tag pair to a persona, with how many it has out of the maximum of five.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Tag Pair ({count}/5)'**
+  String personaAddTagPair(int count);
+
+  /// Stands for the message text between a tag pair's prefix and suffix inputs, as in a:text.
+  ///
+  /// In en, this message translates to:
+  /// **'text'**
+  String get personaTagExampleText;
+
+  /// Name in the display tag preview when neither a persona nor the account has a name to show.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get personaPreviewNameFallback;
 }
 
 class _ForkLocalizationsDelegate

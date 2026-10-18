@@ -292,7 +292,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
         activePersona?.name ??
         currentUser?.globalName ??
         currentUser?.username ??
-        'User';
+        l10n.fork.personaPreviewNameFallback;
     final String? rawPreviewAvatar = activePersona?.avatarHash;
     final String? previewAvatar =
         (rawPreviewAvatar != null && rawPreviewAvatar.isNotEmpty)
@@ -529,7 +529,11 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                                   ],
                                   SizedBox(width: layout.s2),
                                   Text(
-                                    '12:00 PM',
+                                    MaterialLocalizations.of(
+                                      context,
+                                    ).formatTimeOfDay(
+                                      const TimeOfDay(hour: 12, minute: 0),
+                                    ),
                                     style: textStyles.smallText.copyWith(
                                       color: colors.textPrimaryMuted,
                                     ),
@@ -784,7 +788,9 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                         crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
                           for (final tag in persona.personaTags)
-                            if (tag.displayPattern.isNotEmpty)
+                            if (tag
+                                .displayPattern(l10n.fork.personaTagExampleText)
+                                .isNotEmpty)
                               Container(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 6,
@@ -795,7 +801,9 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Text(
-                                  tag.displayPattern,
+                                  tag.displayPattern(
+                                    l10n.fork.personaTagExampleText,
+                                  ),
                                   style: textStyles.smallText.copyWith(
                                     color: colors.textSecondary,
                                     fontSize: 11,

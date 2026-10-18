@@ -120,5 +120,13 @@
     "personaPickerChannelOnly": "Μόνο για αυτό το κανάλι",
     "personaProfilePrivate": "Το προφίλ αυτής της persona είναι ιδιωτικό.",
     "imageFileTooLargeMaxSize": "Το αρχείο εικόνας είναι πολύ μεγάλο. Επιλέξτε ένα αρχείο μικρότερο από {maxSize}.",
-    "gifPickerSearchKlipyBrand": "Αναζήτηση KLIPY"
+    "gifPickerSearchKlipyBrand": "Αναζήτηση KLIPY",
+    "appUpdateDownloadFailed": "Η λήψη της ενημέρωσης απέτυχε",
+    "personaChangeMessageFailed": "Η αλλαγή της persona του μηνύματος απέτυχε",
+    "personaActiveCleared": "Η ενεργή persona καταργήθηκε",
+    "klipyPoweredBy": "Με την υποστήριξη του KLIPY",
+    "personaTagPairDuplicate": "Διπλό ζεύγος ετικετών '{pattern}' σε αυτήν την persona",
+    "personaAddTagPair": "Προσθήκη ζεύγους ετικετών ({count}/5)",
+    "personaTagExampleText": "κείμενο",
+    "personaPreviewNameFallback": "Χρήστης"
 }
