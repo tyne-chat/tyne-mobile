@@ -120,5 +120,13 @@
     "personaPickerChannelOnly": "Alleen voor dit kanaal",
     "personaProfilePrivate": "Het profiel van deze persona is privé.",
     "imageFileTooLargeMaxSize": "Bestand te groot. Kies een bestand van minder dan {maxSize}.",
-    "gifPickerSearchKlipyBrand": "Zoek KLIPY"
+    "gifPickerSearchKlipyBrand": "Zoek KLIPY",
+    "appUpdateDownloadFailed": "Update downloaden mislukt",
+    "personaChangeMessageFailed": "Persona van bericht wijzigen mislukt",
+    "personaActiveCleared": "Actieve persona gewist",
+    "klipyPoweredBy": "Mogelijk gemaakt door KLIPY",
+    "personaTagPairDuplicate": "Dubbel tagpaar '{pattern}' bij deze persona",
+    "personaAddTagPair": "Tagpaar toevoegen ({count}/5)",
+    "personaTagExampleText": "tekst",
+    "personaPreviewNameFallback": "Gebruiker"
 }
