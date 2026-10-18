@@ -422,4 +422,33 @@ class ForkLocalizationsTh extends ForkLocalizations {
 
   @override
   String get gifPickerSearchKlipyBrand => 'ค้นหา KLIPY';
+
+  @override
+  String get appUpdateDownloadFailed => 'ดาวน์โหลดอัปเดตไม่สำเร็จ';
+
+  @override
+  String get personaChangeMessageFailed =>
+      'เปลี่ยน Persona ของข้อความไม่สำเร็จ';
+
+  @override
+  String get personaActiveCleared => 'ล้าง Persona ที่ใช้งานอยู่แล้ว';
+
+  @override
+  String get klipyPoweredBy => 'ขับเคลื่อนโดย KLIPY';
+
+  @override
+  String personaTagPairDuplicate(String pattern) {
+    return 'คู่แท็ก \'$pattern\' ซ้ำใน Persona นี้';
+  }
+
+  @override
+  String personaAddTagPair(int count) {
+    return 'เพิ่มคู่แท็ก ($count/5)';
+  }
+
+  @override
+  String get personaTagExampleText => 'ข้อความ';
+
+  @override
+  String get personaPreviewNameFallback => 'ผู้ใช้';
 }

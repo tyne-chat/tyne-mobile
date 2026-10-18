@@ -1028,6 +1028,7 @@ class MessageRepository {
       final MessageResponseSchema schema = MessageResponseSchema.fromJson(data);
       return await _persistSdkMessage(channelId: channelId, schema: schema);
     } on DioException catch (e) {
+      // i18n-ignore: only logged; changeMessagePersona shows personaChangeMessageFailed.
       throw Exception(userFacingErrorMessage(e, 'Failed to change persona'));
     }
   }
