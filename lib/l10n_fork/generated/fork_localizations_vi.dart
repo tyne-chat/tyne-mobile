@@ -424,4 +424,33 @@ class ForkLocalizationsVi extends ForkLocalizations {
 
   @override
   String get gifPickerSearchKlipyBrand => 'Tìm kiếm KLIPY';
+
+  @override
+  String get appUpdateDownloadFailed => 'Không tải được bản cập nhật';
+
+  @override
+  String get personaChangeMessageFailed =>
+      'Không đổi được persona của tin nhắn';
+
+  @override
+  String get personaActiveCleared => 'Đã xóa persona đang hoạt động';
+
+  @override
+  String get klipyPoweredBy => 'Được cung cấp bởi KLIPY';
+
+  @override
+  String personaTagPairDuplicate(String pattern) {
+    return 'Cặp thẻ \'$pattern\' bị trùng trên persona này';
+  }
+
+  @override
+  String personaAddTagPair(int count) {
+    return 'Thêm cặp thẻ ($count/5)';
+  }
+
+  @override
+  String get personaTagExampleText => 'văn bản';
+
+  @override
+  String get personaPreviewNameFallback => 'Người dùng';
 }

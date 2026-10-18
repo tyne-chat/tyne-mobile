@@ -120,5 +120,13 @@
     "personaPickerChannelOnly": "केवल इस चैनल के लिए",
     "personaProfilePrivate": "इस परसोना की प्रोफ़ाइल निजी है।",
     "imageFileTooLargeMaxSize": "छवि फ़ाइल बहुत बड़ी है। कृपया {maxSize} से छोटी फ़ाइल चुनें।",
-    "gifPickerSearchKlipyBrand": "KLIPY खोजें"
+    "gifPickerSearchKlipyBrand": "KLIPY खोजें",
+    "appUpdateDownloadFailed": "अपडेट डाउनलोड नहीं हो सका",
+    "personaChangeMessageFailed": "संदेश का परसोना बदला नहीं जा सका",
+    "personaActiveCleared": "सक्रिय परसोना हटा दिया गया",
+    "klipyPoweredBy": "KLIPY द्वारा संचालित",
+    "personaTagPairDuplicate": "इस परसोना पर टैग जोड़ी '{pattern}' दोहराई गई है",
+    "personaAddTagPair": "टैग जोड़ी जोड़ें ({count}/5)",
+    "personaTagExampleText": "टेक्स्ट",
+    "personaPreviewNameFallback": "उपयोगकर्ता"
 }
