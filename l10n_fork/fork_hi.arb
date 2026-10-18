@@ -119,5 +119,6 @@
     "personaScopeChannelDescription": "हर चैनल अपना परसोना रखता है। नए चैनल आपके अकाउंट से शुरू होते हैं।",
     "personaPickerChannelOnly": "केवल इस चैनल के लिए",
     "personaProfilePrivate": "इस परसोना की प्रोफ़ाइल निजी है।",
-    "imageFileTooLargeMaxSize": "छवि फ़ाइल बहुत बड़ी है। कृपया {maxSize} से छोटी फ़ाइल चुनें।"
+    "imageFileTooLargeMaxSize": "छवि फ़ाइल बहुत बड़ी है। कृपया {maxSize} से छोटी फ़ाइल चुनें।",
+    "gifPickerSearchKlipyBrand": "KLIPY खोजें"
 }
