@@ -119,5 +119,6 @@
     "personaScopeChannelDescription": "كل قناة تحتفظ بشخصيتها الخاصة. القنوات الجديدة تبدأ بحسابك.",
     "personaPickerChannelOnly": "لهذه القناة فقط",
     "personaProfilePrivate": "الملف الشخصي لهذه الشخصية خاص.",
-    "imageFileTooLargeMaxSize": "ملف الصورة كبير جدًا. يرجى اختيار ملف أصغر من {maxSize}."
+    "imageFileTooLargeMaxSize": "ملف الصورة كبير جدًا. يرجى اختيار ملف أصغر من {maxSize}.",
+    "gifPickerSearchKlipyBrand": "ابحث في KLIPY"
 }
