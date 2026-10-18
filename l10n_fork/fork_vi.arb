@@ -120,5 +120,13 @@
     "personaPickerChannelOnly": "Chỉ cho kênh này",
     "personaProfilePrivate": "Hồ sơ của persona này ở chế độ riêng tư.",
     "imageFileTooLargeMaxSize": "Tệp ảnh quá lớn. Vui lòng chọn tệp có dung lượng nhỏ hơn {maxSize}.",
-    "gifPickerSearchKlipyBrand": "Tìm kiếm KLIPY"
+    "gifPickerSearchKlipyBrand": "Tìm kiếm KLIPY",
+    "appUpdateDownloadFailed": "Không tải được bản cập nhật",
+    "personaChangeMessageFailed": "Không đổi được persona của tin nhắn",
+    "personaActiveCleared": "Đã xóa persona đang hoạt động",
+    "klipyPoweredBy": "Được cung cấp bởi KLIPY",
+    "personaTagPairDuplicate": "Cặp thẻ '{pattern}' bị trùng trên persona này",
+    "personaAddTagPair": "Thêm cặp thẻ ({count}/5)",
+    "personaTagExampleText": "văn bản",
+    "personaPreviewNameFallback": "Người dùng"
 }
