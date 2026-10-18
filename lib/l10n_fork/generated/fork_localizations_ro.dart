@@ -425,4 +425,33 @@ class ForkLocalizationsRo extends ForkLocalizations {
 
   @override
   String get gifPickerSearchKlipyBrand => 'Caută în KLIPY';
+
+  @override
+  String get appUpdateDownloadFailed => 'Actualizarea nu a putut fi descărcată';
+
+  @override
+  String get personaChangeMessageFailed =>
+      'Persona mesajului nu a putut fi schimbată';
+
+  @override
+  String get personaActiveCleared => 'Persona activă a fost eliminată';
+
+  @override
+  String get klipyPoweredBy => 'Oferit de KLIPY';
+
+  @override
+  String personaTagPairDuplicate(String pattern) {
+    return 'Pereche de etichete \'$pattern\' duplicată la această persona';
+  }
+
+  @override
+  String personaAddTagPair(int count) {
+    return 'Adaugă pereche de etichete ($count/5)';
+  }
+
+  @override
+  String get personaTagExampleText => 'text';
+
+  @override
+  String get personaPreviewNameFallback => 'Utilizator';
 }
