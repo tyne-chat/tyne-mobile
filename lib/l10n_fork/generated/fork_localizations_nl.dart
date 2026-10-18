@@ -421,4 +421,7 @@ class ForkLocalizationsNl extends ForkLocalizations {
   String imageFileTooLargeMaxSize(String maxSize) {
     return 'Bestand te groot. Kies een bestand van minder dan $maxSize.';
   }
+
+  @override
+  String get gifPickerSearchKlipyBrand => 'Zoek KLIPY';
 }

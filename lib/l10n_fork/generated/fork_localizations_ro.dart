@@ -422,4 +422,7 @@ class ForkLocalizationsRo extends ForkLocalizations {
   String imageFileTooLargeMaxSize(String maxSize) {
     return 'Fișierul imagine este prea mare. Alege un fișier mai mic de $maxSize.';
   }
+
+  @override
+  String get gifPickerSearchKlipyBrand => 'Caută în KLIPY';
 }
