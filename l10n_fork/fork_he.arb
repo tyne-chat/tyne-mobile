@@ -120,5 +120,13 @@
     "personaPickerChannelOnly": "רק לערוץ הזה",
     "personaProfilePrivate": "הפרופיל של הפרסונה הזו פרטי.",
     "imageFileTooLargeMaxSize": "קובץ התמונה גדול מדי. בחר קובץ שגודלו קטן מ-{maxSize}.",
-    "gifPickerSearchKlipyBrand": "חפש ב-KLIPY"
+    "gifPickerSearchKlipyBrand": "חפש ב-KLIPY",
+    "appUpdateDownloadFailed": "הורדת העדכון נכשלה",
+    "personaChangeMessageFailed": "שינוי הפרסונה של ההודעה נכשל",
+    "personaActiveCleared": "הפרסונה הפעילה נוקתה",
+    "klipyPoweredBy": "מופעל על ידי KLIPY",
+    "personaTagPairDuplicate": "זוג התגיות '{pattern}' כפול בפרסונה זו",
+    "personaAddTagPair": "הוספת זוג תגיות ({count}/5)",
+    "personaTagExampleText": "טקסט",
+    "personaPreviewNameFallback": "משתמש"
 }
