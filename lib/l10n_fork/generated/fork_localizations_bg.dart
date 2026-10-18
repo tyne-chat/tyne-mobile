@@ -423,4 +423,7 @@ class ForkLocalizationsBg extends ForkLocalizations {
   String imageFileTooLargeMaxSize(String maxSize) {
     return 'Файлът с изображение е твърде голям. Моля, изберете файл, по-малък от $maxSize.';
   }
+
+  @override
+  String get gifPickerSearchKlipyBrand => 'Търсене в KLIPY';
 }

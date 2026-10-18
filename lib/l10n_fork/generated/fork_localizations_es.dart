@@ -426,6 +426,9 @@ class ForkLocalizationsEs extends ForkLocalizations {
   String imageFileTooLargeMaxSize(String maxSize) {
     return 'El archivo de imagen es demasiado grande. Por favor, elige un archivo de menos de $maxSize.';
   }
+
+  @override
+  String get gifPickerSearchKlipyBrand => 'Buscar en KLIPY';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -850,4 +853,7 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
   String imageFileTooLargeMaxSize(String maxSize) {
     return 'El archivo de imagen es demasiado grande. Por favor, elige un archivo inferior a $maxSize.';
   }
+
+  @override
+  String get gifPickerSearchKlipyBrand => 'Buscar KLIPY';
 }

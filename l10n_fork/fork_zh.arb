@@ -119,5 +119,6 @@
     "personaScopeChannelDescription": "每个频道保留各自的人格。新频道以你的账户开始。",
     "personaPickerChannelOnly": "仅限此频道",
     "personaProfilePrivate": "此人格的个人资料为私密。",
-    "imageFileTooLargeMaxSize": "图片文件过大。请选择小于 {maxSize} 的文件。"
+    "imageFileTooLargeMaxSize": "图片文件过大。请选择小于 {maxSize} 的文件。",
+    "gifPickerSearchKlipyBrand": "搜索 KLIPY"
 }
