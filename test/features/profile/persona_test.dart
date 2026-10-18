@@ -21,16 +21,16 @@ void main() {
 
     test('displayPattern formats correctly', () {
       const tagBoth = PersonaTag(prefix: '[', suffix: ']');
-      expect(tagBoth.displayPattern, '[text]');
+      expect(tagBoth.displayPattern('text'), '[text]');
 
       const tagPrefixOnly = PersonaTag(prefix: 'A:');
-      expect(tagPrefixOnly.displayPattern, 'A:text');
+      expect(tagPrefixOnly.displayPattern('text'), 'A:text');
 
       const tagSuffixOnly = PersonaTag(suffix: '-B');
-      expect(tagSuffixOnly.displayPattern, 'text-B');
+      expect(tagSuffixOnly.displayPattern('text'), 'text-B');
 
       const tagEmpty = PersonaTag();
-      expect(tagEmpty.displayPattern, '');
+      expect(tagEmpty.displayPattern('text'), '');
     });
   });
 

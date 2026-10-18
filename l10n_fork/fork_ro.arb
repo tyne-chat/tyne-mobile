@@ -120,5 +120,13 @@
     "personaPickerChannelOnly": "Doar pentru acest canal",
     "personaProfilePrivate": "Profilul acestei persona este privat.",
     "imageFileTooLargeMaxSize": "Fișierul imagine este prea mare. Alege un fișier mai mic de {maxSize}.",
-    "gifPickerSearchKlipyBrand": "Caută în KLIPY"
+    "gifPickerSearchKlipyBrand": "Caută în KLIPY",
+    "appUpdateDownloadFailed": "Actualizarea nu a putut fi descărcată",
+    "personaChangeMessageFailed": "Persona mesajului nu a putut fi schimbată",
+    "personaActiveCleared": "Persona activă a fost eliminată",
+    "klipyPoweredBy": "Oferit de KLIPY",
+    "personaTagPairDuplicate": "Pereche de etichete '{pattern}' duplicată la această persona",
+    "personaAddTagPair": "Adaugă pereche de etichete ({count}/5)",
+    "personaTagExampleText": "text",
+    "personaPreviewNameFallback": "Utilizator"
 }
