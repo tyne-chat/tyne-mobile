@@ -120,5 +120,13 @@
     "personaPickerChannelOnly": "Solo para este canal",
     "personaProfilePrivate": "El perfil de esta persona es privado.",
     "imageFileTooLargeMaxSize": "El archivo de imagen es demasiado grande. Por favor, elige un archivo inferior a {maxSize}.",
-    "gifPickerSearchKlipyBrand": "Buscar KLIPY"
+    "gifPickerSearchKlipyBrand": "Buscar KLIPY",
+    "appUpdateDownloadFailed": "No se pudo descargar la actualización",
+    "personaChangeMessageFailed": "No se pudo cambiar la persona del mensaje",
+    "personaActiveCleared": "Persona activa quitada",
+    "klipyPoweredBy": "Con la tecnología de KLIPY",
+    "personaTagPairDuplicate": "Par de etiquetas '{pattern}' duplicado en esta persona",
+    "personaAddTagPair": "Agregar par de etiquetas ({count}/5)",
+    "personaTagExampleText": "texto",
+    "personaPreviewNameFallback": "Usuario"
 }

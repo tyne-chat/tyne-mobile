@@ -425,4 +425,33 @@ class ForkLocalizationsFi extends ForkLocalizations {
 
   @override
   String get gifPickerSearchKlipyBrand => 'Hae KLIPYstä';
+
+  @override
+  String get appUpdateDownloadFailed => 'Päivityksen lataaminen epäonnistui';
+
+  @override
+  String get personaChangeMessageFailed =>
+      'Viestin persoonan vaihtaminen epäonnistui';
+
+  @override
+  String get personaActiveCleared => 'Aktiivinen persoona poistettu';
+
+  @override
+  String get klipyPoweredBy => 'Palvelun tarjoaa KLIPY';
+
+  @override
+  String personaTagPairDuplicate(String pattern) {
+    return 'Tunnistepari \'$pattern\' on jo tällä persoonalla';
+  }
+
+  @override
+  String personaAddTagPair(int count) {
+    return 'Lisää tunnistepari ($count/5)';
+  }
+
+  @override
+  String get personaTagExampleText => 'teksti';
+
+  @override
+  String get personaPreviewNameFallback => 'Käyttäjä';
 }
