@@ -112,7 +112,9 @@ or `@generated` means a tool rewrites it.
 - **Localisation output** (`lib/l10n/generated/`, `lib/l10n_fork/generated/`): see "Translations".
 - **Synced preferences** (`lib/core/synced_preferences/generated/`): generated from the `.proto`
   files next to them in `lib/core/synced_preferences/proto/`, with the exact protobuf plugin version
-  upstream uses, so the output for upstream's files stays byte-identical to upstream's.
+  upstream uses, so the output for upstream's files stays byte-identical to upstream's. Each field in
+  their fork blocks matches the server's (`packages/schema/proto/` in tyne) in name, number and type,
+  by hand; nothing checks it (`lib/core/synced_preferences/AGENTS.md`).
 - In a merge or rebase conflict on a generated file, take upstream's version and regenerate.
 - Say in the commit or summary which generator ran. "I edited the model" is never a valid
   description of a change under `dart_sdk/lib/models`.
@@ -164,11 +166,9 @@ Their regression tests (`test/features/chat/presentation/widgets/messages/messag
 them after touching this code, and add one when fixing a new case.
 
 **Android keyboard (IME) insets.** Insets can go stale when the window loses and regains focus,
-leaving the composer raised over a blank band. The fork's fix is in
-`android/app/src/main/kotlin/com/fluxer/MainActivity.kt`, which replays the window insets when the
-window regains focus. The Dart side is upstream's: `ChatComposerColumn` re-syncs the keyboard metrics on
-resume, and `MobileKeyboardMetrics` and `BottomInputSlot` resolve the space under the composer (see
-`lib/features/chat/AGENTS.md`). Unit tests cannot confirm it.
+leaving the composer raised over a blank band. The fork's fix is in `MainActivity.kt`, which replays
+the window insets when the window regains focus (`android/AGENTS.md`); the Dart side is upstream's
+(`lib/features/chat/AGENTS.md`). Unit tests cannot confirm it.
 
 UI behaviour is verified on a device or emulator by a maintainer. Until then, describe such a change
 as untested on device.
