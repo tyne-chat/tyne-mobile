@@ -573,5 +573,49 @@
     "gifPickerSearchKlipyBrand": "Search KLIPY",
     "@gifPickerSearchKlipyBrand": {
         "description": "Placeholder of the GIF picker search box when GIFs come from KLIPY. KLIPY's attribution guidelines require the brand name in capitals."
+    },
+    "appUpdateDownloadFailed": "Failed to download update",
+    "@appUpdateDownloadFailed": {
+        "description": "Shown in the in-app updater when downloading the new version fails."
+    },
+    "personaChangeMessageFailed": "Failed to change message persona",
+    "@personaChangeMessageFailed": {
+        "description": "Error when changing which persona a sent message is from fails."
+    },
+    "personaActiveCleared": "Active persona cleared",
+    "@personaActiveCleared": {
+        "description": "Toast after the backslash command clears the active persona."
+    },
+    "klipyPoweredBy": "Powered by KLIPY",
+    "@klipyPoweredBy": {
+        "description": "Accessible name of the KLIPY attribution mark in the GIF picker. KLIPY is a brand name, in capitals."
+    },
+    "personaTagPairDuplicate": "Duplicate tag pair '{pattern}' on this persona",
+    "@personaTagPairDuplicate": {
+        "description": "Toast when saving a persona that lists the same tag pair twice; {pattern} shows the pair, such as a:text.",
+        "placeholders": {
+            "pattern": {
+                "type": "String",
+                "example": "a:text"
+            }
+        }
+    },
+    "personaAddTagPair": "Add Tag Pair ({count}/5)",
+    "@personaAddTagPair": {
+        "description": "Button that adds a tag pair to a persona, with how many it has out of the maximum of five.",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "personaTagExampleText": "text",
+    "@personaTagExampleText": {
+        "description": "Stands for the message text between a tag pair's prefix and suffix inputs, as in a:text."
+    },
+    "personaPreviewNameFallback": "User",
+    "@personaPreviewNameFallback": {
+        "description": "Name in the display tag preview when neither a persona nor the account has a name to show."
     }
 }
