@@ -119,5 +119,6 @@
     "personaScopeChannelDescription": "Chaque salon conserve son propre persona. Les nouveaux salons commencent avec votre compte.",
     "personaPickerChannelOnly": "Uniquement pour ce salon",
     "personaProfilePrivate": "Le profil de cette persona est privé.",
-    "imageFileTooLargeMaxSize": "Le fichier image est trop volumineux. Veuillez choisir un fichier de moins de {maxSize}."
+    "imageFileTooLargeMaxSize": "Le fichier image est trop volumineux. Veuillez choisir un fichier de moins de {maxSize}.",
+    "gifPickerSearchKlipyBrand": "Rechercher sur KLIPY"
 }
