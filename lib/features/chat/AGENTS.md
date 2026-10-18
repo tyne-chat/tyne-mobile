@@ -78,8 +78,8 @@ froze the panel on the previous conversation.
   attachment panels. `MobileKeyboardMetrics` and `BottomInputSlot` (upstream) resolve its height;
   `ChatComposerColumn` re-syncs the keyboard metrics on resume (upstream). The fork's part is in
   `android/…/MainActivity.kt`, which replays the window insets when the window regains focus because
-  Flutter can lose the last one. Check keyboard changes on a device: keyboard ↔ panels, the
-  notification shade, recents.
+  Flutter can lose the last one (`android/AGENTS.md`). Check keyboard changes on a device: keyboard
+  ↔ panels, the notification shade, recents.
 
 ## Personas in chat
 
