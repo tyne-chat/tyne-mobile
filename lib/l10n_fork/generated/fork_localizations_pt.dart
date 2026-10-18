@@ -424,6 +424,9 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String imageFileTooLargeMaxSize(String maxSize) {
     return 'O arquivo de imagem é muito grande. Por favor, escolha um arquivo menor que $maxSize.';
   }
+
+  @override
+  String get gifPickerSearchKlipyBrand => 'Pesquisar KLIPY';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -846,4 +849,7 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
   String imageFileTooLargeMaxSize(String maxSize) {
     return 'O arquivo de imagem é muito grande. Por favor, escolha um arquivo menor que $maxSize.';
   }
+
+  @override
+  String get gifPickerSearchKlipyBrand => 'Pesquisar KLIPY';
 }
