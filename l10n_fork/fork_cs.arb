@@ -120,5 +120,13 @@
     "personaPickerChannelOnly": "Jen pro tento kanál",
     "personaProfilePrivate": "Profil této persony je soukromý.",
     "imageFileTooLargeMaxSize": "Soubor obrázku je příliš velký. Vyberte soubor menší než {maxSize}.",
-    "gifPickerSearchKlipyBrand": "Hledat KLIPY"
+    "gifPickerSearchKlipyBrand": "Hledat KLIPY",
+    "appUpdateDownloadFailed": "Aktualizaci se nepodařilo stáhnout",
+    "personaChangeMessageFailed": "Personu zprávy se nepodařilo změnit",
+    "personaActiveCleared": "Aktivní persona zrušena",
+    "klipyPoweredBy": "Využívá KLIPY",
+    "personaTagPairDuplicate": "Duplicitní pár značek '{pattern}' u této persony",
+    "personaAddTagPair": "Přidat pár značek ({count}/5)",
+    "personaTagExampleText": "text",
+    "personaPreviewNameFallback": "Uživatel"
 }
