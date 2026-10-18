@@ -412,7 +412,8 @@ class _ColorPickerContentState extends State<_ColorPickerContent> {
             SizedBox(height: layout.s3),
             FluxerButton.secondary(
               onPressed: widget.hasCustomColor ? widget.onReset : null,
-              label: widget.resetLabel ?? 'Reset',
+              label:
+                  widget.resetLabel ?? FluxerLocalizations.of(context).uiReset,
               size: FluxerButtonSize.small,
             ),
           ],
