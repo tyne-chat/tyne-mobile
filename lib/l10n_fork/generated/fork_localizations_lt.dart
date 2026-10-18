@@ -424,4 +424,32 @@ class ForkLocalizationsLt extends ForkLocalizations {
 
   @override
   String get gifPickerSearchKlipyBrand => 'Ieškoti KLIPY';
+
+  @override
+  String get appUpdateDownloadFailed => 'Nepavyko atsisiųsti atnaujinimo';
+
+  @override
+  String get personaChangeMessageFailed => 'Nepavyko pakeisti žinutės personos';
+
+  @override
+  String get personaActiveCleared => 'Aktyvi persona išvalyta';
+
+  @override
+  String get klipyPoweredBy => 'Teikia KLIPY';
+
+  @override
+  String personaTagPairDuplicate(String pattern) {
+    return 'Pasikartojanti žymų pora „$pattern“ šioje personoje';
+  }
+
+  @override
+  String personaAddTagPair(int count) {
+    return 'Pridėti žymų porą ($count/5)';
+  }
+
+  @override
+  String get personaTagExampleText => 'tekstas';
+
+  @override
+  String get personaPreviewNameFallback => 'Naudotojas';
 }

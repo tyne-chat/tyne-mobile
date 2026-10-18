@@ -120,5 +120,13 @@
     "personaPickerChannelOnly": "Tik šiam kanalui",
     "personaProfilePrivate": "Šios personos profilis yra privatus.",
     "imageFileTooLargeMaxSize": "Vaizdo failas yra per didelis. Pasirinkite failą, mažesnį nei {maxSize}.",
-    "gifPickerSearchKlipyBrand": "Ieškoti KLIPY"
+    "gifPickerSearchKlipyBrand": "Ieškoti KLIPY",
+    "appUpdateDownloadFailed": "Nepavyko atsisiųsti atnaujinimo",
+    "personaChangeMessageFailed": "Nepavyko pakeisti žinutės personos",
+    "personaActiveCleared": "Aktyvi persona išvalyta",
+    "klipyPoweredBy": "Teikia KLIPY",
+    "personaTagPairDuplicate": "Pasikartojanti žymų pora „{pattern}“ šioje personoje",
+    "personaAddTagPair": "Pridėti žymų porą ({count}/5)",
+    "personaTagExampleText": "tekstas",
+    "personaPreviewNameFallback": "Naudotojas"
 }

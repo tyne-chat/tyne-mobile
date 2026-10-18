@@ -1,5 +1,8 @@
 {
     "locales": {
+        "cs": [
+            "personaTagExampleText"
+        ],
         "de": [
             "personaSectionTitle",
             "personaTagSuffixLabel",
@@ -43,11 +46,13 @@
         "ro": [
             "personaModeManual",
             "personaSectionTitle",
+            "personaTagExampleText",
             "personaTagPrefixLabel",
             "userSettingsNavPersonas"
         ],
         "sv": [
             "personaSectionTitle",
+            "personaTagExampleText",
             "personaTagPrefixLabel",
             "personaTagSuffixLabel",
             "userSettingsNavPersonas"

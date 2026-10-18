@@ -551,7 +551,9 @@ class _PersonaListTile extends StatelessWidget {
     final layout = context.layout;
 
     final primaryTag = persona.personaTags.isNotEmpty
-        ? persona.personaTags.first.displayPattern
+        ? persona.personaTags.first.displayPattern(
+            FluxerLocalizations.of(context).fork.personaTagExampleText,
+          )
         : null;
 
     return GestureDetector(
