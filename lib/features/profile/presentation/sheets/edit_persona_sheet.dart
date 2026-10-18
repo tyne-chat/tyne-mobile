@@ -604,12 +604,12 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
         final pattern = PersonaTag(
           prefix: tag.prefix.isNotEmpty ? tag.prefix : null,
           suffix: tag.suffix.isNotEmpty ? tag.suffix : null,
-        ).displayPattern;
+        ).displayPattern(l10n.fork.personaTagExampleText);
         ref
             .read(toastProvider.notifier)
             .show(
               FluxerToast(
-                message: "Duplicate tag pair '$pattern' on this persona",
+                message: l10n.fork.personaTagPairDuplicate(pattern),
                 variant: FluxerToastVariant.danger,
               ),
             );
@@ -635,8 +635,11 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
               continue;
             }
             if (otherPrefix == tag.prefix && otherSuffix == tag.suffix) {
-              final tagDisplay = otherTag.displayPattern.isNotEmpty
-                  ? otherTag.displayPattern
+              final String otherPattern = otherTag.displayPattern(
+                l10n.fork.personaTagExampleText,
+              );
+              final tagDisplay = otherPattern.isNotEmpty
+                  ? otherPattern
                   : '${tag.prefix}...${tag.suffix}';
               ref
                   .read(toastProvider.notifier)
@@ -1312,7 +1315,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
                 style: textStyles.label.copyWith(color: colors.textPrimary),
               ),
               FluxerButton.secondary(
-                label: 'Add Tag Pair (${_tagControllers.length}/5)',
+                label: l10n.fork.personaAddTagPair(_tagControllers.length),
                 icon: PhosphorIconsBold.plus,
                 size: FluxerButtonSize.small,
                 fitContent: true,
@@ -1358,7 +1361,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: layout.s2),
                     child: Text(
-                      'text',
+                      l10n.fork.personaTagExampleText,
                       style: textStyles.bodySmall.copyWith(
                         color: colors.textPrimaryMuted,
                       ),
