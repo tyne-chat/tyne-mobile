@@ -8,7 +8,6 @@ enum UserSettingsSection {
   blockedUsers,
   linkedDevices,
   connections,
-  personas,
   lookAndFeel,
   themeColors,
   accessibility,
@@ -25,4 +24,7 @@ enum UserSettingsSection {
   limitsConfig,
   featureFlags,
   appLicenses,
+
+  // Fork values.
+  personas,
 }

@@ -67,8 +67,17 @@ code that hands over to fork code elsewhere. Rewriting or reordering upstream's 
   add fork behaviour as a separate statement rather than a cascade on upstream's expression. After
   formatting an upstream file, check that only fork lines moved.
 - **An `// ignore:`** always has a comment above it (or after it) saying why.
-- **Protobuf fields:** numbers from 2200 up, in the `// Fork fields.` block at the top of the message
-  (see the server repository's `AGENTS.md` for why).
+- **Numbers upstream hands out** (protobuf fields, Drift schema versions, enum values, binary tags):
+  never take upstream's next value or insert into the middle; the server repository's `AGENTS.md`
+  has the rule and why. Here that means:
+  - protobuf fields from 2200 up, in the `// Fork fields.` block at the top of the message;
+  - no Drift schema version of the fork's own: a fork column or table is declared in its table class
+    with a `// Fork:` comment and added on open by `lib/core/database/fork_schema.dart` (its comment
+    explains why, and every fork column gets a test in `fork_schema_test.dart`);
+  - fork values in an upstream enum go last, after a blank line and `// Fork values.`; Dart gives each
+    value its position as `.index`, so an enum is never stored or sent by `.index`;
+  - the persona mention's kind in the native markdown format is 255, the fork's range counting down
+    (`packages/fluxer_markdown_native/lib/src/decode_binary.dart`, written by the server's parser).
 - **Strings:** fork catalogues only (see "Translations").
 - **Generated files:** never edited by hand (see "Generated code").
 
