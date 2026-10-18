@@ -422,4 +422,7 @@ class ForkLocalizationsTr extends ForkLocalizations {
   String imageFileTooLargeMaxSize(String maxSize) {
     return 'Görüntü dosyası çok büyük. Lütfen $maxSize\'tan küçük bir dosya seçin.';
   }
+
+  @override
+  String get gifPickerSearchKlipyBrand => 'KLIPY\'de ara';
 }
