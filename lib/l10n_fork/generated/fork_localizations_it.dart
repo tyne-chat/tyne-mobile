@@ -427,4 +427,34 @@ class ForkLocalizationsIt extends ForkLocalizations {
 
   @override
   String get gifPickerSearchKlipyBrand => 'Cerca KLIPY';
+
+  @override
+  String get appUpdateDownloadFailed =>
+      'Impossibile scaricare l\'aggiornamento';
+
+  @override
+  String get personaChangeMessageFailed =>
+      'Impossibile cambiare la persona del messaggio';
+
+  @override
+  String get personaActiveCleared => 'Persona attiva rimossa';
+
+  @override
+  String get klipyPoweredBy => 'Fornito da KLIPY';
+
+  @override
+  String personaTagPairDuplicate(String pattern) {
+    return 'Coppia di tag \'$pattern\' duplicata su questa persona';
+  }
+
+  @override
+  String personaAddTagPair(int count) {
+    return 'Aggiungi coppia di tag ($count/5)';
+  }
+
+  @override
+  String get personaTagExampleText => 'testo';
+
+  @override
+  String get personaPreviewNameFallback => 'Utente';
 }
