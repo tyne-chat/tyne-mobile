@@ -43,7 +43,7 @@ const Map<String, List<String>> _threadColumns = <String, List<String>>{
     'default_tag_setting',
   ],
   'messages': <String>['thread_json'],
-  'read_states': <String>['flags', 'missing_since'],
+  'read_states': <String>['flags'],
 };
 
 bool _hasTable(Database raw, String table) => raw.select(
