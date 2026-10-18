@@ -120,5 +120,13 @@
     "personaPickerChannelOnly": "Csak ehhez a csatornához",
     "personaProfilePrivate": "Ennek a personának a profilja privát.",
     "imageFileTooLargeMaxSize": "A képfájl túl nagy. Válassz kisebb, {maxSize} alatti fájlt.",
-    "gifPickerSearchKlipyBrand": "KLIPY keresése"
+    "gifPickerSearchKlipyBrand": "KLIPY keresése",
+    "appUpdateDownloadFailed": "A frissítés letöltése nem sikerült",
+    "personaChangeMessageFailed": "Az üzenet personájának módosítása nem sikerült",
+    "personaActiveCleared": "Aktív persona törölve",
+    "klipyPoweredBy": "A szolgáltatást a KLIPY nyújtja",
+    "personaTagPairDuplicate": "Ismétlődő '{pattern}' címkepár ennél a personánál",
+    "personaAddTagPair": "Címkepár hozzáadása ({count}/5)",
+    "personaTagExampleText": "szöveg",
+    "personaPreviewNameFallback": "Felhasználó"
 }

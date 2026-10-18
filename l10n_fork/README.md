@@ -14,5 +14,8 @@ To add or change a fork string:
    `package:fluxer_app/l10n_fork/fork_localizations_x.dart`.
 4. `flutter test test/l10n_fork` checks that every locale has every key, that no value is empty or
    an untranslated English copy, and that placeholders match.
+5. `dart run tool/fork_string_lint.dart` reports hard-coded user-facing strings on the fork's lines,
+   which never reach a catalogue and so are invisible to step 4. Mark a literal that is
+   deliberately not translated with `// i18n-ignore: <reason>`.
 
 Never add fork keys to `lib/l10n/*.arb`.

@@ -422,6 +422,34 @@ class ForkLocalizationsEn extends ForkLocalizations {
 
   @override
   String get gifPickerSearchKlipyBrand => 'Search KLIPY';
+
+  @override
+  String get appUpdateDownloadFailed => 'Failed to download update';
+
+  @override
+  String get personaChangeMessageFailed => 'Failed to change message persona';
+
+  @override
+  String get personaActiveCleared => 'Active persona cleared';
+
+  @override
+  String get klipyPoweredBy => 'Powered by KLIPY';
+
+  @override
+  String personaTagPairDuplicate(String pattern) {
+    return 'Duplicate tag pair \'$pattern\' on this persona';
+  }
+
+  @override
+  String personaAddTagPair(int count) {
+    return 'Add Tag Pair ($count/5)';
+  }
+
+  @override
+  String get personaTagExampleText => 'text';
+
+  @override
+  String get personaPreviewNameFallback => 'User';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -842,6 +870,34 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
 
   @override
   String get gifPickerSearchKlipyBrand => 'Search KLIPY';
+
+  @override
+  String get appUpdateDownloadFailed => 'Failed to download update';
+
+  @override
+  String get personaChangeMessageFailed => 'Failed to change message persona';
+
+  @override
+  String get personaActiveCleared => 'Active persona cleared';
+
+  @override
+  String get klipyPoweredBy => 'Powered by KLIPY';
+
+  @override
+  String personaTagPairDuplicate(String pattern) {
+    return 'Duplicate tag pair \'$pattern\' on this persona';
+  }
+
+  @override
+  String personaAddTagPair(int count) {
+    return 'Add Tag Pair ($count/5)';
+  }
+
+  @override
+  String get personaTagExampleText => 'text';
+
+  @override
+  String get personaPreviewNameFallback => 'User';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -1262,4 +1318,32 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
 
   @override
   String get gifPickerSearchKlipyBrand => 'Search KLIPY';
+
+  @override
+  String get appUpdateDownloadFailed => 'Failed to download update';
+
+  @override
+  String get personaChangeMessageFailed => 'Failed to change message persona';
+
+  @override
+  String get personaActiveCleared => 'Active persona cleared';
+
+  @override
+  String get klipyPoweredBy => 'Powered by KLIPY';
+
+  @override
+  String personaTagPairDuplicate(String pattern) {
+    return 'Duplicate tag pair \'$pattern\' on this persona';
+  }
+
+  @override
+  String personaAddTagPair(int count) {
+    return 'Add Tag Pair ($count/5)';
+  }
+
+  @override
+  String get personaTagExampleText => 'text';
+
+  @override
+  String get personaPreviewNameFallback => 'User';
 }
