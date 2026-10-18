@@ -120,5 +120,13 @@
     "personaPickerChannelOnly": "僅限此頻道",
     "personaProfilePrivate": "此人格的個人檔案為私人。",
     "imageFileTooLargeMaxSize": "圖片檔案過大。請選擇小於 {maxSize} 的檔案。",
-    "gifPickerSearchKlipyBrand": "搜尋 KLIPY"
+    "gifPickerSearchKlipyBrand": "搜尋 KLIPY",
+    "appUpdateDownloadFailed": "下載更新失敗",
+    "personaChangeMessageFailed": "變更訊息的人格失敗",
+    "personaActiveCleared": "已清除使用中人格",
+    "klipyPoweredBy": "由 KLIPY 提供技術支援",
+    "personaTagPairDuplicate": "此人格上有重複的標籤組「{pattern}」",
+    "personaAddTagPair": "新增標籤組（{count}/5）",
+    "personaTagExampleText": "文字",
+    "personaPreviewNameFallback": "使用者"
 }

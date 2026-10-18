@@ -120,5 +120,13 @@
     "personaPickerChannelOnly": "Yalnızca bu kanal için",
     "personaProfilePrivate": "Bu personanın profili özel.",
     "imageFileTooLargeMaxSize": "Görüntü dosyası çok büyük. Lütfen {maxSize}'tan küçük bir dosya seçin.",
-    "gifPickerSearchKlipyBrand": "KLIPY'de ara"
+    "gifPickerSearchKlipyBrand": "KLIPY'de ara",
+    "appUpdateDownloadFailed": "Güncelleme indirilemedi",
+    "personaChangeMessageFailed": "Mesajın personası değiştirilemedi",
+    "personaActiveCleared": "Etkin persona temizlendi",
+    "klipyPoweredBy": "KLIPY tarafından desteklenmektedir",
+    "personaTagPairDuplicate": "Bu personada yinelenen '{pattern}' etiket çifti",
+    "personaAddTagPair": "Etiket çifti ekle ({count}/5)",
+    "personaTagExampleText": "metin",
+    "personaPreviewNameFallback": "Kullanıcı"
 }
