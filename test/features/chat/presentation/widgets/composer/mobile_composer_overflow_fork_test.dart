@@ -1,3 +1,7 @@
+// Fork: the fork fixed a long draft overflowing a short space above the keyboard (e83b6b970,
+// 2026-10-14); upstream fixed it its own way the next day (composerLinesThatFit, e7a38ea5b) and has
+// no test for it. These tests keep the behaviour pinned through the real composer.
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
@@ -6,7 +10,6 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/channel_textarea.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_fitted_lines.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/mobile_composer_bar.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -87,62 +90,6 @@ int _fieldMaxLines(WidgetTester tester) {
 }
 
 void main() {
-  group('composerFittedMaxLines', () {
-    test('keeps the maximum when there is room or no bound', () {
-      expect(
-        composerFittedMaxLines(
-          maxHeight: 400,
-          lineHeight: 20,
-          verticalPadding: 20,
-          maxLines: 6,
-        ),
-        6,
-      );
-      expect(
-        composerFittedMaxLines(
-          maxHeight: double.infinity,
-          lineHeight: 20,
-          verticalPadding: 20,
-          maxLines: 6,
-        ),
-        6,
-      );
-    });
-
-    test('counts whole lines that fit, an exact fit included', () {
-      expect(
-        composerFittedMaxLines(
-          maxHeight: 99,
-          lineHeight: 20,
-          verticalPadding: 20,
-          maxLines: 6,
-        ),
-        3,
-      );
-      expect(
-        composerFittedMaxLines(
-          maxHeight: 100,
-          lineHeight: 20,
-          verticalPadding: 20,
-          maxLines: 6,
-        ),
-        4,
-      );
-    });
-
-    test('never goes below one line', () {
-      expect(
-        composerFittedMaxLines(
-          maxHeight: 10,
-          lineHeight: 20,
-          verticalPadding: 20,
-          maxLines: 6,
-        ),
-        1,
-      );
-    });
-  });
-
   testWidgets('a long draft shows the most lines when there is room', (
     WidgetTester tester,
   ) async {
