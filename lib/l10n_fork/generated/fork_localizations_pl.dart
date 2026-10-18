@@ -422,4 +422,7 @@ class ForkLocalizationsPl extends ForkLocalizations {
   String imageFileTooLargeMaxSize(String maxSize) {
     return 'Plik obrazu jest za duży. Wybierz plik mniejszy niż $maxSize.';
   }
+
+  @override
+  String get gifPickerSearchKlipyBrand => 'Szukaj KLIPY';
 }
