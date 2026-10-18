@@ -425,4 +425,33 @@ class ForkLocalizationsPl extends ForkLocalizations {
 
   @override
   String get gifPickerSearchKlipyBrand => 'Szukaj KLIPY';
+
+  @override
+  String get appUpdateDownloadFailed => 'Nie udało się pobrać aktualizacji';
+
+  @override
+  String get personaChangeMessageFailed =>
+      'Nie udało się zmienić persony wiadomości';
+
+  @override
+  String get personaActiveCleared => 'Wyczyszczono aktywną personę';
+
+  @override
+  String get klipyPoweredBy => 'Dostarczane przez KLIPY';
+
+  @override
+  String personaTagPairDuplicate(String pattern) {
+    return 'Zduplikowana para tagów \'$pattern\' w tej personie';
+  }
+
+  @override
+  String personaAddTagPair(int count) {
+    return 'Dodaj parę tagów ($count/5)';
+  }
+
+  @override
+  String get personaTagExampleText => 'tekst';
+
+  @override
+  String get personaPreviewNameFallback => 'Użytkownik';
 }
