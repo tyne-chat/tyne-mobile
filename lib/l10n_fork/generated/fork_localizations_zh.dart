@@ -407,6 +407,9 @@ class ForkLocalizationsZh extends ForkLocalizations {
   String imageFileTooLargeMaxSize(String maxSize) {
     return '图片文件过大。请选择小于 $maxSize 的文件。';
   }
+
+  @override
+  String get gifPickerSearchKlipyBrand => '搜索 KLIPY';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -812,4 +815,7 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
   String imageFileTooLargeMaxSize(String maxSize) {
     return '圖片檔案過大。請選擇小於 $maxSize 的檔案。';
   }
+
+  @override
+  String get gifPickerSearchKlipyBrand => '搜尋 KLIPY';
 }
