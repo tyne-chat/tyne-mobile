@@ -411,4 +411,7 @@ class ForkLocalizationsKo extends ForkLocalizations {
   String imageFileTooLargeMaxSize(String maxSize) {
     return '이미지 파일이 너무 큽니다. $maxSize 미만의 파일을 선택하세요.';
   }
+
+  @override
+  String get gifPickerSearchKlipyBrand => 'KLIPY 검색';
 }
