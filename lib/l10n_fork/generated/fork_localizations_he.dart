@@ -422,4 +422,32 @@ class ForkLocalizationsHe extends ForkLocalizations {
 
   @override
   String get gifPickerSearchKlipyBrand => 'חפש ב-KLIPY';
+
+  @override
+  String get appUpdateDownloadFailed => 'הורדת העדכון נכשלה';
+
+  @override
+  String get personaChangeMessageFailed => 'שינוי הפרסונה של ההודעה נכשל';
+
+  @override
+  String get personaActiveCleared => 'הפרסונה הפעילה נוקתה';
+
+  @override
+  String get klipyPoweredBy => 'מופעל על ידי KLIPY';
+
+  @override
+  String personaTagPairDuplicate(String pattern) {
+    return 'זוג התגיות \'$pattern\' כפול בפרסונה זו';
+  }
+
+  @override
+  String personaAddTagPair(int count) {
+    return 'הוספת זוג תגיות ($count/5)';
+  }
+
+  @override
+  String get personaTagExampleText => 'טקסט';
+
+  @override
+  String get personaPreviewNameFallback => 'משתמש';
 }
