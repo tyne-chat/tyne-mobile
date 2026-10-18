@@ -427,4 +427,33 @@ class ForkLocalizationsUk extends ForkLocalizations {
 
   @override
   String get gifPickerSearchKlipyBrand => 'Пошук KLIPY';
+
+  @override
+  String get appUpdateDownloadFailed => 'Не вдалося завантажити оновлення';
+
+  @override
+  String get personaChangeMessageFailed =>
+      'Не вдалося змінити персону повідомлення';
+
+  @override
+  String get personaActiveCleared => 'Активну персону скинуто';
+
+  @override
+  String get klipyPoweredBy => 'На основі KLIPY';
+
+  @override
+  String personaTagPairDuplicate(String pattern) {
+    return 'Пара тегів \'$pattern\' уже є в цієї персони';
+  }
+
+  @override
+  String personaAddTagPair(int count) {
+    return 'Додати пару тегів ($count/5)';
+  }
+
+  @override
+  String get personaTagExampleText => 'текст';
+
+  @override
+  String get personaPreviewNameFallback => 'Користувач';
 }
