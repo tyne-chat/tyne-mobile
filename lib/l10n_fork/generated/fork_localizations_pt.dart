@@ -427,6 +427,35 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get gifPickerSearchKlipyBrand => 'Pesquisar KLIPY';
+
+  @override
+  String get appUpdateDownloadFailed => 'Falha ao transferir a atualização';
+
+  @override
+  String get personaChangeMessageFailed =>
+      'Falha ao alterar a persona da mensagem';
+
+  @override
+  String get personaActiveCleared => 'Persona ativa removida';
+
+  @override
+  String get klipyPoweredBy => 'Com tecnologia KLIPY';
+
+  @override
+  String personaTagPairDuplicate(String pattern) {
+    return 'Par de tags \'$pattern\' duplicado nesta persona';
+  }
+
+  @override
+  String personaAddTagPair(int count) {
+    return 'Adicionar par de tags ($count/5)';
+  }
+
+  @override
+  String get personaTagExampleText => 'texto';
+
+  @override
+  String get personaPreviewNameFallback => 'Utilizador';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -852,4 +881,33 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
 
   @override
   String get gifPickerSearchKlipyBrand => 'Pesquisar KLIPY';
+
+  @override
+  String get appUpdateDownloadFailed => 'Falha ao baixar a atualização';
+
+  @override
+  String get personaChangeMessageFailed =>
+      'Falha ao alterar a persona da mensagem';
+
+  @override
+  String get personaActiveCleared => 'Persona ativa removida';
+
+  @override
+  String get klipyPoweredBy => 'Com tecnologia KLIPY';
+
+  @override
+  String personaTagPairDuplicate(String pattern) {
+    return 'Par de tags \'$pattern\' duplicado nesta persona';
+  }
+
+  @override
+  String personaAddTagPair(int count) {
+    return 'Adicionar par de tags ($count/5)';
+  }
+
+  @override
+  String get personaTagExampleText => 'texto';
+
+  @override
+  String get personaPreviewNameFallback => 'Usuário';
 }
