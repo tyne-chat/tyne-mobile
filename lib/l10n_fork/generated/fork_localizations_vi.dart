@@ -421,4 +421,7 @@ class ForkLocalizationsVi extends ForkLocalizations {
   String imageFileTooLargeMaxSize(String maxSize) {
     return 'Tệp ảnh quá lớn. Vui lòng chọn tệp có dung lượng nhỏ hơn $maxSize.';
   }
+
+  @override
+  String get gifPickerSearchKlipyBrand => 'Tìm kiếm KLIPY';
 }
