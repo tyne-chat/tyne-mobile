@@ -120,5 +120,13 @@
     "personaPickerChannelOnly": "Kun for denne kanal",
     "personaProfilePrivate": "Denne personas profil er privat.",
     "imageFileTooLargeMaxSize": "Billedfilen er for stor. Vælg venligst en fil, der er mindre end {maxSize}.",
-    "gifPickerSearchKlipyBrand": "Søg i KLIPY"
+    "gifPickerSearchKlipyBrand": "Søg i KLIPY",
+    "appUpdateDownloadFailed": "Opdateringen kunne ikke downloades",
+    "personaChangeMessageFailed": "Beskedens persona kunne ikke ændres",
+    "personaActiveCleared": "Aktiv persona ryddet",
+    "klipyPoweredBy": "Leveret af KLIPY",
+    "personaTagPairDuplicate": "Tagparret '{pattern}' findes allerede på denne persona",
+    "personaAddTagPair": "Tilføj tagpar ({count}/5)",
+    "personaTagExampleText": "tekst",
+    "personaPreviewNameFallback": "Bruger"
 }

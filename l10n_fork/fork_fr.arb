@@ -120,5 +120,13 @@
     "personaPickerChannelOnly": "Uniquement pour ce salon",
     "personaProfilePrivate": "Le profil de cette persona est privé.",
     "imageFileTooLargeMaxSize": "Le fichier image est trop volumineux. Veuillez choisir un fichier de moins de {maxSize}.",
-    "gifPickerSearchKlipyBrand": "Rechercher sur KLIPY"
+    "gifPickerSearchKlipyBrand": "Rechercher sur KLIPY",
+    "appUpdateDownloadFailed": "Impossible de télécharger la mise à jour",
+    "personaChangeMessageFailed": "Impossible de changer la persona du message",
+    "personaActiveCleared": "Persona active retirée",
+    "klipyPoweredBy": "Fourni par KLIPY",
+    "personaTagPairDuplicate": "Paire de balises « {pattern} » déjà présente sur cette persona",
+    "personaAddTagPair": "Ajouter une paire de balises ({count}/5)",
+    "personaTagExampleText": "texte",
+    "personaPreviewNameFallback": "Utilisateur"
 }

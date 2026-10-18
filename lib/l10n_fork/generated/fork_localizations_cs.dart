@@ -426,4 +426,33 @@ class ForkLocalizationsCs extends ForkLocalizations {
 
   @override
   String get gifPickerSearchKlipyBrand => 'Hledat KLIPY';
+
+  @override
+  String get appUpdateDownloadFailed => 'Aktualizaci se nepodařilo stáhnout';
+
+  @override
+  String get personaChangeMessageFailed =>
+      'Personu zprávy se nepodařilo změnit';
+
+  @override
+  String get personaActiveCleared => 'Aktivní persona zrušena';
+
+  @override
+  String get klipyPoweredBy => 'Využívá KLIPY';
+
+  @override
+  String personaTagPairDuplicate(String pattern) {
+    return 'Duplicitní pár značek \'$pattern\' u této persony';
+  }
+
+  @override
+  String personaAddTagPair(int count) {
+    return 'Přidat pár značek ($count/5)';
+  }
+
+  @override
+  String get personaTagExampleText => 'text';
+
+  @override
+  String get personaPreviewNameFallback => 'Uživatel';
 }

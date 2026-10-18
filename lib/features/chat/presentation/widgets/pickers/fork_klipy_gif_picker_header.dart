@@ -4,6 +4,8 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 const String forkKlipyPoweredByAsset = 'assets/images/klipy-powered-by.svg';
@@ -41,7 +43,7 @@ class ForkKlipyPoweredBy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Semantics(
-      label: 'Powered by KLIPY',
+      label: FluxerLocalizations.of(context).fork.klipyPoweredBy,
       image: true,
       child: ExcludeSemantics(
         child: SvgPicture.asset(
