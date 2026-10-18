@@ -569,5 +569,9 @@
                 "example": "10 MB"
             }
         }
+    },
+    "gifPickerSearchKlipyBrand": "Search KLIPY",
+    "@gifPickerSearchKlipyBrand": {
+        "description": "Placeholder of the GIF picker search box when GIFs come from KLIPY. KLIPY's attribution guidelines require the brand name in capitals."
     }
 }

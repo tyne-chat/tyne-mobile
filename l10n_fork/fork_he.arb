@@ -119,5 +119,6 @@
     "personaScopeChannelDescription": "כל ערוץ שומר על הפרסונה שלו. ערוצים חדשים מתחילים כחשבון שלכם.",
     "personaPickerChannelOnly": "רק לערוץ הזה",
     "personaProfilePrivate": "הפרופיל של הפרסונה הזו פרטי.",
-    "imageFileTooLargeMaxSize": "קובץ התמונה גדול מדי. בחר קובץ שגודלו קטן מ-{maxSize}."
+    "imageFileTooLargeMaxSize": "קובץ התמונה גדול מדי. בחר קובץ שגודלו קטן מ-{maxSize}.",
+    "gifPickerSearchKlipyBrand": "חפש ב-KLIPY"
 }
