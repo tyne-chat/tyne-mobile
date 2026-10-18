@@ -119,5 +119,6 @@
     "personaScopeChannelDescription": "Each channel keeps its own persona. New channels start as your account.",
     "personaPickerChannelOnly": "Only for this channel",
     "personaProfilePrivate": "This persona’s profile is private.",
-    "imageFileTooLargeMaxSize": "Image file is too large. Please choose a file smaller than {maxSize}."
+    "imageFileTooLargeMaxSize": "Image file is too large. Please choose a file smaller than {maxSize}.",
+    "gifPickerSearchKlipyBrand": "Search KLIPY"
 }
