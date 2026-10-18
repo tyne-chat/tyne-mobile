@@ -119,5 +119,6 @@
     "personaScopeChannelDescription": "Her kanal kendi personasını korur. Yeni kanallar hesabınla başlar.",
     "personaPickerChannelOnly": "Yalnızca bu kanal için",
     "personaProfilePrivate": "Bu personanın profili özel.",
-    "imageFileTooLargeMaxSize": "Görüntü dosyası çok büyük. Lütfen {maxSize}'tan küçük bir dosya seçin."
+    "imageFileTooLargeMaxSize": "Görüntü dosyası çok büyük. Lütfen {maxSize}'tan küçük bir dosya seçin.",
+    "gifPickerSearchKlipyBrand": "KLIPY'de ara"
 }

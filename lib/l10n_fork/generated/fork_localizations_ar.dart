@@ -418,4 +418,7 @@ class ForkLocalizationsAr extends ForkLocalizations {
   String imageFileTooLargeMaxSize(String maxSize) {
     return 'ملف الصورة كبير جدًا. يرجى اختيار ملف أصغر من $maxSize.';
   }
+
+  @override
+  String get gifPickerSearchKlipyBrand => 'ابحث في KLIPY';
 }
