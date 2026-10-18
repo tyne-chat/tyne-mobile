@@ -8,10 +8,16 @@ import 'package:media_kit_video/media_kit_video.dart' as mkv;
 
 const int gifPreviewPlayerBufferSize = 4 * 1024 * 1024;
 
+// Fork: media_kit's name for the player's process, which desktop volume mixers
+// show; not text inside the app.
+// i18n-ignore: a process name, as above.
+const String _forkGifPreviewPlayerTitle =
+    '${InstanceConstants.defaultProductName} GIF preview';
+
 const PlayerConfiguration gifPreviewPlayerConfiguration = PlayerConfiguration(
   muted: true,
   bufferSize: gifPreviewPlayerBufferSize,
-  title: '${InstanceConstants.defaultProductName} GIF preview',
+  title: _forkGifPreviewPlayerTitle,
 );
 
 mkv.VideoControllerConfiguration gifPreviewVideoControllerConfiguration() =>
