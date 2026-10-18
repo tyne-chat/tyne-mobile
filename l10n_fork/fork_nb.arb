@@ -119,5 +119,6 @@
     "personaScopeChannelDescription": "Hver kanal beholder sin egen persona. Nye kanaler starter som kontoen din.",
     "personaPickerChannelOnly": "Bare for denne kanalen",
     "personaProfilePrivate": "Profilen til denne personaen er privat.",
-    "imageFileTooLargeMaxSize": "Bildefilen er for stor. Velg en fil som er mindre enn {maxSize}."
+    "imageFileTooLargeMaxSize": "Bildefilen er for stor. Velg en fil som er mindre enn {maxSize}.",
+    "gifPickerSearchKlipyBrand": "Søk i KLIPY"
 }
