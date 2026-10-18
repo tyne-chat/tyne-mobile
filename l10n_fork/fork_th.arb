@@ -120,5 +120,13 @@
     "personaPickerChannelOnly": "เฉพาะช่องนี้",
     "personaProfilePrivate": "โปรไฟล์ของ Persona นี้เป็นส่วนตัว",
     "imageFileTooLargeMaxSize": "ไฟล์รูปภาพมีขนาดใหญ่เกินไป โปรดเลือกไฟล์ที่มีขนาดเล็กกว่า {maxSize}",
-    "gifPickerSearchKlipyBrand": "ค้นหา KLIPY"
+    "gifPickerSearchKlipyBrand": "ค้นหา KLIPY",
+    "appUpdateDownloadFailed": "ดาวน์โหลดอัปเดตไม่สำเร็จ",
+    "personaChangeMessageFailed": "เปลี่ยน Persona ของข้อความไม่สำเร็จ",
+    "personaActiveCleared": "ล้าง Persona ที่ใช้งานอยู่แล้ว",
+    "klipyPoweredBy": "ขับเคลื่อนโดย KLIPY",
+    "personaTagPairDuplicate": "คู่แท็ก '{pattern}' ซ้ำใน Persona นี้",
+    "personaAddTagPair": "เพิ่มคู่แท็ก ({count}/5)",
+    "personaTagExampleText": "ข้อความ",
+    "personaPreviewNameFallback": "ผู้ใช้"
 }
