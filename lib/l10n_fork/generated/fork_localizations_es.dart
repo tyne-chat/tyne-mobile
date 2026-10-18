@@ -429,6 +429,35 @@ class ForkLocalizationsEs extends ForkLocalizations {
 
   @override
   String get gifPickerSearchKlipyBrand => 'Buscar en KLIPY';
+
+  @override
+  String get appUpdateDownloadFailed => 'No se pudo descargar la actualización';
+
+  @override
+  String get personaChangeMessageFailed =>
+      'No se pudo cambiar la persona del mensaje';
+
+  @override
+  String get personaActiveCleared => 'Persona activa quitada';
+
+  @override
+  String get klipyPoweredBy => 'Con la tecnología de KLIPY';
+
+  @override
+  String personaTagPairDuplicate(String pattern) {
+    return 'Par de etiquetas \'$pattern\' duplicado en esta persona';
+  }
+
+  @override
+  String personaAddTagPair(int count) {
+    return 'Añadir par de etiquetas ($count/5)';
+  }
+
+  @override
+  String get personaTagExampleText => 'texto';
+
+  @override
+  String get personaPreviewNameFallback => 'Usuario';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -856,4 +885,33 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
 
   @override
   String get gifPickerSearchKlipyBrand => 'Buscar KLIPY';
+
+  @override
+  String get appUpdateDownloadFailed => 'No se pudo descargar la actualización';
+
+  @override
+  String get personaChangeMessageFailed =>
+      'No se pudo cambiar la persona del mensaje';
+
+  @override
+  String get personaActiveCleared => 'Persona activa quitada';
+
+  @override
+  String get klipyPoweredBy => 'Con la tecnología de KLIPY';
+
+  @override
+  String personaTagPairDuplicate(String pattern) {
+    return 'Par de etiquetas \'$pattern\' duplicado en esta persona';
+  }
+
+  @override
+  String personaAddTagPair(int count) {
+    return 'Agregar par de etiquetas ($count/5)';
+  }
+
+  @override
+  String get personaTagExampleText => 'texto';
+
+  @override
+  String get personaPreviewNameFallback => 'Usuario';
 }
