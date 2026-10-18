@@ -25,13 +25,15 @@ class PersonaTag {
     };
   }
 
-  String get displayPattern {
+  /// The tag as it is typed around a message, with [text] (the localised
+  /// `l10n.fork.personaTagExampleText`) standing for the message.
+  String displayPattern(String text) {
     final p = prefix ?? '';
     final s = suffix ?? '';
     if (p.isEmpty && s.isEmpty) {
       return '';
     }
-    return '${p}text$s';
+    return '$p$text$s';
   }
 }
 

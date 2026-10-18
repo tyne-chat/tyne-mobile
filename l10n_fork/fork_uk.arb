@@ -120,5 +120,13 @@
     "personaPickerChannelOnly": "Лише для цього каналу",
     "personaProfilePrivate": "Профіль цієї персони приватний.",
     "imageFileTooLargeMaxSize": "Файл зображення занадто великий. Будь ласка, виберіть файл розміром менше {maxSize}.",
-    "gifPickerSearchKlipyBrand": "Пошук KLIPY"
+    "gifPickerSearchKlipyBrand": "Пошук KLIPY",
+    "appUpdateDownloadFailed": "Не вдалося завантажити оновлення",
+    "personaChangeMessageFailed": "Не вдалося змінити персону повідомлення",
+    "personaActiveCleared": "Активну персону скинуто",
+    "klipyPoweredBy": "На основі KLIPY",
+    "personaTagPairDuplicate": "Пара тегів '{pattern}' уже є в цієї персони",
+    "personaAddTagPair": "Додати пару тегів ({count}/5)",
+    "personaTagExampleText": "текст",
+    "personaPreviewNameFallback": "Користувач"
 }
