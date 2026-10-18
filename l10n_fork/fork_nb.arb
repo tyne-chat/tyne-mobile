@@ -120,5 +120,13 @@
     "personaPickerChannelOnly": "Bare for denne kanalen",
     "personaProfilePrivate": "Profilen til denne personaen er privat.",
     "imageFileTooLargeMaxSize": "Bildefilen er for stor. Velg en fil som er mindre enn {maxSize}.",
-    "gifPickerSearchKlipyBrand": "Søk i KLIPY"
+    "gifPickerSearchKlipyBrand": "Søk i KLIPY",
+    "appUpdateDownloadFailed": "Kunne ikke laste ned oppdateringen",
+    "personaChangeMessageFailed": "Kunne ikke endre meldingens persona",
+    "personaActiveCleared": "Aktiv persona fjernet",
+    "klipyPoweredBy": "Levert av KLIPY",
+    "personaTagPairDuplicate": "Duplisert tag-par '{pattern}' på denne personaen",
+    "personaAddTagPair": "Legg til tag-par ({count}/5)",
+    "personaTagExampleText": "tekst",
+    "personaPreviewNameFallback": "Bruker"
 }

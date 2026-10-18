@@ -423,4 +423,32 @@ class ForkLocalizationsHi extends ForkLocalizations {
 
   @override
   String get gifPickerSearchKlipyBrand => 'KLIPY खोजें';
+
+  @override
+  String get appUpdateDownloadFailed => 'अपडेट डाउनलोड नहीं हो सका';
+
+  @override
+  String get personaChangeMessageFailed => 'संदेश का परसोना बदला नहीं जा सका';
+
+  @override
+  String get personaActiveCleared => 'सक्रिय परसोना हटा दिया गया';
+
+  @override
+  String get klipyPoweredBy => 'KLIPY द्वारा संचालित';
+
+  @override
+  String personaTagPairDuplicate(String pattern) {
+    return 'इस परसोना पर टैग जोड़ी \'$pattern\' दोहराई गई है';
+  }
+
+  @override
+  String personaAddTagPair(int count) {
+    return 'टैग जोड़ी जोड़ें ($count/5)';
+  }
+
+  @override
+  String get personaTagExampleText => 'टेक्स्ट';
+
+  @override
+  String get personaPreviewNameFallback => 'उपयोगकर्ता';
 }
