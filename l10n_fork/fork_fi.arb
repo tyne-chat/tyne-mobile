@@ -119,5 +119,6 @@
     "personaScopeChannelDescription": "Jokainen kanava säilyttää oman persoonansa. Uudet kanavat alkavat tilinäsi.",
     "personaPickerChannelOnly": "Vain tälle kanavalle",
     "personaProfilePrivate": "Tämän persoonan profiili on yksityinen.",
-    "imageFileTooLargeMaxSize": "Kuvatiedosto on liian suuri. Valitse tiedosto, joka on pienempi kuin {maxSize}."
+    "imageFileTooLargeMaxSize": "Kuvatiedosto on liian suuri. Valitse tiedosto, joka on pienempi kuin {maxSize}.",
+    "gifPickerSearchKlipyBrand": "Hae KLIPYstä"
 }

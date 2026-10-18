@@ -422,4 +422,7 @@ class ForkLocalizationsHu extends ForkLocalizations {
   String imageFileTooLargeMaxSize(String maxSize) {
     return 'A képfájl túl nagy. Válassz kisebb, $maxSize alatti fájlt.';
   }
+
+  @override
+  String get gifPickerSearchKlipyBrand => 'KLIPY keresése';
 }
