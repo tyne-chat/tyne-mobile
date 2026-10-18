@@ -110,6 +110,7 @@ import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/signal_bar/providers/signal_persona_affirmation.dart';
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 
 part 'chat_view_model.g.dart';
@@ -7624,7 +7625,12 @@ class ChatViewModel extends _$ChatViewModel {
       }
     } on Exception catch (e) {
       debugPrint('[ChatViewModel] Failed to change message persona: $e');
-      state = state.copyWith(errorMessage: 'Failed to change message persona');
+      state = state.copyWith(
+        errorMessage: ref
+            .read(appLocalizationsProvider)
+            .fork
+            .personaChangeMessageFailed,
+      );
     }
   }
 

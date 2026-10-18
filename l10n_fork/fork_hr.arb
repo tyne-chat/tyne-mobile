@@ -120,5 +120,13 @@
     "personaPickerChannelOnly": "Samo za ovaj kanal",
     "personaProfilePrivate": "Profil ove persone je privatan.",
     "imageFileTooLargeMaxSize": "Datoteka slike je prevelika. Odaberite datoteku manju od {maxSize}.",
-    "gifPickerSearchKlipyBrand": "Pretraži KLIPY"
+    "gifPickerSearchKlipyBrand": "Pretraži KLIPY",
+    "appUpdateDownloadFailed": "Preuzimanje ažuriranja nije uspjelo",
+    "personaChangeMessageFailed": "Promjena persone poruke nije uspjela",
+    "personaActiveCleared": "Aktivna persona uklonjena",
+    "klipyPoweredBy": "Pokreće KLIPY",
+    "personaTagPairDuplicate": "Dvostruki par oznaka '{pattern}' na ovoj personi",
+    "personaAddTagPair": "Dodaj par oznaka ({count}/5)",
+    "personaTagExampleText": "tekst",
+    "personaPreviewNameFallback": "Korisnik"
 }
