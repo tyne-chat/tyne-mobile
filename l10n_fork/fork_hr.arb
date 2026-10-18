@@ -119,5 +119,6 @@
     "personaScopeChannelDescription": "Svaki kanal zadržava svoju personu. Novi kanali počinju kao vaš račun.",
     "personaPickerChannelOnly": "Samo za ovaj kanal",
     "personaProfilePrivate": "Profil ove persone je privatan.",
-    "imageFileTooLargeMaxSize": "Datoteka slike je prevelika. Odaberite datoteku manju od {maxSize}."
+    "imageFileTooLargeMaxSize": "Datoteka slike je prevelika. Odaberite datoteku manju od {maxSize}.",
+    "gifPickerSearchKlipyBrand": "Pretraži KLIPY"
 }
