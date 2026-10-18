@@ -425,4 +425,33 @@ class ForkLocalizationsHu extends ForkLocalizations {
 
   @override
   String get gifPickerSearchKlipyBrand => 'KLIPY keresése';
+
+  @override
+  String get appUpdateDownloadFailed => 'A frissítés letöltése nem sikerült';
+
+  @override
+  String get personaChangeMessageFailed =>
+      'Az üzenet personájának módosítása nem sikerült';
+
+  @override
+  String get personaActiveCleared => 'Aktív persona törölve';
+
+  @override
+  String get klipyPoweredBy => 'A szolgáltatást a KLIPY nyújtja';
+
+  @override
+  String personaTagPairDuplicate(String pattern) {
+    return 'Ismétlődő \'$pattern\' címkepár ennél a personánál';
+  }
+
+  @override
+  String personaAddTagPair(int count) {
+    return 'Címkepár hozzáadása ($count/5)';
+  }
+
+  @override
+  String get personaTagExampleText => 'szöveg';
+
+  @override
+  String get personaPreviewNameFallback => 'Felhasználó';
 }
