@@ -167,7 +167,10 @@ final class _Cursor {
       }(),
       5 => const MdEveryoneMention(),
       6 => const MdHereMention(),
-      7 => MdUserMention(readString(), personaId: readString()),
+      _forkUserPersonaMentionKind => MdUserMention(
+        readString(),
+        personaId: readString(),
+      ),
       _ => throw FormatException('Unknown mention kind tag: $kind'),
     };
   }
@@ -192,3 +195,11 @@ final class _Cursor {
     };
   }
 }
+
+// Fork: mention kinds the fork adds to the parser's binary format. Upstream
+// numbers its kinds in sequence (0 to 6 today), so a fork kind next to
+// upstream's would turn into upstream's next kind the day it adds one. Fork
+// kinds count down from 255. The writer is `write_mention` in the server
+// repository's `packages/markdown_parser/rust/src/binary.rs`; change both
+// together.
+const int _forkUserPersonaMentionKind = 255;
