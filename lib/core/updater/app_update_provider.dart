@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/updater/app_update_info.dart';
 import 'package:fluxer_app/core/updater/app_update_service.dart';
+import 'package:fluxer_app/l10n/app_locale_provider.dart';
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 
 final Provider<AppUpdateService> appUpdateServiceProvider =
     Provider<AppUpdateService>((Ref ref) {
@@ -107,7 +109,10 @@ class AppUpdateNotifier extends Notifier<AppUpdateState> {
     } else {
       state = state.copyWith(
         status: AppUpdateStatus.error,
-        errorMessage: 'Failed to download update',
+        errorMessage: ref
+            .read(appLocalizationsProvider)
+            .fork
+            .appUpdateDownloadFailed,
       );
     }
   }

@@ -112,6 +112,7 @@ import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolut
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/providers/quick_switcher_button_preferences_provider.dart';
 import 'package:fluxer_app/features/signal_bar/presentation/signal_bar_strip.dart';
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 
 const double _kComposerDisabledOpacity = 0.6;
 
@@ -2313,6 +2314,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (trimmed == r'\\') {
       final activeState = ref.read(activePersonaProvider);
       if (activeState.latchedIdFor(channelId) != null) {
+        final String clearedMessage = FluxerLocalizations.of(
+          context,
+        ).fork.personaActiveCleared;
         await ref
             .read(activePersonaProvider.notifier)
             .unlatch(channelId: channelId);
@@ -2322,7 +2326,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         FluxerHaptics.light();
         ref
             .read(toastProvider.notifier)
-            .show(const FluxerToast(message: 'Active persona cleared'));
+            .show(FluxerToast(message: clearedMessage));
         return;
       }
     }
