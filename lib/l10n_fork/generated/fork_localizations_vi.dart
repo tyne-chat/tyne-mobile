@@ -429,6 +429,9 @@ class ForkLocalizationsVi extends ForkLocalizations {
   String get appUpdateDownloadFailed => 'Không tải được bản cập nhật';
 
   @override
+  String get appUpdateInstallFailed => 'Không cài đặt được bản cập nhật';
+
+  @override
   String get personaChangeMessageFailed =>
       'Không đổi được persona của tin nhắn';
 
