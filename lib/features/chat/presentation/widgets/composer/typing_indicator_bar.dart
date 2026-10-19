@@ -21,6 +21,7 @@ import 'package:material_ui/material_ui.dart' as material;
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/core/gateway/providers/typing_personas_provider.dart';
+import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 
 const double _kAvatarSize = 12;
 const int _kMaxVisibleAvatars = 5;
@@ -117,7 +118,7 @@ class _TypingPill extends ConsumerWidget {
       return GuildUserDisplay(
         displayName: subprofile.name,
         accountDisplayName: subprofile.name,
-        avatarUrl: subprofile.avatar ?? baseDisplay.avatarUrl,
+        avatarUrl: personaImageHash(subprofile.avatar) ?? baseDisplay.avatarUrl,
         avatarColor: subprofile.avatarColor ?? baseDisplay.avatarColor,
         pronouns: subprofile.displayTagText ?? baseDisplay.pronouns,
       );
