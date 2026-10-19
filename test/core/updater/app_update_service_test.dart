@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cryptography/dart.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -27,6 +28,15 @@ class _MockDioAdapter implements HttpClientAdapter {
   @override
   void close({bool force = false}) {}
 }
+
+const String _releaseUrl =
+    'https://github.com/tyne-chat/tyne-mobile/releases/download/v2.0.0/tyne-v2.0.0.apk';
+
+String _sha256Hex(String data) => const DartSha256()
+    .hashSync(utf8.encode(data))
+    .bytes
+    .map((int b) => b.toRadixString(16).padLeft(2, '0'))
+    .join();
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -79,6 +89,7 @@ void main() {
         downloadUrl: 'https://example.com/app.apk',
         fileName: 'fluxer.apk',
         fileSizeBytes: 0,
+        sha256: '',
       );
       expect(infoZero.formattedFileSize, isEmpty);
 
@@ -90,6 +101,7 @@ void main() {
         downloadUrl: 'https://example.com/app.apk',
         fileName: 'fluxer.apk',
         fileSizeBytes: -100,
+        sha256: '',
       );
       expect(infoNegative.formattedFileSize, isEmpty);
 
@@ -101,6 +113,7 @@ void main() {
         downloadUrl: 'https://example.com/app.apk',
         fileName: 'fluxer.apk',
         fileSizeBytes: 20 * 1024 * 1024,
+        sha256: '',
       );
       expect(infoPositive.formattedFileSize, '20.0 MB');
     });
@@ -362,9 +375,9 @@ void main() {
               'assets': [
                 {
                   'name': 'fluxer-release.apk',
-                  'browser_download_url':
-                      'https://github.com/fluxer/releases/fluxer-release.apk',
+                  'browser_download_url': _releaseUrl,
                   'size': 45 * 1024 * 1024,
+                  'digest': 'sha256:${'AB' * 32}',
                 },
               ],
             };
@@ -386,10 +399,8 @@ void main() {
         expect(result.buildNumber, 15);
         expect(result.title, 'Fluxer v2.0.0');
         expect(result.releaseNotes, 'Exciting new features and bugfixes.');
-        expect(
-          result.downloadUrl,
-          'https://github.com/fluxer/releases/fluxer-release.apk',
-        );
+        expect(result.downloadUrl, _releaseUrl);
+        expect(result.sha256, 'ab' * 32);
         expect(result.fileName, 'fluxer-release.apk');
         expect(result.fileSizeBytes, 45 * 1024 * 1024);
         expect(result.publishedAt, DateTime.utc(2026, 9, 20, 12));
@@ -397,44 +408,135 @@ void main() {
     );
   });
 
-  group('AppUpdateService.downloadUpdate', () {
-    test(
-      'downloads file and reports progress, deleting previous file if exists',
-      () async {
-        final dio = Dio();
-        const fileData = 'test-apk-binary-content';
-        dio.httpClientAdapter = _MockDioAdapter((options) {
+  group('AppUpdateService unverifiable releases', () {
+    Future<AppUpdateInfo?> check(Map<String, Object?> asset) {
+      AppUpdateService.platformOverride = true;
+      final dio = Dio()
+        ..httpClientAdapter = _MockDioAdapter((options) {
           return ResponseBody.fromString(
-            fileData,
+            jsonEncode({
+              'tag_name': 'v2.0.0',
+              'assets': [
+                {
+                  'name': 'tyne-v2.0.0.apk',
+                  'browser_download_url': _releaseUrl,
+                  'size': 1000,
+                  'digest': 'sha256:${'ab' * 32}',
+                  ...asset,
+                },
+              ],
+            }),
             200,
             headers: {
-              Headers.contentLengthHeader: ['${fileData.length}'],
+              Headers.contentTypeHeader: [Headers.jsonContentType],
             },
           );
         });
+      return AppUpdateService(dio: dio).checkForUpdate();
+    }
 
-        // Pre-create the file to test overwrite deletion branch
-        final existingFile = File('${tempDir!.path}/fluxer.apk')
+    test('offers a release with a trusted URL, a size and a digest', () async {
+      expect(await check({}), isNotNull);
+    });
+
+    test('ignores a release whose APK is hosted elsewhere', () async {
+      expect(
+        await check({
+          'browser_download_url': 'https://example.com/tyne-v2.0.0.apk',
+        }),
+        isNull,
+      );
+    });
+
+    test('ignores a release without a usable digest or size', () async {
+      expect(await check({'digest': null}), isNull);
+      expect(await check({'digest': 'sha256:abcd'}), isNull);
+      expect(await check({'digest': 'md5:${'ab' * 32}'}), isNull);
+      expect(await check({'size': 0}), isNull);
+    });
+
+    test(
+      'isTrustedDownloadUrl only accepts https assets of the release repo',
+      () {
+        expect(AppUpdateService.isTrustedDownloadUrl(_releaseUrl), isTrue);
+        for (final String url in <String>[
+          '',
+          'not a url',
+          _releaseUrl.replaceFirst('https', 'http'),
+          _releaseUrl.replaceFirst('github.com', 'github.com.evil.example'),
+          _releaseUrl.replaceFirst('github.com', 'evil@github.com'),
+          _releaseUrl.replaceFirst('github.com', 'github.com:8443'),
+          _releaseUrl.replaceFirst('tyne-chat', 'someone-else'),
+          'https://github.com/tyne-chat/tyne-mobile/releases/download/../../../../evil/x/releases/download/v1/a.apk',
+          'file:///sdcard/evil.apk',
+        ]) {
+          expect(
+            AppUpdateService.isTrustedDownloadUrl(url),
+            isFalse,
+            reason: url,
+          );
+        }
+      },
+    );
+  });
+
+  group('AppUpdateService.downloadUpdate', () {
+    const fileData = 'test-apk-binary-content';
+
+    AppUpdateInfo infoFor({
+      String downloadUrl = _releaseUrl,
+      String fileName = 'tyne-v2.0.0.apk',
+      int? fileSizeBytes,
+      String? sha256,
+    }) {
+      return AppUpdateInfo(
+        tagName: 'v2.0.0',
+        version: '2.0.0',
+        title: 'Release 2.0.0',
+        releaseNotes: 'Notes',
+        downloadUrl: downloadUrl,
+        fileName: fileName,
+        fileSizeBytes: fileSizeBytes ?? fileData.length,
+        sha256: sha256 ?? _sha256Hex(fileData),
+      );
+    }
+
+    Dio dioServing(String body, {void Function()? onRequest}) {
+      final dio = Dio()
+        ..httpClientAdapter = _MockDioAdapter((options) {
+          onRequest?.call();
+          return ResponseBody.fromString(
+            body,
+            200,
+            headers: {
+              Headers.contentLengthHeader: ['${body.length}'],
+            },
+          );
+        });
+      return dio;
+    }
+
+    List<String> tempFileNames() => tempDir!
+        .listSync(recursive: true)
+        .whereType<File>()
+        .map((File e) => e.path.substring(tempDir!.path.length + 1))
+        .toList();
+
+    test(
+      'downloads a matching file under a fixed name and reports progress',
+      () async {
+        // A previous download is replaced.
+        File('${tempDir!.path}/updates/tyne-update.apk')
+          ..createSync(recursive: true)
           ..writeAsStringSync('old-content');
-        expect(existingFile.existsSync(), isTrue);
 
-        const info = AppUpdateInfo(
-          tagName: 'v2.0.0',
-          version: '2.0.0',
-          title: 'Release 2.0.0',
-          releaseNotes: 'Notes',
-          downloadUrl: 'https://example.com/fluxer.apk',
-          fileName: 'fluxer.apk',
-          fileSizeBytes: 1000,
-        );
-
-        final service = AppUpdateService(dio: dio);
+        final service = AppUpdateService(dio: dioServing(fileData));
         double lastProgress = 0;
         int lastReceived = 0;
         int lastTotal = 0;
 
         final File? downloaded = await service.downloadUpdate(
-          info,
+          infoFor(),
           onProgress: (progress, received, total) {
             lastProgress = progress;
             lastReceived = received;
@@ -443,13 +545,56 @@ void main() {
         );
 
         expect(downloaded, isNotNull);
-        expect(downloaded!.existsSync(), isTrue);
+        expect(downloaded!.path, '${tempDir!.path}/updates/tyne-update.apk');
         expect(downloaded.readAsStringSync(), fileData);
+        expect(tempFileNames(), ['updates/tyne-update.apk']);
         expect(lastReceived, fileData.length);
         expect(lastTotal, fileData.length);
         expect(lastProgress, 1.0);
       },
     );
+
+    test('does not use the asset name as a path', () async {
+      final service = AppUpdateService(dio: dioServing(fileData));
+      final File? downloaded = await service.downloadUpdate(
+        infoFor(fileName: '../../evil.apk'),
+      );
+      expect(downloaded!.path, '${tempDir!.path}/updates/tyne-update.apk');
+    });
+
+    test('discards a download whose hash does not match', () async {
+      final service = AppUpdateService(
+        dio: dioServing('tampered-binary-content'),
+      );
+      expect('tampered-binary-content'.length, fileData.length);
+      expect(await service.downloadUpdate(infoFor()), isNull);
+      expect(tempFileNames(), isEmpty);
+    });
+
+    test('discards a truncated or oversized download', () async {
+      for (final String body in <String>['test-apk', '$fileData-and-more']) {
+        final service = AppUpdateService(dio: dioServing(body));
+        final File? downloaded = await service.downloadUpdate(
+          infoFor(sha256: _sha256Hex(body)),
+        );
+        expect(downloaded, isNull, reason: body);
+        expect(tempFileNames(), isEmpty, reason: body);
+      }
+    });
+
+    test('does not request an untrusted URL', () async {
+      int requests = 0;
+      final service = AppUpdateService(
+        dio: dioServing(fileData, onRequest: () => requests++),
+      );
+      expect(
+        await service.downloadUpdate(
+          infoFor(downloadUrl: 'https://example.com/tyne-v2.0.0.apk'),
+        ),
+        isNull,
+      );
+      expect(requests, 0);
+    });
 
     test('returns null when download fails with error', () async {
       final dio = Dio()
@@ -460,19 +605,8 @@ void main() {
           );
         });
 
-      const info = AppUpdateInfo(
-        tagName: 'v2.0.0',
-        version: '2.0.0',
-        title: 'Release 2.0.0',
-        releaseNotes: 'Notes',
-        downloadUrl: 'https://example.com/fluxer.apk',
-        fileName: 'fluxer.apk',
-        fileSizeBytes: 1000,
-      );
-
       final service = AppUpdateService(dio: dio);
-      final File? result = await service.downloadUpdate(info);
-      expect(result, isNull);
+      expect(await service.downloadUpdate(infoFor()), isNull);
     });
   });
 

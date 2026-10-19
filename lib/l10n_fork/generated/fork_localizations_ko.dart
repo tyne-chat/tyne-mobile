@@ -419,6 +419,9 @@ class ForkLocalizationsKo extends ForkLocalizations {
   String get appUpdateDownloadFailed => '업데이트를 다운로드하지 못했어요';
 
   @override
+  String get appUpdateInstallFailed => '업데이트를 설치하지 못했어요';
+
+  @override
   String get personaChangeMessageFailed => '메시지의 페르소나를 변경하지 못했어요';
 
   @override

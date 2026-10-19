@@ -122,6 +122,7 @@
     "imageFileTooLargeMaxSize": "Görüntü dosyası çok büyük. Lütfen {maxSize}'tan küçük bir dosya seçin.",
     "gifPickerSearchKlipyBrand": "KLIPY'de ara",
     "appUpdateDownloadFailed": "Güncelleme indirilemedi",
+    "appUpdateInstallFailed": "Güncelleme yüklenemedi",
     "personaChangeMessageFailed": "Mesajın personası değiştirilemedi",
     "personaActiveCleared": "Etkin persona temizlendi",
     "klipyPoweredBy": "KLIPY tarafından desteklenmektedir",
