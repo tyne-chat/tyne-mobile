@@ -28,6 +28,7 @@ import 'package:fluxer_dart/export.dart';
 
 // Fork imports.
 // ignore: directives_ordering
+import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_user_tag.dart';
 
 const double _kReactionTabEmojiSize = 18;
@@ -360,11 +361,7 @@ class _ReactorRow extends ConsumerWidget {
         );
 
     final avatarUrl = subprofile?.avatar != null
-        ? FluxerMediaUrl.userAvatar(
-            userId: user.id,
-            hash: subprofile!.avatar,
-            animated: true,
-          )
+        ? personaAvatarUrl(ownerUserId: user.id, hash: subprofile!.avatar)
         : FluxerMediaUrl.userAvatar(
             userId: user.id,
             hash: user.avatar,
@@ -376,22 +373,10 @@ class _ReactorRow extends ConsumerWidget {
             subprofile!.displayTagText!.trim().isNotEmpty)
         ? subprofile.displayTagText!.trim()
         : null;
-    final rawTagIcon =
-        (subprofile?.displayTagIcon != null &&
-            subprofile!.displayTagIcon!.trim().isNotEmpty)
-        ? subprofile.displayTagIcon!.trim()
-        : null;
-    final tagIcon = rawTagIcon == null
-        ? null
-        : (rawTagIcon.startsWith('http://') ||
-              rawTagIcon.startsWith('https://') ||
-              rawTagIcon.startsWith('data:'))
-        ? rawTagIcon
-        : FluxerMediaUrl.userAvatar(
-            userId: user.id,
-            hash: rawTagIcon,
-            animated: true,
-          );
+    final tagIcon = personaTagIconUrl(
+      ownerUserId: user.id,
+      icon: subprofile?.displayTagIcon,
+    );
     final hasTag = tagText != null || tagIcon != null;
 
     return FluxerGestureDetector(
