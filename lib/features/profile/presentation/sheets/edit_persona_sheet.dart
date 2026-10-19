@@ -13,6 +13,7 @@ import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_banner.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
@@ -987,31 +988,17 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
             animated: true,
           )
         : null;
-    final String? customAvatarUrl = _avatarHash == null
-        ? null
-        : (_avatarHash!.startsWith('http://') ||
-              _avatarHash!.startsWith('https://') ||
-              _avatarHash!.startsWith('data:'))
-        ? _avatarHash
-        : FluxerMediaUrl.userAvatar(
-            userId: currentUserSettings.userId,
-            hash: _avatarHash,
-            animated: true,
-          );
+    final String? customAvatarUrl = personaAvatarUrl(
+      ownerUserId: currentUserSettings.userId,
+      hash: _avatarHash,
+    );
     final String? effectiveAvatarUrl = hasCustomAvatar
         ? customAvatarUrl
         : rootAvatarUrl;
-    final String? effectiveBannerUrl = _bannerHash == null
-        ? null
-        : (_bannerHash!.startsWith('http://') ||
-              _bannerHash!.startsWith('https://') ||
-              _bannerHash!.startsWith('data:'))
-        ? _bannerHash
-        : FluxerMediaUrl.userBanner(
-            userId: currentUserSettings.userId,
-            hash: _bannerHash,
-            animated: true,
-          );
+    final String? effectiveBannerUrl = personaBannerUrl(
+      ownerUserId: currentUserSettings.userId,
+      hash: _bannerHash,
+    );
     final bool isColorDefault = _color == null || _color == 0;
 
     return FluxerSettingsSheet(
