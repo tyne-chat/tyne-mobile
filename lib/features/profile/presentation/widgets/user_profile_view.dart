@@ -61,6 +61,8 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 // ignore: directives_ordering
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart'
+    as persona_images;
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/edit_persona_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
@@ -825,42 +827,19 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     final int? rootAvatarColor =
         rootProfile?.user.avatarColor ?? message?.authorAvatarColor;
 
-    final String? personaAvatarUrl = rawPersonaAvatar == null
-        ? null
-        : (rawPersonaAvatar.startsWith('http://') ||
-              rawPersonaAvatar.startsWith('https://') ||
-              rawPersonaAvatar.startsWith('data:'))
-        ? rawPersonaAvatar
-        : FluxerMediaUrl.userAvatar(
-            userId: effectiveUserId,
-            hash: rawPersonaAvatar,
-            size: MediaProxySizes.avatarProfile,
-            animated: true,
-          );
-
-    final String? personaBannerUrl = rawPersonaBanner == null
-        ? null
-        : (rawPersonaBanner.startsWith('http://') ||
-              rawPersonaBanner.startsWith('https://') ||
-              rawPersonaBanner.startsWith('data:'))
-        ? rawPersonaBanner
-        : FluxerMediaUrl.userBanner(
-            userId: effectiveUserId,
-            hash: rawPersonaBanner,
-            animated: true,
-          );
-
-    final String? personaTagIcon = rawPersonaTagIcon == null
-        ? null
-        : (rawPersonaTagIcon.startsWith('http://') ||
-              rawPersonaTagIcon.startsWith('https://') ||
-              rawPersonaTagIcon.startsWith('data:'))
-        ? rawPersonaTagIcon
-        : FluxerMediaUrl.userAvatar(
-            userId: effectiveUserId,
-            hash: rawPersonaTagIcon,
-            animated: true,
-          );
+    final String? personaAvatarUrl = persona_images.personaAvatarUrl(
+      ownerUserId: effectiveUserId,
+      hash: rawPersonaAvatar,
+      size: MediaProxySizes.avatarProfile,
+    );
+    final String? personaBannerUrl = persona_images.personaBannerUrl(
+      ownerUserId: effectiveUserId,
+      hash: rawPersonaBanner,
+    );
+    final String? personaTagIcon = persona_images.personaTagIconUrl(
+      ownerUserId: effectiveUserId,
+      icon: rawPersonaTagIcon,
+    );
 
     final bool hasCustomAvatar =
         personaAvatarUrl != null && personaAvatarUrl.isNotEmpty;
