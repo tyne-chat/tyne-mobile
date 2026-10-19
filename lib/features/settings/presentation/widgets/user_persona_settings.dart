@@ -10,6 +10,7 @@ import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/edit_persona_sheet.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
@@ -296,28 +297,20 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
     final String? rawPreviewAvatar = activePersona?.avatarHash;
     final String? previewAvatar =
         (rawPreviewAvatar != null && rawPreviewAvatar.isNotEmpty)
-        ? (rawPreviewAvatar.startsWith('http://') ||
-                  rawPreviewAvatar.startsWith('https://') ||
-                  rawPreviewAvatar.startsWith('data:'))
-              ? rawPreviewAvatar
-              : (currentUser != null
-                    ? FluxerMediaUrl.userAvatar(
-                        userId: currentUser.id,
-                        hash: rawPreviewAvatar,
-                      )
-                    : null)
+        ? personaAvatarUrl(
+            ownerUserId: currentUser?.id,
+            hash: rawPreviewAvatar,
+            animated: false,
+          )
         : userAvatar;
     final String tagText = _tagTextController.text.trim();
     final String? tagIcon = _pendingTagIcon;
-    final String? resolvedTagIcon = tagIcon == null
-        ? null
-        : (tagIcon.startsWith('http://') ||
-              tagIcon.startsWith('https://') ||
-              tagIcon.startsWith('data:'))
-        ? tagIcon
-        : (currentUser != null
-              ? FluxerMediaUrl.userAvatar(userId: currentUser.id, hash: tagIcon)
-              : null);
+    // The icon is uploaded first and shown by the hash the upload returns.
+    final String? resolvedTagIcon = personaTagIconUrl(
+      ownerUserId: currentUser?.id,
+      icon: tagIcon,
+      animated: false,
+    );
     final bool isDirty = _computeIsDirty(systemDisplayTag);
 
     final Widget content = SingleChildScrollView(
@@ -415,27 +408,29 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                     runSpacing: layout.s2,
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
-                      if (resolvedTagIcon != null &&
-                          resolvedTagIcon.isNotEmpty) ...[
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(layout.s1),
-                          child: Image.network(
-                            resolvedTagIcon,
-                            width: 36,
-                            height: 36,
-                            fit: BoxFit.cover,
-                            errorBuilder: (_, _, _) => Container(
+                      // Change and Remove show for any icon, so one that cannot
+                      // be shown can still be replaced or removed.
+                      if (tagIcon != null && tagIcon.isNotEmpty) ...[
+                        if (resolvedTagIcon != null)
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(layout.s1),
+                            child: Image.network(
+                              resolvedTagIcon,
                               width: 36,
                               height: 36,
-                              color: colors.backgroundSecondary,
-                              child: Icon(
-                                PhosphorIconsBold.imageBroken,
-                                size: 18,
-                                color: colors.textPrimaryMuted,
+                              fit: BoxFit.cover,
+                              errorBuilder: (_, _, _) => Container(
+                                width: 36,
+                                height: 36,
+                                color: colors.backgroundSecondary,
+                                child: Icon(
+                                  PhosphorIconsBold.imageBroken,
+                                  size: 18,
+                                  color: colors.textPrimaryMuted,
+                                ),
                               ),
                             ),
                           ),
-                        ),
                         FluxerButton.secondary(
                           size: FluxerButtonSize.small,
                           fitContent: true,
@@ -721,7 +716,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
             children: [
               FluxerAvatar.user(
                 userId: userId,
-                imageUrl: persona.avatarHash,
+                imageUrl: personaImageHash(persona.avatarHash),
                 fallbackText: persona.name,
               ),
               SizedBox(width: layout.s3),
