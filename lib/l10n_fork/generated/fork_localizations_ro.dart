@@ -430,6 +430,9 @@ class ForkLocalizationsRo extends ForkLocalizations {
   String get appUpdateDownloadFailed => 'Actualizarea nu a putut fi descărcată';
 
   @override
+  String get appUpdateInstallFailed => 'Actualizarea nu a putut fi instalată';
+
+  @override
   String get personaChangeMessageFailed =>
       'Persona mesajului nu a putut fi schimbată';
 

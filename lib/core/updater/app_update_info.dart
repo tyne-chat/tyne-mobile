@@ -7,6 +7,7 @@ class AppUpdateInfo {
     required this.downloadUrl,
     required this.fileName,
     required this.fileSizeBytes,
+    required this.sha256,
     this.buildNumber,
     this.publishedAt,
   });
@@ -19,6 +20,9 @@ class AppUpdateInfo {
   final String downloadUrl;
   final String fileName;
   final int fileSizeBytes;
+
+  /// Lowercase hex SHA-256 of the APK, from the release asset's `digest`.
+  final String sha256;
   final DateTime? publishedAt;
 
   String get formattedFileSize {
