@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/edit_persona_sheet.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
@@ -384,7 +385,7 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
                           children: [
                             FluxerAvatar.user(
                               userId: userSettings.userId,
-                              imageUrl: p.avatarHash,
+                              imageUrl: personaImageHash(p.avatarHash),
                               fallbackText: p.name,
                               size: 20,
                               showStatus: false,
@@ -576,7 +577,7 @@ class _PersonaListTile extends StatelessWidget {
           children: [
             FluxerAvatar.user(
               userId: userId,
-              imageUrl: persona.avatarHash,
+              imageUrl: personaImageHash(persona.avatarHash),
               fallbackText: persona.name,
               size: 38,
               showStatus: false,
