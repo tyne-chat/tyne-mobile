@@ -60,7 +60,7 @@ void main() {
             subprofile: <String, Object?>{
               'id': 'p1',
               'name': 'Ada',
-              'avatar': 'a1',
+              'avatar': 'a1a1a1a1',
               'display_tag_text': 'SYS',
             },
             mentionPersonas: [
@@ -72,7 +72,7 @@ void main() {
 
       final KnownPersona? ada = await known('p1');
       expect(ada?.name, 'Ada');
-      expect(ada?.avatar, 'a1');
+      expect(ada?.avatar, 'a1a1a1a1');
       expect(ada?.displayTagText, 'SYS');
       expect((await known('p2'))?.color, 0x112233);
     },
@@ -85,7 +85,7 @@ void main() {
         MessageResponseSchema.fromJson(
           _message(
             mentionPersonas: [
-              <String, Object?>{'id': 'p2', 'name': name, 'avatar': 'b0b'},
+              <String, Object?>{'id': 'p2', 'name': name, 'avatar': 'b0b0b0b0'},
             ],
           ),
         ),
@@ -126,18 +126,18 @@ void main() {
       await upsertKnownPersonaFromJson(db, <String, Object?>{
         'id': 'p4',
         'name': 'Cy',
-        'avatar_hash': 'c4',
+        'avatar_hash': 'c4c4c4c4',
       });
       await upsertKnownPersonaFromPublic(
         db,
-        const PublicPersona(id: 'p5', name: 'Di', avatarHash: 'd5'),
+        const PublicPersona(id: 'p5', name: 'Di', avatarHash: 'd5d5d5d5'),
       );
 
       expect((await known('p1'))?.name, 'Ada');
       expect((await known('p2'))?.name, 'Bob');
       expect(await known('p3'), isNull);
-      expect((await known('p4'))?.avatar, 'c4');
-      expect((await known('p5'))?.avatar, 'd5');
+      expect((await known('p4'))?.avatar, 'c4c4c4c4');
+      expect((await known('p5'))?.avatar, 'd5d5d5d5');
     },
   );
 
@@ -150,12 +150,12 @@ void main() {
     await upsertKnownPersonaFromJson(db, <String, Object?>{
       'id': 'p1',
       'name': 'Adele',
-      'avatar_hash': 'a2',
+      'avatar_hash': 'a2a2a2a2',
     });
 
     final KnownPersona? ada = await known('p1');
     expect(ada?.name, 'Adele');
-    expect(ada?.avatar, 'a2');
+    expect(ada?.avatar, 'a2a2a2a2');
     expect(ada?.displayTagText, 'SYS');
   });
 
