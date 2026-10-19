@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'dart:isolate';
 
+import 'package:cryptography/dart.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -12,9 +14,23 @@ class AppUpdateService {
 
   final Dio _dio;
 
-  static const String _kGitHubRepo = 'tyne-chat/tyne-mobile';
+  // Test builds can point the updater at another repository's releases
+  // (`--dart-define=FORK_UPDATE_REPO=owner/name`) to try an update end to end
+  // without publishing to users. Published builds leave it unset.
+  // ignore: do_not_use_environment -- compile-time build config
+  static const String _kGitHubRepo = String.fromEnvironment(
+    'FORK_UPDATE_REPO',
+    defaultValue: 'tyne-chat/tyne-mobile',
+  );
   static const String _kLatestReleaseUrl =
       'https://api.github.com/repos/$_kGitHubRepo/releases/latest';
+
+  static const String _kDownloadHost = 'github.com';
+  static const String _kDownloadPathPrefix =
+      '/$_kGitHubRepo/releases/download/';
+  static const String _kDownloadDirName = 'updates';
+  static const String _kDownloadFileName = 'tyne-update.apk';
+  static final RegExp _kSha256Digest = RegExp(r'^sha256:([0-9a-f]{64})$');
 
   static const MethodChannel _kInstallChannel = MethodChannel(
     'fluxer_app/app_install',
@@ -78,6 +94,23 @@ class AppUpdateService {
           apkAsset['browser_download_url'] as String? ?? '';
       final String fileName = apkAsset['name'] as String? ?? 'tyne.apk';
       final int fileSize = (apkAsset['size'] as num?)?.toInt() ?? 0;
+      final String? sha256 = _kSha256Digest
+          .firstMatch((apkAsset['digest'] as String? ?? '').toLowerCase())
+          ?.group(1);
+
+      // Without a trusted URL, a size and a digest the download cannot be
+      // verified, so the release is not offered at all.
+      if (!isTrustedDownloadUrl(downloadUrl) ||
+          fileSize <= 0 ||
+          sha256 == null) {
+        if (kDebugMode) {
+          debugPrint(
+            '[AppUpdateService] ignoring $tagName: unverifiable asset '
+            '(url: $downloadUrl, size: $fileSize, digest: ${apkAsset['digest']})',
+          );
+        }
+        return null;
+      }
 
       final (String latestVersion, int? latestBuild) = _parseTagVersion(
         tagName,
@@ -104,6 +137,7 @@ class AppUpdateService {
         downloadUrl: downloadUrl,
         fileName: fileName,
         fileSizeBytes: fileSize,
+        sha256: sha256,
         publishedAt: publishedAt,
       );
     } on Object catch (e, st) {
@@ -119,37 +153,112 @@ class AppUpdateService {
     void Function(double progress, int received, int total)? onProgress,
     CancelToken? cancelToken,
   }) async {
+    File? partFile;
     try {
-      final Directory tempDir = await getTemporaryDirectory();
-      final String targetPath = '${tempDir.path}/${info.fileName}';
-      final File targetFile = File(targetPath);
-
-      if (targetFile.existsSync()) {
-        targetFile.deleteSync();
+      if (!isTrustedDownloadUrl(info.downloadUrl) || info.fileSizeBytes <= 0) {
+        return null;
       }
 
+      // Fixed name: the asset name comes from the network and must not be
+      // used as a path component. The folder is the only one the app's
+      // FileProvider exposes (android/app/src/main/res/xml/file_paths.xml).
+      final Directory tempDir = await getTemporaryDirectory();
+      final Directory updatesDir = Directory(
+        '${tempDir.path}/$_kDownloadDirName',
+      )..createSync(recursive: true);
+      final File targetFile = File('${updatesDir.path}/$_kDownloadFileName');
+      final File part = partFile = File('${targetFile.path}.part');
+      for (final File stale in <File>[targetFile, part]) {
+        if (stale.existsSync()) {
+          stale.deleteSync();
+        }
+      }
+
+      final CancelToken token = cancelToken ?? CancelToken();
       await _dio.download(
         info.downloadUrl,
-        targetPath,
+        part.path,
         onReceiveProgress: (int received, int total) {
+          if (received > info.fileSizeBytes) {
+            token.cancel('update is larger than the release says');
+            return;
+          }
           if (onProgress != null && total > 0) {
             final double percent = received / total;
             onProgress(percent, received, total);
           }
         },
-        cancelToken: cancelToken,
+        cancelToken: token,
         options: Options(
           headers: const <String, String>{'User-Agent': 'TyneApp'},
         ),
       );
 
-      return targetFile;
+      final int length = part.lengthSync();
+      final String? actualSha256 = length == info.fileSizeBytes
+          ? await _sha256OfFileInIsolate(part.path)
+          : null;
+      if (actualSha256 != info.sha256.toLowerCase()) {
+        if (kDebugMode) {
+          debugPrint(
+            '[AppUpdateService] discarding download: got $length bytes, '
+            'sha256 $actualSha256; expected ${info.fileSizeBytes} bytes, '
+            'sha256 ${info.sha256}',
+          );
+        }
+        part.deleteSync();
+        return null;
+      }
+
+      return part.renameSync(targetFile.path);
     } on Object catch (e, st) {
       if (kDebugMode) {
         debugPrint('[AppUpdateService] download update error: $e\n$st');
       }
+      try {
+        if (partFile != null && partFile.existsSync()) {
+          partFile.deleteSync();
+        }
+      } on FileSystemException catch (_) {}
       return null;
     }
+  }
+
+  /// Whether [url] is an https release asset of this app's GitHub repository.
+  @visibleForTesting
+  static bool isTrustedDownloadUrl(String url) {
+    final Uri? uri = Uri.tryParse(url);
+    return uri != null &&
+        uri.isScheme('https') &&
+        uri.host == _kDownloadHost &&
+        uri.userInfo.isEmpty &&
+        uri.port == 443 &&
+        uri.path.startsWith(_kDownloadPathPrefix);
+  }
+
+  // A static with only [path] in scope, so the closure sent to the isolate
+  // cannot capture anything unsendable.
+  static Future<String> _sha256OfFileInIsolate(String path) =>
+      Isolate.run(() => _sha256OfFile(path));
+
+  static String _sha256OfFile(String path) {
+    final DartHashSink sink = const DartSha256().newHashSink();
+    final RandomAccessFile file = File(path).openSync();
+    try {
+      final Uint8List buffer = Uint8List(1024 * 1024);
+      int read;
+      while ((read = file.readIntoSync(buffer)) > 0) {
+        sink.addSlice(buffer, 0, read, false);
+      }
+    } finally {
+      file.closeSync();
+    }
+    sink.close();
+    return sink
+        .hashSync()
+        .bytes
+        .map((int b) => b.toRadixString(16).padLeft(2, '0'))
+        .join();
   }
 
   Future<bool> canRequestPackageInstalls() async {

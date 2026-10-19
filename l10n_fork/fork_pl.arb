@@ -122,6 +122,7 @@
     "imageFileTooLargeMaxSize": "Plik obrazu jest za duży. Wybierz plik mniejszy niż {maxSize}.",
     "gifPickerSearchKlipyBrand": "Szukaj KLIPY",
     "appUpdateDownloadFailed": "Nie udało się pobrać aktualizacji",
+    "appUpdateInstallFailed": "Nie udało się zainstalować aktualizacji",
     "personaChangeMessageFailed": "Nie udało się zmienić persony wiadomości",
     "personaActiveCleared": "Wyczyszczono aktywną personę",
     "klipyPoweredBy": "Dostarczane przez KLIPY",

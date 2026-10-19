@@ -122,6 +122,7 @@
     "imageFileTooLargeMaxSize": "Bildefilen er for stor. Velg en fil som er mindre enn {maxSize}.",
     "gifPickerSearchKlipyBrand": "Søk i KLIPY",
     "appUpdateDownloadFailed": "Kunne ikke laste ned oppdateringen",
+    "appUpdateInstallFailed": "Kunne ikke installere oppdateringen",
     "personaChangeMessageFailed": "Kunne ikke endre meldingens persona",
     "personaActiveCleared": "Aktiv persona fjernet",
     "klipyPoweredBy": "Levert av KLIPY",
