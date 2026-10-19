@@ -8,6 +8,10 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_dart/export.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
+
 const int guildProfileDefaultAccentColor = 0x4641D9;
 const int guildProfileAvatarUnsetFlag = 1 << 0;
 const int guildProfileBannerUnsetFlag = 1 << 1;
@@ -238,19 +242,12 @@ GuildUserDisplay resolveMessageAuthorDisplay({
 }) {
   if (message.isPersona) {
     final String personaName = message.personaName ?? message.authorName;
-    final String? rawAvatar = message.personaAvatar;
-    final String? avatarUrl = rawAvatar == null
-        ? null
-        : (rawAvatar.startsWith('http://') ||
-              rawAvatar.startsWith('https://') ||
-              rawAvatar.startsWith('data:'))
-        ? rawAvatar
-        : FluxerMediaUrl.userAvatar(
-            userId: message.authorId,
-            hash: rawAvatar,
-            size: MediaProxySizes.avatarProfile,
-            animated: animatedAvatar,
-          );
+    final String? avatarUrl = personaAvatarUrl(
+      ownerUserId: message.authorId,
+      hash: message.personaAvatar,
+      size: MediaProxySizes.avatarProfile,
+      animated: animatedAvatar,
+    );
     return GuildUserDisplay(
       displayName: personaName,
       accountDisplayName: personaName,
