@@ -102,7 +102,7 @@ class _RecordingPersonaSettings extends PersonaSettingsNotifier {
 
   @override
   AsyncValue<PersonaSettings> build() => const AsyncData(
-    PersonaSettings(displayTagText: 'SYS', displayTagIcon: 'icon'),
+    PersonaSettings(displayTagText: 'SYS', displayTagIcon: 'c4c4c4c4'),
   );
 
   @override
@@ -187,7 +187,7 @@ void main() {
         'persona': <String, dynamic>{
           'id': 'p9',
           'name': 'Bob',
-          'avatar_hash': 'b0b',
+          'avatar_hash': 'b0b0b0b0',
           'display_tag_text': 'TAG',
         },
       });
@@ -197,7 +197,7 @@ void main() {
         (
           personaId: 'p9',
           name: 'Bob',
-          avatar: 'b0b',
+          avatar: 'b0b0b0b0',
           tag: 'TAG',
           tagIcon: null,
         ),
@@ -245,12 +245,12 @@ void main() {
   test('applies new persona settings and their display tag', () {
     handle('USER_PERSONA_SETTINGS_UPDATE', <String, dynamic>{
       'display_tag_text': 'NEW',
-      'display_tag_icon': 'new-icon',
+      'display_tag_icon': 'c5c5c5c5',
     });
 
     expect(settings.fromGateway.single['display_tag_text'], 'NEW');
     expect(chat.tagUpdates, [
-      (authorId: 'me', tag: 'NEW', tagIcon: 'new-icon'),
+      (authorId: 'me', tag: 'NEW', tagIcon: 'c5c5c5c5'),
     ]);
   });
 
@@ -270,7 +270,7 @@ void main() {
           'id': 'p1',
           'user_id': 'me',
           'name': 'Ada',
-          'avatar_hash': 'a1',
+          'avatar_hash': 'a1a1a1a1',
         },
       });
 
@@ -279,9 +279,9 @@ void main() {
         (
           personaId: 'p1',
           name: 'Ada',
-          avatar: 'a1',
+          avatar: 'a1a1a1a1',
           tag: 'SYS',
-          tagIcon: 'icon',
+          tagIcon: 'c4c4c4c4',
         ),
       ]);
       expect(await keptName('p1'), 'Ada');

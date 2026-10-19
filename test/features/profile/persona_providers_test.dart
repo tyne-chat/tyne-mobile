@@ -124,7 +124,7 @@ void main() {
       expect(tagWithText.isEmpty, isFalse);
       expect(tagWithText.isNotEmpty, isTrue);
 
-      const tagWithIcon = SystemDisplayTag(iconUrl: 'icon_hash');
+      const tagWithIcon = SystemDisplayTag(iconUrl: 'c2c2c2c2');
       expect(tagWithIcon.isEmpty, isFalse);
       expect(tagWithIcon.isNotEmpty, isTrue);
     });
@@ -309,7 +309,7 @@ void main() {
           'active_persona_id': 'p200',
           'is_latched': true,
           'display_tag_text': 'Wonderland',
-          'display_tag_icon': 'hash_xyz',
+          'display_tag_icon': 'c3c3c3c3',
         });
 
       final settings = container.read(personaSettingsProvider).asData?.value;
@@ -319,11 +319,11 @@ void main() {
       expect(settings.activePersonaId, 'p200');
       expect(settings.isLatched, isTrue);
       expect(settings.displayTagText, 'Wonderland');
-      expect(settings.displayTagIcon, 'hash_xyz');
+      expect(settings.displayTagIcon, 'c3c3c3c3');
 
       final tag = container.read(systemDisplayTagProvider);
       expect(tag.text, 'Wonderland');
-      expect(tag.iconUrl, 'hash_xyz');
+      expect(tag.iconUrl, 'c3c3c3c3');
 
       notifier.reset();
       final resetSettings = container

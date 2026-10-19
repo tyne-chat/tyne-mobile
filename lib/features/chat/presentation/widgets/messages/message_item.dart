@@ -91,6 +91,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 // ignore: directives_ordering
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 import 'package:fluxer_app/features/threads/domain/fork_original_poster.dart';
 import 'package:fluxer_app/features/threads/providers/thread_owner_persona_provider.dart';
 
@@ -464,21 +465,10 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         (msg.personaTag != null && msg.personaTag!.trim().isNotEmpty)
         ? msg.personaTag!.trim()
         : null;
-    final String? rawTagIcon =
-        (msg.personaTagIcon != null && msg.personaTagIcon!.trim().isNotEmpty)
-        ? msg.personaTagIcon!.trim()
-        : null;
-    final String? tagIcon = rawTagIcon == null
-        ? null
-        : (rawTagIcon.startsWith('http://') ||
-              rawTagIcon.startsWith('https://') ||
-              rawTagIcon.startsWith('data:'))
-        ? rawTagIcon
-        : FluxerMediaUrl.userAvatar(
-            userId: msg.authorId,
-            hash: rawTagIcon,
-            animated: true,
-          );
+    final String? tagIcon = personaTagIconUrl(
+      ownerUserId: msg.authorId,
+      icon: msg.personaTagIcon,
+    );
 
     final Widget badge;
     if (tagText != null) {
