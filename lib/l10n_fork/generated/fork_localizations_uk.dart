@@ -432,6 +432,9 @@ class ForkLocalizationsUk extends ForkLocalizations {
   String get appUpdateDownloadFailed => 'Не вдалося завантажити оновлення';
 
   @override
+  String get appUpdateInstallFailed => 'Не вдалося встановити оновлення';
+
+  @override
   String get personaChangeMessageFailed =>
       'Не вдалося змінити персону повідомлення';
 

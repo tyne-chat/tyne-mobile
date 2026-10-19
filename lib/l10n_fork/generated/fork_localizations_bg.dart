@@ -432,6 +432,10 @@ class ForkLocalizationsBg extends ForkLocalizations {
       'Актуализацията не можа да бъде изтеглена';
 
   @override
+  String get appUpdateInstallFailed =>
+      'Актуализацията не можа да бъде инсталирана';
+
+  @override
   String get personaChangeMessageFailed =>
       'Персоната на съобщението не можа да бъде променена';
 
