@@ -39,6 +39,7 @@ import 'package:fluxer_dart/gateway.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/features/profile/data/known_personas.dart';
+import 'package:fluxer_dart/gateway_client/fork_parse_skips.dart';
 
 const int _messageTypeThreadStarter = 21;
 const int _cachedMessagesKeptPerChannel = 100;
@@ -142,7 +143,9 @@ UserPartialResponse? _presenceUserFromMap(Map<String, dynamic> presence) {
   }
   try {
     return UserPartialResponse.fromJson(user);
-  } on Object {
+  } on Object catch (error) {
+    // Fork: say what was skipped (tyne-chat/tyne#193).
+    ForkGatewayParseSkips.report('presence UserPartialResponse', error);
     return null;
   }
 }
