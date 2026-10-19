@@ -430,6 +430,9 @@ class ForkLocalizationsTr extends ForkLocalizations {
   String get appUpdateDownloadFailed => 'Güncelleme indirilemedi';
 
   @override
+  String get appUpdateInstallFailed => 'Güncelleme yüklenemedi';
+
+  @override
   String get personaChangeMessageFailed => 'Mesajın personası değiştirilemedi';
 
   @override

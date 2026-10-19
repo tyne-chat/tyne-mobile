@@ -122,6 +122,7 @@
     "imageFileTooLargeMaxSize": "Bilddatei ist zu groß. Bitte wähle eine Datei, die kleiner als {maxSize} ist.",
     "gifPickerSearchKlipyBrand": "KLIPY suchen",
     "appUpdateDownloadFailed": "Update konnte nicht heruntergeladen werden",
+    "appUpdateInstallFailed": "Update konnte nicht installiert werden",
     "personaChangeMessageFailed": "Persona der Nachricht konnte nicht geändert werden",
     "personaActiveCleared": "Aktive Persona entfernt",
     "klipyPoweredBy": "Bereitgestellt von KLIPY",
