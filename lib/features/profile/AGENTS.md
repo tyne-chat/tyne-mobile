@@ -14,6 +14,7 @@ reaches most of the app. The server side is tyne-chat/tyne `fluxer_api/src/api/p
 |---|---|
 | Models: own persona, someone else's profile card, settings, tags, signature emojis | `domain/persona.dart`, `public_persona.dart`, `signature_emoji.dart` |
 | Tag matching | `domain/persona_matcher.dart` (a port of the server repository's `PersonaMatcher.ts`) |
+| Image addresses: persona avatar and banner, display tag icon | `domain/persona_image_urls.dart` |
 | Own personas, the selection, settings, the display tag | `providers/persona_providers.dart` |
 | Other people's persona profiles | `providers/public_persona_provider.dart` |
 | Persona gateway events | `providers/persona_gateway_events.dart` (`handlePersonaGatewayEvent`) |
@@ -52,6 +53,13 @@ persona should still be used (tyne-chat/tyne#130 is the bug where it is dropped)
 - **Only the persona's id goes to the server** (`persona_id` on sends, edits and typing). The server
   builds the `subprofile` object messages carry. `Persona.toSubprofilePayload` is a local copy that draws
   pending rows; never send it.
+- **Images are hashes, never links.** A persona's avatar and banner and the account's display tag
+  icon are hashes of images the server stores under the owning account; the server accepts and sends
+  nothing else. Draw them only through `personaAvatarUrl`, `personaBannerUrl` and `personaTagIconUrl`,
+  or, for a widget that builds the address from a hash itself (`FluxerAvatar`, which loads an
+  http(s), data: or blob: value as it is), through `personaImageHash`. All of them give null for
+  anything that is not a hash, so a link is never loaded, whatever a cache or another server holds:
+  it would make the app fetch a picture from wherever it points and tell that server who is reading.
 - **Other people's personas:** `known_personas` holds every persona the device has seen (from messages'
   `subprofile` and `mention_personas`, persona events and profile lookups), so mention chips, composer
   labels and thread owners need no request. `knownPersonaProvider(personaId)` reads it. A deleted persona
@@ -102,7 +110,8 @@ that touches `UserProfileView`'s `build`, constructor or private constants, chec
 - Fork: `test/features/profile/persona_*_test.dart` (matcher with the unfinished-tag table, providers,
   per-channel scope with a request-counting adapter, gateway events, models),
   `data/known_personas_test.dart`, `providers/public_persona_provider_test.dart`,
-  `presentation/sheets/edit_persona_sheet_test.dart`, `user_profile_view_fork_test.dart`;
+  `presentation/sheets/edit_persona_sheet_test.dart`, `user_profile_view_fork_test.dart`,
+  `domain/persona_image_urls_test.dart`;
   `test/fork_support/wait_until.dart` instead of sleeps.
 - Not covered: request counts for persona reloads and profile lookups; a private or unreachable persona
   profile.
