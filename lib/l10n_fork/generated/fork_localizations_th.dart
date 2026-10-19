@@ -427,6 +427,9 @@ class ForkLocalizationsTh extends ForkLocalizations {
   String get appUpdateDownloadFailed => 'ดาวน์โหลดอัปเดตไม่สำเร็จ';
 
   @override
+  String get appUpdateInstallFailed => 'ติดตั้งอัปเดตไม่สำเร็จ';
+
+  @override
   String get personaChangeMessageFailed =>
       'เปลี่ยน Persona ของข้อความไม่สำเร็จ';
 

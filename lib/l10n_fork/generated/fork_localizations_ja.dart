@@ -420,6 +420,9 @@ class ForkLocalizationsJa extends ForkLocalizations {
   String get appUpdateDownloadFailed => 'アップデートをダウンロードできませんでした';
 
   @override
+  String get appUpdateInstallFailed => 'アップデートをインストールできませんでした';
+
+  @override
   String get personaChangeMessageFailed => 'メッセージのペルソナを変更できませんでした';
 
   @override
