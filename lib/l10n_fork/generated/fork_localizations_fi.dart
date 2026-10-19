@@ -430,6 +430,9 @@ class ForkLocalizationsFi extends ForkLocalizations {
   String get appUpdateDownloadFailed => 'Päivityksen lataaminen epäonnistui';
 
   @override
+  String get appUpdateInstallFailed => 'Päivityksen asentaminen epäonnistui';
+
+  @override
   String get personaChangeMessageFailed =>
       'Viestin persoonan vaihtaminen epäonnistui';
 

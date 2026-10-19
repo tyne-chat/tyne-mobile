@@ -431,6 +431,9 @@ class ForkLocalizationsCs extends ForkLocalizations {
   String get appUpdateDownloadFailed => 'Aktualizaci se nepodařilo stáhnout';
 
   @override
+  String get appUpdateInstallFailed => 'Aktualizaci se nepodařilo nainstalovat';
+
+  @override
   String get personaChangeMessageFailed =>
       'Personu zprávy se nepodařilo změnit';
 
