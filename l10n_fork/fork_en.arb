@@ -578,6 +578,10 @@
     "@appUpdateDownloadFailed": {
         "description": "Shown in the in-app updater when downloading the new version fails."
     },
+    "appUpdateInstallFailed": "Failed to install update",
+    "@appUpdateInstallFailed": {
+        "description": "Shown in the in-app updater when the downloaded update cannot be handed to the system installer, for example because the file failed its checks."
+    },
     "personaChangeMessageFailed": "Failed to change message persona",
     "@personaChangeMessageFailed": {
         "description": "Error when changing which persona a sent message is from fails."
