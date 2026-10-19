@@ -430,6 +430,9 @@ class ForkLocalizationsRu extends ForkLocalizations {
   String get appUpdateDownloadFailed => 'Не удалось скачать обновление';
 
   @override
+  String get appUpdateInstallFailed => 'Не удалось установить обновление';
+
+  @override
   String get personaChangeMessageFailed =>
       'Не удалось изменить персону сообщения';
 
