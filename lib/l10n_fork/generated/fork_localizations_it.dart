@@ -433,6 +433,10 @@ class ForkLocalizationsIt extends ForkLocalizations {
       'Impossibile scaricare l\'aggiornamento';
 
   @override
+  String get appUpdateInstallFailed =>
+      'Impossibile installare l\'aggiornamento';
+
+  @override
   String get personaChangeMessageFailed =>
       'Impossibile cambiare la persona del messaggio';
 
