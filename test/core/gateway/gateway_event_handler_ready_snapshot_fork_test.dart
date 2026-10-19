@@ -21,6 +21,7 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
+import 'package:fluxer_dart/gateway_client/fork_parse_skips.dart';
 
 import '../../helpers/open_test_database.dart';
 import 'gateway_event_handler_ready_snapshot_test.dart' hide main;
@@ -259,6 +260,43 @@ void main() {
           reason: channelId,
         );
       }
+    },
+  );
+
+  test(
+    'a guild member that does not parse in READY is reported on this isolate',
+    () async {
+      final List<String> skipped = <String>[];
+      ForkGatewayParseSkips.onSkipped = (String what, Object error) =>
+          skipped.add(what);
+      addTearDown(() => ForkGatewayParseSkips.onSkipped = null);
+      final FluxerDatabase database = openTestDatabase();
+      final Map<String, dynamic> guild = forkUpstream.guild(
+        channelIds: <String>[_channelId],
+        roleIds: <String>[_guildId],
+      );
+      guild['members'] = <Map<String, Object?>>[
+        <String, Object?>{
+          'user': <String, Object?>{'id': '100'},
+          'roles': <String>[],
+          'joined_at': 'not a date',
+        },
+      ];
+
+      await GatewayEventHandler(database: database).handle(
+        ReadyEvent(
+          sessionId: 'session-1',
+          user: _user(),
+          guilds: const [],
+          rawGuilds: <Map<String, dynamic>>[guild],
+          privateChannels: const [],
+          relationships: const [],
+          readStates: const [],
+          presences: const [],
+        ),
+      );
+
+      expect(skipped, <String>['GuildMemberResponse']);
     },
   );
 }
