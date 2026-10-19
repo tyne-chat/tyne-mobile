@@ -60,6 +60,11 @@ the persona and signal-bar events.
 - **Reactions:** `personaId` goes from `MessageReactionAddEvent`/`RemoveEvent` into
   `ReactionWriteBatcher.enqueue` and `applyMessageReactionDelta`. `MESSAGE_REACTION_ADD_MANY` (DMs only)
   still loses the persona, on the server first (tyne-chat/tyne#120).
+- **SDK models back into `fromJson`:** never feed an SDK model's `toJson()` into a `fromJson`. The
+  generated `toJson()` leaves enum fields as Dart values, so parsing fails (`v as num`) and the parser
+  skips the item without a word. With a reply mention preference set, READY dropped the user's own
+  member from every guild this way (tyne-chat/tyne#193, fixed upstream in #1048). Use a JSON round
+  trip, `jsonDecode(jsonEncode(model))`, as upstream's READY handler does.
 - **Known personas:** message create, update and saved-message events upsert the personas a message names
   into Drift (`upsertKnownPersonasFromSdk`), so mention chips need no request.
 - **Persona and signal-bar events** arrive as `UnknownGatewayEvent`s and are routed by name in that case:
@@ -83,7 +88,8 @@ updates are sent only when the presence changes.
   `GatewayEventHandler(database:, currentUserId:, on…:)` and `await handler.handle(event)`.
 - Fork tests: `gateway_event_handler_fork_test.dart` (persona and account reactions, the typing persona
   callback), `gateway_event_handler_missing_events_fork_test.dart` (signal-bar routing),
-  `providers/typing_personas_provider_test.dart`.
+  `gateway_event_handler_ready_snapshot_fork_test.dart` (READY keeps the own member with a reply
+  mention preference set, upstream's fix of tyne-chat/tyne#193), `providers/typing_personas_provider_test.dart`.
 - Not covered: the seven persona event names in the handler, known-persona writes from events,
   ADD_MANY with a persona.
 - After a change: `flutter test test/core/gateway test/core/providers test/features/profile
