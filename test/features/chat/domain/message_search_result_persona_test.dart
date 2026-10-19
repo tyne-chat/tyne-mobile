@@ -30,9 +30,9 @@ void main() {
           subprofile: <String, Object?>{
             'id': '501',
             'name': 'Kenoma',
-            'avatar': 'abc123',
+            'avatar': 'a6a6a6a6',
             'display_tag_text': 'HS',
-            'display_tag_icon': 'icon1',
+            'display_tag_icon': 'c6c6c6c6',
           },
         ),
       ),
@@ -40,9 +40,9 @@ void main() {
 
     expect(message.personaId, '501');
     expect(message.personaName, 'Kenoma');
-    expect(message.personaAvatar, 'abc123');
+    expect(message.personaAvatar, 'a6a6a6a6');
     expect(message.personaTag, 'HS');
-    expect(message.personaTagIcon, 'icon1');
+    expect(message.personaTagIcon, 'c6c6c6c6');
   });
 
   test('a search result sent as the account has no persona', () {
