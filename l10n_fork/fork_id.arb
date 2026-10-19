@@ -122,6 +122,7 @@
     "imageFileTooLargeMaxSize": "File gambar terlalu besar. Pilih file yang ukurannya kurang dari {maxSize}.",
     "gifPickerSearchKlipyBrand": "Cari KLIPY",
     "appUpdateDownloadFailed": "Gagal mengunduh pembaruan",
+    "appUpdateInstallFailed": "Gagal memasang pembaruan",
     "personaChangeMessageFailed": "Gagal mengubah persona pesan",
     "personaActiveCleared": "Persona aktif dihapus",
     "klipyPoweredBy": "Didukung oleh KLIPY",
