@@ -431,6 +431,9 @@ class ForkLocalizationsEl extends ForkLocalizations {
   String get appUpdateDownloadFailed => 'Η λήψη της ενημέρωσης απέτυχε';
 
   @override
+  String get appUpdateInstallFailed => 'Η εγκατάσταση της ενημέρωσης απέτυχε';
+
+  @override
   String get personaChangeMessageFailed =>
       'Η αλλαγή της persona του μηνύματος απέτυχε';
 
