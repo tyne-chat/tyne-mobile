@@ -10,8 +10,8 @@
 // sent to the server splits them into its account and persona fields.
 
 import 'package:dio/dio.dart';
-import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/features/chat/data/channel_persona_mention_cache.dart';
+import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 
 const String kPersonaSearchIdPrefix = 'persona:';
 
@@ -86,13 +86,11 @@ class PersonaSearchSuggestion {
       name: name,
       ownerUserId: ownerUserId,
       ownerTag: showDiscriminator ? '$owner#$discriminator' : owner,
-      avatarUrl: avatar == null || avatar.isEmpty
-          ? null
-          : avatar.startsWith('http://') ||
-                avatar.startsWith('https://') ||
-                avatar.startsWith('data:')
-          ? avatar
-          : FluxerMediaUrl.userAvatar(userId: ownerUserId, hash: avatar),
+      avatarUrl: personaAvatarUrl(
+        ownerUserId: ownerUserId,
+        hash: avatar,
+        animated: false,
+      ),
       avatarColor:
           (item['avatar_color'] as num?)?.toInt() ??
           (item['color'] as num?)?.toInt(),
