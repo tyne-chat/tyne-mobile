@@ -122,6 +122,7 @@
     "imageFileTooLargeMaxSize": "圖片檔案過大。請選擇小於 {maxSize} 的檔案。",
     "gifPickerSearchKlipyBrand": "搜尋 KLIPY",
     "appUpdateDownloadFailed": "下載更新失敗",
+    "appUpdateInstallFailed": "安裝更新失敗",
     "personaChangeMessageFailed": "變更訊息的人格失敗",
     "personaActiveCleared": "已清除使用中人格",
     "klipyPoweredBy": "由 KLIPY 提供技術支援",

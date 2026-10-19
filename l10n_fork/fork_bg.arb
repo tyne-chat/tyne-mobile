@@ -122,6 +122,7 @@
     "imageFileTooLargeMaxSize": "Файлът с изображение е твърде голям. Моля, изберете файл, по-малък от {maxSize}.",
     "gifPickerSearchKlipyBrand": "Търсене в KLIPY",
     "appUpdateDownloadFailed": "Актуализацията не можа да бъде изтеглена",
+    "appUpdateInstallFailed": "Актуализацията не можа да бъде инсталирана",
     "personaChangeMessageFailed": "Персоната на съобщението не можа да бъде променена",
     "personaActiveCleared": "Активната персона е изчистена",
     "klipyPoweredBy": "С технологията на KLIPY",

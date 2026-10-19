@@ -122,6 +122,7 @@
     "imageFileTooLargeMaxSize": "Kuvatiedosto on liian suuri. Valitse tiedosto, joka on pienempi kuin {maxSize}.",
     "gifPickerSearchKlipyBrand": "Hae KLIPYstä",
     "appUpdateDownloadFailed": "Päivityksen lataaminen epäonnistui",
+    "appUpdateInstallFailed": "Päivityksen asentaminen epäonnistui",
     "personaChangeMessageFailed": "Viestin persoonan vaihtaminen epäonnistui",
     "personaActiveCleared": "Aktiivinen persoona poistettu",
     "klipyPoweredBy": "Palvelun tarjoaa KLIPY",
