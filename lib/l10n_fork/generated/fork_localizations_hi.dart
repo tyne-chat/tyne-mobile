@@ -428,6 +428,9 @@ class ForkLocalizationsHi extends ForkLocalizations {
   String get appUpdateDownloadFailed => 'अपडेट डाउनलोड नहीं हो सका';
 
   @override
+  String get appUpdateInstallFailed => 'अपडेट इंस्टॉल नहीं हो सका';
+
+  @override
   String get personaChangeMessageFailed => 'संदेश का परसोना बदला नहीं जा सका';
 
   @override
