@@ -69,7 +69,10 @@ void main() {
             'signal_id': 's1',
             'user': <String, dynamic>{'id': '7', 'username': 'alice'},
             'persona_id': 'p1',
-            'subprofile': <String, dynamic>{'name': 'Bob', 'avatar': 'b0b'},
+            'subprofile': <String, dynamic>{
+              'name': 'Bob',
+              'avatar': 'b0b0b0b0',
+            },
           },
         ],
       };
@@ -83,7 +86,7 @@ void main() {
       expect(entry.userId, '7');
       expect(entry.personaId, 'p1');
       expect(entry.personaName, 'Bob');
-      expect(entry.personaAvatar, 'b0b');
+      expect(entry.personaAvatar, 'b0b0b0b0');
     },
   );
 

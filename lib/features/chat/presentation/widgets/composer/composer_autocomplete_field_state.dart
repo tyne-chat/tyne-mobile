@@ -1039,18 +1039,10 @@ class ComposerAutocompleteFieldState
               : (ownerMember?.username ??
                     (rawOwnerUsername.isNotEmpty ? rawOwnerUsername : ''));
 
-          final String? rawAvatar = map['avatar_hash'] as String?;
-          final String? avatarUrl = rawAvatar == null
-              ? null
-              : (rawAvatar.startsWith('http://') ||
-                    rawAvatar.startsWith('https://') ||
-                    rawAvatar.startsWith('data:'))
-              ? rawAvatar
-              : FluxerMediaUrl.userAvatar(
-                  userId: ownerId,
-                  hash: rawAvatar,
-                  animated: true,
-                );
+          final String? avatarUrl = personaAvatarUrl(
+            ownerUserId: ownerId,
+            hash: map['avatar_hash'] as String?,
+          );
           final int? color =
               (map['avatar_color'] as num?)?.toInt() ??
               (map['color'] as num?)?.toInt();
@@ -1062,19 +1054,10 @@ class ComposerAutocompleteFieldState
               : resolvedOwner;
           final String? systemTag = (map['display_tag_text'] as String?)
               ?.trim();
-          final String? rawTagIcon = (map['display_tag_icon'] as String?)
-              ?.trim();
-          final String? systemTagIcon = rawTagIcon == null
-              ? null
-              : (rawTagIcon.startsWith('http://') ||
-                    rawTagIcon.startsWith('https://') ||
-                    rawTagIcon.startsWith('data:'))
-              ? rawTagIcon
-              : FluxerMediaUrl.userAvatar(
-                  userId: ownerId,
-                  hash: rawTagIcon,
-                  animated: true,
-                );
+          final String? systemTagIcon = personaTagIconUrl(
+            ownerUserId: ownerId,
+            icon: map['display_tag_icon'] as String?,
+          );
           final String? ownerAvatarHash = map['owner_avatar'] as String?;
           final String? rootAvatarUrl =
               (ownerAvatarHash != null && ownerAvatarHash.isNotEmpty)
