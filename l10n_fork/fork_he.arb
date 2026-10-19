@@ -122,6 +122,7 @@
     "imageFileTooLargeMaxSize": "קובץ התמונה גדול מדי. בחר קובץ שגודלו קטן מ-{maxSize}.",
     "gifPickerSearchKlipyBrand": "חפש ב-KLIPY",
     "appUpdateDownloadFailed": "הורדת העדכון נכשלה",
+    "appUpdateInstallFailed": "התקנת העדכון נכשלה",
     "personaChangeMessageFailed": "שינוי הפרסונה של ההודעה נכשל",
     "personaActiveCleared": "הפרסונה הפעילה נוקתה",
     "klipyPoweredBy": "מופעל על ידי KLIPY",

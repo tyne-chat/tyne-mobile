@@ -122,6 +122,7 @@
     "imageFileTooLargeMaxSize": "Datoteka slike je prevelika. Odaberite datoteku manju od {maxSize}.",
     "gifPickerSearchKlipyBrand": "Pretraži KLIPY",
     "appUpdateDownloadFailed": "Preuzimanje ažuriranja nije uspjelo",
+    "appUpdateInstallFailed": "Instaliranje ažuriranja nije uspjelo",
     "personaChangeMessageFailed": "Promjena persone poruke nije uspjela",
     "personaActiveCleared": "Aktivna persona uklonjena",
     "klipyPoweredBy": "Pokreće KLIPY",
