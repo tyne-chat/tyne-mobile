@@ -1,5 +1,10 @@
+// ignore: unused_import // Fork: upstream's import, unused since the fork's changes.
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_dart/gateway_client/gateway_types.dart';
+
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/gateway/fork_gateway_parse_skip_log.dart';
 
 class ParsedReadyGuild {
   const ParsedReadyGuild({
@@ -87,7 +92,7 @@ Future<List<ParsedReadyGuild>> parseReadyGuilds({
   if (rawGuilds.isEmpty) {
     return Future<List<ParsedReadyGuild>>.value(const <ParsedReadyGuild>[]);
   }
-  return compute(parseReadyGuildsOnIsolate, <String, Object?>{
+  return forkComputeLoggingSkips(parseReadyGuildsOnIsolate, <String, Object?>{
     'rawGuilds': rawGuilds,
     'guildPositions': guildPositions,
     'users': users,
