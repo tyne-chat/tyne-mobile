@@ -168,10 +168,10 @@ void main() {
         final json = {
           'id': 'pub1',
           'name': 'Public Persona 1',
-          'avatar_hash': 'hash1',
-          'banner_hash': 'banner1',
+          'avatar_hash': 'a5a5a5a5',
+          'banner_hash': 'b5b5b5b5',
           'display_tag_text': 'TAG',
-          'display_tag_icon': 'icon',
+          'display_tag_icon': 'c4c4c4c4',
           'pronouns': 'they/them',
           'color': 0xFF0000,
           'avatar_color': 0x00FF00,
@@ -190,10 +190,10 @@ void main() {
         final publicPersona = PublicPersona.fromJson(json);
         expect(publicPersona.id, 'pub1');
         expect(publicPersona.name, 'Public Persona 1');
-        expect(publicPersona.avatarHash, 'hash1');
-        expect(publicPersona.bannerHash, 'banner1');
+        expect(publicPersona.avatarHash, 'a5a5a5a5');
+        expect(publicPersona.bannerHash, 'b5b5b5b5');
         expect(publicPersona.displayTagText, 'TAG');
-        expect(publicPersona.displayTagIcon, 'icon');
+        expect(publicPersona.displayTagIcon, 'c4c4c4c4');
         expect(publicPersona.pronouns, 'they/them');
         expect(publicPersona.color, 0xFF0000);
         expect(publicPersona.avatarColor, 0x00FF00);
