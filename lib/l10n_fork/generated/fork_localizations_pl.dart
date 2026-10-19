@@ -430,6 +430,10 @@ class ForkLocalizationsPl extends ForkLocalizations {
   String get appUpdateDownloadFailed => 'Nie udało się pobrać aktualizacji';
 
   @override
+  String get appUpdateInstallFailed =>
+      'Nie udało się zainstalować aktualizacji';
+
+  @override
   String get personaChangeMessageFailed =>
       'Nie udało się zmienić persony wiadomości';
 

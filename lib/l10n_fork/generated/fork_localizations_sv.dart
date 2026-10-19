@@ -429,6 +429,10 @@ class ForkLocalizationsSv extends ForkLocalizations {
       'Det gick inte att ladda ned uppdateringen';
 
   @override
+  String get appUpdateInstallFailed =>
+      'Det gick inte att installera uppdateringen';
+
+  @override
   String get personaChangeMessageFailed =>
       'Det gick inte att ändra meddelandets persona';
 
