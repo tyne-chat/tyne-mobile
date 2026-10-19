@@ -376,10 +376,7 @@ void main() {
       await pumpSettings(
         tester,
         personas: allPersonas,
-        initialTag: const SystemDisplayTag(
-          text: '[SYS]',
-          iconUrl: 'https://example.com/icon.png',
-        ),
+        initialTag: const SystemDisplayTag(text: '[SYS]', iconUrl: '1a2b3c4d'),
       );
 
       expect(find.text('Remove Icon'), findsOneWidget);
@@ -390,5 +387,30 @@ void main() {
       // SaveBar becomes visible
       expect(find.text('Save'), findsOneWidget);
     });
+
+    testWidgets(
+      'loads no image for a tag icon that is a link, and still offers to remove it',
+      (tester) async {
+        await pumpSettings(
+          tester,
+          personas: allPersonas,
+          initialTag: const SystemDisplayTag(
+            text: '[SYS]',
+            iconUrl: 'https://tracker.example/pixel.png',
+          ),
+        );
+
+        expect(
+          find.byWidgetPredicate(
+            (Widget widget) =>
+                widget is Image &&
+                widget.image is NetworkImage &&
+                (widget.image as NetworkImage).url.contains('tracker.example'),
+          ),
+          findsNothing,
+        );
+        expect(find.text('Remove Icon'), findsOneWidget);
+      },
+    );
   });
 }
