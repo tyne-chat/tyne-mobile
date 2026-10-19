@@ -122,6 +122,7 @@
     "imageFileTooLargeMaxSize": "Tệp ảnh quá lớn. Vui lòng chọn tệp có dung lượng nhỏ hơn {maxSize}.",
     "gifPickerSearchKlipyBrand": "Tìm kiếm KLIPY",
     "appUpdateDownloadFailed": "Không tải được bản cập nhật",
+    "appUpdateInstallFailed": "Không cài đặt được bản cập nhật",
     "personaChangeMessageFailed": "Không đổi được persona của tin nhắn",
     "personaActiveCleared": "Đã xóa persona đang hoạt động",
     "klipyPoweredBy": "Được cung cấp bởi KLIPY",
