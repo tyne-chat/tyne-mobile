@@ -122,6 +122,7 @@
     "imageFileTooLargeMaxSize": "Το αρχείο εικόνας είναι πολύ μεγάλο. Επιλέξτε ένα αρχείο μικρότερο από {maxSize}.",
     "gifPickerSearchKlipyBrand": "Αναζήτηση KLIPY",
     "appUpdateDownloadFailed": "Η λήψη της ενημέρωσης απέτυχε",
+    "appUpdateInstallFailed": "Η εγκατάσταση της ενημέρωσης απέτυχε",
     "personaChangeMessageFailed": "Η αλλαγή της persona του μηνύματος απέτυχε",
     "personaActiveCleared": "Η ενεργή persona καταργήθηκε",
     "klipyPoweredBy": "Με την υποστήριξη του KLIPY",

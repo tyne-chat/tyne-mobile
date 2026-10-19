@@ -427,6 +427,9 @@ class ForkLocalizationsEn extends ForkLocalizations {
   String get appUpdateDownloadFailed => 'Failed to download update';
 
   @override
+  String get appUpdateInstallFailed => 'Failed to install update';
+
+  @override
   String get personaChangeMessageFailed => 'Failed to change message persona';
 
   @override
@@ -875,6 +878,9 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   String get appUpdateDownloadFailed => 'Failed to download update';
 
   @override
+  String get appUpdateInstallFailed => 'Failed to install update';
+
+  @override
   String get personaChangeMessageFailed => 'Failed to change message persona';
 
   @override
@@ -1321,6 +1327,9 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
 
   @override
   String get appUpdateDownloadFailed => 'Failed to download update';
+
+  @override
+  String get appUpdateInstallFailed => 'Failed to install update';
 
   @override
   String get personaChangeMessageFailed => 'Failed to change message persona';
