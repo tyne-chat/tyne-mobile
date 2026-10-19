@@ -5,9 +5,11 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/observability/reporting_consent/app_foreground_session_watchdog.dart';
 import 'package:fluxer_app/core/updater/app_update_info.dart';
 import 'package:fluxer_app/core/updater/app_update_provider.dart';
 import 'package:fluxer_app/core/updater/app_update_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class _FakeAppUpdateService extends AppUpdateService {
   AppUpdateInfo? updateInfoResult;
@@ -15,6 +17,7 @@ class _FakeAppUpdateService extends AppUpdateService {
   bool canRequestPackageInstallsResult = true;
   bool openSettingsCalled = false;
   String? installedFilePath;
+  bool installUpdateResult = true;
 
   @override
   Future<AppUpdateInfo?> checkForUpdate() async => updateInfoResult;
@@ -44,7 +47,7 @@ class _FakeAppUpdateService extends AppUpdateService {
   @override
   Future<bool> installUpdate(String filePath) async {
     installedFilePath = filePath;
-    return true;
+    return installUpdateResult;
   }
 }
 
@@ -54,6 +57,9 @@ void main() {
   Directory? tempDir;
 
   setUp(() async {
+    SharedPreferences.setMockInitialValues(<String, Object>{
+      kAppForegroundSessionActiveKey: true,
+    });
     tempDir = await Directory.systemTemp.createTemp('app_update_provider_test');
     AppUpdateService.platformOverride = true;
   });
@@ -74,6 +80,7 @@ void main() {
     downloadUrl: 'https://example.com/app.apk',
     fileName: 'fluxer.apk',
     fileSizeBytes: 1024,
+    sha256: '',
   );
 
   group('AppUpdateState', () {
@@ -180,6 +187,9 @@ void main() {
         expect(state.downloadedFilePath, testFile.path);
         expect(state.progress, 1.0);
         expect(fakeService.installedFilePath, testFile.path);
+        // The installer is about to kill the app; that is not a crash.
+        final preferences = await SharedPreferences.getInstance();
+        expect(preferences.getBool(kAppForegroundSessionActiveKey), isFalse);
       },
     );
 
@@ -225,6 +235,33 @@ void main() {
 
         expect(fakeService.openSettingsCalled, isTrue);
         expect(fakeService.installedFilePath, testFile.path);
+      },
+    );
+
+    test(
+      'install reports an error when the installer rejects the file',
+      () async {
+        final testFile = File('${tempDir!.path}/downloaded.apk')
+          ..writeAsStringSync('binary-data');
+
+        final fakeService = _FakeAppUpdateService()
+          ..updateInfoResult = testInfo
+          ..downloadFileResult = testFile
+          ..installUpdateResult = false;
+
+        final container = ProviderContainer(
+          overrides: [appUpdateServiceProvider.overrideWithValue(fakeService)],
+        );
+        addTearDown(container.dispose);
+
+        await container.read(appUpdateProvider.notifier).checkForUpdate();
+        await container.read(appUpdateProvider.notifier).startDownload();
+
+        final state = container.read(appUpdateProvider);
+        expect(state.status, AppUpdateStatus.error);
+        expect(state.errorMessage, 'Failed to install update');
+        final preferences = await SharedPreferences.getInstance();
+        expect(preferences.getBool(kAppForegroundSessionActiveKey), isTrue);
       },
     );
 
