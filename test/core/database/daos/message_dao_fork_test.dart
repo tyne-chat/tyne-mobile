@@ -25,7 +25,7 @@ void main() {
           .copyWith(
             personaId: 'p_target',
             personaName: 'Alice Old',
-            personaAvatar: 'avatar1',
+            personaAvatar: 'a7a7a7a7',
             personaTag: '[Old]',
           );
       final Message msg2 = forkUpstream
@@ -37,9 +37,9 @@ void main() {
       await db.messageDao.updatePersonaAttributes(
         personaId: 'p_target',
         personaName: 'Alice New',
-        personaAvatar: 'avatar2',
+        personaAvatar: 'a8a8a8a8',
         personaTag: '[New]',
-        personaTagIcon: 'icon2',
+        personaTagIcon: 'c7c7c7c7',
       );
 
       final Message row1 = Message.fromRow(
@@ -50,9 +50,9 @@ void main() {
       );
 
       expect(row1.personaName, 'Alice New');
-      expect(row1.personaAvatar, 'avatar2');
+      expect(row1.personaAvatar, 'a8a8a8a8');
       expect(row1.personaTag, '[New]');
-      expect(row1.personaTagIcon, 'icon2');
+      expect(row1.personaTagIcon, 'c7c7c7c7');
 
       // Untargeted persona should remain untouched
       expect(row2.personaName, 'Bob');
