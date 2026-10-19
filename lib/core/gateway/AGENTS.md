@@ -66,6 +66,13 @@ the persona and signal-bar events.
   dropped the user's own member from every guild and channel permissions stayed unknown
   (tyne-chat/tyne#193). Never feed an SDK model's `toJson()` back into a `fromJson`; take upstream's
   fix when it has one and delete the fork's.
+- **Skipped items are logged:** the SDK reports what its parser skips (`ForkGatewayParseSkips`,
+  `dart_sdk/lib/gateway_client/fork_parse_skips.dart`); `main.dart` installs
+  `forkLogGatewayParseSkips()` (`fork_gateway_parse_skip_log.dart`), which writes
+  `[Gateway] Fork: skipped …` to App logs, each kind once and again at the 10th, 100th time.
+  READY's guilds are parsed in a background isolate, where that hook is not set, so
+  `parseReadyGuilds` calls `forkComputeLoggingSkips` instead of `compute`; any other `compute` that
+  parses gateway data needs the same (tyne-chat/tyne#193).
 - **Known personas:** message create, update and saved-message events upsert the personas a message names
   into Drift (`upsertKnownPersonasFromSdk`), so mention chips need no request.
 - **Persona and signal-bar events** arrive as `UnknownGatewayEvent`s and are routed by name in that case:
@@ -90,7 +97,9 @@ updates are sent only when the presence changes.
 - Fork tests: `gateway_event_handler_fork_test.dart` (persona and account reactions, the typing persona
   callback), `gateway_event_handler_missing_events_fork_test.dart` (signal-bar routing),
   `gateway_event_handler_ready_snapshot_fork_test.dart` (READY keeps the own member with a reply
-  mention preference set), `providers/typing_personas_provider_test.dart`.
+  mention preference set; a member that does not parse is reported from READY's isolate),
+  `fork_gateway_parse_skip_log_test.dart` (the skip log),
+  `providers/typing_personas_provider_test.dart`.
 - Not covered: the seven persona event names in the handler, known-persona writes from events,
   ADD_MANY with a persona.
 - After a change: `flutter test test/core/gateway test/core/providers test/features/profile
