@@ -117,6 +117,14 @@ line (Kotlin has no fork-imports rule, and this keeps imports out of upstream's 
 - **The version code** is Flutter's build number: `--build-number`, or else the `+1` in `pubspec.yaml`.
   Android refuses an update with a lower code; the in-app updater compares the version name and build
   number with the release tag (`lib/core/updater`).
+- **The in-app updater checks what it installs** (`lib/core/updater`, `AppInstallBridge.kt`): only an
+  asset under `https://github.com/tyne-chat/tyne-mobile/releases/download/` with GitHub's `sha256:`
+  digest is offered, the download must match its size and digest, and the bridge refuses an APK whose
+  package or signing certificate differs from the installed app's. So a release APK must be signed with
+  the release key, and a repository rename means changing `_kGitHubRepo`. The `FileProvider` exposes
+  only `cache/updates/` (`file_paths.xml`), the folder the download goes to.
+  To try an update end to end without publishing to users, build with
+  `--dart-define=FORK_UPDATE_REPO=<owner>/<public repo>` and publish the test releases there.
 - **google-services:** with `app/google-services.json` present the plugin runs for every variant and
   fails the build if the file does not list that variant's application ID.
 - **Launcher aliases** (`${appIconAliasPrefix}.default` and the disabled alternates) are component
@@ -163,8 +171,9 @@ Tracked in tyne-chat/tyne#155.
 
 ## Tests
 
-- **Kotlin:** eight JUnit files in `app/src/test/kotlin/com/fluxer/`, all upstream's. Nothing tests the
-  fork's Kotlin, and no check or workflow runs them. Run them from `android/` once a Flutter build has
+- **Kotlin:** nine JUnit files in `app/src/test/kotlin/com/fluxer/`: eight upstream's and the fork's
+  `AppInstallBridgeTest.kt` (the installer's package, signer and path checks). No check or workflow
+  runs them. Run them from `android/` once a Flutter build has
   written `gradlew` and `local.properties`, for example
   `./gradlew :app:testCanaryUnifiedpushDebugUnitTest`. A fork test goes in its own file
   (`<UpstreamName>ForkTest.kt` for fork behaviour in an upstream class).
