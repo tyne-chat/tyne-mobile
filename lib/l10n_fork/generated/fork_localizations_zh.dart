@@ -415,6 +415,9 @@ class ForkLocalizationsZh extends ForkLocalizations {
   String get appUpdateDownloadFailed => '下载更新失败';
 
   @override
+  String get appUpdateInstallFailed => '安装更新失败';
+
+  @override
   String get personaChangeMessageFailed => '更改消息的人格失败';
 
   @override
@@ -849,6 +852,9 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get appUpdateDownloadFailed => '下載更新失敗';
+
+  @override
+  String get appUpdateInstallFailed => '安裝更新失敗';
 
   @override
   String get personaChangeMessageFailed => '變更訊息的人格失敗';
