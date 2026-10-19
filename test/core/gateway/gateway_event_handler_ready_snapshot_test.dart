@@ -634,3 +634,17 @@ UserPrivateResponse _user() => UserPrivateResponse.fromJson({
   'used_mobile_client': true,
   'pending_bulk_message_deletion': null,
 });
+
+// Fork: upstream's helpers that gateway_event_handler_ready_snapshot_fork_test.dart uses, named
+// here so they stay private and are not copied.
+// ignore: unreachable_from_main // Fork: used by gateway_event_handler_ready_snapshot_fork_test.dart.
+typedef ForkUpstreamHelpers = ({
+  Map<String, dynamic> Function({
+    required List<String> channelIds,
+    required List<String> roleIds,
+  })
+  guild,
+  UserPrivateResponse Function() user,
+});
+// ignore: unreachable_from_main // Fork: used by gateway_event_handler_ready_snapshot_fork_test.dart.
+const ForkUpstreamHelpers forkUpstream = (guild: _guild, user: _user);
