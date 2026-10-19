@@ -430,6 +430,9 @@ class ForkLocalizationsId extends ForkLocalizations {
   String get appUpdateDownloadFailed => 'Gagal mengunduh pembaruan';
 
   @override
+  String get appUpdateInstallFailed => 'Gagal memasang pembaruan';
+
+  @override
   String get personaChangeMessageFailed => 'Gagal mengubah persona pesan';
 
   @override
