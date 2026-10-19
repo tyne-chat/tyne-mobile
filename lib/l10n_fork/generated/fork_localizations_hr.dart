@@ -430,6 +430,9 @@ class ForkLocalizationsHr extends ForkLocalizations {
   String get appUpdateDownloadFailed => 'Preuzimanje ažuriranja nije uspjelo';
 
   @override
+  String get appUpdateInstallFailed => 'Instaliranje ažuriranja nije uspjelo';
+
+  @override
   String get personaChangeMessageFailed =>
       'Promjena persone poruke nije uspjela';
 

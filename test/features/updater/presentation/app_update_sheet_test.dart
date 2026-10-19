@@ -44,6 +44,7 @@ void main() {
     downloadUrl: 'https://example.com/app.apk',
     fileName: 'fluxer.apk',
     fileSizeBytes: 30 * 1024 * 1024,
+    sha256: '',
   );
 
   testWidgets(
@@ -101,6 +102,7 @@ void main() {
         downloadUrl: 'https://example.com/app.apk',
         fileName: 'fluxer.apk',
         fileSizeBytes: 0,
+        sha256: '',
       );
 
       await tester.pumpWidget(

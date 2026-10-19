@@ -122,6 +122,7 @@
     "imageFileTooLargeMaxSize": "Fișierul imagine este prea mare. Alege un fișier mai mic de {maxSize}.",
     "gifPickerSearchKlipyBrand": "Caută în KLIPY",
     "appUpdateDownloadFailed": "Actualizarea nu a putut fi descărcată",
+    "appUpdateInstallFailed": "Actualizarea nu a putut fi instalată",
     "personaChangeMessageFailed": "Persona mesajului nu a putut fi schimbată",
     "personaActiveCleared": "Persona activă a fost eliminată",
     "klipyPoweredBy": "Oferit de KLIPY",
