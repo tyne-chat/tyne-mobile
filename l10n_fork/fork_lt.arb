@@ -122,6 +122,7 @@
     "imageFileTooLargeMaxSize": "Vaizdo failas yra per didelis. Pasirinkite failą, mažesnį nei {maxSize}.",
     "gifPickerSearchKlipyBrand": "Ieškoti KLIPY",
     "appUpdateDownloadFailed": "Nepavyko atsisiųsti atnaujinimo",
+    "appUpdateInstallFailed": "Nepavyko įdiegti atnaujinimo",
     "personaChangeMessageFailed": "Nepavyko pakeisti žinutės personos",
     "personaActiveCleared": "Aktyvi persona išvalyta",
     "klipyPoweredBy": "Teikia KLIPY",
