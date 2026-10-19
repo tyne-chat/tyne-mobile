@@ -122,6 +122,7 @@
     "imageFileTooLargeMaxSize": "Bestand te groot. Kies een bestand van minder dan {maxSize}.",
     "gifPickerSearchKlipyBrand": "Zoek KLIPY",
     "appUpdateDownloadFailed": "Update downloaden mislukt",
+    "appUpdateInstallFailed": "Update installeren mislukt",
     "personaChangeMessageFailed": "Persona van bericht wijzigen mislukt",
     "personaActiveCleared": "Actieve persona gewist",
     "klipyPoweredBy": "Mogelijk gemaakt door KLIPY",
