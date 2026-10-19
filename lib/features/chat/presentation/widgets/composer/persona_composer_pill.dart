@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/persona_picker_sheet.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
@@ -66,7 +67,7 @@ class PersonaComposerPill extends ConsumerWidget {
     final colors = context.colors;
 
     final String? avatarUrl = effectivePersona != null
-        ? effectivePersona.avatarHash
+        ? personaImageHash(effectivePersona.avatarHash)
         : userSettings.avatarUrl;
     final String fallbackName = effectivePersona != null
         ? effectivePersona.name
