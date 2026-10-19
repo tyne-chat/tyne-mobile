@@ -122,6 +122,7 @@
     "imageFileTooLargeMaxSize": "ไฟล์รูปภาพมีขนาดใหญ่เกินไป โปรดเลือกไฟล์ที่มีขนาดเล็กกว่า {maxSize}",
     "gifPickerSearchKlipyBrand": "ค้นหา KLIPY",
     "appUpdateDownloadFailed": "ดาวน์โหลดอัปเดตไม่สำเร็จ",
+    "appUpdateInstallFailed": "ติดตั้งอัปเดตไม่สำเร็จ",
     "personaChangeMessageFailed": "เปลี่ยน Persona ของข้อความไม่สำเร็จ",
     "personaActiveCleared": "ล้าง Persona ที่ใช้งานอยู่แล้ว",
     "klipyPoweredBy": "ขับเคลื่อนโดย KLIPY",

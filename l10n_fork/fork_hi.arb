@@ -122,6 +122,7 @@
     "imageFileTooLargeMaxSize": "छवि फ़ाइल बहुत बड़ी है। कृपया {maxSize} से छोटी फ़ाइल चुनें।",
     "gifPickerSearchKlipyBrand": "KLIPY खोजें",
     "appUpdateDownloadFailed": "अपडेट डाउनलोड नहीं हो सका",
+    "appUpdateInstallFailed": "अपडेट इंस्टॉल नहीं हो सका",
     "personaChangeMessageFailed": "संदेश का परसोना बदला नहीं जा सका",
     "personaActiveCleared": "सक्रिय परसोना हटा दिया गया",
     "klipyPoweredBy": "KLIPY द्वारा संचालित",
