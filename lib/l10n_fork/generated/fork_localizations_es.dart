@@ -434,6 +434,9 @@ class ForkLocalizationsEs extends ForkLocalizations {
   String get appUpdateDownloadFailed => 'No se pudo descargar la actualización';
 
   @override
+  String get appUpdateInstallFailed => 'No se pudo instalar la actualización';
+
+  @override
   String get personaChangeMessageFailed =>
       'No se pudo cambiar la persona del mensaje';
 
@@ -888,6 +891,9 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
 
   @override
   String get appUpdateDownloadFailed => 'No se pudo descargar la actualización';
+
+  @override
+  String get appUpdateInstallFailed => 'No se pudo instalar la actualización';
 
   @override
   String get personaChangeMessageFailed =>
