@@ -426,6 +426,9 @@ class ForkLocalizationsAr extends ForkLocalizations {
   String get appUpdateDownloadFailed => 'تعذّر تنزيل التحديث';
 
   @override
+  String get appUpdateInstallFailed => 'تعذّر تثبيت التحديث';
+
+  @override
   String get personaChangeMessageFailed => 'تعذّر تغيير شخصية الرسالة';
 
   @override

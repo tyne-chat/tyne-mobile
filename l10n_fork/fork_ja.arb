@@ -122,6 +122,7 @@
     "imageFileTooLargeMaxSize": "画像ファイルが大きすぎます。{maxSize}未満のファイルを選択してください。",
     "gifPickerSearchKlipyBrand": "KLIPYを検索",
     "appUpdateDownloadFailed": "アップデートをダウンロードできませんでした",
+    "appUpdateInstallFailed": "アップデートをインストールできませんでした",
     "personaChangeMessageFailed": "メッセージのペルソナを変更できませんでした",
     "personaActiveCleared": "アクティブなペルソナを解除しました",
     "klipyPoweredBy": "KLIPY 提供",
