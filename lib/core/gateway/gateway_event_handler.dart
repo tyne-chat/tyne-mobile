@@ -38,6 +38,7 @@ import 'package:fluxer_dart/gateway.dart';
 
 // Fork imports.
 // ignore: directives_ordering
+import 'package:fluxer_app/core/gateway/fork_ready_user_json.dart';
 import 'package:fluxer_app/features/profile/data/known_personas.dart';
 
 const int _messageTypeThreadStarter = 21;
@@ -882,7 +883,7 @@ class GatewayEventHandler {
       processedGuilds = await parseReadyGuilds(
         rawGuilds: event.rawGuilds,
         guildPositions: guildPositions,
-        users: <Map<String, dynamic>>[...?event.users, event.user.toJson()],
+        users: <Map<String, dynamic>>[...?event.users, event.user.wireJson()],
       );
       guildsMs = parsePhase.elapsedMilliseconds;
     }
