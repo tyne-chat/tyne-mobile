@@ -430,6 +430,9 @@ class ForkLocalizationsDe extends ForkLocalizations {
       'Update konnte nicht heruntergeladen werden';
 
   @override
+  String get appUpdateInstallFailed => 'Update konnte nicht installiert werden';
+
+  @override
   String get personaChangeMessageFailed =>
       'Persona der Nachricht konnte nicht geändert werden';
 
