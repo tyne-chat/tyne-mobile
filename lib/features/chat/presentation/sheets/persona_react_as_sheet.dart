@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
@@ -318,7 +319,7 @@ class _PersonaReactAsBodyState extends ConsumerState<_PersonaReactAsBody> {
                           children: [
                             FluxerAvatar.user(
                               userId: userSettings.userId,
-                              imageUrl: p.avatarHash,
+                              imageUrl: personaImageHash(p.avatarHash),
                               fallbackText: p.name,
                               size: 20,
                               showStatus: false,
@@ -496,7 +497,7 @@ class _PersonaReactAsListTile extends StatelessWidget {
           children: [
             FluxerAvatar.user(
               userId: userId,
-              imageUrl: persona.avatarHash,
+              imageUrl: personaImageHash(persona.avatarHash),
               fallbackText: persona.name,
               size: 38,
               showStatus: false,
