@@ -122,6 +122,7 @@
     "imageFileTooLargeMaxSize": "Soubor obrázku je příliš velký. Vyberte soubor menší než {maxSize}.",
     "gifPickerSearchKlipyBrand": "Hledat KLIPY",
     "appUpdateDownloadFailed": "Aktualizaci se nepodařilo stáhnout",
+    "appUpdateInstallFailed": "Aktualizaci se nepodařilo nainstalovat",
     "personaChangeMessageFailed": "Personu zprávy se nepodařilo změnit",
     "personaActiveCleared": "Aktivní persona zrušena",
     "klipyPoweredBy": "Využívá KLIPY",

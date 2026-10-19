@@ -899,6 +899,12 @@ abstract class ForkLocalizations {
   /// **'Failed to download update'**
   String get appUpdateDownloadFailed;
 
+  /// Shown in the in-app updater when the downloaded update cannot be handed to the system installer, for example because the file failed its checks.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to install update'**
+  String get appUpdateInstallFailed;
+
   /// Error when changing which persona a sent message is from fails.
   ///
   /// In en, this message translates to:
