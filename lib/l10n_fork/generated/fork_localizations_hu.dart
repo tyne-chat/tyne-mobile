@@ -430,6 +430,9 @@ class ForkLocalizationsHu extends ForkLocalizations {
   String get appUpdateDownloadFailed => 'A frissítés letöltése nem sikerült';
 
   @override
+  String get appUpdateInstallFailed => 'A frissítés telepítése nem sikerült';
+
+  @override
   String get personaChangeMessageFailed =>
       'Az üzenet personájának módosítása nem sikerült';
 

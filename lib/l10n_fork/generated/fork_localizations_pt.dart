@@ -432,6 +432,9 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String get appUpdateDownloadFailed => 'Falha ao transferir a atualização';
 
   @override
+  String get appUpdateInstallFailed => 'Falha ao instalar a atualização';
+
+  @override
   String get personaChangeMessageFailed =>
       'Falha ao alterar a persona da mensagem';
 
@@ -884,6 +887,9 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
 
   @override
   String get appUpdateDownloadFailed => 'Falha ao baixar a atualização';
+
+  @override
+  String get appUpdateInstallFailed => 'Falha ao instalar a atualização';
 
   @override
   String get personaChangeMessageFailed =>
