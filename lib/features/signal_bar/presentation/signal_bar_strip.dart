@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
+import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 import 'package:fluxer_app/features/signal_bar/domain/signal_bar_models.dart';
 import 'package:fluxer_app/features/signal_bar/providers/signal_bar_providers.dart';
 import 'package:fluxer_app/features/signal_bar/providers/signal_persona_affirmation.dart';
@@ -625,7 +626,7 @@ class _SignalBadge extends StatelessWidget {
     return FluxerAvatar.user(
       userId: entry.userId,
       imageUrl: entry.personaId != null
-          ? entry.personaAvatar
+          ? personaImageHash(entry.personaAvatar)
           : FluxerMediaUrl.userAvatar(
               userId: entry.userId,
               hash: entry.userAvatar,
