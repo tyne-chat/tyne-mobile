@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/observability/reporting_consent/app_foreground_session_watchdog.dart';
 import 'package:fluxer_app/core/updater/app_update_info.dart';
 import 'package:fluxer_app/core/updater/app_update_service.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
@@ -128,7 +129,24 @@ class AppUpdateNotifier extends Notifier<AppUpdateState> {
       await _service.openInstallPermissionSettings();
     }
 
-    return _service.installUpdate(filePath);
+    final bool started = await _service.installUpdate(filePath);
+    if (started) {
+      // The installer's screens sit over the app without stopping it, and the
+      // installer then kills it to replace it. Without this the next launch
+      // takes that for a crash and asks for crash reports. If the user backs
+      // out of the installer instead, returning to the app marks it active
+      // again.
+      await setAppForegroundSessionActive(active: false);
+    } else {
+      state = state.copyWith(
+        status: AppUpdateStatus.error,
+        errorMessage: ref
+            .read(appLocalizationsProvider)
+            .fork
+            .appUpdateInstallFailed,
+      );
+    }
+    return started;
   }
 
   void dismiss() {
