@@ -429,6 +429,9 @@ class ForkLocalizationsNl extends ForkLocalizations {
   String get appUpdateDownloadFailed => 'Update downloaden mislukt';
 
   @override
+  String get appUpdateInstallFailed => 'Update installeren mislukt';
+
+  @override
   String get personaChangeMessageFailed =>
       'Persona van bericht wijzigen mislukt';
 

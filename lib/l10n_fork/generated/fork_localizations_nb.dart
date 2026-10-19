@@ -431,6 +431,9 @@ class ForkLocalizationsNb extends ForkLocalizations {
   String get appUpdateDownloadFailed => 'Kunne ikke laste ned oppdateringen';
 
   @override
+  String get appUpdateInstallFailed => 'Kunne ikke installere oppdateringen';
+
+  @override
   String get personaChangeMessageFailed =>
       'Kunne ikke endre meldingens persona';
 
