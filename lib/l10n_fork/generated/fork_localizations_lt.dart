@@ -429,6 +429,9 @@ class ForkLocalizationsLt extends ForkLocalizations {
   String get appUpdateDownloadFailed => 'Nepavyko atsisiųsti atnaujinimo';
 
   @override
+  String get appUpdateInstallFailed => 'Nepavyko įdiegti atnaujinimo';
+
+  @override
   String get personaChangeMessageFailed => 'Nepavyko pakeisti žinutės personos';
 
   @override

@@ -122,6 +122,7 @@
     "imageFileTooLargeMaxSize": "A képfájl túl nagy. Válassz kisebb, {maxSize} alatti fájlt.",
     "gifPickerSearchKlipyBrand": "KLIPY keresése",
     "appUpdateDownloadFailed": "A frissítés letöltése nem sikerült",
+    "appUpdateInstallFailed": "A frissítés telepítése nem sikerült",
     "personaChangeMessageFailed": "Az üzenet personájának módosítása nem sikerült",
     "personaActiveCleared": "Aktív persona törölve",
     "klipyPoweredBy": "A szolgáltatást a KLIPY nyújtja",
