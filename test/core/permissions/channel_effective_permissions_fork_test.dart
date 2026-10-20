@@ -129,10 +129,14 @@ void main() {
       );
 
   test(
-    'leaves permissions unknown, without asking the server, while the own member is missing',
+    'falls back to @everyone, uncached and without asking the server, while the own member is missing',
     () async {
       final ChannelPermissionBitsOutcome outcome = await compute(_channelId(0));
 
+      // Fork: until upstream's 77efb0c7d ("handle allowed @everyone better")
+      // a missing member gave no permissions at all; upstream now grants what
+      // @everyone may do, and the fork keeps that. What this test is for is
+      // the second expectation: no request for the member (#114).
       expect(outcome, (
         value: Permission.viewChannel.value | Permission.addReactions.value,
         shouldCache: false,
