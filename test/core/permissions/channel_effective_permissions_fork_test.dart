@@ -133,7 +133,10 @@ void main() {
     () async {
       final ChannelPermissionBitsOutcome outcome = await compute(_channelId(0));
 
-      expect(outcome, (value: 0, shouldCache: false));
+      expect(outcome, (
+        value: Permission.viewChannel.value | Permission.addReactions.value,
+        shouldCache: false,
+      ));
       expect(adapter.requestedPaths, isEmpty);
     },
   );
