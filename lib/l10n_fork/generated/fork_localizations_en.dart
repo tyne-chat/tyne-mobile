@@ -453,6 +453,18 @@ class ForkLocalizationsEn extends ForkLocalizations {
 
   @override
   String get personaPreviewNameFallback => 'User';
+
+  @override
+  String get crashReportingConsentSubtitle =>
+      'Tyne closed unexpectedly. Sharing anonymous crash and error data helps us fix issues faster.';
+
+  @override
+  String get crashReportingSectionDescription =>
+      'Help fix bugs in Tyne by sharing crash and performance data. This is off by default.';
+
+  @override
+  String get crashReportingDescription =>
+      'Reports go to Tyne\'s own error tracker, even when you\'re signed in to another instance. They don\'t include instance names, IDs or message content.';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -904,6 +916,18 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
 
   @override
   String get personaPreviewNameFallback => 'User';
+
+  @override
+  String get crashReportingConsentSubtitle =>
+      'Tyne closed unexpectedly. Sharing anonymous crash and error data helps us fix issues faster.';
+
+  @override
+  String get crashReportingSectionDescription =>
+      'Help fix bugs in Tyne by sharing crash and performance data. This is off by default.';
+
+  @override
+  String get crashReportingDescription =>
+      'Reports go to Tyne\'s own error tracker, even when you\'re signed in to another instance. They don\'t include instance names, IDs or message content.';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -1355,4 +1379,16 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
 
   @override
   String get personaPreviewNameFallback => 'User';
+
+  @override
+  String get crashReportingConsentSubtitle =>
+      'Tyne closed unexpectedly. Sharing anonymous crash and error data helps us fix issues faster.';
+
+  @override
+  String get crashReportingSectionDescription =>
+      'Help fix bugs in Tyne by sharing crash and performance data. This is off by default.';
+
+  @override
+  String get crashReportingDescription =>
+      'Reports go to Tyne\'s own error tracker, even when you\'re signed in to another instance. They don\'t include instance names, IDs or message content.';
 }

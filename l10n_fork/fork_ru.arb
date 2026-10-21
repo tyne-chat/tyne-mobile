@@ -129,5 +129,8 @@
     "personaTagPairDuplicate": "Пара тегов «{pattern}» уже есть у этой персоны",
     "personaAddTagPair": "Добавить пару тегов ({count}/5)",
     "personaTagExampleText": "текст",
-    "personaPreviewNameFallback": "Пользователь"
+    "personaPreviewNameFallback": "Пользователь",
+    "crashReportingConsentSubtitle": "Tyne неожиданно закрылся. Отправка анонимных данных о сбоях и ошибках помогает нам быстрее устранять проблемы.",
+    "crashReportingSectionDescription": "Помогите исправлять ошибки в Tyne, отправляя данные о сбоях и производительности. По умолчанию выключено.",
+    "crashReportingDescription": "Отчёты отправляются в собственную систему отслеживания ошибок Tyne, даже если вы вошли на другом сервере. Они не содержат названий серверов, идентификаторов или содержимого сообщений."
 }
