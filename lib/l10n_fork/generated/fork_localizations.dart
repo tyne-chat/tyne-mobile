@@ -946,6 +946,24 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'User'**
   String get personaPreviewNameFallback;
+
+  /// Subtitle of the sheet that asks, after the app closed unexpectedly, whether to send crash reports. Replaces upstream's observabilityReportingConsentSubtitle, which names Fluxer.
+  ///
+  /// In en, this message translates to:
+  /// **'Tyne closed unexpectedly. Sharing anonymous crash and error data helps us fix issues faster.'**
+  String get crashReportingConsentSubtitle;
+
+  /// Description of the crash and performance reporting section in Advanced settings. Replaces upstream's advancedCrashReportingSectionDescription, which names Fluxer.
+  ///
+  /// In en, this message translates to:
+  /// **'Help fix bugs in Tyne by sharing crash and performance data. This is off by default.'**
+  String get crashReportingSectionDescription;
+
+  /// Description of the crash and performance reporting switch: where reports go and what they leave out. Replaces upstream's advancedCrashReportingDescription, which names Fluxer's error tracker.
+  ///
+  /// In en, this message translates to:
+  /// **'Reports go to Tyne\'s own error tracker, even when you\'re signed in to another instance. They don\'t include instance names, IDs or message content.'**
+  String get crashReportingDescription;
 }
 
 class _ForkLocalizationsDelegate

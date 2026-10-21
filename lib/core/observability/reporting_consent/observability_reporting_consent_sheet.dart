@@ -5,6 +5,10 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+
 Future<bool?> showObservabilityReportingConsentSheet(BuildContext context) {
   final l10n = FluxerLocalizations.of(context);
   final colors = context.colors;
@@ -17,7 +21,7 @@ Future<bool?> showObservabilityReportingConsentSheet(BuildContext context) {
     enableDrag: false,
     title: l10n.observabilityReportingConsentTitle,
     subtitle: Text(
-      l10n.observabilityReportingConsentSubtitle,
+      l10n.fork.crashReportingConsentSubtitle,
       style: textStyles.bodySmall.copyWith(color: colors.textSecondary),
     ),
     builder: (sheetContext, close) =>

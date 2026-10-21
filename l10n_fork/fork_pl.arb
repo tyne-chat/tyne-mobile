@@ -129,5 +129,8 @@
     "personaTagPairDuplicate": "Zduplikowana para tagów '{pattern}' w tej personie",
     "personaAddTagPair": "Dodaj parę tagów ({count}/5)",
     "personaTagExampleText": "tekst",
-    "personaPreviewNameFallback": "Użytkownik"
+    "personaPreviewNameFallback": "Użytkownik",
+    "crashReportingConsentSubtitle": "Tyne nieoczekiwanie się zamknął. Udostępnianie anonimowych danych o awariach i błędach pomaga nam szybciej naprawiać problemy.",
+    "crashReportingSectionDescription": "Pomóż naprawiać błędy w Tyne, udostępniając dane o awariach i wydajności. Domyślnie wyłączone.",
+    "crashReportingDescription": "Raporty trafiają do własnego systemu śledzenia błędów Tyne, także po zalogowaniu się do innej instancji. Nie zawierają nazw instancji, identyfikatorów ani treści wiadomości."
 }
