@@ -456,4 +456,16 @@ class ForkLocalizationsVi extends ForkLocalizations {
 
   @override
   String get personaPreviewNameFallback => 'Người dùng';
+
+  @override
+  String get crashReportingConsentSubtitle =>
+      'Tyne đã đóng đột ngột. Chia sẻ dữ liệu sự cố và lỗi ẩn danh giúp chúng tôi khắc phục vấn đề nhanh hơn.';
+
+  @override
+  String get crashReportingSectionDescription =>
+      'Giúp sửa lỗi trong Tyne bằng cách chia sẻ dữ liệu sự cố và hiệu suất. Tùy chọn này tắt theo mặc định.';
+
+  @override
+  String get crashReportingDescription =>
+      'Báo cáo được gửi đến hệ thống theo dõi lỗi riêng của Tyne, ngay cả khi bạn đăng nhập vào máy chủ khác. Báo cáo không bao gồm tên máy chủ, ID hoặc nội dung tin nhắn.';
 }
