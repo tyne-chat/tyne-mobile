@@ -455,4 +455,16 @@ class ForkLocalizationsLt extends ForkLocalizations {
 
   @override
   String get personaPreviewNameFallback => 'Naudotojas';
+
+  @override
+  String get crashReportingConsentSubtitle =>
+      '„Tyne“ netikėtai užsidarė. Dalindamasis anoniminiais strigčių ir klaidų duomenimis padedi mums greičiau ištaisyti problemas.';
+
+  @override
+  String get crashReportingSectionDescription =>
+      'Padėk taisyti „Tyne“ klaidas dalindamasis strigčių ir našumo duomenimis. Pagal numatytuosius nustatymus išjungta.';
+
+  @override
+  String get crashReportingDescription =>
+      'Ataskaitos siunčiamos į pačios „Tyne“ klaidų sekimo sistemą, net jei prisijungta prie kito serverio. Jose nėra serverių pavadinimų, ID ar žinučių turinio.';
 }

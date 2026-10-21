@@ -3,6 +3,9 @@ import 'package:fluxer_app/features/settings/utils/user_settings/user_settings_f
 import 'package:fluxer_app/features/settings/utils/user_settings/user_settings_nav_l10n.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
+// Fork imports.
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+
 typedef UserSettingsSearchLabel =
     String Function(FluxerLocalizations l10n, {required String productName});
 
@@ -894,7 +897,7 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     section: UserSettingsSection.advanced,
     fieldId: 'advanced-performance',
     label: _l((l10n) => l10n.advancedPerformanceReportingLabel),
-    description: _l((l10n) => l10n.advancedCrashReportingSectionDescription),
+    description: _l((l10n) => l10n.fork.crashReportingSectionDescription),
   ),
   _UserSettingsSearchOption(
     id: 'applications-dev',
