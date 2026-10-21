@@ -129,5 +129,8 @@
     "personaTagPairDuplicate": "Par de tags '{pattern}' duplicado nesta persona",
     "personaAddTagPair": "Adicionar par de tags ({count}/5)",
     "personaTagExampleText": "texto",
-    "personaPreviewNameFallback": "Utilizador"
+    "personaPreviewNameFallback": "Utilizador",
+    "crashReportingConsentSubtitle": "O Tyne fechou inesperadamente. Partilhar dados anónimos de falhas e erros ajuda-nos a resolver problemas mais depressa.",
+    "crashReportingSectionDescription": "Ajude a corrigir erros no Tyne partilhando dados de falhas e desempenho. Está desativado por predefinição.",
+    "crashReportingDescription": "Os relatórios são enviados para o sistema de registo de erros do próprio Tyne, mesmo quando tem sessão iniciada noutro servidor. Não incluem nomes de servidores, IDs nem o conteúdo das mensagens."
 }
