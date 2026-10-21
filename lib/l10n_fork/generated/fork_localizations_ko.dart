@@ -445,4 +445,16 @@ class ForkLocalizationsKo extends ForkLocalizations {
 
   @override
   String get personaPreviewNameFallback => '사용자';
+
+  @override
+  String get crashReportingConsentSubtitle =>
+      'Tyne가 예기치 않게 종료되었습니다. 익명의 충돌 및 오류 데이터를 공유하면 문제를 더 빠르게 해결하는 데 도움이 됩니다.';
+
+  @override
+  String get crashReportingSectionDescription =>
+      '충돌 및 성능 데이터를 공유하여 Tyne의 버그 수정을 도와주세요. 기본적으로 꺼져 있습니다.';
+
+  @override
+  String get crashReportingDescription =>
+      '다른 인스턴스에 로그인한 경우에도 보고서는 Tyne 자체 오류 추적기로 전송됩니다. 인스턴스 이름, ID 또는 메시지 내용은 포함되지 않습니다.';
 }

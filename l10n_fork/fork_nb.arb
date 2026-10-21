@@ -129,5 +129,8 @@
     "personaTagPairDuplicate": "Duplisert tag-par '{pattern}' på denne personaen",
     "personaAddTagPair": "Legg til tag-par ({count}/5)",
     "personaTagExampleText": "tekst",
-    "personaPreviewNameFallback": "Bruker"
+    "personaPreviewNameFallback": "Bruker",
+    "crashReportingConsentSubtitle": "Tyne ble lukket uventet. Deling av anonyme krasj- og feildata hjelper oss med å rette problemer raskere.",
+    "crashReportingSectionDescription": "Hjelp til med å rette feil i Tyne ved å dele krasj- og ytelsesdata. Dette er av som standard.",
+    "crashReportingDescription": "Rapporter sendes til Tynes egen feilsporing, også når du er logget inn på en annen instans. De inneholder ikke instansnavn, ID-er eller meldingsinnhold."
 }
