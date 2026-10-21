@@ -437,11 +437,11 @@ class UserAdvancedSettings extends ConsumerWidget {
           FluxerSettingsSection(
             sectionId: 'advanced-performance',
             title: l10n.advancedPerformanceReportingTitle,
-            description: l10n.advancedCrashReportingSectionDescription,
+            description: l10n.fork.crashReportingSectionDescription,
             children: [
               FluxerSettingsSwitchItem(
                 label: l10n.advancedPerformanceReportingLabel,
-                description: l10n.advancedCrashReportingDescription,
+                description: l10n.fork.crashReportingDescription,
                 value: ref.watch(observabilityReportingProvider),
                 enabled: observabilityReportingIsAvailable(
                   ref.watch(fluxerObservabilityProvider),
