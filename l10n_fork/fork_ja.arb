@@ -129,5 +129,8 @@
     "personaTagPairDuplicate": "このペルソナでタグのペア「{pattern}」が重複しています",
     "personaAddTagPair": "タグのペアを追加 ({count}/5)",
     "personaTagExampleText": "テキスト",
-    "personaPreviewNameFallback": "ユーザー"
+    "personaPreviewNameFallback": "ユーザー",
+    "crashReportingConsentSubtitle": "Tyne が予期せず終了しました。匿名のクラッシュデータとエラーデータを共有していただくと、問題をより早く修正できます。",
+    "crashReportingSectionDescription": "クラッシュとパフォーマンスのデータを共有して、Tyne のバグ修正にご協力ください。デフォルトではオフです。",
+    "crashReportingDescription": "レポートは、別のインスタンスにサインインしている場合でも、Tyne 独自のエラートラッカーに送信されます。インスタンス名、ID、メッセージの内容は含まれません。"
 }
