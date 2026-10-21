@@ -129,5 +129,8 @@
     "personaTagPairDuplicate": "Dubblett av taggparet '{pattern}' på denna persona",
     "personaAddTagPair": "Lägg till taggpar ({count}/5)",
     "personaTagExampleText": "text",
-    "personaPreviewNameFallback": "Användare"
+    "personaPreviewNameFallback": "Användare",
+    "crashReportingConsentSubtitle": "Tyne stängdes oväntat. Genom att dela anonym krasch- och feldata hjälper du oss att åtgärda problem snabbare.",
+    "crashReportingSectionDescription": "Hjälp till att åtgärda buggar i Tyne genom att dela krasch- och prestandadata. Detta är avstängt som standard.",
+    "crashReportingDescription": "Rapporter skickas till Tynes egen felspårning, även när du är inloggad på en annan instans. De innehåller inga instansnamn, ID:n eller meddelandeinnehåll."
 }

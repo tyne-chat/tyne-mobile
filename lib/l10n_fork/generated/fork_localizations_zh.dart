@@ -441,6 +441,18 @@ class ForkLocalizationsZh extends ForkLocalizations {
 
   @override
   String get personaPreviewNameFallback => '用户';
+
+  @override
+  String get crashReportingConsentSubtitle =>
+      'Tyne 意外关闭。分享匿名的崩溃和错误数据可以帮助我们更快地修复问题。';
+
+  @override
+  String get crashReportingSectionDescription =>
+      '分享崩溃和性能数据，帮助修复 Tyne 中的错误。此选项默认关闭。';
+
+  @override
+  String get crashReportingDescription =>
+      '即使你登录的是其他实例，报告也会发送到 Tyne 自己的错误跟踪系统。报告不包含实例名称、ID 或消息内容。';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -880,4 +892,16 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get personaPreviewNameFallback => '使用者';
+
+  @override
+  String get crashReportingConsentSubtitle =>
+      'Tyne 意外關閉。分享匿名的當機與錯誤資料，可以幫助我們更快修正問題。';
+
+  @override
+  String get crashReportingSectionDescription =>
+      '分享當機與效能資料，協助修正 Tyne 中的錯誤。此選項預設為關閉。';
+
+  @override
+  String get crashReportingDescription =>
+      '即使你登入的是其他伺服器，報告也會傳送到 Tyne 自己的錯誤追蹤系統。報告不包含伺服器名稱、ID 或訊息內容。';
 }
