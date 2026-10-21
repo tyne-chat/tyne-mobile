@@ -459,6 +459,18 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get personaPreviewNameFallback => 'Utilizador';
+
+  @override
+  String get crashReportingConsentSubtitle =>
+      'O Tyne fechou inesperadamente. Partilhar dados anónimos de falhas e erros ajuda-nos a resolver problemas mais depressa.';
+
+  @override
+  String get crashReportingSectionDescription =>
+      'Ajude a corrigir erros no Tyne partilhando dados de falhas e desempenho. Está desativado por predefinição.';
+
+  @override
+  String get crashReportingDescription =>
+      'Os relatórios são enviados para o sistema de registo de erros do próprio Tyne, mesmo quando tem sessão iniciada noutro servidor. Não incluem nomes de servidores, IDs nem o conteúdo das mensagens.';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -916,4 +928,16 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
 
   @override
   String get personaPreviewNameFallback => 'Usuário';
+
+  @override
+  String get crashReportingConsentSubtitle =>
+      'O Tyne fechou inesperadamente. Compartilhar dados anônimos de falhas e erros nos ajuda a corrigir problemas mais rápido.';
+
+  @override
+  String get crashReportingSectionDescription =>
+      'Ajude a corrigir bugs no Tyne compartilhando dados de falhas e desempenho. Isso fica desativado por padrão.';
+
+  @override
+  String get crashReportingDescription =>
+      'Os relatórios vão para o rastreador de erros do próprio Tyne, mesmo quando você está conectado a outra instância. Eles não incluem nomes de instâncias, IDs nem o conteúdo das mensagens.';
 }
