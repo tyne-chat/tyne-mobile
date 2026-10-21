@@ -181,6 +181,13 @@ void main() {
           jsonDecode(File('lib/l10n/fluxer_en.arb').readAsStringSync())
               as Map<String, dynamic>;
       final FluxerLocalizations keys = _KeyEchoL10n();
+      // Fork: a description the fork took from its own catalogue (l10n_fork,
+      // tyne#190) comes back as its English text, not as a key of upstream's.
+      final Set<Object?> forkEnglish =
+          (jsonDecode(File('l10n_fork/fork_en.arb').readAsStringSync())
+                  as Map<String, dynamic>)
+              .values
+              .toSet();
       final List<String> missing = [];
       for (final UserSettingsSearchDescriptor descriptor
           in userSettingsSearchDescriptors()) {
@@ -203,6 +210,10 @@ void main() {
         );
         if (hasDescriptionKey && descriptionKey == null) {
           missing.add(descriptor.id);
+        }
+        // Fork: see forkEnglish above.
+        if (forkEnglish.contains(descriptionKey)) {
+          continue;
         }
         if (descriptionKey != null) {
           expect(arb, contains(descriptionKey), reason: descriptor.id);
