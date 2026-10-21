@@ -452,4 +452,16 @@ class ForkLocalizationsAr extends ForkLocalizations {
 
   @override
   String get personaPreviewNameFallback => 'مستخدم';
+
+  @override
+  String get crashReportingConsentSubtitle =>
+      'أُغلق Tyne بشكل غير متوقع. تساعدنا مشاركة بيانات الأعطال والأخطاء المجهولة على إصلاح المشكلات بشكل أسرع.';
+
+  @override
+  String get crashReportingSectionDescription =>
+      'ساعد في إصلاح أخطاء Tyne بمشاركة بيانات الأعطال والأداء. هذا الخيار معطّل افتراضيًا.';
+
+  @override
+  String get crashReportingDescription =>
+      'تُرسَل التقارير إلى متتبّع الأخطاء الخاص بـ Tyne، حتى عند تسجيل الدخول إلى خادم آخر. ولا تتضمن أسماء الخوادم أو المعرّفات أو محتوى الرسائل.';
 }

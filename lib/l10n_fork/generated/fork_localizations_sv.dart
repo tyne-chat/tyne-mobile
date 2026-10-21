@@ -457,4 +457,16 @@ class ForkLocalizationsSv extends ForkLocalizations {
 
   @override
   String get personaPreviewNameFallback => 'Användare';
+
+  @override
+  String get crashReportingConsentSubtitle =>
+      'Tyne stängdes oväntat. Genom att dela anonym krasch- och feldata hjälper du oss att åtgärda problem snabbare.';
+
+  @override
+  String get crashReportingSectionDescription =>
+      'Hjälp till att åtgärda buggar i Tyne genom att dela krasch- och prestandadata. Detta är avstängt som standard.';
+
+  @override
+  String get crashReportingDescription =>
+      'Rapporter skickas till Tynes egen felspårning, även när du är inloggad på en annan instans. De innehåller inga instansnamn, ID:n eller meddelandeinnehåll.';
 }

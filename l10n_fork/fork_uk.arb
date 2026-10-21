@@ -129,5 +129,8 @@
     "personaTagPairDuplicate": "Пара тегів '{pattern}' уже є в цієї персони",
     "personaAddTagPair": "Додати пару тегів ({count}/5)",
     "personaTagExampleText": "текст",
-    "personaPreviewNameFallback": "Користувач"
+    "personaPreviewNameFallback": "Користувач",
+    "crashReportingConsentSubtitle": "Tyne неочікувано закрився. Надсилання анонімних даних про збої та помилки допомагає нам швидше виправляти проблеми.",
+    "crashReportingSectionDescription": "Допоможіть виправляти помилки в Tyne, надсилаючи дані про збої та продуктивність. Типово вимкнено.",
+    "crashReportingDescription": "Звіти надходять до власної системи відстеження помилок Tyne, навіть якщо ви ввійшли в інший інстанс. Вони не містять назв інстансів, ідентифікаторів чи вмісту повідомлень."
 }
