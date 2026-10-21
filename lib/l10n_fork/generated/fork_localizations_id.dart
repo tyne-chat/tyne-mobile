@@ -456,4 +456,16 @@ class ForkLocalizationsId extends ForkLocalizations {
 
   @override
   String get personaPreviewNameFallback => 'Pengguna';
+
+  @override
+  String get crashReportingConsentSubtitle =>
+      'Tyne tertutup secara tidak terduga. Membagikan data kerusakan dan kesalahan secara anonim membantu kami memperbaiki masalah lebih cepat.';
+
+  @override
+  String get crashReportingSectionDescription =>
+      'Bantu perbaiki bug di Tyne dengan membagikan data kerusakan dan performa. Fitur ini nonaktif secara default.';
+
+  @override
+  String get crashReportingDescription =>
+      'Laporan dikirim ke pelacak kesalahan milik Tyne sendiri, bahkan saat Anda masuk ke instance lain. Laporan tidak mencakup nama instance, ID, atau isi pesan.';
 }
