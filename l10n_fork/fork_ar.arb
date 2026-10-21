@@ -129,5 +129,8 @@
     "personaTagPairDuplicate": "زوج العلامات '{pattern}' مكرر في هذه الشخصية",
     "personaAddTagPair": "إضافة زوج علامات ({count}/5)",
     "personaTagExampleText": "نص",
-    "personaPreviewNameFallback": "مستخدم"
+    "personaPreviewNameFallback": "مستخدم",
+    "crashReportingConsentSubtitle": "أُغلق Tyne بشكل غير متوقع. تساعدنا مشاركة بيانات الأعطال والأخطاء المجهولة على إصلاح المشكلات بشكل أسرع.",
+    "crashReportingSectionDescription": "ساعد في إصلاح أخطاء Tyne بمشاركة بيانات الأعطال والأداء. هذا الخيار معطّل افتراضيًا.",
+    "crashReportingDescription": "تُرسَل التقارير إلى متتبّع الأخطاء الخاص بـ Tyne، حتى عند تسجيل الدخول إلى خادم آخر. ولا تتضمن أسماء الخوادم أو المعرّفات أو محتوى الرسائل."
 }
