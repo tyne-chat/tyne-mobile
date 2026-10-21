@@ -129,5 +129,8 @@
     "personaTagPairDuplicate": "Pasikartojanti žymų pora „{pattern}“ šioje personoje",
     "personaAddTagPair": "Pridėti žymų porą ({count}/5)",
     "personaTagExampleText": "tekstas",
-    "personaPreviewNameFallback": "Naudotojas"
+    "personaPreviewNameFallback": "Naudotojas",
+    "crashReportingConsentSubtitle": "„Tyne“ netikėtai užsidarė. Dalindamasis anoniminiais strigčių ir klaidų duomenimis padedi mums greičiau ištaisyti problemas.",
+    "crashReportingSectionDescription": "Padėk taisyti „Tyne“ klaidas dalindamasis strigčių ir našumo duomenimis. Pagal numatytuosius nustatymus išjungta.",
+    "crashReportingDescription": "Ataskaitos siunčiamos į pačios „Tyne“ klaidų sekimo sistemą, net jei prisijungta prie kito serverio. Jose nėra serverių pavadinimų, ID ar žinučių turinio."
 }
