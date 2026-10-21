@@ -458,4 +458,16 @@ class ForkLocalizationsDa extends ForkLocalizations {
 
   @override
   String get personaPreviewNameFallback => 'Bruger';
+
+  @override
+  String get crashReportingConsentSubtitle =>
+      'Tyne lukkede uventet. Deling af anonyme nedbruds- og fejldata hjælper os med at rette problemer hurtigere.';
+
+  @override
+  String get crashReportingSectionDescription =>
+      'Hjælp med at rette fejl i Tyne ved at dele nedbruds- og ydeevnedata. Dette er slået fra som standard.';
+
+  @override
+  String get crashReportingDescription =>
+      'Rapporter sendes til Tynes egen fejlsporing, også når du er logget ind på en anden instans. De indeholder ikke instansnavne, id\'er eller beskedindhold.';
 }
