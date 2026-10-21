@@ -459,4 +459,16 @@ class ForkLocalizationsUk extends ForkLocalizations {
 
   @override
   String get personaPreviewNameFallback => 'Користувач';
+
+  @override
+  String get crashReportingConsentSubtitle =>
+      'Tyne неочікувано закрився. Надсилання анонімних даних про збої та помилки допомагає нам швидше виправляти проблеми.';
+
+  @override
+  String get crashReportingSectionDescription =>
+      'Допоможіть виправляти помилки в Tyne, надсилаючи дані про збої та продуктивність. Типово вимкнено.';
+
+  @override
+  String get crashReportingDescription =>
+      'Звіти надходять до власної системи відстеження помилок Tyne, навіть якщо ви ввійшли в інший інстанс. Вони не містять назв інстансів, ідентифікаторів чи вмісту повідомлень.';
 }
