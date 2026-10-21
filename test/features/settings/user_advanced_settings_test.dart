@@ -24,6 +24,10 @@ import 'package:riverpod/src/framework.dart';
 import '../../helpers/test_l10n.dart';
 import '../../helpers/wide_layout_test_sizes.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+
 class _InertSyncedPreferencesStore extends SyncedPreferencesStore {
   // Test stub does not use super parameters.
   // ignore: use_super_parameters
@@ -327,8 +331,9 @@ void main() {
           ),
         ],
       );
+      // Fork: Tyne's builds report to Tyne's own error tracker, so the copy is the fork's (tyne#190).
       final Finder destination = findTestText(
-        l10n.advancedCrashReportingDescription,
+        l10n.fork.crashReportingDescription,
       );
       await tester.scrollUntilVisible(
         destination,
@@ -338,7 +343,7 @@ void main() {
 
       expect(destination, findsOneWidget);
       expect(
-        findTestText(l10n.advancedCrashReportingSectionDescription),
+        findTestText(l10n.fork.crashReportingSectionDescription),
         findsOneWidget,
       );
       expect(find.textContaining('Acme'), findsNothing);
