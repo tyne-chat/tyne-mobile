@@ -129,5 +129,8 @@
     "personaTagPairDuplicate": "Tunnistepari '{pattern}' on jo tällä persoonalla",
     "personaAddTagPair": "Lisää tunnistepari ({count}/5)",
     "personaTagExampleText": "teksti",
-    "personaPreviewNameFallback": "Käyttäjä"
+    "personaPreviewNameFallback": "Käyttäjä",
+    "crashReportingConsentSubtitle": "Tyne sulkeutui odottamatta. Nimettömien kaatumis- ja virhetietojen jakaminen auttaa meitä korjaamaan ongelmat nopeammin.",
+    "crashReportingSectionDescription": "Auta korjaamaan Tyne-sovelluksen virheitä jakamalla kaatumis- ja suorituskykytietoja. Tämä on oletuksena pois päältä.",
+    "crashReportingDescription": "Raportit lähetetään Tyne-sovelluksen omaan virheenseurantaan, vaikka olisit kirjautuneena toiseen instanssiin. Ne eivät sisällä instanssien nimiä, tunnisteita tai viestien sisältöä."
 }

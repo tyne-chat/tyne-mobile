@@ -461,6 +461,18 @@ class ForkLocalizationsEs extends ForkLocalizations {
 
   @override
   String get personaPreviewNameFallback => 'Usuario';
+
+  @override
+  String get crashReportingConsentSubtitle =>
+      'Tyne se cerró inesperadamente. Compartir datos anónimos de fallos y errores nos ayuda a solucionar los problemas más rápido.';
+
+  @override
+  String get crashReportingSectionDescription =>
+      'Ayuda a corregir errores en Tyne compartiendo datos de fallos y rendimiento. Está desactivado de forma predeterminada.';
+
+  @override
+  String get crashReportingDescription =>
+      'Los informes se envían al sistema de seguimiento de errores propio de Tyne, incluso cuando hayas iniciado sesión en otra instancia. No incluyen nombres de instancias, identificadores ni el contenido de los mensajes.';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -920,4 +932,16 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
 
   @override
   String get personaPreviewNameFallback => 'Usuario';
+
+  @override
+  String get crashReportingConsentSubtitle =>
+      'Tyne se cerró inesperadamente. Compartir datos anónimos de fallas y errores nos ayuda a solucionar los problemas más rápido.';
+
+  @override
+  String get crashReportingSectionDescription =>
+      'Ayuda a corregir errores en Tyne compartiendo datos de fallas y rendimiento. Está desactivado de manera predeterminada.';
+
+  @override
+  String get crashReportingDescription =>
+      'Los informes se envían al sistema de seguimiento de errores propio de Tyne, incluso si iniciaste sesión en otro servidor. No incluyen nombres de servidores, identificadores ni el contenido de los mensajes.';
 }
