@@ -5,6 +5,10 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+
 Future<bool?> showObservabilityReportingConsentSheet(BuildContext context) {
   final l10n = FluxerLocalizations.of(context);
 
@@ -14,7 +18,7 @@ Future<bool?> showObservabilityReportingConsentSheet(BuildContext context) {
     title: l10n.observabilityReportingConsentTitle,
     subtitle: Builder(
       builder: (BuildContext subtitleContext) => Text(
-        l10n.observabilityReportingConsentSubtitle,
+        l10n.fork.crashReportingConsentSubtitle,
         style: subtitleContext.textStyles.bodySmall.copyWith(
           color: subtitleContext.colors.textSecondary,
         ),
