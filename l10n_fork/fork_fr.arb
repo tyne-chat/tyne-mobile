@@ -129,5 +129,8 @@
     "personaTagPairDuplicate": "Paire de balises « {pattern} » déjà présente sur cette persona",
     "personaAddTagPair": "Ajouter une paire de balises ({count}/5)",
     "personaTagExampleText": "texte",
-    "personaPreviewNameFallback": "Utilisateur"
+    "personaPreviewNameFallback": "Utilisateur",
+    "crashReportingConsentSubtitle": "Tyne s'est fermé de manière inattendue. Partager des données anonymes de plantage et d'erreur nous aide à corriger les problèmes plus rapidement.",
+    "crashReportingSectionDescription": "Aidez à corriger les bugs de Tyne en partageant des données de plantage et de performances. Désactivé par défaut.",
+    "crashReportingDescription": "Les rapports sont envoyés à l'outil de suivi des erreurs de Tyne lui-même, même lorsque vous êtes connecté à une autre instance. Ils n'incluent ni noms d'instance, ni identifiants, ni contenu de message."
 }
