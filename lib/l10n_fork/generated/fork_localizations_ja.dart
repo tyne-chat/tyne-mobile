@@ -446,4 +446,16 @@ class ForkLocalizationsJa extends ForkLocalizations {
 
   @override
   String get personaPreviewNameFallback => 'ユーザー';
+
+  @override
+  String get crashReportingConsentSubtitle =>
+      'Tyne が予期せず終了しました。匿名のクラッシュデータとエラーデータを共有していただくと、問題をより早く修正できます。';
+
+  @override
+  String get crashReportingSectionDescription =>
+      'クラッシュとパフォーマンスのデータを共有して、Tyne のバグ修正にご協力ください。デフォルトではオフです。';
+
+  @override
+  String get crashReportingDescription =>
+      'レポートは、別のインスタンスにサインインしている場合でも、Tyne 独自のエラートラッカーに送信されます。インスタンス名、ID、メッセージの内容は含まれません。';
 }
