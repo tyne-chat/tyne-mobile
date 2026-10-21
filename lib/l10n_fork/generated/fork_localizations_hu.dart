@@ -457,4 +457,16 @@ class ForkLocalizationsHu extends ForkLocalizations {
 
   @override
   String get personaPreviewNameFallback => 'Felhasználó';
+
+  @override
+  String get crashReportingConsentSubtitle =>
+      'A Tyne váratlanul bezárult. Ha névtelen összeomlási és hibaadatokat osztasz meg, gyorsabban javíthatjuk a problémákat.';
+
+  @override
+  String get crashReportingSectionDescription =>
+      'Segíts kijavítani a Tyne hibáit összeomlási és teljesítményadatok megosztásával. Alapértelmezés szerint ki van kapcsolva.';
+
+  @override
+  String get crashReportingDescription =>
+      'A jelentések a Tyne saját hibakövetőjébe kerülnek, akkor is, ha egy másik instanciába vagy bejelentkezve. Nem tartalmaznak instancianeveket, azonosítókat vagy üzenettartalmat.';
 }

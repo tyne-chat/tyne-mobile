@@ -621,5 +621,17 @@
     "personaPreviewNameFallback": "User",
     "@personaPreviewNameFallback": {
         "description": "Name in the display tag preview when neither a persona nor the account has a name to show."
+    },
+    "crashReportingConsentSubtitle": "Tyne closed unexpectedly. Sharing anonymous crash and error data helps us fix issues faster.",
+    "@crashReportingConsentSubtitle": {
+        "description": "Subtitle of the sheet that asks, after the app closed unexpectedly, whether to send crash reports. Replaces upstream's observabilityReportingConsentSubtitle, which names Fluxer."
+    },
+    "crashReportingSectionDescription": "Help fix bugs in Tyne by sharing crash and performance data. This is off by default.",
+    "@crashReportingSectionDescription": {
+        "description": "Description of the crash and performance reporting section in Advanced settings. Replaces upstream's advancedCrashReportingSectionDescription, which names Fluxer."
+    },
+    "crashReportingDescription": "Reports go to Tyne's own error tracker, even when you're signed in to another instance. They don't include instance names, IDs or message content.",
+    "@crashReportingDescription": {
+        "description": "Description of the crash and performance reporting switch: where reports go and what they leave out. Replaces upstream's advancedCrashReportingDescription, which names Fluxer's error tracker."
     }
 }
