@@ -129,5 +129,8 @@
     "personaTagPairDuplicate": "Duplicitní pár značek '{pattern}' u této persony",
     "personaAddTagPair": "Přidat pár značek ({count}/5)",
     "personaTagExampleText": "text",
-    "personaPreviewNameFallback": "Uživatel"
+    "personaPreviewNameFallback": "Uživatel",
+    "crashReportingConsentSubtitle": "Tyne se neočekávaně ukončil. Sdílení anonymních údajů o pádech a chybách nám pomáhá opravovat problémy rychleji.",
+    "crashReportingSectionDescription": "Pomozte opravovat chyby v Tyne sdílením údajů o pádech a výkonu. Ve výchozím nastavení je vypnuto.",
+    "crashReportingDescription": "Hlášení se odesílají do vlastního systému pro sledování chyb Tyne, i když jste přihlášeni k jiné instanci. Neobsahují názvy instancí, ID ani obsah zpráv."
 }
