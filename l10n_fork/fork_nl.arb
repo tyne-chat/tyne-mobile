@@ -129,5 +129,8 @@
     "personaTagPairDuplicate": "Dubbel tagpaar '{pattern}' bij deze persona",
     "personaAddTagPair": "Tagpaar toevoegen ({count}/5)",
     "personaTagExampleText": "tekst",
-    "personaPreviewNameFallback": "Gebruiker"
+    "personaPreviewNameFallback": "Gebruiker",
+    "crashReportingConsentSubtitle": "Tyne is onverwacht afgesloten. Door anonieme crash- en foutgegevens te delen, kunnen we problemen sneller oplossen.",
+    "crashReportingSectionDescription": "Help bugs in Tyne op te lossen door crash- en prestatiegegevens te delen. Dit staat standaard uit.",
+    "crashReportingDescription": "Rapporten gaan naar de eigen foutentracker van Tyne, ook als je bij een andere instantie bent ingelogd. Ze bevatten geen instantienamen, ID's of berichtinhoud."
 }

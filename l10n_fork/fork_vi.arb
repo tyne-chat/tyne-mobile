@@ -129,5 +129,8 @@
     "personaTagPairDuplicate": "Cặp thẻ '{pattern}' bị trùng trên persona này",
     "personaAddTagPair": "Thêm cặp thẻ ({count}/5)",
     "personaTagExampleText": "văn bản",
-    "personaPreviewNameFallback": "Người dùng"
+    "personaPreviewNameFallback": "Người dùng",
+    "crashReportingConsentSubtitle": "Tyne đã đóng đột ngột. Chia sẻ dữ liệu sự cố và lỗi ẩn danh giúp chúng tôi khắc phục vấn đề nhanh hơn.",
+    "crashReportingSectionDescription": "Giúp sửa lỗi trong Tyne bằng cách chia sẻ dữ liệu sự cố và hiệu suất. Tùy chọn này tắt theo mặc định.",
+    "crashReportingDescription": "Báo cáo được gửi đến hệ thống theo dõi lỗi riêng của Tyne, ngay cả khi bạn đăng nhập vào máy chủ khác. Báo cáo không bao gồm tên máy chủ, ID hoặc nội dung tin nhắn."
 }
