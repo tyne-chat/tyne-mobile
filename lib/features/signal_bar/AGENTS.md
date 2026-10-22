@@ -91,6 +91,8 @@ Opening or loading a channel re-points nothing, and neither does a selection mad
 - **Visible** when the bar has signals and the channel is loaded and on.
 - **Rights:** `canToggle` is `canSendMessages`, `true` while unknown; without it taps do nothing.
   `canReset` is `guildId.isEmpty`, or Manage Community in `guildPermissionsProvider`.
+- **Collapsed** (the caret): only lit signals stay, laid out and sized as their own set; with none lit,
+  only the caret is left.
 - **Display:** unlit signals in greyscale; at most three badges, then `+N`. A badge is
   `FluxerAvatar.user` with the account's `userId`, so a persona's avatar hash resolves under that
   account's avatars, and a persona without one shows the account's default avatar. `displayName` is
