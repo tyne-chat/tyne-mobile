@@ -352,6 +352,18 @@ class SignalBarView extends StatelessWidget {
     final Color surface =
         Color.lerp(backgroundColor, context.colors.textPrimary, 0.05) ??
         backgroundColor;
+    // Collapsed, the bar keeps the signals someone has on and drops the rest;
+    // with none on, only the caret is left.
+    final List<SignalBarSignal> shown = collapsed
+        ? <SignalBarSignal>[
+            for (final SignalBarSignal signal in signals)
+              if (entries.any(
+                (SignalEntry entry) => entry.signalId == signal.id,
+              ))
+                signal,
+          ]
+        : signals;
+    final bool empty = shown.isEmpty;
     return Semantics(
       container: true,
       label: l10n.fork.signalBarLabel,
@@ -361,31 +373,26 @@ class SignalBarView extends StatelessWidget {
           border: Border(bottom: BorderSide(color: dividerColor)),
         ),
         child: Padding(
-          padding: EdgeInsets.fromLTRB(
-            12,
-            collapsed ? 0 : 10,
-            4,
-            collapsed ? 0 : 8,
-          ),
+          padding: EdgeInsets.fromLTRB(12, empty ? 0 : 10, 4, empty ? 0 : 8),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Expanded(
-                child: collapsed
+                child: empty
                     ? const SizedBox.shrink()
                     : RebuildSafeLayoutBuilder(
                         debugLabel: 'SignalBarView',
                         builder:
                             (BuildContext context, BoxConstraints constraints) {
                               final double size = signalBarSignalSize(
-                                count: signals.length,
+                                count: shown.length,
                                 width: constraints.maxWidth,
                               );
                               return Wrap(
                                 spacing: _kSignalSpacing,
                                 runSpacing: _kSignalSpacing,
                                 children: <Widget>[
-                                  for (final SignalBarSignal signal in signals)
+                                  for (final SignalBarSignal signal in shown)
                                     _SignalButton(
                                       key: ValueKey<String>(
                                         'signal-${signal.id}',

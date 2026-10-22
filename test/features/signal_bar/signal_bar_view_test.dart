@@ -198,11 +198,36 @@ void main() {
     expect(actions, <String>['off:2', 'reset']);
   });
 
-  testWidgets('collapsed hides the signals and keeps the caret', (
+  testWidgets(
+    'collapsed with nothing on hides the signals and keeps the caret',
+    (WidgetTester tester) async {
+      await pump(tester, collapsed: true);
+      expect(
+        find.byKey(const ValueKey<String>('signal-reading')),
+        findsNothing,
+      );
+      expect(find.byKey(const ValueKey<String>('signal-done')), findsNothing);
+      await tester.tap(find.byTooltip('Show signal bar'));
+      expect(collapseTaps, 1);
+    },
+  );
+
+  testWidgets('collapsed keeps the signals someone has on and drops the rest', (
     WidgetTester tester,
   ) async {
-    await pump(tester, collapsed: true);
+    await pump(
+      tester,
+      collapsed: true,
+      entries: <SignalEntry>[_entry('done', '2')],
+    );
     expect(find.byKey(const ValueKey<String>('signal-reading')), findsNothing);
+    expect(find.byKey(const ValueKey<String>('signal-done')), findsOneWidget);
+    expect(
+      find.byKey(const ValueKey<String>('signal-badge-2')),
+      findsOneWidget,
+    );
+    await tester.tap(find.byKey(const ValueKey<String>('signal-done')));
+    expect(toggles, <String>['done:false']);
     await tester.tap(find.byTooltip('Show signal bar'));
     expect(collapseTaps, 1);
   });
