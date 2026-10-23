@@ -12,6 +12,7 @@ import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
+import 'package:fluxer_app/features/profile/data/persona_image_upload.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
@@ -36,6 +37,11 @@ const int _kDefaultProfileAccentColor = 0x4641D9;
 
 class EditPersonaSheet {
   EditPersonaSheet._();
+
+  /// Picks the image for an avatar or banner; tests replace it.
+  @visibleForTesting
+  static Future<({Uint8List bytes, String name})?> Function() pickImage =
+      ImageUtils.pickImage;
 
   static Future<PublicPersona?> show(
     BuildContext context, {
@@ -129,8 +135,10 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
   int? _avatarColor;
   bool _autoTagDisabled = false;
   String _visibility = 'unlisted';
-  bool _isUploadingAvatar = false;
-  bool _isUploadingBanner = false;
+  // A picked image, not stored yet: Save uploads it first and Reset drops it,
+  // as in upstream's profile editor.
+  Uint8List? _pendingAvatar;
+  Uint8List? _pendingBanner;
   bool _isSaving = false;
 
   void _onFieldChanged() {
@@ -211,6 +219,8 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
         _bioController.text.trim() != _initialBio ||
         _avatarHash != _initialAvatarHash ||
         _bannerHash != _initialBannerHash ||
+        _pendingAvatar != null ||
+        _pendingBanner != null ||
         _color != _initialColor ||
         _avatarColor != _initialAvatarColor ||
         _visibility != _initialVisibility ||
@@ -275,6 +285,8 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     setState(() {
       _avatarHash = _initialAvatarHash;
       _bannerHash = _initialBannerHash;
+      _pendingAvatar = null;
+      _pendingBanner = null;
       _color = _initialColor;
       _avatarColor = _initialAvatarColor;
       _autoTagDisabled = _initialAutoTagDisabled;
@@ -329,7 +341,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
   }
 
   Future<void> _pickAvatar() async {
-    final picked = await ImageUtils.pickImage();
+    final picked = await EditPersonaSheet.pickImage();
     if (picked == null || !mounted) {
       return;
     }
@@ -368,41 +380,12 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       uploadBytes = croppedBytes;
     }
 
-    setState(() => _isUploadingAvatar = true);
-    try {
-      final dataUri = ImageUtils.toDataUri(uploadBytes);
-      final Dio dio = ref.read(fluxerDioProvider);
-      final response = await dio.post<dynamic>(
-        '/users/@me/personas/avatar',
-        data: <String, dynamic>{'avatar': dataUri},
-      );
-      final dynamic data = response.data;
-      final Map<dynamic, dynamic>? map = data is Map ? data : null;
-      final newHash = map?['avatar_hash'] as String?;
-      if (newHash != null) {
-        final newColor = (map!['avatar_color'] as num?)?.toInt();
-        if (_avatarHash != null && _avatarHash != newHash) {
-          unawaited(CachedNetworkImage.evictFromCache(_avatarHash!));
-        }
-        setState(() {
-          _avatarHash = newHash;
-          if (newColor != null) {
-            _avatarColor = newColor;
-          }
-        });
-        _onFieldChanged();
-      }
-    } on Object catch (err, st) {
-      talker.error('[EditPersonaSheet] Failed to upload avatar: $err', err, st);
-    } finally {
-      if (mounted) {
-        setState(() => _isUploadingAvatar = false);
-      }
-    }
+    setState(() => _pendingAvatar = uploadBytes);
+    _onFieldChanged();
   }
 
   Future<void> _pickBanner() async {
-    final picked = await ImageUtils.pickImage();
+    final picked = await EditPersonaSheet.pickImage();
     if (picked == null || !mounted) {
       return;
     }
@@ -440,32 +423,8 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       uploadBytes = croppedBytes;
     }
 
-    setState(() => _isUploadingBanner = true);
-    try {
-      final dataUri = ImageUtils.toDataUri(uploadBytes);
-      final Dio dio = ref.read(fluxerDioProvider);
-      final response = await dio.post<dynamic>(
-        '/users/@me/personas/banner',
-        data: <String, dynamic>{'banner': dataUri},
-      );
-      final dynamic data = response.data;
-      final newHash = (data is Map) ? (data['banner_hash'] as String?) : null;
-      if (newHash != null) {
-        if (_bannerHash != null && _bannerHash != newHash) {
-          unawaited(CachedNetworkImage.evictFromCache(_bannerHash!));
-        }
-        setState(() {
-          _bannerHash = newHash;
-        });
-        _onFieldChanged();
-      }
-    } on Object catch (err, st) {
-      talker.error('[EditPersonaSheet] Failed to upload banner: $err', err, st);
-    } finally {
-      if (mounted) {
-        setState(() => _isUploadingBanner = false);
-      }
-    }
+    setState(() => _pendingBanner = uploadBytes);
+    _onFieldChanged();
   }
 
   void _addSignatureEmoji() {
@@ -542,6 +501,41 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       _signatureEmojis.removeAt(index);
     });
     _onFieldChanged();
+  }
+
+  /// Stores the picked images before the persona is saved. Each stored image
+  /// is kept at once, so a later failure does not upload it again on the next
+  /// Save. A failure throws, and the caller saves nothing.
+  Future<void> _storePendingImages(Dio dio) async {
+    final Uint8List? avatar = _pendingAvatar;
+    if (avatar != null) {
+      final stored = await uploadPersonaImage(
+        dio,
+        PersonaImageKind.avatar,
+        avatar,
+      );
+      if (_avatarHash != null && _avatarHash != stored.hash) {
+        unawaited(CachedNetworkImage.evictFromCache(_avatarHash!));
+      }
+      _avatarHash = stored.hash;
+      if (stored.avatarColor != null) {
+        _avatarColor = stored.avatarColor;
+      }
+      _pendingAvatar = null;
+    }
+    final Uint8List? banner = _pendingBanner;
+    if (banner != null) {
+      final stored = await uploadPersonaImage(
+        dio,
+        PersonaImageKind.banner,
+        banner,
+      );
+      if (_bannerHash != null && _bannerHash != stored.hash) {
+        unawaited(CachedNetworkImage.evictFromCache(_bannerHash!));
+      }
+      _bannerHash = stored.hash;
+      _pendingBanner = null;
+    }
   }
 
   Future<void> _save() async {
@@ -687,6 +681,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     setState(() => _isSaving = true);
     try {
       final Dio dio = ref.read(fluxerDioProvider);
+      await _storePendingImages(dio);
       final String? pronouns = _pronounsController.text.trim().isEmpty
           ? null
           : _pronounsController.text.trim();
@@ -1051,24 +1046,27 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
                         right: 0,
                         height: bannerHeight,
                         child: GestureDetector(
-                          onTap: _isSaving || _isUploadingBanner
-                              ? null
-                              : _pickBanner,
+                          onTap: _isSaving ? null : _pickBanner,
                           behavior: HitTestBehavior.opaque,
                           child: Stack(
                             fit: StackFit.expand,
                             children: [
-                              UserProfileBanner(
-                                key: ValueKey(
-                                  '$_bannerHash-$_color-$effectiveDefaultColor',
+                              if (_pendingBanner != null)
+                                Image.memory(_pendingBanner!, fit: BoxFit.cover)
+                              else
+                                UserProfileBanner(
+                                  key: ValueKey(
+                                    '$_bannerHash-$_color-$effectiveDefaultColor',
+                                  ),
+                                  bannerUrl: effectiveBannerUrl,
+                                  bannerColor: _color != null && _color != 0
+                                      ? Color(_color! | 0xFF000000)
+                                      : Color(
+                                          effectiveDefaultColor | 0xFF000000,
+                                        ),
+                                  height: bannerHeight,
                                 ),
-                                bannerUrl: effectiveBannerUrl,
-                                bannerColor: _color != null && _color != 0
-                                    ? Color(_color! | 0xFF000000)
-                                    : Color(effectiveDefaultColor | 0xFF000000),
-                                height: bannerHeight,
-                              ),
-                              if (_isUploadingBanner)
+                              if (_isSaving && _pendingBanner != null)
                                 const Positioned.fill(
                                   child: DecoratedBox(
                                     decoration: BoxDecoration(
@@ -1092,9 +1090,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
                         left: layout.s4,
                         top: avatarTop,
                         child: GestureDetector(
-                          onTap: _isSaving || _isUploadingAvatar
-                              ? null
-                              : _pickAvatar,
+                          onTap: _isSaving ? null : _pickAvatar,
                           behavior: HitTestBehavior.opaque,
                           child: DecoratedBox(
                             decoration: BoxDecoration(
@@ -1110,14 +1106,16 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
                                 CircleAvatar(
                                   radius: avatarRadius,
                                   backgroundColor: colors.backgroundPrimary,
-                                  backgroundImage:
-                                      effectiveAvatarUrl != null &&
-                                          effectiveAvatarUrl.isNotEmpty
+                                  backgroundImage: _pendingAvatar != null
+                                      ? MemoryImage(_pendingAvatar!)
+                                      : effectiveAvatarUrl != null &&
+                                            effectiveAvatarUrl.isNotEmpty
                                       ? NetworkImage(effectiveAvatarUrl)
                                       : null,
                                   child:
-                                      effectiveAvatarUrl == null ||
-                                          effectiveAvatarUrl.isEmpty
+                                      _pendingAvatar == null &&
+                                          (effectiveAvatarUrl == null ||
+                                              effectiveAvatarUrl.isEmpty)
                                       ? Icon(
                                           PhosphorIconsFill.user,
                                           size: 36,
@@ -1125,7 +1123,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
                                         )
                                       : null,
                                 ),
-                                if (_isUploadingAvatar)
+                                if (_isSaving && _pendingAvatar != null)
                                   const Positioned.fill(
                                     child: DecoratedBox(
                                       decoration: BoxDecoration(
@@ -1158,23 +1156,22 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
           Row(
             children: [
               FluxerButton.secondary(
-                label: _avatarHash != null
+                label: _avatarHash != null || _pendingAvatar != null
                     ? l10n.fork.personaChangeAvatar
                     : l10n.fork.personaUploadAvatar,
                 icon: PhosphorIconsFill.uploadSimple,
                 size: FluxerButtonSize.small,
                 fitContent: true,
-                isLoading: _isUploadingAvatar,
-                onPressed: _isSaving || _isUploadingAvatar ? null : _pickAvatar,
+                onPressed: _isSaving ? null : _pickAvatar,
               ),
-              if (_avatarHash != null) ...[
+              if (_avatarHash != null || _pendingAvatar != null) ...[
                 SizedBox(width: layout.s2),
                 FluxerButton.ghost(
                   label: l10n.fork.personaRemoveAvatar,
                   icon: PhosphorIconsFill.trash,
                   size: FluxerButtonSize.small,
                   fitContent: true,
-                  onPressed: _isSaving || _isUploadingAvatar
+                  onPressed: _isSaving
                       ? null
                       : () {
                           final avatarHash = _avatarHash;
@@ -1197,6 +1194,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
                           setState(() {
                             _avatarHash = null;
                             _avatarColor = null;
+                            _pendingAvatar = null;
                           });
                           _onFieldChanged();
                         },
@@ -1214,17 +1212,16 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
                 icon: PhosphorIconsFill.image,
                 size: FluxerButtonSize.small,
                 fitContent: true,
-                isLoading: _isUploadingBanner,
-                onPressed: _isSaving || _isUploadingBanner ? null : _pickBanner,
+                onPressed: _isSaving ? null : _pickBanner,
               ),
-              if (_bannerHash != null) ...[
+              if (_bannerHash != null || _pendingBanner != null) ...[
                 SizedBox(width: layout.s2),
                 FluxerButton.ghost(
                   label: l10n.removeBanner,
                   icon: PhosphorIconsFill.trash,
                   size: FluxerButtonSize.small,
                   fitContent: true,
-                  onPressed: _isSaving || _isUploadingBanner
+                  onPressed: _isSaving
                       ? null
                       : () {
                           final bannerHash = _bannerHash;
@@ -1244,7 +1241,10 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
                               }
                             }
                           }
-                          setState(() => _bannerHash = null);
+                          setState(() {
+                            _bannerHash = null;
+                            _pendingBanner = null;
+                          });
                           _onFieldChanged();
                         },
                 ),
