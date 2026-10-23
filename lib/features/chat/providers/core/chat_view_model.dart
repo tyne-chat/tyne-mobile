@@ -2974,6 +2974,10 @@ class ChatViewModel extends _$ChatViewModel {
           !hasUnread &&
           channelRow != null &&
           channelRow.lastMessageId == null) {
+        // Fork: hasMoreMessages starts true: nothing has loaded, so the start
+        // of the channel is not proven. The latest page sets it from its
+        // length; a failed load must not leave "start of channel" behind
+        // (tyne-chat/tyne#199).
         _replaceLiveWindow(
           channelId: channelId,
           messages: _finalizeLoadedMessages(
@@ -2983,7 +2987,7 @@ class ChatViewModel extends _$ChatViewModel {
           ),
           isLoading: false,
           isSyncingMessages: false,
-          hasMoreMessages: false,
+          hasMoreMessages: true,
           hasMoreNewerMessages: false,
         );
         unawaited(
