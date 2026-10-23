@@ -315,3 +315,20 @@ void main() {
     });
   }
 }
+
+// Fork: upstream's helpers that account_manager_provider_fork_test.dart uses, named here so they
+// stay private and are not copied.
+// ignore: unreachable_from_main // Fork: used by account_manager_provider_fork_test.dart.
+typedef ForkFakeApiServer = _FakeApiServer;
+// ignore: unreachable_from_main // Fork: used by account_manager_provider_fork_test.dart.
+typedef ForkFakeAuthRepository = _FakeAuthRepository;
+// ignore: unreachable_from_main // Fork: used by account_manager_provider_fork_test.dart.
+typedef ForkUpstreamHelpers = ({
+  ({ProviderContainer container, FluxerDatabase db}) Function({
+    required String baseUrl,
+  })
+  harness,
+  Future<void> Function(ProviderContainer container, FluxerDatabase db) signIn,
+});
+// ignore: unreachable_from_main // Fork: used by account_manager_provider_fork_test.dart.
+const ForkUpstreamHelpers forkUpstream = (harness: _harness, signIn: _signIn);
