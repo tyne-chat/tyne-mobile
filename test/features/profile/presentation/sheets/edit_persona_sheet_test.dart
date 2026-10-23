@@ -1,7 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import 'dart:convert';
+import 'dart:typed_data';
+
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/edit_persona_sheet.dart';
@@ -13,6 +18,7 @@ import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/image_utils.dart';
 
 import '../../../../helpers/pump_fluxer_app.dart';
 
@@ -45,6 +51,69 @@ class _FakeMyPersonasNotifier extends MyPersonasNotifier {
   Future<void> reloadSilently() async {}
 }
 
+/// Answers the persona image uploads and the persona save, and records each
+/// request as `METHOD path`.
+class _PersonaApiAdapter implements HttpClientAdapter {
+  final List<String> requests = <String>[];
+  int failBannerUploads = 0;
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) async {
+    if (options.path.startsWith('/users/@me/personas')) {
+      requests.add('${options.method} ${options.path}');
+    }
+    final ({int status, Object body}) reply = switch (options.path) {
+      '/users/@me/personas/avatar' => (
+        status: 200,
+        body: <String, Object>{'avatar_hash': 'avatarhash', 'avatar_color': 5},
+      ),
+      '/users/@me/personas/banner' when failBannerUploads > 0 => (
+        status: 500,
+        body: <String, Object>{'message': 'Storage unavailable'},
+      ),
+      '/users/@me/personas/banner' => (
+        status: 200,
+        body: <String, Object>{'banner_hash': 'bannerhash'},
+      ),
+      _ => (
+        status: 200,
+        body: <String, Object>{'id': 'existing_p1', 'name': 'Existing Alter'},
+      ),
+    };
+    if (options.path == '/users/@me/personas/banner' && failBannerUploads > 0) {
+      failBannerUploads--;
+    }
+    return ResponseBody.fromString(
+      jsonEncode(reply.body),
+      reply.status,
+      headers: <String, List<String>>{
+        Headers.contentTypeHeader: <String>[Headers.jsonContentType],
+      },
+    );
+  }
+
+  @override
+  void close({bool force = false}) {}
+}
+
+/// A two-frame GIF: an animated image skips the cropper, so a test can pick
+/// it without a crop sheet.
+final Uint8List _animatedGif = Uint8List.fromList(<int>[
+  ...ascii.encode('GIF89a'),
+  0x01, 0x00, 0x01, 0x00, 0x80, 0x00, 0x00, //
+  0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, //
+  for (int frame = 0; frame < 2; frame++) ...<int>[
+    0x21, 0xF9, 0x04, 0x00, 0x0A, 0x00, 0x00, 0x00, //
+    0x2C, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00, //
+    0x02, 0x02, 0x44, 0x01, 0x00, //
+  ],
+  0x3B,
+]);
+
 class _FakeSystemDisplayTagNotifier extends SystemDisplayTagNotifier {
   @override
   SystemDisplayTag build() => const SystemDisplayTag(text: 'SYS');
@@ -63,9 +132,11 @@ void main() {
     PublicPersona? persona,
     List<Persona> otherPersonas = const [],
     void Function(WidgetRef ref)? onRef,
+    Dio? dio,
   }) {
     return pumpFluxerApp(
       overrides: [
+        if (dio != null) fluxerDioProvider.overrideWithValue(dio),
         userSettingsViewModelProvider.overrideWith(_FakeUserSettings.new),
         myPersonasProvider.overrideWith(
           () => _FakeMyPersonasNotifier(otherPersonas),
@@ -97,6 +168,7 @@ void main() {
     PublicPersona? persona,
     List<Persona> otherPersonas = const [],
     void Function(WidgetRef ref)? onRef,
+    Dio? dio,
   }) async {
     tester.view.physicalSize = const Size(800, 1600);
     tester.view.devicePixelRatio = 1.0;
@@ -110,6 +182,7 @@ void main() {
         persona: persona,
         otherPersonas: otherPersonas,
         onRef: onRef,
+        dio: dio,
       ),
     );
     await tester.tap(find.byKey(const ValueKey('open_btn')));
@@ -413,6 +486,96 @@ void main() {
                 'Locale ${locale.languageCode} must not contain literal backslashes',
           );
         }
+      },
+    );
+  });
+
+  // Like upstream's profile editor, a picked image is only uploaded on Save
+  // (tyne-chat/tyne#204).
+  group('EditPersonaSheet - picked images', () {
+    const persona = PublicPersona(id: 'existing_p1', name: 'Existing Alter');
+
+    Future<_PersonaApiAdapter> openWithApi(
+      WidgetTester tester, {
+      void Function(WidgetRef ref)? onRef,
+    }) async {
+      final adapter = _PersonaApiAdapter();
+      final dio = Dio(BaseOptions(baseUrl: 'https://api.test'))
+        ..httpClientAdapter = adapter;
+      EditPersonaSheet.pickImage = () async =>
+          (bytes: _animatedGif, name: 'picked.gif');
+      addTearDown(() => EditPersonaSheet.pickImage = ImageUtils.pickImage);
+      await openSheet(tester, persona: persona, dio: dio, onRef: onRef);
+      return adapter;
+    }
+
+    Future<void> tapText(WidgetTester tester, String text) async {
+      await tester.ensureVisible(find.text(text).last);
+      await tester.tap(find.text(text).last);
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('picking an avatar sends nothing until Save', (tester) async {
+      final adapter = await openWithApi(tester);
+
+      await tapText(tester, 'Upload Avatar');
+
+      expect(adapter.requests, isEmpty);
+      expect(isSaveBarVisible(tester), isTrue);
+
+      await tapText(tester, 'Save');
+
+      expect(adapter.requests, <String>[
+        'POST /users/@me/personas/avatar',
+        'PATCH /users/@me/personas/existing_p1',
+      ]);
+    });
+
+    testWidgets('Reset drops a picked image without uploading it', (
+      tester,
+    ) async {
+      final adapter = await openWithApi(tester);
+
+      await tapText(tester, 'Change banner');
+      expect(isSaveBarVisible(tester), isTrue);
+      await tapText(tester, 'Reset');
+
+      expect(isSaveBarVisible(tester), isFalse);
+      expect(adapter.requests, isEmpty);
+    });
+
+    testWidgets(
+      'a failed upload saves nothing, and Save again does not upload a stored image twice',
+      (tester) async {
+        WidgetRef? capturedRef;
+        final adapter = await openWithApi(
+          tester,
+          onRef: (ref) => capturedRef = ref,
+        );
+        adapter.failBannerUploads = 1;
+
+        await tapText(tester, 'Upload Avatar');
+        await tapText(tester, 'Change banner');
+        await tapText(tester, 'Save');
+
+        expect(adapter.requests, <String>[
+          'POST /users/@me/personas/avatar',
+          'POST /users/@me/personas/banner',
+        ]);
+        expect(
+          capturedRef!.read(toastProvider).last.toast.message,
+          contains('Storage unavailable'),
+        );
+        expect(isSaveBarVisible(tester), isTrue);
+
+        await tapText(tester, 'Save');
+
+        expect(adapter.requests, <String>[
+          'POST /users/@me/personas/avatar',
+          'POST /users/@me/personas/banner',
+          'POST /users/@me/personas/banner',
+          'PATCH /users/@me/personas/existing_p1',
+        ]);
       },
     );
   });
