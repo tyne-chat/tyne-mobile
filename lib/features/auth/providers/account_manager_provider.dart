@@ -20,7 +20,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Fork imports.
 // ignore: directives_ordering
-import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+import 'package:fluxer_app/features/profile/providers/persona_account_reset.dart';
 
 part 'account_manager_provider.g.dart';
 
@@ -137,17 +137,7 @@ class AccountManager extends _$AccountManager {
         mode: LeavePushAccountMode.switchAccount,
       );
 
-      ref.read(myPersonasProvider.notifier).reset();
-      ref.read(personaSettingsProvider.notifier).reset();
-      unawaited(ref.read(systemDisplayTagProvider.notifier).reset());
-      unawaited(ref.read(activePersonaProvider.notifier).reset());
-      ref
-        ..invalidate(myPersonasProvider)
-        ..invalidate(personaSettingsProvider)
-        ..invalidate(systemDisplayTagProvider)
-        ..invalidate(activePersonaProvider);
-      // Fork: upstream's statement, kept apart from the fork's cascade above.
-      // ignore: cascade_invocations
+      resetPersonaStateForAccountChange(ref);
       ref.invalidate(appStartupProvider);
       await ref
           .read(appStartupProvider.future)
@@ -194,15 +184,7 @@ class AccountManager extends _$AccountManager {
     await repo.logout(userId);
     ref.read(syncedPreferencesStoreProvider).reset();
     ref.read(slowmodeTrackerProvider.notifier).reset();
-    ref.read(myPersonasProvider.notifier).reset();
-    ref.read(personaSettingsProvider.notifier).reset();
-    unawaited(ref.read(systemDisplayTagProvider.notifier).reset());
-    unawaited(ref.read(activePersonaProvider.notifier).reset());
-    ref
-      ..invalidate(myPersonasProvider)
-      ..invalidate(personaSettingsProvider)
-      ..invalidate(systemDisplayTagProvider)
-      ..invalidate(activePersonaProvider);
+    resetPersonaStateForAccountChange(ref);
     await loadAccounts();
 
     if (state.accounts.isEmpty) {
@@ -234,15 +216,7 @@ class AccountManager extends _$AccountManager {
     }
     ref.read(syncedPreferencesStoreProvider).reset();
     ref.read(slowmodeTrackerProvider.notifier).reset();
-    ref.read(myPersonasProvider.notifier).reset();
-    ref.read(personaSettingsProvider.notifier).reset();
-    unawaited(ref.read(systemDisplayTagProvider.notifier).reset());
-    unawaited(ref.read(activePersonaProvider.notifier).reset());
-    ref
-      ..invalidate(myPersonasProvider)
-      ..invalidate(personaSettingsProvider)
-      ..invalidate(systemDisplayTagProvider)
-      ..invalidate(activePersonaProvider);
+    resetPersonaStateForAccountChange(ref);
     await loadAccounts();
     ref.read(fluxerAuthTokenProvider.notifier).setToken(null);
     ref.read(authStateProvider.notifier).setAuthenticated(value: false);
