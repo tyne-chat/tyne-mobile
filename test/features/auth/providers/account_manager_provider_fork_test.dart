@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/providers/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
@@ -12,6 +13,16 @@ import 'package:fluxer_app/features/chat/data/channel_persona_mention_cache.dart
 
 import '../../../helpers/open_test_database.dart';
 import 'account_manager_provider_test.dart' hide main;
+
+/// Upstream's fake, plus the sign-out call it leaves unimplemented.
+class _SignOutAuthRepository extends ForkFakeAuthRepository {
+  _SignOutAuthRepository({super.targetBaseUrl});
+
+  final List<String> loggedOut = <String>[];
+
+  @override
+  Future<void> logout(String userId) async => loggedOut.add(userId);
+}
 
 class _InstantAppStartup extends AppStartup {
   @override
@@ -78,6 +89,30 @@ void main() {
         .expireSessionIfInvalid();
 
     expect(expired, isTrue);
+    expect(ChannelPersonaMentionCache.instance.cachedItems, isEmpty);
+  });
+
+  test('signing out empties the persona mention cache', () async {
+    final ForkFakeApiServer server = await ForkFakeApiServer.start();
+    addTearDown(server.close);
+    final db = openTestDatabase();
+    final repository = _SignOutAuthRepository(targetBaseUrl: server.baseUrl);
+    final container = ProviderContainer(
+      overrides: [
+        fluxerDatabaseProvider.overrideWithValue(db),
+        fluxerBaseUrlProvider.overrideWithValue(server.baseUrl),
+        authRepositoryProvider.overrideWithValue(repository),
+        syncedPreferencesStoreProvider.overrideWith(SyncedPreferencesStore.new),
+      ],
+    );
+    addTearDown(container.dispose);
+    await forkUpstream.signIn(container, db);
+    _seedPreviousAccountsPersonas();
+
+    await container.read(accountManagerProvider.notifier).signOut('user-1');
+
+    expect(repository.loggedOut, ['user-1']);
+    expect(container.read(authStateProvider), isFalse);
     expect(ChannelPersonaMentionCache.instance.cachedItems, isEmpty);
   });
 }
