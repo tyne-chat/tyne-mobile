@@ -33,6 +33,16 @@ Future<void> ensureForkSchema(
     await _dropCachedMessagesMentioningPersonas(database);
   }
 
+  if (!(await _columnsOf(
+    database,
+    database.knownPersonas.actualTableName,
+  )).contains(database.knownPersonas.userId.name)) {
+    await migrator.addColumn(
+      database.knownPersonas,
+      database.knownPersonas.userId,
+    );
+  }
+
   // Fork builds before the rebase of 9 October 2026 numbered their own steps 91
   // and 92. Upstream then used those numbers for its thread tables and for two
   // user_preferences columns, so an install coming from such a build is already

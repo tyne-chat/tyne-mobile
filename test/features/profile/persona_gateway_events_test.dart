@@ -10,12 +10,18 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/chat/data/channel_persona_mention_cache.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/profile/data/known_personas.dart';
+import 'package:fluxer_app/features/profile/data/persona_lookup.dart';
+import 'package:fluxer_app/features/profile/data/persona_refresh.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_settings.dart';
 import 'package:fluxer_app/features/profile/providers/persona_gateway_events.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
+import 'package:fluxer_dart/export.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../fork_support/wait_until.dart';
 
 // Fork: the persona gateway events, handled apart from upstream's gateway
 // provider.
@@ -115,6 +121,9 @@ void main() {
   late _RecordingMyPersonas mine;
   late _RecordingPersonaSettings settings;
   late Map<String, int> lookups;
+  late List<List<PersonaLookupPair>> sentLookups;
+  late Future<List<PersonaLookupItemSchema>> Function(List<PersonaLookupPair>)
+  answerLookups;
   late Ref ref;
   late FluxerDatabase db;
 
@@ -124,6 +133,8 @@ void main() {
     mine = _RecordingMyPersonas();
     settings = _RecordingPersonaSettings();
     lookups = <String, int>{};
+    sentLookups = <List<PersonaLookupPair>>[];
+    answerLookups = (_) async => <PersonaLookupItemSchema>[];
     db = FluxerDatabase.forTesting(NativeDatabase.memory());
     addTearDown(db.close);
     container = ProviderContainer(
@@ -138,6 +149,13 @@ void main() {
           lookups[id] = (lookups[id] ?? 0) + 1;
           return null;
         }),
+        personaLookupBatcherProvider.overrideWith(
+          (ref) => PersonaLookupBatcher((List<PersonaLookupPair> pairs) {
+            sentLookups.add(pairs);
+            return answerLookups(pairs);
+          }, delay: Duration.zero),
+        ),
+        personaRefreshDelayProvider.overrideWithValue(Duration.zero),
       ],
     );
     addTearDown(container.dispose);
@@ -166,11 +184,26 @@ void main() {
               .timeout(const Duration(seconds: 10)))!
           .name;
 
+  // Waits until the stored persona has the given name; the handler stores it
+  // without waiting.
+  Future<String> keptNameBecomes(String personaId, String name) async =>
+      (await (db.select(db.knownPersonas)..where((t) => t.id.equals(personaId)))
+              .watchSingleOrNull()
+              .firstWhere((KnownPersona? row) => row?.name == name)
+              .timeout(const Duration(seconds: 10)))!
+          .name;
+
   void handle(String eventType, Object? data) =>
       handlePersonaGatewayEvent(ref, eventType, data, sessionUserId: 'me');
 
   group("a community member's personas changing", () {
     test('renames their messages and looks the persona up again', () async {
+      // A persona this device has seen; one it has not is not kept from an
+      // event alone.
+      await upsertKnownPersonaFromLookup(
+        db,
+        const PersonaLookupItemSchema(id: 'p9', userId: 'u2', name: 'Old'),
+      );
       await lookUp('u2', 'p9');
       ChannelPersonaMentionCache.instance
         ..setChannelPersonas('in-g1', <Map<String, dynamic>>[
@@ -207,7 +240,7 @@ void main() {
         ChannelPersonaMentionCache.instance.cachedItems.map((p) => p['id']),
         <String>['p8'],
       );
-      expect(await keptName('p9'), 'Bob');
+      expect(await keptNameBecomes('p9', 'Bob'), 'Bob');
     });
 
     test('leaves the messages of a deleted persona as they were', () async {
@@ -225,6 +258,98 @@ void main() {
       expect(lookups['u2:p9'], 2);
     });
   });
+
+  // The server never names a private persona in an event; the device fetches
+  // again the personas of that account it holds, in one request
+  // (tyne-tools#7).
+  group('an account changing its personas without naming one', () {
+    Future<void> holdPersona(String userId, String personaId) =>
+        upsertKnownPersonaFromLookup(
+          db,
+          PersonaLookupItemSchema(id: personaId, userId: userId, name: 'Old'),
+        );
+    Map<String, dynamic> edit(String userId, {String? guildId}) =>
+        <String, dynamic>{
+          'guild_id': ?guildId,
+          'user_id': userId,
+          'action': 'update',
+        };
+    Future<void> refreshed() => container.read(personaRefresherProvider).idle;
+
+    test('fetches the ones it holds once, for an edit sent once per shared '
+        'community', () async {
+      await holdPersona('u2', 'p9');
+      await holdPersona('u3', 'p7');
+      answerLookups = (_) async => <PersonaLookupItemSchema>[
+        const PersonaLookupItemSchema(id: 'p9', userId: 'u2', name: 'Bob 2'),
+      ];
+
+      for (int i = 0; i < 9; i++) {
+        handle(
+          'GUILD_PERSONAS_DIRTY',
+          edit('u2', guildId: i < 8 ? 'g$i' : null),
+        );
+      }
+      await refreshed();
+
+      expect(sentLookups, <List<PersonaLookupPair>>[
+        <PersonaLookupPair>[(userId: 'u2', personaId: 'p9')],
+      ]);
+      expect(chat.personaUpdates.single.name, 'Bob 2');
+      expect(await keptNameBecomes('p9', 'Bob 2'), 'Bob 2');
+    });
+
+    test('fetches nothing when it holds none of their personas', () async {
+      handle('GUILD_PERSONAS_DIRTY', edit('u4'));
+      await refreshed();
+
+      expect(sentLookups, isEmpty);
+    });
+
+    test('fetches nothing for a delete', () async {
+      await holdPersona('u2', 'p9');
+
+      handle('GUILD_PERSONAS_DIRTY', <String, dynamic>{
+        'user_id': 'u2',
+        'action': 'delete',
+      });
+      await refreshed();
+
+      expect(sentLookups, isEmpty);
+    });
+
+    test('does not fetch again right after a failed request', () async {
+      await holdPersona('u2', 'p9');
+      answerLookups = (_) async => throw Exception('429');
+
+      handle('GUILD_PERSONAS_DIRTY', edit('u2'));
+      await refreshed();
+      handle('GUILD_PERSONAS_DIRTY', edit('u2'));
+      await refreshed();
+
+      expect(sentLookups, hasLength(1));
+    });
+  });
+
+  test(
+    'does not keep a persona an event carries that it has never seen',
+    () async {
+      handle('GUILD_PERSONAS_DIRTY', <String, dynamic>{
+        'user_id': 'u2',
+        'action': 'update',
+        'persona': <String, dynamic>{'id': 'p5', 'name': 'Stranger'},
+      });
+      await waitUntil(() => chat.personaUpdates.isNotEmpty, 'the rename');
+
+      expect(chat.personaUpdates.single.personaId, 'p5');
+      expect(
+        await (db.select(
+          db.knownPersonas,
+        )..where((t) => t.id.equals('p5'))).getSingleOrNull(),
+        isNull,
+      );
+    },
+  );
 
   test('takes the persona another session selected in a channel', () {
     handle('USER_PERSONA_CHANNEL_STATE_UPDATE', <String, dynamic>{
