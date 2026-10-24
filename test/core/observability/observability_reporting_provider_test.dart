@@ -170,3 +170,18 @@ void main() {
     expect(harness.measure.starts, 0);
   });
 }
+
+// Fork: upstream's helpers that fork_measure_start_on_resume_test.dart uses, named here so they
+// stay private and are not copied.
+// ignore: unreachable_from_main // Fork: used by fork_measure_start_on_resume_test.dart.
+typedef ForkUpstreamHelpers = ({
+  MeasureApi Function() fakeMeasure,
+  int Function(MeasureApi measure) startsOf,
+});
+// ignore: unreachable_from_main // Fork: used by fork_measure_start_on_resume_test.dart.
+const ForkUpstreamHelpers forkUpstream = (
+  fakeMeasure: _FakeMeasure.new,
+  startsOf: _forkStartsOf,
+);
+
+int _forkStartsOf(MeasureApi measure) => (measure as _FakeMeasure).starts;
