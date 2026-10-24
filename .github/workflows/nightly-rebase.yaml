@@ -256,10 +256,25 @@ jobs:
           name: rebase-result
           path: result
 
+      # Escalations and the absorbed-commits issue are opened as tyne-rebase[bot] (the Tyne Rebase
+      # App: Issues only, installed on tyne-chat/tyne), not as WORKFLOW_TOKEN's account. If this
+      # step fails, they fall back to WORKFLOW_TOKEN (tyne-tools rebase/pipeline_issues.py).
+      - name: Token for the pipeline's issues
+        id: issues-token
+        continue-on-error: true
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          client-id: Iv23lislBoXAblKx3tR3
+          private-key: ${{ secrets.REBASE_APP_KEY }}
+          owner: tyne-chat
+          repositories: tyne
+          permission-issues: write
+
       - name: Check, push, report and start the next repository
         working-directory: repo
         env:
           GH_TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
+          ISSUES_GH_TOKEN: ${{ steps.issues-token.outputs.token }}
           REBASE_JOB: ${{ needs.nightly-rebase.result }}
           DRY_RUN: ${{ inputs.dry_run || inputs.smoke }}
         run: |
