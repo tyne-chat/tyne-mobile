@@ -4,10 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/features/profile/data/persona_lookup.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
-import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
-import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
 import 'package:fluxer_app/features/threads/providers/thread_owner_persona_provider.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
@@ -87,14 +86,14 @@ void main() {
 
     Future<String?> name({
       List<Persona> own = const <Persona>[],
-      PublicPersona? looked,
+      PersonaLookupItemSchema? looked,
     }) async {
       lookups = 0;
       final ProviderContainer names = ProviderContainer(
         overrides: [
           fluxerDatabaseProvider.overrideWithValue(db),
           myPersonasProvider.overrideWith(() => _FakeMyPersonasNotifier(own)),
-          publicPersonaProvider.overrideWith((ref, key) {
+          personaLookupProvider.overrideWith((ref, key) {
             lookups++;
             return looked;
           }),
@@ -160,7 +159,11 @@ void main() {
 
       expect(
         await name(
-          looked: const PublicPersona(id: 'p9', name: 'Looked up'),
+          looked: const PersonaLookupItemSchema(
+            id: 'p9',
+            userId: 'u1',
+            name: 'Looked up',
+          ),
         ),
         'Looked up',
       );
@@ -173,7 +176,11 @@ void main() {
       expect(await name(), isNull);
       expect(
         await name(
-          looked: const PublicPersona(id: 'p9', name: ''),
+          looked: const PersonaLookupItemSchema(
+            id: 'p9',
+            userId: 'u1',
+            name: '',
+          ),
         ),
         isNull,
       );
