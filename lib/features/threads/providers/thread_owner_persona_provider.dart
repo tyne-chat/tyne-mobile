@@ -4,10 +4,10 @@ import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/features/profile/data/persona_lookup.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
-import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
-import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
+import 'package:fluxer_dart/export.dart';
 
 /// Fork: the ID of the persona a thread or forum post was started as, or null
 /// when it was started as the account.
@@ -79,8 +79,10 @@ final threadOwnerPersonaNameProvider = FutureProvider.autoDispose
       if (sentName != null) {
         return sentName;
       }
-      final PublicPersona? looked = await ref.watch(
-        publicPersonaProvider((
+      // Looked up by ID, which also names a private persona; its profile
+      // would be refused.
+      final PersonaLookupItemSchema? looked = await ref.watch(
+        personaLookupProvider((
           userId: arg.ownerId,
           personaId: personaId,
         )).future,
