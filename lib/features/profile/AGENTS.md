@@ -61,9 +61,16 @@ persona should still be used (tyne-chat/tyne#130 is the bug where it is dropped)
   anything that is not a hash, so a link is never loaded, whatever a cache or another server holds:
   it would make the app fetch a picture from wherever it points and tell that server who is reading.
 - **Other people's personas:** `known_personas` holds every persona the device has seen (from messages'
-  `subprofile` and `mention_personas`, persona events and profile lookups), so mention chips, composer
-  labels and thread owners need no request. `knownPersonaProvider(personaId)` reads it. A deleted persona
-  keeps its row, as the server keeps showing it.
+  `subprofile` and `mention_personas`, persona events it already knew, lookups and profile lookups), with
+  its owner (`user_id`) where known: a message's author, the account a `<@userId:personaId>` mention
+  names, a lookup's answer. Mention chips, composer labels and thread owners need no request.
+  `knownPersonaProvider(personaId)` reads it. A deleted persona keeps its row, as the server keeps
+  showing it.
+- **Looking a persona up by ID:** `personaLookupProvider((userId, personaId))` asks `POST
+  /personas/lookup`, which gives anyone signed in what a message from a persona shows, private ones
+  included (tyne-tools#7), through `PersonaLookupBatcher` (`data/persona_lookup.dart`): lookups within
+  50 ms share one request, a lookup in flight is shared, and a failed or empty answer is not asked
+  again for a while. Thread owners use it.
 - **Profiles:** `publicPersonaProvider((userId, personaId))` fetches `GET /users/:id/personas/:pid` once
   per session (failures cached as null); a 403 `PRIVATE_PERSONA` marks it private. Bio and banner come only
   from that fetch. "Private" hides the profile, not the identity: name and avatar are always shown
@@ -76,8 +83,12 @@ persona should still be used (tyne-chat/tyne#130 is the bug where it is dropped)
 `UnknownGatewayEvent`s; a new name must be added there too). It clears the persona mention cache for the
 event's guild, then:
 
-- `GUILD_PERSONAS_DIRTY`: invalidates the profile and, unless the persona was deleted, updates
-  `known_personas` and the persona's messages.
+- `GUILD_PERSONAS_DIRTY`: a delete changes nothing shown. An event carrying the persona (public and
+  unlisted ones) renames its messages and updates `known_personas` only if the persona is already
+  there. Otherwise `PersonaRefresher` (`data/persona_refresh.dart`) waits a second, to collect the copy
+  sent per shared community, then fetches again in one request the personas of that account the device
+  holds (`knownPersonaIdsOf`: stored with that owner, or on cached messages it sent), and nothing if it
+  holds none; it also invalidates the profiles.
 - `USER_PERSONA_CHANNEL_STATE_UPDATE`, `USER_PERSONA_SETTINGS_UPDATE`: apply the change.
 - The account's own `USER_PERSONA_CREATE|UPDATE|DELETE` and `USER_PERSONAS_UPDATE`: reload the own list
   (one GET from every mobile session of the account), apply the payload's persona, rename messages.
@@ -113,8 +124,9 @@ that touches `UserProfileView`'s `build`, constructor or private constants, chec
   `presentation/sheets/edit_persona_sheet_test.dart`, `user_profile_view_fork_test.dart`,
   `domain/persona_image_urls_test.dart`;
   `test/fork_support/wait_until.dart` instead of sleeps.
-- Not covered: request counts for persona reloads and profile lookups; a private or unreachable persona
-  profile.
+- Request counts: `data/persona_lookup_test.dart` and the "without naming one" group of
+  `persona_gateway_events_test.dart`.
+- Not covered: request counts for profile lookups; a private or unreachable persona profile.
 - After a change: `flutter test test/features/profile` (in the nightly gate) and the chat persona tests
   (`composer_persona_resolution_test`, `typing_sender_persona_test`, `voice_message_persona_test`,
   `channel_persona_mention_cache_test`).
