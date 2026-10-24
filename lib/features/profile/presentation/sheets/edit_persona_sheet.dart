@@ -592,9 +592,11 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     }
 
     // Intra-persona duplicate tag pair check
-    final seenTags = <String>{};
+    // A record compares prefix and suffix separately, so neither can be read as
+    // part of the other.
+    final seenTags = <(String, String)>{};
     for (final tag in validTags) {
-      final key = '${tag.prefix}:::${tag.suffix}';
+      final key = (tag.prefix, tag.suffix);
       if (seenTags.contains(key)) {
         final pattern = PersonaTag(
           prefix: tag.prefix.isNotEmpty ? tag.prefix : null,
