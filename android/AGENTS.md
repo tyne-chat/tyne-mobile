@@ -64,6 +64,27 @@ sides: a rename on one side compiles and fails only at run time (`MissingPluginE
 the notification channel `fluxer_messages`, and the secure-storage keys of `auth_token_storage.dart`,
 which `SecureAuthTokenReader` reads with its own copy of `flutter_secure_storage`'s options.
 
+**Only the activity's engine has them.** A push that finds Tyne not running is handled in
+`FluxerUnifiedPushService`'s own engine (`main` with `--unifiedpush-bg`), where none of these channels
+exist. The full app can also start before the activity exists, in audio_service's engine, which
+`MainActivity` (an `AudioServiceActivity`) attaches to later. Until then its start-up calls to these
+channels fail. Up to 2026-10-23 that happened on every such push, because audio_service's plugin
+starts its media service from any engine it is attached to, and that service starts the full app. Then
+Measure could not start, and the crash-report prompt took Android ending the process for a crash
+(tyne-chat/tyne#210).
+
+The push engine is now a `ForkPushEngine`:
+- It registers no plugin by itself, so upstream's explicit `GeneratedPluginRegistrant.registerWith` is
+  the only registration. `FlutterEngine(context)` used to register every plugin a second time; logcat
+  showed `already registered` for each.
+- It leaves `AudioServicePlugin` out of that registration.
+
+To check it on a phone, end Tyne in the background with `adb shell am kill chat.tyne.app`, then send it
+a push. Don't use `force-stop`: Android delivers no pushes to a force-stopped app. The push must
+produce its notification, with no `MediaBrowserCompat: Connecting` line, no
+`MediaSessionStack: addSession ... chat.tyne.app` and no `[Measure] Native SDK is not configured` in
+logcat.
+
 **Reply from a notification:** Dart posts the notification, then `attachAndroidNotificationReply` has
 Kotlin add a reply action to it. On reply, `FluxerNotificationReplyReceiver` reads the account's token
 and API base from secure storage and `HttpNotificationReplyPoster` posts to `/channels/{id}/messages`
@@ -76,6 +97,7 @@ under a 30-second wake lock, without starting Flutter.
 | ID, label, link scheme | `canary` flavour and `defaultConfig` in `app/build.gradle.kts`, under `// Fork:` comments; `${deepLinkScheme}` in the seven `<data>` lines of the manifest's custom-scheme filter |
 | Artwork | fork-owned, generated files in `app/src/canary/res/` that replace `main`'s by resource name (`drawable/fluxer_logo_monochrome.xml` points at `tyne_notification_glyph`); do not edit them by hand. One upstream line changed: the colour in `values/ic_launcher_background.xml` |
 | APK installer | fork-owned `AppInstallBridge.kt` and `file_paths.xml`; a `REQUEST_INSTALL_PACKAGES` line; the `FileProvider` appended to `<application>` (no fork comment); registered first in `configureFlutterEngine` |
+| Push engine without audio_service (tyne-chat/tyne#210) | fork-owned `ForkPushEngine.kt`, created by one line in `FluxerUnifiedPushService.getEngine` (below) |
 | Keyboard inset fix | in `MainActivity.kt`, unmarked: `onWindowFocusChanged`, `insetResync`, `scheduleInsetResync`, `resyncFlutterInsets`, two companion constants, a line in `onDestroy`, five imports in upstream's list |
 | Push library | `embedded-fcm-distributor` for every flavour, its keep rule last in `app/proguard-rules.pro`, and the google-services plugin applied whenever `app/google-services.json` exists (upstream: `fcm` tasks only) |
 | SDK level | `compileSdk = 37` in place of Flutter's value, with null-safe `taskInfo` in `InAppBrowserTasks` and `SsoAuthSessionTasks`; nothing records why |
@@ -171,12 +193,14 @@ Tracked in tyne-chat/tyne#155.
 
 ## Tests
 
-- **Kotlin:** nine JUnit files in `app/src/test/kotlin/com/fluxer/`: eight upstream's and the fork's
-  `AppInstallBridgeTest.kt` (the installer's package, signer and path checks). No check or workflow
-  runs them. Run them from `android/` once a Flutter build has
-  written `gradlew` and `local.properties`, for example
-  `./gradlew :app:testCanaryUnifiedpushDebugUnitTest`. A fork test goes in its own file
-  (`<UpstreamName>ForkTest.kt` for fork behaviour in an upstream class).
+- **Kotlin:** ten JUnit files in `app/src/test/kotlin/com/fluxer/`. Eight are upstream's; two are the
+  fork's: `AppInstallBridgeTest.kt` (the installer's package, signer and path checks) and
+  `ForkPushEngineTest.kt` (the plugins the push engine leaves out). No check or workflow runs them.
+  Run them from `android/` once a Flutter build has written `gradlew` and `local.properties`, for
+  example `./gradlew :app:testCanaryUnifiedpushDebugUnitTest`. Two of upstream's tests in
+  `SsoAuthSessionTasksTest` fail there with `Method parse in android.net.Uri not mocked`: they call
+  `Uri.parse` without Robolectric. A fork test goes in its own file (`<UpstreamName>ForkTest.kt` for
+  fork behaviour in an upstream class).
 - **Dart ends** (in the root guide's test list): `test/core/deep_links/fork_app_link_scheme_test.dart`,
   `test/core/updater/`, `test/core/push/`, and upstream's `android_keyboard_insets_test.dart` and
   `mobile_keyboard_metrics_provider_test.dart` under `test/features/chat/`. After a manifest change also
