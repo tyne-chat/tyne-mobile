@@ -22,7 +22,12 @@ bootstrapAppForegroundSession() async {
   final SharedPreferences preferences = await SharedPreferences.getInstance();
   final bool hadForegroundCrash =
       preferences.getBool(kAppForegroundSessionActiveKey) ?? false;
-  await preferences.setBool(kAppForegroundSessionActiveKey, true);
+  // Fork: only a process on screen marks the session active. The full app can start without a
+  // screen, and Android ending such a process was then reported as a crash (tyne-chat/tyne#210).
+  await preferences.setBool(
+    kAppForegroundSessionActiveKey,
+    WidgetsBinding.instance.lifecycleState == AppLifecycleState.resumed,
+  );
   _bootstrapResult = AppForegroundSessionBootstrapResult(
     hadForegroundCrash: hadForegroundCrash,
   );

@@ -43,6 +43,7 @@ import 'package:window_manager/window_manager.dart';
 // ignore: directives_ordering
 import 'package:fluxer_app/core/gateway/fork_gateway_parse_skip_log.dart';
 import 'package:fluxer_app/core/instance/instance_constants.dart';
+import 'package:fluxer_app/core/observability/fork_measure_start_on_resume.dart';
 import 'package:fluxer_app/features/settings/providers/quick_switcher_button_preferences_provider.dart';
 
 Future<void> _showDesktopWindow() async {
@@ -116,6 +117,8 @@ Future<void> _bootstrapFluxer(List<String> args) async {
         container.read(quickSwitcherButtonPreferencesProvider.notifier).load(),
       ]);
       await loadObservabilityReportingPrompt(container);
+      // Fork: start Measure at the first resume if this start had no screen (tyne-chat/tyne#210).
+      installForkMeasureStartOnResume(container);
       await FluxerObservability.instance.traceAsync(
         'app.bootstrap.fcm',
         bootstrapFcmIfNeeded,
