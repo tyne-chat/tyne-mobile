@@ -82,6 +82,14 @@ fork's persona domain.
    (the open channel's strip then refetches its channel). Deep links and notification taps waiting
    since launch are handled at the end of a successful restore.
 
+On Android, `main` also runs without a screen. A push that finds Tyne not running starts an engine of
+its own (`FluxerUnifiedPushService`) whose `main` gets `--unifiedpush-bg` and returns after setting up
+push handling. The full app can start with no activity too, in audio_service's engine (Android starting
+its media service), and `MainActivity` later attaches to that engine. Until then, the channels
+`MainActivity.configureFlutterEngine` registers do not exist (`android/AGENTS.md`, "Bridges to Dart").
+Up to 2026-10-23, every such push started the full app as well, because audio_service's plugin starts
+its media service from any engine (tyne-chat/tyne#210).
+
 ## State
 
 - **Riverpod, generated providers mostly.** Session-wide state lives in kept-alive notifiers. What
@@ -150,6 +158,10 @@ fork's persona domain.
 - **Updater** (`core/updater`), **inline timestamps** (picker sheet, composer chips, message pills),
   **quick switcher** additions (persistent recents, notes, threads, the floating button), and the
   fork's translation catalogues (`l10n_fork/`, used as `l10n.fork.<key>`).
+- **Starts without a screen** (tyne-chat/tyne#210): the push engine leaves audio_service out
+  (`android/app/src/main/kotlin/com/fluxer/ForkPushEngine.kt`). The crash-report flag is set only on
+  screen (`app_foreground_session_watchdog.dart`). Measure is started again at the first resume when
+  the start had no screen (`core/observability/fork_measure_start_on_resume.dart`).
 - **Build identity:** `tool/dart_defines/canary.json` (`FORK_*` defines), Android's `canary` flavour
   (`android/app/build.gradle.kts`) and source set (`android/AGENTS.md`), and
   `tool/fork_ios_identity.py`, which gives the iOS project Tyne's identifiers at build time.
@@ -165,6 +177,12 @@ Most are in `AGENTS.md`; the ones that most often surprise:
   channel, message or member must share requests and not retry a failure on the next build. Computing
   permissions never asks the server for the user's own member: READY brings it.
 - **Message list layout:** never change state while the list lays out (`lib/features/chat/AGENTS.md`).
+- **Start-up may have no screen:** on Android, a call at start-up to a channel that `MainActivity`
+  registers can fail with `MissingPluginException` and is not repeated by itself. Code that runs at
+  start-up and needs one must try again at the first resume. Today only Measure does
+  (`fork_measure_start_on_resume.dart`). Upstream's animator-scale provider
+  (`core/platform/android_animator_duration_scale.dart`) stays in error for such a process; that is
+  left as is, because nothing we have seen still starts one (tyne-chat/tyne#210).
 - **Tests** go in fork-owned files; upstream's private helpers are named in a block appended to its test
   file, never copied.
 
