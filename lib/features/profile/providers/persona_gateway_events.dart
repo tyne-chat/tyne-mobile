@@ -3,12 +3,14 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/chat/data/channel_persona_mention_cache.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/profile/data/known_personas.dart';
+import 'package:fluxer_app/features/profile/data/persona_refresh.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
@@ -39,38 +41,28 @@ void handlePersonaGatewayEvent(
           (persona is Map ? persona['id'] : data['persona_id'] ?? data['id'])
               ?.toString();
 
-      if (personaId != null && personaId.isNotEmpty) {
-        if (userId != null && userId.isNotEmpty) {
-          ref.invalidate(
-            publicPersonaProvider((userId: userId, personaId: personaId)),
-          );
-        }
+      if (personaId != null &&
+          personaId.isNotEmpty &&
+          userId != null &&
+          userId.isNotEmpty) {
+        ref.invalidate(
+          publicPersonaProvider((userId: userId, personaId: personaId)),
+        );
+      }
 
-        // A deleted persona keeps showing on its messages as it was (the server
-        // keeps it as a tombstone), so only an edit renames them.
-        if (action != 'delete' && persona is Map) {
-          unawaited(
-            upsertKnownPersonaFromJson(
-              ref.read(fluxerDatabaseProvider),
-              persona,
-            ),
-          );
-          final String? name = persona['name']?.toString();
-          final String? avatar = (persona['avatar_hash'] ?? persona['avatar'])
-              ?.toString();
-          final String? tag = persona['display_tag_text']?.toString();
-          final String? tagIcon = persona['display_tag_icon']?.toString();
-
-          ref
-              .read(chatViewModelProvider.notifier)
-              .onPersonaUpdated(
-                personaId: personaId,
-                name: name,
-                avatar: avatar,
-                tag: tag,
-                tagIcon: tagIcon,
-              );
-        }
+      // A deleted persona keeps showing on its messages as it was (the server
+      // keeps it as a tombstone), so a delete fetches nothing.
+      if (action == 'delete') {
+        return;
+      }
+      if (persona is Map && personaId != null && personaId.isNotEmpty) {
+        // Public and unlisted personas travel with the event (and every
+        // persona did from older servers).
+        unawaited(_applyEventPersona(ref, persona, personaId, userId));
+      } else if (userId != null && userId.isNotEmpty) {
+        // The server never names a private persona in an event: fetch again
+        // the personas of that account this device holds.
+        ref.read(personaRefresherProvider).request(userId);
       }
     }
     return;
@@ -181,5 +173,29 @@ void handlePersonaGatewayEvent(
         );
       }
     }
+  }
+}
+
+/// Fork: shows a persona an event carries on the loaded messages, and updates
+/// it on this device only if it is already known here; the event alone is no
+/// reason to keep a persona.
+Future<void> _applyEventPersona(
+  Ref ref,
+  Map<dynamic, dynamic> persona,
+  String personaId,
+  String? userId,
+) async {
+  ref
+      .read(chatViewModelProvider.notifier)
+      .onPersonaUpdated(
+        personaId: personaId,
+        name: persona['name']?.toString(),
+        avatar: (persona['avatar_hash'] ?? persona['avatar'])?.toString(),
+        tag: persona['display_tag_text']?.toString(),
+        tagIcon: persona['display_tag_icon']?.toString(),
+      );
+  final FluxerDatabase database = ref.read(fluxerDatabaseProvider);
+  if (await isKnownPersona(database, personaId)) {
+    await upsertKnownPersonaFromJson(database, persona, ownerId: userId);
   }
 }
