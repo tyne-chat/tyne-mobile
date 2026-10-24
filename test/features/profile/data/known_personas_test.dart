@@ -17,6 +17,7 @@ import '../../../fork_support/wait_until.dart';
 Map<String, Object?> _message({
   Map<String, Object?>? subprofile,
   List<Map<String, Object?>>? mentionPersonas,
+  String content = 'hi',
 }) => <String, Object?>{
   'id': '1',
   'channel_id': 'c1',
@@ -28,7 +29,7 @@ Map<String, Object?> _message({
   },
   'type': 0,
   'flags': 0,
-  'content': 'hi',
+  'content': content,
   'timestamp': '2026-10-17T00:00:00.000Z',
   'pinned': false,
   'mention_everyone': false,
@@ -198,5 +199,47 @@ void main() {
     await waitUntil(() => names.last == 'Adele', 'the rename to be read');
 
     expect(names.first, isNull);
+  });
+
+  // The owner of each known persona is kept, so that when an account changes
+  // its personas the ones this device holds can be fetched again
+  // (tyne-tools#7).
+  test('keeps who each persona belongs to: the author, and the account a '
+      'mention names', () async {
+    await upsertKnownPersonasFromSdk(db, [
+      MessageResponseSchema.fromJson(
+        _message(
+          content: 'hello <@900:202>',
+          subprofile: <String, Object?>{'id': 'p1', 'name': 'Ada'},
+          mentionPersonas: [
+            <String, Object?>{'id': '202', 'name': 'Bob'},
+          ],
+        ),
+      ),
+    ]);
+
+    expect((await known('p1'))?.userId, 'u1');
+    expect((await known('202'))?.userId, '900');
+    expect(await knownPersonaIdsOf(db, '900'), <String>['202']);
+    expect(await knownPersonaIdsOf(db, 'u1'), <String>['p1']);
+  });
+
+  test('keeps a stored owner when a payload names none', () async {
+    await upsertKnownPersonaFromLookup(
+      db,
+      PersonaLookupItemSchema.fromJson(<String, Object?>{
+        'id': 'p3',
+        'user_id': 'u3',
+        'name': 'Cy',
+      }),
+    );
+    await upsertKnownPersonaFromJson(db, <String, Object?>{
+      'id': 'p3',
+      'name': 'Cy renamed',
+    });
+
+    final KnownPersona? cy = await known('p3');
+    expect(cy?.name, 'Cy renamed');
+    expect(cy?.userId, 'u3');
   });
 }
