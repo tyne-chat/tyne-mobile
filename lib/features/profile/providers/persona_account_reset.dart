@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/chat/data/channel_persona_mention_cache.dart';
+import 'package:fluxer_app/features/profile/data/persona_lookup.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 
 /// Fork: forgets the signed-in account's personas when the account changes
@@ -21,4 +22,6 @@ void resetPersonaStateForAccountChange(Ref ref) {
     ..invalidate(systemDisplayTagProvider)
     ..invalidate(activePersonaProvider);
   ChannelPersonaMentionCache.instance.clear();
+  // Lookups and refreshes still on their way belong to the previous account.
+  ref.invalidate(personaLookupBatcherProvider);
 }
