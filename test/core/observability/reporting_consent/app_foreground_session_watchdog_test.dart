@@ -16,7 +16,9 @@ void main() {
 
     expect(result.hadForegroundCrash, isFalse);
     final SharedPreferences preferences = await SharedPreferences.getInstance();
-    expect(preferences.getBool(kAppForegroundSessionActiveKey), isTrue);
+    // Fork: this test runs with no screen (lifecycleState is null), and the fork marks the session
+    // active only on screen (tyne-chat/tyne#210); upstream expects isTrue.
+    expect(preferences.getBool(kAppForegroundSessionActiveKey), isFalse);
   });
 
   test(
