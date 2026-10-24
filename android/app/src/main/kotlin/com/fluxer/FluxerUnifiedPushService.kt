@@ -197,7 +197,8 @@ class FluxerUnifiedPushService : UnifiedPushService() {
             val loader = FlutterInjector.instance().flutterLoader()
             loader.startInitialization(context)
             loader.ensureInitializationComplete(context, null)
-            val engine = FlutterEngine(context)
+            // Fork: without audio_service, so a push does not start the full app (tyne-chat/tyne#210).
+            val engine = ForkPushEngine(context)
             try {
                 GeneratedPluginRegistrant.registerWith(engine)
                 FluxerUnifiedPushBackgroundBridge.registerWith(engine)
