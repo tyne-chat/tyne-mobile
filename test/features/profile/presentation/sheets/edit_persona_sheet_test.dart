@@ -238,6 +238,33 @@ void main() {
       expect(find.text('Add Tag Pair (2/5)'), findsOneWidget);
     });
 
+    // Prefix 'a:::' with suffix 'b' and prefix 'a' with suffix ':::b' are
+    // different tags; the check once joined them with ':::' and saw the same
+    // key.
+    testWidgets(
+      'does not take tags containing the old separator for duplicates',
+      (tester) async {
+        final adapter = _PersonaApiAdapter();
+        final dio = Dio(BaseOptions(baseUrl: 'https://api.test'))
+          ..httpClientAdapter = adapter;
+        await openSheet(tester, dio: dio);
+
+        // Field 0 is the colour, 1 the name.
+        await tester.enterText(find.byType(TextField).at(1), 'Colons');
+        await tester.enterText(find.byType(TextField).at(3), 'a:::');
+        await tester.enterText(find.byType(TextField).at(4), 'b');
+        await tester.tap(find.text('Add Tag Pair (1/5)'));
+        await tester.pumpAndSettle();
+        await tester.enterText(find.byType(TextField).at(5), 'a');
+        await tester.enterText(find.byType(TextField).at(6), ':::b');
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Save'));
+        await tester.pumpAndSettle();
+
+        expect(adapter.requests, <String>['POST /users/@me/personas']);
+      },
+    );
+
     testWidgets('validates required name on save', (tester) async {
       WidgetRef? capturedRef;
       await openSheet(tester, onRef: (ref) => capturedRef = ref);
