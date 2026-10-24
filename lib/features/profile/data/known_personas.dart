@@ -12,6 +12,12 @@ import 'package:fluxer_dart/export.dart';
 /// message arrives (upsertMentionUsersFromSdk) and reads them to show
 /// mentions.
 
+/// The owner a row records when the payload names one; otherwise a stored
+/// owner is kept.
+Value<String?> _owner(String? ownerId) => ownerId == null || ownerId.isEmpty
+    ? const Value<String?>.absent()
+    : Value<String?>(ownerId);
+
 KnownPersonasCompanion _companion({
   required String id,
   required String name,
@@ -20,6 +26,7 @@ KnownPersonasCompanion _companion({
   int? color,
   String? displayTagText,
   String? displayTagIcon,
+  String? ownerId,
 }) => KnownPersonasCompanion.insert(
   id: id,
   name: name,
@@ -28,13 +35,27 @@ KnownPersonasCompanion _companion({
   color: Value(color),
   displayTagText: Value(displayTagText),
   displayTagIcon: Value(displayTagIcon),
+  userId: _owner(ownerId),
 );
 
-KnownPersonasCompanion? _fromSubprofile(MessageSubprofileResponseSchema? p) {
+/// A persona mention in message text: `<@userId:personaId>`. The message's
+/// `mention_personas` do not name their owners; the text does.
+final RegExp _personaMention = RegExp(r'<@!?(\d+):(\d+)>');
+
+Map<String, String> _mentionOwners(String? content) => <String, String>{
+  for (final RegExpMatch match in _personaMention.allMatches(content ?? ''))
+    match.group(2)!: match.group(1)!,
+};
+
+KnownPersonasCompanion? _fromSubprofile(
+  MessageSubprofileResponseSchema? p, {
+  String? ownerId,
+}) {
   if (p == null || p.id.isEmpty || p.name.isEmpty) {
     return null;
   }
   return _companion(
+    ownerId: ownerId,
     id: p.id,
     name: p.name,
     avatar: p.avatar,
@@ -45,7 +66,7 @@ KnownPersonasCompanion? _fromSubprofile(MessageSubprofileResponseSchema? p) {
   );
 }
 
-KnownPersonasCompanion? _fromJson(Object? json) {
+KnownPersonasCompanion? _fromJson(Object? json, {String? ownerId}) {
   if (json is! Map) {
     return null;
   }
@@ -73,6 +94,7 @@ KnownPersonasCompanion? _fromJson(Object? json) {
     color: carried(<String>['color'], (v) => (v as num?)?.toInt()),
     displayTagText: carried(<String>['display_tag_text'], (v) => v as String?),
     displayTagIcon: carried(<String>['display_tag_icon'], (v) => v as String?),
+    userId: _owner(ownerId),
   );
 }
 
@@ -94,16 +116,20 @@ Future<void> _upsertAll(
   });
 }
 
-/// The persona each message was sent as and the personas it mentions.
+/// The persona each message was sent as and the personas it mentions, each
+/// with its owner.
 Future<void> upsertKnownPersonasFromSdk(
   FluxerDatabase database,
   Iterable<MessageResponseSchema> messages,
 ) => _upsertAll(database, <KnownPersonasCompanion?>[
   for (final MessageResponseSchema message in messages) ...[
-    _fromSubprofile(message.subprofile),
+    _fromSubprofile(message.subprofile, ownerId: message.author.id),
     for (final MessageSubprofileResponseSchema persona
         in message.mentionPersonas ?? const <MessageSubprofileResponseSchema>[])
-      _fromSubprofile(persona),
+      _fromSubprofile(
+        persona,
+        ownerId: _mentionOwners(message.content)[persona.id],
+      ),
   ],
 ]);
 
@@ -111,18 +137,77 @@ Future<void> upsertKnownPersonasFromSdk(
 Future<void> upsertKnownPersonasFromJson(
   FluxerDatabase database,
   Map<String, dynamic> message,
-) => _upsertAll(database, <KnownPersonasCompanion?>[
-  _fromJson(message['subprofile']),
-  for (final Object? persona
-      in message['mention_personas'] as List<dynamic>? ?? const <dynamic>[])
-    _fromJson(persona),
-]);
+) {
+  final Object? author = message['author'];
+  final Map<String, String> mentionOwners = _mentionOwners(
+    message['content'] as String?,
+  );
+  return _upsertAll(database, <KnownPersonasCompanion?>[
+    _fromJson(
+      message['subprofile'],
+      ownerId: author is Map ? author['id'] as String? : null,
+    ),
+    for (final Object? persona
+        in message['mention_personas'] as List<dynamic>? ?? const <dynamic>[])
+      _fromJson(
+        persona,
+        ownerId: persona is Map ? mentionOwners[persona['id']] : null,
+      ),
+  ]);
+}
 
 /// A persona as a gateway event sends it.
 Future<void> upsertKnownPersonaFromJson(
   FluxerDatabase database,
-  Object? persona,
-) => _upsertAll(database, <KnownPersonasCompanion?>[_fromJson(persona)]);
+  Object? persona, {
+  String? ownerId,
+}) => _upsertAll(database, <KnownPersonasCompanion?>[
+  _fromJson(persona, ownerId: ownerId),
+]);
+
+/// A persona looked up by ID, with its owner.
+Future<void> upsertKnownPersonaFromLookup(
+  FluxerDatabase database,
+  PersonaLookupItemSchema item,
+) => _upsertAll(database, <KnownPersonasCompanion?>[
+  _companion(
+    id: item.id,
+    name: item.name,
+    avatar: item.avatar,
+    avatarColor: item.avatarColor,
+    color: item.color,
+    displayTagText: item.displayTagText,
+    displayTagIcon: item.displayTagIcon,
+    ownerId: item.userId,
+  ),
+]);
+
+/// Whether this device already knows a persona.
+Future<bool> isKnownPersona(FluxerDatabase database, String personaId) async =>
+    await (database.select(
+      database.knownPersonas,
+    )..where((t) => t.id.equals(personaId))).getSingleOrNull() !=
+    null;
+
+/// The personas of an account this device knows: stored with that owner, or
+/// on cached messages the account sent as them.
+Future<List<String>> knownPersonaIdsOf(
+  FluxerDatabase database,
+  String userId,
+) async {
+  final List<QueryRow> rows = await database
+      .customSelect(
+        'SELECT id FROM known_personas WHERE user_id = ? '
+        'UNION SELECT persona_id AS id FROM messages '
+        'WHERE author_id = ? AND persona_id IS NOT NULL',
+        variables: <Variable<Object>>[
+          Variable<String>(userId),
+          Variable<String>(userId),
+        ],
+      )
+      .get();
+  return <String>[for (final QueryRow row in rows) row.read<String>('id')];
+}
 
 /// A persona's profile card. The card carries no display tag, so a stored tag
 /// is kept.
