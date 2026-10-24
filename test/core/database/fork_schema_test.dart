@@ -227,6 +227,20 @@ void main() {
       expect(_columns(raw, 'known_personas'), contains('name'));
     });
 
+    test(
+      'an existing database gains the owner column of known personas',
+      () async {
+        final Database raw = sqlite3.openInMemory();
+        addTearDown(raw.close);
+        await _open(raw);
+        raw.execute('ALTER TABLE known_personas DROP COLUMN user_id');
+
+        await _open(raw);
+
+        expect(_columns(raw, 'known_personas'), contains('user_id'));
+      },
+    );
+
     test('opening twice changes nothing the second time', () async {
       final Database raw = sqlite3.openInMemory();
       addTearDown(raw.close);
