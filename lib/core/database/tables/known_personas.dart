@@ -17,6 +17,11 @@ class KnownPersonas extends Table {
   TextColumn get displayTagText => text().nullable()();
   TextColumn get displayTagIcon => text().nullable()();
 
+  /// The account the persona belongs to, where known, so that the personas of
+  /// an account that changed them can be fetched again. Added on open by
+  /// `fork_schema.dart`.
+  TextColumn get userId => text().nullable()();
+
   @override
   Set<Column> get primaryKey => {id};
 }
