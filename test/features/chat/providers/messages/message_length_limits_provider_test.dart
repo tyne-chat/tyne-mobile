@@ -113,6 +113,10 @@ WellKnownFluxerResponse _wellKnownWithMessageLength(int length) {
         signInBackdropUrl: null,
         customCss: null,
         uploadLimitMessage: null,
+        // Fork: temporary (tyne-chat/tyne#227): the fork's SDK has
+        // trusted_domains before upstream's pin does. Drop this line when
+        // upstream passes trustedDomains here.
+        trustedDomains: <String>[],
       ),
       setup: InstanceSetupSchema(configured: true, adminUrl: null),
       legal: InstanceAppPublicSchemaLegal(
