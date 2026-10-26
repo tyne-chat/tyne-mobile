@@ -15,6 +15,11 @@ import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/emoji/domain/emoji_pins.dart';
+import 'package:fluxer_app/features/emoji/providers/emoji_pins_provider.dart';
+
 part 'quick_reaction_loader.g.dart';
 
 const int kQuickReactionCount = 4;
@@ -113,7 +118,7 @@ Future<List<QuickReactionItem>?> loadQuickReactionItems(
           channelId,
         ).canUseExternalEmojis;
     return await resolveQuickReactionItems(
-      rankedUsageKeys: keys,
+      rankedUsageKeys: await _withForkEmojiPins(ref, keys),
       loadCustomEmoji: (emojiId) async {
         final row = await db.guildEmojiDao.getById(emojiId);
         return row == null ? null : GuildEmojiEntry.fromRow(row);
@@ -249,6 +254,10 @@ class _MessageQuickReactionRowState
     ref.listen(rankedEmojiUsageKeysProvider, (_, _) {
       unawaited(_load(guildId));
     });
+    // Fork: the account's pinned emojis lead the row (tyne-chat/tyne#140).
+    ref.listen(emojiPinsProvider, (_, _) {
+      unawaited(_load(guildId));
+    });
     final String scope = '${widget.channelId}:${guildId ?? ''}';
     if (scope != _requestedScope) {
       _requestedScope = scope;
@@ -266,4 +275,22 @@ class _MessageQuickReactionRowState
       onAddMore: widget.onAddMore,
     );
   }
+}
+
+/// Fork: the account's pinned emojis ahead of the ranking, as the web's quick
+/// reactions have them (tyne-chat/tyne#140). The row knows no persona, so a
+/// persona's pins are left to the picker. Pins that cannot be read leave the
+/// row as upstream builds it.
+Future<List<String>> _withForkEmojiPins(
+  WidgetRef ref,
+  List<String> keys,
+) async {
+  final EmojiPins pins;
+  try {
+    pins = await ref.read(emojiPinsProvider.future);
+  } on Object catch (e, st) {
+    talker.error('Failed to read the pinned emojis', e, st);
+    return keys;
+  }
+  return rankingWithEmojiPins(keys, pins, null, limit: kMaxFrecentEmojis);
 }

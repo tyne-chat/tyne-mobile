@@ -38,7 +38,10 @@ enum SyncedPreferenceField {
   doubleTapReaction(114),
   channelFrecency(115),
   doubleTapAction(117),
-  swipeRightToLeftAction(118);
+  swipeRightToLeftAction(118),
+
+  // Fork values.
+  emojiPins(2200);
 
   const SyncedPreferenceField(this.fieldNumber);
 
