@@ -344,6 +344,18 @@ class ForkLocalizationsUk extends ForkLocalizations {
   String get emojiCopyLink => 'Копіювати посилання';
 
   @override
+  String get emojiPin => 'Закріпити емодзі';
+
+  @override
+  String get emojiUnpin => 'Відкріпити емодзі';
+
+  @override
+  String get emojiPinForPersona => 'Закріпити для цієї персони';
+
+  @override
+  String get emojiUnpinForPersona => 'Відкріпити для цієї персони';
+
+  @override
   String get personaSignatureEmojisLabel => 'Фірмові емодзі';
 
   @override
