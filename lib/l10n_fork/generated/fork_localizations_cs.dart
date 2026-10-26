@@ -342,6 +342,18 @@ class ForkLocalizationsCs extends ForkLocalizations {
   String get emojiCopyLink => 'Kopírovat odkaz';
 
   @override
+  String get emojiPin => 'Připnout emoji';
+
+  @override
+  String get emojiUnpin => 'Odepnout emoji';
+
+  @override
+  String get emojiPinForPersona => 'Připnout pro tuto personu';
+
+  @override
+  String get emojiUnpinForPersona => 'Odepnout pro tuto personu';
+
+  @override
   String get personaSignatureEmojisLabel => 'Podpisové emoji';
 
   @override
