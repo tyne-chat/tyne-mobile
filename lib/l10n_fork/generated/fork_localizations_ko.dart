@@ -332,6 +332,18 @@ class ForkLocalizationsKo extends ForkLocalizations {
   String get emojiCopyLink => '링크 복사';
 
   @override
+  String get emojiPin => '이모지 고정';
+
+  @override
+  String get emojiUnpin => '이모지 고정 해제';
+
+  @override
+  String get emojiPinForPersona => '이 페르소나에 고정';
+
+  @override
+  String get emojiUnpinForPersona => '이 페르소나에서 고정 해제';
+
+  @override
   String get personaSignatureEmojisLabel => '시그니처 이모지';
 
   @override

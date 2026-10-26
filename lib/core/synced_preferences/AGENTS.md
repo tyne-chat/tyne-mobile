@@ -6,7 +6,7 @@ message, `SyncedPreferences`, base64-encoded in the `synced_preferences` string 
 The web app writes the same blob from its own `.proto` copy. This folder holds the app's copy, the Dart
 generated from it, the store that merges the server's blob into local state and pushes changes, and one
 adapter per top-level field. The design is upstream's; the fork splits the phone's chat font size and
-message spacing from the desktop's. The server's side (its copy, the web's merge, how the API decodes
+message spacing from the desktop's, and adds a top-level field of its own for pinned emojis. The server's side (its copy, the web's merge, how the API decodes
 and strips old fields) is in tyne-chat/tyne `packages/schema/AGENTS.md`, "Synced preferences".
 
 ## Where things are
@@ -17,7 +17,7 @@ and strips old fields) is in tyne-chat/tyne `packages/schema/AGENTS.md`, "Synced
 | Byte merge by top-level field; decoding | `engine/synced_preferences_engine.dart` (`mergeIncoming`) |
 | Splicing fields into a blob, checking nothing else changed | `engine/synced_preferences_wire_codec.dart` |
 | Adapter contract; the base that starts from the server's copy | `engine/synced_field_adapter.dart`, `engine/proto_synced_field_adapter.dart` (`mergeOrCreate`) |
-| Top-level numbers; registered adapters (27) | `engine/synced_preference_field.dart`, `engine/synced_field_registry.dart` |
+| Top-level numbers; registered adapters (upstream's 27, then the fork's) | `engine/synced_preference_field.dart`, `engine/synced_field_registry.dart`, `engine/fork_synced_field_registry.dart` |
 | Accessibility ↔ appearance, advanced, theme | `fields/accessibility_synced_field.dart`, `synced_theme_hydration.dart` |
 | Wire format | `proto/fluxer/user/preferences/v1/*.proto` → `generated/` (committed) |
 | Hydrate callers | READY, `USER_SETTINGS_UPDATE` (`core/gateway/gateway_event_handler.dart` → `_handleUserSettingsHydrate` in `core/providers/gateway_provider.dart`); `ThemePreference.load` |
@@ -95,6 +95,15 @@ two devices saving at once can undo each other's change to another field.
   upstream's tests assert after a round trip) is set from `hasMobileFontSize()`: in the fork it means
   the phone's font size.
 - `synced_theme_hydration.dart`: the chat font size comes from `mobile_font_size`.
+- **Pinned emojis** (tyne-chat/tyne#140): top-level `EmojiPinsState emoji_pins = 2200` in the
+  `// Fork fields.` block of `preferences.proto` (with a `// Fork imports.` line), its messages in the
+  fork-owned `fork_emoji_pins.proto`, the same as the server's. `SyncedPreferenceField.emojiPins` sits
+  under `// Fork values.`; `fields/emoji_pins_synced_field.dart` is registered by
+  `engine/fork_synced_field_registry.dart`, which the store's `registerDefaultAdapters` calls after
+  upstream's list. The owner is `emojiPinsProvider` (`features/emoji`), the storage
+  `user_preferences.emoji_pins_json`. Remote wins. An absent field means nobody has pinned yet, so it
+  keeps local pins (no `clearedRemoteValue`); the web and the phone both send an empty message when the
+  last pin goes. Unpushed pins survive a restart.
 - `engine/synced_preferences_store.dart`: a `wireBlob` getter nothing calls.
 
 The adapter and the store are the files upstream changes most here: keep the fork's edits small.
@@ -114,8 +123,8 @@ The adapter and the store are the files upstream changes most here: keep the for
    other fields.
 
 A new top-level field also needs a `SyncedPreferenceField` value (last, under `// Fork values.`; dirty
-fields are stored by name), a registration line in `registerDefaultSyncedFieldAdapters`, and a new
-count in upstream's `synced_field_registry_test.dart` (ask a maintainer). A varint scalar pushes with
+fields are stored by name) and a registration line in `registerForkSyncedFieldAdapters`
+(`engine/fork_synced_field_registry.dart`), which leaves upstream's list and its count test alone. A varint scalar pushes with
 `fieldPushWireType => 0` and `encodePushValueBytes`.
 
 **Regenerating:** from `proto/`, `protoc --dart_out=../generated -I . $(find . -name '*.proto' | sort)`
@@ -167,7 +176,9 @@ does not reset it. Retrying a 400 and the repair's missing cooldown are tyne-cha
 - Store tests each define a fake `UsersApi` (most count pushes: `pushCount`) and fire the timers
   through `test/helpers/synced_preferences_test_helpers.dart` (`flushSyncedPreferencesDebounce`): no
   test waits on the clock.
-- Fork: `accessibility_synced_field_fork_test.dart`, importing upstream's
+- Fork: `emoji_pins_synced_field_test.dart` (the pins through the store: hydrate, one push for quick
+  pins, the empty message for the last unpin, an absent field), and
+  `accessibility_synced_field_fork_test.dart`, importing upstream's
   `accessibility_synced_field_test.dart` `hide main` for the helpers named in its appended block.
   Older fork tests still sit in upstream's files and could move: two fixture lines and four assertions
   in "toProtoForPush preserves desktop-only fields from wire base", and three tests at the end of the
