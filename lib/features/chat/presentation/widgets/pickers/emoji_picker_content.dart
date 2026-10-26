@@ -36,6 +36,8 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 // ignore: directives_ordering
 import 'package:fluxer_app/features/chat/data/persona_emoji_usage_store.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/emoji/domain/emoji_pins.dart';
+import 'package:fluxer_app/features/emoji/providers/emoji_pins_provider.dart';
 import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 
@@ -472,6 +474,15 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     widget.onSelect?.call(emoji.name, emoji.markdown);
   }
 
+  /// Fork: the pinned emojis ahead of the ranking (tyne-chat/tyne#140). The
+  /// ranking stays as it was when the picker opened; pins show as they change.
+  List<String> _withForkEmojiPins(List<String> ranking) => rankingWithEmojiPins(
+    ranking,
+    ref.watch(emojiPinsProvider).value ?? EmojiPins.empty,
+    _watchEffectivePersonaId(),
+    limit: kMaxFrecentEmojis,
+  );
+
   List<String> _pinnedRankedUsageKeys({required bool watch}) {
     final List<String>? pinned = _pinnedRanking;
     if (pinned != null) {
@@ -524,6 +535,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
       channelId: widget.channelId,
       messageId: widget.messageId,
       onReacted: widget.onClose,
+      personaId: _readEffectivePersonaId(),
     );
   }
 
@@ -537,6 +549,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
       channelId: widget.channelId,
       messageId: widget.messageId,
       onReacted: widget.onClose,
+      personaId: _readEffectivePersonaId(),
     );
   }
 
@@ -576,7 +589,9 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
                 const <String>[],
             guildEmojisByGuild,
           );
-    final rankedUsageKeys = _pinnedRankedUsageKeys(watch: true);
+    final rankedUsageKeys = _withForkEmojiPins(
+      _pinnedRankedUsageKeys(watch: true),
+    );
     final frecent = roleIconGuildId != null
         ? const <FrecentEmojiItem>[]
         : _frecentFor(
