@@ -339,6 +339,18 @@ class ForkLocalizationsEn extends ForkLocalizations {
   String get emojiCopyLink => 'Copy link';
 
   @override
+  String get emojiPin => 'Pin emoji';
+
+  @override
+  String get emojiUnpin => 'Unpin emoji';
+
+  @override
+  String get emojiPinForPersona => 'Pin for this persona';
+
+  @override
+  String get emojiUnpinForPersona => 'Unpin for this persona';
+
+  @override
   String get personaSignatureEmojisLabel => 'Signature Emojis';
 
   @override
@@ -802,6 +814,18 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   String get emojiCopyLink => 'Copy link';
 
   @override
+  String get emojiPin => 'Pin emoji';
+
+  @override
+  String get emojiUnpin => 'Unpin emoji';
+
+  @override
+  String get emojiPinForPersona => 'Pin for this persona';
+
+  @override
+  String get emojiUnpinForPersona => 'Unpin for this persona';
+
+  @override
   String get personaSignatureEmojisLabel => 'Signature Emojis';
 
   @override
@@ -1263,6 +1287,18 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
 
   @override
   String get emojiCopyLink => 'Copy link';
+
+  @override
+  String get emojiPin => 'Pin emoji';
+
+  @override
+  String get emojiUnpin => 'Unpin emoji';
+
+  @override
+  String get emojiPinForPersona => 'Pin for this persona';
+
+  @override
+  String get emojiUnpinForPersona => 'Unpin for this persona';
 
   @override
   String get personaSignatureEmojisLabel => 'Signature Emojis';
