@@ -91,7 +91,7 @@ MatchResult matchPersona(
   Persona? latchedPersona;
   if (activeLatchedPersonaId != null && activeLatchedPersonaId.isNotEmpty) {
     for (final p in personas) {
-      if (p.id == activeLatchedPersonaId && !p.autoTagDisabled) {
+      if (p.id == activeLatchedPersonaId) {
         latchedPersona = p;
         break;
       }
