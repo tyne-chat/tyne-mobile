@@ -341,6 +341,18 @@ class ForkLocalizationsHu extends ForkLocalizations {
   String get emojiCopyLink => 'Link másolása';
 
   @override
+  String get emojiPin => 'Hangulatjel rögzítése';
+
+  @override
+  String get emojiUnpin => 'Hangulatjel feloldása';
+
+  @override
+  String get emojiPinForPersona => 'Rögzítés ehhez a personához';
+
+  @override
+  String get emojiUnpinForPersona => 'Feloldás ennél a personánál';
+
+  @override
   String get personaSignatureEmojisLabel => 'Aláírási hangulatjelek';
 
   @override

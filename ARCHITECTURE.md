@@ -153,6 +153,9 @@ its media service from any engine (tyne-chat/tyne#210).
     carry.
 - **Signal bar:** `features/signal_bar` (the strip in the composer, its notifiers and the gateway
   events; guide in its `AGENTS.md`).
+- **Pinned emojis:** `features/emoji` (`EmojiPins`, `emojiPinsProvider`), synced with the web through
+  the fork's `emoji_pins` field (`core/synced_preferences/AGENTS.md`); in chat, the emoji info sheet,
+  the picker's frequently used row and the quick reactions (`features/chat/AGENTS.md`).
 - **Instance defaults:** Tyne's instance as the default, upstream's hosts treated as ordinary instances,
   the server-list buttons.
 - **Updater** (`core/updater`), **inline timestamps** (picker sheet, composer chips, message pills),

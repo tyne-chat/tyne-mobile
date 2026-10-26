@@ -342,6 +342,18 @@ class ForkLocalizationsRu extends ForkLocalizations {
   String get emojiCopyLink => 'Скопировать ссылку';
 
   @override
+  String get emojiPin => 'Закрепить эмодзи';
+
+  @override
+  String get emojiUnpin => 'Открепить эмодзи';
+
+  @override
+  String get emojiPinForPersona => 'Закрепить для этой персоны';
+
+  @override
+  String get emojiUnpinForPersona => 'Открепить для этой персоны';
+
+  @override
   String get personaSignatureEmojisLabel => 'Фирменные эмодзи';
 
   @override
