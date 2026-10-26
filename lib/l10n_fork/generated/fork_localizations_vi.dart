@@ -340,6 +340,18 @@ class ForkLocalizationsVi extends ForkLocalizations {
   String get emojiCopyLink => 'Sao chép liên kết';
 
   @override
+  String get emojiPin => 'Ghim biểu tượng cảm xúc';
+
+  @override
+  String get emojiUnpin => 'Bỏ ghim biểu tượng cảm xúc';
+
+  @override
+  String get emojiPinForPersona => 'Ghim cho persona này';
+
+  @override
+  String get emojiUnpinForPersona => 'Bỏ ghim cho persona này';
+
+  @override
   String get personaSignatureEmojisLabel => 'Biểu tượng cảm xúc đặc trưng';
 
   @override

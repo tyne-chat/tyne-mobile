@@ -24,6 +24,9 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 // ignore: directives_ordering
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/persona_react_as_sheet.dart';
+import 'package:fluxer_app/features/emoji/domain/emoji_pins.dart';
+import 'package:fluxer_app/features/emoji/providers/emoji_pin_persona.dart';
+import 'package:fluxer_app/features/emoji/providers/emoji_pins_provider.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
@@ -41,6 +44,7 @@ class EmojiInfoBottomSheet {
     String? channelId,
     String? messageId,
     VoidCallback? onReacted,
+    String? personaId,
   }) {
     FluxerHaptics.medium();
     return FluxerBottomSheet.show<void>(
@@ -52,6 +56,7 @@ class EmojiInfoBottomSheet {
           channelId: channelId,
           messageId: messageId,
           onReacted: onReacted,
+          personaId: personaId,
         );
       },
     );
@@ -64,6 +69,7 @@ void openEmojiInfoBottomSheet(
   String? channelId,
   String? messageId,
   VoidCallback? onReacted,
+  String? personaId,
 }) {
   unawaited(
     EmojiInfoBottomSheet.show(
@@ -72,6 +78,7 @@ void openEmojiInfoBottomSheet(
       channelId: channelId,
       messageId: messageId,
       onReacted: onReacted,
+      personaId: personaId,
     ),
   );
 }
@@ -103,12 +110,18 @@ class _EmojiInfoBottomSheetContent extends ConsumerWidget {
     this.channelId,
     this.messageId,
     this.onReacted,
+    this.personaId,
   });
 
   final EmojiInfoData emoji;
   final String? channelId;
   final String? messageId;
   final VoidCallback? onReacted;
+
+  /// Fork: the persona the picker writes as, for "Pin for this persona"; `'0'`
+  /// for the account. Without one, the persona in use in [channelId]
+  /// (`emojiPinPersonaIdFor`), as on the web.
+  final String? personaId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -219,7 +232,10 @@ class _EmojiInfoBottomSheetContent extends ConsumerWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [content, ..._forkEmojiActions(context, ref, l10n)],
+      children: [
+        content,
+        ..._forkEmojiActions(context, ref, l10n, resolved.favoriteKey),
+      ],
     );
   }
 
@@ -227,12 +243,45 @@ class _EmojiInfoBottomSheetContent extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     FluxerLocalizations l10n,
+    String? emojiKey,
   ) {
     final personas = ref.watch(myPersonasProvider).asData?.value ?? const [];
     final bool canReactAs = messageId != null && personas.isNotEmpty;
+    // A sheet opened without a persona (from a message's quick reactions or
+    // its text) pins for the persona in use in the channel (tyne-chat/tyne#237).
+    final String? candidateId =
+        personaId ?? emojiPinPersonaIdFor(ref.read, channelId);
+    final String? pinPersonaId =
+        candidateId != null &&
+            candidateId != '0' &&
+            personas.any((persona) => persona.id == candidateId)
+        ? candidateId
+        : null;
+    final EmojiPins pins =
+        ref.watch(emojiPinsProvider).value ?? EmojiPins.empty;
     return [
       Divider(color: context.colors.borderColor, height: 1),
       SizedBox(height: context.layout.s1),
+      if (emojiKey != null) ...[
+        _pinMenuItem(
+          context,
+          ref,
+          emojiKey: emojiKey,
+          pinned: pins.isPinnedIn(emojiKey),
+          pinLabel: l10n.fork.emojiPin,
+          unpinLabel: l10n.fork.emojiUnpin,
+        ),
+        if (pinPersonaId != null)
+          _pinMenuItem(
+            context,
+            ref,
+            emojiKey: emojiKey,
+            personaId: pinPersonaId,
+            pinned: pins.isPinnedIn(emojiKey, personaId: pinPersonaId),
+            pinLabel: l10n.fork.emojiPinForPersona,
+            unpinLabel: l10n.fork.emojiUnpinForPersona,
+          ),
+      ],
       if (canReactAs)
         FluxerBottomSheetMenuItem(
           label: l10n.fork.chatReactAs,
@@ -279,6 +328,28 @@ class _EmojiInfoBottomSheetContent extends ConsumerWidget {
       SizedBox(height: context.layout.s4),
     ];
   }
+
+  Widget _pinMenuItem(
+    BuildContext context,
+    WidgetRef ref, {
+    required String emojiKey,
+    required bool pinned,
+    required String pinLabel,
+    required String unpinLabel,
+    String? personaId,
+  }) => FluxerBottomSheetMenuItem(
+    label: pinned ? unpinLabel : pinLabel,
+    icon: pinned ? PhosphorIconsBold.pushPinSlash : PhosphorIconsBold.pushPin,
+    onTap: () {
+      FluxerHaptics.selection();
+      unawaited(
+        ref
+            .read(emojiPinsProvider.notifier)
+            .togglePin(emojiKey, personaId: personaId),
+      );
+      Navigator.of(context).pop();
+    },
+  );
 }
 
 void _toggleFavorite(WidgetRef ref, String favoriteKey) {

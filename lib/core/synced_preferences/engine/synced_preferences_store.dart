@@ -26,6 +26,10 @@ import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/synced_preferences/engine/fork_synced_field_registry.dart';
+
 part 'synced_preferences_store.g.dart';
 
 const int _kRateLimitMaxAttempts = 6;
@@ -100,6 +104,10 @@ class SyncedPreferencesStore {
       registerAdapter: registerAdapter,
       ref: _ref,
       readSyncedLocalFavorites: _readSyncedLocalFavorites,
+    );
+    registerForkSyncedFieldAdapters(
+      registerAdapter: registerAdapter,
+      ref: _ref,
     );
   }
 
