@@ -341,6 +341,18 @@ class ForkLocalizationsFi extends ForkLocalizations {
   String get emojiCopyLink => 'Kopioi linkki';
 
   @override
+  String get emojiPin => 'Kiinnitä emoji';
+
+  @override
+  String get emojiUnpin => 'Irrota emoji';
+
+  @override
+  String get emojiPinForPersona => 'Kiinnitä tälle persoonalle';
+
+  @override
+  String get emojiUnpinForPersona => 'Irrota tältä persoonalta';
+
+  @override
   String get personaSignatureEmojisLabel => 'Nimikkoemojit';
 
   @override
