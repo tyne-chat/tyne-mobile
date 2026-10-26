@@ -329,6 +329,18 @@ class ForkLocalizationsZh extends ForkLocalizations {
   String get emojiCopyLink => '复制链接';
 
   @override
+  String get emojiPin => '置顶表情';
+
+  @override
+  String get emojiUnpin => '取消置顶表情';
+
+  @override
+  String get emojiPinForPersona => '为此人格置顶';
+
+  @override
+  String get emojiUnpinForPersona => '取消此人格的置顶';
+
+  @override
   String get personaSignatureEmojisLabel => '专属表情符号';
 
   @override
@@ -778,6 +790,18 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get emojiCopyLink => '複製連結';
+
+  @override
+  String get emojiPin => '釘選表情符號';
+
+  @override
+  String get emojiUnpin => '取消釘選表情符號';
+
+  @override
+  String get emojiPinForPersona => '為此人格釘選';
+
+  @override
+  String get emojiUnpinForPersona => '取消此人格的釘選';
 
   @override
   String get personaSignatureEmojisLabel => '專屬表情符號';
