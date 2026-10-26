@@ -342,6 +342,18 @@ class ForkLocalizationsHr extends ForkLocalizations {
   String get emojiCopyLink => 'Kopiraj poveznicu';
 
   @override
+  String get emojiPin => 'Prikvači emotikon';
+
+  @override
+  String get emojiUnpin => 'Otkvači emotikon';
+
+  @override
+  String get emojiPinForPersona => 'Prikvači za ovu personu';
+
+  @override
+  String get emojiUnpinForPersona => 'Otkvači za ovu personu';
+
+  @override
   String get personaSignatureEmojisLabel => 'Prepoznatljivi emojiji';
 
   @override
