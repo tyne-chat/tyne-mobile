@@ -332,6 +332,18 @@ class ForkLocalizationsJa extends ForkLocalizations {
   String get emojiCopyLink => 'リンクをコピー';
 
   @override
+  String get emojiPin => '絵文字をピン留め';
+
+  @override
+  String get emojiUnpin => '絵文字のピン留めを解除';
+
+  @override
+  String get emojiPinForPersona => 'このペルソナ用にピン留め';
+
+  @override
+  String get emojiUnpinForPersona => 'このペルソナ用のピン留めを解除';
+
+  @override
   String get personaSignatureEmojisLabel => 'シグネチャー絵文字';
 
   @override
