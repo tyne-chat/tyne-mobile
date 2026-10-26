@@ -341,6 +341,18 @@ class ForkLocalizationsLt extends ForkLocalizations {
   String get emojiCopyLink => 'Kopijuoti nuorodą';
 
   @override
+  String get emojiPin => 'Prisegti jaustuką';
+
+  @override
+  String get emojiUnpin => 'Atsegti jaustuką';
+
+  @override
+  String get emojiPinForPersona => 'Prisegti šiai personai';
+
+  @override
+  String get emojiUnpinForPersona => 'Atsegti šiai personai';
+
+  @override
   String get personaSignatureEmojisLabel => 'Parašo jaustukai';
 
   @override

@@ -342,6 +342,18 @@ class ForkLocalizationsBg extends ForkLocalizations {
   String get emojiCopyLink => 'Копирай линка';
 
   @override
+  String get emojiPin => 'Закачане на емоджи';
+
+  @override
+  String get emojiUnpin => 'Откачане на емоджи';
+
+  @override
+  String get emojiPinForPersona => 'Закачане за тази персона';
+
+  @override
+  String get emojiUnpinForPersona => 'Откачане за тази персона';
+
+  @override
   String get personaSignatureEmojisLabel => 'Подписни емоджита';
 
   @override

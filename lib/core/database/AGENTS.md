@@ -79,6 +79,9 @@ upstream step would be skipped for good. So:
   message's `subprofile` as it arrived (as upstream keeps `author_name`). `MessageDao.updatePersonaAttributes`
   and `updateAuthorDisplayTag` rewrite them when a persona changes.
 - `channels.owner_persona_id`: the persona a thread or forum post was started as.
+- `user_preferences.emoji_pins_json`: the account's pinned emojis and each persona's
+  (`features/emoji/domain/emoji_pins.dart`), synced through the fork's `emoji_pins` field
+  (`core/synced_preferences/AGENTS.md`).
 - `known_personas`: every persona the device has been told about (the persona a message was sent as,
   the personas it mentions, persona events and lookups); mention chips and the composer read it with no
   request. A deleted persona keeps its row.
