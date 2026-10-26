@@ -35,6 +35,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/persona_sending_as_row.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+import 'package:fluxer_app/features/threads/utils/thread_name_from_message.dart';
 
 bool canStartThreadIn(Channel parent, ThreadActor? actor) {
   if (!isTextThreadParentType(parent.type) || actor == null) {
@@ -192,8 +193,9 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
     super.dispose();
   }
 
+  // Fork: custom emoji as `:name:` (tyne-chat/tyne#100).
   String get _sourcePreview =>
-      (widget.sourceMessage?.content ?? '').trim().replaceAll('\n', ' ');
+      threadNameFromMessageContent(widget.sourceMessage?.content ?? '');
 
   String _resolveName() {
     final String typed = _name.text.trim();
