@@ -341,6 +341,18 @@ class ForkLocalizationsId extends ForkLocalizations {
   String get emojiCopyLink => 'Salin tautan';
 
   @override
+  String get emojiPin => 'Sematkan emoji';
+
+  @override
+  String get emojiUnpin => 'Lepas sematan emoji';
+
+  @override
+  String get emojiPinForPersona => 'Sematkan untuk persona ini';
+
+  @override
+  String get emojiUnpinForPersona => 'Lepas sematan untuk persona ini';
+
+  @override
   String get personaSignatureEmojisLabel => 'Emoji Tanda Tangan';
 
   @override
