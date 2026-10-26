@@ -290,11 +290,14 @@ class FluxerBottomSheet {
         animationStyle: fluxerBottomSheetAnimationStyle(context),
         useSafeArea: reserveBottomInset,
         builder: (sheetContext) {
-          void close() {
+          void close() => _closeSheet(sheetContext);
+          // Fork: a drag does not dismiss a sheet with unsaved changes, but
+          // the content's own close() always closes (tyne-chat/tyne#173).
+          void dismiss() {
             if (canDismissNotifier != null && !canDismissNotifier.value) {
               return;
             }
-            _closeSheet(sheetContext);
+            close();
           }
 
           final bool isMenuVariant = variant == FluxerBottomSheetVariant.menu;
@@ -367,7 +370,7 @@ class FluxerBottomSheet {
           final sheetContent = _FluxerSheetPresentation(
             navigator: Navigator.of(sheetContext, rootNavigator: rootNavigator),
             enableDrag: enableDrag,
-            onDismiss: close,
+            onDismiss: dismiss,
             child: _wrapBottomSheetSurface(
               context: sheetContext,
               child: content,
@@ -441,12 +444,7 @@ class FluxerBottomSheet {
             ),
         useSafeArea: reserveBottomInset,
         builder: (sheetContext) {
-          void close() {
-            if (canDismissNotifier != null && !canDismissNotifier.value) {
-              return;
-            }
-            _closeSheet(sheetContext);
-          }
+          void close() => _closeSheet(sheetContext);
 
           final bool hasHeader = _hasSheetHeader(
             title: title,
@@ -1206,10 +1204,6 @@ class _FluxerDraggableScrollableSheetState
   }
 
   void _dismiss() {
-    if (widget.canDismissNotifier != null &&
-        !widget.canDismissNotifier!.value) {
-      return;
-    }
     if (_dismissed) {
       return;
     }
