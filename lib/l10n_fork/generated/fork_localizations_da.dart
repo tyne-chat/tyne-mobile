@@ -343,6 +343,18 @@ class ForkLocalizationsDa extends ForkLocalizations {
   String get emojiCopyLink => 'Kopiér link';
 
   @override
+  String get emojiPin => 'Fastgør emoji';
+
+  @override
+  String get emojiUnpin => 'Frigør emoji';
+
+  @override
+  String get emojiPinForPersona => 'Fastgør for denne persona';
+
+  @override
+  String get emojiUnpinForPersona => 'Frigør for denne persona';
+
+  @override
   String get personaSignatureEmojisLabel => 'Signatur-emojis';
 
   @override

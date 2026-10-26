@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/chat/data/channel_persona_mention_cache.dart';
+import 'package:fluxer_app/features/emoji/providers/emoji_pins_provider.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_settings.dart';
 import 'package:fluxer_dart/models/persona_channel_state_update_request_schema.dart';
@@ -186,6 +187,16 @@ class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
     state.whenData((current) {
       state = AsyncValue.data(current.where((p) => p.id != id).toList());
     });
+    // Fork: a deleted persona's pinned emojis go too (tyne-chat/tyne#140).
+    unawaited(_forgetPinnedEmojis(id));
+  }
+
+  Future<void> _forgetPinnedEmojis(String id) async {
+    try {
+      await ref.read(emojiPinsProvider.notifier).forgetPersona(id);
+    } on Object catch (e, st) {
+      talker.error("Failed to drop a deleted persona's pins", e, st);
+    }
   }
 
   void reset() {
