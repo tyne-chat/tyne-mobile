@@ -339,6 +339,18 @@ class ForkLocalizationsTh extends ForkLocalizations {
   String get emojiCopyLink => 'คัดลอกลิงก์';
 
   @override
+  String get emojiPin => 'ปักหมุดอีโมจิ';
+
+  @override
+  String get emojiUnpin => 'เลิกปักหมุดอีโมจิ';
+
+  @override
+  String get emojiPinForPersona => 'ปักหมุดสำหรับ Persona นี้';
+
+  @override
+  String get emojiUnpinForPersona => 'เลิกปักหมุดสำหรับ Persona นี้';
+
+  @override
   String get personaSignatureEmojisLabel => 'อีโมจิประจำตัว';
 
   @override
