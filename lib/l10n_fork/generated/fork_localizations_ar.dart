@@ -338,6 +338,18 @@ class ForkLocalizationsAr extends ForkLocalizations {
   String get emojiCopyLink => 'نسخ الرابط';
 
   @override
+  String get emojiPin => 'تثبيت الرمز التعبيري';
+
+  @override
+  String get emojiUnpin => 'إلغاء تثبيت الرمز التعبيري';
+
+  @override
+  String get emojiPinForPersona => 'تثبيت لهذه الشخصية';
+
+  @override
+  String get emojiUnpinForPersona => 'إلغاء التثبيت لهذه الشخصية';
+
+  @override
   String get personaSignatureEmojisLabel => 'الرموز التعبيرية المميزة';
 
   @override

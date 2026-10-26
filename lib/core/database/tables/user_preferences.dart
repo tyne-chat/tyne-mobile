@@ -173,6 +173,11 @@ class UserPreferencesTable extends Table {
       text().withDefault(const Constant('inApp'))();
   TextColumn get chatWallpaperJson => text().withDefault(const Constant(''))();
 
+  /// Fork: the account's pinned emojis and each persona's, as JSON
+  /// (`EmojiPins.toJson`), synced through the fork's `emoji_pins` field.
+  /// Added by fork_schema.dart, not by a numbered upgrade step.
+  TextColumn get emojiPinsJson => text().withDefault(const Constant(''))();
+
   @override
   String get tableName => 'user_preferences';
 
