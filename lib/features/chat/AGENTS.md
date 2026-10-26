@@ -102,6 +102,12 @@ froze the panel on the previous conversation.
 - **Reactions:** `resolveEffectiveReactionPersona` picks the persona whose signature emoji it is, then
   a tag in the composer, then the channel's selection. Removing a reaction sends `persona_id`, or `'0'`
   for the account.
+- **Pinned emojis** (`features/emoji`, `emojiPinsProvider`, tyne-chat/tyne#140): pinned and unpinned
+  from the emoji info sheet, for the account or for the persona the picker writes as. The picker's
+  frequently used row starts with the account's pins, then the persona's, ahead of the ranking it froze
+  when it opened (`_withForkEmojiPins` in `emoji_picker_content.dart`), so a pin shows at once. The
+  quick reaction row starts with the account's pins (`quick_reaction_loader.dart`): it knows no
+  persona. Deleting a persona drops its pins (`MyPersonasNotifier.removePersona`).
 - **Persona mention autocomplete** asks `GET /channels/:id/persona-mentions` through
   `ChannelPersonaMentionCache` (15-minute cache per channel). Mention syncs are not debounced, so with a
   stale cache one keystroke can send two requests; failures are not cached. Do not add callers, and

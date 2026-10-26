@@ -749,6 +749,30 @@ abstract class ForkLocalizations {
   /// **'Copy link'**
   String get emojiCopyLink;
 
+  /// Action in the emoji info sheet that pins the emoji to the front of the frequently used emojis and quick reactions, whoever the account writes as.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin emoji'**
+  String get emojiPin;
+
+  /// Action in the emoji info sheet that removes the emoji from the pinned emojis.
+  ///
+  /// In en, this message translates to:
+  /// **'Unpin emoji'**
+  String get emojiUnpin;
+
+  /// Action in the emoji info sheet that pins the emoji only for the persona the account is writing as.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin for this persona'**
+  String get emojiPinForPersona;
+
+  /// Action in the emoji info sheet that removes the emoji from the pins of the persona the account is writing as.
+  ///
+  /// In en, this message translates to:
+  /// **'Unpin for this persona'**
+  String get emojiUnpinForPersona;
+
   /// Section header for signature emojis on persona.
   ///
   /// In en, this message translates to:

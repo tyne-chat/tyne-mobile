@@ -449,6 +449,22 @@
     "@emojiCopyLink": {
         "description": "Action to copy a custom emoji image URL to clipboard."
     },
+    "emojiPin": "Pin emoji",
+    "@emojiPin": {
+        "description": "Action in the emoji info sheet that pins the emoji to the front of the frequently used emojis and quick reactions, whoever the account writes as."
+    },
+    "emojiUnpin": "Unpin emoji",
+    "@emojiUnpin": {
+        "description": "Action in the emoji info sheet that removes the emoji from the pinned emojis."
+    },
+    "emojiPinForPersona": "Pin for this persona",
+    "@emojiPinForPersona": {
+        "description": "Action in the emoji info sheet that pins the emoji only for the persona the account is writing as."
+    },
+    "emojiUnpinForPersona": "Unpin for this persona",
+    "@emojiUnpinForPersona": {
+        "description": "Action in the emoji info sheet that removes the emoji from the pins of the persona the account is writing as."
+    },
     "personaSignatureEmojisLabel": "Signature Emojis",
     "@personaSignatureEmojisLabel": {
         "description": "Section header for signature emojis on persona."

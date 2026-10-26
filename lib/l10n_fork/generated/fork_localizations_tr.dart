@@ -342,6 +342,18 @@ class ForkLocalizationsTr extends ForkLocalizations {
   String get emojiCopyLink => 'Bağlantıyı kopyala';
 
   @override
+  String get emojiPin => 'Emojiyi sabitle';
+
+  @override
+  String get emojiUnpin => 'Emoji sabitlemesini kaldır';
+
+  @override
+  String get emojiPinForPersona => 'Bu persona için sabitle';
+
+  @override
+  String get emojiUnpinForPersona => 'Bu persona için sabitlemeyi kaldır';
+
+  @override
   String get personaSignatureEmojisLabel => 'İmza Emojileri';
 
   @override
