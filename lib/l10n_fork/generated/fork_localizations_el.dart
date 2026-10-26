@@ -341,6 +341,18 @@ class ForkLocalizationsEl extends ForkLocalizations {
   String get emojiCopyLink => 'Αντιγραφή συνδέσμου';
 
   @override
+  String get emojiPin => 'Καρφίτσωμα emoji';
+
+  @override
+  String get emojiUnpin => 'Ξεκαρφίτσωμα emoji';
+
+  @override
+  String get emojiPinForPersona => 'Καρφίτσωμα για αυτήν την persona';
+
+  @override
+  String get emojiUnpinForPersona => 'Ξεκαρφίτσωμα για αυτήν την persona';
+
+  @override
   String get personaSignatureEmojisLabel => 'Χαρακτηριστικά emoji';
 
   @override
