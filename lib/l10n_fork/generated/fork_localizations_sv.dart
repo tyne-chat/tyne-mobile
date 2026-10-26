@@ -340,6 +340,18 @@ class ForkLocalizationsSv extends ForkLocalizations {
   String get emojiCopyLink => 'Kopiera länk';
 
   @override
+  String get emojiPin => 'Fäst emoji';
+
+  @override
+  String get emojiUnpin => 'Lossa emoji';
+
+  @override
+  String get emojiPinForPersona => 'Fäst för denna persona';
+
+  @override
+  String get emojiUnpinForPersona => 'Lossa för denna persona';
+
+  @override
   String get personaSignatureEmojisLabel => 'Signaturemojier';
 
   @override

@@ -205,7 +205,7 @@ project pins and Rust (for the markdown package); the maintainers run them in a 
 flutter analyze lib test --no-fatal-warnings --no-fatal-infos
 # No hard-coded user-facing strings on the fork's lines.
 dart run tool/fork_string_lint.dart --upstream upstream/canary
-flutter test test/l10n_fork test/core test/features/chat test/features/profile test/features/quick_switcher test/features/ui/bottom_sheet test/features/ui/input test/features/settings/presentation/widgets/user_persona_settings_test.dart test/features/emoji/presentation/sheets/emoji_info_bottom_sheet_test.dart
+flutter test test/l10n_fork test/core test/features/chat test/features/profile test/features/quick_switcher test/features/ui/bottom_sheet test/features/ui/input test/features/emoji test/features/settings/presentation/widgets/user_persona_settings_test.dart
 ```
 
 The nightly gate's analysis step asks more of the fork's code than `flutter analyze` does, and checks
