@@ -7,6 +7,8 @@ are never edited by the fork, so they stay identical to upstream and cannot conf
 To add or change a fork string:
 
 1. Add the key to `fork_en.arb` (with its `@key` metadata) and to every other `fork_<locale>.arb`
+   (Tyne's own terms, such as persona and signal bar, take the words in the web's
+   [glossary](https://github.com/tyne-chat/tyne/blob/tyne/fluxer_app/src/features/i18n/fork_locales/GLOSSARY.md), which both apps follow)
    with a real translation. Do not copy the English text; if a value really is the same word in a
    language, list the key under that locale in `reviewed_unchanged.json`.
 2. Run `bash tool/fork_l10n.sh` and commit `lib/l10n_fork/generated`.

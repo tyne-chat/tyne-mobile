@@ -339,6 +339,18 @@ class ForkLocalizationsHe extends ForkLocalizations {
   String get emojiCopyLink => 'העתקת קישור';
 
   @override
+  String get emojiPin => 'הצמד אימוג\'י';
+
+  @override
+  String get emojiUnpin => 'בטל הצמדת אימוג\'י';
+
+  @override
+  String get emojiPinForPersona => 'הצמד לפרסונה זו';
+
+  @override
+  String get emojiUnpinForPersona => 'בטל הצמדה לפרסונה זו';
+
+  @override
   String get personaSignatureEmojisLabel => 'אימוג\'י חתימה';
 
   @override
