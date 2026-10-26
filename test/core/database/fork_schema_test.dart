@@ -216,6 +216,20 @@ void main() {
       expect(_columns(raw, 'channels'), contains('owner_persona_id'));
     });
 
+    test(
+      'an existing database gains the column for the pinned emojis',
+      () async {
+        final Database raw = sqlite3.openInMemory();
+        addTearDown(raw.close);
+        await _open(raw);
+        raw.execute('ALTER TABLE user_preferences DROP COLUMN emoji_pins_json');
+
+        await _open(raw);
+
+        expect(_columns(raw, 'user_preferences'), contains('emoji_pins_json'));
+      },
+    );
+
     test('an existing database gains the table of known personas', () async {
       final Database raw = sqlite3.openInMemory();
       addTearDown(raw.close);
