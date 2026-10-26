@@ -355,6 +355,42 @@ void main() {
       expect(res.matched, isFalse);
     });
 
+    test('sends under a latched persona whose tags are disabled', () {
+      const disabledPersona = Persona(
+        id: 'persona_disabled',
+        name: 'Disabled',
+        autoTagDisabled: true,
+        personaTags: [PersonaTag(prefix: 'D:')],
+      );
+      final plain = matchPersona(
+        'plain message',
+        [alice, disabledPersona],
+        disabledPersona.id,
+        hasAttachments: false,
+      );
+      expect(plain.matched, isTrue);
+      expect(plain.persona?.id, disabledPersona.id);
+      expect(plain.strippedContent, 'plain message');
+
+      final ownTag = matchPersona(
+        'D: not a tag',
+        [alice, disabledPersona],
+        disabledPersona.id,
+        hasAttachments: false,
+      );
+      expect(ownTag.matched, isTrue);
+      expect(ownTag.persona?.id, disabledPersona.id);
+      expect(ownTag.strippedContent, 'D: not a tag');
+
+      final otherTag = matchPersona(
+        'A: as Alice',
+        [alice, disabledPersona],
+        disabledPersona.id,
+        hasAttachments: false,
+      );
+      expect(otherTag.persona?.id, alice.id);
+    });
+
     test('matches raw unicode emoji tag prefix and strips emoji', () {
       final res = matchPersona(
         '🐉 hello world',
