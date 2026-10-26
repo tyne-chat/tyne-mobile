@@ -341,6 +341,18 @@ class ForkLocalizationsNl extends ForkLocalizations {
   String get emojiCopyLink => 'Link kopiëren';
 
   @override
+  String get emojiPin => 'Emoji vastpinnen';
+
+  @override
+  String get emojiUnpin => 'Emoji losmaken';
+
+  @override
+  String get emojiPinForPersona => 'Vastpinnen voor deze persona';
+
+  @override
+  String get emojiUnpinForPersona => 'Losmaken voor deze persona';
+
+  @override
   String get personaSignatureEmojisLabel => 'Handtekening-emoji\'s';
 
   @override

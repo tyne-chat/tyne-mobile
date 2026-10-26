@@ -28,6 +28,16 @@ Future<void> ensureForkSchema(
     );
   }
 
+  if (!(await _columnsOf(
+    database,
+    database.userPreferencesTable.actualTableName,
+  )).contains(database.userPreferencesTable.emojiPinsJson.name)) {
+    await migrator.addColumn(
+      database.userPreferencesTable,
+      database.userPreferencesTable.emojiPinsJson,
+    );
+  }
+
   if (!(await _tableExists(database, database.knownPersonas.actualTableName))) {
     await migrator.createTable(database.knownPersonas);
     await _dropCachedMessagesMentioningPersonas(database);

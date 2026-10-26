@@ -340,6 +340,18 @@ class ForkLocalizationsHi extends ForkLocalizations {
   String get emojiCopyLink => 'लिंक कॉपी करें';
 
   @override
+  String get emojiPin => 'इमोजी पिन करें';
+
+  @override
+  String get emojiUnpin => 'इमोजी अनपिन करें';
+
+  @override
+  String get emojiPinForPersona => 'इस परसोना के लिए पिन करें';
+
+  @override
+  String get emojiUnpinForPersona => 'इस परसोना के लिए अनपिन करें';
+
+  @override
   String get personaSignatureEmojisLabel => 'हस्ताक्षर इमोजी';
 
   @override
