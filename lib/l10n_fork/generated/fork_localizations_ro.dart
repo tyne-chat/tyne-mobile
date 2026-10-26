@@ -341,6 +341,18 @@ class ForkLocalizationsRo extends ForkLocalizations {
   String get emojiCopyLink => 'Copiază linkul';
 
   @override
+  String get emojiPin => 'Fixează emoji';
+
+  @override
+  String get emojiUnpin => 'Anulează fixarea emoji-ului';
+
+  @override
+  String get emojiPinForPersona => 'Fixează pentru această persona';
+
+  @override
+  String get emojiUnpinForPersona => 'Anulează fixarea pentru această persona';
+
+  @override
   String get personaSignatureEmojisLabel => 'Emoji-uri semnătură';
 
   @override
