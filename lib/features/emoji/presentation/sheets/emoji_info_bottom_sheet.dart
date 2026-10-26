@@ -25,6 +25,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/persona_react_as_sheet.dart';
 import 'package:fluxer_app/features/emoji/domain/emoji_pins.dart';
+import 'package:fluxer_app/features/emoji/providers/emoji_pin_persona.dart';
 import 'package:fluxer_app/features/emoji/providers/emoji_pins_provider.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
@@ -117,7 +118,9 @@ class _EmojiInfoBottomSheetContent extends ConsumerWidget {
   final String? messageId;
   final VoidCallback? onReacted;
 
-  /// Fork: the persona the picker writes as, for "Pin for this persona".
+  /// Fork: the persona the picker writes as, for "Pin for this persona"; `'0'`
+  /// for the account. Without one, the persona in use in [channelId]
+  /// (`emojiPinPersonaIdFor`), as on the web.
   final String? personaId;
 
   @override
@@ -244,11 +247,15 @@ class _EmojiInfoBottomSheetContent extends ConsumerWidget {
   ) {
     final personas = ref.watch(myPersonasProvider).asData?.value ?? const [];
     final bool canReactAs = messageId != null && personas.isNotEmpty;
+    // A sheet opened without a persona (from a message's quick reactions or
+    // its text) pins for the persona in use in the channel (tyne-chat/tyne#237).
+    final String? candidateId =
+        personaId ?? emojiPinPersonaIdFor(ref.read, channelId);
     final String? pinPersonaId =
-        personaId != null &&
-            personaId != '0' &&
-            personas.any((persona) => persona.id == personaId)
-        ? personaId
+        candidateId != null &&
+            candidateId != '0' &&
+            personas.any((persona) => persona.id == candidateId)
+        ? candidateId
         : null;
     final EmojiPins pins =
         ref.watch(emojiPinsProvider).value ?? EmojiPins.empty;
