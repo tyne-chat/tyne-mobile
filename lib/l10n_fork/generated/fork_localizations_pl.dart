@@ -482,4 +482,14 @@ class ForkLocalizationsPl extends ForkLocalizations {
   @override
   String get crashReportingDescription =>
       'Raporty trafiają do własnego systemu śledzenia błędów Tyne, także po zalogowaniu się do innej instancji. Nie zawierają nazw instancji, identyfikatorów ani treści wiadomości.';
+
+  @override
+  String get instanceOfflineTitle => 'Tyne jest offline!';
+
+  @override
+  String get instanceOfflineBody => 'Sprawdzamy, co się dzieje.';
+
+  @override
+  String get instanceStatusSignalLink =>
+      'Dołącz do naszego czatu na Signalu, aby być na bieżąco';
 }
