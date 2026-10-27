@@ -242,4 +242,105 @@ void main() {
     expect(cy?.name, 'Cy renamed');
     expect(cy?.userId, 'u3');
   });
+
+  // A persona picked in the mention autocomplete is known before the message
+  // is sent, so the message still sending names it instead of the account
+  // (tyne-chat/tyne#240).
+  Map<String, Object?> pickedItem({
+    String id = '202',
+    String name = 'Bob',
+    Object? color = 0x112233,
+  }) => <String, Object?>{
+    'id': id,
+    'name': name,
+    'avatar_hash': 'b2b2b2b2',
+    'color': color,
+    'display_tag_text': 'SYS',
+    'display_tag_icon': null,
+    'visibility': 'public',
+    'use_count': 3,
+    'owner_user_id': '900',
+    'owner_username': 'bobs',
+  };
+
+  test('knows a persona picked in the mention autocomplete', () async {
+    await recordPickedMentionPersona(db, pickedItem());
+
+    final KnownPersona? bob = await known('202');
+    expect(bob?.name, 'Bob');
+    expect(bob?.color, 0x112233);
+    expect(bob?.avatar, 'b2b2b2b2');
+    expect(bob?.displayTagText, 'SYS');
+    expect(bob?.userId, '900');
+    expect(await knownPersonaIdsOf(db, '900'), <String>['202']);
+  });
+
+  test('leaves a persona it already knows as messages describe it', () async {
+    await upsertKnownPersonasFromSdk(db, [
+      MessageResponseSchema.fromJson(
+        _message(
+          content: 'hello <@900:202>',
+          mentionPersonas: [
+            <String, Object?>{
+              'id': '202',
+              'name': 'Bob',
+              'color': 0x445566,
+              'avatar_color': 0x778899,
+            },
+          ],
+        ),
+      ),
+    ]);
+
+    await recordPickedMentionPersona(db, pickedItem(name: 'Bob (older list)'));
+
+    final KnownPersona? bob = await known('202');
+    expect(bob?.name, 'Bob');
+    expect(bob?.color, 0x445566);
+    expect(bob?.avatarColor, 0x778899);
+  });
+
+  test('keeps no avatar colour from a picked persona', () async {
+    // The list takes the personas of loaded messages from those messages,
+    // with the message's avatar colour, which need not be the persona's.
+    await recordPickedMentionPersona(db, <String, Object?>{
+      'id': '203',
+      'name': 'Cy',
+      'avatar_color': 0x123456,
+      'owner_user_id': '900',
+    });
+
+    final KnownPersona? cy = await known('203');
+    expect(cy?.name, 'Cy');
+    expect(cy?.avatarColor, isNull);
+    expect(cy?.color, isNull);
+  });
+
+  test('records nothing for a picked item without an id or a name', () async {
+    await recordPickedMentionPersona(db, pickedItem(id: ''));
+    await recordPickedMentionPersona(db, pickedItem(name: ''));
+
+    expect(await db.select(db.knownPersonas).get(), isEmpty);
+  });
+
+  test('tells the mention chip about a picked persona', () async {
+    final ProviderContainer container = ProviderContainer(
+      overrides: [fluxerDatabaseProvider.overrideWithValue(db)],
+    );
+    addTearDown(container.dispose);
+    final List<String?> names = <String?>[];
+    container.listen(knownPersonaProvider('202'), (
+      _,
+      AsyncValue<KnownPersona?> next,
+    ) {
+      if (next.hasValue) {
+        names.add(next.value?.name);
+      }
+    }, fireImmediately: true);
+    await container.read(knownPersonaProvider('202').future);
+
+    await recordPickedMentionPersona(db, pickedItem());
+
+    await waitUntil(() => names.last == 'Bob', 'the picked persona to be read');
+  });
 }
