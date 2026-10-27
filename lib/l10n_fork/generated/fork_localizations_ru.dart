@@ -481,4 +481,14 @@ class ForkLocalizationsRu extends ForkLocalizations {
   @override
   String get crashReportingDescription =>
       'Отчёты отправляются в собственную систему отслеживания ошибок Tyne, даже если вы вошли на другом сервере. Они не содержат названий серверов, идентификаторов или содержимого сообщений.';
+
+  @override
+  String get instanceOfflineTitle => 'Tyne недоступен!';
+
+  @override
+  String get instanceOfflineBody => 'Мы разбираемся.';
+
+  @override
+  String get instanceStatusSignalLink =>
+      'Присоединяйтесь к нашему чату в Signal, чтобы следить за новостями';
 }

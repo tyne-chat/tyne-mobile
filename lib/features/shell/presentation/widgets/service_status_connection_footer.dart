@@ -7,6 +7,11 @@ import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/providers/well_known_provider.dart';
+import 'package:fluxer_app/features/shell/presentation/widgets/instance_status_link.dart';
+
 class ServiceStatusConnectionFooter extends ConsumerWidget {
   const ServiceStatusConnectionFooter({
     required this.promptStyle,
@@ -21,6 +26,15 @@ class ServiceStatusConnectionFooter extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Fork: the instance's own status page unless Fluxer hosts it
+    // (tyne-chat/tyne#134).
+    if (!forkInstanceIsFluxerHosted(ref.watch(wellKnownProvider))) {
+      return ForkInstanceStatusFooter(
+        promptStyle: promptStyle,
+        linkStyle: linkStyle,
+        showPrompt: showPrompt,
+      );
+    }
     if (!ref.watch(isActiveInstanceOfficialProvider)) {
       return const SizedBox.shrink();
     }
@@ -74,6 +88,11 @@ class OfficialInstanceStatusPageLink extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Fork: the instance's own status page unless Fluxer hosts it
+    // (tyne-chat/tyne#134).
+    if (!forkInstanceIsFluxerHosted(ref.watch(wellKnownProvider))) {
+      return ForkInstanceStatusPageLink(style: style);
+    }
     if (!ref.watch(isActiveInstanceOfficialProvider)) {
       return const SizedBox.shrink();
     }

@@ -485,6 +485,16 @@ class ForkLocalizationsEs extends ForkLocalizations {
   @override
   String get crashReportingDescription =>
       'Los informes se envían al sistema de seguimiento de errores propio de Tyne, incluso cuando hayas iniciado sesión en otra instancia. No incluyen nombres de instancias, identificadores ni el contenido de los mensajes.';
+
+  @override
+  String get instanceOfflineTitle => '¡Tyne está desconectado!';
+
+  @override
+  String get instanceOfflineBody => 'Lo estamos investigando.';
+
+  @override
+  String get instanceStatusSignalLink =>
+      'Únete a nuestro chat de Signal para recibir novedades';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -968,4 +978,14 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
   @override
   String get crashReportingDescription =>
       'Los informes se envían al sistema de seguimiento de errores propio de Tyne, incluso si iniciaste sesión en otro servidor. No incluyen nombres de servidores, identificadores ni el contenido de los mensajes.';
+
+  @override
+  String get instanceOfflineTitle => '¡Tyne está desconectado!';
+
+  @override
+  String get instanceOfflineBody => 'Lo estamos investigando.';
+
+  @override
+  String get instanceStatusSignalLink =>
+      'Únete a nuestro chat de Signal para recibir novedades';
 }

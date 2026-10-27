@@ -481,4 +481,14 @@ class ForkLocalizationsHu extends ForkLocalizations {
   @override
   String get crashReportingDescription =>
       'A jelentések a Tyne saját hibakövetőjébe kerülnek, akkor is, ha egy másik instanciába vagy bejelentkezve. Nem tartalmaznak instancianeveket, azonosítókat vagy üzenettartalmat.';
+
+  @override
+  String get instanceOfflineTitle => 'A Tyne nem érhető el!';
+
+  @override
+  String get instanceOfflineBody => 'Vizsgáljuk a hibát.';
+
+  @override
+  String get instanceStatusSignalLink =>
+      'Csatlakozz a Signal-csevegésünkhöz a friss hírekért';
 }
