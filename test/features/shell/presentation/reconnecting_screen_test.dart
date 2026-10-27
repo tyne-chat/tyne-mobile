@@ -19,6 +19,10 @@ import '../../../helpers/open_test_database.dart';
 import '../../../helpers/pump_fluxer_app.dart';
 import '../../../helpers/test_l10n.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+
 class _SignedIn extends AuthState {
   @override
   bool build() => true;
@@ -72,7 +76,8 @@ void main() {
     );
     expect(container.read(fluxerAuthTokenProvider), isNull);
     expect(container.exists(gatewayConnectionProvider), isFalse);
-    expect(find.text(testL10n.reconnectingTitle), findsOneWidget);
+    // Fork: Tyne's own wording replaces "We fluxed up!" (tyne-chat/tyne#134).
+    expect(find.text(testL10n.fork.instanceOfflineTitle), findsOneWidget);
 
     container.read(appUiForegroundProvider.notifier).setResumed(false);
     await tester.pump();

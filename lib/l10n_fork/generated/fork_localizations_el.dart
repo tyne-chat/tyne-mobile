@@ -482,4 +482,14 @@ class ForkLocalizationsEl extends ForkLocalizations {
   @override
   String get crashReportingDescription =>
       'Οι αναφορές αποστέλλονται στο δικό σύστημα παρακολούθησης σφαλμάτων του Tyne, ακόμη και όταν είστε συνδεδεμένοι σε άλλη παρουσία. Δεν περιλαμβάνουν ονόματα παρουσιών, αναγνωριστικά ή περιεχόμενο μηνυμάτων.';
+
+  @override
+  String get instanceOfflineTitle => 'Το Tyne είναι εκτός σύνδεσης!';
+
+  @override
+  String get instanceOfflineBody => 'Το διερευνούμε.';
+
+  @override
+  String get instanceStatusSignalLink =>
+      'Μπείτε στη συνομιλία μας στο Signal για ενημερώσεις';
 }

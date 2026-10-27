@@ -481,4 +481,14 @@ class ForkLocalizationsRo extends ForkLocalizations {
   @override
   String get crashReportingDescription =>
       'Rapoartele ajung în sistemul propriu de urmărire a erorilor al Tyne, chiar și atunci când ești conectat la altă instanță. Nu includ nume de instanțe, ID-uri sau conținutul mesajelor.';
+
+  @override
+  String get instanceOfflineTitle => 'Tyne este offline!';
+
+  @override
+  String get instanceOfflineBody => 'Investigăm problema.';
+
+  @override
+  String get instanceStatusSignalLink =>
+      'Intră în chatul nostru de pe Signal pentru noutăți';
 }
