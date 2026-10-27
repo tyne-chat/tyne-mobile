@@ -484,4 +484,14 @@ class ForkLocalizationsBg extends ForkLocalizations {
   @override
   String get crashReportingDescription =>
       'Отчетите отиват в собствената система за проследяване на грешки на Tyne, дори когато сте влезли в друга инстанция. Те не съдържат имена на инстанции, идентификатори или съдържание на съобщения.';
+
+  @override
+  String get instanceOfflineTitle => 'Tyne е офлайн!';
+
+  @override
+  String get instanceOfflineBody => 'Проучваме проблема.';
+
+  @override
+  String get instanceStatusSignalLink =>
+      'Присъединете се към чата ни в Signal за новини';
 }

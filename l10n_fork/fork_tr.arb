@@ -136,5 +136,8 @@
     "personaPreviewNameFallback": "Kullanıcı",
     "crashReportingConsentSubtitle": "Tyne beklenmedik şekilde kapandı. Anonim çökme ve hata verilerini paylaşmak, sorunları daha hızlı düzeltmemize yardımcı olur.",
     "crashReportingSectionDescription": "Çökme ve performans verilerini paylaşarak Tyne uygulamasındaki hataların düzeltilmesine yardım edin. Varsayılan olarak kapalıdır.",
-    "crashReportingDescription": "Raporlar, başka bir sunucuda oturum açılmış olsa bile Tyne uygulamasının kendi hata izleyicisine gönderilir. Sunucu adları, kimlikler veya mesaj içerikleri dahil edilmez."
+    "crashReportingDescription": "Raporlar, başka bir sunucuda oturum açılmış olsa bile Tyne uygulamasının kendi hata izleyicisine gönderilir. Sunucu adları, kimlikler veya mesaj içerikleri dahil edilmez.",
+    "instanceOfflineTitle": "Tyne çevrimdışı!",
+    "instanceOfflineBody": "Sorunu araştırıyoruz.",
+    "instanceStatusSignalLink": "Güncellemeler için Signal sohbetimize katılın"
 }
