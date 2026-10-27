@@ -98,37 +98,43 @@ MatchResult matchPersona(
     }
   }
 
-  // Check unlatch trigger: "\\" clears active latch
-  if (text.trim() == r'\\') {
-    return const MatchResult(
-      matched: false,
-      strippedContent: '',
-      clearedLatch: true,
-      wasEscaped: true,
-    );
-  }
+  // Escape slashes and the unlatch command only mean something while a persona
+  // is latched, as in the web's matcher (PersonaMatcher.ts). Without one, a
+  // leading backslash is the message's own text and is sent as typed
+  // (tyne-chat/tyne#158, audit F2-1).
+  if (latchedPersona != null) {
+    // Check unlatch trigger: "\\" clears active latch
+    if (text.trim() == r'\\') {
+      return const MatchResult(
+        matched: false,
+        strippedContent: '',
+        clearedLatch: true,
+        wasEscaped: true,
+      );
+    }
 
-  // Check double backslash with message: "\\ [message]" sends as root account and CLEARS latch
-  if (text.startsWith(r'\\')) {
-    final rawRest = text.substring(2);
-    final stripped = rawRest.startsWith(' ') ? rawRest.substring(1) : rawRest;
-    return MatchResult(
-      matched: false,
-      strippedContent: stripped,
-      clearedLatch: true,
-      wasEscaped: true,
-    );
-  }
+    // Check double backslash with message: "\\ [message]" sends as root account and CLEARS latch
+    if (text.startsWith(r'\\')) {
+      final rawRest = text.substring(2);
+      final stripped = rawRest.startsWith(' ') ? rawRest.substring(1) : rawRest;
+      return MatchResult(
+        matched: false,
+        strippedContent: stripped,
+        clearedLatch: true,
+        wasEscaped: true,
+      );
+    }
 
-  // Check single backslash: "\ [message]" escapes persona tag matching and suppresses latch
-  if (text.startsWith(r'\')) {
-    final rawRest = text.substring(1);
-    final stripped = rawRest.startsWith(' ') ? rawRest.substring(1) : rawRest;
-    return MatchResult(
-      matched: false,
-      strippedContent: stripped,
-      wasEscaped: true,
-    );
+    // Check single backslash: "\ [message]" escapes persona tag matching and suppresses latch
+    if (text.startsWith(r'\')) {
+      final rawRest = text.substring(1);
+      final stripped = rawRest.startsWith(' ') ? rawRest.substring(1) : rawRest;
+      return MatchResult(
+        matched: false,
+        strippedContent: stripped,
+        wasEscaped: true,
+      );
+    }
   }
 
   final candidates = <_CandidateMatch>[];
@@ -383,12 +389,20 @@ EditMatchResult matchEditMessage({
   required List<Persona> personas,
   required String? currentPersonaId,
   bool hasAttachments = false,
+  String? originalContent,
 }) {
   final bool hasCurrentPersona =
       currentPersonaId != null && currentPersonaId.isNotEmpty;
+  // A message whose text already starts with a backslash (sent as `a: \o/`)
+  // keeps it through every edit: only a backslash the edit adds removes the
+  // persona (tyne-chat/tyne#158, audit M3-1).
+  final bool originalStartsWithBackslash =
+      originalContent?.startsWith(r'\') ?? false;
 
   // If user typed \ or \\ to explicitly clear active persona / escape
-  if (content.startsWith(r'\') && hasCurrentPersona) {
+  if (content.startsWith(r'\') &&
+      hasCurrentPersona &&
+      !originalStartsWithBackslash) {
     String strippedContent;
     if (content.startsWith(r'\\')) {
       final rawRest = content.substring(2);

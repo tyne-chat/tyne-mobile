@@ -7268,6 +7268,7 @@ class ChatViewModel extends _$ChatViewModel {
       currentPersonaId: editingMessage.personaId,
       hasAttachments:
           editingMessage.attachments.isNotEmpty || editingMessage.hasStickers,
+      originalContent: editingMessage.content,
     );
 
     final String sanitized = _maybeSanitizeOutgoing(
@@ -7655,6 +7656,7 @@ class ChatViewModel extends _$ChatViewModel {
       personas: personas,
       currentPersonaId: target.personaId,
       hasAttachments: target.attachments.isNotEmpty,
+      originalContent: target.content,
     );
 
     final String sanitized = _maybeSanitizeOutgoing(
