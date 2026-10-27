@@ -136,5 +136,8 @@
     "personaPreviewNameFallback": "User",
     "crashReportingConsentSubtitle": "Tyne closed unexpectedly. Sharing anonymous crash and error data helps us fix issues faster.",
     "crashReportingSectionDescription": "Help fix bugs in Tyne by sharing crash and performance data. This is off by default.",
-    "crashReportingDescription": "Reports go to Tyne's own error tracker, even when you're signed in to another instance. They don't include instance names, IDs or message content."
+    "crashReportingDescription": "Reports go to Tyne's own error tracker, even when you're signed in to another instance. They don't include instance names, IDs or message content.",
+    "instanceOfflineTitle": "Tyne is offline!",
+    "instanceOfflineBody": "We're investigating.",
+    "instanceStatusSignalLink": "Join our Signal chat for updates"
 }
