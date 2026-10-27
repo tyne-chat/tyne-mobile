@@ -483,6 +483,16 @@ class ForkLocalizationsPt extends ForkLocalizations {
   @override
   String get crashReportingDescription =>
       'Os relatórios são enviados para o sistema de registo de erros do próprio Tyne, mesmo quando tem sessão iniciada noutro servidor. Não incluem nomes de servidores, IDs nem o conteúdo das mensagens.';
+
+  @override
+  String get instanceOfflineTitle => 'O Tyne está offline!';
+
+  @override
+  String get instanceOfflineBody => 'Estamos a investigar.';
+
+  @override
+  String get instanceStatusSignalLink =>
+      'Junte-se ao nosso chat do Signal para receber novidades';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -964,4 +974,14 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
   @override
   String get crashReportingDescription =>
       'Os relatórios vão para o rastreador de erros do próprio Tyne, mesmo quando você está conectado a outra instância. Eles não incluem nomes de instâncias, IDs nem o conteúdo das mensagens.';
+
+  @override
+  String get instanceOfflineTitle => 'O Tyne está offline!';
+
+  @override
+  String get instanceOfflineBody => 'Estamos investigando.';
+
+  @override
+  String get instanceStatusSignalLink =>
+      'Entre no nosso chat do Signal para receber novidades';
 }

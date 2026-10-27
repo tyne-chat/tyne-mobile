@@ -29,8 +29,10 @@ import '../../../helpers/pump_fluxer_app.dart';
 import '../../../helpers/test_l10n.dart';
 
 // Fork imports.
-// ignore: directives_ordering
+// Fork: the fork's package imports come after upstream's relative ones.
+// ignore_for_file: directives_ordering
 import 'package:fluxer_app/core/instance/instance_constants.dart';
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 
 class _PendingAppStartup extends AppStartup {
   @override
@@ -251,8 +253,9 @@ void main() {
     await tester.pump();
     await tester.pump();
 
-    expect(find.text(testL10n.splashConnectionLost), findsOneWidget);
-    expect(find.text(testL10n.reconnectingBody), findsOneWidget);
+    // Fork: Tyne's own outage wording (tyne-chat/tyne#134).
+    expect(find.text(testL10n.fork.instanceOfflineTitle), findsOneWidget);
+    expect(find.text(testL10n.fork.instanceOfflineBody), findsOneWidget);
     expect(find.text(testL10n.splashStatusPageLink), findsOneWidget);
     expect(find.text(testL10n.retry), findsOneWidget);
     expect(find.textContaining('Failed to start'), findsNothing);
