@@ -13,7 +13,7 @@ import 'package:fluxer_markdown/fluxer_markdown.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/features/chat/utils/timezone_picker_utils.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 
 class MessageMarkdown extends ConsumerWidget {
   const MessageMarkdown({
