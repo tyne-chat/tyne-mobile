@@ -107,7 +107,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Fork imports.
 // ignore: directives_ordering
-import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
+import 'package:fluxer_app/features/shell/providers/user/current_user_private_provider.dart';
 
 part 'guild_navbar_dashed_icon.dart';
 part 'guild_navbar_folder.dart';
