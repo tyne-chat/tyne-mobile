@@ -480,4 +480,14 @@ class ForkLocalizationsVi extends ForkLocalizations {
   @override
   String get crashReportingDescription =>
       'Báo cáo được gửi đến hệ thống theo dõi lỗi riêng của Tyne, ngay cả khi bạn đăng nhập vào máy chủ khác. Báo cáo không bao gồm tên máy chủ, ID hoặc nội dung tin nhắn.';
+
+  @override
+  String get instanceOfflineTitle => 'Tyne đang ngoại tuyến!';
+
+  @override
+  String get instanceOfflineBody => 'Chúng tôi đang kiểm tra.';
+
+  @override
+  String get instanceStatusSignalLink =>
+      'Tham gia nhóm chat Signal của chúng tôi để nhận thông tin mới';
 }

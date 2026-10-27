@@ -479,4 +479,14 @@ class ForkLocalizationsLt extends ForkLocalizations {
   @override
   String get crashReportingDescription =>
       'Ataskaitos siunčiamos į pačios „Tyne“ klaidų sekimo sistemą, net jei prisijungta prie kito serverio. Jose nėra serverių pavadinimų, ID ar žinučių turinio.';
+
+  @override
+  String get instanceOfflineTitle => '„Tyne“ neveikia!';
+
+  @override
+  String get instanceOfflineBody => 'Aiškinamės, kas nutiko.';
+
+  @override
+  String get instanceStatusSignalLink =>
+      'Prisijunk prie mūsų „Signal“ pokalbio ir sužinok naujienas';
 }
