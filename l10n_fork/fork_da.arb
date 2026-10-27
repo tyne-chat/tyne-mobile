@@ -136,5 +136,8 @@
     "personaPreviewNameFallback": "Bruger",
     "crashReportingConsentSubtitle": "Tyne lukkede uventet. Deling af anonyme nedbruds- og fejldata hjælper os med at rette problemer hurtigere.",
     "crashReportingSectionDescription": "Hjælp med at rette fejl i Tyne ved at dele nedbruds- og ydeevnedata. Dette er slået fra som standard.",
-    "crashReportingDescription": "Rapporter sendes til Tynes egen fejlsporing, også når du er logget ind på en anden instans. De indeholder ikke instansnavne, id'er eller beskedindhold."
+    "crashReportingDescription": "Rapporter sendes til Tynes egen fejlsporing, også når du er logget ind på en anden instans. De indeholder ikke instansnavne, id'er eller beskedindhold.",
+    "instanceOfflineTitle": "Tyne er offline!",
+    "instanceOfflineBody": "Vi undersøger det.",
+    "instanceStatusSignalLink": "Deltag i vores Signal-chat for at få opdateringer"
 }

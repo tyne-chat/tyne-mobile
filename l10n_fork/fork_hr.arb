@@ -136,5 +136,8 @@
     "personaPreviewNameFallback": "Korisnik",
     "crashReportingConsentSubtitle": "Tyne se neočekivano zatvorio. Dijeljenje anonimnih podataka o rušenjima i pogreškama pomaže nam brže ispraviti probleme.",
     "crashReportingSectionDescription": "Pomozite ispraviti pogreške u aplikaciji Tyne dijeljenjem podataka o rušenjima i performansama. Prema zadanim postavkama isključeno je.",
-    "crashReportingDescription": "Izvješća se šalju u vlastiti sustav za praćenje pogrešaka aplikacije Tyne, čak i kada ste prijavljeni na drugu instancu. Ne sadrže nazive instanci, ID-ove ni sadržaj poruka."
+    "crashReportingDescription": "Izvješća se šalju u vlastiti sustav za praćenje pogrešaka aplikacije Tyne, čak i kada ste prijavljeni na drugu instancu. Ne sadrže nazive instanci, ID-ove ni sadržaj poruka.",
+    "instanceOfflineTitle": "Tyne je izvan mreže!",
+    "instanceOfflineBody": "Istražujemo što se događa.",
+    "instanceStatusSignalLink": "Pridružite se našem Signal chatu za novosti"
 }
