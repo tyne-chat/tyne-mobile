@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import 'package:fluxer_app/features/profile/domain/persona.dart';
-import 'package:fluxer_app/shared/utils/emoji_registry.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
 
 final RegExp _shortcodePattern = RegExp(r':([a-zA-Z0-9_+\-]+):');
 
