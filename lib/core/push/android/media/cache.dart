@@ -239,7 +239,7 @@ String alignPushMediaUrlWithInstance(
   final Uri defaultMedia = Uri.parse(InstanceEndpoints.defaultMedia);
   final Uri defaultStatic = Uri.parse(InstanceEndpoints.defaultStaticCdn);
   if (_pushMediaHostsMatch(uri, defaultMedia)) {
-    return _replaceUriAuthority(uri, mediaBase).toString();
+    return _forkMoveMediaUri(uri, defaultMedia, mediaBase).toString();
   }
   if (_pushMediaHostsMatch(uri, defaultStatic)) {
     final Uri staticBase = Uri.parse(endpoints.staticCdn);
@@ -429,3 +429,18 @@ String? _nonEmpty(String? value) {
   }
   return value;
 }
+
+// Fork: the fork's default media base has a path (`/media`), so moving a media URL from it to the
+// account's instance swaps that path prefix as well as the host (upstream's default has no path).
+Uri _forkMoveMediaUri(Uri source, Uri from, Uri to) {
+  final String fromPath = _forkWithoutTrailingSlash(from.path);
+  final String toPath = _forkWithoutTrailingSlash(to.path);
+  final String rest =
+      fromPath.isNotEmpty && source.path.startsWith('$fromPath/')
+      ? source.path.substring(fromPath.length)
+      : source.path;
+  return _replaceUriAuthority(source, to).replace(path: '$toPath$rest');
+}
+
+String _forkWithoutTrailingSlash(String path) =>
+    path.endsWith('/') ? path.substring(0, path.length - 1) : path;
