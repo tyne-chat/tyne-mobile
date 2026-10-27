@@ -38,6 +38,10 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
@@ -573,7 +577,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Text(
-                                        strings.splashConnectionLost,
+                                        strings.fork.instanceOfflineTitle,
                                         style: context.textStyles.smallText
                                             .copyWith(
                                               color: _splashQuoteText,
@@ -583,7 +587,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                                       ),
                                       const SizedBox(height: 8),
                                       Text(
-                                        strings.reconnectingBody,
+                                        strings.fork.instanceOfflineBody,
                                         style: context.textStyles.smallText
                                             .copyWith(color: _splashMutedText),
                                         textAlign: TextAlign.center,

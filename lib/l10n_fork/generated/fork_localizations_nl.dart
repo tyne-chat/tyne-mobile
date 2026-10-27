@@ -480,4 +480,14 @@ class ForkLocalizationsNl extends ForkLocalizations {
   @override
   String get crashReportingDescription =>
       'Rapporten gaan naar de eigen foutentracker van Tyne, ook als je bij een andere instantie bent ingelogd. Ze bevatten geen instantienamen, ID\'s of berichtinhoud.';
+
+  @override
+  String get instanceOfflineTitle => 'Tyne is offline!';
+
+  @override
+  String get instanceOfflineBody => 'We zoeken het uit.';
+
+  @override
+  String get instanceStatusSignalLink =>
+      'Doe mee met onze Signal-chat voor updates';
 }
