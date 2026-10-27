@@ -478,4 +478,14 @@ class ForkLocalizationsTh extends ForkLocalizations {
   @override
   String get crashReportingDescription =>
       'รายงานจะถูกส่งไปยังระบบติดตามข้อผิดพลาดของ Tyne เอง แม้ว่าคุณจะลงชื่อเข้าใช้อินสแตนซ์อื่นอยู่ก็ตาม รายงานไม่มีชื่ออินสแตนซ์ ID หรือเนื้อหาข้อความ';
+
+  @override
+  String get instanceOfflineTitle => 'Tyne ออฟไลน์อยู่!';
+
+  @override
+  String get instanceOfflineBody => 'เรากำลังตรวจสอบ';
+
+  @override
+  String get instanceStatusSignalLink =>
+      'เข้าร่วมแชท Signal ของเราเพื่อรับข่าวสาร';
 }

@@ -988,6 +988,24 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'Reports go to Tyne\'s own error tracker, even when you\'re signed in to another instance. They don\'t include instance names, IDs or message content.'**
   String get crashReportingDescription;
+
+  /// Title on the screen shown while the app cannot reach the instance, and on the splash screen when the instance reports it is unavailable. Replaces upstream's reconnectingTitle ("We fluxed up!"), which names Fluxer, and splashConnectionLost.
+  ///
+  /// In en, this message translates to:
+  /// **'Tyne is offline!'**
+  String get instanceOfflineTitle;
+
+  /// Text under instanceOfflineTitle. Replaces upstream's reconnectingBody, which promises the outage will be fixed in a second.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'re investigating.'**
+  String get instanceOfflineBody;
+
+  /// Link to the instance's status page when that page is a Signal group chat; other status pages use upstream's splashStatusPageLink ("Status page").
+  ///
+  /// In en, this message translates to:
+  /// **'Join our Signal chat for updates'**
+  String get instanceStatusSignalLink;
 }
 
 class _ForkLocalizationsDelegate
