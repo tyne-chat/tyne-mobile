@@ -483,4 +483,14 @@ class ForkLocalizationsUk extends ForkLocalizations {
   @override
   String get crashReportingDescription =>
       'Звіти надходять до власної системи відстеження помилок Tyne, навіть якщо ви ввійшли в інший інстанс. Вони не містять назв інстансів, ідентифікаторів чи вмісту повідомлень.';
+
+  @override
+  String get instanceOfflineTitle => 'Tyne недоступний!';
+
+  @override
+  String get instanceOfflineBody => 'Ми з\'ясовуємо, що сталося.';
+
+  @override
+  String get instanceStatusSignalLink =>
+      'Приєднуйтеся до нашого чату в Signal, щоб стежити за новинами';
 }

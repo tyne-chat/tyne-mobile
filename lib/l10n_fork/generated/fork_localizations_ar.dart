@@ -476,4 +476,14 @@ class ForkLocalizationsAr extends ForkLocalizations {
   @override
   String get crashReportingDescription =>
       'تُرسَل التقارير إلى متتبّع الأخطاء الخاص بـ Tyne، حتى عند تسجيل الدخول إلى خادم آخر. ولا تتضمن أسماء الخوادم أو المعرّفات أو محتوى الرسائل.';
+
+  @override
+  String get instanceOfflineTitle => 'Tyne غير متصل!';
+
+  @override
+  String get instanceOfflineBody => 'نحن نتحقق من الأمر.';
+
+  @override
+  String get instanceStatusSignalLink =>
+      'انضم إلى دردشتنا على Signal لمتابعة آخر الأخبار';
 }
