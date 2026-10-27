@@ -17,7 +17,7 @@ import 'package:fluxer_dart/gateway.dart';
 
 // Fork imports.
 // ignore: directives_ordering
-import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
+import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
 
 double _reconnectMarkBounce(double t) {
   final double clamped = t.clamp(0.0, 1.0);
