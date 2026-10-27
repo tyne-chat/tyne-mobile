@@ -481,4 +481,14 @@ class ForkLocalizationsHr extends ForkLocalizations {
   @override
   String get crashReportingDescription =>
       'Izvješća se šalju u vlastiti sustav za praćenje pogrešaka aplikacije Tyne, čak i kada ste prijavljeni na drugu instancu. Ne sadrže nazive instanci, ID-ove ni sadržaj poruka.';
+
+  @override
+  String get instanceOfflineTitle => 'Tyne je izvan mreže!';
+
+  @override
+  String get instanceOfflineBody => 'Istražujemo što se događa.';
+
+  @override
+  String get instanceStatusSignalLink =>
+      'Pridružite se našem Signal chatu za novosti';
 }
