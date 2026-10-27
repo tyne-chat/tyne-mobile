@@ -480,4 +480,14 @@ class ForkLocalizationsId extends ForkLocalizations {
   @override
   String get crashReportingDescription =>
       'Laporan dikirim ke pelacak kesalahan milik Tyne sendiri, bahkan saat Anda masuk ke instance lain. Laporan tidak mencakup nama instance, ID, atau isi pesan.';
+
+  @override
+  String get instanceOfflineTitle => 'Tyne sedang offline!';
+
+  @override
+  String get instanceOfflineBody => 'Kami sedang menyelidikinya.';
+
+  @override
+  String get instanceStatusSignalLink =>
+      'Gabung ke obrolan Signal kami untuk info terbaru';
 }
