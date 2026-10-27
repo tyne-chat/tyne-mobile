@@ -136,5 +136,8 @@
     "personaPreviewNameFallback": "Gebruiker",
     "crashReportingConsentSubtitle": "Tyne is onverwacht afgesloten. Door anonieme crash- en foutgegevens te delen, kunnen we problemen sneller oplossen.",
     "crashReportingSectionDescription": "Help bugs in Tyne op te lossen door crash- en prestatiegegevens te delen. Dit staat standaard uit.",
-    "crashReportingDescription": "Rapporten gaan naar de eigen foutentracker van Tyne, ook als je bij een andere instantie bent ingelogd. Ze bevatten geen instantienamen, ID's of berichtinhoud."
+    "crashReportingDescription": "Rapporten gaan naar de eigen foutentracker van Tyne, ook als je bij een andere instantie bent ingelogd. Ze bevatten geen instantienamen, ID's of berichtinhoud.",
+    "instanceOfflineTitle": "Tyne is offline!",
+    "instanceOfflineBody": "We zoeken het uit.",
+    "instanceStatusSignalLink": "Doe mee met onze Signal-chat voor updates"
 }

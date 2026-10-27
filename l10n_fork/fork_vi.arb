@@ -136,5 +136,8 @@
     "personaPreviewNameFallback": "Người dùng",
     "crashReportingConsentSubtitle": "Tyne đã đóng đột ngột. Chia sẻ dữ liệu sự cố và lỗi ẩn danh giúp chúng tôi khắc phục vấn đề nhanh hơn.",
     "crashReportingSectionDescription": "Giúp sửa lỗi trong Tyne bằng cách chia sẻ dữ liệu sự cố và hiệu suất. Tùy chọn này tắt theo mặc định.",
-    "crashReportingDescription": "Báo cáo được gửi đến hệ thống theo dõi lỗi riêng của Tyne, ngay cả khi bạn đăng nhập vào máy chủ khác. Báo cáo không bao gồm tên máy chủ, ID hoặc nội dung tin nhắn."
+    "crashReportingDescription": "Báo cáo được gửi đến hệ thống theo dõi lỗi riêng của Tyne, ngay cả khi bạn đăng nhập vào máy chủ khác. Báo cáo không bao gồm tên máy chủ, ID hoặc nội dung tin nhắn.",
+    "instanceOfflineTitle": "Tyne đang ngoại tuyến!",
+    "instanceOfflineBody": "Chúng tôi đang kiểm tra.",
+    "instanceStatusSignalLink": "Tham gia nhóm chat Signal của chúng tôi để nhận thông tin mới"
 }
