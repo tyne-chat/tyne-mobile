@@ -136,5 +136,8 @@
     "personaPreviewNameFallback": "Uživatel",
     "crashReportingConsentSubtitle": "Tyne se neočekávaně ukončil. Sdílení anonymních údajů o pádech a chybách nám pomáhá opravovat problémy rychleji.",
     "crashReportingSectionDescription": "Pomozte opravovat chyby v Tyne sdílením údajů o pádech a výkonu. Ve výchozím nastavení je vypnuto.",
-    "crashReportingDescription": "Hlášení se odesílají do vlastního systému pro sledování chyb Tyne, i když jste přihlášeni k jiné instanci. Neobsahují názvy instancí, ID ani obsah zpráv."
+    "crashReportingDescription": "Hlášení se odesílají do vlastního systému pro sledování chyb Tyne, i když jste přihlášeni k jiné instanci. Neobsahují názvy instancí, ID ani obsah zpráv.",
+    "instanceOfflineTitle": "Tyne je offline!",
+    "instanceOfflineBody": "Zjišťujeme, co se děje.",
+    "instanceStatusSignalLink": "Připojte se k našemu chatu na Signalu pro novinky"
 }
