@@ -485,4 +485,14 @@ class ForkLocalizationsFr extends ForkLocalizations {
   @override
   String get crashReportingDescription =>
       'Les rapports sont envoyés à l\'outil de suivi des erreurs de Tyne lui-même, même lorsque vous êtes connecté à une autre instance. Ils n\'incluent ni noms d\'instance, ni identifiants, ni contenu de message.';
+
+  @override
+  String get instanceOfflineTitle => 'Tyne est hors ligne !';
+
+  @override
+  String get instanceOfflineBody => 'Nous examinons le problème.';
+
+  @override
+  String get instanceStatusSignalLink =>
+      'Rejoignez notre discussion Signal pour suivre les nouvelles';
 }
