@@ -241,6 +241,37 @@ Future<void> upsertKnownPersonaFromPublic(
   ),
 ]);
 
+/// A persona picked in the mention autocomplete, as the channel's mention list
+/// describes it, so that a message still being sent names it: only the
+/// server's copy of the message brings its `mention_personas`
+/// (tyne-chat/tyne#240). Written only when the device does not know the
+/// persona yet: a stored row comes from messages and events, which keep it
+/// current, while the list can be older and, for the personas it takes from
+/// loaded messages, has no colour of theirs.
+Future<void> recordPickedMentionPersona(
+  FluxerDatabase database,
+  Map<String, dynamic> item,
+) async {
+  final Object? ownerId = item['owner_user_id'];
+  final KnownPersonasCompanion? row = _fromJson(<String, Object?>{
+    for (final String key in const <String>[
+      'id',
+      'name',
+      'avatar_hash',
+      'color',
+      'display_tag_text',
+      'display_tag_icon',
+    ])
+      if (item.containsKey(key)) key: item[key],
+  }, ownerId: ownerId is String ? ownerId : null);
+  if (row == null) {
+    return;
+  }
+  await database
+      .into(database.knownPersonas)
+      .insert(row, mode: InsertMode.insertOrIgnore);
+}
+
 /// What this device knows about a persona, kept current as rows change.
 // The family type is long and says nothing the next line does not.
 // ignore: specify_nonobvious_property_types

@@ -1104,11 +1104,19 @@ class ComposerAutocompleteFieldState
                   ? userSettings.avatarColor
                   : color,
               personaOwnerFallbackText: resolvedOwner,
-              onApply: () => _applyPersonaMention(
-                userId: ownerId,
-                personaId: pid,
-                personaName: pName,
-              ),
+              onApply: () {
+                unawaited(
+                  recordPickedMentionPersona(
+                    ref.read(fluxerDatabaseProvider),
+                    map,
+                  ),
+                );
+                _applyPersonaMention(
+                  userId: ownerId,
+                  personaId: pid,
+                  personaName: pName,
+                );
+              },
             ),
           );
           if (q.isEmpty && personaRows.length >= 15) {
