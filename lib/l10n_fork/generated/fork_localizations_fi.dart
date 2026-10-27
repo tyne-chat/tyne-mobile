@@ -481,4 +481,14 @@ class ForkLocalizationsFi extends ForkLocalizations {
   @override
   String get crashReportingDescription =>
       'Raportit lähetetään Tyne-sovelluksen omaan virheenseurantaan, vaikka olisit kirjautuneena toiseen instanssiin. Ne eivät sisällä instanssien nimiä, tunnisteita tai viestien sisältöä.';
+
+  @override
+  String get instanceOfflineTitle => 'Tyne ei ole tavoitettavissa!';
+
+  @override
+  String get instanceOfflineBody => 'Selvitämme asiaa.';
+
+  @override
+  String get instanceStatusSignalLink =>
+      'Liity Signal-keskusteluumme saadaksesi tietoa';
 }
