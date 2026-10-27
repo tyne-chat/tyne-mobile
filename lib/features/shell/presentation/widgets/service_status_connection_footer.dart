@@ -9,7 +9,7 @@ import 'package:fluxer_app/material_ui.dart';
 
 // Fork imports.
 // ignore: directives_ordering
-import 'package:fluxer_app/core/providers/well_known_provider.dart';
+import 'package:fluxer_app/core/providers/instance/well_known_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/instance_status_link.dart';
 
 class ServiceStatusConnectionFooter extends ConsumerWidget {
