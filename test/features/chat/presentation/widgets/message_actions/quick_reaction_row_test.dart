@@ -7,7 +7,7 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_row.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_image_cache.dart';
 import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
 
 import '../../../../../helpers/test_l10n.dart';
