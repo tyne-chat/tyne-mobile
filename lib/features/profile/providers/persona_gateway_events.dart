@@ -14,7 +14,7 @@ import 'package:fluxer_app/features/profile/data/persona_refresh.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 
 /// Fork: what the app does with the persona gateway events: the account's own
 /// persona list and settings, the persona it selected in a channel from
