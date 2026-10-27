@@ -477,4 +477,13 @@ class ForkLocalizationsHe extends ForkLocalizations {
   @override
   String get crashReportingDescription =>
       'הדיווחים נשלחים למערכת מעקב השגיאות של Tyne עצמה, גם כשאתה מחובר למופע אחר. הם לא כוללים שמות מופעים, מזהים או תוכן הודעות.';
+
+  @override
+  String get instanceOfflineTitle => 'Tyne לא זמינה!';
+
+  @override
+  String get instanceOfflineBody => 'אנחנו בודקים את זה.';
+
+  @override
+  String get instanceStatusSignalLink => 'הצטרפו לצ׳אט שלנו ב-Signal לעדכונים';
 }
