@@ -16,6 +16,10 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+
 const Duration kReconnectingScreenRetryInterval = Duration(seconds: 20);
 
 class ReconnectingScreen extends ConsumerStatefulWidget {
@@ -91,7 +95,7 @@ class _ReconnectingScreenState extends ConsumerState<ReconnectingScreen> {
             ),
             const SizedBox(height: 16),
             Text(
-              strings.reconnectingTitle,
+              strings.fork.instanceOfflineTitle,
               style: context.textStyles.heading.copyWith(
                 fontSize: 28,
                 fontWeight: FontWeight.w700,
@@ -99,7 +103,7 @@ class _ReconnectingScreenState extends ConsumerState<ReconnectingScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              strings.reconnectingBody,
+              strings.fork.instanceOfflineBody,
               textAlign: TextAlign.center,
               style: context.textStyles.bodyMedium.copyWith(
                 color: context.colors.textPrimaryMuted,
@@ -111,6 +115,7 @@ class _ReconnectingScreenState extends ConsumerState<ReconnectingScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
               child: ServiceStatusConnectionFooter(
+                showPrompt: false,
                 promptStyle: context.textStyles.bodySmall.copyWith(
                   color: context.colors.textPrimaryMuted,
                 ),

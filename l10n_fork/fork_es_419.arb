@@ -136,5 +136,8 @@
     "personaPreviewNameFallback": "Usuario",
     "crashReportingConsentSubtitle": "Tyne se cerró inesperadamente. Compartir datos anónimos de fallas y errores nos ayuda a solucionar los problemas más rápido.",
     "crashReportingSectionDescription": "Ayuda a corregir errores en Tyne compartiendo datos de fallas y rendimiento. Está desactivado de manera predeterminada.",
-    "crashReportingDescription": "Los informes se envían al sistema de seguimiento de errores propio de Tyne, incluso si iniciaste sesión en otro servidor. No incluyen nombres de servidores, identificadores ni el contenido de los mensajes."
+    "crashReportingDescription": "Los informes se envían al sistema de seguimiento de errores propio de Tyne, incluso si iniciaste sesión en otro servidor. No incluyen nombres de servidores, identificadores ni el contenido de los mensajes.",
+    "instanceOfflineTitle": "¡Tyne está desconectado!",
+    "instanceOfflineBody": "Lo estamos investigando.",
+    "instanceStatusSignalLink": "Únete a nuestro chat de Signal para recibir novedades"
 }
