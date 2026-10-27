@@ -1120,6 +1120,7 @@ class ComposerAutocompleteFieldState
                   userId: ownerId,
                   personaId: pid,
                   personaName: pName,
+                  personaColor: (map['color'] as num?)?.toInt(),
                 );
               },
             ),
@@ -2037,6 +2038,7 @@ class ComposerAutocompleteFieldState
     required String userId,
     required String personaId,
     required String personaName,
+    int? personaColor,
   }) {
     final ComposerSlashSession? session = widget.slashSession;
     if (session != null &&
@@ -2075,6 +2077,7 @@ class ComposerAutocompleteFieldState
               userId: userId,
               personaId: personaId,
               displayName: personaName,
+              personaColor: personaColor,
             );
         _afterApply();
         return;
