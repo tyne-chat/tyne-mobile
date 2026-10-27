@@ -481,4 +481,14 @@ class ForkLocalizationsSv extends ForkLocalizations {
   @override
   String get crashReportingDescription =>
       'Rapporter skickas till Tynes egen felspårning, även när du är inloggad på en annan instans. De innehåller inga instansnamn, ID:n eller meddelandeinnehåll.';
+
+  @override
+  String get instanceOfflineTitle => 'Tyne är offline!';
+
+  @override
+  String get instanceOfflineBody => 'Vi undersöker saken.';
+
+  @override
+  String get instanceStatusSignalLink =>
+      'Gå med i vår Signal-chatt för uppdateringar';
 }
