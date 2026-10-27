@@ -136,5 +136,8 @@
     "personaPreviewNameFallback": "Użytkownik",
     "crashReportingConsentSubtitle": "Tyne nieoczekiwanie się zamknął. Udostępnianie anonimowych danych o awariach i błędach pomaga nam szybciej naprawiać problemy.",
     "crashReportingSectionDescription": "Pomóż naprawiać błędy w Tyne, udostępniając dane o awariach i wydajności. Domyślnie wyłączone.",
-    "crashReportingDescription": "Raporty trafiają do własnego systemu śledzenia błędów Tyne, także po zalogowaniu się do innej instancji. Nie zawierają nazw instancji, identyfikatorów ani treści wiadomości."
+    "crashReportingDescription": "Raporty trafiają do własnego systemu śledzenia błędów Tyne, także po zalogowaniu się do innej instancji. Nie zawierają nazw instancji, identyfikatorów ani treści wiadomości.",
+    "instanceOfflineTitle": "Tyne jest offline!",
+    "instanceOfflineBody": "Sprawdzamy, co się dzieje.",
+    "instanceStatusSignalLink": "Dołącz do naszego czatu na Signalu, aby być na bieżąco"
 }
