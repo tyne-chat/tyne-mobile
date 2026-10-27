@@ -470,4 +470,13 @@ class ForkLocalizationsJa extends ForkLocalizations {
   @override
   String get crashReportingDescription =>
       'レポートは、別のインスタンスにサインインしている場合でも、Tyne 独自のエラートラッカーに送信されます。インスタンス名、ID、メッセージの内容は含まれません。';
+
+  @override
+  String get instanceOfflineTitle => 'Tyne はオフラインです！';
+
+  @override
+  String get instanceOfflineBody => '現在調査中です。';
+
+  @override
+  String get instanceStatusSignalLink => '最新情報は Signal のチャットでお知らせします';
 }
