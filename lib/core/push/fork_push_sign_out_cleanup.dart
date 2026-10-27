@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/push/push_account_lifecycle.dart';
+import 'package:fluxer_app/core/push/account/lifecycle.dart';
 
 /// Fork: runs the sign-out push cleanup for the active account.
 ///
