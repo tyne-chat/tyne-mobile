@@ -482,4 +482,14 @@ class ForkLocalizationsCs extends ForkLocalizations {
   @override
   String get crashReportingDescription =>
       'Hlášení se odesílají do vlastního systému pro sledování chyb Tyne, i když jste přihlášeni k jiné instanci. Neobsahují názvy instancí, ID ani obsah zpráv.';
+
+  @override
+  String get instanceOfflineTitle => 'Tyne je offline!';
+
+  @override
+  String get instanceOfflineBody => 'Zjišťujeme, co se děje.';
+
+  @override
+  String get instanceStatusSignalLink =>
+      'Připojte se k našemu chatu na Signalu pro novinky';
 }
