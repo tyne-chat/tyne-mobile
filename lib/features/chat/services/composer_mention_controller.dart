@@ -20,6 +20,7 @@ import 'package:fluxer_app/shared/utils/mention_display_utils.dart';
 // ignore: directives_ordering
 import 'package:fluxer_app/features/chat/services/timestamp_inline_token.dart';
 import 'package:fluxer_app/features/profile/data/known_personas.dart';
+import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
 
@@ -274,10 +275,13 @@ class ComposerMentionController extends InlineTokenTextEditingController {
             : '<@$cleanUserId>';
         display.write(
           allocate(
-            MentionInlineToken(
+            _forkUserMentionToken(
+              _ref,
               wireText: wire,
               resolveVisibleText: () =>
                   '@${_composerMentionUserLabel(_ref, cleanUserId, personaId: personaId)}',
+              userId: cleanUserId,
+              personaId: personaId,
             ),
           ),
         );
@@ -362,6 +366,7 @@ class ComposerMentionController extends InlineTokenTextEditingController {
     required String userId,
     String? personaId,
     String? displayName,
+    int? personaColor,
   }) {
     final String wireText = (personaId != null && personaId.isNotEmpty)
         ? '<@$userId:$personaId>'
@@ -369,10 +374,14 @@ class ComposerMentionController extends InlineTokenTextEditingController {
     replaceRangeWithToken(
       matchStart,
       matchEnd,
-      MentionInlineToken(
+      _forkUserMentionToken(
+        _ref,
         wireText: wireText,
         resolveVisibleText: () =>
             '@${displayName ?? _composerMentionUserLabel(_ref, userId, personaId: personaId)}',
+        userId: userId,
+        personaId: personaId,
+        personaColor: personaColor,
       ),
       ensureTrailingSpace: true,
     );
@@ -435,4 +444,76 @@ class ComposerMentionController extends InlineTokenTextEditingController {
   void refreshTokens() {
     notifyListeners();
   }
+}
+
+// Fork: a persona mention in the composer takes the persona's colour, as in
+// messages (UserMention) and in the web composer (tyne-chat/tyne#241). The
+// colour is resolved when the token is drawn, as its name is, so a persona the
+// device learns about later is coloured too. Only what the device already has
+// is read; nothing is fetched.
+
+MentionInlineToken _forkUserMentionToken(
+  WidgetRef ref, {
+  required String wireText,
+  required String Function() resolveVisibleText,
+  required String userId,
+  String? personaId,
+  int? personaColor,
+}) => personaId == null || personaId.isEmpty
+    ? MentionInlineToken(
+        wireText: wireText,
+        resolveVisibleText: resolveVisibleText,
+      )
+    : _PersonaMentionInlineToken(
+        wireText: wireText,
+        resolveVisibleText: resolveVisibleText,
+        resolveColorArgb: () =>
+            personaColor ??
+            _composerMentionPersonaColor(ref, userId, personaId),
+      );
+
+class _PersonaMentionInlineToken extends MentionInlineToken {
+  _PersonaMentionInlineToken({
+    required super.wireText,
+    required super.resolveVisibleText,
+    required this.resolveColorArgb,
+  });
+
+  final int? Function() resolveColorArgb;
+
+  @override
+  int? get colorArgb => resolveColorArgb();
+}
+
+/// The colour of a mentioned persona, from what the device has: the user's own
+/// personas, the personas it knows, a profile it has fetched. Each provider is
+/// read only when it already exists, so drawing a mention never sends a
+/// request or opens a query. Null when none has a colour, so the mention keeps
+/// the usual colour.
+int? _composerMentionPersonaColor(
+  WidgetRef ref,
+  String userId,
+  String personaId,
+) {
+  int? colour(int? value) => value == null || value == 0 ? null : value;
+  if (ref.exists(myPersonasProvider)) {
+    for (final Persona p
+        in ref.read(myPersonasProvider).asData?.value ?? const <Persona>[]) {
+      if (p.id == personaId) {
+        return colour(p.color);
+      }
+    }
+  }
+  // A known persona comes from a database query, so it has a value only
+  // while something on screen watches it, such as a message mentioning it.
+  final int? known = ref.exists(knownPersonaProvider(personaId))
+      ? colour(ref.read(knownPersonaProvider(personaId)).value?.color)
+      : null;
+  if (known != null) {
+    return known;
+  }
+  final PersonaProfileKey key = (userId: userId, personaId: personaId);
+  return ref.exists(publicPersonaProvider(key))
+      ? colour(ref.read(publicPersonaProvider(key)).value?.color)
+      : null;
 }
