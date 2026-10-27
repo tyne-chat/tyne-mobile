@@ -7,8 +7,8 @@ import 'package:fluxer_app/features/chat/providers/pickers/timestamp_insert_prov
 import 'package:fluxer_app/features/chat/utils/messages/markdown_timestamp_format.dart';
 import 'package:fluxer_app/features/chat/utils/timezone_data.dart';
 import 'package:fluxer_app/features/chat/utils/timezone_picker_utils.dart';
-import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/time_format_providers.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
