@@ -11,7 +11,7 @@ import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/edit_persona_sheet.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_save_bar.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
