@@ -12,7 +12,7 @@ import 'package:go_router/go_router.dart';
 
 // Fork imports.
 // ignore: directives_ordering
-import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 
 String settingsTargetPath(QuickSwitcherSettingsTarget target) =>
     switch (target) {
