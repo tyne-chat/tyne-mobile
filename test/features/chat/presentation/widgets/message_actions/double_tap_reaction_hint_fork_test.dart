@@ -8,9 +8,9 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/double_tap_reaction_hint.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
-import 'package:fluxer_app/features/settings/providers/double_tap_reaction_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/message_ui_preferences_providers.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_image_cache.dart';
 
 import '../../../../../helpers/test_l10n.dart';
 
