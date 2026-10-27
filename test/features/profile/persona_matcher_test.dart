@@ -182,32 +182,39 @@ void main() {
       },
     );
 
-    test(
-      'double backslash without space when unlatched preserves message and clears latch',
-      () {
-        final res = matchPersona(
-          r'\\test',
-          personas,
-          null,
-          hasAttachments: false,
-        );
-        expect(res.clearedLatch, isTrue);
-        expect(res.wasEscaped, isTrue);
-        expect(res.matched, isFalse);
-        expect(res.strippedContent, 'test');
-      },
-    );
+    // Escapes only mean something while a persona is latched, as on the web
+    // and in PluralKit (tyne-chat/tyne#158, audit F2-1).
+    test('double backslash when unlatched is sent as typed', () {
+      final res = matchPersona(
+        r'\\test',
+        personas,
+        null,
+        hasAttachments: false,
+      );
+      expect(res.clearedLatch, isFalse);
+      expect(res.wasEscaped, isFalse);
+      expect(res.matched, isFalse);
+      expect(res.strippedContent, r'\\test');
+    });
 
-    test('backslash escape disables tag matching and strips escape prefix', () {
+    test('backslash when unlatched keeps the backslash and matches no tag', () {
       final res = matchPersona(
         r'\ A: this is escaped',
         personas,
         null,
         hasAttachments: false,
       );
-      expect(res.wasEscaped, isTrue);
+      expect(res.wasEscaped, isFalse);
       expect(res.matched, isFalse);
-      expect(res.strippedContent, 'A: this is escaped');
+      expect(res.strippedContent, r'\ A: this is escaped');
+    });
+
+    test(r'markdown escapes and \o/ are sent as typed when unlatched', () {
+      for (final String text in <String>[r'\o/ hi', r'\*not italic*']) {
+        final res = matchPersona(text, personas, null, hasAttachments: false);
+        expect(res.wasEscaped, isFalse, reason: text);
+        expect(res.strippedContent, text, reason: text);
+      }
     });
 
     test(
@@ -708,6 +715,20 @@ void main() {
       expect(res2.isRootAccount, isTrue);
       expect(res2.persona, isNull);
     });
+
+    test(
+      'persona message whose text starts with a backslash keeps its persona',
+      () {
+        final res = matchEditMessage(
+          content: r'\o/ hi',
+          personas: personas,
+          currentPersonaId: alice.id,
+          originalContent: r'\o/ hii',
+        );
+        expect(res.finalContent, r'\o/ hi');
+        expect(res.shouldUpdatePersona, isFalse);
+      },
+    );
 
     test('root message edited without tags remains root', () {
       final res = matchEditMessage(
