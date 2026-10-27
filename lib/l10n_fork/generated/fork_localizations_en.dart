@@ -477,6 +477,15 @@ class ForkLocalizationsEn extends ForkLocalizations {
   @override
   String get crashReportingDescription =>
       'Reports go to Tyne\'s own error tracker, even when you\'re signed in to another instance. They don\'t include instance names, IDs or message content.';
+
+  @override
+  String get instanceOfflineTitle => 'Tyne is offline!';
+
+  @override
+  String get instanceOfflineBody => 'We\'re investigating.';
+
+  @override
+  String get instanceStatusSignalLink => 'Join our Signal chat for updates';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -952,6 +961,15 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   @override
   String get crashReportingDescription =>
       'Reports go to Tyne\'s own error tracker, even when you\'re signed in to another instance. They don\'t include instance names, IDs or message content.';
+
+  @override
+  String get instanceOfflineTitle => 'Tyne is offline!';
+
+  @override
+  String get instanceOfflineBody => 'We\'re investigating.';
+
+  @override
+  String get instanceStatusSignalLink => 'Join our Signal chat for updates';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -1427,4 +1445,13 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
   @override
   String get crashReportingDescription =>
       'Reports go to Tyne\'s own error tracker, even when you\'re signed in to another instance. They don\'t include instance names, IDs or message content.';
+
+  @override
+  String get instanceOfflineTitle => 'Tyne is offline!';
+
+  @override
+  String get instanceOfflineBody => 'We\'re investigating.';
+
+  @override
+  String get instanceStatusSignalLink => 'Join our Signal chat for updates';
 }
