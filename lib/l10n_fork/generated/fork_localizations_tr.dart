@@ -480,4 +480,14 @@ class ForkLocalizationsTr extends ForkLocalizations {
   @override
   String get crashReportingDescription =>
       'Raporlar, başka bir sunucuda oturum açılmış olsa bile Tyne uygulamasının kendi hata izleyicisine gönderilir. Sunucu adları, kimlikler veya mesaj içerikleri dahil edilmez.';
+
+  @override
+  String get instanceOfflineTitle => 'Tyne çevrimdışı!';
+
+  @override
+  String get instanceOfflineBody => 'Sorunu araştırıyoruz.';
+
+  @override
+  String get instanceStatusSignalLink =>
+      'Güncellemeler için Signal sohbetimize katılın';
 }

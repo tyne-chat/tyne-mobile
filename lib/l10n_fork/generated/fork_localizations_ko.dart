@@ -469,4 +469,13 @@ class ForkLocalizationsKo extends ForkLocalizations {
   @override
   String get crashReportingDescription =>
       '다른 인스턴스에 로그인한 경우에도 보고서는 Tyne 자체 오류 추적기로 전송됩니다. 인스턴스 이름, ID 또는 메시지 내용은 포함되지 않습니다.';
+
+  @override
+  String get instanceOfflineTitle => 'Tyne이 오프라인 상태입니다!';
+
+  @override
+  String get instanceOfflineBody => '원인을 조사하고 있습니다.';
+
+  @override
+  String get instanceStatusSignalLink => 'Signal 채팅방에서 소식을 확인하세요';
 }

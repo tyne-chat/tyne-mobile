@@ -465,6 +465,15 @@ class ForkLocalizationsZh extends ForkLocalizations {
   @override
   String get crashReportingDescription =>
       '即使你登录的是其他实例，报告也会发送到 Tyne 自己的错误跟踪系统。报告不包含实例名称、ID 或消息内容。';
+
+  @override
+  String get instanceOfflineTitle => 'Tyne 已离线！';
+
+  @override
+  String get instanceOfflineBody => '我们正在调查。';
+
+  @override
+  String get instanceStatusSignalLink => '加入我们的 Signal 群聊获取最新消息';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -928,4 +937,13 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
   @override
   String get crashReportingDescription =>
       '即使你登入的是其他伺服器，報告也會傳送到 Tyne 自己的錯誤追蹤系統。報告不包含伺服器名稱、ID 或訊息內容。';
+
+  @override
+  String get instanceOfflineTitle => 'Tyne 已離線！';
+
+  @override
+  String get instanceOfflineBody => '我們正在調查。';
+
+  @override
+  String get instanceStatusSignalLink => '加入我們的 Signal 群組取得最新消息';
 }
