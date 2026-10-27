@@ -15,7 +15,7 @@ import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
+import 'package:fluxer_app/shared/utils/emoji/emoji_image_cache.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_app/shared/widgets/rebuild_safe_layout_builder.dart';
 import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
