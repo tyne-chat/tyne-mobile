@@ -136,5 +136,8 @@
     "personaPreviewNameFallback": "用户",
     "crashReportingConsentSubtitle": "Tyne 意外关闭。分享匿名的崩溃和错误数据可以帮助我们更快地修复问题。",
     "crashReportingSectionDescription": "分享崩溃和性能数据，帮助修复 Tyne 中的错误。此选项默认关闭。",
-    "crashReportingDescription": "即使你登录的是其他实例，报告也会发送到 Tyne 自己的错误跟踪系统。报告不包含实例名称、ID 或消息内容。"
+    "crashReportingDescription": "即使你登录的是其他实例，报告也会发送到 Tyne 自己的错误跟踪系统。报告不包含实例名称、ID 或消息内容。",
+    "instanceOfflineTitle": "Tyne 已离线！",
+    "instanceOfflineBody": "我们正在调查。",
+    "instanceStatusSignalLink": "加入我们的 Signal 群聊获取最新消息"
 }
