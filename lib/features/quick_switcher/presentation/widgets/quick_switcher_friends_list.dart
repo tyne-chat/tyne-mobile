@@ -15,7 +15,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Fork imports.
 // ignore: directives_ordering
-import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/features/quick_switcher/utils/quick_switcher_navigation.dart';
 
 class QuickSwitcherFriendsList extends ConsumerWidget {
