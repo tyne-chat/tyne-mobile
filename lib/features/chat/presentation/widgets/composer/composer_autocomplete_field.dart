@@ -76,7 +76,7 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/profile/data/known_personas.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 
 part 'composer_autocomplete_field_state.dart';
 
