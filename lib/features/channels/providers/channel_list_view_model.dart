@@ -165,9 +165,7 @@ class ChannelListViewModel extends _$ChannelListViewModel {
   }
 
   void loadChannels(String guildId, {Guild? guild}) {
-    if (_currentGuildId == guildId &&
-        _subscription != null &&
-        state.hasReceivedInitialChannelList) {
+    if (_currentGuildId == guildId && _subscription != null) {
       if (guild != null && state.guild != guild) {
         state = state.copyWith(guild: guild);
       }
