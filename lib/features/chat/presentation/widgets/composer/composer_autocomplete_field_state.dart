@@ -1115,7 +1115,11 @@ class ComposerAutocompleteFieldState
                   userId: ownerId,
                   personaId: pid,
                   personaName: pName,
-                  personaColor: (map['color'] as num?)?.toInt(),
+                  personaColor: resolvePersonaColor(
+                    color: (map['color'] as num?)?.toInt(),
+                    avatarColor: (map['avatar_color'] as num?)?.toInt(),
+                    avatarHash: map['avatar_hash'] as String?,
+                  ),
                 );
               },
             ),
