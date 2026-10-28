@@ -21,6 +21,8 @@ import 'package:fluxer_app/shared/utils/mention_display_utils.dart';
 import 'package:fluxer_app/features/chat/services/timestamp_inline_token.dart';
 import 'package:fluxer_app/features/profile/data/known_personas.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/domain/persona_color.dart';
+import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
 
@@ -495,25 +497,42 @@ int? _composerMentionPersonaColor(
   String userId,
   String personaId,
 ) {
-  int? colour(int? value) => value == null || value == 0 ? null : value;
   if (ref.exists(myPersonasProvider)) {
     for (final Persona p
         in ref.read(myPersonasProvider).asData?.value ?? const <Persona>[]) {
       if (p.id == personaId) {
-        return colour(p.color);
+        return resolvePersonaColor(
+          color: p.color,
+          avatarColor: p.avatarColor,
+          avatarHash: p.avatarHash,
+        );
       }
     }
   }
   // A known persona comes from a database query, so it has a value only
   // while something on screen watches it, such as a message mentioning it.
-  final int? known = ref.exists(knownPersonaProvider(personaId))
-      ? colour(ref.read(knownPersonaProvider(personaId)).value?.color)
+  final db.KnownPersona? known = ref.exists(knownPersonaProvider(personaId))
+      ? ref.read(knownPersonaProvider(personaId)).value
       : null;
-  if (known != null) {
-    return known;
+  final int? knownColor = known == null
+      ? null
+      : resolvePersonaColor(
+          color: known.color,
+          avatarColor: known.avatarColor,
+          avatarHash: known.avatar,
+        );
+  if (knownColor != null) {
+    return knownColor;
   }
   final PersonaProfileKey key = (userId: userId, personaId: personaId);
-  return ref.exists(publicPersonaProvider(key))
-      ? colour(ref.read(publicPersonaProvider(key)).value?.color)
+  final PublicPersona? profile = ref.exists(publicPersonaProvider(key))
+      ? ref.read(publicPersonaProvider(key)).value
       : null;
+  return profile == null
+      ? null
+      : resolvePersonaColor(
+          color: profile.color,
+          avatarColor: profile.avatarColor,
+          avatarHash: profile.avatarHash,
+        );
 }
