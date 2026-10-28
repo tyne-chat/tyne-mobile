@@ -18,6 +18,7 @@ import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/core/gateway/providers/typing_personas_provider.dart';
+import 'package:fluxer_app/features/profile/domain/persona_color.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 
 const double _kAvatarSize = 12;
@@ -283,12 +284,16 @@ class _TypingTooltipText extends ConsumerWidget {
         final subprofile = ref.watch(
           channelTypingSubprofileProvider((channelId, user.userId)),
         );
-        Color? personaColor;
-        if (subprofile?.avatarColor != null) {
-          personaColor = Color(subprofile!.avatarColor! | 0xFF000000);
-        } else if (subprofile?.color != null) {
-          personaColor = Color(subprofile!.color! | 0xFF000000);
-        }
+        final int? personaColorInt = subprofile == null
+            ? null
+            : resolvePersonaColor(
+                color: subprofile.color,
+                avatarColor: subprofile.avatarColor,
+                avatarHash: subprofile.avatar,
+              );
+        final Color? personaColor = personaColorInt != null
+            ? Color(personaColorInt | 0xFF000000)
+            : null;
         spans.add(
           TextSpan(
             text: user.display.displayName,

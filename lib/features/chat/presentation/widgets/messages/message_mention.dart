@@ -44,6 +44,7 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/profile/data/known_personas.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/domain/persona_color.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 
 class ChannelMention extends ConsumerWidget {
@@ -365,11 +366,23 @@ class UserMention extends ConsumerWidget {
             guildId: guildId,
           );
 
-      final int? personaColorInt =
-          myPersona?.color ?? known?.color ?? recentMsg?.authorAvatarColor;
+      // The persona's own record decides its colour; a message's author
+      // colour is the account's, not the persona's.
+      final int? personaColorInt = myPersona != null
+          ? resolvePersonaColor(
+              color: myPersona.color,
+              avatarColor: myPersona.avatarColor,
+              avatarHash: myPersona.avatarHash,
+            )
+          : known != null
+          ? resolvePersonaColor(
+              color: known.color,
+              avatarColor: known.avatarColor,
+              avatarHash: known.avatar,
+            )
+          : null;
 
-      final Color? personaColor =
-          (personaColorInt != null && personaColorInt != 0)
+      final Color? personaColor = personaColorInt != null
           ? Color(personaColorInt | 0xFF000000)
           : null;
       final Color? fillColor = personaColor?.withValues(alpha: 0.1);
