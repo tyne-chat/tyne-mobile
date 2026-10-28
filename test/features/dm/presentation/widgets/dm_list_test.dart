@@ -397,57 +397,6 @@ void main() {
         expect(find.text('Friends'), findsWidgets);
       },
     );
-
-    testWidgets(
-      'opens the quick switcher sheet from the mobile quick switcher FAB',
-      (tester) async {
-        _setMobileSurface(tester);
-
-        await tester.pumpWidget(
-          _buildTestApp(
-            overrides: _buildOverrides(
-              conversations: [
-                DmConversation(
-                  id: '100',
-                  type: 1,
-                  recipientId: '200',
-                  recipientName: 'Monty',
-                  lastMessage: 'Hi there',
-                  lastMessageTime: _recentTime(),
-                ),
-              ],
-              friendsList: const [
-                Friend(
-                  id: '300',
-                  username: 'bob',
-                  globalName: 'Bob Builder',
-                  friendStatus: FriendStatus.accepted,
-                  status: 'online',
-                ),
-              ],
-            ),
-          ),
-        );
-        await tester.pump();
-
-        final fabFinder = find.byKey(
-          const ValueKey<String>('quick-switcher-fab'),
-        );
-        expect(fabFinder, findsOneWidget);
-        expect(find.byIcon(PhosphorIconsFill.lightning), findsOneWidget);
-
-        await tester.tap(fabFinder);
-        await tester.pump();
-        await tester.pump(const Duration(milliseconds: 300));
-
-        expect(
-          find.text('Search for channels, people, or communities'),
-          findsOneWidget,
-        );
-        expect(find.text('Search'), findsWidgets);
-        expect(find.text('Friends'), findsWidgets);
-      },
-    );
   });
 
   group('DMList mobile rows', () {
@@ -1509,3 +1458,24 @@ Widget _buildTestApp({
     ),
   );
 }
+
+// Fork: upstream's helpers that dm_list_fork_test.dart uses, named here so they stay private and
+// are not copied.
+// ignore: unreachable_from_main // Fork: used by dm_list_fork_test.dart.
+typedef ForkUpstreamHelpers = ({
+  void Function(WidgetTester tester) setMobileSurface,
+  Widget Function({required List<Override> overrides}) buildTestApp,
+  List<Override> Function({
+    required List<DmConversation> conversations,
+    List<Friend> friendsList,
+  })
+  buildOverrides,
+  DateTime Function() recentTime,
+});
+// ignore: unreachable_from_main // Fork: used by dm_list_fork_test.dart.
+const ForkUpstreamHelpers forkUpstream = (
+  setMobileSurface: _setMobileSurface,
+  buildTestApp: _buildTestApp,
+  buildOverrides: _buildOverrides,
+  recentTime: _recentTime,
+);
