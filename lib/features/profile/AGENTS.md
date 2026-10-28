@@ -60,6 +60,11 @@ persona should still be used (tyne-chat/tyne#130 is the bug where it is dropped)
   http(s), data: or blob: value as it is), through `personaImageHash`. All of them give null for
   anything that is not a hash, so a link is never loaded, whatever a cache or another server holds:
   it would make the app fetch a picture from wherever it points and tell that server who is reading.
+- **A persona's colour** has one rule, `resolvePersonaColor` in `domain/persona_color.dart` (the web's
+  `personaColor` repeats it): the accent colour, else the colour of the persona's own avatar, else
+  none. Mentions, typing names and the profile banner all use it; only the settings list shows the
+  accent setting itself. A message's `authorAvatarColor` is the account's, never the persona's
+  (tyne-chat/tyne#254).
 - **Other people's personas:** `known_personas` holds every persona the device has seen (from messages'
   `subprofile` and `mention_personas`, persona events it already knew, lookups and profile lookups), with
   its owner (`user_id`) where known: a message's author, the account a `<@userId:personaId>` mention
