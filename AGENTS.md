@@ -200,12 +200,14 @@ project pins and Rust (for the markdown package); the maintainers run them in a 
 
 ```bash
 (cd packages/fluxer_markdown_native && dart test)
+(cd packages/fluxer_markdown && flutter test)
 (cd dart_sdk && dart test test/serialization/model_roundtrip_test.dart test/serialization/fork_model_roundtrip_test.dart)
 # Upstream's code carries warnings and infos, so only errors fail here (as in tool/flutter_analyze.sh).
 flutter analyze lib test --no-fatal-warnings --no-fatal-infos
 # No hard-coded user-facing strings on the fork's lines.
 dart run tool/fork_string_lint.dart --upstream upstream/canary
-flutter test test/l10n_fork test/core test/features/chat test/features/profile test/features/quick_switcher test/features/ui/bottom_sheet test/features/ui/input test/features/emoji test/features/channels test/features/shell test/features/settings/presentation/widgets/user_persona_settings_test.dart
+# Every test under test/.
+flutter test test
 ```
 
 The nightly gate's analysis step asks more of the fork's code than `flutter analyze` does, and checks
