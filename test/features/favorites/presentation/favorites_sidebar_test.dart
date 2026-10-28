@@ -29,6 +29,15 @@ void main() {
     addTearDown(tester.view.resetDevicePixelRatio);
   }
 
+  // pumpFluxerApp's MediaQuery has no size, which every layout check reads as
+  // mobile; give the sidebar the test view's size so the wide case is wide.
+  Widget viewSized(WidgetTester tester, Widget child) => MediaQuery(
+    data: MediaQueryData.fromView(
+      tester.view,
+    ).copyWith(disableAnimations: true),
+    child: child,
+  );
+
   List<Override> buildOverrides() {
     final testDb = openTestDatabase();
     return [
@@ -73,7 +82,7 @@ void main() {
       await tester.pumpWidget(
         pumpFluxerApp(
           overrides: buildOverrides(),
-          child: const Scaffold(body: FavoritesSidebar()),
+          child: viewSized(tester, const Scaffold(body: FavoritesSidebar())),
         ),
       );
       await pumpFluxerFrames(tester);
@@ -105,7 +114,7 @@ void main() {
       await tester.pumpWidget(
         pumpFluxerApp(
           overrides: buildOverrides(),
-          child: const Scaffold(body: FavoritesSidebar()),
+          child: viewSized(tester, const Scaffold(body: FavoritesSidebar())),
         ),
       );
       await pumpFluxerFrames(tester);
