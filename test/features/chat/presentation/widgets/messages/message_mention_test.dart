@@ -167,6 +167,63 @@ void main() {
     },
   );
 
+  // tyne-chat/tyne#254: a persona without an accent colour is drawn in its
+  // avatar's colour, as its profile is.
+  testWidgets(
+    'UserMention colours a persona without an accent colour by its own avatar',
+    (WidgetTester tester) async {
+      await tester.pumpWidget(
+        _testApp(
+          known: const <String, KnownPersona>{
+            _kTestPersonaId: KnownPersona(
+              id: _kTestPersonaId,
+              name: 'Avatar Persona',
+              avatar: 'a1b2c3d4',
+              avatarColor: 0x8F1E1E,
+            ),
+          },
+          child: const UserMention(
+            userId: _kTestUserId,
+            personaId: _kTestPersonaId,
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final widgets.Text textWidget = tester.firstWidget<widgets.Text>(
+        find.text('@Avatar Persona'),
+      );
+      expect(textWidget.style?.color, const Color(0xFF8F1E1E));
+    },
+  );
+
+  testWidgets(
+    "UserMention ignores the avatar colour of a persona showing the account's avatar",
+    (WidgetTester tester) async {
+      await tester.pumpWidget(
+        _testApp(
+          known: const <String, KnownPersona>{
+            _kTestPersonaId: KnownPersona(
+              id: _kTestPersonaId,
+              name: 'Plain Persona',
+              avatarColor: 0x8F1E1E,
+            ),
+          },
+          child: const UserMention(
+            userId: _kTestUserId,
+            personaId: _kTestPersonaId,
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final widgets.Text textWidget = tester.firstWidget<widgets.Text>(
+        find.text('@Plain Persona'),
+      );
+      expect(textWidget.style?.color, isNot(const Color(0xFF8F1E1E)));
+    },
+  );
+
   testWidgets(
     'UserMention resolves owned persona from myPersonasProvider when current user matches',
     (WidgetTester tester) async {
