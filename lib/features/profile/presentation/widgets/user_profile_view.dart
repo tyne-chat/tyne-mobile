@@ -61,6 +61,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 // ignore: directives_ordering
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/domain/persona_color.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart'
     as persona_images;
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
@@ -835,13 +836,18 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
         ? personaAvatarUrl
         : rootAvatarUrl;
 
-    final Color bannerColor = personaColor != null && personaColor != 0
-        ? Color(personaColor | 0xFF000000)
-        : (personaAvatarColor != null
-              ? Color(personaAvatarColor | 0xFF000000)
-              : (rootAvatarColor != null
-                    ? Color(rootAvatarColor | 0xFF000000)
-                    : colors.backgroundSecondary));
+    // The persona's colour, else, for a persona showing the account's
+    // avatar, that avatar's colour.
+    final int? bannerColorInt =
+        resolvePersonaColor(
+          color: personaColor,
+          avatarColor: publicPersona?.avatarColor,
+          avatarHash: hasCustomAvatar ? rawPersonaAvatar : null,
+        ) ??
+        (hasCustomAvatar ? null : rootAvatarColor);
+    final Color bannerColor = bannerColorInt != null
+        ? Color(bannerColorInt | 0xFF000000)
+        : colors.backgroundSecondary;
 
     return DecoratedBox(
       decoration: BoxDecoration(
