@@ -490,4 +490,7 @@ class ForkLocalizationsTr extends ForkLocalizations {
   @override
   String get instanceStatusSignalLink =>
       'Güncellemeler için Signal sohbetimize katılın';
+
+  @override
+  String get convertEmoticonsLabel => 'Metin emotikonlarını emojiye dönüştür';
 }

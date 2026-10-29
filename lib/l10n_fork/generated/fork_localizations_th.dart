@@ -488,4 +488,7 @@ class ForkLocalizationsTh extends ForkLocalizations {
   @override
   String get instanceStatusSignalLink =>
       'เข้าร่วมแชท Signal ของเราเพื่อรับข่าวสาร';
+
+  @override
+  String get convertEmoticonsLabel => 'เปลี่ยนอิโมติคอนแบบข้อความให้เป็นอิโมจิ';
 }
