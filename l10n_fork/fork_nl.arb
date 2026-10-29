@@ -139,5 +139,6 @@
     "crashReportingDescription": "Rapporten gaan naar de eigen foutentracker van Tyne, ook als je bij een andere instantie bent ingelogd. Ze bevatten geen instantienamen, ID's of berichtinhoud.",
     "instanceOfflineTitle": "Tyne is offline!",
     "instanceOfflineBody": "We zoeken het uit.",
-    "instanceStatusSignalLink": "Doe mee met onze Signal-chat voor updates"
+    "instanceStatusSignalLink": "Doe mee met onze Signal-chat voor updates",
+    "convertEmoticonsLabel": "Zet tekstsmileys om in emoji"
 }

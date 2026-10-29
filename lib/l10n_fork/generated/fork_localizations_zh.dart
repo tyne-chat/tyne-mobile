@@ -474,6 +474,9 @@ class ForkLocalizationsZh extends ForkLocalizations {
 
   @override
   String get instanceStatusSignalLink => '加入我们的 Signal 群聊获取最新消息';
+
+  @override
+  String get convertEmoticonsLabel => '将颜文字转换为表情';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -946,4 +949,7 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get instanceStatusSignalLink => '加入我們的 Signal 群組取得最新消息';
+
+  @override
+  String get convertEmoticonsLabel => '將文字笑臉轉換為表情符號';
 }
