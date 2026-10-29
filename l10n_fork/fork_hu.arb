@@ -139,5 +139,6 @@
     "crashReportingDescription": "A jelentések a Tyne saját hibakövetőjébe kerülnek, akkor is, ha egy másik instanciába vagy bejelentkezve. Nem tartalmaznak instancianeveket, azonosítókat vagy üzenettartalmat.",
     "instanceOfflineTitle": "A Tyne nem érhető el!",
     "instanceOfflineBody": "Vizsgáljuk a hibát.",
-    "instanceStatusSignalLink": "Csatlakozz a Signal-csevegésünkhöz a friss hírekért"
+    "instanceStatusSignalLink": "Csatlakozz a Signal-csevegésünkhöz a friss hírekért",
+    "convertEmoticonsLabel": "Szöveges emotikonok cseréje emojikra"
 }
