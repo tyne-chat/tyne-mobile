@@ -1006,6 +1006,12 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'Join our Signal chat for updates'**
   String get instanceStatusSignalLink;
+
+  /// Switch in Settings > Messages & media > Input. When on, text emoticons such as :) and <3 are turned into emoji when a message is sent or edited. Synced with the web app's setting of the same name (tyne-chat/tyne#260).
+  ///
+  /// In en, this message translates to:
+  /// **'Turn text smileys into emoji'**
+  String get convertEmoticonsLabel;
 }
 
 class _ForkLocalizationsDelegate
