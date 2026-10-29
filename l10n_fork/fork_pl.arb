@@ -139,5 +139,6 @@
     "crashReportingDescription": "Raporty trafiają do własnego systemu śledzenia błędów Tyne, także po zalogowaniu się do innej instancji. Nie zawierają nazw instancji, identyfikatorów ani treści wiadomości.",
     "instanceOfflineTitle": "Tyne jest offline!",
     "instanceOfflineBody": "Sprawdzamy, co się dzieje.",
-    "instanceStatusSignalLink": "Dołącz do naszego czatu na Signalu, aby być na bieżąco"
+    "instanceStatusSignalLink": "Dołącz do naszego czatu na Signalu, aby być na bieżąco",
+    "convertEmoticonsLabel": "Zamieniaj emotikony tekstowe na emoji"
 }

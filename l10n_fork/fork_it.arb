@@ -139,5 +139,6 @@
     "crashReportingDescription": "I report vengono inviati al sistema di tracciamento degli errori di Tyne stesso, anche quando hai effettuato l'accesso a un'altra istanza. Non includono nomi di istanze, ID o contenuti dei messaggi.",
     "instanceOfflineTitle": "Tyne è offline!",
     "instanceOfflineBody": "Stiamo indagando.",
-    "instanceStatusSignalLink": "Unisciti alla nostra chat Signal per gli aggiornamenti"
+    "instanceStatusSignalLink": "Unisciti alla nostra chat Signal per gli aggiornamenti",
+    "convertEmoticonsLabel": "Trasforma le emoticon in emoji"
 }
