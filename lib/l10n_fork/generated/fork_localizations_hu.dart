@@ -491,4 +491,7 @@ class ForkLocalizationsHu extends ForkLocalizations {
   @override
   String get instanceStatusSignalLink =>
       'Csatlakozz a Signal-csevegésünkhöz a friss hírekért';
+
+  @override
+  String get convertEmoticonsLabel => 'Szöveges emotikonok cseréje emojikra';
 }

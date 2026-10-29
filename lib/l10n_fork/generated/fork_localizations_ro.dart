@@ -491,4 +491,7 @@ class ForkLocalizationsRo extends ForkLocalizations {
   @override
   String get instanceStatusSignalLink =>
       'Intră în chatul nostru de pe Signal pentru noutăți';
+
+  @override
+  String get convertEmoticonsLabel => 'Transformă smiley-urile text în emoji';
 }
