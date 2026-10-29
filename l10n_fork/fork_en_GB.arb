@@ -139,5 +139,6 @@
     "crashReportingDescription": "Reports go to Tyne's own error tracker, even when you're signed in to another instance. They don't include instance names, IDs or message content.",
     "instanceOfflineTitle": "Tyne is offline!",
     "instanceOfflineBody": "We're investigating.",
-    "instanceStatusSignalLink": "Join our Signal chat for updates"
+    "instanceStatusSignalLink": "Join our Signal chat for updates",
+    "convertEmoticonsLabel": "Turn text smileys into emoji"
 }
