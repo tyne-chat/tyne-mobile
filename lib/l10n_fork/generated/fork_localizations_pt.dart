@@ -493,6 +493,10 @@ class ForkLocalizationsPt extends ForkLocalizations {
   @override
   String get instanceStatusSignalLink =>
       'Junte-se ao nosso chat do Signal para receber novidades';
+
+  @override
+  String get convertEmoticonsLabel =>
+      'Converter os emoticons de texto em emojis';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -984,4 +988,8 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
   @override
   String get instanceStatusSignalLink =>
       'Entre no nosso chat do Signal para receber novidades';
+
+  @override
+  String get convertEmoticonsLabel =>
+      'Ativar a conversão de emoticons em emojis';
 }

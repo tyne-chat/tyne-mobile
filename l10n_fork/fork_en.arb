@@ -661,5 +661,9 @@
     "instanceStatusSignalLink": "Join our Signal chat for updates",
     "@instanceStatusSignalLink": {
         "description": "Link to the instance's status page when that page is a Signal group chat; other status pages use upstream's splashStatusPageLink (\"Status page\")."
+    },
+    "convertEmoticonsLabel": "Turn text smileys into emoji",
+    "@convertEmoticonsLabel": {
+        "description": "Switch in Settings > Messages & media > Input. When on, text emoticons such as :) and <3 are turned into emoji when a message is sent or edited. Synced with the web app's setting of the same name (tyne-chat/tyne#260)."
     }
 }
