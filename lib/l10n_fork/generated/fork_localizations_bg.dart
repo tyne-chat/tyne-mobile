@@ -494,4 +494,8 @@ class ForkLocalizationsBg extends ForkLocalizations {
   @override
   String get instanceStatusSignalLink =>
       'Присъединете се към чата ни в Signal за новини';
+
+  @override
+  String get convertEmoticonsLabel =>
+      'Превръщане на текстовите усмивки в емоджита';
 }
