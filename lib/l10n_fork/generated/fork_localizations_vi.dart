@@ -490,4 +490,8 @@ class ForkLocalizationsVi extends ForkLocalizations {
   @override
   String get instanceStatusSignalLink =>
       'Tham gia nhóm chat Signal của chúng tôi để nhận thông tin mới';
+
+  @override
+  String get convertEmoticonsLabel =>
+      'Chuyển mặt cười dạng văn bản thành biểu tượng cảm xúc';
 }

@@ -104,6 +104,12 @@ two devices saving at once can undo each other's change to another field.
   `user_preferences.emoji_pins_json`. Remote wins. An absent field means nobody has pinned yet, so it
   keeps local pins (no `clearedRemoteValue`); the web and the phone both send an empty message when the
   last pin goes. Unpushed pins survive a restart.
+- **Convert emoticons** (tyne-chat/tyne#260): upstream's top-level `chat_input` (112), which
+  upstream's app does not read, carries the web's `convert_emoticons`. `fields/chat_input_synced_field.dart`,
+  registered by the fork registry, reads it into `convertEmoticonsPreferenceProvider`
+  (`features/settings/providers/preferences/convert_emoticons_preference.dart`, in memory). It writes
+  `true` or leaves the field out, as the web does, on the server's copy, so `save_camera_captures_to_device`
+  goes back untouched. A blob without `chat_input` means off.
 - `engine/synced_preferences_store.dart`: a `wireBlob` getter nothing calls.
 
 The adapter and the store are the files upstream changes most here: keep the fork's edits small.
