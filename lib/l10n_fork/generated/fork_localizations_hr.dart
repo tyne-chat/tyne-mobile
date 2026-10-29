@@ -491,4 +491,7 @@ class ForkLocalizationsHr extends ForkLocalizations {
   @override
   String get instanceStatusSignalLink =>
       'Pridružite se našem Signal chatu za novosti';
+
+  @override
+  String get convertEmoticonsLabel => 'Pretvori tekstualne smajliće u emoji';
 }
