@@ -139,5 +139,6 @@
     "crashReportingDescription": "Отчетите отиват в собствената система за проследяване на грешки на Tyne, дори когато сте влезли в друга инстанция. Те не съдържат имена на инстанции, идентификатори или съдържание на съобщения.",
     "instanceOfflineTitle": "Tyne е офлайн!",
     "instanceOfflineBody": "Проучваме проблема.",
-    "instanceStatusSignalLink": "Присъединете се към чата ни в Signal за новини"
+    "instanceStatusSignalLink": "Присъединете се към чата ни в Signal за новини",
+    "convertEmoticonsLabel": "Превръщане на текстовите усмивки в емоджита"
 }

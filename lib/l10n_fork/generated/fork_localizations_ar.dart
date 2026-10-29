@@ -486,4 +486,7 @@ class ForkLocalizationsAr extends ForkLocalizations {
   @override
   String get instanceStatusSignalLink =>
       'انضم إلى دردشتنا على Signal لمتابعة آخر الأخبار';
+
+  @override
+  String get convertEmoticonsLabel => 'تحويل الوجوه النصية إلى رموز تعبيرية';
 }

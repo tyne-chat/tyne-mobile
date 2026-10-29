@@ -139,5 +139,6 @@
     "crashReportingDescription": "रिपोर्ट Tyne के अपने एरर ट्रैकर पर जाती हैं, भले ही आप किसी दूसरे इंस्टेंस में साइन इन हों। इनमें इंस्टेंस के नाम, आईडी या संदेशों की सामग्री शामिल नहीं होती।",
     "instanceOfflineTitle": "Tyne ऑफ़लाइन है!",
     "instanceOfflineBody": "हम जाँच कर रहे हैं।",
-    "instanceStatusSignalLink": "अपडेट के लिए हमारी Signal चैट से जुड़ें"
+    "instanceStatusSignalLink": "अपडेट के लिए हमारी Signal चैट से जुड़ें",
+    "convertEmoticonsLabel": "टेक्स्ट स्माइली को इमोजी में बदलें"
 }
