@@ -488,4 +488,7 @@ class ForkLocalizationsHi extends ForkLocalizations {
   @override
   String get instanceStatusSignalLink =>
       'अपडेट के लिए हमारी Signal चैट से जुड़ें';
+
+  @override
+  String get convertEmoticonsLabel => 'टेक्स्ट स्माइली को इमोजी में बदलें';
 }
