@@ -495,4 +495,7 @@ class ForkLocalizationsIt extends ForkLocalizations {
   @override
   String get instanceStatusSignalLink =>
       'Unisciti alla nostra chat Signal per gli aggiornamenti';
+
+  @override
+  String get convertEmoticonsLabel => 'Trasforma le emoticon in emoji';
 }
