@@ -139,5 +139,6 @@
     "crashReportingDescription": "Berichte gehen an Tynes eigenes Fehlertracking, auch wenn du bei einer anderen Instanz angemeldet bist. Sie enthalten keine Instanznamen, IDs oder Nachrichteninhalte.",
     "instanceOfflineTitle": "Tyne ist offline!",
     "instanceOfflineBody": "Wir gehen der Sache nach.",
-    "instanceStatusSignalLink": "Tritt unserem Signal-Chat bei, um auf dem Laufenden zu bleiben"
+    "instanceStatusSignalLink": "Tritt unserem Signal-Chat bei, um auf dem Laufenden zu bleiben",
+    "convertEmoticonsLabel": "Text-Smileys in Emojis umwandeln"
 }
