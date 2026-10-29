@@ -18,6 +18,10 @@ import 'package:fluxer_app/shared/external_links/external_link_utils.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/settings/presentation/widgets/convert_emoticons_switch.dart';
+
 class UserMessagesMedia extends ConsumerWidget {
   const UserMessagesMedia({super.key, this.scrollController});
 
@@ -347,6 +351,7 @@ class UserMessagesMedia extends ConsumerWidget {
                   ),
                 ],
               ),
+              const ConvertEmoticonsSwitch(),
             ],
           ),
           FluxerSettingsSection(

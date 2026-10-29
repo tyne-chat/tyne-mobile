@@ -479,4 +479,7 @@ class ForkLocalizationsJa extends ForkLocalizations {
 
   @override
   String get instanceStatusSignalLink => '最新情報は Signal のチャットでお知らせします';
+
+  @override
+  String get convertEmoticonsLabel => '顔文字を絵文字に変換する';
 }

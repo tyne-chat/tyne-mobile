@@ -139,5 +139,6 @@
     "crashReportingDescription": "Os relatórios são enviados para o sistema de registo de erros do próprio Tyne, mesmo quando tem sessão iniciada noutro servidor. Não incluem nomes de servidores, IDs nem o conteúdo das mensagens.",
     "instanceOfflineTitle": "O Tyne está offline!",
     "instanceOfflineBody": "Estamos a investigar.",
-    "instanceStatusSignalLink": "Junte-se ao nosso chat do Signal para receber novidades"
+    "instanceStatusSignalLink": "Junte-se ao nosso chat do Signal para receber novidades",
+    "convertEmoticonsLabel": "Converter os emoticons de texto em emojis"
 }
