@@ -139,5 +139,6 @@
     "crashReportingDescription": "Báo cáo được gửi đến hệ thống theo dõi lỗi riêng của Tyne, ngay cả khi bạn đăng nhập vào máy chủ khác. Báo cáo không bao gồm tên máy chủ, ID hoặc nội dung tin nhắn.",
     "instanceOfflineTitle": "Tyne đang ngoại tuyến!",
     "instanceOfflineBody": "Chúng tôi đang kiểm tra.",
-    "instanceStatusSignalLink": "Tham gia nhóm chat Signal của chúng tôi để nhận thông tin mới"
+    "instanceStatusSignalLink": "Tham gia nhóm chat Signal của chúng tôi để nhận thông tin mới",
+    "convertEmoticonsLabel": "Chuyển mặt cười dạng văn bản thành biểu tượng cảm xúc"
 }
