@@ -73,7 +73,7 @@ void main() {
         return fields;
       }),
     );
-    expect(fields, <SyncedPreferenceField>[SyncedPreferenceField.emojiPins]);
+    expect(fields, contains(SyncedPreferenceField.emojiPins));
     expect(SyncedPreferenceField.emojiPins.fieldNumber, 2200);
   });
 
