@@ -20,6 +20,10 @@ import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_dart/export.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/settings/presentation/widgets/convert_emoticons_switch.dart';
+
 class UserMessagesMedia extends ConsumerWidget {
   const UserMessagesMedia({super.key, this.scrollController});
 
@@ -363,6 +367,7 @@ class UserMessagesMedia extends ConsumerWidget {
                   ),
                 ],
               ),
+              const ConvertEmoticonsSwitch(),
             ],
           ),
           FluxerSettingsSection(
