@@ -109,6 +109,7 @@ import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/convert_emoticons_preference.dart';
 import 'package:fluxer_app/features/signal_bar/providers/signal_persona_affirmation.dart';
 import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
@@ -5150,7 +5151,10 @@ class ChatViewModel extends _$ChatViewModel {
     ),
   );
 
-  String _maybeSanitizeOutgoing(String text) {
+  String _maybeSanitizeOutgoing(String input) {
+    // Fork: emoticons become emoji before the URLs are sanitized, as on the
+    // web (tyne-chat/tyne#260).
+    final String text = convertOutgoingEmoticons(ref, input);
     if (text.isEmpty) {
       return text;
     }
