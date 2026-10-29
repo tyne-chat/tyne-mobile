@@ -139,5 +139,6 @@
     "crashReportingDescription": "Rapporter sendes til Tynes egen feilsporing, også når du er logget inn på en annen instans. De inneholder ikke instansnavn, ID-er eller meldingsinnhold.",
     "instanceOfflineTitle": "Tyne er frakoblet!",
     "instanceOfflineBody": "Vi undersøker saken.",
-    "instanceStatusSignalLink": "Bli med i Signal-chatten vår for oppdateringer"
+    "instanceStatusSignalLink": "Bli med i Signal-chatten vår for oppdateringer",
+    "convertEmoticonsLabel": "Gjør tekstsmilefjes om til emoji"
 }

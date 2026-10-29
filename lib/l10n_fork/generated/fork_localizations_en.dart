@@ -486,6 +486,9 @@ class ForkLocalizationsEn extends ForkLocalizations {
 
   @override
   String get instanceStatusSignalLink => 'Join our Signal chat for updates';
+
+  @override
+  String get convertEmoticonsLabel => 'Turn text smileys into emoji';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -970,6 +973,9 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
 
   @override
   String get instanceStatusSignalLink => 'Join our Signal chat for updates';
+
+  @override
+  String get convertEmoticonsLabel => 'Turn text smileys into emoji';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -1454,4 +1460,7 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
 
   @override
   String get instanceStatusSignalLink => 'Join our Signal chat for updates';
+
+  @override
+  String get convertEmoticonsLabel => 'Turn text smileys into emoji';
 }

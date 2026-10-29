@@ -493,4 +493,8 @@ class ForkLocalizationsUk extends ForkLocalizations {
   @override
   String get instanceStatusSignalLink =>
       'Приєднуйтеся до нашого чату в Signal, щоб стежити за новинами';
+
+  @override
+  String get convertEmoticonsLabel =>
+      'Увімкнути перетворення текстових смайликів на емоджі';
 }
