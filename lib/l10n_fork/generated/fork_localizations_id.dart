@@ -490,4 +490,7 @@ class ForkLocalizationsId extends ForkLocalizations {
   @override
   String get instanceStatusSignalLink =>
       'Gabung ke obrolan Signal kami untuk info terbaru';
+
+  @override
+  String get convertEmoticonsLabel => 'Ubah smiley teks menjadi emoji';
 }

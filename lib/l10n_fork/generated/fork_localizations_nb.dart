@@ -492,4 +492,7 @@ class ForkLocalizationsNb extends ForkLocalizations {
   @override
   String get instanceStatusSignalLink =>
       'Bli med i Signal-chatten vår for oppdateringer';
+
+  @override
+  String get convertEmoticonsLabel => 'Gjør tekstsmilefjes om til emoji';
 }

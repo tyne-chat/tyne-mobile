@@ -139,5 +139,6 @@
     "crashReportingDescription": "即使你登录的是其他实例，报告也会发送到 Tyne 自己的错误跟踪系统。报告不包含实例名称、ID 或消息内容。",
     "instanceOfflineTitle": "Tyne 已离线！",
     "instanceOfflineBody": "我们正在调查。",
-    "instanceStatusSignalLink": "加入我们的 Signal 群聊获取最新消息"
+    "instanceStatusSignalLink": "加入我们的 Signal 群聊获取最新消息",
+    "convertEmoticonsLabel": "将颜文字转换为表情"
 }
