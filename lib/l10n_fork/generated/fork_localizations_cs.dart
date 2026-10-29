@@ -492,4 +492,7 @@ class ForkLocalizationsCs extends ForkLocalizations {
   @override
   String get instanceStatusSignalLink =>
       'Připojte se k našemu chatu na Signalu pro novinky';
+
+  @override
+  String get convertEmoticonsLabel => 'Převádět textové emotikony na emoji';
 }
