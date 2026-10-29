@@ -139,5 +139,6 @@
     "crashReportingDescription": "Raportit lähetetään Tyne-sovelluksen omaan virheenseurantaan, vaikka olisit kirjautuneena toiseen instanssiin. Ne eivät sisällä instanssien nimiä, tunnisteita tai viestien sisältöä.",
     "instanceOfflineTitle": "Tyne ei ole tavoitettavissa!",
     "instanceOfflineBody": "Selvitämme asiaa.",
-    "instanceStatusSignalLink": "Liity Signal-keskusteluumme saadaksesi tietoa"
+    "instanceStatusSignalLink": "Liity Signal-keskusteluumme saadaksesi tietoa",
+    "convertEmoticonsLabel": "Muunna tekstihymiöt emojeiksi"
 }
