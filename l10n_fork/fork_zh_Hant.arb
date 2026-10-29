@@ -139,5 +139,6 @@
     "crashReportingDescription": "即使你登入的是其他伺服器，報告也會傳送到 Tyne 自己的錯誤追蹤系統。報告不包含伺服器名稱、ID 或訊息內容。",
     "instanceOfflineTitle": "Tyne 已離線！",
     "instanceOfflineBody": "我們正在調查。",
-    "instanceStatusSignalLink": "加入我們的 Signal 群組取得最新消息"
+    "instanceStatusSignalLink": "加入我們的 Signal 群組取得最新消息",
+    "convertEmoticonsLabel": "將文字笑臉轉換為表情符號"
 }
