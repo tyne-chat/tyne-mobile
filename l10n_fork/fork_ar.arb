@@ -139,5 +139,6 @@
     "crashReportingDescription": "تُرسَل التقارير إلى متتبّع الأخطاء الخاص بـ Tyne، حتى عند تسجيل الدخول إلى خادم آخر. ولا تتضمن أسماء الخوادم أو المعرّفات أو محتوى الرسائل.",
     "instanceOfflineTitle": "Tyne غير متصل!",
     "instanceOfflineBody": "نحن نتحقق من الأمر.",
-    "instanceStatusSignalLink": "انضم إلى دردشتنا على Signal لمتابعة آخر الأخبار"
+    "instanceStatusSignalLink": "انضم إلى دردشتنا على Signal لمتابعة آخر الأخبار",
+    "convertEmoticonsLabel": "تحويل الوجوه النصية إلى رموز تعبيرية"
 }
