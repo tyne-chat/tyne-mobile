@@ -139,5 +139,6 @@
     "crashReportingDescription": "Izvješća se šalju u vlastiti sustav za praćenje pogrešaka aplikacije Tyne, čak i kada ste prijavljeni na drugu instancu. Ne sadrže nazive instanci, ID-ove ni sadržaj poruka.",
     "instanceOfflineTitle": "Tyne je izvan mreže!",
     "instanceOfflineBody": "Istražujemo što se događa.",
-    "instanceStatusSignalLink": "Pridružite se našem Signal chatu za novosti"
+    "instanceStatusSignalLink": "Pridružite se našem Signal chatu za novosti",
+    "convertEmoticonsLabel": "Pretvori tekstualne smajliće u emoji"
 }
