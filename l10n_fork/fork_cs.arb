@@ -139,5 +139,6 @@
     "crashReportingDescription": "Hlášení se odesílají do vlastního systému pro sledování chyb Tyne, i když jste přihlášeni k jiné instanci. Neobsahují názvy instancí, ID ani obsah zpráv.",
     "instanceOfflineTitle": "Tyne je offline!",
     "instanceOfflineBody": "Zjišťujeme, co se děje.",
-    "instanceStatusSignalLink": "Připojte se k našemu chatu na Signalu pro novinky"
+    "instanceStatusSignalLink": "Připojte se k našemu chatu na Signalu pro novinky",
+    "convertEmoticonsLabel": "Převádět textové emotikony na emoji"
 }
