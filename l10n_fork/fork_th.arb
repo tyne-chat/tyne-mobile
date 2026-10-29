@@ -139,5 +139,6 @@
     "crashReportingDescription": "รายงานจะถูกส่งไปยังระบบติดตามข้อผิดพลาดของ Tyne เอง แม้ว่าคุณจะลงชื่อเข้าใช้อินสแตนซ์อื่นอยู่ก็ตาม รายงานไม่มีชื่ออินสแตนซ์ ID หรือเนื้อหาข้อความ",
     "instanceOfflineTitle": "Tyne ออฟไลน์อยู่!",
     "instanceOfflineBody": "เรากำลังตรวจสอบ",
-    "instanceStatusSignalLink": "เข้าร่วมแชท Signal ของเราเพื่อรับข่าวสาร"
+    "instanceStatusSignalLink": "เข้าร่วมแชท Signal ของเราเพื่อรับข่าวสาร",
+    "convertEmoticonsLabel": "เปลี่ยนอิโมติคอนแบบข้อความให้เป็นอิโมจิ"
 }
