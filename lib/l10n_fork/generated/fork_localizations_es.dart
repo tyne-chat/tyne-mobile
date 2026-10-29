@@ -495,6 +495,10 @@ class ForkLocalizationsEs extends ForkLocalizations {
   @override
   String get instanceStatusSignalLink =>
       'Únete a nuestro chat de Signal para recibir novedades';
+
+  @override
+  String get convertEmoticonsLabel =>
+      'Convertir los emoticonos de texto en emojis';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -988,4 +992,8 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
   @override
   String get instanceStatusSignalLink =>
       'Únete a nuestro chat de Signal para recibir novedades';
+
+  @override
+  String get convertEmoticonsLabel =>
+      'Convertir los emoticonos de texto en emojis';
 }
