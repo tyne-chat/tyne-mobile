@@ -139,5 +139,6 @@
     "crashReportingDescription": "Raporlar, başka bir sunucuda oturum açılmış olsa bile Tyne uygulamasının kendi hata izleyicisine gönderilir. Sunucu adları, kimlikler veya mesaj içerikleri dahil edilmez.",
     "instanceOfflineTitle": "Tyne çevrimdışı!",
     "instanceOfflineBody": "Sorunu araştırıyoruz.",
-    "instanceStatusSignalLink": "Güncellemeler için Signal sohbetimize katılın"
+    "instanceStatusSignalLink": "Güncellemeler için Signal sohbetimize katılın",
+    "convertEmoticonsLabel": "Metin emotikonlarını emojiye dönüştür"
 }

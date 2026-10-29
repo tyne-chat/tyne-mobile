@@ -139,5 +139,6 @@
     "crashReportingDescription": "Ataskaitos siunčiamos į pačios „Tyne“ klaidų sekimo sistemą, net jei prisijungta prie kito serverio. Jose nėra serverių pavadinimų, ID ar žinučių turinio.",
     "instanceOfflineTitle": "„Tyne“ neveikia!",
     "instanceOfflineBody": "Aiškinamės, kas nutiko.",
-    "instanceStatusSignalLink": "Prisijunk prie mūsų „Signal“ pokalbio ir sužinok naujienas"
+    "instanceStatusSignalLink": "Prisijunk prie mūsų „Signal“ pokalbio ir sužinok naujienas",
+    "convertEmoticonsLabel": "Keisti tekstines šypsenėles jaustukais"
 }

@@ -478,4 +478,7 @@ class ForkLocalizationsKo extends ForkLocalizations {
 
   @override
   String get instanceStatusSignalLink => 'Signal 채팅방에서 소식을 확인하세요';
+
+  @override
+  String get convertEmoticonsLabel => '텍스트 스마일리를 이모티콘으로 바꾸기';
 }
