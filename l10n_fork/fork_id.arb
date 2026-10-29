@@ -139,5 +139,6 @@
     "crashReportingDescription": "Laporan dikirim ke pelacak kesalahan milik Tyne sendiri, bahkan saat Anda masuk ke instance lain. Laporan tidak mencakup nama instance, ID, atau isi pesan.",
     "instanceOfflineTitle": "Tyne sedang offline!",
     "instanceOfflineBody": "Kami sedang menyelidikinya.",
-    "instanceStatusSignalLink": "Gabung ke obrolan Signal kami untuk info terbaru"
+    "instanceStatusSignalLink": "Gabung ke obrolan Signal kami untuk info terbaru",
+    "convertEmoticonsLabel": "Ubah smiley teks menjadi emoji"
 }
