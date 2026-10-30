@@ -499,4 +499,17 @@ class ForkLocalizationsFr extends ForkLocalizations {
   @override
   String get convertEmoticonsLabel =>
       'Activer la conversion des émoticônes en emojis';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return 'Impossible d\'exécuter /$name : $detail';
+  }
+
+  @override
+  String get guildCommandBroken => 'Son script a un problème.';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return 'Ce que vous tapez après /$name doit tenir sur une ligne.';
+  }
 }

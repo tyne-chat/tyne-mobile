@@ -45,7 +45,8 @@ enum Permission {
   const Permission(this.value);
 }
 
-const int allPermissions = (1 << 55) - 1;
+// Fork: every bit, as the fork's permissions sit at the top (1 << 59 and up).
+const int allPermissions = 0x7FFFFFFFFFFFFFFF;
 
 final int defaultPermissions =
     Permission.createInstantInvite.value |
