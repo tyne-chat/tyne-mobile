@@ -481,4 +481,17 @@ class ForkLocalizationsKo extends ForkLocalizations {
 
   @override
   String get convertEmoticonsLabel => '텍스트 스마일리를 이모티콘으로 바꾸기';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return '/$name을(를) 실행할 수 없습니다: $detail';
+  }
+
+  @override
+  String get guildCommandBroken => '스크립트에 문제가 있습니다.';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return '/$name 뒤에 입력하는 내용은 한 줄이어야 합니다.';
+  }
 }
