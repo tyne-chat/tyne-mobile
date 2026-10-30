@@ -140,5 +140,8 @@
     "instanceOfflineTitle": "Tyne çevrimdışı!",
     "instanceOfflineBody": "Sorunu araştırıyoruz.",
     "instanceStatusSignalLink": "Güncellemeler için Signal sohbetimize katılın",
-    "convertEmoticonsLabel": "Metin emotikonlarını emojiye dönüştür"
+    "convertEmoticonsLabel": "Metin emotikonlarını emojiye dönüştür",
+    "guildCommandFailed": "/{name} çalıştırılamadı: {detail}",
+    "guildCommandBroken": "Betiğinde bir sorun var.",
+    "guildCommandOneLine": "/{name} komutundan sonra yazdığınız metin tek satıra sığmalı."
 }

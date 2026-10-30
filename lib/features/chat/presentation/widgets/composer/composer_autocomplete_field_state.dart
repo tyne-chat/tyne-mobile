@@ -1360,8 +1360,21 @@ class ComposerAutocompleteFieldState
     final int bits =
         ref.read(channelPermissionCacheProvider)[_channelId] ??
         (isDirect ? allPermissions : 0);
+    // Fork: the user's community commands join the built-ins.
+    final GuildCommandsNotifier guildCommands = ref.read(
+      guildCommandsProvider.notifier,
+    );
+    await guildCommands.loadForList();
+    if (generation != _syncGeneration || !mounted) {
+      return;
+    }
+    final List<ComposerSlashCommand> commands = guildCommands.composerCommands(
+      composerSlashCommands(l10n),
+      channelGuildId: ch?.guildId,
+      channelPermissionBits: bits,
+    );
     final List<ComposerSlashCommand> filtered =
-        filterCommandsByQuery(composerSlashCommands(l10n), trigger.matchedText)
+        filterCommandsByQuery(commands, trigger.matchedText)
             .where((ComposerSlashCommand c) {
               return canUseComposerCommand(
                 command: c,

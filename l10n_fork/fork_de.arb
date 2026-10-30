@@ -140,5 +140,8 @@
     "instanceOfflineTitle": "Tyne ist offline!",
     "instanceOfflineBody": "Wir gehen der Sache nach.",
     "instanceStatusSignalLink": "Tritt unserem Signal-Chat bei, um auf dem Laufenden zu bleiben",
-    "convertEmoticonsLabel": "Text-Smileys in Emojis umwandeln"
+    "convertEmoticonsLabel": "Text-Smileys in Emojis umwandeln",
+    "guildCommandFailed": "/{name} konnte nicht ausgeführt werden: {detail}",
+    "guildCommandBroken": "Sein Skript hat ein Problem.",
+    "guildCommandOneLine": "Was du nach /{name} eingibst, muss in eine Zeile passen."
 }

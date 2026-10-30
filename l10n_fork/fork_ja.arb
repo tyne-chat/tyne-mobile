@@ -140,5 +140,8 @@
     "instanceOfflineTitle": "Tyne はオフラインです！",
     "instanceOfflineBody": "現在調査中です。",
     "instanceStatusSignalLink": "最新情報は Signal のチャットでお知らせします",
-    "convertEmoticonsLabel": "顔文字を絵文字に変換する"
+    "convertEmoticonsLabel": "顔文字を絵文字に変換する",
+    "guildCommandFailed": "/{name} を実行できませんでした: {detail}",
+    "guildCommandBroken": "スクリプトに問題があります。",
+    "guildCommandOneLine": "/{name} の後に入力する内容は1行に収めてください。"
 }
