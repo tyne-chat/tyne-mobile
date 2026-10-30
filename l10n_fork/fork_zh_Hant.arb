@@ -140,5 +140,8 @@
     "instanceOfflineTitle": "Tyne 已離線！",
     "instanceOfflineBody": "我們正在調查。",
     "instanceStatusSignalLink": "加入我們的 Signal 群組取得最新消息",
-    "convertEmoticonsLabel": "將文字笑臉轉換為表情符號"
+    "convertEmoticonsLabel": "將文字笑臉轉換為表情符號",
+    "guildCommandFailed": "無法執行 /{name}：{detail}",
+    "guildCommandBroken": "它的腳本有問題。",
+    "guildCommandOneLine": "/{name} 後輸入的內容必須在一行之內。"
 }

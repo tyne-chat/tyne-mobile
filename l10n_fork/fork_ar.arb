@@ -140,5 +140,8 @@
     "instanceOfflineTitle": "Tyne غير متصل!",
     "instanceOfflineBody": "نحن نتحقق من الأمر.",
     "instanceStatusSignalLink": "انضم إلى دردشتنا على Signal لمتابعة آخر الأخبار",
-    "convertEmoticonsLabel": "تحويل الوجوه النصية إلى رموز تعبيرية"
+    "convertEmoticonsLabel": "تحويل الوجوه النصية إلى رموز تعبيرية",
+    "guildCommandFailed": "تعذر تنفيذ /{name}: {detail}",
+    "guildCommandBroken": "هناك مشكلة في نصه البرمجي.",
+    "guildCommandOneLine": "يجب أن يتسع ما تكتبه بعد /{name} في سطر واحد."
 }
