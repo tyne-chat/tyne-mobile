@@ -140,5 +140,8 @@
     "instanceOfflineTitle": "A Tyne nem érhető el!",
     "instanceOfflineBody": "Vizsgáljuk a hibát.",
     "instanceStatusSignalLink": "Csatlakozz a Signal-csevegésünkhöz a friss hírekért",
-    "convertEmoticonsLabel": "Szöveges emotikonok cseréje emojikra"
+    "convertEmoticonsLabel": "Szöveges emotikonok cseréje emojikra",
+    "guildCommandFailed": "Nem sikerült futtatni: /{name}: {detail}",
+    "guildCommandBroken": "A szkriptjével probléma van.",
+    "guildCommandOneLine": "Amit a /{name} után írsz, annak egy sorba kell férnie."
 }

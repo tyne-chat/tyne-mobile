@@ -72,6 +72,7 @@ export 'gateway_reconnect_provider.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/core/gateway/providers/typing_personas_provider.dart';
+import 'package:fluxer_app/features/guild_commands/providers/guild_commands_providers.dart';
 import 'package:fluxer_app/features/profile/providers/persona_gateway_events.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/signal_bar/providers/signal_bar_providers.dart';
@@ -207,6 +208,7 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       talker.info('[Gateway] Setting gatewayReady = true');
       ref.read(channelSignalsProvider.notifier).invalidate();
       unawaited(ref.read(signalBarConfigProvider.notifier).refresh());
+      ref.invalidate(guildCommandsProvider);
       if (!kReleaseMode) {
         final stats = connection.compressionStats;
         talker.info(
@@ -619,6 +621,9 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     }),
     onEntranceSoundPlay: (event) => ifMounted(() {
       ref.read(voiceSessionProvider.notifier).handleEntranceSoundPlay(event);
+    }),
+    onGuildCommandsUpdate: (guildId) => ifMounted(() {
+      ref.read(guildCommandsProvider.notifier).markStale(guildId);
     }),
     onSignalBarEvent: (eventType, data) => ifMounted(() {
       handleSignalBarGatewayEvent(ref, eventType, data);
