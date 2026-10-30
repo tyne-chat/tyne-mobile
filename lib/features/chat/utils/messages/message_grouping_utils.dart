@@ -55,6 +55,11 @@ bool isNewMessageGroup(Message current, Message? previous) {
   if (current.isCrosspostCopy || previous.isCrosspostCopy) {
     return true;
   }
+  // Fork: a command message shows its chip in its header, and the next message
+  // starts its own (tyne-chat/tyne#269).
+  if (current.commandId != null || previous.commandId != null) {
+    return true;
+  }
   if (current.type == messageTypeReply || current.isReply) {
     return true;
   }

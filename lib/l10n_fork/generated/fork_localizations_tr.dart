@@ -493,4 +493,17 @@ class ForkLocalizationsTr extends ForkLocalizations {
 
   @override
   String get convertEmoticonsLabel => 'Metin emotikonlarını emojiye dönüştür';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return '/$name çalıştırılamadı: $detail';
+  }
+
+  @override
+  String get guildCommandBroken => 'Betiğinde bir sorun var.';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return '/$name komutundan sonra yazdığınız metin tek satıra sığmalı.';
+  }
 }
