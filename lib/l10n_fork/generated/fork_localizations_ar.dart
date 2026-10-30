@@ -489,4 +489,17 @@ class ForkLocalizationsAr extends ForkLocalizations {
 
   @override
   String get convertEmoticonsLabel => 'تحويل الوجوه النصية إلى رموز تعبيرية';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return 'تعذر تنفيذ /$name: $detail';
+  }
+
+  @override
+  String get guildCommandBroken => 'هناك مشكلة في نصه البرمجي.';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return 'يجب أن يتسع ما تكتبه بعد /$name في سطر واحد.';
+  }
 }

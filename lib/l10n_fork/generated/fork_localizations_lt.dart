@@ -492,4 +492,17 @@ class ForkLocalizationsLt extends ForkLocalizations {
 
   @override
   String get convertEmoticonsLabel => 'Keisti tekstines šypsenėles jaustukais';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return 'Nepavyko įvykdyti /$name: $detail';
+  }
+
+  @override
+  String get guildCommandBroken => 'Jos scenarijuje yra problema.';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return 'Tai, ką įvedate po /$name, turi tilpti vienoje eilutėje.';
+  }
 }

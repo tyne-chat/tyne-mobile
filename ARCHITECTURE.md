@@ -153,6 +153,8 @@ its media service from any engine (tyne-chat/tyne#210).
     carry.
 - **Signal bar:** `features/signal_bar` (the strip in the composer, its notifiers and the gateway
   events; guide in its `AGENTS.md`).
+- **Server commands:** `features/guild_commands` (the commands in the `/` list, running one on send,
+  the chip on its messages; no editor on phones yet; guide in its `AGENTS.md`).
 - **Pinned emojis:** `features/emoji` (`EmojiPins`, `emojiPinsProvider`), synced with the web through
   the fork's `emoji_pins` field (`core/synced_preferences/AGENTS.md`); in chat, the emoji info sheet,
   the picker's frequently used row and the quick reactions (`features/chat/AGENTS.md`).
@@ -216,6 +218,8 @@ folder. A new folder guide is added to this list in the same commit.
 - `lib/core/synced_preferences/AGENTS.md`: settings synced through the account: the protobuf copy,
   how the store merges and pushes, and the fork's mobile layout fields.
 - `lib/features/chat/AGENTS.md`: the message engine and list, the composer, the chat screen.
+- `lib/features/guild_commands/AGENTS.md`: server commands on the phone: the list of usable commands,
+  running one from the composer, the chip.
 - `lib/features/profile/AGENTS.md`: profiles, and the app's persona core.
 - `lib/features/settings/AGENTS.md`: the settings screens, where each setting is stored, and the
   Personas page.

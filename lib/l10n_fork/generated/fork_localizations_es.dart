@@ -499,6 +499,19 @@ class ForkLocalizationsEs extends ForkLocalizations {
   @override
   String get convertEmoticonsLabel =>
       'Convertir los emoticonos de texto en emojis';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return 'No se pudo ejecutar /$name: $detail';
+  }
+
+  @override
+  String get guildCommandBroken => 'El script del comando tiene un problema.';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return 'Lo que escribas después de /$name tiene que caber en una línea.';
+  }
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -996,4 +1009,17 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
   @override
   String get convertEmoticonsLabel =>
       'Convertir los emoticonos de texto en emojis';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return 'No se pudo ejecutar /$name: $detail';
+  }
+
+  @override
+  String get guildCommandBroken => 'El script del comando tiene un problema.';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return 'Lo que escribas después de /$name debe caber en una línea.';
+  }
 }

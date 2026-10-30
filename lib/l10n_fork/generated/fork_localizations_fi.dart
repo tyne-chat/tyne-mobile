@@ -494,4 +494,17 @@ class ForkLocalizationsFi extends ForkLocalizations {
 
   @override
   String get convertEmoticonsLabel => 'Muunna tekstihymiöt emojeiksi';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return 'Komentoa /$name ei voitu suorittaa: $detail';
+  }
+
+  @override
+  String get guildCommandBroken => 'Sen skriptissä on ongelma.';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return 'Komennon /$name jälkeen kirjoittamasi tekstin on mahduttava yhdelle riville.';
+  }
 }

@@ -34,6 +34,34 @@ Message _message({
 }
 
 void main() {
+  group('grouping around server command messages', () {
+    final DateTime start = DateTime.utc(2026, 10, 30, 12);
+    Message row(String id, int minute, {String? commandId}) => _message(
+      id: id,
+      authorId: 'author-1',
+      authorName: 'Chiara',
+      timestamp: start.add(Duration(minutes: minute)),
+    ).copyWith(commandId: commandId, commandName: commandId);
+
+    test('a command message starts a new group after the same author', () {
+      expect(
+        isNewMessageGroup(row('2', 1, commandId: 'c'), row('1', 0)),
+        isTrue,
+      );
+    });
+
+    test('the message after a command message starts a new group', () {
+      expect(
+        isNewMessageGroup(row('2', 1), row('1', 0, commandId: 'c')),
+        isTrue,
+      );
+    });
+
+    test('ordinary messages still group', () {
+      expect(isNewMessageGroup(row('2', 1), row('1', 0)), isFalse);
+    });
+  });
+
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('shouldGroupMessages', () {
