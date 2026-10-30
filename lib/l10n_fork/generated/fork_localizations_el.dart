@@ -495,4 +495,17 @@ class ForkLocalizationsEl extends ForkLocalizations {
 
   @override
   String get convertEmoticonsLabel => 'Μετατροπή φατσούλων κειμένου σε emoji';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return 'Δεν ήταν δυνατή η εκτέλεση της /$name: $detail';
+  }
+
+  @override
+  String get guildCommandBroken => 'Το σενάριό της έχει πρόβλημα.';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return 'Ό,τι πληκτρολογείτε μετά την /$name πρέπει να χωράει σε μία γραμμή.';
+  }
 }
