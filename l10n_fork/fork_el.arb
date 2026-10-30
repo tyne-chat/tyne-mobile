@@ -140,5 +140,8 @@
     "instanceOfflineTitle": "Το Tyne είναι εκτός σύνδεσης!",
     "instanceOfflineBody": "Το διερευνούμε.",
     "instanceStatusSignalLink": "Μπείτε στη συνομιλία μας στο Signal για ενημερώσεις",
-    "convertEmoticonsLabel": "Μετατροπή φατσούλων κειμένου σε emoji"
+    "convertEmoticonsLabel": "Μετατροπή φατσούλων κειμένου σε emoji",
+    "guildCommandFailed": "Δεν ήταν δυνατή η εκτέλεση της /{name}: {detail}",
+    "guildCommandBroken": "Το σενάριό της έχει πρόβλημα.",
+    "guildCommandOneLine": "Ό,τι πληκτρολογείτε μετά την /{name} πρέπει να χωράει σε μία γραμμή."
 }
