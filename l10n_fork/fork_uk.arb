@@ -140,5 +140,8 @@
     "instanceOfflineTitle": "Tyne недоступний!",
     "instanceOfflineBody": "Ми з'ясовуємо, що сталося.",
     "instanceStatusSignalLink": "Приєднуйтеся до нашого чату в Signal, щоб стежити за новинами",
-    "convertEmoticonsLabel": "Увімкнути перетворення текстових смайликів на емоджі"
+    "convertEmoticonsLabel": "Увімкнути перетворення текстових смайликів на емоджі",
+    "guildCommandFailed": "Не вдалося виконати /{name}: {detail}",
+    "guildCommandBroken": "У її скрипті є проблема.",
+    "guildCommandOneLine": "Текст після /{name} має вміщатися в один рядок."
 }
