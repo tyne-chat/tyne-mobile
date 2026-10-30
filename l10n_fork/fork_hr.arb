@@ -140,5 +140,8 @@
     "instanceOfflineTitle": "Tyne je izvan mreže!",
     "instanceOfflineBody": "Istražujemo što se događa.",
     "instanceStatusSignalLink": "Pridružite se našem Signal chatu za novosti",
-    "convertEmoticonsLabel": "Pretvori tekstualne smajliće u emoji"
+    "convertEmoticonsLabel": "Pretvori tekstualne smajliće u emoji",
+    "guildCommandFailed": "Nije moguće pokrenuti /{name}: {detail}",
+    "guildCommandBroken": "Njezina skripta ima problem.",
+    "guildCommandOneLine": "Ono što upišete nakon /{name} mora stati u jedan redak."
 }

@@ -497,4 +497,17 @@ class ForkLocalizationsUk extends ForkLocalizations {
   @override
   String get convertEmoticonsLabel =>
       'Увімкнути перетворення текстових смайликів на емоджі';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return 'Не вдалося виконати /$name: $detail';
+  }
+
+  @override
+  String get guildCommandBroken => 'У її скрипті є проблема.';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return 'Текст після /$name має вміщатися в один рядок.';
+  }
 }
