@@ -140,5 +140,8 @@
     "instanceOfflineTitle": "Tyne est hors ligne !",
     "instanceOfflineBody": "Nous examinons le problème.",
     "instanceStatusSignalLink": "Rejoignez notre discussion Signal pour suivre les nouvelles",
-    "convertEmoticonsLabel": "Activer la conversion des émoticônes en emojis"
+    "convertEmoticonsLabel": "Activer la conversion des émoticônes en emojis",
+    "guildCommandFailed": "Impossible d'exécuter /{name} : {detail}",
+    "guildCommandBroken": "Son script a un problème.",
+    "guildCommandOneLine": "Ce que vous tapez après /{name} doit tenir sur une ligne."
 }

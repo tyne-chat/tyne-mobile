@@ -140,5 +140,8 @@
     "instanceOfflineTitle": "¡Tyne está desconectado!",
     "instanceOfflineBody": "Lo estamos investigando.",
     "instanceStatusSignalLink": "Únete a nuestro chat de Signal para recibir novedades",
-    "convertEmoticonsLabel": "Convertir los emoticonos de texto en emojis"
+    "convertEmoticonsLabel": "Convertir los emoticonos de texto en emojis",
+    "guildCommandFailed": "No se pudo ejecutar /{name}: {detail}",
+    "guildCommandBroken": "El script del comando tiene un problema.",
+    "guildCommandOneLine": "Lo que escribas después de /{name} tiene que caber en una línea."
 }

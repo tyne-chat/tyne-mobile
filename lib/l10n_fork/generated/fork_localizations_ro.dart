@@ -494,4 +494,17 @@ class ForkLocalizationsRo extends ForkLocalizations {
 
   @override
   String get convertEmoticonsLabel => 'Transformă smiley-urile text în emoji';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return 'Nu s-a putut rula /$name: $detail';
+  }
+
+  @override
+  String get guildCommandBroken => 'Scriptul ei are o problemă.';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return 'Ce scrii după /$name trebuie să încapă pe un singur rând.';
+  }
 }

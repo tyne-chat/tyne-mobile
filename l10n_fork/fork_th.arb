@@ -140,5 +140,8 @@
     "instanceOfflineTitle": "Tyne ออฟไลน์อยู่!",
     "instanceOfflineBody": "เรากำลังตรวจสอบ",
     "instanceStatusSignalLink": "เข้าร่วมแชท Signal ของเราเพื่อรับข่าวสาร",
-    "convertEmoticonsLabel": "เปลี่ยนอิโมติคอนแบบข้อความให้เป็นอิโมจิ"
+    "convertEmoticonsLabel": "เปลี่ยนอิโมติคอนแบบข้อความให้เป็นอิโมจิ",
+    "guildCommandFailed": "ไม่สามารถเรียกใช้ /{name} ได้: {detail}",
+    "guildCommandBroken": "สคริปต์ของคำสั่งนี้มีปัญหา",
+    "guildCommandOneLine": "ข้อความที่คุณพิมพ์หลัง /{name} ต้องอยู่ในบรรทัดเดียว"
 }
