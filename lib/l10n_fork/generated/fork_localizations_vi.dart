@@ -494,4 +494,17 @@ class ForkLocalizationsVi extends ForkLocalizations {
   @override
   String get convertEmoticonsLabel =>
       'Chuyển mặt cười dạng văn bản thành biểu tượng cảm xúc';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return 'Không thể chạy /$name: $detail';
+  }
+
+  @override
+  String get guildCommandBroken => 'Tập lệnh có vấn đề.';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return 'Nội dung bạn gõ sau /$name phải nằm trên một dòng.';
+  }
 }
