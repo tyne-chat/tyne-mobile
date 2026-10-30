@@ -140,5 +140,8 @@
     "instanceOfflineTitle": "„Tyne“ neveikia!",
     "instanceOfflineBody": "Aiškinamės, kas nutiko.",
     "instanceStatusSignalLink": "Prisijunk prie mūsų „Signal“ pokalbio ir sužinok naujienas",
-    "convertEmoticonsLabel": "Keisti tekstines šypsenėles jaustukais"
+    "convertEmoticonsLabel": "Keisti tekstines šypsenėles jaustukais",
+    "guildCommandFailed": "Nepavyko įvykdyti /{name}: {detail}",
+    "guildCommandBroken": "Jos scenarijuje yra problema.",
+    "guildCommandOneLine": "Tai, ką įvedate po /{name}, turi tilpti vienoje eilutėje."
 }
