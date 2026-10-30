@@ -71,7 +71,7 @@ Future<void> ensureForkSchema(
   }
 }
 
-/// Fork: adds the persona columns to `messages` when they are missing. Also run
+/// Fork: adds the persona and command columns to `messages` when they are missing. Also run
 /// by upstream's step 98 before it rebuilds the table from its definition,
 /// which includes these columns (fluxer_database.dart).
 Future<void> ensureForkMessageColumns(
@@ -86,6 +86,9 @@ Future<void> ensureForkMessageColumns(
         database.messages.personaAvatar,
         database.messages.personaTag,
         database.messages.personaTagIcon,
+        database.messages.commandId,
+        database.messages.commandGuildId,
+        database.messages.commandName,
       ];
   for (final GeneratedColumn<Object> column in personaColumns) {
     if (!messageColumns.contains(column.name)) {

@@ -140,5 +140,8 @@
     "instanceOfflineTitle": "Tyne er offline!",
     "instanceOfflineBody": "Vi undersøger det.",
     "instanceStatusSignalLink": "Deltag i vores Signal-chat for at få opdateringer",
-    "convertEmoticonsLabel": "Erstat tekstsmileyer med emojis"
+    "convertEmoticonsLabel": "Erstat tekstsmileyer med emojis",
+    "guildCommandFailed": "Kunne ikke køre /{name}: {detail}",
+    "guildCommandBroken": "Scriptet har et problem.",
+    "guildCommandOneLine": "Det, du skriver efter /{name}, skal kunne være på én linje."
 }

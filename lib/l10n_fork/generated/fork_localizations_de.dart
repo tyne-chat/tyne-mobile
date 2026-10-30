@@ -494,4 +494,17 @@ class ForkLocalizationsDe extends ForkLocalizations {
 
   @override
   String get convertEmoticonsLabel => 'Text-Smileys in Emojis umwandeln';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return '/$name konnte nicht ausgeführt werden: $detail';
+  }
+
+  @override
+  String get guildCommandBroken => 'Sein Skript hat ein Problem.';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return 'Was du nach /$name eingibst, muss in eine Zeile passen.';
+  }
 }
