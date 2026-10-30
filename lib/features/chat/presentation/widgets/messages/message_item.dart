@@ -94,6 +94,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 // ignore: directives_ordering
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/features/guild_commands/presentation/guild_command_chip.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 import 'package:fluxer_app/features/threads/domain/fork_original_poster.dart';
 import 'package:fluxer_app/features/threads/providers/thread_owner_persona_provider.dart';
@@ -2004,6 +2005,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           if (_personaOpTag(context, msg) case final Widget opTag) opTag,
         ] else
           ..._authorTags(context, msg),
+        if (msg.commandName case final String commandName)
+          GuildCommandChip(name: commandName),
         if (showAvatar)
           _AuthorProfileTapTarget(
             onPointerDown: (int pointer) =>
@@ -2356,6 +2359,10 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                   if ((msg.flags & messageFlagSuppressNotifications) != 0) ...[
                     const SizedBox(width: 6),
                     _buildSilentIndicator(context),
+                  ],
+                  if (msg.commandName case final String commandName) ...[
+                    const SizedBox(width: 6),
+                    Flexible(child: GuildCommandChip(name: commandName)),
                   ],
                 ],
               ),
