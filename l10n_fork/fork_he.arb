@@ -140,5 +140,8 @@
     "instanceOfflineTitle": "Tyne לא זמינה!",
     "instanceOfflineBody": "אנחנו בודקים את זה.",
     "instanceStatusSignalLink": "הצטרפו לצ׳אט שלנו ב-Signal לעדכונים",
-    "convertEmoticonsLabel": "המר סמיילים טקסטואליים לאימוג'י"
+    "convertEmoticonsLabel": "המר סמיילים טקסטואליים לאימוג'י",
+    "guildCommandFailed": "לא ניתן היה להריץ את /{name}: {detail}",
+    "guildCommandBroken": "יש בעיה בסקריפט שלה.",
+    "guildCommandOneLine": "מה שמקלידים אחרי /{name} חייב להיכנס בשורה אחת."
 }

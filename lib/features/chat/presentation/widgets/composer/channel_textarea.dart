@@ -109,6 +109,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/persona_c
 import 'package:fluxer_app/features/chat/providers/pickers/timestamp_insert_provider.dart';
 import 'package:fluxer_app/features/chat/services/timestamp_inline_token.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
+import 'package:fluxer_app/features/guild_commands/providers/guild_command_runner.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/providers/quick_switcher_button_preferences_provider.dart';
 import 'package:fluxer_app/features/signal_bar/presentation/signal_bar_strip.dart';
@@ -2235,6 +2236,13 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       }
     }
 
+    // Fork: `/name input` runs a community's command instead of posting the text.
+    if (command is ComposerContentSend) {
+      if (await _forkRunGuildCommand(channelId, wireText) || !mounted) {
+        return;
+      }
+    }
+
     if (command is ComposerReplaceCommand) {
       _clearSlashSession();
       _controller.clear();
@@ -2735,6 +2743,61 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       return;
     }
     unawaited(showErrorDialog(context, title: copy.title, body: copy.body));
+  }
+}
+
+// Fork: server commands in the composer (lib/features/guild_commands/AGENTS.md).
+extension on _ChannelTextareaState {
+  /// Whether [wireText] was a command, and so needs no further sending. A
+  /// command sends only text: staged attachments and an open reply stay.
+  Future<bool> _forkRunGuildCommand(String channelId, String wireText) async {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final GuildCommandRunResult result = await ref
+        .read(guildCommandRunnerProvider)
+        .run(
+          channelId: channelId,
+          channelGuildId: ref
+              .read(channelByIdProvider(channelId))
+              .value
+              ?.guildId,
+          wireText: wireText,
+          resolveEmoji: (String text) => resolveTypedCustomEmojiShortcodes(
+            text,
+            _readCustomEmojiSendContext(channelId).lookupMarkdown,
+          ),
+        );
+    if (result is GuildCommandNotACommand) {
+      return false;
+    }
+    if (!mounted) {
+      return true;
+    }
+    final ChatViewModel vm = ref.read(chatViewModelProvider.notifier);
+    switch (result) {
+      case GuildCommandNotACommand() || GuildCommandIgnored():
+        break;
+      case GuildCommandPosted():
+        FluxerHaptics.send();
+        _clearSlashSession();
+        _controller.clear();
+        vm.updateMessageText('');
+      case GuildCommandNeedsOneLine(:final String name):
+        vm.insertClientSystemMessage(l10n.fork.guildCommandOneLine(name));
+      case GuildCommandFailed(
+        :final String name,
+        :final bool broken,
+        :final String? detail,
+      ):
+        vm.insertClientSystemMessage(
+          l10n.fork.guildCommandFailed(
+            name,
+            broken
+                ? l10n.fork.guildCommandBroken
+                : detail ?? l10n.fork.guildCommandBroken,
+          ),
+        );
+    }
+    return true;
   }
 }
 

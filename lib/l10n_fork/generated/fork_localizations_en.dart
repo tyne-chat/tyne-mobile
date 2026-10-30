@@ -489,6 +489,19 @@ class ForkLocalizationsEn extends ForkLocalizations {
 
   @override
   String get convertEmoticonsLabel => 'Turn text smileys into emoji';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return 'Couldn\'t run /$name: $detail';
+  }
+
+  @override
+  String get guildCommandBroken => 'Its script has a problem.';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return 'What you type after /$name has to fit on one line.';
+  }
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -976,6 +989,19 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
 
   @override
   String get convertEmoticonsLabel => 'Turn text smileys into emoji';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return 'Couldn\'t run /$name: $detail';
+  }
+
+  @override
+  String get guildCommandBroken => 'Its script has a problem.';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return 'What you type after /$name has to fit on one line.';
+  }
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -1463,4 +1489,17 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
 
   @override
   String get convertEmoticonsLabel => 'Turn text smileys into emoji';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return 'Couldn\'t run /$name: $detail';
+  }
+
+  @override
+  String get guildCommandBroken => 'Its script has a problem.';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return 'What you type after /$name has to fit on one line.';
+  }
 }
