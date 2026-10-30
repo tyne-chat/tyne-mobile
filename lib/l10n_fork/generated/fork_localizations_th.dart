@@ -491,4 +491,17 @@ class ForkLocalizationsTh extends ForkLocalizations {
 
   @override
   String get convertEmoticonsLabel => 'เปลี่ยนอิโมติคอนแบบข้อความให้เป็นอิโมจิ';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return 'ไม่สามารถเรียกใช้ /$name ได้: $detail';
+  }
+
+  @override
+  String get guildCommandBroken => 'สคริปต์ของคำสั่งนี้มีปัญหา';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return 'ข้อความที่คุณพิมพ์หลัง /$name ต้องอยู่ในบรรทัดเดียว';
+  }
 }

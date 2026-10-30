@@ -495,4 +495,17 @@ class ForkLocalizationsCs extends ForkLocalizations {
 
   @override
   String get convertEmoticonsLabel => 'Převádět textové emotikony na emoji';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return 'Nepodařilo se spustit /$name: $detail';
+  }
+
+  @override
+  String get guildCommandBroken => 'Jeho skript má problém.';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return 'Co napíšete za /$name, se musí vejít na jeden řádek.';
+  }
 }

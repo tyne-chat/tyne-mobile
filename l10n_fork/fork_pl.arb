@@ -140,5 +140,8 @@
     "instanceOfflineTitle": "Tyne jest offline!",
     "instanceOfflineBody": "Sprawdzamy, co się dzieje.",
     "instanceStatusSignalLink": "Dołącz do naszego czatu na Signalu, aby być na bieżąco",
-    "convertEmoticonsLabel": "Zamieniaj emotikony tekstowe na emoji"
+    "convertEmoticonsLabel": "Zamieniaj emotikony tekstowe na emoji",
+    "guildCommandFailed": "Nie udało się uruchomić /{name}: {detail}",
+    "guildCommandBroken": "Jego skrypt ma problem.",
+    "guildCommandOneLine": "To, co wpiszesz po /{name}, musi zmieścić się w jednym wierszu."
 }

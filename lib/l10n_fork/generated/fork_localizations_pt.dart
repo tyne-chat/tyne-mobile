@@ -497,6 +497,19 @@ class ForkLocalizationsPt extends ForkLocalizations {
   @override
   String get convertEmoticonsLabel =>
       'Converter os emoticons de texto em emojis';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return 'Não foi possível executar /$name: $detail';
+  }
+
+  @override
+  String get guildCommandBroken => 'O script do comando tem um problema.';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return 'O que você digitar depois de /$name precisa caber em uma linha.';
+  }
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -992,4 +1005,17 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
   @override
   String get convertEmoticonsLabel =>
       'Ativar a conversão de emoticons em emojis';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return 'Não foi possível executar /$name: $detail';
+  }
+
+  @override
+  String get guildCommandBroken => 'O script do comando tem um problema.';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return 'O que você digitar depois de /$name precisa caber em uma linha.';
+  }
 }
