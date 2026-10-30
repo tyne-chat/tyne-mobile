@@ -491,4 +491,17 @@ class ForkLocalizationsHi extends ForkLocalizations {
 
   @override
   String get convertEmoticonsLabel => 'टेक्स्ट स्माइली को इमोजी में बदलें';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return '/$name नहीं चल सका: $detail';
+  }
+
+  @override
+  String get guildCommandBroken => 'इसकी स्क्रिप्ट में कोई समस्या है।';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return '/$name के बाद आप जो टाइप करें, वह एक पंक्ति में आना चाहिए।';
+  }
 }

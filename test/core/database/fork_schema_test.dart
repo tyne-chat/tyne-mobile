@@ -204,6 +204,25 @@ void main() {
       );
     });
 
+    test("an existing database gains the columns of a message's server "
+        'command', () async {
+      const List<String> columns = <String>[
+        'command_id',
+        'command_guild_id',
+        'command_name',
+      ];
+      final Database raw = sqlite3.openInMemory();
+      addTearDown(raw.close);
+      await _open(raw);
+      for (final String column in columns) {
+        raw.execute('ALTER TABLE messages DROP COLUMN $column');
+      }
+
+      await _open(raw);
+
+      expect(_columns(raw, 'messages'), containsAll(columns));
+    });
+
     test('an existing database gains the column for the persona a thread '
         'was started as', () async {
       final Database raw = sqlite3.openInMemory();
