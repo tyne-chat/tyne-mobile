@@ -140,5 +140,8 @@
     "instanceOfflineTitle": "Tyne ei ole tavoitettavissa!",
     "instanceOfflineBody": "Selvitämme asiaa.",
     "instanceStatusSignalLink": "Liity Signal-keskusteluumme saadaksesi tietoa",
-    "convertEmoticonsLabel": "Muunna tekstihymiöt emojeiksi"
+    "convertEmoticonsLabel": "Muunna tekstihymiöt emojeiksi",
+    "guildCommandFailed": "Komentoa /{name} ei voitu suorittaa: {detail}",
+    "guildCommandBroken": "Sen skriptissä on ongelma.",
+    "guildCommandOneLine": "Komennon /{name} jälkeen kirjoittamasi tekstin on mahduttava yhdelle riville."
 }
