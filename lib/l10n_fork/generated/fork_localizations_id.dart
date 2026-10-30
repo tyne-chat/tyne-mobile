@@ -493,4 +493,17 @@ class ForkLocalizationsId extends ForkLocalizations {
 
   @override
   String get convertEmoticonsLabel => 'Ubah smiley teks menjadi emoji';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return 'Tidak dapat menjalankan /$name: $detail';
+  }
+
+  @override
+  String get guildCommandBroken => 'Skripnya bermasalah.';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return 'Yang Anda ketik setelah /$name harus muat dalam satu baris.';
+  }
 }

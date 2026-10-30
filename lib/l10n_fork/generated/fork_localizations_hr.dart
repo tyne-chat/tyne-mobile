@@ -494,4 +494,17 @@ class ForkLocalizationsHr extends ForkLocalizations {
 
   @override
   String get convertEmoticonsLabel => 'Pretvori tekstualne smajliće u emoji';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return 'Nije moguće pokrenuti /$name: $detail';
+  }
+
+  @override
+  String get guildCommandBroken => 'Njezina skripta ima problem.';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return 'Ono što upišete nakon /$name mora stati u jedan redak.';
+  }
 }
