@@ -140,5 +140,8 @@
     "instanceOfflineTitle": "Tyne đang ngoại tuyến!",
     "instanceOfflineBody": "Chúng tôi đang kiểm tra.",
     "instanceStatusSignalLink": "Tham gia nhóm chat Signal của chúng tôi để nhận thông tin mới",
-    "convertEmoticonsLabel": "Chuyển mặt cười dạng văn bản thành biểu tượng cảm xúc"
+    "convertEmoticonsLabel": "Chuyển mặt cười dạng văn bản thành biểu tượng cảm xúc",
+    "guildCommandFailed": "Không thể chạy /{name}: {detail}",
+    "guildCommandBroken": "Tập lệnh có vấn đề.",
+    "guildCommandOneLine": "Nội dung bạn gõ sau /{name} phải nằm trên một dòng."
 }
