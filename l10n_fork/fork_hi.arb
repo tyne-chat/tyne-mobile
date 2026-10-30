@@ -140,5 +140,8 @@
     "instanceOfflineTitle": "Tyne ऑफ़लाइन है!",
     "instanceOfflineBody": "हम जाँच कर रहे हैं।",
     "instanceStatusSignalLink": "अपडेट के लिए हमारी Signal चैट से जुड़ें",
-    "convertEmoticonsLabel": "टेक्स्ट स्माइली को इमोजी में बदलें"
+    "convertEmoticonsLabel": "टेक्स्ट स्माइली को इमोजी में बदलें",
+    "guildCommandFailed": "/{name} नहीं चल सका: {detail}",
+    "guildCommandBroken": "इसकी स्क्रिप्ट में कोई समस्या है।",
+    "guildCommandOneLine": "/{name} के बाद आप जो टाइप करें, वह एक पंक्ति में आना चाहिए।"
 }

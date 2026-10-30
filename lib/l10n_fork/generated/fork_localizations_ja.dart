@@ -482,4 +482,17 @@ class ForkLocalizationsJa extends ForkLocalizations {
 
   @override
   String get convertEmoticonsLabel => '顔文字を絵文字に変換する';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return '/$name を実行できませんでした: $detail';
+  }
+
+  @override
+  String get guildCommandBroken => 'スクリプトに問題があります。';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return '/$name の後に入力する内容は1行に収めてください。';
+  }
 }

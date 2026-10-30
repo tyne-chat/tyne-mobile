@@ -55,6 +55,12 @@ class Messages extends Table {
   TextColumn get personaTag => text().nullable()();
   TextColumn get personaTagIcon => text().nullable()();
 
+  // Fork: the server command that made the message, added on open by
+  // fork_schema.dart. The chip and grouping need it from the cache.
+  TextColumn get commandId => text().nullable()();
+  TextColumn get commandGuildId => text().nullable()();
+  TextColumn get commandName => text().nullable()();
+
   @override
   Set<Column> get primaryKey => {channelId, id};
 }

@@ -140,5 +140,8 @@
     "instanceOfflineTitle": "Tyne sedang offline!",
     "instanceOfflineBody": "Kami sedang menyelidikinya.",
     "instanceStatusSignalLink": "Gabung ke obrolan Signal kami untuk info terbaru",
-    "convertEmoticonsLabel": "Ubah smiley teks menjadi emoji"
+    "convertEmoticonsLabel": "Ubah smiley teks menjadi emoji",
+    "guildCommandFailed": "Tidak dapat menjalankan /{name}: {detail}",
+    "guildCommandBroken": "Skripnya bermasalah.",
+    "guildCommandOneLine": "Yang Anda ketik setelah /{name} harus muat dalam satu baris."
 }

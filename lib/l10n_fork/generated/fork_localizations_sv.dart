@@ -494,4 +494,17 @@ class ForkLocalizationsSv extends ForkLocalizations {
 
   @override
   String get convertEmoticonsLabel => 'Ersätt textsmileys med emojier';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return 'Kunde inte köra /$name: $detail';
+  }
+
+  @override
+  String get guildCommandBroken => 'Skriptet har ett problem.';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return 'Det du skriver efter /$name måste få plats på en rad.';
+  }
 }

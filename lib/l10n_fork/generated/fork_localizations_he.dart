@@ -489,4 +489,17 @@ class ForkLocalizationsHe extends ForkLocalizations {
 
   @override
   String get convertEmoticonsLabel => 'המר סמיילים טקסטואליים לאימוג\'י';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return 'לא ניתן היה להריץ את /$name: $detail';
+  }
+
+  @override
+  String get guildCommandBroken => 'יש בעיה בסקריפט שלה.';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return 'מה שמקלידים אחרי /$name חייב להיכנס בשורה אחת.';
+  }
 }

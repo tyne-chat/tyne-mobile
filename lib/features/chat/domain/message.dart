@@ -1060,6 +1060,11 @@ class Message {
   final String? personaTag;
   final String? personaTagIcon;
 
+  /// Fork: the server command that made this message, for its chip.
+  final String? commandId;
+  final String? commandGuildId;
+  final String? commandName;
+
   bool get isDeletedAuthor =>
       (authorPublicFlags & (kUserFlagDeleted | kUserFlagSelfDeleted)) != 0;
 
@@ -1110,6 +1115,9 @@ class Message {
     this.personaAvatar,
     this.personaTag,
     this.personaTagIcon,
+    this.commandId,
+    this.commandGuildId,
+    this.commandName,
   });
 
   factory Message.fromSdk(MessageResponseSchema sdk, {String? currentUserId}) {
@@ -1172,6 +1180,9 @@ class Message {
       personaAvatar: sdk.subprofile?.avatar,
       personaTag: sdk.subprofile?.displayTagText,
       personaTagIcon: sdk.subprofile?.displayTagIcon,
+      commandId: sdk.command?.id,
+      commandGuildId: sdk.command?.guildId,
+      commandName: sdk.command?.name,
     );
   }
 
@@ -1237,6 +1248,9 @@ class Message {
       personaAvatar: sdk.subprofile?.avatar,
       personaTag: sdk.subprofile?.displayTagText,
       personaTagIcon: sdk.subprofile?.displayTagIcon,
+      commandId: sdk.command?.id,
+      commandGuildId: sdk.command?.guildId,
+      commandName: sdk.command?.name,
     );
   }
 
@@ -1361,6 +1375,9 @@ class Message {
       personaAvatar: sdk.subprofile?.avatar,
       personaTag: sdk.subprofile?.displayTagText,
       personaTagIcon: sdk.subprofile?.displayTagIcon,
+      commandId: sdk.command?.id,
+      commandGuildId: sdk.command?.guildId,
+      commandName: sdk.command?.name,
     );
   }
 
@@ -1418,6 +1435,9 @@ class Message {
       personaAvatar: row.personaAvatar,
       personaTag: row.personaTag,
       personaTagIcon: row.personaTagIcon,
+      commandId: row.commandId,
+      commandGuildId: row.commandGuildId,
+      commandName: row.commandName,
     );
   }
 
@@ -1514,7 +1534,9 @@ class Message {
         personaName == other.personaName &&
         personaAvatar == other.personaAvatar &&
         personaTag == other.personaTag &&
-        personaTagIcon == other.personaTagIcon;
+        personaTagIcon == other.personaTagIcon &&
+        commandId == other.commandId &&
+        commandName == other.commandName;
   }
 
   static bool _translationEquals(MessageTranslation? a, MessageTranslation? b) {
@@ -1635,6 +1657,9 @@ class Message {
       personaAvatar: Value(personaAvatar),
       personaTag: Value(personaTag),
       personaTagIcon: Value(personaTagIcon),
+      commandId: Value(commandId),
+      commandGuildId: Value(commandGuildId),
+      commandName: Value(commandName),
     );
   }
 
@@ -1681,6 +1706,9 @@ class Message {
     Object? personaAvatar = _unset,
     Object? personaTag = _unset,
     Object? personaTagIcon = _unset,
+    Object? commandId = _unset,
+    Object? commandGuildId = _unset,
+    Object? commandName = _unset,
   }) {
     return Message(
       id: id ?? this.id,
@@ -1741,6 +1769,13 @@ class Message {
       personaTagIcon: personaTagIcon == _unset
           ? this.personaTagIcon
           : personaTagIcon as String?,
+      commandId: commandId == _unset ? this.commandId : commandId as String?,
+      commandGuildId: commandGuildId == _unset
+          ? this.commandGuildId
+          : commandGuildId as String?,
+      commandName: commandName == _unset
+          ? this.commandName
+          : commandName as String?,
     );
   }
 
@@ -1783,6 +1818,9 @@ class Message {
       personaAvatar: incoming.personaAvatar,
       personaTag: incoming.personaTag,
       personaTagIcon: incoming.personaTagIcon,
+      commandId: incoming.commandId,
+      commandGuildId: incoming.commandGuildId,
+      commandName: incoming.commandName,
       translation: contentChanged ? null : _unset,
     );
   }

@@ -140,5 +140,8 @@
     "instanceOfflineTitle": "O Tyne está offline!",
     "instanceOfflineBody": "Estamos investigando.",
     "instanceStatusSignalLink": "Entre no nosso chat do Signal para receber novidades",
-    "convertEmoticonsLabel": "Ativar a conversão de emoticons em emojis"
+    "convertEmoticonsLabel": "Ativar a conversão de emoticons em emojis",
+    "guildCommandFailed": "Não foi possível executar /{name}: {detail}",
+    "guildCommandBroken": "O script do comando tem um problema.",
+    "guildCommandOneLine": "O que você digitar depois de /{name} precisa caber em uma linha."
 }

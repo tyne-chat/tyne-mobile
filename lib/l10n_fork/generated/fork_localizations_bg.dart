@@ -498,4 +498,17 @@ class ForkLocalizationsBg extends ForkLocalizations {
   @override
   String get convertEmoticonsLabel =>
       'Превръщане на текстовите усмивки в емоджита';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return '/$name не можа да бъде изпълнена: $detail';
+  }
+
+  @override
+  String get guildCommandBroken => 'Скриптът ѝ има проблем.';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return 'Текстът след /$name трябва да се побира на един ред.';
+  }
 }
