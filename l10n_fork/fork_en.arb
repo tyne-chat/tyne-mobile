@@ -665,5 +665,30 @@
     "convertEmoticonsLabel": "Turn text smileys into emoji",
     "@convertEmoticonsLabel": {
         "description": "Switch in Settings > Messages & media > Input. When on, text emoticons such as :) and <3 are turned into emoji when a message is sent or edited. Synced with the web app's setting of the same name (tyne-chat/tyne#260)."
+    },
+    "guildCommandFailed": "Couldn't run /{name}: {detail}",
+    "@guildCommandFailed": {
+        "description": "Shown in the channel when a community command fails. {name} is the command, {detail} the reason. Keep the same wording as the web app.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            },
+            "detail": {
+                "type": "String"
+            }
+        }
+    },
+    "guildCommandBroken": "Its script has a problem.",
+    "@guildCommandBroken": {
+        "description": "Why a community command could not run, shown after \"Couldn't run /name:\"."
+    },
+    "guildCommandOneLine": "What you type after /{name} has to fit on one line.",
+    "@guildCommandOneLine": {
+        "description": "Shown in the channel when a community command is sent with a line break in its input. {name} is the command.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     }
 }

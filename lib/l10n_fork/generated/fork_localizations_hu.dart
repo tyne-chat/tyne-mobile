@@ -494,4 +494,17 @@ class ForkLocalizationsHu extends ForkLocalizations {
 
   @override
   String get convertEmoticonsLabel => 'Szöveges emotikonok cseréje emojikra';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return 'Nem sikerült futtatni: /$name: $detail';
+  }
+
+  @override
+  String get guildCommandBroken => 'A szkriptjével probléma van.';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return 'Amit a /$name után írsz, annak egy sorba kell férnie.';
+  }
 }
