@@ -477,6 +477,19 @@ class ForkLocalizationsZh extends ForkLocalizations {
 
   @override
   String get convertEmoticonsLabel => '将颜文字转换为表情';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return '无法运行 /$name：$detail';
+  }
+
+  @override
+  String get guildCommandBroken => '它的脚本有问题。';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return '/$name 后输入的内容必须在一行之内。';
+  }
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -952,4 +965,17 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get convertEmoticonsLabel => '將文字笑臉轉換為表情符號';
+
+  @override
+  String guildCommandFailed(String name, String detail) {
+    return '無法執行 /$name：$detail';
+  }
+
+  @override
+  String get guildCommandBroken => '它的腳本有問題。';
+
+  @override
+  String guildCommandOneLine(String name) {
+    return '/$name 後輸入的內容必須在一行之內。';
+  }
 }
