@@ -140,5 +140,8 @@
     "instanceOfflineTitle": "Tyne je offline!",
     "instanceOfflineBody": "Zjišťujeme, co se děje.",
     "instanceStatusSignalLink": "Připojte se k našemu chatu na Signalu pro novinky",
-    "convertEmoticonsLabel": "Převádět textové emotikony na emoji"
+    "convertEmoticonsLabel": "Převádět textové emotikony na emoji",
+    "guildCommandFailed": "Nepodařilo se spustit /{name}: {detail}",
+    "guildCommandBroken": "Jeho skript má problém.",
+    "guildCommandOneLine": "Co napíšete za /{name}, se musí vejít na jeden řádek."
 }
