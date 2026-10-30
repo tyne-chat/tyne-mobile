@@ -1012,6 +1012,24 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'Turn text smileys into emoji'**
   String get convertEmoticonsLabel;
+
+  /// Shown in the channel when a community command fails. {name} is the command, {detail} the reason. Keep the same wording as the web app.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t run /{name}: {detail}'**
+  String guildCommandFailed(String name, String detail);
+
+  /// Why a community command could not run, shown after "Couldn't run /name:".
+  ///
+  /// In en, this message translates to:
+  /// **'Its script has a problem.'**
+  String get guildCommandBroken;
+
+  /// Shown in the channel when a community command is sent with a line break in its input. {name} is the command.
+  ///
+  /// In en, this message translates to:
+  /// **'What you type after /{name} has to fit on one line.'**
+  String guildCommandOneLine(String name);
 }
 
 class _ForkLocalizationsDelegate

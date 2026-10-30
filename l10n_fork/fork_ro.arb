@@ -140,5 +140,8 @@
     "instanceOfflineTitle": "Tyne este offline!",
     "instanceOfflineBody": "Investigăm problema.",
     "instanceStatusSignalLink": "Intră în chatul nostru de pe Signal pentru noutăți",
-    "convertEmoticonsLabel": "Transformă smiley-urile text în emoji"
+    "convertEmoticonsLabel": "Transformă smiley-urile text în emoji",
+    "guildCommandFailed": "Nu s-a putut rula /{name}: {detail}",
+    "guildCommandBroken": "Scriptul ei are o problemă.",
+    "guildCommandOneLine": "Ce scrii după /{name} trebuie să încapă pe un singur rând."
 }
