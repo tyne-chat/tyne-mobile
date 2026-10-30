@@ -140,5 +140,8 @@
     "instanceOfflineTitle": "Tyne er frakoblet!",
     "instanceOfflineBody": "Vi undersøker saken.",
     "instanceStatusSignalLink": "Bli med i Signal-chatten vår for oppdateringer",
-    "convertEmoticonsLabel": "Gjør tekstsmilefjes om til emoji"
+    "convertEmoticonsLabel": "Gjør tekstsmilefjes om til emoji",
+    "guildCommandFailed": "Kunne ikke kjøre /{name}: {detail}",
+    "guildCommandBroken": "Skriptet har et problem.",
+    "guildCommandOneLine": "Det du skriver etter /{name}, må få plass på én linje."
 }

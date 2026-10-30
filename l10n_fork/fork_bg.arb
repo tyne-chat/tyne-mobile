@@ -140,5 +140,8 @@
     "instanceOfflineTitle": "Tyne е офлайн!",
     "instanceOfflineBody": "Проучваме проблема.",
     "instanceStatusSignalLink": "Присъединете се към чата ни в Signal за новини",
-    "convertEmoticonsLabel": "Превръщане на текстовите усмивки в емоджита"
+    "convertEmoticonsLabel": "Превръщане на текстовите усмивки в емоджита",
+    "guildCommandFailed": "/{name} не можа да бъде изпълнена: {detail}",
+    "guildCommandBroken": "Скриптът ѝ има проблем.",
+    "guildCommandOneLine": "Текстът след /{name} трябва да се побира на един ред."
 }
