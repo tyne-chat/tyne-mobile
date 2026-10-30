@@ -140,5 +140,8 @@
     "instanceOfflineTitle": "Tyne недоступен!",
     "instanceOfflineBody": "Мы разбираемся.",
     "instanceStatusSignalLink": "Присоединяйтесь к нашему чату в Signal, чтобы следить за новостями",
-    "convertEmoticonsLabel": "Преобразовывать текстовые смайлики в эмодзи"
+    "convertEmoticonsLabel": "Преобразовывать текстовые смайлики в эмодзи",
+    "guildCommandFailed": "Не удалось выполнить /{name}: {detail}",
+    "guildCommandBroken": "В её скрипте есть проблема.",
+    "guildCommandOneLine": "Текст после /{name} должен помещаться в одну строку."
 }
