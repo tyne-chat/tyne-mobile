@@ -1377,6 +1377,13 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
               ),
             ),
           ],
+          FluxerSettingsSwitchItem(
+            label: l10n.fork.personaAutoTagDisabledLabel,
+            description: l10n.fork.personaAutoTagDisabledDescription,
+            value: _autoTagDisabled,
+            enabled: !_isSaving,
+            onChanged: (bool value) => setState(() => _autoTagDisabled = value),
+          ),
           SizedBox(height: layout.s3),
 
           // Signature Emojis

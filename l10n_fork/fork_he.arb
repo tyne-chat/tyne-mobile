@@ -60,6 +60,8 @@
     "personaRemoveAvatar": "הסר תמונת פרופיל",
     "personaUploadAvatar": "העלה תמונת פרופיל",
     "personaTagsLabel": "תגיות פרסונה",
+    "personaAutoTagDisabledLabel": "לא לזהות את התגיות של פרסונה זו",
+    "personaAutoTagDisabledDescription": "הקלדת אחת מהתגיות האלה לא תעביר לפרסונה זו. התגית תישלח כפי שנכתבה.",
     "personaTagPrefixLabel": "קידומת",
     "personaTagSuffixLabel": "סיומת",
     "personaVisibilityLabel": "נראות",
