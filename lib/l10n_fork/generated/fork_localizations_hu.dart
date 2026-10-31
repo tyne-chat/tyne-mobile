@@ -507,4 +507,154 @@ class ForkLocalizationsHu extends ForkLocalizations {
   String guildCommandOneLine(String name) {
     return 'Amit a /$name után írsz, annak egy sorba kell férnie.';
   }
+
+  @override
+  String get permissionCreateCommands => 'Parancsok létrehozása';
+
+  @override
+  String get permissionManageCommands => 'Parancsok kezelése';
+
+  @override
+  String get permissionUseExternalCommands => 'Külső parancsok használata';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      'Parancsok létrehozása ehhez a közösséghez, a sajátjaid szerkesztése vagy törlése.';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      'Bárki parancsainak szerkesztése vagy törlése ebben a közösségben.';
+
+  @override
+  String get permissionUseExternalCommandsDescription =>
+      'Más közösségek parancsainak használata.';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      'Más közösségek parancsainak használata ebben a csatornában.';
+
+  @override
+  String get guildSettingsCategoryMessageTools => 'Üzeneteszközök';
+
+  @override
+  String get guildSettingsCommands => 'Parancsok';
+
+  @override
+  String get guildCommandsLoadFailed => 'Nem sikerült betölteni a parancsokat.';
+
+  @override
+  String get guildCommandsSubtitle =>
+      'Üzenetek, amelyeket a tagok a /name beírásával küldhetnek.';
+
+  @override
+  String get guildCommandsSlots => 'Parancshelyek';
+
+  @override
+  String get guildCommandsNew => 'Új parancs';
+
+  @override
+  String get guildCommandsSearch => 'Parancsok keresése';
+
+  @override
+  String get guildCommandsEmptyTitle => 'Nincsenek parancsok';
+
+  @override
+  String get guildCommandsEmptyBody =>
+      'Ennek a közösségnek még nincsenek parancsai.';
+
+  @override
+  String get guildCommandsSaved => 'Parancsok mentve';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return 'Nem sikerült menteni: /$name: $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return '/$name szerkesztése';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return 'Törlöd ezt: /$name?';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      'Ez nem vonható vissza. A vele készült üzenetek továbbra is mutatják, melyik parancs készítette őket.';
+
+  @override
+  String get guildCommandDelete => 'Törlés';
+
+  @override
+  String get guildCommandDeleteCommand => 'Parancs törlése';
+
+  @override
+  String get guildCommandSectionCommand => 'Parancs';
+
+  @override
+  String get guildCommandName => 'Név';
+
+  @override
+  String get guildCommandNameInvalid =>
+      'Használj kisbetűket, számokat, - és _ jelet, legfeljebb 32 karaktert.';
+
+  @override
+  String get guildCommandNameTaken =>
+      'Egy másik parancsnak vagy egy beépített parancsnak már ez a neve.';
+
+  @override
+  String get guildCommandDescription => 'Leírás';
+
+  @override
+  String get guildCommandSectionInput => 'Bevitel';
+
+  @override
+  String get guildCommandInputNone => 'Nincs';
+
+  @override
+  String get guildCommandInputOptional => 'Nem kötelező';
+
+  @override
+  String get guildCommandInputRequired => 'Kötelező';
+
+  @override
+  String get guildCommandHint => 'Tipp';
+
+  @override
+  String get guildCommandMessage => 'Üzenet';
+
+  @override
+  String get guildCommandInsert => 'Beszúrás:';
+
+  @override
+  String get guildCommandInsertPerson => 'Aki használja';
+
+  @override
+  String get guildCommandInsertInput => 'Amit beírnak';
+
+  @override
+  String get guildCommandPreview => 'Előnézet';
+
+  @override
+  String get guildCommandSampleInput => 'Mintabevitel';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return 'Készült ezzel: /$name';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return 'Ürítsd ki az üzenetmezőt a(z) /$name használatához';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      'Ez a parancs egy szkript. Szerkeszd a webes vagy az asztali alkalmazásban.';
+
+  @override
+  String get guildCommandEmptyMessage =>
+      'Ez semmit sem küldene el, ezért a parancs sikertelen lenne.';
 }

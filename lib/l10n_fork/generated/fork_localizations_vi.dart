@@ -507,4 +507,153 @@ class ForkLocalizationsVi extends ForkLocalizations {
   String guildCommandOneLine(String name) {
     return 'Nội dung bạn gõ sau /$name phải nằm trên một dòng.';
   }
+
+  @override
+  String get permissionCreateCommands => 'Tạo lệnh';
+
+  @override
+  String get permissionManageCommands => 'Quản lý lệnh';
+
+  @override
+  String get permissionUseExternalCommands => 'Dùng lệnh bên ngoài';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      'Tạo lệnh cho cộng đồng này, và sửa hoặc xóa lệnh của bạn.';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      'Sửa hoặc xóa lệnh của bất kỳ ai trong cộng đồng này.';
+
+  @override
+  String get permissionUseExternalCommandsDescription =>
+      'Dùng lệnh từ các cộng đồng khác.';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      'Dùng lệnh từ các cộng đồng khác trong kênh này.';
+
+  @override
+  String get guildSettingsCategoryMessageTools => 'Công cụ tin nhắn';
+
+  @override
+  String get guildSettingsCommands => 'Lệnh';
+
+  @override
+  String get guildCommandsLoadFailed => 'Không thể tải các lệnh.';
+
+  @override
+  String get guildCommandsSubtitle =>
+      'Tin nhắn mà thành viên có thể đăng bằng cách gõ /name.';
+
+  @override
+  String get guildCommandsSlots => 'Ô lệnh';
+
+  @override
+  String get guildCommandsNew => 'Lệnh mới';
+
+  @override
+  String get guildCommandsSearch => 'Tìm lệnh';
+
+  @override
+  String get guildCommandsEmptyTitle => 'Không có lệnh nào';
+
+  @override
+  String get guildCommandsEmptyBody => 'Cộng đồng này chưa có lệnh nào.';
+
+  @override
+  String get guildCommandsSaved => 'Đã lưu lệnh';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return 'Không thể lưu /$name: $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return 'Sửa /$name';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return 'Xóa /$name?';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      'Không thể hoàn tác. Tin nhắn được tạo bằng lệnh này vẫn cho biết lệnh nào đã tạo ra chúng.';
+
+  @override
+  String get guildCommandDelete => 'Xóa';
+
+  @override
+  String get guildCommandDeleteCommand => 'Xóa lệnh';
+
+  @override
+  String get guildCommandSectionCommand => 'Lệnh';
+
+  @override
+  String get guildCommandName => 'Tên';
+
+  @override
+  String get guildCommandNameInvalid =>
+      'Dùng chữ thường, số, - và _, tối đa 32 ký tự.';
+
+  @override
+  String get guildCommandNameTaken =>
+      'Một lệnh khác hoặc một lệnh có sẵn đã dùng tên này.';
+
+  @override
+  String get guildCommandDescription => 'Mô tả';
+
+  @override
+  String get guildCommandSectionInput => 'Nhập liệu';
+
+  @override
+  String get guildCommandInputNone => 'Không';
+
+  @override
+  String get guildCommandInputOptional => 'Không bắt buộc';
+
+  @override
+  String get guildCommandInputRequired => 'Bắt buộc';
+
+  @override
+  String get guildCommandHint => 'Gợi ý';
+
+  @override
+  String get guildCommandMessage => 'Tin nhắn';
+
+  @override
+  String get guildCommandInsert => 'Chèn:';
+
+  @override
+  String get guildCommandInsertPerson => 'Người chạy lệnh';
+
+  @override
+  String get guildCommandInsertInput => 'Nội dung họ gõ';
+
+  @override
+  String get guildCommandPreview => 'Xem trước';
+
+  @override
+  String get guildCommandSampleInput => 'Nội dung mẫu';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return 'Được tạo bằng /$name';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return 'Xóa trống ô tin nhắn để dùng /$name';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      'Lệnh này là một tập lệnh. Hãy chỉnh sửa trong ứng dụng web hoặc máy tính.';
+
+  @override
+  String get guildCommandEmptyMessage =>
+      'Thao tác này sẽ không đăng gì cả, nên lệnh sẽ thất bại.';
 }
