@@ -648,10 +648,99 @@ class ForkLocalizationsHi extends ForkLocalizations {
   }
 
   @override
-  String get guildCommandScriptReadOnly =>
-      'यह कमांड एक स्क्रिप्ट है। इसे वेब या डेस्कटॉप ऐप पर संपादित करें।';
-
-  @override
   String get guildCommandEmptyMessage =>
       'इससे कुछ भी पोस्ट नहीं होगा, इसलिए कमांड विफल हो जाएगा।';
+
+  @override
+  String get guildCommandUseScriptEditor => 'स्क्रिप्ट एडिटर इस्तेमाल करें';
+
+  @override
+  String get guildCommandUseBasicEditor => 'बेसिक एडिटर इस्तेमाल करें';
+
+  @override
+  String get guildCommandScript => 'स्क्रिप्ट';
+
+  @override
+  String get guildCommandRunAgain => 'फिर से चलाएँ';
+
+  @override
+  String guildCommandIssueUnknownTag(String name) {
+    return '$name नाम का कोई टैग नहीं है।';
+  }
+
+  @override
+  String guildCommandIssueUnknownFilter(String name) {
+    return '$name नाम का कोई फ़िल्टर नहीं है।';
+  }
+
+  @override
+  String guildCommandIssueNotClosed(String name) {
+    return '$name कभी बंद नहीं होता।';
+  }
+
+  @override
+  String get guildCommandIssueTooLong => 'स्क्रिप्ट बहुत लंबी है।';
+
+  @override
+  String get guildCommandIssueTooLarge =>
+      'स्क्रिप्ट बहुत ज़्यादा टेक्स्ट बना रही है।';
+
+  @override
+  String get guildCommandIssueTooSlow =>
+      'स्क्रिप्ट चलाने में बहुत ज़्यादा समय लगा।';
+
+  @override
+  String get guildCommandIssueInvalid => 'यह हिस्सा पढ़ा नहीं जा सकता।';
+
+  @override
+  String get guildCommandIssueFailed => 'यह हिस्सा गड़बड़ी के साथ रुक गया।';
+
+  @override
+  String guildCommandIssueAt(String line, String column, String problem) {
+    return 'पंक्ति $line, कॉलम $column: $problem';
+  }
+
+  @override
+  String get guildCommandReferenceTitle => 'स्क्रिप्ट गाइड';
+
+  @override
+  String get guildCommandReferencePerson =>
+      'इस्तेमाल करने वाला व्यक्ति, मेंशन के रूप में';
+
+  @override
+  String get guildCommandReferencePersonName => 'इस्तेमाल करने वाले का नाम';
+
+  @override
+  String get guildCommandReferenceTarget =>
+      'पहला व्यक्ति जिसे वे मेंशन करें, अगर कोई हो';
+
+  @override
+  String get guildCommandReferenceTargetName => 'उस व्यक्ति का नाम';
+
+  @override
+  String get guildCommandReferenceChannel => 'चैनल, मेंशन के रूप में';
+
+  @override
+  String get guildCommandReferenceCommunity => 'इस कम्युनिटी का नाम';
+
+  @override
+  String get guildCommandExampleRandom => 'कोई एक विकल्प रैंडम तरीके से चुनें';
+
+  @override
+  String get guildCommandExampleDepends =>
+      'उन्होंने जो टाइप किया, उसके हिसाब से मैसेज बदलें';
+
+  @override
+  String get guildCommandExampleOneWord => 'कोई एक शब्द रैंडम तरीके से चुनें';
+
+  @override
+  String get guildCommandExampleWordForNumber =>
+      'संख्या के हिसाब से शब्द चुनें';
+
+  @override
+  String get guildCommandExampleOrdinal =>
+      'संख्या को 1st, 2nd, 3rd की तरह लिखें';
+
+  @override
+  String get guildCommandFullGuide => 'पूरी स्क्रिप्ट गाइड';
 }
