@@ -15,6 +15,10 @@ import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/guilds/providers/held_guild_permissions_provider.dart';
+
 part 'guild_settings_tab_providers.g.dart';
 
 Future<AsyncValue<void>> _runGuildSettingsActionWithKeepAlive(
@@ -138,8 +142,11 @@ class GuildSettingsModerationActions extends _$GuildSettingsModerationActions {
 
 @riverpod
 int guildSettingsPermissions(Ref ref, String guildId) {
+  // Fork: empty for a moment on every READY, which is not the same as no
+  // permissions (held_guild_permissions_provider.dart).
   return ref.watch(
         guildPermissionsProvider(watchAccountUserId(ref)),
       )[guildId] ??
+      ref.watch(heldGuildPermissionsProvider)[guildId] ??
       0;
 }
