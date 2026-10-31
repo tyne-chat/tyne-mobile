@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/services/composer_autocomplete_trigger.dart';
+import 'package:fluxer_app/features/chat/services/composer_mention_controller.dart';
 import 'package:fluxer_app/features/guild_commands/data/guild_commands_repository.dart';
 import 'package:fluxer_app/features/guild_commands/presentation/guild_command_counters_section.dart';
 import 'package:fluxer_app/features/guild_commands/presentation/guild_command_script_reference.dart';
@@ -163,7 +164,8 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
   late final TextEditingController _name;
   late final TextEditingController _description;
   late final TextEditingController _hint;
-  late final TextEditingController _sample;
+  late final ComposerMentionController _sample;
+  final FocusNode _sampleFocus = FocusNode();
   late final EmojiTextEditingController _template;
   final FocusNode _templateFocus = FocusNode();
   late GuildCommandInputMode _inputMode;
@@ -201,7 +203,7 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
   bool get _canChange => widget.editable;
 
   String get _previewInput =>
-      _inputMode == GuildCommandInputMode.none ? '' : _sample.text;
+      _inputMode == GuildCommandInputMode.none ? '' : _sample.toWireText();
 
   String get _storedTemplate => _command?.template ?? _newTemplate;
 
@@ -211,7 +213,7 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
     _name = TextEditingController(text: _command?.name ?? '');
     _description = TextEditingController(text: _command?.description ?? '');
     _hint = TextEditingController(text: _command?.inputHint ?? '');
-    _sample = TextEditingController();
+    _sample = ComposerMentionController(ref: ref);
     _template = EmojiTextEditingController()..loadWithTokens(_storedTemplate);
     _inputMode = _command?.inputMode ?? GuildCommandInputMode.valueRequired;
     _scriptEditor = _command?.kind == GuildCommandKind.script;
@@ -269,6 +271,7 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
     _description.dispose();
     _hint.dispose();
     _sample.dispose();
+    _sampleFocus.dispose();
     _template.dispose();
     _templateFocus.dispose();
     super.dispose();
@@ -658,6 +661,8 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final GuildCommandResponseSchema? command = _command;
+    // Keeps the channels listening, so a preview and `@` suggestions have one.
+    ref.watch(allChannelsProvider);
     final bool hasUnsavedChanges = _canChange && _dirty;
     if (widget.canDismissNotifier.value == hasUnsavedChanges) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -779,10 +784,24 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
         ),
         _sectionLabel(context, l10n.fork.guildCommandPreview),
         if (_inputMode != GuildCommandInputMode.none) ...<Widget>[
-          FluxerInput(
-            controller: _sample,
-            label: l10n.fork.guildCommandSampleInput,
-            onChanged: (_) => setState(() {}),
+          TextFieldTapRegion(
+            child: ComposerAutocompleteField(
+              controller: _sample,
+              focusNode: _sampleFocus,
+              channelId: _previewChannelId(),
+              allowedTriggers: const <ComposerAutocompleteTriggerKind>{
+                ComposerAutocompleteTriggerKind.mention,
+                ComposerAutocompleteTriggerKind.emoji,
+              },
+              onApplied: () => setState(() {}),
+              child: FluxerInput(
+                controller: _sample,
+                focusNode: _sampleFocus,
+                label: l10n.fork.guildCommandSampleInput,
+                autocorrect: false,
+                onChanged: (_) => setState(() {}),
+              ),
+            ),
           ),
           const SizedBox(height: 12),
         ],
