@@ -83,6 +83,10 @@ two devices saving at once can undo each other's change to another field.
 
 ## The fork's changes and where they hook in
 
+- **A new accessibility record carries `auto_send_klipy_gifs`.** It is a plain proto3 bool, and the web
+  reads a record without it as off, so `toProtoMessageForPush` writes the phone's setting when the server
+  has no record yet. An existing record keeps what it says. The setting itself is not synced: the phone
+  keeps its own copy in `user_preferences` (tyne-chat/tyne#281).
 - `accessibility.proto`: the `// Fork fields.` block at the top of `AccessibilitySettings` holds
   `mobile_font_size`, `mobile_message_group_spacing`, `mobile_compact_message_group_spacing`
   (2224–2226), as in the server's block. `show_alt_text_on_images` is upstream mobile's own setting;
