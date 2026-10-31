@@ -1016,5 +1016,59 @@
     "guildCommandFullGuide": "Full script guide",
     "@guildCommandFullGuide": {
         "description": "Community command scripts on the phone. Same wording as the web app's."
+    },
+    "guildCommandCounters": "Counters",
+    "@guildCommandCounters": {
+        "description": "Community command counters on the phone. Same wording as the web app's."
+    },
+    "guildCommandCounterAdd": "Add counter",
+    "@guildCommandCounterAdd": {
+        "description": "Community command counters on the phone. Same wording as the web app's."
+    },
+    "guildCommandCounterSeparately": "Count separately for each:",
+    "@guildCommandCounterSeparately": {
+        "description": "Community command counters on the phone. Same wording as the web app's."
+    },
+    "guildCommandCounterPersonMentioned": "Person mentioned",
+    "@guildCommandCounterPersonMentioned": {
+        "description": "Community command counters on the phone. Same wording as the web app's."
+    },
+    "guildCommandCounterChannel": "Channel",
+    "@guildCommandCounterChannel": {
+        "description": "Community command counters on the phone. Same wording as the web app's."
+    },
+    "guildCommandCounterPersonas": "Count personas separately",
+    "@guildCommandCounterPersonas": {
+        "description": "Community command counters on the phone. Same wording as the web app's."
+    },
+    "guildCommandCounterRemove": "Remove counter",
+    "@guildCommandCounterRemove": {
+        "description": "Community command counters on the phone. Same wording as the web app's."
+    },
+    "guildCommandCounterReset": "Reset counts",
+    "@guildCommandCounterReset": {
+        "description": "Community command counters on the phone. Same wording as the web app's."
+    },
+    "guildCommandCounterResetConfirm": "Reset the counts of {name}? This can't be undone.",
+    "@guildCommandCounterResetConfirm": {
+        "description": "Community command counters on the phone. Same wording as the web app's.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "guildCommandCounterNameInvalid": "Use lowercase letters, numbers and _, starting with a letter, and not a name scripts already use.",
+    "@guildCommandCounterNameInvalid": {
+        "description": "Community command counters on the phone. Same wording as the web app's."
+    },
+    "guildCommandCounterHowToUse": "Use it in a script as {variable}. Each run adds one first, so the first run reads 1.",
+    "@guildCommandCounterHowToUse": {
+        "description": "Community command counters on the phone. Same wording as the web app's.",
+        "placeholders": {
+            "variable": {
+                "type": "String"
+            }
+        }
     }
 }
