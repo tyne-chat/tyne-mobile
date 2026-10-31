@@ -101,6 +101,7 @@ Map<String, dynamic> buildForwardMessageBody({
   List<int>? embedIndices,
   String? clientNonce,
   int? messageFlags,
+  String? personaId,
 }) {
   final reference = <String, dynamic>{
     'type': 1,
@@ -117,6 +118,10 @@ Map<String, dynamic> buildForwardMessageBody({
     reference['embed_indices'] = embedIndices;
   }
   final body = <String, dynamic>{'message_reference': reference};
+  // Fork: a forward goes out as a persona like any other message.
+  if (personaId != null) {
+    body['persona_id'] = personaId;
+  }
   if (messageFlags != null && messageFlags != 0) {
     body['flags'] = messageFlags;
   }
@@ -897,6 +902,7 @@ class MessageRepository {
     List<String>? attachmentIds,
     List<int>? embedIndices,
     int? messageFlags,
+    String? personaId,
   }) {
     return _postMessage(
       channelId,
@@ -908,6 +914,7 @@ class MessageRepository {
         embedIndices: embedIndices,
         clientNonce: clientNonce,
         messageFlags: messageFlags,
+        personaId: personaId,
       ),
     );
   }
