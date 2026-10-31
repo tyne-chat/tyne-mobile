@@ -60,6 +60,8 @@
     "personaRemoveAvatar": "Удалить аватар",
     "personaUploadAvatar": "Загрузить аватар",
     "personaTagsLabel": "Теги персоны",
+    "personaAutoTagDisabledLabel": "Не распознавать теги этой персоны",
+    "personaAutoTagDisabledDescription": "Ввод одного из этих тегов не переключит на эту персону. Тег будет отправлен так, как написан.",
     "personaTagPrefixLabel": "Префикс",
     "personaTagSuffixLabel": "Суффикс",
     "personaVisibilityLabel": "Видимость",
