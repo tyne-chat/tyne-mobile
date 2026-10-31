@@ -60,6 +60,8 @@
     "personaRemoveAvatar": "ลบรูปโปรไฟล์",
     "personaUploadAvatar": "อัปโหลดรูปโปรไฟล์",
     "personaTagsLabel": "แท็ก Persona",
+    "personaAutoTagDisabledLabel": "ไม่จับคู่แท็กของ Persona นี้",
+    "personaAutoTagDisabledDescription": "การพิมพ์แท็กเหล่านี้จะไม่สลับไปใช้ Persona นี้ แท็กจะถูกส่งตามที่พิมพ์",
     "personaTagPrefixLabel": "คำนำหน้า",
     "personaTagSuffixLabel": "คำต่อท้าย",
     "personaVisibilityLabel": "การมองเห็น",

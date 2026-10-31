@@ -60,6 +60,8 @@
     "personaRemoveAvatar": "Xóa ảnh đại diện",
     "personaUploadAvatar": "Tải ảnh đại diện lên",
     "personaTagsLabel": "Thẻ persona",
+    "personaAutoTagDisabledLabel": "Không khớp thẻ của persona này",
+    "personaAutoTagDisabledDescription": "Nhập một trong các thẻ này sẽ không chuyển sang persona này. Thẻ được gửi đúng như đã viết.",
     "personaTagPrefixLabel": "Tiền tố",
     "personaTagSuffixLabel": "Hậu tố",
     "personaVisibilityLabel": "Chế độ hiển thị",
