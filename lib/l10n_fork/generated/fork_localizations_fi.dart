@@ -743,4 +743,42 @@ class ForkLocalizationsFi extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'Täydellinen skriptiopas';
+
+  @override
+  String get guildCommandCounters => 'Laskurit';
+
+  @override
+  String get guildCommandCounterAdd => 'Lisää laskuri';
+
+  @override
+  String get guildCommandCounterSeparately => 'Laske erikseen jokaiselle:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Mainittu henkilö';
+
+  @override
+  String get guildCommandCounterChannel => 'Kanava';
+
+  @override
+  String get guildCommandCounterPersonas => 'Laske persoonat erikseen';
+
+  @override
+  String get guildCommandCounterRemove => 'Poista laskuri';
+
+  @override
+  String get guildCommandCounterReset => 'Nollaa laskennat';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'Nollataanko laskurin $name laskennat? Tätä ei voi perua.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Käytä pieniä kirjaimia, numeroita ja _-merkkiä, aloita kirjaimella äläkä käytä nimeä, jota skriptit jo käyttävät.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Käytä sitä skriptissä muodossa $variable. Jokainen suoritus lisää ensin yhden, joten ensimmäinen lukee 1.';
+  }
 }
