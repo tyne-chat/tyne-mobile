@@ -506,4 +506,154 @@ class ForkLocalizationsNl extends ForkLocalizations {
   String guildCommandOneLine(String name) {
     return 'Wat je na /$name typt, moet op één regel passen.';
   }
+
+  @override
+  String get permissionCreateCommands => 'Opdrachten maken';
+
+  @override
+  String get permissionManageCommands => 'Opdrachten beheren';
+
+  @override
+  String get permissionUseExternalCommands => 'Externe opdrachten gebruiken';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      'Opdrachten voor deze community maken, en je eigen opdrachten bewerken of verwijderen.';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      'Opdrachten van iedereen in deze community bewerken of verwijderen.';
+
+  @override
+  String get permissionUseExternalCommandsDescription =>
+      'Opdrachten uit andere community\'s gebruiken.';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      'Opdrachten uit andere community\'s in dit kanaal gebruiken.';
+
+  @override
+  String get guildSettingsCategoryMessageTools => 'Berichthulpmiddelen';
+
+  @override
+  String get guildSettingsCommands => 'Opdrachten';
+
+  @override
+  String get guildCommandsLoadFailed => 'Kon de opdrachten niet laden.';
+
+  @override
+  String get guildCommandsSubtitle =>
+      'Berichten die leden kunnen plaatsen door /name te typen.';
+
+  @override
+  String get guildCommandsSlots => 'Opdrachtplaatsen';
+
+  @override
+  String get guildCommandsNew => 'Nieuwe opdracht';
+
+  @override
+  String get guildCommandsSearch => 'Opdrachten zoeken';
+
+  @override
+  String get guildCommandsEmptyTitle => 'Geen opdrachten';
+
+  @override
+  String get guildCommandsEmptyBody =>
+      'Deze community heeft nog geen opdrachten.';
+
+  @override
+  String get guildCommandsSaved => 'Opdrachten opgeslagen';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return 'Kon /$name niet opslaan: $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return '/$name bewerken';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return '/$name verwijderen?';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      'Dit kan niet ongedaan worden gemaakt. Berichten die ermee zijn gemaakt, laten nog steeds zien met welke opdracht ze zijn gemaakt.';
+
+  @override
+  String get guildCommandDelete => 'Verwijderen';
+
+  @override
+  String get guildCommandDeleteCommand => 'Opdracht verwijderen';
+
+  @override
+  String get guildCommandSectionCommand => 'Opdracht';
+
+  @override
+  String get guildCommandName => 'Naam';
+
+  @override
+  String get guildCommandNameInvalid =>
+      'Gebruik kleine letters, cijfers, - en _, maximaal 32 tekens.';
+
+  @override
+  String get guildCommandNameTaken =>
+      'Een andere opdracht of een ingebouwde opdracht heeft deze naam al.';
+
+  @override
+  String get guildCommandDescription => 'Beschrijving';
+
+  @override
+  String get guildCommandSectionInput => 'Invoer';
+
+  @override
+  String get guildCommandInputNone => 'Geen';
+
+  @override
+  String get guildCommandInputOptional => 'Optioneel';
+
+  @override
+  String get guildCommandInputRequired => 'Vereist';
+
+  @override
+  String get guildCommandHint => 'Aanwijzing';
+
+  @override
+  String get guildCommandMessage => 'Bericht';
+
+  @override
+  String get guildCommandInsert => 'Invoegen:';
+
+  @override
+  String get guildCommandInsertPerson => 'Wie hem gebruikt';
+
+  @override
+  String get guildCommandInsertInput => 'Wat ze typen';
+
+  @override
+  String get guildCommandPreview => 'Voorbeeld';
+
+  @override
+  String get guildCommandSampleInput => 'Voorbeeldinvoer';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return 'Gemaakt met /$name';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return 'Maak het berichtvak leeg om /$name te gebruiken';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      'Dit commando is een script. Bewerk het in de web- of desktop-app.';
+
+  @override
+  String get guildCommandEmptyMessage =>
+      'Dit zou niets plaatsen, dus de opdracht zou mislukken.';
 }

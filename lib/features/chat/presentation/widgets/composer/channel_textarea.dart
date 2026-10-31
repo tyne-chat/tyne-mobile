@@ -109,6 +109,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/persona_c
 import 'package:fluxer_app/features/chat/providers/pickers/timestamp_insert_provider.dart';
 import 'package:fluxer_app/features/chat/services/timestamp_inline_token.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
+import 'package:fluxer_app/features/guild_commands/providers/guild_command_editing.dart';
 import 'package:fluxer_app/features/guild_commands/providers/guild_command_runner.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/providers/quick_switcher_button_preferences_provider.dart';
@@ -853,6 +854,14 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
           return;
         }
         _controller.deleteBackward();
+      })
+      ..listen<GuildCommandInsert?>(pendingGuildCommandInsertProvider, (
+        _,
+        pending,
+      ) {
+        if (pending != null) {
+          _forkInsertGuildCommand(pending);
+        }
       })
       ..listen<({int epoch, String style})?>(pendingTimestampInsertProvider, (
         _,
@@ -2748,6 +2757,36 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
 
 // Fork: server commands in the composer (lib/features/guild_commands/AGENTS.md).
 extension on _ChannelTextareaState {
+  /// A chip was tapped: `/name ` goes in the message box, if that is empty.
+  void _forkInsertGuildCommand(GuildCommandInsert pending) {
+    ref.read(pendingGuildCommandInsertProvider.notifier).consume();
+    final String channelId = ref.read(
+      chatViewModelProvider.select((s) => s.channelId),
+    );
+    if (pending.channelId != channelId) {
+      return;
+    }
+    if (_controller.toWireText().isNotEmpty || _slashSession.isActive) {
+      ref
+          .read(toastProvider.notifier)
+          .show(
+            FluxerToast(
+              message: FluxerLocalizations.of(
+                context,
+              ).fork.guildCommandClearBox(pending.name),
+            ),
+          );
+      return;
+    }
+    final String text = '/${pending.name} ';
+    _controller.value = TextEditingValue(
+      text: text,
+      selection: TextSelection.collapsed(offset: text.length),
+    );
+    ref.read(chatViewModelProvider.notifier).updateMessageText(text);
+    _focusNode.requestFocus();
+  }
+
   /// Whether [wireText] was a command, and so needs no further sending. A
   /// command sends only text: staged attachments and an open reply stay.
   Future<bool> _forkRunGuildCommand(String channelId, String wireText) async {
