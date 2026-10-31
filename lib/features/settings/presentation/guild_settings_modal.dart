@@ -56,6 +56,10 @@ import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:go_router/go_router.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/guild_commands/presentation/guild_commands_settings.dart';
+
 class GuildSettingsModal extends ConsumerStatefulWidget {
   const GuildSettingsModal({
     required this.guildId,
@@ -396,6 +400,7 @@ class GuildSettingsTabBody extends ConsumerWidget {
         data: (GuildAuditLogState state) =>
             GuildAuditLogWidget(guildId: guildId, state: state),
       ),
+      GuildSettingsTab.commands => GuildCommandsSettings(guildId: guildId),
       GuildSettingsTab.bans => GuildSettingsAsyncBody<GuildBansState>(
         value: ref.watch(guildBansProvider(guildId)),
         scrollController: scrollController,

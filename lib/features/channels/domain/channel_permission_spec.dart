@@ -3,6 +3,9 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/settings/domain/guild/roles/guild_role_permission_spec.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
+// Fork imports.
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+
 List<GuildPermissionCategorySpec> generateChannelPermissionSpec(
   FluxerLocalizations l10n,
   ChannelType channelType,
@@ -44,6 +47,7 @@ List<GuildPermissionCategorySpec> generateChannelPermissionSpec(
         _channelEntry(l10n, Permission.readMessageHistory),
         _channelEntry(l10n, Permission.mentionEveryone),
         _channelEntry(l10n, Permission.useExternalEmojis),
+        _channelEntry(l10n, Permission.useExternalCommands),
         _channelEntry(l10n, Permission.useExternalStickers),
         _channelEntry(l10n, Permission.addReactions),
         _channelEntry(l10n, Permission.bypassSlowmode),
@@ -104,6 +108,8 @@ String? channelPermissionDescription(
       l10n.permissionViewChannelMembersChannelDescription,
     Permission.createInstantInvite =>
       l10n.permissionCreateInviteLinksChannelDescription,
+    Permission.useExternalCommands =>
+      l10n.fork.permissionUseExternalCommandsChannelDescription,
     _ => permissionDescription(l10n, permission),
   };
 }

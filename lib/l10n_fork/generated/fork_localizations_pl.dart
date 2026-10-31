@@ -508,4 +508,153 @@ class ForkLocalizationsPl extends ForkLocalizations {
   String guildCommandOneLine(String name) {
     return 'To, co wpiszesz po /$name, musi zmieścić się w jednym wierszu.';
   }
+
+  @override
+  String get permissionCreateCommands => 'Tworzenie poleceń';
+
+  @override
+  String get permissionManageCommands => 'Zarządzanie poleceniami';
+
+  @override
+  String get permissionUseExternalCommands => 'Używaj zewnętrznych poleceń';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      'Twórz polecenia dla tej społeczności oraz edytuj i usuwaj własne.';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      'Edytuj i usuwaj polecenia każdego w tej społeczności.';
+
+  @override
+  String get permissionUseExternalCommandsDescription =>
+      'Używaj poleceń z innych społeczności.';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      'Używaj poleceń z innych społeczności na tym kanale.';
+
+  @override
+  String get guildSettingsCategoryMessageTools => 'Narzędzia wiadomości';
+
+  @override
+  String get guildSettingsCommands => 'Polecenia';
+
+  @override
+  String get guildCommandsLoadFailed => 'Nie udało się wczytać poleceń.';
+
+  @override
+  String get guildCommandsSubtitle =>
+      'Wiadomości, które członkowie mogą publikować, wpisując /name.';
+
+  @override
+  String get guildCommandsSlots => 'Miejsca na polecenia';
+
+  @override
+  String get guildCommandsNew => 'Nowe polecenie';
+
+  @override
+  String get guildCommandsSearch => 'Szukaj poleceń';
+
+  @override
+  String get guildCommandsEmptyTitle => 'Brak poleceń';
+
+  @override
+  String get guildCommandsEmptyBody => 'Ta społeczność nie ma jeszcze poleceń.';
+
+  @override
+  String get guildCommandsSaved => 'Polecenia zapisane';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return 'Nie udało się zapisać /$name: $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return 'Edytuj /$name';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return 'Usunąć /$name?';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      'Tego nie można cofnąć. Wiadomości utworzone tym poleceniem nadal pokazują, które polecenie je utworzyło.';
+
+  @override
+  String get guildCommandDelete => 'Usuń';
+
+  @override
+  String get guildCommandDeleteCommand => 'Usuń polecenie';
+
+  @override
+  String get guildCommandSectionCommand => 'Polecenie';
+
+  @override
+  String get guildCommandName => 'Nazwa';
+
+  @override
+  String get guildCommandNameInvalid =>
+      'Użyj małych liter, cyfr, - i _, maksymalnie 32 znaki.';
+
+  @override
+  String get guildCommandNameTaken =>
+      'Inne polecenie lub wbudowane polecenie ma już tę nazwę.';
+
+  @override
+  String get guildCommandDescription => 'Opis';
+
+  @override
+  String get guildCommandSectionInput => 'Wprowadzanie';
+
+  @override
+  String get guildCommandInputNone => 'Brak';
+
+  @override
+  String get guildCommandInputOptional => 'Opcjonalnie';
+
+  @override
+  String get guildCommandInputRequired => 'Wymagane';
+
+  @override
+  String get guildCommandHint => 'Podpowiedź';
+
+  @override
+  String get guildCommandMessage => 'Wiadomość';
+
+  @override
+  String get guildCommandInsert => 'Wstaw:';
+
+  @override
+  String get guildCommandInsertPerson => 'Osoba, która go używa';
+
+  @override
+  String get guildCommandInsertInput => 'To, co wpisują';
+
+  @override
+  String get guildCommandPreview => 'Podgląd';
+
+  @override
+  String get guildCommandSampleInput => 'Przykładowy tekst';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return 'Utworzone poleceniem /$name';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return 'Wyczyść pole wiadomości, aby użyć /$name';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      'To polecenie jest skryptem. Edytuj je w aplikacji webowej lub na komputer.';
+
+  @override
+  String get guildCommandEmptyMessage =>
+      'Nic nie zostałoby opublikowane, więc polecenie by się nie powiodło.';
 }
