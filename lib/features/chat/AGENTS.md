@@ -90,6 +90,10 @@ froze the panel on the previous conversation.
   `\\`, re-pointing the channel's signals) and returns the text without its tag plus a local
   `personaData` map. Only the persona's id goes on the wire (`persona_id`); the map just draws the
   pending row. Voice messages use the selection only.
+- **Forwards** go through `resolveForwardPersona` from `forwardMessage`, once per destination: a tag in
+  the comment decides for the forward and its comment; otherwise the selection where the forward
+  started, then the destination's, then the account. A stored send keeps its persona, so a retry after
+  a restart goes out as it did before.
 - **The selection** comes from `features/profile` (`activePersonaProvider`, `latchedPersonaFor`). Threads
   and forum posts resolve against the parent channel (`personaChannelId`).
 - **Editing:** `saveEditedMessage` runs `matchEditMessage`; a persona change is a `PATCH` with
