@@ -60,6 +60,8 @@
     "personaRemoveAvatar": "Avatarı Kaldır",
     "personaUploadAvatar": "Avatar Yükle",
     "personaTagsLabel": "Persona Etiketleri",
+    "personaAutoTagDisabledLabel": "Bu personanın etiketlerini eşleştirme",
+    "personaAutoTagDisabledDescription": "Bu etiketlerden birini yazmak bu personaya geçmez. Etiket yazıldığı gibi gönderilir.",
     "personaTagPrefixLabel": "Önek",
     "personaTagSuffixLabel": "Sonek",
     "personaVisibilityLabel": "Görünürlük",

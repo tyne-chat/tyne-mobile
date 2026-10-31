@@ -248,6 +248,13 @@ class ForkLocalizationsHr extends ForkLocalizations {
   String get personaTagsLabel => 'Oznake persone';
 
   @override
+  String get personaAutoTagDisabledLabel => 'Ne prepoznaj oznake ove persone';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      'Upisivanje jedne od ovih oznaka neće prebaciti na ovu personu. Oznaka se šalje onako kako je napisana.';
+
+  @override
   String get personaTagPrefixLabel => 'Prefiks';
 
   @override
