@@ -246,6 +246,14 @@ class ForkLocalizationsHu extends ForkLocalizations {
   String get personaTagsLabel => 'Persona címkék';
 
   @override
+  String get personaAutoTagDisabledLabel =>
+      'Ne ismerje fel ennek a personának a címkéit';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      'Ha beírod valamelyik címkét, nem vált erre a personára. A címke úgy kerül elküldésre, ahogy beírtad.';
+
+  @override
   String get personaTagPrefixLabel => 'Előtag';
 
   @override
