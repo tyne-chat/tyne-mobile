@@ -39,7 +39,12 @@ enum Permission {
   pinMessages(1 << 51),
   bypassSlowmode(1 << 52),
   updateRtcRegion(1 << 53),
-  viewChannelMembers(1 << 54);
+  viewChannelMembers(1 << 54),
+
+  // Fork values.
+  createCommands(1 << 62),
+  manageCommands(1 << 61),
+  useExternalCommands(1 << 59);
 
   final int value;
   const Permission(this.value);
@@ -58,6 +63,7 @@ final int defaultPermissions =
     Permission.attachFiles.value |
     Permission.readMessageHistory.value |
     Permission.useExternalEmojis.value |
+    Permission.useExternalCommands.value |
     Permission.connect.value |
     Permission.speak.value |
     Permission.useVad.value |

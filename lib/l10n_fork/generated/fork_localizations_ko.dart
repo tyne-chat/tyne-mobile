@@ -494,4 +494,148 @@ class ForkLocalizationsKo extends ForkLocalizations {
   String guildCommandOneLine(String name) {
     return '/$name 뒤에 입력하는 내용은 한 줄이어야 합니다.';
   }
+
+  @override
+  String get permissionCreateCommands => '명령 만들기';
+
+  @override
+  String get permissionManageCommands => '명령 관리';
+
+  @override
+  String get permissionUseExternalCommands => '외부 명령 사용';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      '이 커뮤니티의 명령을 만들고 내 명령을 수정하거나 삭제합니다.';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      '이 커뮤니티에서 누구의 명령이든 수정하거나 삭제합니다.';
+
+  @override
+  String get permissionUseExternalCommandsDescription => '다른 커뮤니티의 명령을 사용합니다.';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      '이 채널에서 다른 커뮤니티의 명령을 사용합니다.';
+
+  @override
+  String get guildSettingsCategoryMessageTools => '메시지 도구';
+
+  @override
+  String get guildSettingsCommands => '명령';
+
+  @override
+  String get guildCommandsLoadFailed => '명령을 불러올 수 없습니다.';
+
+  @override
+  String get guildCommandsSubtitle => '멤버가 /name을 입력해 게시할 수 있는 메시지입니다.';
+
+  @override
+  String get guildCommandsSlots => '명령 슬롯';
+
+  @override
+  String get guildCommandsNew => '새 명령';
+
+  @override
+  String get guildCommandsSearch => '명령 검색';
+
+  @override
+  String get guildCommandsEmptyTitle => '명령 없음';
+
+  @override
+  String get guildCommandsEmptyBody => '이 커뮤니티에는 아직 명령이 없습니다.';
+
+  @override
+  String get guildCommandsSaved => '명령이 저장되었습니다';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return '/$name을(를) 저장할 수 없습니다: $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return '/$name 수정';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return '/$name을(를) 삭제할까요?';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      '이 작업은 되돌릴 수 없습니다. 이 명령으로 만든 메시지에는 어떤 명령으로 만들었는지 계속 표시됩니다.';
+
+  @override
+  String get guildCommandDelete => '삭제';
+
+  @override
+  String get guildCommandDeleteCommand => '명령 삭제';
+
+  @override
+  String get guildCommandSectionCommand => '명령';
+
+  @override
+  String get guildCommandName => '이름';
+
+  @override
+  String get guildCommandNameInvalid => '소문자, 숫자, -, _만 사용해 32자 이내로 입력하세요.';
+
+  @override
+  String get guildCommandNameTaken => '다른 명령 또는 기본 제공 명령이 이미 이 이름을 사용하고 있습니다.';
+
+  @override
+  String get guildCommandDescription => '설명';
+
+  @override
+  String get guildCommandSectionInput => '입력';
+
+  @override
+  String get guildCommandInputNone => '없음';
+
+  @override
+  String get guildCommandInputOptional => '선택';
+
+  @override
+  String get guildCommandInputRequired => '필수';
+
+  @override
+  String get guildCommandHint => '힌트';
+
+  @override
+  String get guildCommandMessage => '메시지';
+
+  @override
+  String get guildCommandInsert => '삽입:';
+
+  @override
+  String get guildCommandInsertPerson => '실행한 사람';
+
+  @override
+  String get guildCommandInsertInput => '입력한 내용';
+
+  @override
+  String get guildCommandPreview => '미리보기';
+
+  @override
+  String get guildCommandSampleInput => '입력 예시';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return '/$name(으)로 만든 메시지';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return '/$name을(를) 사용하려면 메시지 입력란을 비우세요';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      '이 명령어는 스크립트입니다. 웹 또는 데스크톱 앱에서 편집하세요.';
+
+  @override
+  String get guildCommandEmptyMessage => '아무것도 게시되지 않으므로 명령이 실패합니다.';
 }
