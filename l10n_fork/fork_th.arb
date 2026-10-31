@@ -211,5 +211,16 @@
     "guildCommandExampleOneWord": "สุ่มเลือกหนึ่งคำ",
     "guildCommandExampleWordForNumber": "เลือกคำตามตัวเลข",
     "guildCommandExampleOrdinal": "เขียนตัวเลขแบบ 1st, 2nd, 3rd",
-    "guildCommandFullGuide": "คู่มือสคริปต์ฉบับเต็ม"
+    "guildCommandFullGuide": "คู่มือสคริปต์ฉบับเต็ม",
+    "guildCommandCounters": "ตัวนับ",
+    "guildCommandCounterAdd": "เพิ่มตัวนับ",
+    "guildCommandCounterSeparately": "นับแยกสำหรับแต่ละ:",
+    "guildCommandCounterPersonMentioned": "คนที่ถูกกล่าวถึง",
+    "guildCommandCounterChannel": "ช่อง",
+    "guildCommandCounterPersonas": "นับเพอร์โซนาแยกกัน",
+    "guildCommandCounterRemove": "ลบตัวนับ",
+    "guildCommandCounterReset": "รีเซ็ตจำนวน",
+    "guildCommandCounterResetConfirm": "รีเซ็ตจำนวนของ {name} หรือไม่ การดำเนินการนี้ย้อนกลับไม่ได้",
+    "guildCommandCounterNameInvalid": "ใช้อักษรอังกฤษตัวเล็ก ตัวเลข และ _ ขึ้นต้นด้วยตัวอักษร และอย่าใช้ชื่อที่สคริปต์ใช้อยู่แล้ว",
+    "guildCommandCounterHowToUse": "ใช้ในสคริปต์เป็น {variable} การรันแต่ละครั้งจะบวกหนึ่งก่อน การรันครั้งแรกจึงอ่านได้ 1"
 }
