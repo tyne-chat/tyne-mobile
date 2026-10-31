@@ -508,4 +508,154 @@ class ForkLocalizationsDa extends ForkLocalizations {
   String guildCommandOneLine(String name) {
     return 'Det, du skriver efter /$name, skal kunne være på én linje.';
   }
+
+  @override
+  String get permissionCreateCommands => 'Opret kommandoer';
+
+  @override
+  String get permissionManageCommands => 'Administrer kommandoer';
+
+  @override
+  String get permissionUseExternalCommands => 'Brug eksterne kommandoer';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      'Opret kommandoer til dette fællesskab, og rediger eller slet dine egne.';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      'Rediger eller slet alles kommandoer i dette fællesskab.';
+
+  @override
+  String get permissionUseExternalCommandsDescription =>
+      'Brug kommandoer fra andre fællesskaber.';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      'Brug kommandoer fra andre fællesskaber i denne kanal.';
+
+  @override
+  String get guildSettingsCategoryMessageTools => 'Beskedværktøjer';
+
+  @override
+  String get guildSettingsCommands => 'Kommandoer';
+
+  @override
+  String get guildCommandsLoadFailed => 'Kunne ikke indlæse kommandoerne.';
+
+  @override
+  String get guildCommandsSubtitle =>
+      'Beskeder, som medlemmer kan sende ved at skrive /name.';
+
+  @override
+  String get guildCommandsSlots => 'Kommandopladser';
+
+  @override
+  String get guildCommandsNew => 'Ny kommando';
+
+  @override
+  String get guildCommandsSearch => 'Søg efter kommandoer';
+
+  @override
+  String get guildCommandsEmptyTitle => 'Ingen kommandoer';
+
+  @override
+  String get guildCommandsEmptyBody =>
+      'Dette fællesskab har ingen kommandoer endnu.';
+
+  @override
+  String get guildCommandsSaved => 'Kommandoer gemt';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return 'Kunne ikke gemme /$name: $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return 'Rediger /$name';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return 'Slet /$name?';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      'Det kan ikke fortrydes. Beskeder lavet med den viser stadig, hvilken kommando der lavede dem.';
+
+  @override
+  String get guildCommandDelete => 'Slet';
+
+  @override
+  String get guildCommandDeleteCommand => 'Slet kommando';
+
+  @override
+  String get guildCommandSectionCommand => 'Kommando';
+
+  @override
+  String get guildCommandName => 'Navn';
+
+  @override
+  String get guildCommandNameInvalid =>
+      'Brug små bogstaver, tal, - og _, højst 32 tegn.';
+
+  @override
+  String get guildCommandNameTaken =>
+      'En anden kommando eller en indbygget kommando har allerede dette navn.';
+
+  @override
+  String get guildCommandDescription => 'Beskrivelse';
+
+  @override
+  String get guildCommandSectionInput => 'Indtastning';
+
+  @override
+  String get guildCommandInputNone => 'Ingen';
+
+  @override
+  String get guildCommandInputOptional => 'Valgfri';
+
+  @override
+  String get guildCommandInputRequired => 'Påkrævet';
+
+  @override
+  String get guildCommandHint => 'Tip';
+
+  @override
+  String get guildCommandMessage => 'Besked';
+
+  @override
+  String get guildCommandInsert => 'Indsæt:';
+
+  @override
+  String get guildCommandInsertPerson => 'Den, der bruger den';
+
+  @override
+  String get guildCommandInsertInput => 'Det, de skriver';
+
+  @override
+  String get guildCommandPreview => 'Forhåndsvisning';
+
+  @override
+  String get guildCommandSampleInput => 'Eksempeltekst';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return 'Lavet med /$name';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return 'Tøm beskedfeltet for at bruge /$name';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      'Denne kommando er et script. Rediger den i web- eller desktopappen.';
+
+  @override
+  String get guildCommandEmptyMessage =>
+      'Dette ville ikke sende noget, så kommandoen ville mislykkes.';
 }

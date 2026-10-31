@@ -506,4 +506,153 @@ class ForkLocalizationsTr extends ForkLocalizations {
   String guildCommandOneLine(String name) {
     return '/$name komutundan sonra yazdığınız metin tek satıra sığmalı.';
   }
+
+  @override
+  String get permissionCreateCommands => 'Komut oluştur';
+
+  @override
+  String get permissionManageCommands => 'Komutları yönet';
+
+  @override
+  String get permissionUseExternalCommands => 'Harici komutları kullan';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      'Bu topluluk için komut oluşturun ve kendi komutlarınızı düzenleyin veya silin.';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      'Bu topluluktaki herkesin komutlarını düzenleyin veya silin.';
+
+  @override
+  String get permissionUseExternalCommandsDescription =>
+      'Diğer toplulukların komutlarını kullanın.';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      'Bu kanalda diğer toplulukların komutlarını kullanın.';
+
+  @override
+  String get guildSettingsCategoryMessageTools => 'Mesaj Araçları';
+
+  @override
+  String get guildSettingsCommands => 'Komutlar';
+
+  @override
+  String get guildCommandsLoadFailed => 'Komutlar yüklenemedi.';
+
+  @override
+  String get guildCommandsSubtitle =>
+      'Üyelerin /name yazarak gönderebileceği mesajlar.';
+
+  @override
+  String get guildCommandsSlots => 'Komut yuvaları';
+
+  @override
+  String get guildCommandsNew => 'Yeni komut';
+
+  @override
+  String get guildCommandsSearch => 'Komutları ara';
+
+  @override
+  String get guildCommandsEmptyTitle => 'Komut yok';
+
+  @override
+  String get guildCommandsEmptyBody => 'Bu topluluğun henüz komutu yok.';
+
+  @override
+  String get guildCommandsSaved => 'Komutlar kaydedildi';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return '/$name kaydedilemedi: $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return '/$name komutunu düzenle';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return '/$name silinsin mi?';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      'Bu işlem geri alınamaz. Bu komutla yapılan mesajlar, onları hangi komutun yaptığını göstermeye devam eder.';
+
+  @override
+  String get guildCommandDelete => 'Sil';
+
+  @override
+  String get guildCommandDeleteCommand => 'Komutu sil';
+
+  @override
+  String get guildCommandSectionCommand => 'Komut';
+
+  @override
+  String get guildCommandName => 'Ad';
+
+  @override
+  String get guildCommandNameInvalid =>
+      'Küçük harf, rakam, - ve _ kullanın; en fazla 32 karakter.';
+
+  @override
+  String get guildCommandNameTaken =>
+      'Başka bir komut veya yerleşik bir komut zaten bu ada sahip.';
+
+  @override
+  String get guildCommandDescription => 'Açıklama';
+
+  @override
+  String get guildCommandSectionInput => 'Giriş';
+
+  @override
+  String get guildCommandInputNone => 'Yok';
+
+  @override
+  String get guildCommandInputOptional => 'İsteğe bağlı';
+
+  @override
+  String get guildCommandInputRequired => 'Gerekli';
+
+  @override
+  String get guildCommandHint => 'İpucu';
+
+  @override
+  String get guildCommandMessage => 'Mesaj';
+
+  @override
+  String get guildCommandInsert => 'Ekle:';
+
+  @override
+  String get guildCommandInsertPerson => 'Kullanan kişi';
+
+  @override
+  String get guildCommandInsertInput => 'Yazdıkları';
+
+  @override
+  String get guildCommandPreview => 'Önizle';
+
+  @override
+  String get guildCommandSampleInput => 'Örnek girdi';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return '/$name ile yapıldı';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return '/$name komutunu kullanmak için mesaj kutusunu boşaltın';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      'Bu komut bir betiktir. Web veya masaüstü uygulamasından düzenleyin.';
+
+  @override
+  String get guildCommandEmptyMessage =>
+      'Bu hiçbir şey göndermez, bu yüzden komut başarısız olur.';
 }
