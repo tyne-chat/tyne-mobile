@@ -403,6 +403,7 @@ Future<void> updateGuildUserSettings(
     case GuildAction.settingsInviteLinks:
     case GuildAction.settingsBans:
     case GuildAction.settingsChannels:
+    case GuildAction.settingsCommands:
     case GuildAction.notificationSettings:
     case GuildAction.privacySettings:
     case GuildAction.editCommunityProfile:

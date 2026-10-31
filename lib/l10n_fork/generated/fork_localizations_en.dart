@@ -502,6 +502,156 @@ class ForkLocalizationsEn extends ForkLocalizations {
   String guildCommandOneLine(String name) {
     return 'What you type after /$name has to fit on one line.';
   }
+
+  @override
+  String get permissionCreateCommands => 'Create commands';
+
+  @override
+  String get permissionManageCommands => 'Manage commands';
+
+  @override
+  String get permissionUseExternalCommands => 'Use external commands';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      'Create commands for this community, and edit or delete your own.';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      'Edit or delete anyone\'s commands in this community.';
+
+  @override
+  String get permissionUseExternalCommandsDescription =>
+      'Use commands from other communities.';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      'Use commands from other communities in this channel.';
+
+  @override
+  String get guildSettingsCategoryMessageTools => 'Message Tools';
+
+  @override
+  String get guildSettingsCommands => 'Commands';
+
+  @override
+  String get guildCommandsLoadFailed => 'Couldn\'t load the commands.';
+
+  @override
+  String get guildCommandsSubtitle =>
+      'Messages members can post by typing /name.';
+
+  @override
+  String get guildCommandsSlots => 'Command slots';
+
+  @override
+  String get guildCommandsNew => 'New command';
+
+  @override
+  String get guildCommandsSearch => 'Search commands';
+
+  @override
+  String get guildCommandsEmptyTitle => 'No commands';
+
+  @override
+  String get guildCommandsEmptyBody =>
+      'This community doesn\'t have any commands yet.';
+
+  @override
+  String get guildCommandsSaved => 'Commands saved';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return 'Couldn\'t save /$name: $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return 'Edit /$name';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return 'Delete /$name?';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      'This can\'t be undone. Messages made with it still show which command made them.';
+
+  @override
+  String get guildCommandDelete => 'Delete';
+
+  @override
+  String get guildCommandDeleteCommand => 'Delete command';
+
+  @override
+  String get guildCommandSectionCommand => 'Command';
+
+  @override
+  String get guildCommandName => 'Name';
+
+  @override
+  String get guildCommandNameInvalid =>
+      'Use lowercase letters, numbers, - and _, up to 32 characters.';
+
+  @override
+  String get guildCommandNameTaken =>
+      'Another command or a built-in command already has this name.';
+
+  @override
+  String get guildCommandDescription => 'Description';
+
+  @override
+  String get guildCommandSectionInput => 'Input';
+
+  @override
+  String get guildCommandInputNone => 'None';
+
+  @override
+  String get guildCommandInputOptional => 'Optional';
+
+  @override
+  String get guildCommandInputRequired => 'Required';
+
+  @override
+  String get guildCommandHint => 'Hint';
+
+  @override
+  String get guildCommandMessage => 'Message';
+
+  @override
+  String get guildCommandInsert => 'Insert:';
+
+  @override
+  String get guildCommandInsertPerson => 'Person running it';
+
+  @override
+  String get guildCommandInsertInput => 'What they type';
+
+  @override
+  String get guildCommandPreview => 'Preview';
+
+  @override
+  String get guildCommandSampleInput => 'Sample input';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return 'Made with /$name';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return 'Clear the message box to use /$name';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      'This command is a script. Edit it on the web or desktop app.';
+
+  @override
+  String get guildCommandEmptyMessage =>
+      'This would post nothing, so the command would fail.';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -1002,6 +1152,156 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   String guildCommandOneLine(String name) {
     return 'What you type after /$name has to fit on one line.';
   }
+
+  @override
+  String get permissionCreateCommands => 'Create commands';
+
+  @override
+  String get permissionManageCommands => 'Manage commands';
+
+  @override
+  String get permissionUseExternalCommands => 'Use external commands';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      'Create commands for this community, and edit or delete your own.';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      'Edit or delete anyone\'s commands in this community.';
+
+  @override
+  String get permissionUseExternalCommandsDescription =>
+      'Use commands from other communities.';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      'Use commands from other communities in this channel.';
+
+  @override
+  String get guildSettingsCategoryMessageTools => 'Message Tools';
+
+  @override
+  String get guildSettingsCommands => 'Commands';
+
+  @override
+  String get guildCommandsLoadFailed => 'Couldn\'t load the commands.';
+
+  @override
+  String get guildCommandsSubtitle =>
+      'Messages members can post by typing /name.';
+
+  @override
+  String get guildCommandsSlots => 'Command slots';
+
+  @override
+  String get guildCommandsNew => 'New command';
+
+  @override
+  String get guildCommandsSearch => 'Search commands';
+
+  @override
+  String get guildCommandsEmptyTitle => 'No commands';
+
+  @override
+  String get guildCommandsEmptyBody =>
+      'This community doesn\'t have any commands yet.';
+
+  @override
+  String get guildCommandsSaved => 'Commands saved';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return 'Couldn\'t save /$name: $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return 'Edit /$name';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return 'Delete /$name?';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      'This can\'t be undone. Messages made with it still show which command made them.';
+
+  @override
+  String get guildCommandDelete => 'Delete';
+
+  @override
+  String get guildCommandDeleteCommand => 'Delete command';
+
+  @override
+  String get guildCommandSectionCommand => 'Command';
+
+  @override
+  String get guildCommandName => 'Name';
+
+  @override
+  String get guildCommandNameInvalid =>
+      'Use lowercase letters, numbers, - and _, up to 32 characters.';
+
+  @override
+  String get guildCommandNameTaken =>
+      'Another command or a built-in command already has this name.';
+
+  @override
+  String get guildCommandDescription => 'Description';
+
+  @override
+  String get guildCommandSectionInput => 'Input';
+
+  @override
+  String get guildCommandInputNone => 'None';
+
+  @override
+  String get guildCommandInputOptional => 'Optional';
+
+  @override
+  String get guildCommandInputRequired => 'Required';
+
+  @override
+  String get guildCommandHint => 'Hint';
+
+  @override
+  String get guildCommandMessage => 'Message';
+
+  @override
+  String get guildCommandInsert => 'Insert:';
+
+  @override
+  String get guildCommandInsertPerson => 'Person running it';
+
+  @override
+  String get guildCommandInsertInput => 'What they type';
+
+  @override
+  String get guildCommandPreview => 'Preview';
+
+  @override
+  String get guildCommandSampleInput => 'Sample input';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return 'Made with /$name';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return 'Clear the message box to use /$name';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      'This command is a script. Edit it on the web or desktop app.';
+
+  @override
+  String get guildCommandEmptyMessage =>
+      'This would post nothing, so the command would fail.';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -1502,4 +1802,154 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
   String guildCommandOneLine(String name) {
     return 'What you type after /$name has to fit on one line.';
   }
+
+  @override
+  String get permissionCreateCommands => 'Create commands';
+
+  @override
+  String get permissionManageCommands => 'Manage commands';
+
+  @override
+  String get permissionUseExternalCommands => 'Use external commands';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      'Create commands for this community, and edit or delete your own.';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      'Edit or delete anyone\'s commands in this community.';
+
+  @override
+  String get permissionUseExternalCommandsDescription =>
+      'Use commands from other communities.';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      'Use commands from other communities in this channel.';
+
+  @override
+  String get guildSettingsCategoryMessageTools => 'Message Tools';
+
+  @override
+  String get guildSettingsCommands => 'Commands';
+
+  @override
+  String get guildCommandsLoadFailed => 'Couldn\'t load the commands.';
+
+  @override
+  String get guildCommandsSubtitle =>
+      'Messages members can post by typing /name.';
+
+  @override
+  String get guildCommandsSlots => 'Command slots';
+
+  @override
+  String get guildCommandsNew => 'New command';
+
+  @override
+  String get guildCommandsSearch => 'Search commands';
+
+  @override
+  String get guildCommandsEmptyTitle => 'No commands';
+
+  @override
+  String get guildCommandsEmptyBody =>
+      'This community doesn\'t have any commands yet.';
+
+  @override
+  String get guildCommandsSaved => 'Commands saved';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return 'Couldn\'t save /$name: $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return 'Edit /$name';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return 'Delete /$name?';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      'This can\'t be undone. Messages made with it still show which command made them.';
+
+  @override
+  String get guildCommandDelete => 'Delete';
+
+  @override
+  String get guildCommandDeleteCommand => 'Delete command';
+
+  @override
+  String get guildCommandSectionCommand => 'Command';
+
+  @override
+  String get guildCommandName => 'Name';
+
+  @override
+  String get guildCommandNameInvalid =>
+      'Use lowercase letters, numbers, - and _, up to 32 characters.';
+
+  @override
+  String get guildCommandNameTaken =>
+      'Another command or a built-in command already has this name.';
+
+  @override
+  String get guildCommandDescription => 'Description';
+
+  @override
+  String get guildCommandSectionInput => 'Input';
+
+  @override
+  String get guildCommandInputNone => 'None';
+
+  @override
+  String get guildCommandInputOptional => 'Optional';
+
+  @override
+  String get guildCommandInputRequired => 'Required';
+
+  @override
+  String get guildCommandHint => 'Hint';
+
+  @override
+  String get guildCommandMessage => 'Message';
+
+  @override
+  String get guildCommandInsert => 'Insert:';
+
+  @override
+  String get guildCommandInsertPerson => 'Person running it';
+
+  @override
+  String get guildCommandInsertInput => 'What they type';
+
+  @override
+  String get guildCommandPreview => 'Preview';
+
+  @override
+  String get guildCommandSampleInput => 'Sample input';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return 'Made with /$name';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return 'Clear the message box to use /$name';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      'This command is a script. Edit it on the web or desktop app.';
+
+  @override
+  String get guildCommandEmptyMessage =>
+      'This would post nothing, so the command would fail.';
 }

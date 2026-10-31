@@ -507,4 +507,154 @@ class ForkLocalizationsSv extends ForkLocalizations {
   String guildCommandOneLine(String name) {
     return 'Det du skriver efter /$name måste få plats på en rad.';
   }
+
+  @override
+  String get permissionCreateCommands => 'Skapa kommandon';
+
+  @override
+  String get permissionManageCommands => 'Hantera kommandon';
+
+  @override
+  String get permissionUseExternalCommands => 'Använd externa kommandon';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      'Skapa kommandon för den här communityn och redigera eller ta bort dina egna.';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      'Redigera eller ta bort vems kommandon som helst i den här communityn.';
+
+  @override
+  String get permissionUseExternalCommandsDescription =>
+      'Använd kommandon från andra communities.';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      'Använd kommandon från andra communities i den här kanalen.';
+
+  @override
+  String get guildSettingsCategoryMessageTools => 'Meddelandeverktyg';
+
+  @override
+  String get guildSettingsCommands => 'Kommandon';
+
+  @override
+  String get guildCommandsLoadFailed => 'Kunde inte läsa in kommandona.';
+
+  @override
+  String get guildCommandsSubtitle =>
+      'Meddelanden som medlemmar kan skicka genom att skriva /name.';
+
+  @override
+  String get guildCommandsSlots => 'Kommandoplatser';
+
+  @override
+  String get guildCommandsNew => 'Nytt kommando';
+
+  @override
+  String get guildCommandsSearch => 'Sök bland kommandon';
+
+  @override
+  String get guildCommandsEmptyTitle => 'Inga kommandon';
+
+  @override
+  String get guildCommandsEmptyBody =>
+      'Den här communityn har inga kommandon än.';
+
+  @override
+  String get guildCommandsSaved => 'Kommandon sparade';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return 'Kunde inte spara /$name: $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return 'Redigera /$name';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return 'Ta bort /$name?';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      'Det här kan inte ångras. Meddelanden som gjorts med det visar fortfarande vilket kommando som gjorde dem.';
+
+  @override
+  String get guildCommandDelete => 'Ta bort';
+
+  @override
+  String get guildCommandDeleteCommand => 'Ta bort kommando';
+
+  @override
+  String get guildCommandSectionCommand => 'Kommando';
+
+  @override
+  String get guildCommandName => 'Namn';
+
+  @override
+  String get guildCommandNameInvalid =>
+      'Använd gemener, siffror, - och _, högst 32 tecken.';
+
+  @override
+  String get guildCommandNameTaken =>
+      'Ett annat kommando eller ett inbyggt kommando har redan det här namnet.';
+
+  @override
+  String get guildCommandDescription => 'Beskrivning';
+
+  @override
+  String get guildCommandSectionInput => 'Inmatning';
+
+  @override
+  String get guildCommandInputNone => 'Ingen';
+
+  @override
+  String get guildCommandInputOptional => 'Valfri';
+
+  @override
+  String get guildCommandInputRequired => 'Obligatoriskt';
+
+  @override
+  String get guildCommandHint => 'Tips';
+
+  @override
+  String get guildCommandMessage => 'Meddelande';
+
+  @override
+  String get guildCommandInsert => 'Infoga:';
+
+  @override
+  String get guildCommandInsertPerson => 'Den som använder det';
+
+  @override
+  String get guildCommandInsertInput => 'Det de skriver';
+
+  @override
+  String get guildCommandPreview => 'Förhandsgranska';
+
+  @override
+  String get guildCommandSampleInput => 'Exempeltext';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return 'Gjort med /$name';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return 'Töm meddelanderutan för att använda /$name';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      'Det här kommandot är ett skript. Redigera det i webb- eller datorappen.';
+
+  @override
+  String get guildCommandEmptyMessage =>
+      'Det här skulle inte skicka något, så kommandot skulle misslyckas.';
 }

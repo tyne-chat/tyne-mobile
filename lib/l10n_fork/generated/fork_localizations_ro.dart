@@ -507,4 +507,154 @@ class ForkLocalizationsRo extends ForkLocalizations {
   String guildCommandOneLine(String name) {
     return 'Ce scrii după /$name trebuie să încapă pe un singur rând.';
   }
+
+  @override
+  String get permissionCreateCommands => 'Creează comenzi';
+
+  @override
+  String get permissionManageCommands => 'Gestionează comenzile';
+
+  @override
+  String get permissionUseExternalCommands => 'Folosește comenzi externe';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      'Creează comenzi pentru această comunitate și editează sau șterge-le pe ale tale.';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      'Editează sau șterge comenzile oricui din această comunitate.';
+
+  @override
+  String get permissionUseExternalCommandsDescription =>
+      'Folosește comenzi din alte comunități.';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      'Folosește comenzi din alte comunități în acest canal.';
+
+  @override
+  String get guildSettingsCategoryMessageTools => 'Instrumente pentru mesaje';
+
+  @override
+  String get guildSettingsCommands => 'Comenzi';
+
+  @override
+  String get guildCommandsLoadFailed => 'Comenzile nu au putut fi încărcate.';
+
+  @override
+  String get guildCommandsSubtitle =>
+      'Mesaje pe care membrii le pot posta scriind /name.';
+
+  @override
+  String get guildCommandsSlots => 'Sloturi pentru comenzi';
+
+  @override
+  String get guildCommandsNew => 'Comandă nouă';
+
+  @override
+  String get guildCommandsSearch => 'Caută comenzi';
+
+  @override
+  String get guildCommandsEmptyTitle => 'Nicio comandă';
+
+  @override
+  String get guildCommandsEmptyBody =>
+      'Această comunitate nu are încă nicio comandă.';
+
+  @override
+  String get guildCommandsSaved => 'Comenzi salvate';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return 'Nu s-a putut salva /$name: $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return 'Editează /$name';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return 'Ștergi /$name?';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      'Acțiunea nu poate fi anulată. Mesajele făcute cu ea arată în continuare ce comandă le-a făcut.';
+
+  @override
+  String get guildCommandDelete => 'Șterge';
+
+  @override
+  String get guildCommandDeleteCommand => 'Șterge comanda';
+
+  @override
+  String get guildCommandSectionCommand => 'Comandă';
+
+  @override
+  String get guildCommandName => 'Nume';
+
+  @override
+  String get guildCommandNameInvalid =>
+      'Folosește litere mici, cifre, - și _, cel mult 32 de caractere.';
+
+  @override
+  String get guildCommandNameTaken =>
+      'O altă comandă sau o comandă integrată are deja acest nume.';
+
+  @override
+  String get guildCommandDescription => 'Descriere';
+
+  @override
+  String get guildCommandSectionInput => 'Introducere';
+
+  @override
+  String get guildCommandInputNone => 'Niciunul';
+
+  @override
+  String get guildCommandInputOptional => 'Opțional';
+
+  @override
+  String get guildCommandInputRequired => 'Obligatoriu';
+
+  @override
+  String get guildCommandHint => 'Indiciu';
+
+  @override
+  String get guildCommandMessage => 'Mesaj';
+
+  @override
+  String get guildCommandInsert => 'Inserează:';
+
+  @override
+  String get guildCommandInsertPerson => 'Persoana care o folosește';
+
+  @override
+  String get guildCommandInsertInput => 'Ce scriu';
+
+  @override
+  String get guildCommandPreview => 'Previzualizare';
+
+  @override
+  String get guildCommandSampleInput => 'Text de exemplu';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return 'Făcut cu /$name';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return 'Golește caseta de mesaj ca să folosești /$name';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      'Această comandă este un script. Editează-o în aplicația web sau desktop.';
+
+  @override
+  String get guildCommandEmptyMessage =>
+      'Asta nu ar posta nimic, așa că comanda ar eșua.';
 }

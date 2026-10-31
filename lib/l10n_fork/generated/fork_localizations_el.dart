@@ -508,4 +508,155 @@ class ForkLocalizationsEl extends ForkLocalizations {
   String guildCommandOneLine(String name) {
     return 'Ό,τι πληκτρολογείτε μετά την /$name πρέπει να χωράει σε μία γραμμή.';
   }
+
+  @override
+  String get permissionCreateCommands => 'Δημιουργία εντολών';
+
+  @override
+  String get permissionManageCommands => 'Διαχείριση εντολών';
+
+  @override
+  String get permissionUseExternalCommands => 'Χρήση εξωτερικών εντολών';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      'Δημιουργήστε εντολές για αυτή την κοινότητα και επεξεργαστείτε ή διαγράψτε τις δικές σας.';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      'Επεξεργαστείτε ή διαγράψτε τις εντολές οποιουδήποτε σε αυτή την κοινότητα.';
+
+  @override
+  String get permissionUseExternalCommandsDescription =>
+      'Χρησιμοποιήστε εντολές από άλλες κοινότητες.';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      'Χρησιμοποιήστε εντολές από άλλες κοινότητες σε αυτό το κανάλι.';
+
+  @override
+  String get guildSettingsCategoryMessageTools => 'Εργαλεία μηνυμάτων';
+
+  @override
+  String get guildSettingsCommands => 'Εντολές';
+
+  @override
+  String get guildCommandsLoadFailed =>
+      'Δεν ήταν δυνατή η φόρτωση των εντολών.';
+
+  @override
+  String get guildCommandsSubtitle =>
+      'Μηνύματα που μπορούν να δημοσιεύσουν τα μέλη πληκτρολογώντας /name.';
+
+  @override
+  String get guildCommandsSlots => 'Θέσεις για εντολές';
+
+  @override
+  String get guildCommandsNew => 'Νέα εντολή';
+
+  @override
+  String get guildCommandsSearch => 'Αναζήτηση εντολών';
+
+  @override
+  String get guildCommandsEmptyTitle => 'Δεν υπάρχουν εντολές';
+
+  @override
+  String get guildCommandsEmptyBody =>
+      'Αυτή η κοινότητα δεν έχει ακόμη εντολές.';
+
+  @override
+  String get guildCommandsSaved => 'Οι εντολές αποθηκεύτηκαν';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return 'Δεν ήταν δυνατή η αποθήκευση της /$name: $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return 'Επεξεργασία της /$name';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return 'Διαγραφή της /$name;';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      'Αυτό δεν μπορεί να αναιρεθεί. Τα μηνύματα που δημιουργήθηκαν με αυτήν εξακολουθούν να δείχνουν ποια εντολή τα δημιούργησε.';
+
+  @override
+  String get guildCommandDelete => 'Διαγραφή';
+
+  @override
+  String get guildCommandDeleteCommand => 'Διαγραφή εντολής';
+
+  @override
+  String get guildCommandSectionCommand => 'Εντολή';
+
+  @override
+  String get guildCommandName => 'Όνομα';
+
+  @override
+  String get guildCommandNameInvalid =>
+      'Χρησιμοποιήστε πεζά γράμματα, αριθμούς, - και _, έως 32 χαρακτήρες.';
+
+  @override
+  String get guildCommandNameTaken =>
+      'Μια άλλη εντολή ή μια ενσωματωμένη εντολή έχει ήδη αυτό το όνομα.';
+
+  @override
+  String get guildCommandDescription => 'Περιγραφή';
+
+  @override
+  String get guildCommandSectionInput => 'Εισαγωγή';
+
+  @override
+  String get guildCommandInputNone => 'Καμία';
+
+  @override
+  String get guildCommandInputOptional => 'Προαιρετικό';
+
+  @override
+  String get guildCommandInputRequired => 'Απαιτείται';
+
+  @override
+  String get guildCommandHint => 'Υπόδειξη';
+
+  @override
+  String get guildCommandMessage => 'Μήνυμα';
+
+  @override
+  String get guildCommandInsert => 'Εισαγωγή:';
+
+  @override
+  String get guildCommandInsertPerson => 'Όποιος τη χρησιμοποιεί';
+
+  @override
+  String get guildCommandInsertInput => 'Τι πληκτρολογούν';
+
+  @override
+  String get guildCommandPreview => 'Προεπισκόπηση';
+
+  @override
+  String get guildCommandSampleInput => 'Δείγμα κειμένου';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return 'Δημιουργήθηκε με την /$name';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return 'Αδειάστε το πλαίσιο μηνύματος για να χρησιμοποιήσετε την /$name';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      'Αυτή η εντολή είναι σενάριο. Επεξεργαστείτε την στην εφαρμογή ιστού ή υπολογιστή.';
+
+  @override
+  String get guildCommandEmptyMessage =>
+      'Αυτό δεν θα δημοσίευε τίποτα, οπότε η εντολή θα αποτύγχανε.';
 }

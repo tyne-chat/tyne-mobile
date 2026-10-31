@@ -1030,6 +1030,264 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'What you type after /{name} has to fit on one line.'**
   String guildCommandOneLine(String name);
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Create commands'**
+  String get permissionCreateCommands;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage commands'**
+  String get permissionManageCommands;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Use external commands'**
+  String get permissionUseExternalCommands;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Create commands for this community, and edit or delete your own.'**
+  String get permissionCreateCommandsDescription;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit or delete anyone\'s commands in this community.'**
+  String get permissionManageCommandsDescription;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Use commands from other communities.'**
+  String get permissionUseExternalCommandsDescription;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Use commands from other communities in this channel.'**
+  String get permissionUseExternalCommandsChannelDescription;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Message Tools'**
+  String get guildSettingsCategoryMessageTools;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Commands'**
+  String get guildSettingsCommands;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the commands.'**
+  String get guildCommandsLoadFailed;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages members can post by typing /name.'**
+  String get guildCommandsSubtitle;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Command slots'**
+  String get guildCommandsSlots;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'New command'**
+  String get guildCommandsNew;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Search commands'**
+  String get guildCommandsSearch;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'No commands'**
+  String get guildCommandsEmptyTitle;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'This community doesn\'t have any commands yet.'**
+  String get guildCommandsEmptyBody;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Commands saved'**
+  String get guildCommandsSaved;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t save /{name}: {detail}'**
+  String guildCommandSaveFailed(String name, String detail);
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit /{name}'**
+  String guildCommandEdit(String name);
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete /{name}?'**
+  String guildCommandDeleteTitle(String name);
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'This can\'t be undone. Messages made with it still show which command made them.'**
+  String get guildCommandDeleteBody;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get guildCommandDelete;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete command'**
+  String get guildCommandDeleteCommand;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Command'**
+  String get guildCommandSectionCommand;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get guildCommandName;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Use lowercase letters, numbers, - and _, up to 32 characters.'**
+  String get guildCommandNameInvalid;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Another command or a built-in command already has this name.'**
+  String get guildCommandNameTaken;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get guildCommandDescription;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Input'**
+  String get guildCommandSectionInput;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get guildCommandInputNone;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional'**
+  String get guildCommandInputOptional;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get guildCommandInputRequired;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Hint'**
+  String get guildCommandHint;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Message'**
+  String get guildCommandMessage;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Insert:'**
+  String get guildCommandInsert;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Person running it'**
+  String get guildCommandInsertPerson;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'What they type'**
+  String get guildCommandInsertInput;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get guildCommandPreview;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample input'**
+  String get guildCommandSampleInput;
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Made with /{name}'**
+  String guildCommandMadeWith(String name);
+
+  /// Community commands on the phone. Same wording as the web app's string.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear the message box to use /{name}'**
+  String guildCommandClearBox(String name);
+
+  /// Shown on the phone above a community command written as a script, which can only be edited on the web or desktop app.
+  ///
+  /// In en, this message translates to:
+  /// **'This command is a script. Edit it on the web or desktop app.'**
+  String get guildCommandScriptReadOnly;
+
+  /// Shown on the phone when a community command's message is left empty, so it cannot be saved.
+  ///
+  /// In en, this message translates to:
+  /// **'This would post nothing, so the command would fail.'**
+  String get guildCommandEmptyMessage;
 }
 
 class _ForkLocalizationsDelegate
