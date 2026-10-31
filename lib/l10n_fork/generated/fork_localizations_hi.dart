@@ -246,6 +246,13 @@ class ForkLocalizationsHi extends ForkLocalizations {
   String get personaTagsLabel => 'परसोना टैग';
 
   @override
+  String get personaAutoTagDisabledLabel => 'इस परसोना के टैग से मिलान न करें';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      'इनमें से कोई टैग लिखने पर इस परसोना पर स्विच नहीं होगा। टैग वैसा ही भेजा जाएगा जैसा लिखा गया है।';
+
+  @override
   String get personaTagPrefixLabel => 'उपसर्ग';
 
   @override

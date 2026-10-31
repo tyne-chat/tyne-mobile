@@ -248,6 +248,14 @@ class ForkLocalizationsBg extends ForkLocalizations {
   String get personaTagsLabel => 'Тагове на персона';
 
   @override
+  String get personaAutoTagDisabledLabel =>
+      'Без разпознаване на таговете на тази персона';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      'Въвеждането на някой от тези тагове няма да превключи към тази персона. Тагът се изпраща както е написан.';
+
+  @override
   String get personaTagPrefixLabel => 'Префикс';
 
   @override
