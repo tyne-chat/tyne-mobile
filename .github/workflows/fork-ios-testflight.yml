@@ -8,6 +8,10 @@ name: Tyne iOS TestFlight
 # password), one App Store provisioning profile per bundle ID (TYNE_IOS_PROFILE_*, base64),
 # and an App Store Connect API key (TYNE_ASC_KEY_P8, TYNE_ASC_KEY_ID, TYNE_ASC_ISSUER_ID)
 # for the upload. The certificate and profiles expire on 2027-10-14.
+#
+# The runner and Xcode are read from upstream's iOS workflow, which the nightly rebase keeps
+# current, and Flutter is the latest stable, as in upstream's workflow. So none of them need
+# bumping here. If upstream renames its workflow, the `toolchain` job says so and stops.
 
 on:
   workflow_dispatch:
@@ -22,15 +26,41 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  toolchain:
+    name: Read upstream's iOS toolchain
+    runs-on: ubuntu-latest
+    outputs:
+      runner: ${{ steps.read.outputs.runner }}
+      developer_dir: ${{ steps.read.outputs.developer_dir }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Read the runner and Xcode
+        id: read
+        run: |
+          set -euo pipefail
+          workflow=.github/workflows/ios-canary-testflight.yml
+          runner="$(sed -n 's/^ *runs-on: *//p' "$workflow" | head -n 1)"
+          developer_dir="$(sed -n 's/^ *DEVELOPER_DIR: *//p' "$workflow" | head -n 1)"
+          if [ -z "$runner" ] || [ -z "$developer_dir" ]; then
+            echo "::error::Could not read the runner and Xcode from $workflow"
+            exit 1
+          fi
+          echo "::notice::Runner $runner, Xcode at $developer_dir"
+          echo "runner=$runner" >> "$GITHUB_OUTPUT"
+          echo "developer_dir=$developer_dir" >> "$GITHUB_OUTPUT"
+
   build-and-upload:
     name: Build and upload to TestFlight
-    runs-on: macos-26
+    needs: toolchain
+    runs-on: ${{ needs.toolchain.outputs.runner }}
     timeout-minutes: 120
     environment: tyne-testflight
     env:
       LANG: en_US.UTF-8
       LC_ALL: en_US.UTF-8
-      DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
+      DEVELOPER_DIR: ${{ needs.toolchain.outputs.developer_dir }}
       BUNDLE_ID: chat.tyne.app
     steps:
       - name: Checkout repository
@@ -38,11 +68,13 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Show the toolchain
+        run: xcodebuild -version
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: 3.47.4
           cache: true
 
       - name: Restore pub cache
