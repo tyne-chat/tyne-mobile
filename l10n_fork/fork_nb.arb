@@ -211,5 +211,16 @@
     "guildCommandExampleOneWord": "Velg et tilfeldig ord",
     "guildCommandExampleWordForNumber": "Velg ordet etter et tall",
     "guildCommandExampleOrdinal": "Skriv et tall som 1st, 2nd, 3rd",
-    "guildCommandFullGuide": "Fullstendig skriptguide"
+    "guildCommandFullGuide": "Fullstendig skriptguide",
+    "guildCommandCounters": "Tellere",
+    "guildCommandCounterAdd": "Legg til teller",
+    "guildCommandCounterSeparately": "Tell separat for hver:",
+    "guildCommandCounterPersonMentioned": "Nevnt person",
+    "guildCommandCounterChannel": "Kanal",
+    "guildCommandCounterPersonas": "Tell personaer separat",
+    "guildCommandCounterRemove": "Fjern teller",
+    "guildCommandCounterReset": "Nullstill tellinger",
+    "guildCommandCounterResetConfirm": "Vil du nullstille tellingene for {name}? Dette kan ikke angres.",
+    "guildCommandCounterNameInvalid": "Bruk små bokstaver, tall og _, start med en bokstav, og ikke bruk et navn skript allerede bruker.",
+    "guildCommandCounterHowToUse": "Bruk den i et skript som {variable}. Hver kjøring legger først til én, så den første leser 1."
 }
