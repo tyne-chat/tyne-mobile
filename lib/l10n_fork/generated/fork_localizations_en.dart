@@ -646,12 +646,97 @@ class ForkLocalizationsEn extends ForkLocalizations {
   }
 
   @override
-  String get guildCommandScriptReadOnly =>
-      'This command is a script. Edit it on the web or desktop app.';
-
-  @override
   String get guildCommandEmptyMessage =>
       'This would post nothing, so the command would fail.';
+
+  @override
+  String get guildCommandUseScriptEditor => 'Use the script editor';
+
+  @override
+  String get guildCommandUseBasicEditor => 'Use the basic editor';
+
+  @override
+  String get guildCommandScript => 'Script';
+
+  @override
+  String get guildCommandRunAgain => 'Run again';
+
+  @override
+  String guildCommandIssueUnknownTag(String name) {
+    return 'There\'s no tag called $name.';
+  }
+
+  @override
+  String guildCommandIssueUnknownFilter(String name) {
+    return 'There\'s no filter called $name.';
+  }
+
+  @override
+  String guildCommandIssueNotClosed(String name) {
+    return '$name is never closed.';
+  }
+
+  @override
+  String get guildCommandIssueTooLong => 'The script is too long.';
+
+  @override
+  String get guildCommandIssueTooLarge => 'The script builds too much text.';
+
+  @override
+  String get guildCommandIssueTooSlow => 'The script took too long to run.';
+
+  @override
+  String get guildCommandIssueInvalid => 'This part can\'t be read.';
+
+  @override
+  String get guildCommandIssueFailed => 'This part stopped with an error.';
+
+  @override
+  String guildCommandIssueAt(String line, String column, String problem) {
+    return 'Line $line, column $column: $problem';
+  }
+
+  @override
+  String get guildCommandReferenceTitle => 'Script reference';
+
+  @override
+  String get guildCommandReferencePerson =>
+      'The person running it, as a mention';
+
+  @override
+  String get guildCommandReferencePersonName => 'Their name';
+
+  @override
+  String get guildCommandReferenceTarget =>
+      'The first person they mention, if any';
+
+  @override
+  String get guildCommandReferenceTargetName => 'That person’s name';
+
+  @override
+  String get guildCommandReferenceChannel => 'The channel, as a mention';
+
+  @override
+  String get guildCommandReferenceCommunity => 'The name of this community';
+
+  @override
+  String get guildCommandExampleRandom => 'Pick one option at random';
+
+  @override
+  String get guildCommandExampleDepends =>
+      'Change the message depending on what they typed';
+
+  @override
+  String get guildCommandExampleOneWord => 'Pick one word at random';
+
+  @override
+  String get guildCommandExampleWordForNumber => 'Pick the word for a number';
+
+  @override
+  String get guildCommandExampleOrdinal => 'Write a number as 1st, 2nd, 3rd';
+
+  @override
+  String get guildCommandFullGuide => 'Full script guide';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -1296,12 +1381,97 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   }
 
   @override
-  String get guildCommandScriptReadOnly =>
-      'This command is a script. Edit it on the web or desktop app.';
-
-  @override
   String get guildCommandEmptyMessage =>
       'This would post nothing, so the command would fail.';
+
+  @override
+  String get guildCommandUseScriptEditor => 'Use the script editor';
+
+  @override
+  String get guildCommandUseBasicEditor => 'Use the basic editor';
+
+  @override
+  String get guildCommandScript => 'Script';
+
+  @override
+  String get guildCommandRunAgain => 'Run again';
+
+  @override
+  String guildCommandIssueUnknownTag(String name) {
+    return 'There\'s no tag called $name.';
+  }
+
+  @override
+  String guildCommandIssueUnknownFilter(String name) {
+    return 'There\'s no filter called $name.';
+  }
+
+  @override
+  String guildCommandIssueNotClosed(String name) {
+    return '$name is never closed.';
+  }
+
+  @override
+  String get guildCommandIssueTooLong => 'The script is too long.';
+
+  @override
+  String get guildCommandIssueTooLarge => 'The script builds too much text.';
+
+  @override
+  String get guildCommandIssueTooSlow => 'The script took too long to run.';
+
+  @override
+  String get guildCommandIssueInvalid => 'This part can\'t be read.';
+
+  @override
+  String get guildCommandIssueFailed => 'This part stopped with an error.';
+
+  @override
+  String guildCommandIssueAt(String line, String column, String problem) {
+    return 'Line $line, column $column: $problem';
+  }
+
+  @override
+  String get guildCommandReferenceTitle => 'Script reference';
+
+  @override
+  String get guildCommandReferencePerson =>
+      'The person running it, as a mention';
+
+  @override
+  String get guildCommandReferencePersonName => 'Their name';
+
+  @override
+  String get guildCommandReferenceTarget =>
+      'The first person they mention, if any';
+
+  @override
+  String get guildCommandReferenceTargetName => 'That person’s name';
+
+  @override
+  String get guildCommandReferenceChannel => 'The channel, as a mention';
+
+  @override
+  String get guildCommandReferenceCommunity => 'The name of this community';
+
+  @override
+  String get guildCommandExampleRandom => 'Pick one option at random';
+
+  @override
+  String get guildCommandExampleDepends =>
+      'Change the message depending on what they typed';
+
+  @override
+  String get guildCommandExampleOneWord => 'Pick one word at random';
+
+  @override
+  String get guildCommandExampleWordForNumber => 'Pick the word for a number';
+
+  @override
+  String get guildCommandExampleOrdinal => 'Write a number as 1st, 2nd, 3rd';
+
+  @override
+  String get guildCommandFullGuide => 'Full script guide';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -1946,10 +2116,95 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
   }
 
   @override
-  String get guildCommandScriptReadOnly =>
-      'This command is a script. Edit it on the web or desktop app.';
-
-  @override
   String get guildCommandEmptyMessage =>
       'This would post nothing, so the command would fail.';
+
+  @override
+  String get guildCommandUseScriptEditor => 'Use the script editor';
+
+  @override
+  String get guildCommandUseBasicEditor => 'Use the basic editor';
+
+  @override
+  String get guildCommandScript => 'Script';
+
+  @override
+  String get guildCommandRunAgain => 'Run again';
+
+  @override
+  String guildCommandIssueUnknownTag(String name) {
+    return 'There\'s no tag called $name.';
+  }
+
+  @override
+  String guildCommandIssueUnknownFilter(String name) {
+    return 'There\'s no filter called $name.';
+  }
+
+  @override
+  String guildCommandIssueNotClosed(String name) {
+    return '$name is never closed.';
+  }
+
+  @override
+  String get guildCommandIssueTooLong => 'The script is too long.';
+
+  @override
+  String get guildCommandIssueTooLarge => 'The script builds too much text.';
+
+  @override
+  String get guildCommandIssueTooSlow => 'The script took too long to run.';
+
+  @override
+  String get guildCommandIssueInvalid => 'This part can\'t be read.';
+
+  @override
+  String get guildCommandIssueFailed => 'This part stopped with an error.';
+
+  @override
+  String guildCommandIssueAt(String line, String column, String problem) {
+    return 'Line $line, column $column: $problem';
+  }
+
+  @override
+  String get guildCommandReferenceTitle => 'Script reference';
+
+  @override
+  String get guildCommandReferencePerson =>
+      'The person running it, as a mention';
+
+  @override
+  String get guildCommandReferencePersonName => 'Their name';
+
+  @override
+  String get guildCommandReferenceTarget =>
+      'The first person they mention, if any';
+
+  @override
+  String get guildCommandReferenceTargetName => 'That person’s name';
+
+  @override
+  String get guildCommandReferenceChannel => 'The channel, as a mention';
+
+  @override
+  String get guildCommandReferenceCommunity => 'The name of this community';
+
+  @override
+  String get guildCommandExampleRandom => 'Pick one option at random';
+
+  @override
+  String get guildCommandExampleDepends =>
+      'Change the message depending on what they typed';
+
+  @override
+  String get guildCommandExampleOneWord => 'Pick one word at random';
+
+  @override
+  String get guildCommandExampleWordForNumber => 'Pick the word for a number';
+
+  @override
+  String get guildCommandExampleOrdinal => 'Write a number as 1st, 2nd, 3rd';
+
+  @override
+  String get guildCommandFullGuide => 'Full script guide';
 }

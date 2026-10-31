@@ -4,14 +4,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/api_exception.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/services/composer_autocomplete_trigger.dart';
 import 'package:fluxer_app/features/guild_commands/data/guild_commands_repository.dart';
+import 'package:fluxer_app/features/guild_commands/presentation/guild_command_script_reference.dart';
+import 'package:fluxer_app/features/guild_commands/presentation/guild_command_template_issue.dart';
 import 'package:fluxer_app/features/guild_commands/providers/guild_command_editing.dart';
+import 'package:fluxer_app/features/guild_commands/providers/guild_command_script_preview.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/input/emoji_text_editing_controller.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
@@ -23,7 +29,7 @@ import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const int _maxTemplateLength = 4000;
@@ -120,8 +126,8 @@ class GuildCommandEditorSheet {
   }
 }
 
-/// Fork: creates or edits one command. A script opens read-only: it is written
-/// in the web or desktop editor, which fills it in as it is typed.
+/// Fork: creates or edits one command, in the basic editor or the script
+/// editor. The server fills a script in, so its preview is a request.
 class GuildCommandEditor extends ConsumerStatefulWidget {
   const GuildCommandEditor({
     required this.guildId,
@@ -165,11 +171,19 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
   /// Save was pressed with no name: only then is that worth pointing out.
   bool _triedSaving = false;
 
+  /// Which editor is open. The text decides what the command is: a script
+  /// stays in this editor until it is plain text again.
+  late bool _scriptEditor;
+  late final GuildCommandScriptPreview _scriptPreview;
+
   GuildCommandResponseSchema? get _command => widget.command;
 
-  bool get _isScript => _command?.kind == GuildCommandKind.script;
+  bool get _isScript => isGuildCommandScript(_template.actualText);
 
-  bool get _canChange => widget.editable && !_isScript;
+  bool get _canChange => widget.editable;
+
+  String get _previewInput =>
+      _inputMode == GuildCommandInputMode.none ? '' : _sample.text;
 
   String get _storedTemplate => _command?.template ?? _newTemplate;
 
@@ -182,10 +196,51 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
     _sample = TextEditingController();
     _template = EmojiTextEditingController()..loadWithTokens(_storedTemplate);
     _inputMode = _command?.inputMode ?? GuildCommandInputMode.valueRequired;
+    _scriptEditor = _command?.kind == GuildCommandKind.script;
+    _scriptPreview = GuildCommandScriptPreview(({
+      required String template,
+      required String input,
+    }) {
+      return ref
+          .read(guildCommandsRepositoryProvider)
+          .preview(
+            guildId: widget.guildId,
+            template: template,
+            input: input,
+            channelId: _previewChannelId(),
+          );
+    });
+    _template.addListener(_updatePreview);
+    _sample.addListener(_updatePreview);
+    _updatePreview();
+  }
+
+  /// A text channel of the community, so `{{ channel }}` has one to fill in.
+  String? _previewChannelId() {
+    return ref
+        .read(allChannelsProvider)
+        .value
+        ?.where(
+          (Channel channel) =>
+              channel.guildId == widget.guildId &&
+              channel.type == ChannelType.guildText,
+        )
+        .firstOrNull
+        ?.id;
+  }
+
+  void _updatePreview() {
+    _scriptPreview.update(
+      template: _isScript ? _template.actualText : null,
+      input: _previewInput,
+    );
   }
 
   @override
   void dispose() {
+    _template.removeListener(_updatePreview);
+    _sample.removeListener(_updatePreview);
+    _scriptPreview.dispose();
     _name.dispose();
     _description.dispose();
     _hint.dispose();
@@ -237,6 +292,7 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
   void _reset() {
     setState(() {
       _triedSaving = false;
+      _scriptEditor = _command?.kind == GuildCommandKind.script;
       _name.text = _command?.name ?? '';
       _description.text = _command?.description ?? '';
       _hint.text = _command?.inputHint ?? '';
@@ -314,11 +370,15 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
     } on Exception catch (error) {
       if (mounted) {
         setState(() => _saving = false);
+        final GuildCommandTemplateIssueSchema? issue =
+            guildCommandTemplateIssueOf(error);
         _toast(
-          l10n.fork.guildCommandSaveFailed(
-            _name.text,
-            ApiException.from(error).message ?? '',
-          ),
+          issue != null
+              ? describeGuildCommandTemplateIssue(l10n, issue)
+              : l10n.fork.guildCommandSaveFailed(
+                  _name.text,
+                  ApiException.from(error).message ?? '',
+                ),
         );
       }
     }
@@ -392,12 +452,17 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
     );
   }
 
-  Widget _templateField(FluxerLocalizations l10n) {
+  Widget _templateField(BuildContext context, FluxerLocalizations l10n) {
+    final String label = _scriptEditor
+        ? l10n.fork.guildCommandScript
+        : l10n.fork.guildCommandMessage;
+    final TextStyle? style = _scriptEditor ? context.textStyles.codeText : null;
     if (!_canChange) {
       return FluxerInput.multiline(
         controller: _template,
-        label: l10n.fork.guildCommandMessage,
+        label: label,
         readOnly: true,
+        style: style,
         maxLines: 10,
       );
     }
@@ -413,8 +478,12 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
         child: FluxerInput.multiline(
           controller: _template,
           focusNode: _templateFocus,
-          label: l10n.fork.guildCommandMessage,
-          maxLines: 8,
+          label: label,
+          style: style,
+          maxLines: _scriptEditor ? 14 : 8,
+          // A keyboard's corrections would rewrite the language's words.
+          autocorrect: !_scriptEditor,
+          enableSuggestions: !_scriptEditor,
           showCounter: true,
           counterLength: () => _template.actualTextLength,
           counterMax: _maxTemplateLength,
@@ -424,12 +493,26 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
     );
   }
 
-  Widget _preview(BuildContext context) {
-    final String content = fillBasicGuildCommandTemplate(
-      _template.actualText,
-      person: '<@${ref.read(currentUserIdProvider) ?? ''}>',
-      input: _inputMode == GuildCommandInputMode.none ? '' : _sample.text,
+  Widget _editorSwitch(BuildContext context, FluxerLocalizations l10n) {
+    return FluxerGestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => setState(() => _scriptEditor = !_scriptEditor),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 20, bottom: 8),
+        child: Text(
+          _scriptEditor
+              ? l10n.fork.guildCommandUseBasicEditor
+              : l10n.fork.guildCommandUseScriptEditor,
+          style: context.textStyles.bodySmall.copyWith(
+            color: context.colors.textLink,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
     );
+  }
+
+  Widget _previewBox(BuildContext context, String content) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(12),
@@ -438,6 +521,61 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
         borderRadius: BorderRadius.circular(8),
       ),
       child: MessageMarkdown(data: content, guildId: widget.guildId),
+    );
+  }
+
+  Widget _scriptPreviewView(BuildContext context, FluxerLocalizations l10n) {
+    return ListenableBuilder(
+      listenable: _scriptPreview,
+      builder: (BuildContext context, _) {
+        final GuildCommandPreviewResponseSchema? result = _scriptPreview.result;
+        final GuildCommandTemplateIssueSchema? issue = result?.issue;
+        final String? content = result?.content;
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            if (issue != null)
+              Text(
+                describeGuildCommandTemplateIssue(l10n, issue),
+                style: context.textStyles.bodySmall.copyWith(
+                  color: context.colors.statusDanger,
+                ),
+              )
+            else if (content != null && content.isEmpty)
+              Text(
+                l10n.fork.guildCommandEmptyMessage,
+                style: context.textStyles.bodySmall.copyWith(
+                  color: context.colors.statusDanger,
+                ),
+              )
+            else if (content != null)
+              _previewBox(context, content),
+            if (guildCommandPicksAtRandom(_template.actualText)) ...<Widget>[
+              const SizedBox(height: 8),
+              FluxerButton.secondary(
+                label: l10n.fork.guildCommandRunAgain,
+                size: FluxerButtonSize.small,
+                fitContent: true,
+                onPressed: _scriptPreview.runAgain,
+              ),
+            ],
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _preview(BuildContext context, FluxerLocalizations l10n) {
+    if (_isScript) {
+      return _scriptPreviewView(context, l10n);
+    }
+    return _previewBox(
+      context,
+      fillBasicGuildCommandTemplate(
+        _template.actualText,
+        person: '<@${ref.read(currentUserIdProvider) ?? ''}>',
+        input: _previewInput,
+      ),
     );
   }
 
@@ -499,6 +637,7 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
           onChanged: (GuildCommandInputMode mode) {
             if (_canChange) {
               setState(() => _inputMode = mode);
+              _updatePreview();
             }
           },
         ),
@@ -512,14 +651,16 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
             onChanged: (_) => setState(() {}),
           ),
         ],
-        _sectionLabel(context, l10n.fork.guildCommandMessage),
-        if (_isScript) ...<Widget>[
-          Text(
-            l10n.fork.guildCommandScriptReadOnly,
-            style: TextStyle(color: context.colors.textTertiary),
-          ),
-          const SizedBox(height: 8),
-        ] else if (_canChange) ...<Widget>[
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            _sectionLabel(context, l10n.fork.guildCommandMessage),
+            if (_canChange && (!_scriptEditor || !_isScript))
+              _editorSwitch(context, l10n),
+          ],
+        ),
+        if (_canChange && !_scriptEditor) ...<Widget>[
           Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -543,19 +684,21 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
           ),
           const SizedBox(height: 8),
         ],
-        _templateField(l10n),
-        if (!_isScript) ...<Widget>[
-          _sectionLabel(context, l10n.fork.guildCommandPreview),
-          if (_inputMode != GuildCommandInputMode.none) ...<Widget>[
-            FluxerInput(
-              controller: _sample,
-              label: l10n.fork.guildCommandSampleInput,
-              onChanged: (_) => setState(() {}),
-            ),
-            const SizedBox(height: 12),
-          ],
-          _preview(context),
+        _templateField(context, l10n),
+        if (_scriptEditor) ...<Widget>[
+          const SizedBox(height: 12),
+          const GuildCommandScriptReference(),
         ],
+        _sectionLabel(context, l10n.fork.guildCommandPreview),
+        if (_inputMode != GuildCommandInputMode.none) ...<Widget>[
+          FluxerInput(
+            controller: _sample,
+            label: l10n.fork.guildCommandSampleInput,
+            onChanged: (_) => setState(() {}),
+          ),
+          const SizedBox(height: 12),
+        ],
+        _preview(context, l10n),
         if (command != null && widget.editable) ...<Widget>[
           const SizedBox(height: 24),
           FluxerButton.dangerPrimary(
