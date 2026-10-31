@@ -651,10 +651,98 @@ class ForkLocalizationsRo extends ForkLocalizations {
   }
 
   @override
-  String get guildCommandScriptReadOnly =>
-      'Această comandă este un script. Editează-o în aplicația web sau desktop.';
-
-  @override
   String get guildCommandEmptyMessage =>
       'Asta nu ar posta nimic, așa că comanda ar eșua.';
+
+  @override
+  String get guildCommandUseScriptEditor => 'Folosește editorul de scripturi';
+
+  @override
+  String get guildCommandUseBasicEditor => 'Folosește editorul de bază';
+
+  @override
+  String get guildCommandScript => 'Script';
+
+  @override
+  String get guildCommandRunAgain => 'Rulează din nou';
+
+  @override
+  String guildCommandIssueUnknownTag(String name) {
+    return 'Nu există niciun tag numit $name.';
+  }
+
+  @override
+  String guildCommandIssueUnknownFilter(String name) {
+    return 'Nu există niciun filtru numit $name.';
+  }
+
+  @override
+  String guildCommandIssueNotClosed(String name) {
+    return '$name nu se închide niciodată.';
+  }
+
+  @override
+  String get guildCommandIssueTooLong => 'Scriptul este prea lung.';
+
+  @override
+  String get guildCommandIssueTooLarge => 'Scriptul generează prea mult text.';
+
+  @override
+  String get guildCommandIssueTooSlow =>
+      'Rularea scriptului a durat prea mult.';
+
+  @override
+  String get guildCommandIssueInvalid => 'Această parte nu poate fi citită.';
+
+  @override
+  String get guildCommandIssueFailed => 'Această parte s-a oprit cu o eroare.';
+
+  @override
+  String guildCommandIssueAt(String line, String column, String problem) {
+    return 'Linia $line, coloana $column: $problem';
+  }
+
+  @override
+  String get guildCommandReferenceTitle => 'Ghid pentru scripturi';
+
+  @override
+  String get guildCommandReferencePerson =>
+      'Persoana care o folosește, ca mențiune';
+
+  @override
+  String get guildCommandReferencePersonName =>
+      'Numele persoanei care o folosește';
+
+  @override
+  String get guildCommandReferenceTarget =>
+      'Prima persoană menționată, dacă există';
+
+  @override
+  String get guildCommandReferenceTargetName => 'Numele acelei persoane';
+
+  @override
+  String get guildCommandReferenceChannel => 'Canalul, ca mențiune';
+
+  @override
+  String get guildCommandReferenceCommunity => 'Numele acestei comunități';
+
+  @override
+  String get guildCommandExampleRandom => 'Alege la întâmplare o opțiune';
+
+  @override
+  String get guildCommandExampleDepends =>
+      'Schimbă mesajul în funcție de ce au scris';
+
+  @override
+  String get guildCommandExampleOneWord => 'Alege la întâmplare un cuvânt';
+
+  @override
+  String get guildCommandExampleWordForNumber =>
+      'Alege cuvântul potrivit pentru un număr';
+
+  @override
+  String get guildCommandExampleOrdinal => 'Scrie un număr ca 1st, 2nd, 3rd';
+
+  @override
+  String get guildCommandFullGuide => 'Ghid complet pentru scripturi';
 }
