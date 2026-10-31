@@ -495,4 +495,149 @@ class ForkLocalizationsJa extends ForkLocalizations {
   String guildCommandOneLine(String name) {
     return '/$name の後に入力する内容は1行に収めてください。';
   }
+
+  @override
+  String get permissionCreateCommands => 'コマンドを作成';
+
+  @override
+  String get permissionManageCommands => 'コマンドを管理';
+
+  @override
+  String get permissionUseExternalCommands => '外部のコマンドを使用';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      'このコミュニティのコマンドを作成し、自分のコマンドを編集・削除できます。';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      'このコミュニティの誰のコマンドでも編集・削除できます。';
+
+  @override
+  String get permissionUseExternalCommandsDescription =>
+      '他のコミュニティのコマンドを使用できます。';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      'このチャンネルで他のコミュニティのコマンドを使用できます。';
+
+  @override
+  String get guildSettingsCategoryMessageTools => 'メッセージツール';
+
+  @override
+  String get guildSettingsCommands => 'コマンド';
+
+  @override
+  String get guildCommandsLoadFailed => 'コマンドを読み込めませんでした。';
+
+  @override
+  String get guildCommandsSubtitle => 'メンバーが /name と入力して投稿できるメッセージです。';
+
+  @override
+  String get guildCommandsSlots => 'コマンドスロット';
+
+  @override
+  String get guildCommandsNew => '新しいコマンド';
+
+  @override
+  String get guildCommandsSearch => 'コマンドを検索';
+
+  @override
+  String get guildCommandsEmptyTitle => 'コマンドがありません';
+
+  @override
+  String get guildCommandsEmptyBody => 'このコミュニティにはまだコマンドがありません。';
+
+  @override
+  String get guildCommandsSaved => 'コマンドを保存しました';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return '/$name を保存できませんでした: $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return '/$name を編集';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return '/$name を削除しますか？';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      'この操作は取り消せません。このコマンドで作成されたメッセージには、引き続き作成元のコマンドが表示されます。';
+
+  @override
+  String get guildCommandDelete => '削除';
+
+  @override
+  String get guildCommandDeleteCommand => 'コマンドを削除';
+
+  @override
+  String get guildCommandSectionCommand => 'コマンド';
+
+  @override
+  String get guildCommandName => '名前';
+
+  @override
+  String get guildCommandNameInvalid => '小文字、数字、-、_ を使い、32文字以内にしてください。';
+
+  @override
+  String get guildCommandNameTaken => 'この名前は、別のコマンドまたは組み込みコマンドですでに使われています。';
+
+  @override
+  String get guildCommandDescription => '説明';
+
+  @override
+  String get guildCommandSectionInput => '入力';
+
+  @override
+  String get guildCommandInputNone => 'なし';
+
+  @override
+  String get guildCommandInputOptional => '任意';
+
+  @override
+  String get guildCommandInputRequired => '必須';
+
+  @override
+  String get guildCommandHint => 'ヒント';
+
+  @override
+  String get guildCommandMessage => 'メッセージ';
+
+  @override
+  String get guildCommandInsert => '挿入:';
+
+  @override
+  String get guildCommandInsertPerson => '使った人';
+
+  @override
+  String get guildCommandInsertInput => '入力された内容';
+
+  @override
+  String get guildCommandPreview => 'プレビュー';
+
+  @override
+  String get guildCommandSampleInput => '入力例';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return '/$name で作成';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return '/$name を使うには、メッセージ欄を空にしてください';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      'このコマンドはスクリプトです。ウェブまたはデスクトップアプリで編集してください。';
+
+  @override
+  String get guildCommandEmptyMessage => '何も投稿されないため、コマンドは失敗します。';
 }
