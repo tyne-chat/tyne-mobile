@@ -60,6 +60,8 @@
     "personaRemoveAvatar": "Ukloni avatar",
     "personaUploadAvatar": "Učitaj avatar",
     "personaTagsLabel": "Oznake persone",
+    "personaAutoTagDisabledLabel": "Ne prepoznaj oznake ove persone",
+    "personaAutoTagDisabledDescription": "Upisivanje jedne od ovih oznaka neće prebaciti na ovu personu. Oznaka se šalje onako kako je napisana.",
     "personaTagPrefixLabel": "Prefiks",
     "personaTagSuffixLabel": "Sufiks",
     "personaVisibilityLabel": "Vidljivost",
