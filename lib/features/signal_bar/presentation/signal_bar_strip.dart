@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/chat/providers/channel/channel_message_permi
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 import 'package:fluxer_app/features/signal_bar/domain/signal_bar_models.dart';
+import 'package:fluxer_app/features/signal_bar/providers/signal_bar_collapsed_provider.dart';
 import 'package:fluxer_app/features/signal_bar/providers/signal_bar_providers.dart';
 import 'package:fluxer_app/features/signal_bar/providers/signal_persona_affirmation.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
@@ -35,19 +36,6 @@ const List<double> _kGreyscaleMatrix = <double>[
   0.2126, 0.7152, 0.0722, 0, 0, //
   0, 0, 0, 1, 0, //
 ];
-
-/// Whether the strip is collapsed to just its caret. Kept for the session.
-class SignalBarCollapsedNotifier extends Notifier<bool> {
-  @override
-  bool build() => false;
-
-  void toggle() => state = !state;
-}
-
-final NotifierProvider<SignalBarCollapsedNotifier, bool>
-signalBarCollapsedProvider = NotifierProvider<SignalBarCollapsedNotifier, bool>(
-  SignalBarCollapsedNotifier.new,
-);
 
 /// The signal bar attached to the top of the composer: a wrapping row of
 /// toggleable signals shared by everyone in the channel.
@@ -217,6 +205,9 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
           }
         },
       );
+    // Watched before the strip has anything to show, so the stored value is in
+    // by the time it does and a collapsed bar never appears open first.
+    final bool collapsed = ref.watch(signalBarCollapsedProvider);
     final SignalBarConfig config = ref.watch(signalBarConfigProvider);
     final bool enabled = ref.watch(
       channelSignalsProvider.select(
@@ -248,7 +239,7 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
       signals: config.signals,
       entries: entries,
       currentUserId: ref.watch(currentUserIdProvider),
-      collapsed: ref.watch(signalBarCollapsedProvider),
+      collapsed: collapsed,
       backgroundColor: widget.backgroundColor,
       dividerColor: widget.dividerColor,
       onToggle: canToggle ? _toggle : null,
