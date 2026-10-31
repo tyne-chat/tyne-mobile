@@ -746,4 +746,42 @@ class ForkLocalizationsUk extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'Повний посібник зі скриптів';
+
+  @override
+  String get guildCommandCounters => 'Лічильники';
+
+  @override
+  String get guildCommandCounterAdd => 'Додати лічильник';
+
+  @override
+  String get guildCommandCounterSeparately => 'Рахувати окремо для кожного:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Згадана людина';
+
+  @override
+  String get guildCommandCounterChannel => 'Канал';
+
+  @override
+  String get guildCommandCounterPersonas => 'Рахувати персони окремо';
+
+  @override
+  String get guildCommandCounterRemove => 'Вилучити лічильник';
+
+  @override
+  String get guildCommandCounterReset => 'Скинути значення';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'Скинути значення $name? Це не можна скасувати.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Використовуйте малі літери, цифри та _, починайте з літери й не беріть назву, яку вже використовують скрипти.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Використовуйте його в скрипті як $variable. Кожен запуск спершу додає один, тому перший читає 1.';
+  }
 }
