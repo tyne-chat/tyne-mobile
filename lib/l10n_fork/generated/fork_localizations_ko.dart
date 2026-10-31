@@ -242,6 +242,13 @@ class ForkLocalizationsKo extends ForkLocalizations {
   String get personaTagsLabel => '페르소나 태그';
 
   @override
+  String get personaAutoTagDisabledLabel => '이 페르소나의 태그를 인식하지 않기';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      '이 태그를 입력해도 이 페르소나로 전환되지 않습니다. 태그는 입력한 그대로 전송됩니다.';
+
+  @override
   String get personaTagPrefixLabel => '접두사';
 
   @override

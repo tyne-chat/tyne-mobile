@@ -247,6 +247,13 @@ class ForkLocalizationsPl extends ForkLocalizations {
   String get personaTagsLabel => 'Tagi persony';
 
   @override
+  String get personaAutoTagDisabledLabel => 'Nie rozpoznawaj tagów tej persony';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      'Wpisanie jednego z tych tagów nie przełączy na tę personę. Tag zostanie wysłany tak, jak został napisany.';
+
+  @override
   String get personaTagPrefixLabel => 'Prefiks';
 
   @override
