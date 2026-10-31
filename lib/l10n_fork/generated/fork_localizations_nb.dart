@@ -248,6 +248,14 @@ class ForkLocalizationsNb extends ForkLocalizations {
   String get personaTagsLabel => 'Personatagger';
 
   @override
+  String get personaAutoTagDisabledLabel =>
+      'Ikke gjenkjenn taggene til denne personaen';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      'Hvis du skriver en av disse taggene, byttes det ikke til denne personaen. Taggen sendes slik den er skrevet.';
+
+  @override
   String get personaTagPrefixLabel => 'Prefiks';
 
   @override
