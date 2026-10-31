@@ -211,5 +211,16 @@
     "guildCommandExampleOneWord": "Rastgele bir kelime seç",
     "guildCommandExampleWordForNumber": "Sayıya uygun kelimeyi seç",
     "guildCommandExampleOrdinal": "Sayıyı 1st, 2nd, 3rd şeklinde yaz",
-    "guildCommandFullGuide": "Tam betik kılavuzu"
+    "guildCommandFullGuide": "Tam betik kılavuzu",
+    "guildCommandCounters": "Sayaçlar",
+    "guildCommandCounterAdd": "Sayaç ekle",
+    "guildCommandCounterSeparately": "Her biri için ayrı say:",
+    "guildCommandCounterPersonMentioned": "Bahsedilen kişi",
+    "guildCommandCounterChannel": "Kanal",
+    "guildCommandCounterPersonas": "Personaları ayrı say",
+    "guildCommandCounterRemove": "Sayacı kaldır",
+    "guildCommandCounterReset": "Sayıları sıfırla",
+    "guildCommandCounterResetConfirm": "{name} sayıları sıfırlansın mı? Bu işlem geri alınamaz.",
+    "guildCommandCounterNameInvalid": "Küçük harf, rakam ve _ kullan, harfle başla ve betiklerin zaten kullandığı bir ad seçme.",
+    "guildCommandCounterHowToUse": "Betikte {variable} olarak kullan. Her çalıştırma önce bir ekler, yani ilk çalıştırma 1 okur."
 }
