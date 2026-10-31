@@ -651,10 +651,96 @@ class ForkLocalizationsSv extends ForkLocalizations {
   }
 
   @override
-  String get guildCommandScriptReadOnly =>
-      'Det här kommandot är ett skript. Redigera det i webb- eller datorappen.';
-
-  @override
   String get guildCommandEmptyMessage =>
       'Det här skulle inte skicka något, så kommandot skulle misslyckas.';
+
+  @override
+  String get guildCommandUseScriptEditor => 'Använd skriptredigeraren';
+
+  @override
+  String get guildCommandUseBasicEditor => 'Använd den enkla redigeraren';
+
+  @override
+  String get guildCommandScript => 'Skript';
+
+  @override
+  String get guildCommandRunAgain => 'Kör igen';
+
+  @override
+  String guildCommandIssueUnknownTag(String name) {
+    return 'Det finns ingen tagg som heter $name.';
+  }
+
+  @override
+  String guildCommandIssueUnknownFilter(String name) {
+    return 'Det finns inget filter som heter $name.';
+  }
+
+  @override
+  String guildCommandIssueNotClosed(String name) {
+    return '$name stängs aldrig.';
+  }
+
+  @override
+  String get guildCommandIssueTooLong => 'Skriptet är för långt.';
+
+  @override
+  String get guildCommandIssueTooLarge => 'Skriptet skapar för mycket text.';
+
+  @override
+  String get guildCommandIssueTooSlow => 'Skriptet tog för lång tid att köra.';
+
+  @override
+  String get guildCommandIssueInvalid => 'Den här delen går inte att läsa.';
+
+  @override
+  String get guildCommandIssueFailed => 'Den här delen stoppades av ett fel.';
+
+  @override
+  String guildCommandIssueAt(String line, String column, String problem) {
+    return 'Rad $line, kolumn $column: $problem';
+  }
+
+  @override
+  String get guildCommandReferenceTitle => 'Skriptreferens';
+
+  @override
+  String get guildCommandReferencePerson =>
+      'Den som använder det, som omnämnande';
+
+  @override
+  String get guildCommandReferencePersonName =>
+      'Namnet på den som använder det';
+
+  @override
+  String get guildCommandReferenceTarget =>
+      'Den första personen de nämner, om det finns någon';
+
+  @override
+  String get guildCommandReferenceTargetName => 'Namnet på den personen';
+
+  @override
+  String get guildCommandReferenceChannel => 'Kanalen, som omnämnande';
+
+  @override
+  String get guildCommandReferenceCommunity => 'Namnet på den här communityn';
+
+  @override
+  String get guildCommandExampleRandom => 'Välj ett slumpmässigt alternativ';
+
+  @override
+  String get guildCommandExampleDepends =>
+      'Anpassa meddelandet efter vad de skrev';
+
+  @override
+  String get guildCommandExampleOneWord => 'Välj ett slumpmässigt ord';
+
+  @override
+  String get guildCommandExampleWordForNumber => 'Välj ordet efter ett tal';
+
+  @override
+  String get guildCommandExampleOrdinal => 'Skriv ett tal som 1st, 2nd, 3rd';
+
+  @override
+  String get guildCommandFullGuide => 'Fullständig skriptguide';
 }
