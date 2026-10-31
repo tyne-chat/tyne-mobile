@@ -88,6 +88,7 @@ WellKnownFluxerResponse _buildEveryoneModeWellKnown() {
     appPublic: InstanceAppPublicSchema(
       branding: InstanceBrandingSchema(
         productName: 'Fluxer',
+        statusPageInstatus: false,
         iconUrl: null,
         symbolUrl: null,
         logoUrl: null,
