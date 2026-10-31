@@ -651,10 +651,98 @@ class ForkLocalizationsHu extends ForkLocalizations {
   }
 
   @override
-  String get guildCommandScriptReadOnly =>
-      'Ez a parancs egy szkript. Szerkeszd a webes vagy az asztali alkalmazásban.';
-
-  @override
   String get guildCommandEmptyMessage =>
       'Ez semmit sem küldene el, ezért a parancs sikertelen lenne.';
+
+  @override
+  String get guildCommandUseScriptEditor => 'Szkriptszerkesztő használata';
+
+  @override
+  String get guildCommandUseBasicEditor => 'Alapszerkesztő használata';
+
+  @override
+  String get guildCommandScript => 'Szkript';
+
+  @override
+  String get guildCommandRunAgain => 'Futtatás újra';
+
+  @override
+  String guildCommandIssueUnknownTag(String name) {
+    return 'Nincs $name nevű címke.';
+  }
+
+  @override
+  String guildCommandIssueUnknownFilter(String name) {
+    return 'Nincs $name nevű szűrő.';
+  }
+
+  @override
+  String guildCommandIssueNotClosed(String name) {
+    return '$name soha nem záródik le.';
+  }
+
+  @override
+  String get guildCommandIssueTooLong => 'A szkript túl hosszú.';
+
+  @override
+  String get guildCommandIssueTooLarge =>
+      'A szkript túl sok szöveget hoz létre.';
+
+  @override
+  String get guildCommandIssueTooSlow =>
+      'A szkript futtatása túl sokáig tartott.';
+
+  @override
+  String get guildCommandIssueInvalid => 'Ez a rész nem olvasható.';
+
+  @override
+  String get guildCommandIssueFailed => 'Ez a rész hibával leállt.';
+
+  @override
+  String guildCommandIssueAt(String line, String column, String problem) {
+    return '$line. sor, $column. oszlop: $problem';
+  }
+
+  @override
+  String get guildCommandReferenceTitle => 'Szkriptreferencia';
+
+  @override
+  String get guildCommandReferencePerson => 'Aki használja, említésként';
+
+  @override
+  String get guildCommandReferencePersonName => 'Annak a neve, aki használja';
+
+  @override
+  String get guildCommandReferenceTarget =>
+      'Az első említett személy, ha van ilyen';
+
+  @override
+  String get guildCommandReferenceTargetName => 'Annak a személynek a neve';
+
+  @override
+  String get guildCommandReferenceChannel => 'A csatorna említésként';
+
+  @override
+  String get guildCommandReferenceCommunity => 'Ennek a közösségnek a neve';
+
+  @override
+  String get guildCommandExampleRandom =>
+      'Egy lehetőség véletlenszerű kiválasztása';
+
+  @override
+  String get guildCommandExampleDepends =>
+      'Az üzenet módosítása a beírtak alapján';
+
+  @override
+  String get guildCommandExampleOneWord => 'Egy szó véletlenszerű kiválasztása';
+
+  @override
+  String get guildCommandExampleWordForNumber =>
+      'A számhoz illő szó kiválasztása';
+
+  @override
+  String get guildCommandExampleOrdinal => 'Szám írása így: 1st, 2nd, 3rd';
+
+  @override
+  String get guildCommandFullGuide => 'Teljes szkriptútmutató';
 }

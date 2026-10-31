@@ -626,10 +626,93 @@ class ForkLocalizationsZh extends ForkLocalizations {
   }
 
   @override
-  String get guildCommandScriptReadOnly => '此命令是脚本。请在网页版或桌面版应用中编辑。';
+  String get guildCommandEmptyMessage => '这不会发布任何内容，因此命令会失败。';
 
   @override
-  String get guildCommandEmptyMessage => '这不会发布任何内容，因此命令会失败。';
+  String get guildCommandUseScriptEditor => '使用脚本编辑器';
+
+  @override
+  String get guildCommandUseBasicEditor => '使用基础编辑器';
+
+  @override
+  String get guildCommandScript => '脚本';
+
+  @override
+  String get guildCommandRunAgain => '再次运行';
+
+  @override
+  String guildCommandIssueUnknownTag(String name) {
+    return '没有名为 $name 的标签。';
+  }
+
+  @override
+  String guildCommandIssueUnknownFilter(String name) {
+    return '没有名为 $name 的过滤器。';
+  }
+
+  @override
+  String guildCommandIssueNotClosed(String name) {
+    return '$name 始终未闭合。';
+  }
+
+  @override
+  String get guildCommandIssueTooLong => '脚本过长。';
+
+  @override
+  String get guildCommandIssueTooLarge => '脚本生成的文本过多。';
+
+  @override
+  String get guildCommandIssueTooSlow => '脚本运行时间过长。';
+
+  @override
+  String get guildCommandIssueInvalid => '无法读取这部分内容。';
+
+  @override
+  String get guildCommandIssueFailed => '这部分因错误而停止。';
+
+  @override
+  String guildCommandIssueAt(String line, String column, String problem) {
+    return '第 $line 行，第 $column 列：$problem';
+  }
+
+  @override
+  String get guildCommandReferenceTitle => '脚本参考';
+
+  @override
+  String get guildCommandReferencePerson => '使用者（提及形式）';
+
+  @override
+  String get guildCommandReferencePersonName => '使用者的名称';
+
+  @override
+  String get guildCommandReferenceTarget => '第一个被提及的人（如有）';
+
+  @override
+  String get guildCommandReferenceTargetName => '此人的名称';
+
+  @override
+  String get guildCommandReferenceChannel => '频道（提及形式）';
+
+  @override
+  String get guildCommandReferenceCommunity => '此社区的名称';
+
+  @override
+  String get guildCommandExampleRandom => '随机选择一个选项';
+
+  @override
+  String get guildCommandExampleDepends => '根据输入的内容更改消息';
+
+  @override
+  String get guildCommandExampleOneWord => '随机选择一个词';
+
+  @override
+  String get guildCommandExampleWordForNumber => '根据数字选择对应的词';
+
+  @override
+  String get guildCommandExampleOrdinal => '将数字写成 1st, 2nd, 3rd';
+
+  @override
+  String get guildCommandFullGuide => '完整脚本指南';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -1254,8 +1337,91 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
   }
 
   @override
-  String get guildCommandScriptReadOnly => '此指令是腳本。請在網頁版或桌面版應用程式中編輯。';
+  String get guildCommandEmptyMessage => '這不會發佈任何內容，因此指令會失敗。';
 
   @override
-  String get guildCommandEmptyMessage => '這不會發佈任何內容，因此指令會失敗。';
+  String get guildCommandUseScriptEditor => '使用腳本編輯器';
+
+  @override
+  String get guildCommandUseBasicEditor => '使用基本編輯器';
+
+  @override
+  String get guildCommandScript => '腳本';
+
+  @override
+  String get guildCommandRunAgain => '再次執行';
+
+  @override
+  String guildCommandIssueUnknownTag(String name) {
+    return '沒有名為 $name 的標籤。';
+  }
+
+  @override
+  String guildCommandIssueUnknownFilter(String name) {
+    return '沒有名為 $name 的篩選器。';
+  }
+
+  @override
+  String guildCommandIssueNotClosed(String name) {
+    return '$name 始終未閉合。';
+  }
+
+  @override
+  String get guildCommandIssueTooLong => '腳本過長。';
+
+  @override
+  String get guildCommandIssueTooLarge => '腳本產生的文字過多。';
+
+  @override
+  String get guildCommandIssueTooSlow => '腳本執行時間過長。';
+
+  @override
+  String get guildCommandIssueInvalid => '無法讀取這部分內容。';
+
+  @override
+  String get guildCommandIssueFailed => '這部分因錯誤而停止。';
+
+  @override
+  String guildCommandIssueAt(String line, String column, String problem) {
+    return '第 $line 行，第 $column 欄：$problem';
+  }
+
+  @override
+  String get guildCommandReferenceTitle => '腳本參考資料';
+
+  @override
+  String get guildCommandReferencePerson => '使用者（提及形式）';
+
+  @override
+  String get guildCommandReferencePersonName => '使用者的名稱';
+
+  @override
+  String get guildCommandReferenceTarget => '第一個被提及的人（如有）';
+
+  @override
+  String get guildCommandReferenceTargetName => '此人的名稱';
+
+  @override
+  String get guildCommandReferenceChannel => '頻道（提及形式）';
+
+  @override
+  String get guildCommandReferenceCommunity => '此社群的名稱';
+
+  @override
+  String get guildCommandExampleRandom => '隨機選擇一個選項';
+
+  @override
+  String get guildCommandExampleDepends => '根據輸入的內容變更訊息';
+
+  @override
+  String get guildCommandExampleOneWord => '隨機選擇一個字詞';
+
+  @override
+  String get guildCommandExampleWordForNumber => '根據數字選擇對應的字詞';
+
+  @override
+  String get guildCommandExampleOrdinal => '將數字寫成 1st, 2nd, 3rd';
+
+  @override
+  String get guildCommandFullGuide => '完整腳本指南';
 }

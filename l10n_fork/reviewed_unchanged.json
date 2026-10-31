@@ -3,6 +3,9 @@
         "cs": [
             "personaTagExampleText"
         ],
+        "da": [
+            "guildCommandScript"
+        ],
         "de": [
             "guildCommandInputOptional",
             "guildCommandName",
@@ -11,11 +14,13 @@
             "userSettingsNavPersonas"
         ],
         "es": [
+            "guildCommandScript",
             "personaModeManual",
             "personaSectionTitle",
             "userSettingsNavPersonas"
         ],
         "es_419": [
+            "guildCommandScript",
             "personaModeManual",
             "personaSectionTitle",
             "userSettingsNavPersonas"
@@ -23,6 +28,7 @@
         "fr": [
             "guildCommandDescription",
             "guildCommandMessage",
+            "guildCommandScript",
             "personaSectionTitle",
             "personaVisibilityPublic",
             "timestampPickerDateLabel",
@@ -34,24 +40,29 @@
             "personaModeManual"
         ],
         "it": [
+            "guildCommandScript",
             "guildCommandSectionInput",
             "personaSectionTitle",
             "userSettingsNavPersonas"
         ],
         "nl": [
+            "guildCommandScript",
             "instanceOfflineTitle"
         ],
         "pt": [
+            "guildCommandScript",
             "personaModeManual",
             "personaSectionTitle",
             "userSettingsNavPersonas"
         ],
         "pt_BR": [
+            "guildCommandScript",
             "personaModeManual",
             "personaSectionTitle",
             "userSettingsNavPersonas"
         ],
         "ro": [
+            "guildCommandScript",
             "personaModeManual",
             "personaSectionTitle",
             "personaTagExampleText",

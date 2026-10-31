@@ -645,9 +645,91 @@ class ForkLocalizationsHe extends ForkLocalizations {
   }
 
   @override
-  String get guildCommandScriptReadOnly =>
-      'הפקודה הזו היא סקריפט. אפשר לערוך אותה באפליקציית האינטרנט או בשולחן העבודה.';
+  String get guildCommandEmptyMessage => 'זה לא יפרסם כלום, ולכן הפקודה תיכשל.';
 
   @override
-  String get guildCommandEmptyMessage => 'זה לא יפרסם כלום, ולכן הפקודה תיכשל.';
+  String get guildCommandUseScriptEditor => 'שימוש בעורך הסקריפטים';
+
+  @override
+  String get guildCommandUseBasicEditor => 'שימוש בעורך הבסיסי';
+
+  @override
+  String get guildCommandScript => 'סקריפט';
+
+  @override
+  String get guildCommandRunAgain => 'הרצה חוזרת';
+
+  @override
+  String guildCommandIssueUnknownTag(String name) {
+    return 'אין תגית בשם $name.';
+  }
+
+  @override
+  String guildCommandIssueUnknownFilter(String name) {
+    return 'אין מסנן בשם $name.';
+  }
+
+  @override
+  String guildCommandIssueNotClosed(String name) {
+    return 'הקטע $name אף פעם לא נסגר.';
+  }
+
+  @override
+  String get guildCommandIssueTooLong => 'הסקריפט ארוך מדי.';
+
+  @override
+  String get guildCommandIssueTooLarge => 'הסקריפט יוצר יותר מדי טקסט.';
+
+  @override
+  String get guildCommandIssueTooSlow => 'הרצת הסקריפט ארכה יותר מדי זמן.';
+
+  @override
+  String get guildCommandIssueInvalid => 'אי אפשר לקרוא את החלק הזה.';
+
+  @override
+  String get guildCommandIssueFailed => 'החלק הזה נעצר עם שגיאה.';
+
+  @override
+  String guildCommandIssueAt(String line, String column, String problem) {
+    return 'שורה $line, עמודה $column: $problem';
+  }
+
+  @override
+  String get guildCommandReferenceTitle => 'מדריך סקריפטים';
+
+  @override
+  String get guildCommandReferencePerson => 'מי שמשתמש בה, כאזכור';
+
+  @override
+  String get guildCommandReferencePersonName => 'השם של מי שמשתמש בה';
+
+  @override
+  String get guildCommandReferenceTarget => 'האדם הראשון שמוזכר, אם יש';
+
+  @override
+  String get guildCommandReferenceTargetName => 'השם של אותו אדם';
+
+  @override
+  String get guildCommandReferenceChannel => 'הערוץ, כאזכור';
+
+  @override
+  String get guildCommandReferenceCommunity => 'השם של הקהילה הזו';
+
+  @override
+  String get guildCommandExampleRandom => 'בחירת אפשרות אחת באקראי';
+
+  @override
+  String get guildCommandExampleDepends => 'שינוי ההודעה לפי מה שהקלידו';
+
+  @override
+  String get guildCommandExampleOneWord => 'בחירת מילה אחת באקראי';
+
+  @override
+  String get guildCommandExampleWordForNumber => 'בחירת המילה לפי מספר';
+
+  @override
+  String get guildCommandExampleOrdinal => 'כתיבת מספר כמו 1st, 2nd, 3rd';
+
+  @override
+  String get guildCommandFullGuide => 'המדריך המלא לסקריפטים';
 }
