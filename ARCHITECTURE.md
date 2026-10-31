@@ -155,6 +155,9 @@ its media service from any engine (tyne-chat/tyne#210).
   events; guide in its `AGENTS.md`).
 - **Server commands:** `features/guild_commands` (the commands in the `/` list, running one on send,
   the chip on its messages, the Commands tab of community settings; guide in its `AGENTS.md`).
+- **Settings through READY** (tyne-chat/tyne#274): `features/guilds/providers/held_guild_permissions_provider.dart`
+  keeps a guild's last permissions while READY refills them, and `guildSettingsPermissions` reads it,
+  so an open settings tab is not closed for lack of an answer.
 - **Pinned emojis:** `features/emoji` (`EmojiPins`, `emojiPinsProvider`), synced with the web through
   the fork's `emoji_pins` field (`core/synced_preferences/AGENTS.md`); in chat, the emoji info sheet,
   the picker's frequently used row and the quick reactions (`features/chat/AGENTS.md`).
