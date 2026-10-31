@@ -211,5 +211,16 @@
     "guildCommandExampleOneWord": "Vælg et tilfældigt ord",
     "guildCommandExampleWordForNumber": "Vælg ordet efter et tal",
     "guildCommandExampleOrdinal": "Skriv et tal som 1st, 2nd, 3rd",
-    "guildCommandFullGuide": "Komplet scriptguide"
+    "guildCommandFullGuide": "Komplet scriptguide",
+    "guildCommandCounters": "Tællere",
+    "guildCommandCounterAdd": "Tilføj tæller",
+    "guildCommandCounterSeparately": "Tæl separat for hver:",
+    "guildCommandCounterPersonMentioned": "Nævnt person",
+    "guildCommandCounterChannel": "Kanal",
+    "guildCommandCounterPersonas": "Tæl personaer separat",
+    "guildCommandCounterRemove": "Fjern tæller",
+    "guildCommandCounterReset": "Nulstil optællinger",
+    "guildCommandCounterResetConfirm": "Vil du nulstille optællingerne for {name}? Dette kan ikke fortrydes.",
+    "guildCommandCounterNameInvalid": "Brug små bogstaver, tal og _, start med et bogstav, og brug ikke et navn, scripts allerede bruger.",
+    "guildCommandCounterHowToUse": "Brug den i et script som {variable}. Hver kørsel lægger først én til, så den første kørsel læser 1."
 }

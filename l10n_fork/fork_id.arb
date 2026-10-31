@@ -211,5 +211,16 @@
     "guildCommandExampleOneWord": "Pilih satu kata secara acak",
     "guildCommandExampleWordForNumber": "Pilih kata sesuai angka",
     "guildCommandExampleOrdinal": "Tulis angka sebagai 1st, 2nd, 3rd",
-    "guildCommandFullGuide": "Panduan lengkap skrip"
+    "guildCommandFullGuide": "Panduan lengkap skrip",
+    "guildCommandCounters": "Penghitung",
+    "guildCommandCounterAdd": "Tambah penghitung",
+    "guildCommandCounterSeparately": "Hitung terpisah untuk setiap:",
+    "guildCommandCounterPersonMentioned": "Orang yang disebut",
+    "guildCommandCounterChannel": "Saluran",
+    "guildCommandCounterPersonas": "Hitung persona secara terpisah",
+    "guildCommandCounterRemove": "Hapus penghitung",
+    "guildCommandCounterReset": "Atur ulang hitungan",
+    "guildCommandCounterResetConfirm": "Atur ulang hitungan {name}? Ini tidak dapat dibatalkan.",
+    "guildCommandCounterNameInvalid": "Gunakan huruf kecil, angka, dan _, mulai dengan huruf, dan jangan gunakan nama yang sudah dipakai skrip.",
+    "guildCommandCounterHowToUse": "Gunakan dalam skrip sebagai {variable}. Setiap jalannya menambah satu lebih dulu, jadi yang pertama membaca 1."
 }

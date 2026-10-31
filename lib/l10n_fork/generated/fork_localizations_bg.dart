@@ -752,4 +752,42 @@ class ForkLocalizationsBg extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'Пълно ръководство за скриптове';
+
+  @override
+  String get guildCommandCounters => 'Броячи';
+
+  @override
+  String get guildCommandCounterAdd => 'Добавяне на брояч';
+
+  @override
+  String get guildCommandCounterSeparately => 'Отделно броене за всеки:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Споменато лице';
+
+  @override
+  String get guildCommandCounterChannel => 'Канал';
+
+  @override
+  String get guildCommandCounterPersonas => 'Отделно броене на персоните';
+
+  @override
+  String get guildCommandCounterRemove => 'Премахване на брояча';
+
+  @override
+  String get guildCommandCounterReset => 'Нулиране на броенето';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'Да се нулира ли броенето на $name? Това не може да бъде отменено.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Използвайте малки букви, цифри и _, започнете с буква и изберете име, което скриптовете още не използват.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Използвайте го в скрипт като $variable. Всяко изпълнение първо добавя едно, така че първото чете 1.';
+  }
 }
