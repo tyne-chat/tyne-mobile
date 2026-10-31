@@ -211,5 +211,16 @@
     "guildCommandExampleOneWord": "कोई एक शब्द रैंडम तरीके से चुनें",
     "guildCommandExampleWordForNumber": "संख्या के हिसाब से शब्द चुनें",
     "guildCommandExampleOrdinal": "संख्या को 1st, 2nd, 3rd की तरह लिखें",
-    "guildCommandFullGuide": "पूरी स्क्रिप्ट गाइड"
+    "guildCommandFullGuide": "पूरी स्क्रिप्ट गाइड",
+    "guildCommandCounters": "काउंटर",
+    "guildCommandCounterAdd": "काउंटर जोड़ें",
+    "guildCommandCounterSeparately": "हर एक के लिए अलग गिनें:",
+    "guildCommandCounterPersonMentioned": "उल्लेखित व्यक्ति",
+    "guildCommandCounterChannel": "चैनल",
+    "guildCommandCounterPersonas": "पर्सोना अलग गिनें",
+    "guildCommandCounterRemove": "काउंटर हटाएं",
+    "guildCommandCounterReset": "गिनती रीसेट करें",
+    "guildCommandCounterResetConfirm": "{name} की गिनती रीसेट करें? इसे पूर्ववत नहीं किया जा सकता।",
+    "guildCommandCounterNameInvalid": "छोटे अंग्रेज़ी अक्षर, अंक और _ इस्तेमाल करें, अक्षर से शुरू करें, और ऐसा नाम न लें जो स्क्रिप्ट पहले से इस्तेमाल करती हैं।",
+    "guildCommandCounterHowToUse": "इसे स्क्रिप्ट में {variable} के रूप में इस्तेमाल करें। हर रन पहले एक जोड़ता है, इसलिए पहला रन 1 पढ़ता है।"
 }

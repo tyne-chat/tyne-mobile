@@ -211,5 +211,16 @@
     "guildCommandExampleOneWord": "単語を1つランダムに選ぶ",
     "guildCommandExampleWordForNumber": "数に合わせて単語を選ぶ",
     "guildCommandExampleOrdinal": "数を 1st, 2nd, 3rd の形で書く",
-    "guildCommandFullGuide": "スクリプトの完全ガイド"
+    "guildCommandFullGuide": "スクリプトの完全ガイド",
+    "guildCommandCounters": "カウンター",
+    "guildCommandCounterAdd": "カウンターを追加",
+    "guildCommandCounterSeparately": "次ごとに別々に数える:",
+    "guildCommandCounterPersonMentioned": "メンションされた人",
+    "guildCommandCounterChannel": "チャンネル",
+    "guildCommandCounterPersonas": "ペルソナを別々に数える",
+    "guildCommandCounterRemove": "カウンターを削除",
+    "guildCommandCounterReset": "カウントをリセット",
+    "guildCommandCounterResetConfirm": "{name} のカウントをリセットしますか?元に戻すことはできません。",
+    "guildCommandCounterNameInvalid": "小文字の英字、数字、_ を使い、英字で始めてください。スクリプトで既に使われている名前は使えません。",
+    "guildCommandCounterHowToUse": "スクリプトでは {variable} として使います。実行のたびに先に1増えるので、最初の実行では1になります。"
 }

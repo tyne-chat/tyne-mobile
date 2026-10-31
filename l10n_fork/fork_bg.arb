@@ -211,5 +211,16 @@
     "guildCommandExampleOneWord": "Случаен избор на една дума",
     "guildCommandExampleWordForNumber": "Избор на думата според числото",
     "guildCommandExampleOrdinal": "Изписване на число като 1st, 2nd, 3rd",
-    "guildCommandFullGuide": "Пълно ръководство за скриптове"
+    "guildCommandFullGuide": "Пълно ръководство за скриптове",
+    "guildCommandCounters": "Броячи",
+    "guildCommandCounterAdd": "Добавяне на брояч",
+    "guildCommandCounterSeparately": "Отделно броене за всеки:",
+    "guildCommandCounterPersonMentioned": "Споменато лице",
+    "guildCommandCounterChannel": "Канал",
+    "guildCommandCounterPersonas": "Отделно броене на персоните",
+    "guildCommandCounterRemove": "Премахване на брояча",
+    "guildCommandCounterReset": "Нулиране на броенето",
+    "guildCommandCounterResetConfirm": "Да се нулира ли броенето на {name}? Това не може да бъде отменено.",
+    "guildCommandCounterNameInvalid": "Използвайте малки букви, цифри и _, започнете с буква и изберете име, което скриптовете още не използват.",
+    "guildCommandCounterHowToUse": "Използвайте го в скрипт като {variable}. Всяко изпълнение първо добавя едно, така че първото чете 1."
 }

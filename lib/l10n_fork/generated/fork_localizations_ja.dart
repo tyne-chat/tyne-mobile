@@ -722,4 +722,42 @@ class ForkLocalizationsJa extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'スクリプトの完全ガイド';
+
+  @override
+  String get guildCommandCounters => 'カウンター';
+
+  @override
+  String get guildCommandCounterAdd => 'カウンターを追加';
+
+  @override
+  String get guildCommandCounterSeparately => '次ごとに別々に数える:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'メンションされた人';
+
+  @override
+  String get guildCommandCounterChannel => 'チャンネル';
+
+  @override
+  String get guildCommandCounterPersonas => 'ペルソナを別々に数える';
+
+  @override
+  String get guildCommandCounterRemove => 'カウンターを削除';
+
+  @override
+  String get guildCommandCounterReset => 'カウントをリセット';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return '$name のカウントをリセットしますか?元に戻すことはできません。';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      '小文字の英字、数字、_ を使い、英字で始めてください。スクリプトで既に使われている名前は使えません。';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'スクリプトでは $variable として使います。実行のたびに先に1増えるので、最初の実行では1になります。';
+  }
 }

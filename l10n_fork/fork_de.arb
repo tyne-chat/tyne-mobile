@@ -211,5 +211,16 @@
     "guildCommandExampleOneWord": "Zufällig ein Wort auswählen",
     "guildCommandExampleWordForNumber": "Das passende Wort zu einer Zahl wählen",
     "guildCommandExampleOrdinal": "Eine Zahl als 1st, 2nd, 3rd schreiben",
-    "guildCommandFullGuide": "Vollständige Skriptanleitung"
+    "guildCommandFullGuide": "Vollständige Skriptanleitung",
+    "guildCommandCounters": "Zähler",
+    "guildCommandCounterAdd": "Zähler hinzufügen",
+    "guildCommandCounterSeparately": "Getrennt zählen für jede:n:",
+    "guildCommandCounterPersonMentioned": "Erwähnte Person",
+    "guildCommandCounterChannel": "Kanal",
+    "guildCommandCounterPersonas": "Personas getrennt zählen",
+    "guildCommandCounterRemove": "Zähler entfernen",
+    "guildCommandCounterReset": "Zählerstände zurücksetzen",
+    "guildCommandCounterResetConfirm": "Zählerstände von {name} zurücksetzen? Das kann nicht rückgängig gemacht werden.",
+    "guildCommandCounterNameInvalid": "Verwende Kleinbuchstaben, Zahlen und _, beginne mit einem Buchstaben und nimm keinen Namen, den Skripte schon verwenden.",
+    "guildCommandCounterHowToUse": "Verwende ihn in einem Skript als {variable}. Jede Ausführung zählt zuerst eins hoch, die erste liest also 1."
 }

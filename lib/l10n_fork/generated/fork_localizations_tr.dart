@@ -737,4 +737,42 @@ class ForkLocalizationsTr extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'Tam betik kılavuzu';
+
+  @override
+  String get guildCommandCounters => 'Sayaçlar';
+
+  @override
+  String get guildCommandCounterAdd => 'Sayaç ekle';
+
+  @override
+  String get guildCommandCounterSeparately => 'Her biri için ayrı say:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Bahsedilen kişi';
+
+  @override
+  String get guildCommandCounterChannel => 'Kanal';
+
+  @override
+  String get guildCommandCounterPersonas => 'Personaları ayrı say';
+
+  @override
+  String get guildCommandCounterRemove => 'Sayacı kaldır';
+
+  @override
+  String get guildCommandCounterReset => 'Sayıları sıfırla';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return '$name sayıları sıfırlansın mı? Bu işlem geri alınamaz.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Küçük harf, rakam ve _ kullan, harfle başla ve betiklerin zaten kullandığı bir ad seçme.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Betikte $variable olarak kullan. Her çalıştırma önce bir ekler, yani ilk çalıştırma 1 okur.';
+  }
 }

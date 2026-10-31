@@ -211,5 +211,16 @@
     "guildCommandExampleOneWord": "Choisir un mot au hasard",
     "guildCommandExampleWordForNumber": "Choisir le mot selon un nombre",
     "guildCommandExampleOrdinal": "Écrire un nombre sous la forme 1st, 2nd, 3rd",
-    "guildCommandFullGuide": "Guide complet des scripts"
+    "guildCommandFullGuide": "Guide complet des scripts",
+    "guildCommandCounters": "Compteurs",
+    "guildCommandCounterAdd": "Ajouter un compteur",
+    "guildCommandCounterSeparately": "Compter séparément pour chaque :",
+    "guildCommandCounterPersonMentioned": "Personne mentionnée",
+    "guildCommandCounterChannel": "Salon",
+    "guildCommandCounterPersonas": "Compter les personas séparément",
+    "guildCommandCounterRemove": "Retirer le compteur",
+    "guildCommandCounterReset": "Réinitialiser les comptes",
+    "guildCommandCounterResetConfirm": "Réinitialiser les comptes de {name} ? Cette action est irréversible.",
+    "guildCommandCounterNameInvalid": "Utilise des minuscules, des chiffres et _, commence par une lettre et évite les noms déjà utilisés par les scripts.",
+    "guildCommandCounterHowToUse": "Utilise-le dans un script sous la forme {variable}. Chaque exécution ajoute d’abord un, donc la première lit 1."
 }
