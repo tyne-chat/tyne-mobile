@@ -2,17 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/chat/domain/composer_slash_command.dart';
 import 'package:fluxer_app/features/guild_commands/data/guild_commands_repository.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
 import 'package:fluxer_dart/export.dart';
-
-/// Use External Commands, in the server's bit (`ChannelConstants.ts`). A plain
-/// constant, as upstream's switches over `Permission` are exhaustive and the
-/// role editor that would list it is not on phones yet.
-const int useExternalCommandsPermission = 1 << 59;
 
 /// With more stale communities than this, one request reloads them all.
 const int _maxGuildRefreshes = 3;
@@ -60,7 +56,7 @@ List<GuildCommandResponseSchema> usableGuildCommands(
 }) {
   final bool inDm = channelGuildId == null || channelGuildId.isEmpty;
   final bool external =
-      inDm || channelPermissionBits & useExternalCommandsPermission != 0;
+      inDm || channelPermissionBits & Permission.useExternalCommands.value != 0;
   final List<String> order = <String>[
     if (!inDm) channelGuildId,
     if (external) ...sidebarGuildIds.where((String id) => id != channelGuildId),
@@ -222,6 +218,18 @@ class GuildCommandsNotifier extends Notifier<GuildCommandsState> {
         _failedAt = ref.read(guildCommandsClockProvider)();
       }
     }
+  }
+
+  GuildCommandResponseSchema? findById(String commandId) {
+    for (final List<GuildCommandResponseSchema> commands
+        in state.byGuild.values) {
+      for (final GuildCommandResponseSchema command in commands) {
+        if (command.id == commandId) {
+          return command;
+        }
+      }
+    }
+    return null;
   }
 
   /// [ensureLoaded], without holding up the `/` list on a slow connection.
