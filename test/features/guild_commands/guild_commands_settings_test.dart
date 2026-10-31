@@ -5,7 +5,10 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
+import 'package:fluxer_app/features/chat/services/composer_autocomplete_trigger.dart';
+import 'package:fluxer_app/features/chat/services/composer_mention_controller.dart';
 import 'package:fluxer_app/features/guild_commands/presentation/guild_commands_settings.dart';
 import 'package:fluxer_app/features/guild_commands/providers/guild_command_editing.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
@@ -425,6 +428,51 @@ void main() {
     await tester.tap(find.text('Reset'));
     await tester.pumpAndSettle();
     expect(find.text('Remove counter'), findsNothing);
+  });
+
+  sheetTest('a mention picked in the sample reaches the preview by id', (
+    WidgetTester tester,
+  ) async {
+    await openScript(tester);
+    final FluxerInput sample = tester.widget<FluxerInput>(
+      find.ancestor(
+        of: find.text('Sample input'),
+        matching: find.byType(FluxerInput),
+      ),
+    );
+
+    (sample.controller! as ComposerMentionController)
+        .insertUserMentionPlaceholder(
+          matchStart: 0,
+          matchEnd: 0,
+          userId: '222',
+          personaId: '9',
+          displayName: 'Yami',
+        );
+    await tester.pump(const Duration(milliseconds: 500));
+    await tester.pumpAndSettle();
+
+    // The message box leaves a space after a mention, ready for the next word.
+    expect(previews().last.data, containsPair('input', '<@222:9> '));
+  });
+
+  sheetTest('the sample suggests people and emoji, nothing else', (
+    WidgetTester tester,
+  ) async {
+    await openScript(tester);
+
+    final ComposerAutocompleteField field = tester
+        .widget<ComposerAutocompleteField>(
+          find.ancestor(
+            of: find.text('Sample input'),
+            matching: find.byType(ComposerAutocompleteField),
+          ),
+        );
+
+    expect(field.allowedTriggers, <ComposerAutocompleteTriggerKind>{
+      ComposerAutocompleteTriggerKind.mention,
+      ComposerAutocompleteTriggerKind.emoji,
+    });
   });
 
   sheetTest('saving closes the sheet and lists the commands again', (
