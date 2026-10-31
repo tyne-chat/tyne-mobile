@@ -2094,8 +2094,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           if (_personaOpTag(context, msg) case final Widget opTag) opTag,
         ] else
           ..._authorTags(context, msg),
-        if (msg.commandName case final String commandName)
-          GuildCommandChip(name: commandName),
+        if (msg.commandName != null) GuildCommandChip(message: msg),
         if (showAvatar)
           _AuthorProfileTapTarget(
             onPointerDown: (int pointer) =>
@@ -2463,9 +2462,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                     const SizedBox(width: 6),
                     _buildSilentIndicator(context),
                   ],
-                  if (msg.commandName case final String commandName) ...[
+                  if (msg.commandName != null) ...[
                     const SizedBox(width: 6),
-                    Flexible(child: GuildCommandChip(name: commandName)),
+                    Flexible(child: GuildCommandChip(message: msg)),
                   ],
                 ],
               ),
