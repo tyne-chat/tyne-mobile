@@ -742,4 +742,42 @@ class ForkLocalizationsId extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'Panduan lengkap skrip';
+
+  @override
+  String get guildCommandCounters => 'Penghitung';
+
+  @override
+  String get guildCommandCounterAdd => 'Tambah penghitung';
+
+  @override
+  String get guildCommandCounterSeparately => 'Hitung terpisah untuk setiap:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Orang yang disebut';
+
+  @override
+  String get guildCommandCounterChannel => 'Saluran';
+
+  @override
+  String get guildCommandCounterPersonas => 'Hitung persona secara terpisah';
+
+  @override
+  String get guildCommandCounterRemove => 'Hapus penghitung';
+
+  @override
+  String get guildCommandCounterReset => 'Atur ulang hitungan';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'Atur ulang hitungan $name? Ini tidak dapat dibatalkan.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Gunakan huruf kecil, angka, dan _, mulai dengan huruf, dan jangan gunakan nama yang sudah dipakai skrip.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Gunakan dalam skrip sebagai $variable. Setiap jalannya menambah satu lebih dulu, jadi yang pertama membaca 1.';
+  }
 }
