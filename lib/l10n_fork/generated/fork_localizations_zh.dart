@@ -490,6 +490,146 @@ class ForkLocalizationsZh extends ForkLocalizations {
   String guildCommandOneLine(String name) {
     return '/$name 后输入的内容必须在一行之内。';
   }
+
+  @override
+  String get permissionCreateCommands => '创建命令';
+
+  @override
+  String get permissionManageCommands => '管理命令';
+
+  @override
+  String get permissionUseExternalCommands => '使用外部命令';
+
+  @override
+  String get permissionCreateCommandsDescription => '为此社区创建命令，并编辑或删除自己的命令。';
+
+  @override
+  String get permissionManageCommandsDescription => '编辑或删除此社区中任何人的命令。';
+
+  @override
+  String get permissionUseExternalCommandsDescription => '使用其他社区的命令。';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      '在此频道中使用其他社区的命令。';
+
+  @override
+  String get guildSettingsCategoryMessageTools => '消息工具';
+
+  @override
+  String get guildSettingsCommands => '命令';
+
+  @override
+  String get guildCommandsLoadFailed => '无法加载命令。';
+
+  @override
+  String get guildCommandsSubtitle => '成员输入 /name 即可发布的消息。';
+
+  @override
+  String get guildCommandsSlots => '命令槽位';
+
+  @override
+  String get guildCommandsNew => '新建命令';
+
+  @override
+  String get guildCommandsSearch => '搜索命令';
+
+  @override
+  String get guildCommandsEmptyTitle => '没有命令';
+
+  @override
+  String get guildCommandsEmptyBody => '此社区还没有命令。';
+
+  @override
+  String get guildCommandsSaved => '命令已保存';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return '无法保存 /$name：$detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return '编辑 /$name';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return '删除 /$name？';
+  }
+
+  @override
+  String get guildCommandDeleteBody => '此操作无法撤销。由它生成的消息仍会显示是哪个命令生成的。';
+
+  @override
+  String get guildCommandDelete => '删除';
+
+  @override
+  String get guildCommandDeleteCommand => '删除命令';
+
+  @override
+  String get guildCommandSectionCommand => '命令';
+
+  @override
+  String get guildCommandName => '名称';
+
+  @override
+  String get guildCommandNameInvalid => '请使用小写字母、数字、- 和 _，最多 32 个字符。';
+
+  @override
+  String get guildCommandNameTaken => '已有其他命令或内置命令使用此名称。';
+
+  @override
+  String get guildCommandDescription => '描述';
+
+  @override
+  String get guildCommandSectionInput => '输入';
+
+  @override
+  String get guildCommandInputNone => '无';
+
+  @override
+  String get guildCommandInputOptional => '可选';
+
+  @override
+  String get guildCommandInputRequired => '必需';
+
+  @override
+  String get guildCommandHint => '提示';
+
+  @override
+  String get guildCommandMessage => '消息';
+
+  @override
+  String get guildCommandInsert => '插入：';
+
+  @override
+  String get guildCommandInsertPerson => '使用者';
+
+  @override
+  String get guildCommandInsertInput => '输入的内容';
+
+  @override
+  String get guildCommandPreview => '预览';
+
+  @override
+  String get guildCommandSampleInput => '示例输入';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return '由 /$name 生成';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return '清空消息框后即可使用 /$name';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly => '此命令是脚本。请在网页版或桌面版应用中编辑。';
+
+  @override
+  String get guildCommandEmptyMessage => '这不会发布任何内容，因此命令会失败。';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -978,4 +1118,144 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
   String guildCommandOneLine(String name) {
     return '/$name 後輸入的內容必須在一行之內。';
   }
+
+  @override
+  String get permissionCreateCommands => '建立指令';
+
+  @override
+  String get permissionManageCommands => '管理指令';
+
+  @override
+  String get permissionUseExternalCommands => '使用外部指令';
+
+  @override
+  String get permissionCreateCommandsDescription => '為此社群建立指令，並編輯或刪除自己的指令。';
+
+  @override
+  String get permissionManageCommandsDescription => '編輯或刪除此社群中任何人的指令。';
+
+  @override
+  String get permissionUseExternalCommandsDescription => '使用其他社群的指令。';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      '在此頻道中使用其他社群的指令。';
+
+  @override
+  String get guildSettingsCategoryMessageTools => '訊息工具';
+
+  @override
+  String get guildSettingsCommands => '指令';
+
+  @override
+  String get guildCommandsLoadFailed => '無法載入指令。';
+
+  @override
+  String get guildCommandsSubtitle => '成員輸入 /name 即可發佈的訊息。';
+
+  @override
+  String get guildCommandsSlots => '指令欄位';
+
+  @override
+  String get guildCommandsNew => '新增指令';
+
+  @override
+  String get guildCommandsSearch => '搜尋指令';
+
+  @override
+  String get guildCommandsEmptyTitle => '沒有指令';
+
+  @override
+  String get guildCommandsEmptyBody => '此社群還沒有指令。';
+
+  @override
+  String get guildCommandsSaved => '指令已儲存';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return '無法儲存 /$name：$detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return '編輯 /$name';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return '要刪除 /$name 嗎？';
+  }
+
+  @override
+  String get guildCommandDeleteBody => '此操作無法復原。由它產生的訊息仍會顯示是哪個指令產生的。';
+
+  @override
+  String get guildCommandDelete => '刪除';
+
+  @override
+  String get guildCommandDeleteCommand => '刪除指令';
+
+  @override
+  String get guildCommandSectionCommand => '指令';
+
+  @override
+  String get guildCommandName => '名稱';
+
+  @override
+  String get guildCommandNameInvalid => '請使用小寫字母、數字、- 和 _，最多 32 個字元。';
+
+  @override
+  String get guildCommandNameTaken => '已有其他指令或內建指令使用此名稱。';
+
+  @override
+  String get guildCommandDescription => '說明';
+
+  @override
+  String get guildCommandSectionInput => '輸入';
+
+  @override
+  String get guildCommandInputNone => '無';
+
+  @override
+  String get guildCommandInputOptional => '選填';
+
+  @override
+  String get guildCommandInputRequired => '必要';
+
+  @override
+  String get guildCommandHint => '提示';
+
+  @override
+  String get guildCommandMessage => '訊息';
+
+  @override
+  String get guildCommandInsert => '插入：';
+
+  @override
+  String get guildCommandInsertPerson => '使用者';
+
+  @override
+  String get guildCommandInsertInput => '輸入的內容';
+
+  @override
+  String get guildCommandPreview => '預覽';
+
+  @override
+  String get guildCommandSampleInput => '範例輸入';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return '由 /$name 產生';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return '清空訊息框後即可使用 /$name';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly => '此指令是腳本。請在網頁版或桌面版應用程式中編輯。';
+
+  @override
+  String get guildCommandEmptyMessage => '這不會發佈任何內容，因此指令會失敗。';
 }
