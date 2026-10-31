@@ -60,6 +60,8 @@
     "personaRemoveAvatar": "Avatar verwijderen",
     "personaUploadAvatar": "Avatar uploaden",
     "personaTagsLabel": "Persona-tags",
+    "personaAutoTagDisabledLabel": "Tags van deze persona niet herkennen",
+    "personaAutoTagDisabledDescription": "Als je een van deze tags typt, wissel je niet naar deze persona. De tag wordt verzonden zoals die is geschreven.",
     "personaTagPrefixLabel": "Voorvoegsel",
     "personaTagSuffixLabel": "Achtervoegsel",
     "personaVisibilityLabel": "Zichtbaarheid",
