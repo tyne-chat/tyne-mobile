@@ -59,6 +59,8 @@
     "personaRemoveAvatar": "Remover avatar",
     "personaUploadAvatar": "Carregar avatar",
     "personaTagsLabel": "Tags de persona",
+    "personaAutoTagDisabledLabel": "Não reconhecer as tags desta persona",
+    "personaAutoTagDisabledDescription": "Escrever uma destas tags não muda para esta persona. A tag é enviada tal como foi escrita.",
     "personaTagPrefixLabel": "Prefixo",
     "personaTagSuffixLabel": "Sufixo",
     "personaVisibilityLabel": "Visibilidade",

@@ -247,6 +247,13 @@ class ForkLocalizationsLt extends ForkLocalizations {
   String get personaTagsLabel => 'Personos žymos';
 
   @override
+  String get personaAutoTagDisabledLabel => 'Neatpažinti šios personos žymų';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      'Įvedus vieną iš šių žymų, persona nebus perjungta. Žyma išsiunčiama taip, kaip parašyta.';
+
+  @override
   String get personaTagPrefixLabel => 'Priešdėlis';
 
   @override
