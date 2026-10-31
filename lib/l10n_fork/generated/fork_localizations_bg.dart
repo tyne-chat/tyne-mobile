@@ -511,4 +511,154 @@ class ForkLocalizationsBg extends ForkLocalizations {
   String guildCommandOneLine(String name) {
     return 'Текстът след /$name трябва да се побира на един ред.';
   }
+
+  @override
+  String get permissionCreateCommands => 'Създаване на команди';
+
+  @override
+  String get permissionManageCommands => 'Управление на команди';
+
+  @override
+  String get permissionUseExternalCommands => 'Използване на външни команди';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      'Създаване на команди за тази общност и редактиране или изтриване на собствените.';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      'Редактиране или изтриване на командите на всеки в тази общност.';
+
+  @override
+  String get permissionUseExternalCommandsDescription =>
+      'Използване на команди от други общности.';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      'Използване на команди от други общности в този канал.';
+
+  @override
+  String get guildSettingsCategoryMessageTools => 'Инструменти за съобщения';
+
+  @override
+  String get guildSettingsCommands => 'Команди';
+
+  @override
+  String get guildCommandsLoadFailed =>
+      'Командите не можаха да бъдат заредени.';
+
+  @override
+  String get guildCommandsSubtitle =>
+      'Съобщения, които членовете могат да публикуват, като напишат /name.';
+
+  @override
+  String get guildCommandsSlots => 'Слотове за команди';
+
+  @override
+  String get guildCommandsNew => 'Нова команда';
+
+  @override
+  String get guildCommandsSearch => 'Търсене на команди';
+
+  @override
+  String get guildCommandsEmptyTitle => 'Няма команди';
+
+  @override
+  String get guildCommandsEmptyBody => 'Тази общност все още няма команди.';
+
+  @override
+  String get guildCommandsSaved => 'Командите са запазени';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return '/$name не можа да бъде запазена: $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return 'Редактиране на /$name';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return 'Изтриване на /$name?';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      'Това не може да бъде отменено. Съобщенията, създадени с нея, продължават да показват коя команда ги е създала.';
+
+  @override
+  String get guildCommandDelete => 'Изтриване';
+
+  @override
+  String get guildCommandDeleteCommand => 'Изтриване на командата';
+
+  @override
+  String get guildCommandSectionCommand => 'Команда';
+
+  @override
+  String get guildCommandName => 'Име';
+
+  @override
+  String get guildCommandNameInvalid =>
+      'Използвайте малки букви, цифри, - и _, до 32 знака.';
+
+  @override
+  String get guildCommandNameTaken =>
+      'Друга команда или вградена команда вече има това име.';
+
+  @override
+  String get guildCommandDescription => 'Описание';
+
+  @override
+  String get guildCommandSectionInput => 'Въвеждане';
+
+  @override
+  String get guildCommandInputNone => 'Няма';
+
+  @override
+  String get guildCommandInputOptional => 'По избор';
+
+  @override
+  String get guildCommandInputRequired => 'Задължително';
+
+  @override
+  String get guildCommandHint => 'Подсказка';
+
+  @override
+  String get guildCommandMessage => 'Съобщение';
+
+  @override
+  String get guildCommandInsert => 'Вмъкване:';
+
+  @override
+  String get guildCommandInsertPerson => 'Който я използва';
+
+  @override
+  String get guildCommandInsertInput => 'Какво въвеждат';
+
+  @override
+  String get guildCommandPreview => 'Преглед';
+
+  @override
+  String get guildCommandSampleInput => 'Примерен текст';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return 'Създадено с /$name';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return 'Изпразнете полето за съобщение, за да използвате /$name';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      'Тази команда е скрипт. Редактирайте я в уеб или настолното приложение.';
+
+  @override
+  String get guildCommandEmptyMessage =>
+      'Това няма да публикува нищо, така че командата ще се провали.';
 }

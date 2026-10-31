@@ -7,6 +7,10 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+
 enum GuildAction {
   markAsRead,
   inviteMembers,
@@ -43,6 +47,9 @@ enum GuildAction {
   mute3Days,
   muteForever,
   unmute,
+
+  // Fork values.
+  settingsCommands,
 }
 
 sealed class GuildMenuEntry {
@@ -300,6 +307,11 @@ const List<_SettingsTabDef> _settingsTabDefs = <_SettingsTabDef>[
     icon: PhosphorIconsFill.sticker,
   ),
   (
+    action: GuildAction.settingsCommands,
+    perms: [Permission.createCommands, Permission.manageCommands],
+    icon: PhosphorIconsFill.terminalWindow,
+  ),
+  (
     action: GuildAction.settingsWebhooks,
     perms: [Permission.manageWebhooks],
     icon: PhosphorIconsFill.webhooksLogo,
@@ -341,6 +353,7 @@ String _settingsTabLabel(GuildAction action, FluxerLocalizations l10n) {
     GuildAction.settingsInviteLinks => l10n.guildMenuSettingsInviteLinks,
     GuildAction.settingsBans => l10n.guildMenuSettingsBans,
     GuildAction.settingsChannels => l10n.guildMenuSettingsChannels,
+    GuildAction.settingsCommands => l10n.fork.guildSettingsCommands,
     _ => '',
   };
 }

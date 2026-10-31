@@ -17,6 +17,58 @@ class GuildCommandsRepository {
     return _client.guildCommands.listGuildCommands(guildId: guildId);
   }
 
+  Future<void> create({
+    required String guildId,
+    required String name,
+    required String description,
+    required String template,
+    required GuildCommandInputMode inputMode,
+    required String hint,
+  }) async {
+    await _client.guildCommands.createGuildCommand(
+      guildId: guildId,
+      body: GuildCommandCreateRequestSchema(
+        name: name,
+        description: description,
+        template: template,
+        inputMode: inputMode,
+        inputHint: _hint(hint),
+      ),
+    );
+  }
+
+  Future<void> update({
+    required String guildId,
+    required String commandId,
+    required String name,
+    required String description,
+    required String template,
+    required GuildCommandInputMode inputMode,
+    required String hint,
+  }) async {
+    await _client.guildCommands.updateGuildCommand(
+      guildId: guildId,
+      commandId: commandId,
+      body: GuildCommandUpdateRequestSchema(
+        name: name,
+        description: description,
+        template: template,
+        inputMode: inputMode,
+        inputHint: _hint(hint),
+      ),
+    );
+  }
+
+  Future<void> delete({required String guildId, required String commandId}) {
+    return _client.guildCommands.deleteGuildCommand(
+      guildId: guildId,
+      commandId: commandId,
+    );
+  }
+
+  JsonNullable<String> _hint(String hint) =>
+      JsonNullable<String>.of(hint.isEmpty ? null : hint);
+
   Future<void> run({
     required String channelId,
     required String commandId,
