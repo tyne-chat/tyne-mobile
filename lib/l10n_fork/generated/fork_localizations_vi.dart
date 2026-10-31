@@ -246,6 +246,13 @@ class ForkLocalizationsVi extends ForkLocalizations {
   String get personaTagsLabel => 'Thẻ persona';
 
   @override
+  String get personaAutoTagDisabledLabel => 'Không khớp thẻ của persona này';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      'Nhập một trong các thẻ này sẽ không chuyển sang persona này. Thẻ được gửi đúng như đã viết.';
+
+  @override
   String get personaTagPrefixLabel => 'Tiền tố';
 
   @override

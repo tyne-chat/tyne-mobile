@@ -60,6 +60,8 @@
     "personaRemoveAvatar": "Supprimer l'avatar",
     "personaUploadAvatar": "Importer un avatar",
     "personaTagsLabel": "Balises de persona",
+    "personaAutoTagDisabledLabel": "Ne pas reconnaître les balises de cette persona",
+    "personaAutoTagDisabledDescription": "Saisir l'une de ces balises ne basculera pas sur cette persona. La balise est envoyée telle quelle.",
     "personaTagPrefixLabel": "Préfixe",
     "personaTagSuffixLabel": "Suffixe",
     "personaVisibilityLabel": "Visibilité",
