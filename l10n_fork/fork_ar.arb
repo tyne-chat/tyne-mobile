@@ -60,6 +60,8 @@
     "personaRemoveAvatar": "إزالة الصورة الرمزية",
     "personaUploadAvatar": "تحميل الصورة الرمزية",
     "personaTagsLabel": "علامات الشخصية",
+    "personaAutoTagDisabledLabel": "عدم مطابقة علامات هذه الشخصية",
+    "personaAutoTagDisabledDescription": "كتابة إحدى هذه العلامات لن تبدّل إلى هذه الشخصية. تُرسَل العلامة كما كُتبت.",
     "personaTagPrefixLabel": "البادئة",
     "personaTagSuffixLabel": "اللاحقة",
     "personaVisibilityLabel": "الرؤية",

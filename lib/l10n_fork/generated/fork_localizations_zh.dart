@@ -240,6 +240,12 @@ class ForkLocalizationsZh extends ForkLocalizations {
   String get personaTagsLabel => '人格标签';
 
   @override
+  String get personaAutoTagDisabledLabel => '不匹配此人格的标签';
+
+  @override
+  String get personaAutoTagDisabledDescription => '输入这些标签不会切换到此人格。标签将按原样发送。';
+
+  @override
   String get personaTagPrefixLabel => '前缀';
 
   @override
@@ -987,6 +993,12 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get personaTagsLabel => '人格標籤';
+
+  @override
+  String get personaAutoTagDisabledLabel => '不比對此人格的標籤';
+
+  @override
+  String get personaAutoTagDisabledDescription => '輸入這些標籤不會切換到此人格。標籤將依原樣傳送。';
 
   @override
   String get personaTagPrefixLabel => '前綴';

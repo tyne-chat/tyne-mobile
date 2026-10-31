@@ -60,6 +60,8 @@
     "personaRemoveAvatar": "Elimină avatarul",
     "personaUploadAvatar": "Încarcă avatar",
     "personaTagsLabel": "Etichete persona",
+    "personaAutoTagDisabledLabel": "Nu recunoaște etichetele acestei persona",
+    "personaAutoTagDisabledDescription": "Dacă scrii una dintre aceste etichete, nu se va comuta la această persona. Eticheta este trimisă așa cum a fost scrisă.",
     "personaTagPrefixLabel": "Prefix",
     "personaTagSuffixLabel": "Sufix",
     "personaVisibilityLabel": "Vizibilitate",

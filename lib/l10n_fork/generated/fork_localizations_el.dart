@@ -247,6 +247,14 @@ class ForkLocalizationsEl extends ForkLocalizations {
   String get personaTagsLabel => 'Ετικέτες persona';
 
   @override
+  String get personaAutoTagDisabledLabel =>
+      'Να μην αναγνωρίζονται οι ετικέτες αυτής της persona';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      'Η πληκτρολόγηση μιας από αυτές τις ετικέτες δεν θα σας μεταφέρει σε αυτή την persona. Η ετικέτα αποστέλλεται όπως γράφτηκε.';
+
+  @override
   String get personaTagPrefixLabel => 'Πρόθεμα';
 
   @override

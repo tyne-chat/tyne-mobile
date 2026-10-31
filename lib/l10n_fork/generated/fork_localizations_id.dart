@@ -247,6 +247,13 @@ class ForkLocalizationsId extends ForkLocalizations {
   String get personaTagsLabel => 'Tag Persona';
 
   @override
+  String get personaAutoTagDisabledLabel => 'Jangan cocokkan tag persona ini';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      'Mengetik salah satu tag ini tidak akan beralih ke persona ini. Tag dikirim sesuai yang ditulis.';
+
+  @override
   String get personaTagPrefixLabel => 'Awalan';
 
   @override

@@ -60,6 +60,8 @@
     "personaRemoveAvatar": "अवतार हटाएँ",
     "personaUploadAvatar": "अवतार अपलोड करें",
     "personaTagsLabel": "परसोना टैग",
+    "personaAutoTagDisabledLabel": "इस परसोना के टैग से मिलान न करें",
+    "personaAutoTagDisabledDescription": "इनमें से कोई टैग लिखने पर इस परसोना पर स्विच नहीं होगा। टैग वैसा ही भेजा जाएगा जैसा लिखा गया है।",
     "personaTagPrefixLabel": "उपसर्ग",
     "personaTagSuffixLabel": "प्रत्यय",
     "personaVisibilityLabel": "विज़िबिलिटी",

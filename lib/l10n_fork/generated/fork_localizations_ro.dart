@@ -246,6 +246,14 @@ class ForkLocalizationsRo extends ForkLocalizations {
   String get personaTagsLabel => 'Etichete persona';
 
   @override
+  String get personaAutoTagDisabledLabel =>
+      'Nu recunoaște etichetele acestei persona';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      'Dacă scrii una dintre aceste etichete, nu se va comuta la această persona. Eticheta este trimisă așa cum a fost scrisă.';
+
+  @override
   String get personaTagPrefixLabel => 'Prefix';
 
   @override

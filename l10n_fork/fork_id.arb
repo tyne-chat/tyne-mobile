@@ -60,6 +60,8 @@
     "personaRemoveAvatar": "Hapus avatar",
     "personaUploadAvatar": "Unggah avatar",
     "personaTagsLabel": "Tag Persona",
+    "personaAutoTagDisabledLabel": "Jangan cocokkan tag persona ini",
+    "personaAutoTagDisabledDescription": "Mengetik salah satu tag ini tidak akan beralih ke persona ini. Tag dikirim sesuai yang ditulis.",
     "personaTagPrefixLabel": "Awalan",
     "personaTagSuffixLabel": "Akhiran",
     "personaVisibilityLabel": "Visibilitas",

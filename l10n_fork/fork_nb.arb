@@ -60,6 +60,8 @@
     "personaRemoveAvatar": "Fjern avatar",
     "personaUploadAvatar": "Last opp avatar",
     "personaTagsLabel": "Personatagger",
+    "personaAutoTagDisabledLabel": "Ikke gjenkjenn taggene til denne personaen",
+    "personaAutoTagDisabledDescription": "Hvis du skriver en av disse taggene, byttes det ikke til denne personaen. Taggen sendes slik den er skrevet.",
     "personaTagPrefixLabel": "Prefiks",
     "personaTagSuffixLabel": "Suffiks",
     "personaVisibilityLabel": "Synlighet",

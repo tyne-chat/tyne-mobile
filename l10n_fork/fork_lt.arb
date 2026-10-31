@@ -60,6 +60,8 @@
     "personaRemoveAvatar": "Pašalinti avatarą",
     "personaUploadAvatar": "Įkelti avatarą",
     "personaTagsLabel": "Personos žymos",
+    "personaAutoTagDisabledLabel": "Neatpažinti šios personos žymų",
+    "personaAutoTagDisabledDescription": "Įvedus vieną iš šių žymų, persona nebus perjungta. Žyma išsiunčiama taip, kaip parašyta.",
     "personaTagPrefixLabel": "Priešdėlis",
     "personaTagSuffixLabel": "Priesaga",
     "personaVisibilityLabel": "Matomumas",

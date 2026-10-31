@@ -247,6 +247,14 @@ class ForkLocalizationsNl extends ForkLocalizations {
   String get personaTagsLabel => 'Persona-tags';
 
   @override
+  String get personaAutoTagDisabledLabel =>
+      'Tags van deze persona niet herkennen';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      'Als je een van deze tags typt, wissel je niet naar deze persona. De tag wordt verzonden zoals die is geschreven.';
+
+  @override
   String get personaTagPrefixLabel => 'Voorvoegsel';
 
   @override
