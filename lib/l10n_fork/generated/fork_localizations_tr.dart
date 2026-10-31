@@ -649,10 +649,92 @@ class ForkLocalizationsTr extends ForkLocalizations {
   }
 
   @override
-  String get guildCommandScriptReadOnly =>
-      'Bu komut bir betiktir. Web veya masaüstü uygulamasından düzenleyin.';
-
-  @override
   String get guildCommandEmptyMessage =>
       'Bu hiçbir şey göndermez, bu yüzden komut başarısız olur.';
+
+  @override
+  String get guildCommandUseScriptEditor => 'Betik düzenleyicisini kullan';
+
+  @override
+  String get guildCommandUseBasicEditor => 'Temel düzenleyiciyi kullan';
+
+  @override
+  String get guildCommandScript => 'Betik';
+
+  @override
+  String get guildCommandRunAgain => 'Yeniden çalıştır';
+
+  @override
+  String guildCommandIssueUnknownTag(String name) {
+    return '$name adında bir etiket yok.';
+  }
+
+  @override
+  String guildCommandIssueUnknownFilter(String name) {
+    return '$name adında bir filtre yok.';
+  }
+
+  @override
+  String guildCommandIssueNotClosed(String name) {
+    return '$name hiç kapatılmıyor.';
+  }
+
+  @override
+  String get guildCommandIssueTooLong => 'Betik çok uzun.';
+
+  @override
+  String get guildCommandIssueTooLarge => 'Betik çok fazla metin oluşturuyor.';
+
+  @override
+  String get guildCommandIssueTooSlow => 'Betiğin çalışması çok uzun sürdü.';
+
+  @override
+  String get guildCommandIssueInvalid => 'Bu bölüm okunamıyor.';
+
+  @override
+  String get guildCommandIssueFailed => 'Bu bölüm bir hatayla durdu.';
+
+  @override
+  String guildCommandIssueAt(String line, String column, String problem) {
+    return 'Satır $line, sütun $column: $problem';
+  }
+
+  @override
+  String get guildCommandReferenceTitle => 'Betik kılavuzu';
+
+  @override
+  String get guildCommandReferencePerson => 'Bahsetme olarak kullanan kişi';
+
+  @override
+  String get guildCommandReferencePersonName => 'Kullanan kişinin adı';
+
+  @override
+  String get guildCommandReferenceTarget => 'Bahsettikleri ilk kişi, varsa';
+
+  @override
+  String get guildCommandReferenceTargetName => 'O kişinin adı';
+
+  @override
+  String get guildCommandReferenceChannel => 'Bahsetme olarak kanal';
+
+  @override
+  String get guildCommandReferenceCommunity => 'Bu topluluğun adı';
+
+  @override
+  String get guildCommandExampleRandom => 'Rastgele bir seçenek seç';
+
+  @override
+  String get guildCommandExampleDepends => 'Mesajı yazdıklarına göre değiştir';
+
+  @override
+  String get guildCommandExampleOneWord => 'Rastgele bir kelime seç';
+
+  @override
+  String get guildCommandExampleWordForNumber => 'Sayıya uygun kelimeyi seç';
+
+  @override
+  String get guildCommandExampleOrdinal => 'Sayıyı 1st, 2nd, 3rd şeklinde yaz';
+
+  @override
+  String get guildCommandFullGuide => 'Tam betik kılavuzu';
 }
