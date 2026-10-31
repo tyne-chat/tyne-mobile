@@ -737,6 +737,44 @@ class ForkLocalizationsEn extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'Full script guide';
+
+  @override
+  String get guildCommandCounters => 'Counters';
+
+  @override
+  String get guildCommandCounterAdd => 'Add counter';
+
+  @override
+  String get guildCommandCounterSeparately => 'Count separately for each:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Person mentioned';
+
+  @override
+  String get guildCommandCounterChannel => 'Channel';
+
+  @override
+  String get guildCommandCounterPersonas => 'Count personas separately';
+
+  @override
+  String get guildCommandCounterRemove => 'Remove counter';
+
+  @override
+  String get guildCommandCounterReset => 'Reset counts';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'Reset the counts of $name? This can\'t be undone.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Use lowercase letters, numbers and _, starting with a letter, and not a name scripts already use.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Use it in a script as $variable. Each run adds one first, so the first run reads 1.';
+  }
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -1472,6 +1510,44 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
 
   @override
   String get guildCommandFullGuide => 'Full script guide';
+
+  @override
+  String get guildCommandCounters => 'Counters';
+
+  @override
+  String get guildCommandCounterAdd => 'Add counter';
+
+  @override
+  String get guildCommandCounterSeparately => 'Count separately for each:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Person mentioned';
+
+  @override
+  String get guildCommandCounterChannel => 'Channel';
+
+  @override
+  String get guildCommandCounterPersonas => 'Count personas separately';
+
+  @override
+  String get guildCommandCounterRemove => 'Remove counter';
+
+  @override
+  String get guildCommandCounterReset => 'Reset counts';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'Reset the counts of $name? This can\'t be undone.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Use lowercase letters, numbers and _, starting with a letter, and not a name scripts already use.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Use it in a script as $variable. Each run adds one first, so the first run reads 1.';
+  }
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -2207,4 +2283,42 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
 
   @override
   String get guildCommandFullGuide => 'Full script guide';
+
+  @override
+  String get guildCommandCounters => 'Counters';
+
+  @override
+  String get guildCommandCounterAdd => 'Add counter';
+
+  @override
+  String get guildCommandCounterSeparately => 'Count separately for each:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Person mentioned';
+
+  @override
+  String get guildCommandCounterChannel => 'Channel';
+
+  @override
+  String get guildCommandCounterPersonas => 'Count personas separately';
+
+  @override
+  String get guildCommandCounterRemove => 'Remove counter';
+
+  @override
+  String get guildCommandCounterReset => 'Reset counts';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'Reset the counts of $name? This can\'t be undone.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Use lowercase letters, numbers and _, starting with a letter, and not a name scripts already use.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Use it in a script as $variable. Each run adds one first, so the first run reads 1.';
+  }
 }

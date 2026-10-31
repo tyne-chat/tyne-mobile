@@ -749,4 +749,42 @@ class ForkLocalizationsDe extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'Vollständige Skriptanleitung';
+
+  @override
+  String get guildCommandCounters => 'Zähler';
+
+  @override
+  String get guildCommandCounterAdd => 'Zähler hinzufügen';
+
+  @override
+  String get guildCommandCounterSeparately => 'Getrennt zählen für jede:n:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Erwähnte Person';
+
+  @override
+  String get guildCommandCounterChannel => 'Kanal';
+
+  @override
+  String get guildCommandCounterPersonas => 'Personas getrennt zählen';
+
+  @override
+  String get guildCommandCounterRemove => 'Zähler entfernen';
+
+  @override
+  String get guildCommandCounterReset => 'Zählerstände zurücksetzen';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'Zählerstände von $name zurücksetzen? Das kann nicht rückgängig gemacht werden.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Verwende Kleinbuchstaben, Zahlen und _, beginne mit einem Buchstaben und nimm keinen Namen, den Skripte schon verwenden.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Verwende ihn in einem Skript als $variable. Jede Ausführung zählt zuerst eins hoch, die erste liest also 1.';
+  }
 }

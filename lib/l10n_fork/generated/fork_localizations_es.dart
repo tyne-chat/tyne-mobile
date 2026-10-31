@@ -749,6 +749,44 @@ class ForkLocalizationsEs extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'Guía completa de scripts';
+
+  @override
+  String get guildCommandCounters => 'Contadores';
+
+  @override
+  String get guildCommandCounterAdd => 'Añadir contador';
+
+  @override
+  String get guildCommandCounterSeparately => 'Contar por separado para cada:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Persona mencionada';
+
+  @override
+  String get guildCommandCounterChannel => 'Canal';
+
+  @override
+  String get guildCommandCounterPersonas => 'Contar las personas por separado';
+
+  @override
+  String get guildCommandCounterRemove => 'Quitar contador';
+
+  @override
+  String get guildCommandCounterReset => 'Restablecer recuentos';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return '¿Restablecer los recuentos de $name? Esto no se puede deshacer.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Usa minúsculas, números y _, empieza por una letra y no uses un nombre que ya usen los scripts.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Úsalo en un script como $variable. Cada ejecución suma uno primero, así que la primera lee 1.';
+  }
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -1496,4 +1534,42 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
 
   @override
   String get guildCommandFullGuide => 'Guía completa de scripts';
+
+  @override
+  String get guildCommandCounters => 'Contadores';
+
+  @override
+  String get guildCommandCounterAdd => 'Agregar contador';
+
+  @override
+  String get guildCommandCounterSeparately => 'Contar por separado para cada:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Persona mencionada';
+
+  @override
+  String get guildCommandCounterChannel => 'Canal';
+
+  @override
+  String get guildCommandCounterPersonas => 'Contar las personas por separado';
+
+  @override
+  String get guildCommandCounterRemove => 'Quitar contador';
+
+  @override
+  String get guildCommandCounterReset => 'Restablecer conteos';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return '¿Restablecer los conteos de $name? Esto no se puede deshacer.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Usa minúsculas, números y _, empieza con una letra y no uses un nombre que ya usen los scripts.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Úsalo en un script como $variable. Cada ejecución suma uno primero, así que la primera lee 1.';
+  }
 }
