@@ -38,6 +38,7 @@ abstract final class RouteNames {
   static const guildSettingsMembers = 'guild-settings-members';
   static const guildSettingsInvites = 'guild-settings-invites';
   static const guildSettingsBans = 'guild-settings-bans';
+  static const guildSettingsCommands = 'guild-settings-commands';
   static const guildSettingsChannels = 'guild-settings-channels';
 
   static const channelSettings = 'channel-settings';
@@ -107,6 +108,8 @@ abstract final class RoutePaths {
       '/settings/guild/$guildId/invites';
   static String guildSettingsBansPath(String guildId) =>
       '/settings/guild/$guildId/bans';
+  static String guildSettingsCommandsPath(String guildId) =>
+      '/settings/guild/$guildId/commands';
   static String guildSettingsChannelsPath(String guildId) =>
       '/settings/guild/$guildId/channels';
 

@@ -512,4 +512,154 @@ class ForkLocalizationsFr extends ForkLocalizations {
   String guildCommandOneLine(String name) {
     return 'Ce que vous tapez après /$name doit tenir sur une ligne.';
   }
+
+  @override
+  String get permissionCreateCommands => 'Créer des commandes';
+
+  @override
+  String get permissionManageCommands => 'Gérer les commandes';
+
+  @override
+  String get permissionUseExternalCommands => 'Utiliser des commandes externes';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      'Créer des commandes pour cette communauté, et modifier ou supprimer les vôtres.';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      'Modifier ou supprimer les commandes de n\'importe qui dans cette communauté.';
+
+  @override
+  String get permissionUseExternalCommandsDescription =>
+      'Utiliser les commandes d\'autres communautés.';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      'Utiliser les commandes d\'autres communautés dans ce salon.';
+
+  @override
+  String get guildSettingsCategoryMessageTools => 'Outils de message';
+
+  @override
+  String get guildSettingsCommands => 'Commandes';
+
+  @override
+  String get guildCommandsLoadFailed => 'Impossible de charger les commandes.';
+
+  @override
+  String get guildCommandsSubtitle =>
+      'Des messages que les membres peuvent publier en tapant /name.';
+
+  @override
+  String get guildCommandsSlots => 'Emplacements de commandes';
+
+  @override
+  String get guildCommandsNew => 'Nouvelle commande';
+
+  @override
+  String get guildCommandsSearch => 'Rechercher des commandes';
+
+  @override
+  String get guildCommandsEmptyTitle => 'Aucune commande';
+
+  @override
+  String get guildCommandsEmptyBody =>
+      'Cette communauté n\'a encore aucune commande.';
+
+  @override
+  String get guildCommandsSaved => 'Commandes enregistrées';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return 'Impossible d\'enregistrer /$name : $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return 'Modifier /$name';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return 'Supprimer /$name ?';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      'Cette action est irréversible. Les messages créés avec elle indiquent toujours la commande qui les a créés.';
+
+  @override
+  String get guildCommandDelete => 'Supprimer';
+
+  @override
+  String get guildCommandDeleteCommand => 'Supprimer la commande';
+
+  @override
+  String get guildCommandSectionCommand => 'Commande';
+
+  @override
+  String get guildCommandName => 'Nom';
+
+  @override
+  String get guildCommandNameInvalid =>
+      'Utilisez des minuscules, des chiffres, - et _, 32 caractères au maximum.';
+
+  @override
+  String get guildCommandNameTaken =>
+      'Une autre commande ou une commande intégrée porte déjà ce nom.';
+
+  @override
+  String get guildCommandDescription => 'Description';
+
+  @override
+  String get guildCommandSectionInput => 'Entrée';
+
+  @override
+  String get guildCommandInputNone => 'Aucun';
+
+  @override
+  String get guildCommandInputOptional => 'Facultative';
+
+  @override
+  String get guildCommandInputRequired => 'Obligatoire';
+
+  @override
+  String get guildCommandHint => 'Indice';
+
+  @override
+  String get guildCommandMessage => 'Message';
+
+  @override
+  String get guildCommandInsert => 'Insérer :';
+
+  @override
+  String get guildCommandInsertPerson => 'Personne qui l\'utilise';
+
+  @override
+  String get guildCommandInsertInput => 'Ce qu\'on tape';
+
+  @override
+  String get guildCommandPreview => 'Prévisualiser';
+
+  @override
+  String get guildCommandSampleInput => 'Exemple de saisie';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return 'Créé avec /$name';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return 'Videz la zone de message pour utiliser /$name';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      'Cette commande est un script. Modifie-la sur l\'application web ou de bureau.';
+
+  @override
+  String get guildCommandEmptyMessage =>
+      'Cela ne publierait rien, donc la commande échouerait.';
 }
