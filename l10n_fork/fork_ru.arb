@@ -211,5 +211,16 @@
     "guildCommandExampleOneWord": "Выбрать случайное слово",
     "guildCommandExampleWordForNumber": "Подобрать слово к числу",
     "guildCommandExampleOrdinal": "Записать число как 1st, 2nd, 3rd",
-    "guildCommandFullGuide": "Полное руководство по скриптам"
+    "guildCommandFullGuide": "Полное руководство по скриптам",
+    "guildCommandCounters": "Счётчики",
+    "guildCommandCounterAdd": "Добавить счётчик",
+    "guildCommandCounterSeparately": "Считать отдельно для каждого:",
+    "guildCommandCounterPersonMentioned": "Упомянутый человек",
+    "guildCommandCounterChannel": "Канал",
+    "guildCommandCounterPersonas": "Считать персоны отдельно",
+    "guildCommandCounterRemove": "Удалить счётчик",
+    "guildCommandCounterReset": "Сбросить значения",
+    "guildCommandCounterResetConfirm": "Сбросить значения {name}? Это нельзя отменить.",
+    "guildCommandCounterNameInvalid": "Используйте строчные буквы, цифры и _, начинайте с буквы и не берите имя, которое уже используют скрипты.",
+    "guildCommandCounterHowToUse": "Используйте его в скрипте как {variable}. Каждый запуск сначала прибавляет один, поэтому первый читает 1."
 }
