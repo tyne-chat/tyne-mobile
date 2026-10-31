@@ -962,6 +962,7 @@ class _GuildListItemState extends State<_GuildListItem>
       case GuildAction.settingsInviteLinks:
       case GuildAction.settingsBans:
       case GuildAction.settingsChannels:
+      case GuildAction.settingsCommands:
         return;
       case GuildAction.copyGuildId:
         unawaited(copyToClipboard(context: context, value: guildId));

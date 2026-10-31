@@ -507,4 +507,154 @@ class ForkLocalizationsFi extends ForkLocalizations {
   String guildCommandOneLine(String name) {
     return 'Komennon /$name jälkeen kirjoittamasi tekstin on mahduttava yhdelle riville.';
   }
+
+  @override
+  String get permissionCreateCommands => 'Luo komentoja';
+
+  @override
+  String get permissionManageCommands => 'Hallitse komentoja';
+
+  @override
+  String get permissionUseExternalCommands => 'Käytä ulkoisia komentoja';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      'Luo komentoja tälle yhteisölle ja muokkaa tai poista omiasi.';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      'Muokkaa tai poista kenen tahansa komentoja tässä yhteisössä.';
+
+  @override
+  String get permissionUseExternalCommandsDescription =>
+      'Käytä muiden yhteisöjen komentoja.';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      'Käytä muiden yhteisöjen komentoja tällä kanavalla.';
+
+  @override
+  String get guildSettingsCategoryMessageTools => 'Viestityökalut';
+
+  @override
+  String get guildSettingsCommands => 'Komennot';
+
+  @override
+  String get guildCommandsLoadFailed => 'Komentoja ei voitu ladata.';
+
+  @override
+  String get guildCommandsSubtitle =>
+      'Viestejä, joita jäsenet voivat lähettää kirjoittamalla /name.';
+
+  @override
+  String get guildCommandsSlots => 'Komentopaikat';
+
+  @override
+  String get guildCommandsNew => 'Uusi komento';
+
+  @override
+  String get guildCommandsSearch => 'Hae komentoja';
+
+  @override
+  String get guildCommandsEmptyTitle => 'Ei komentoja';
+
+  @override
+  String get guildCommandsEmptyBody =>
+      'Tällä yhteisöllä ei ole vielä komentoja.';
+
+  @override
+  String get guildCommandsSaved => 'Komennot tallennettu';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return 'Komentoa /$name ei voitu tallentaa: $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return 'Muokkaa komentoa /$name';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return 'Poistetaanko /$name?';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      'Tätä ei voi kumota. Sillä tehdyt viestit näyttävät edelleen, mikä komento ne teki.';
+
+  @override
+  String get guildCommandDelete => 'Poista';
+
+  @override
+  String get guildCommandDeleteCommand => 'Poista komento';
+
+  @override
+  String get guildCommandSectionCommand => 'Komento';
+
+  @override
+  String get guildCommandName => 'Nimi';
+
+  @override
+  String get guildCommandNameInvalid =>
+      'Käytä pieniä kirjaimia, numeroita, - ja _, enintään 32 merkkiä.';
+
+  @override
+  String get guildCommandNameTaken =>
+      'Toisella komennolla tai sisäänrakennetulla komennolla on jo tämä nimi.';
+
+  @override
+  String get guildCommandDescription => 'Kuvaus';
+
+  @override
+  String get guildCommandSectionInput => 'Syöttö';
+
+  @override
+  String get guildCommandInputNone => 'Ei mitään';
+
+  @override
+  String get guildCommandInputOptional => 'Valinnainen';
+
+  @override
+  String get guildCommandInputRequired => 'Pakollinen';
+
+  @override
+  String get guildCommandHint => 'Vihje';
+
+  @override
+  String get guildCommandMessage => 'Viesti';
+
+  @override
+  String get guildCommandInsert => 'Lisää:';
+
+  @override
+  String get guildCommandInsertPerson => 'Käyttäjä';
+
+  @override
+  String get guildCommandInsertInput => 'Mitä kirjoitetaan';
+
+  @override
+  String get guildCommandPreview => 'Esikatselu';
+
+  @override
+  String get guildCommandSampleInput => 'Esimerkkisyöte';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return 'Tehty komennolla /$name';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return 'Tyhjennä viestikenttä käyttääksesi komentoa /$name';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      'Tämä komento on skripti. Muokkaa sitä verkko- tai työpöytäsovelluksessa.';
+
+  @override
+  String get guildCommandEmptyMessage =>
+      'Tämä ei lähettäisi mitään, joten komento epäonnistuisi.';
 }

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/features/chat/domain/composer_slash_command.dart';
 import 'package:fluxer_app/features/guild_commands/providers/guild_commands_providers.dart';
 
@@ -134,7 +135,11 @@ void main() {
     test('honours Use External Commands in another community', () {
       expect(resolved('hug', guild: 'g1'), isNull);
       expect(
-        resolved('hug', guild: 'g1', bits: useExternalCommandsPermission),
+        resolved(
+          'hug',
+          guild: 'g1',
+          bits: Permission.useExternalCommands.value,
+        ),
         '3',
       );
       expect(resolved('hug'), '3');

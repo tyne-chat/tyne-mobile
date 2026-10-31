@@ -502,4 +502,152 @@ class ForkLocalizationsAr extends ForkLocalizations {
   String guildCommandOneLine(String name) {
     return 'يجب أن يتسع ما تكتبه بعد /$name في سطر واحد.';
   }
+
+  @override
+  String get permissionCreateCommands => 'إنشاء أوامر';
+
+  @override
+  String get permissionManageCommands => 'إدارة الأوامر';
+
+  @override
+  String get permissionUseExternalCommands => 'استخدام الأوامر الخارجية';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      'إنشاء أوامر لهذا المجتمع وتعديل أوامرك أو حذفها.';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      'تعديل أوامر أي شخص في هذا المجتمع أو حذفها.';
+
+  @override
+  String get permissionUseExternalCommandsDescription =>
+      'استخدام أوامر من مجتمعات أخرى.';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      'استخدام أوامر من مجتمعات أخرى في هذه القناة.';
+
+  @override
+  String get guildSettingsCategoryMessageTools => 'أدوات الرسائل';
+
+  @override
+  String get guildSettingsCommands => 'الأوامر';
+
+  @override
+  String get guildCommandsLoadFailed => 'تعذر تحميل الأوامر.';
+
+  @override
+  String get guildCommandsSubtitle => 'رسائل يمكن للأعضاء نشرها بكتابة /name.';
+
+  @override
+  String get guildCommandsSlots => 'خانات الأوامر';
+
+  @override
+  String get guildCommandsNew => 'أمر جديد';
+
+  @override
+  String get guildCommandsSearch => 'البحث عن الأوامر';
+
+  @override
+  String get guildCommandsEmptyTitle => 'لا توجد أوامر';
+
+  @override
+  String get guildCommandsEmptyBody => 'لا توجد أوامر في هذا المجتمع بعد.';
+
+  @override
+  String get guildCommandsSaved => 'تم حفظ الأوامر';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return 'تعذر حفظ /$name: $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return 'تعديل /$name';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return 'حذف /$name؟';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      'لا يمكن التراجع عن هذا. ستظل الرسائل التي صُنعت به تُظهر الأمر الذي صنعها.';
+
+  @override
+  String get guildCommandDelete => 'حذف';
+
+  @override
+  String get guildCommandDeleteCommand => 'حذف الأمر';
+
+  @override
+  String get guildCommandSectionCommand => 'الأمر';
+
+  @override
+  String get guildCommandName => 'الاسم';
+
+  @override
+  String get guildCommandNameInvalid =>
+      'استخدم أحرفًا صغيرة وأرقامًا و- و_، بحد أقصى 32 حرفًا.';
+
+  @override
+  String get guildCommandNameTaken =>
+      'هناك أمر آخر أو أمر مدمج يحمل هذا الاسم بالفعل.';
+
+  @override
+  String get guildCommandDescription => 'الوصف';
+
+  @override
+  String get guildCommandSectionInput => 'الإدخال';
+
+  @override
+  String get guildCommandInputNone => 'لا شيء';
+
+  @override
+  String get guildCommandInputOptional => 'اختياري';
+
+  @override
+  String get guildCommandInputRequired => 'مطلوب';
+
+  @override
+  String get guildCommandHint => 'تلميح';
+
+  @override
+  String get guildCommandMessage => 'رسالة';
+
+  @override
+  String get guildCommandInsert => 'إدراج:';
+
+  @override
+  String get guildCommandInsertPerson => 'من يستخدمه';
+
+  @override
+  String get guildCommandInsertInput => 'ما يكتبونه';
+
+  @override
+  String get guildCommandPreview => 'معاينة';
+
+  @override
+  String get guildCommandSampleInput => 'إدخال تجريبي';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return 'صُنعت باستخدام /$name';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return 'أفرغ مربع الرسالة لاستخدام /$name';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      'هذا الأمر نص برمجي. عدّله من تطبيق الويب أو سطح المكتب.';
+
+  @override
+  String get guildCommandEmptyMessage =>
+      'لن يؤدي هذا إلى نشر أي شيء، لذا سيفشل الأمر.';
 }

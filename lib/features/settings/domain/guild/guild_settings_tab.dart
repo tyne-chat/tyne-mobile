@@ -6,6 +6,10 @@ import 'package:fluxer_app/features/guilds/utils/guild_features.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+
 enum GuildSettingsTab {
   overview,
   roles,
@@ -19,6 +23,9 @@ enum GuildSettingsTab {
   members,
   invites,
   bans,
+
+  // Fork values.
+  commands,
 }
 
 const List<GuildSettingsTab> _comingSoonTabs = <GuildSettingsTab>[];
@@ -41,6 +48,7 @@ GuildAction guildSettingsTabToAction(GuildSettingsTab tab) {
     GuildSettingsTab.invites => GuildAction.settingsInviteLinks,
     GuildSettingsTab.bans => GuildAction.settingsBans,
     GuildSettingsTab.channels => GuildAction.settingsChannels,
+    GuildSettingsTab.commands => GuildAction.settingsCommands,
   };
 }
 
@@ -77,6 +85,7 @@ String? guildSettingsTabCategoryLabel(
     GuildSettingsTab.members ||
     GuildSettingsTab.invites ||
     GuildSettingsTab.bans => l10n.guildSettingsCategoryPeople,
+    GuildSettingsTab.commands => l10n.fork.guildSettingsCategoryMessageTools,
     _ => null,
   };
 }
@@ -95,6 +104,7 @@ String guildSettingsTabQuery(GuildSettingsTab tab) {
     GuildSettingsTab.members => 'members',
     GuildSettingsTab.invites => 'invites',
     GuildSettingsTab.bans => 'bans',
+    GuildSettingsTab.commands => 'commands',
   };
 }
 
@@ -111,6 +121,7 @@ GuildSettingsTab guildSettingsTabFromQuery(String? tabQuery) {
     'members' => GuildSettingsTab.members,
     'invites' => GuildSettingsTab.invites,
     'bans' => GuildSettingsTab.bans,
+    'commands' => GuildSettingsTab.commands,
     _ => GuildSettingsTab.overview,
   };
 }
@@ -129,6 +140,7 @@ GuildSettingsTab? guildSettingsTabForAction(GuildAction action) {
     GuildAction.settingsMembers => GuildSettingsTab.members,
     GuildAction.settingsInviteLinks => GuildSettingsTab.invites,
     GuildAction.settingsBans => GuildSettingsTab.bans,
+    GuildAction.settingsCommands => GuildSettingsTab.commands,
     _ => null,
   };
 }
@@ -159,6 +171,7 @@ String guildSettingsTabPath(String guildId, GuildSettingsTab tab) {
     GuildSettingsTab.invites => RoutePaths.guildSettingsInvitesPath(guildId),
     GuildSettingsTab.bans => RoutePaths.guildSettingsBansPath(guildId),
     GuildSettingsTab.channels => RoutePaths.guildSettingsChannelsPath(guildId),
+    GuildSettingsTab.commands => RoutePaths.guildSettingsCommandsPath(guildId),
   };
 }
 
@@ -175,6 +188,7 @@ String guildSettingsTabPathFromQuery(String guildId, String tabQuery) {
     'members' => RoutePaths.guildSettingsMembersPath(guildId),
     'invites' => RoutePaths.guildSettingsInvitesPath(guildId),
     'bans' => RoutePaths.guildSettingsBansPath(guildId),
+    'commands' => RoutePaths.guildSettingsCommandsPath(guildId),
     'channels' => RoutePaths.guildSettingsChannelsPath(guildId),
     _ => RoutePaths.guildSettingsPath(guildId),
   };

@@ -507,4 +507,155 @@ class ForkLocalizationsDe extends ForkLocalizations {
   String guildCommandOneLine(String name) {
     return 'Was du nach /$name eingibst, muss in eine Zeile passen.';
   }
+
+  @override
+  String get permissionCreateCommands => 'Befehle erstellen';
+
+  @override
+  String get permissionManageCommands => 'Befehle verwalten';
+
+  @override
+  String get permissionUseExternalCommands => 'Externe Befehle verwenden';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      'Befehle für diese Community erstellen und eigene bearbeiten oder löschen.';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      'Befehle aller Mitglieder dieser Community bearbeiten oder löschen.';
+
+  @override
+  String get permissionUseExternalCommandsDescription =>
+      'Befehle aus anderen Communitys verwenden.';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      'Befehle aus anderen Communitys in diesem Kanal verwenden.';
+
+  @override
+  String get guildSettingsCategoryMessageTools => 'Nachrichtenwerkzeuge';
+
+  @override
+  String get guildSettingsCommands => 'Befehle';
+
+  @override
+  String get guildCommandsLoadFailed =>
+      'Die Befehle konnten nicht geladen werden.';
+
+  @override
+  String get guildCommandsSubtitle =>
+      'Nachrichten, die Mitglieder mit /name posten können.';
+
+  @override
+  String get guildCommandsSlots => 'Befehls-Slots';
+
+  @override
+  String get guildCommandsNew => 'Neuer Befehl';
+
+  @override
+  String get guildCommandsSearch => 'Befehle suchen';
+
+  @override
+  String get guildCommandsEmptyTitle => 'Keine Befehle';
+
+  @override
+  String get guildCommandsEmptyBody =>
+      'Diese Community hat noch keine Befehle.';
+
+  @override
+  String get guildCommandsSaved => 'Befehle gespeichert';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return '/$name konnte nicht gespeichert werden: $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return '/$name bearbeiten';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return '/$name löschen?';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      'Das kann nicht rückgängig gemacht werden. Damit erstellte Nachrichten zeigen weiterhin, mit welchem Befehl sie erstellt wurden.';
+
+  @override
+  String get guildCommandDelete => 'Löschen';
+
+  @override
+  String get guildCommandDeleteCommand => 'Befehl löschen';
+
+  @override
+  String get guildCommandSectionCommand => 'Befehl';
+
+  @override
+  String get guildCommandName => 'Name';
+
+  @override
+  String get guildCommandNameInvalid =>
+      'Verwende Kleinbuchstaben, Zahlen, - und _, höchstens 32 Zeichen.';
+
+  @override
+  String get guildCommandNameTaken =>
+      'Ein anderer Befehl oder ein integrierter Befehl hat bereits diesen Namen.';
+
+  @override
+  String get guildCommandDescription => 'Beschreibung';
+
+  @override
+  String get guildCommandSectionInput => 'Eingabe';
+
+  @override
+  String get guildCommandInputNone => 'Keine';
+
+  @override
+  String get guildCommandInputOptional => 'Optional';
+
+  @override
+  String get guildCommandInputRequired => 'Erforderlich';
+
+  @override
+  String get guildCommandHint => 'Hinweis';
+
+  @override
+  String get guildCommandMessage => 'Nachricht';
+
+  @override
+  String get guildCommandInsert => 'Einfügen:';
+
+  @override
+  String get guildCommandInsertPerson => 'Ausführende Person';
+
+  @override
+  String get guildCommandInsertInput => 'Was eingegeben wird';
+
+  @override
+  String get guildCommandPreview => 'Vorschau';
+
+  @override
+  String get guildCommandSampleInput => 'Beispieleingabe';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return 'Erstellt mit /$name';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return 'Leere das Nachrichtenfeld, um /$name zu verwenden';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      'Dieser Befehl ist ein Skript. Bearbeite ihn in der Web- oder Desktop-App.';
+
+  @override
+  String get guildCommandEmptyMessage =>
+      'Das würde nichts posten, daher würde der Befehl fehlschlagen.';
 }
