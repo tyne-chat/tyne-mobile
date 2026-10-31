@@ -1804,6 +1804,7 @@ class _FakeWellKnown extends WellKnown {
       appPublic: InstanceAppPublicSchema(
         branding: InstanceBrandingSchema(
           productName: '',
+          statusPageInstatus: false,
           iconUrl: null,
           symbolUrl: null,
           logoUrl: null,
