@@ -211,5 +211,16 @@
     "guildCommandExampleOneWord": "Valitse yksi sana satunnaisesti",
     "guildCommandExampleWordForNumber": "Valitse sana luvun mukaan",
     "guildCommandExampleOrdinal": "Kirjoita luku muodossa 1st, 2nd, 3rd",
-    "guildCommandFullGuide": "Täydellinen skriptiopas"
+    "guildCommandFullGuide": "Täydellinen skriptiopas",
+    "guildCommandCounters": "Laskurit",
+    "guildCommandCounterAdd": "Lisää laskuri",
+    "guildCommandCounterSeparately": "Laske erikseen jokaiselle:",
+    "guildCommandCounterPersonMentioned": "Mainittu henkilö",
+    "guildCommandCounterChannel": "Kanava",
+    "guildCommandCounterPersonas": "Laske persoonat erikseen",
+    "guildCommandCounterRemove": "Poista laskuri",
+    "guildCommandCounterReset": "Nollaa laskennat",
+    "guildCommandCounterResetConfirm": "Nollataanko laskurin {name} laskennat? Tätä ei voi perua.",
+    "guildCommandCounterNameInvalid": "Käytä pieniä kirjaimia, numeroita ja _-merkkiä, aloita kirjaimella äläkä käytä nimeä, jota skriptit jo käyttävät.",
+    "guildCommandCounterHowToUse": "Käytä sitä skriptissä muodossa {variable}. Jokainen suoritus lisää ensin yhden, joten ensimmäinen lukee 1."
 }

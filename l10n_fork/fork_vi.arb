@@ -211,5 +211,16 @@
     "guildCommandExampleOneWord": "Chọn ngẫu nhiên một từ",
     "guildCommandExampleWordForNumber": "Chọn từ theo con số",
     "guildCommandExampleOrdinal": "Viết số dưới dạng 1st, 2nd, 3rd",
-    "guildCommandFullGuide": "Hướng dẫn đầy đủ về tập lệnh"
+    "guildCommandFullGuide": "Hướng dẫn đầy đủ về tập lệnh",
+    "guildCommandCounters": "Bộ đếm",
+    "guildCommandCounterAdd": "Thêm bộ đếm",
+    "guildCommandCounterSeparately": "Đếm riêng cho mỗi:",
+    "guildCommandCounterPersonMentioned": "Người được nhắc đến",
+    "guildCommandCounterChannel": "Kênh",
+    "guildCommandCounterPersonas": "Đếm riêng từng persona",
+    "guildCommandCounterRemove": "Xóa bộ đếm",
+    "guildCommandCounterReset": "Đặt lại số đếm",
+    "guildCommandCounterResetConfirm": "Đặt lại số đếm của {name}? Không thể hoàn tác.",
+    "guildCommandCounterNameInvalid": "Dùng chữ thường, số và _, bắt đầu bằng chữ cái và không dùng tên mà tập lệnh đã dùng.",
+    "guildCommandCounterHowToUse": "Dùng trong tập lệnh là {variable}. Mỗi lần chạy cộng một trước, nên lần đầu đọc được 1."
 }

@@ -7,13 +7,17 @@ const Duration _typing = Duration(milliseconds: 500);
 
 class _Server {
   final List<String> asked = <String>[];
+  final List<int> runs = <int>[];
   Object? failWith;
 
   Future<GuildCommandPreviewResponseSchema> fetch({
     required String template,
     required String input,
+    required List<String> counterNames,
+    required int run,
   }) async {
     asked.add('$template|$input');
+    runs.add(run);
     final Object? failure = failWith;
     if (failure != null) {
       throw failure as Exception;
@@ -66,6 +70,48 @@ void main() {
     });
   });
 
+  test('asks again when a counter is named, so a script can read it', () {
+    fakeAsync((FakeAsync async) {
+      final _Server server = _Server();
+      final GuildCommandScriptPreview preview = GuildCommandScriptPreview(
+        server.fetch,
+      );
+      addTearDown(preview.dispose);
+
+      preview.update(template: '{{ hugs }}', input: '');
+      async.elapse(_typing);
+      preview.update(
+        template: '{{ hugs }}',
+        input: '',
+        counterNames: <String>['hugs'],
+      );
+      async.elapse(_typing);
+
+      expect(server.asked, hasLength(2));
+    });
+  });
+
+  test('counts up with each Run again, and starts over on an edit', () {
+    fakeAsync((FakeAsync async) {
+      final _Server server = _Server();
+      final GuildCommandScriptPreview preview = GuildCommandScriptPreview(
+        server.fetch,
+      );
+      addTearDown(preview.dispose);
+
+      preview.update(template: '{{ hugs }}', input: '');
+      async.elapse(_typing);
+      preview
+        ..runAgain()
+        ..runAgain();
+      async.flushMicrotasks();
+      preview.update(template: '{{ hugs }}!', input: '');
+      async.elapse(_typing);
+
+      expect(server.runs, <int>[1, 2, 3, 1]);
+    });
+  });
+
   test('clears the preview when the text stops being a script', () {
     fakeAsync((FakeAsync async) {
       final _Server server = _Server();
@@ -115,9 +161,16 @@ void main() {
       final GuildCommandScriptPreview preview = GuildCommandScriptPreview(({
         required String template,
         required String input,
+        required List<String> counterNames,
+        required int run,
       }) async {
         await Future<void>.delayed(slowness);
-        return server.fetch(template: template, input: input);
+        return server.fetch(
+          template: template,
+          input: input,
+          counterNames: counterNames,
+          run: run,
+        );
       });
       addTearDown(preview.dispose);
 
