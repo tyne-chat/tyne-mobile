@@ -45,6 +45,7 @@ commands, the chip, and the Commands tab of community settings.
   a code font and without the keyboard's corrections. The text decides what a command is
   (`isGuildCommandScript`, the server's rule), so a script stays in that editor until it is plain text
   again. There are no `{{` or `{%` suggestions: `ComposerAutocompleteField` knows emoji and mentions.
+- **Sample input** uses the message box's `ComposerMentionController`, with `@` and `:` suggestions in the community's first text channel, so `{{ target }}` works in a preview.
 - **A script's preview** is a request: `GuildCommandScriptPreview` sends one per 500 ms of typing, and
   a failed one waits for the next edit, as the web's hook does. It passes the community's first text
   channel, so `{{ channel }}` fills in. Problems come back as `issue`, worded by
