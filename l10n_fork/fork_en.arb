@@ -883,12 +883,138 @@
             }
         }
     },
-    "guildCommandScriptReadOnly": "This command is a script. Edit it on the web or desktop app.",
-    "@guildCommandScriptReadOnly": {
-        "description": "Shown on the phone above a community command written as a script, which can only be edited on the web or desktop app."
-    },
     "guildCommandEmptyMessage": "This would post nothing, so the command would fail.",
     "@guildCommandEmptyMessage": {
         "description": "Shown on the phone when a community command's message is left empty, so it cannot be saved."
+    },
+    "guildCommandUseScriptEditor": "Use the script editor",
+    "@guildCommandUseScriptEditor": {
+        "description": "Community command scripts on the phone. Same wording as the web app's."
+    },
+    "guildCommandUseBasicEditor": "Use the basic editor",
+    "@guildCommandUseBasicEditor": {
+        "description": "Community command scripts on the phone. Same wording as the web app's."
+    },
+    "guildCommandScript": "Script",
+    "@guildCommandScript": {
+        "description": "Community command scripts on the phone. Same wording as the web app's."
+    },
+    "guildCommandRunAgain": "Run again",
+    "@guildCommandRunAgain": {
+        "description": "Community command scripts on the phone. Same wording as the web app's."
+    },
+    "guildCommandIssueUnknownTag": "There's no tag called {name}.",
+    "@guildCommandIssueUnknownTag": {
+        "description": "Community command scripts on the phone. Same wording as the web app's.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "guildCommandIssueUnknownFilter": "There's no filter called {name}.",
+    "@guildCommandIssueUnknownFilter": {
+        "description": "Community command scripts on the phone. Same wording as the web app's.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "guildCommandIssueNotClosed": "{name} is never closed.",
+    "@guildCommandIssueNotClosed": {
+        "description": "Community command scripts on the phone. Same wording as the web app's.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "guildCommandIssueTooLong": "The script is too long.",
+    "@guildCommandIssueTooLong": {
+        "description": "Community command scripts on the phone. Same wording as the web app's."
+    },
+    "guildCommandIssueTooLarge": "The script builds too much text.",
+    "@guildCommandIssueTooLarge": {
+        "description": "Community command scripts on the phone. Same wording as the web app's."
+    },
+    "guildCommandIssueTooSlow": "The script took too long to run.",
+    "@guildCommandIssueTooSlow": {
+        "description": "Community command scripts on the phone. Same wording as the web app's."
+    },
+    "guildCommandIssueInvalid": "This part can't be read.",
+    "@guildCommandIssueInvalid": {
+        "description": "Community command scripts on the phone. Same wording as the web app's."
+    },
+    "guildCommandIssueFailed": "This part stopped with an error.",
+    "@guildCommandIssueFailed": {
+        "description": "Community command scripts on the phone. Same wording as the web app's."
+    },
+    "guildCommandIssueAt": "Line {line}, column {column}: {problem}",
+    "@guildCommandIssueAt": {
+        "description": "Community command scripts on the phone. Same wording as the web app's.",
+        "placeholders": {
+            "line": {
+                "type": "String"
+            },
+            "column": {
+                "type": "String"
+            },
+            "problem": {
+                "type": "String"
+            }
+        }
+    },
+    "guildCommandReferenceTitle": "Script reference",
+    "@guildCommandReferenceTitle": {
+        "description": "Community command scripts on the phone. Same wording as the web app's."
+    },
+    "guildCommandReferencePerson": "The person running it, as a mention",
+    "@guildCommandReferencePerson": {
+        "description": "Community command scripts on the phone. Same wording as the web app's."
+    },
+    "guildCommandReferencePersonName": "Their name",
+    "@guildCommandReferencePersonName": {
+        "description": "Community command scripts on the phone. Same wording as the web app's."
+    },
+    "guildCommandReferenceTarget": "The first person they mention, if any",
+    "@guildCommandReferenceTarget": {
+        "description": "Community command scripts on the phone. Same wording as the web app's."
+    },
+    "guildCommandReferenceTargetName": "That person’s name",
+    "@guildCommandReferenceTargetName": {
+        "description": "Community command scripts on the phone. Same wording as the web app's."
+    },
+    "guildCommandReferenceChannel": "The channel, as a mention",
+    "@guildCommandReferenceChannel": {
+        "description": "Community command scripts on the phone. Same wording as the web app's."
+    },
+    "guildCommandReferenceCommunity": "The name of this community",
+    "@guildCommandReferenceCommunity": {
+        "description": "Community command scripts on the phone. Same wording as the web app's."
+    },
+    "guildCommandExampleRandom": "Pick one option at random",
+    "@guildCommandExampleRandom": {
+        "description": "Community command scripts on the phone. Same wording as the web app's."
+    },
+    "guildCommandExampleDepends": "Change the message depending on what they typed",
+    "@guildCommandExampleDepends": {
+        "description": "Community command scripts on the phone. Same wording as the web app's."
+    },
+    "guildCommandExampleOneWord": "Pick one word at random",
+    "@guildCommandExampleOneWord": {
+        "description": "Community command scripts on the phone. Same wording as the web app's."
+    },
+    "guildCommandExampleWordForNumber": "Pick the word for a number",
+    "@guildCommandExampleWordForNumber": {
+        "description": "Community command scripts on the phone. Same wording as the web app's."
+    },
+    "guildCommandExampleOrdinal": "Write a number as 1st, 2nd, 3rd",
+    "@guildCommandExampleOrdinal": {
+        "description": "Community command scripts on the phone. Same wording as the web app's."
+    },
+    "guildCommandFullGuide": "Full script guide",
+    "@guildCommandFullGuide": {
+        "description": "Community command scripts on the phone. Same wording as the web app's."
     }
 }
