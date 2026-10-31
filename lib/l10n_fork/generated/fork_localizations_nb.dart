@@ -743,4 +743,42 @@ class ForkLocalizationsNb extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'Fullstendig skriptguide';
+
+  @override
+  String get guildCommandCounters => 'Tellere';
+
+  @override
+  String get guildCommandCounterAdd => 'Legg til teller';
+
+  @override
+  String get guildCommandCounterSeparately => 'Tell separat for hver:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Nevnt person';
+
+  @override
+  String get guildCommandCounterChannel => 'Kanal';
+
+  @override
+  String get guildCommandCounterPersonas => 'Tell personaer separat';
+
+  @override
+  String get guildCommandCounterRemove => 'Fjern teller';
+
+  @override
+  String get guildCommandCounterReset => 'Nullstill tellinger';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'Vil du nullstille tellingene for $name? Dette kan ikke angres.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Bruk små bokstaver, tall og _, start med en bokstav, og ikke bruk et navn skript allerede bruker.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Bruk den i et skript som $variable. Hver kjøring legger først til én, så den første leser 1.';
+  }
 }

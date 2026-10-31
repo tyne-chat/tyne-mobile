@@ -1438,6 +1438,72 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'Full script guide'**
   String get guildCommandFullGuide;
+
+  /// Community command counters on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Counters'**
+  String get guildCommandCounters;
+
+  /// Community command counters on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Add counter'**
+  String get guildCommandCounterAdd;
+
+  /// Community command counters on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Count separately for each:'**
+  String get guildCommandCounterSeparately;
+
+  /// Community command counters on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Person mentioned'**
+  String get guildCommandCounterPersonMentioned;
+
+  /// Community command counters on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel'**
+  String get guildCommandCounterChannel;
+
+  /// Community command counters on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Count personas separately'**
+  String get guildCommandCounterPersonas;
+
+  /// Community command counters on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove counter'**
+  String get guildCommandCounterRemove;
+
+  /// Community command counters on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset counts'**
+  String get guildCommandCounterReset;
+
+  /// Community command counters on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset the counts of {name}? This can\'t be undone.'**
+  String guildCommandCounterResetConfirm(String name);
+
+  /// Community command counters on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Use lowercase letters, numbers and _, starting with a letter, and not a name scripts already use.'**
+  String get guildCommandCounterNameInvalid;
+
+  /// Community command counters on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Use it in a script as {variable}. Each run adds one first, so the first run reads 1.'**
+  String guildCommandCounterHowToUse(String variable);
 }
 
 class _ForkLocalizationsDelegate

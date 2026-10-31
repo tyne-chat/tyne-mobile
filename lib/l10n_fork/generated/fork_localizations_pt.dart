@@ -748,6 +748,44 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'Guia completo de scripts';
+
+  @override
+  String get guildCommandCounters => 'Contadores';
+
+  @override
+  String get guildCommandCounterAdd => 'Adicionar contador';
+
+  @override
+  String get guildCommandCounterSeparately => 'Contar separadamente para cada:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Pessoa mencionada';
+
+  @override
+  String get guildCommandCounterChannel => 'Canal';
+
+  @override
+  String get guildCommandCounterPersonas => 'Contar personas separadamente';
+
+  @override
+  String get guildCommandCounterRemove => 'Remover contador';
+
+  @override
+  String get guildCommandCounterReset => 'Redefinir contagens';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'Redefinir as contagens de $name? Isso não pode ser desfeito.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Use letras minúsculas, números e _, comece com uma letra e não use um nome que os scripts já usam.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Use em um script como $variable. Cada execução soma um primeiro, então a primeira lê 1.';
+  }
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -1494,4 +1532,42 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
 
   @override
   String get guildCommandFullGuide => 'Guia completo de scripts';
+
+  @override
+  String get guildCommandCounters => 'Contadores';
+
+  @override
+  String get guildCommandCounterAdd => 'Adicionar contador';
+
+  @override
+  String get guildCommandCounterSeparately => 'Contar separadamente para cada:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Pessoa mencionada';
+
+  @override
+  String get guildCommandCounterChannel => 'Canal';
+
+  @override
+  String get guildCommandCounterPersonas => 'Contar personas separadamente';
+
+  @override
+  String get guildCommandCounterRemove => 'Remover contador';
+
+  @override
+  String get guildCommandCounterReset => 'Redefinir contagens';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'Redefinir as contagens de $name? Isso não pode ser desfeito.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Use letras minúsculas, números e _, comece com uma letra e não use um nome que os scripts já usam.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Use em um script como $variable. Cada execução soma um primeiro, então a primeira lê 1.';
+  }
 }

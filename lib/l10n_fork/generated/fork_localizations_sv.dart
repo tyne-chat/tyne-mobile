@@ -743,4 +743,42 @@ class ForkLocalizationsSv extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'Fullständig skriptguide';
+
+  @override
+  String get guildCommandCounters => 'Räknare';
+
+  @override
+  String get guildCommandCounterAdd => 'Lägg till räknare';
+
+  @override
+  String get guildCommandCounterSeparately => 'Räkna separat för varje:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Nämnd person';
+
+  @override
+  String get guildCommandCounterChannel => 'Kanal';
+
+  @override
+  String get guildCommandCounterPersonas => 'Räkna personor separat';
+
+  @override
+  String get guildCommandCounterRemove => 'Ta bort räknare';
+
+  @override
+  String get guildCommandCounterReset => 'Återställ antal';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'Vill du återställa antalen för $name? Det går inte att ångra.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Använd små bokstäver, siffror och _, börja med en bokstav och välj inget namn som skript redan använder.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Använd den i ett skript som $variable. Varje körning lägger först till ett, så den första läser 1.';
+  }
 }

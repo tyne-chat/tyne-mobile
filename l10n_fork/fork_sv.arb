@@ -211,5 +211,16 @@
     "guildCommandExampleOneWord": "Välj ett slumpmässigt ord",
     "guildCommandExampleWordForNumber": "Välj ordet efter ett tal",
     "guildCommandExampleOrdinal": "Skriv ett tal som 1st, 2nd, 3rd",
-    "guildCommandFullGuide": "Fullständig skriptguide"
+    "guildCommandFullGuide": "Fullständig skriptguide",
+    "guildCommandCounters": "Räknare",
+    "guildCommandCounterAdd": "Lägg till räknare",
+    "guildCommandCounterSeparately": "Räkna separat för varje:",
+    "guildCommandCounterPersonMentioned": "Nämnd person",
+    "guildCommandCounterChannel": "Kanal",
+    "guildCommandCounterPersonas": "Räkna personor separat",
+    "guildCommandCounterRemove": "Ta bort räknare",
+    "guildCommandCounterReset": "Återställ antal",
+    "guildCommandCounterResetConfirm": "Vill du återställa antalen för {name}? Det går inte att ångra.",
+    "guildCommandCounterNameInvalid": "Använd små bokstäver, siffror och _, börja med en bokstav och välj inget namn som skript redan använder.",
+    "guildCommandCounterHowToUse": "Använd den i ett skript som {variable}. Varje körning lägger först till ett, så den första läser 1."
 }
