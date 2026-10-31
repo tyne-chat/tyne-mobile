@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/accessibility/domain/motion_preferences.dart
 import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/voice/tts/tts_rate_utils.dart';
 import 'package:fluxer_dart/export.dart' show StickerAnimationOptions;
 import 'package:protobuf/protobuf.dart' as $pb;
@@ -273,10 +274,19 @@ class AccessibilitySyncedField
     AccessibilityLocalState local, {
     $pb.GeneratedMessage? wireSubMessage,
   }) {
-    return toProtoForPush(
+    final pb.AccessibilitySettings settings = toProtoForPush(
       local: local,
       wireBase: wireSubMessage as pb.AccessibilitySettings?,
     );
+    // Fork: this bool has no "not set", so a new record without it reads as off
+    // on the web and desktop apps, whatever the person chose (tyne-chat/tyne#281).
+    // An existing record keeps what it says.
+    if (wireSubMessage == null) {
+      settings.autoSendKlipyGifs = _ref
+          .read(chatPreferencesProvider)
+          .autoSendKlipyGifs;
+    }
+    return settings;
   }
 
   @override
