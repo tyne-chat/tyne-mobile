@@ -60,6 +60,8 @@
     "personaRemoveAvatar": "Αφαίρεση εικόνας προφίλ",
     "personaUploadAvatar": "Ανέβασμα εικόνας προφίλ",
     "personaTagsLabel": "Ετικέτες persona",
+    "personaAutoTagDisabledLabel": "Να μην αναγνωρίζονται οι ετικέτες αυτής της persona",
+    "personaAutoTagDisabledDescription": "Η πληκτρολόγηση μιας από αυτές τις ετικέτες δεν θα σας μεταφέρει σε αυτή την persona. Η ετικέτα αποστέλλεται όπως γράφτηκε.",
     "personaTagPrefixLabel": "Πρόθεμα",
     "personaTagSuffixLabel": "Επίθημα",
     "personaVisibilityLabel": "Ορατότητα",
