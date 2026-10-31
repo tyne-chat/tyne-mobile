@@ -99,4 +99,26 @@ void main() {
     container.read(guildCommandEditRequestProvider.notifier).consume();
     expect(container.read(guildCommandEditRequestProvider), isNull);
   });
+
+  // The same cases as classifyGuildCommandTemplate's in the server's tests.
+  group('isGuildCommandScript', () {
+    test('is false for text and the two plain outputs', () {
+      expect(isGuildCommandScript('Just text'), isFalse);
+      expect(isGuildCommandScript('{{ person }} and {{input}}'), isFalse);
+    });
+
+    test('is true for anything else in braces', () {
+      expect(isGuildCommandScript('{{ target }}'), isTrue);
+      expect(isGuildCommandScript('{{ person.name }}'), isTrue);
+      expect(isGuildCommandScript('{% if target %}x{% endif %}'), isTrue);
+      expect(isGuildCommandScript('{{ input | upcase }}'), isTrue);
+    });
+  });
+
+  test('knows which scripts pick at random', () {
+    expect(guildCommandPicksAtRandom('{% random %}a{% endrandom %}'), isTrue);
+    expect(guildCommandPicksAtRandom('{%- random %}a{% endrandom %}'), isTrue);
+    expect(guildCommandPicksAtRandom('{{ "a" | one_of: "b" }}'), isTrue);
+    expect(guildCommandPicksAtRandom('{{ randomly }}'), isFalse);
+  });
 }
