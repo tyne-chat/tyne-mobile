@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/mature_content/providers/mature_geo_provider
 import 'package:fluxer_app/features/mature_content/utils/mature_access_utils.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_dart/export.dart';
 
 import '../../helpers/open_test_database.dart';
 import '../../helpers/pump_fluxer_app.dart';
@@ -378,6 +379,59 @@ void main() {
 
     expect(find.text('Insert:'), findsNothing);
     expect(find.text('Script reference'), findsOneWidget);
+  });
+
+  sheetTest('a counter is added and saved with the command', (
+    WidgetTester tester,
+  ) async {
+    await openCommands(tester);
+    await openHug(tester);
+    await tester.ensureVisible(find.text('Add counter'));
+    await tester.tap(find.text('Add counter'));
+    await tester.pumpAndSettle();
+    await tester.enterText(field('Name').last, 'hugs');
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Person mentioned'));
+    await tester.tap(find.text('Person mentioned'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Save'));
+    await tester.pumpAndSettle();
+
+    final RequestOptions saved = adapter.requests.firstWhere(
+      (RequestOptions o) => o.method == 'PATCH',
+    );
+    final GuildCommandCounterInputSchema counter =
+        ((saved.data as Map<String, Object?>)['counters']! as List<Object?>)
+                .single!
+            as GuildCommandCounterInputSchema;
+    expect(counter.name, 'hugs');
+    expect(counter.per, <GuildCommandCounterPart>[
+      GuildCommandCounterPart.target,
+    ]);
+  });
+
+  sheetTest('a bad counter name is not saved, and Reset clears it', (
+    WidgetTester tester,
+  ) async {
+    await openCommands(tester);
+    await openHug(tester);
+    await tester.ensureVisible(find.text('Add counter'));
+    await tester.tap(find.text('Add counter'));
+    await tester.pumpAndSettle();
+    await tester.enterText(field('Name').last, 'person');
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Save'));
+    await tester.pumpAndSettle();
+    expect(
+      adapter.requests.where((RequestOptions o) => o.method == 'PATCH'),
+      isEmpty,
+    );
+
+    await tester.tap(find.text('Reset'));
+    await tester.pumpAndSettle();
+    expect(find.text('Remove counter'), findsNothing);
   });
 
   sheetTest('saving closes the sheet and lists the commands again', (

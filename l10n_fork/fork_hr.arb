@@ -211,5 +211,16 @@
     "guildCommandExampleOneWord": "Odaberi nasumično jednu riječ",
     "guildCommandExampleWordForNumber": "Odaberi riječ prema broju",
     "guildCommandExampleOrdinal": "Zapiši broj kao 1st, 2nd, 3rd",
-    "guildCommandFullGuide": "Potpuni priručnik za skripte"
+    "guildCommandFullGuide": "Potpuni priručnik za skripte",
+    "guildCommandCounters": "Brojači",
+    "guildCommandCounterAdd": "Dodaj brojač",
+    "guildCommandCounterSeparately": "Broji zasebno za svaku:",
+    "guildCommandCounterPersonMentioned": "Spomenuta osoba",
+    "guildCommandCounterChannel": "Kanal",
+    "guildCommandCounterPersonas": "Broji persone zasebno",
+    "guildCommandCounterRemove": "Ukloni brojač",
+    "guildCommandCounterReset": "Poništi brojeve",
+    "guildCommandCounterResetConfirm": "Poništiti brojeve za {name}? Ovo se ne može poništiti.",
+    "guildCommandCounterNameInvalid": "Koristi mala slova, brojke i _, počni slovom i ne koristi naziv koji skripte već koriste.",
+    "guildCommandCounterHowToUse": "Koristi ga u skripti kao {variable}. Svako pokretanje najprije dodaje jedan, pa prvo čita 1."
 }
