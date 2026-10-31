@@ -60,6 +60,8 @@
     "personaRemoveAvatar": "Премахване на аватара",
     "personaUploadAvatar": "Качване на аватар",
     "personaTagsLabel": "Тагове на персона",
+    "personaAutoTagDisabledLabel": "Без разпознаване на таговете на тази персона",
+    "personaAutoTagDisabledDescription": "Въвеждането на някой от тези тагове няма да превключи към тази персона. Тагът се изпраща както е написан.",
     "personaTagPrefixLabel": "Префикс",
     "personaTagSuffixLabel": "Суфикс",
     "personaVisibilityLabel": "Видимост",

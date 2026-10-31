@@ -60,6 +60,8 @@
     "personaRemoveAvatar": "移除大頭貼",
     "personaUploadAvatar": "上傳大頭貼",
     "personaTagsLabel": "人格標籤",
+    "personaAutoTagDisabledLabel": "不比對此人格的標籤",
+    "personaAutoTagDisabledDescription": "輸入這些標籤不會切換到此人格。標籤將依原樣傳送。",
     "personaTagPrefixLabel": "前綴",
     "personaTagSuffixLabel": "後綴",
     "personaVisibilityLabel": "能見度",
