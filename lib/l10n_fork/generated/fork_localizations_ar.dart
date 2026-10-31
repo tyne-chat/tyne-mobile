@@ -734,4 +734,42 @@ class ForkLocalizationsAr extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'الدليل الكامل للنصوص البرمجية';
+
+  @override
+  String get guildCommandCounters => 'العدّادات';
+
+  @override
+  String get guildCommandCounterAdd => 'إضافة عدّاد';
+
+  @override
+  String get guildCommandCounterSeparately => 'احسب بشكل منفصل لكل:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'الشخص المذكور';
+
+  @override
+  String get guildCommandCounterChannel => 'القناة';
+
+  @override
+  String get guildCommandCounterPersonas => 'احتساب الشخصيات بشكل منفصل';
+
+  @override
+  String get guildCommandCounterRemove => 'إزالة العدّاد';
+
+  @override
+  String get guildCommandCounterReset => 'إعادة تعيين العدد';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'هل تريد إعادة تعيين أعداد $name؟ لا يمكن التراجع عن هذا.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'استخدم أحرفًا إنجليزية صغيرة وأرقامًا و_، مع البدء بحرف، واختر اسمًا لا تستخدمه النصوص البرمجية.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'استخدمه في نص برمجي بالشكل $variable. يضيف كل تشغيل واحدًا أولًا، لذا يقرأ التشغيل الأول 1.';
+  }
 }

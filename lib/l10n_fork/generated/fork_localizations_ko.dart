@@ -720,4 +720,42 @@ class ForkLocalizationsKo extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => '스크립트 전체 가이드';
+
+  @override
+  String get guildCommandCounters => '카운터';
+
+  @override
+  String get guildCommandCounterAdd => '카운터 추가';
+
+  @override
+  String get guildCommandCounterSeparately => '다음마다 따로 세기:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => '멘션된 사람';
+
+  @override
+  String get guildCommandCounterChannel => '채널';
+
+  @override
+  String get guildCommandCounterPersonas => '페르소나를 따로 세기';
+
+  @override
+  String get guildCommandCounterRemove => '카운터 제거';
+
+  @override
+  String get guildCommandCounterReset => '횟수 초기화';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return '$name의 횟수를 초기화할까요? 되돌릴 수 없습니다.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      '영문 소문자, 숫자, _를 사용하고 문자로 시작하며, 스크립트가 이미 쓰는 이름은 피하세요.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return '스크립트에서 $variable(으)로 사용하세요. 실행할 때마다 먼저 1을 더하므로 첫 실행은 1을 읽습니다.';
+  }
 }

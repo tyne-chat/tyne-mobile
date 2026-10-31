@@ -741,4 +741,42 @@ class ForkLocalizationsHr extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'Potpuni priručnik za skripte';
+
+  @override
+  String get guildCommandCounters => 'Brojači';
+
+  @override
+  String get guildCommandCounterAdd => 'Dodaj brojač';
+
+  @override
+  String get guildCommandCounterSeparately => 'Broji zasebno za svaku:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Spomenuta osoba';
+
+  @override
+  String get guildCommandCounterChannel => 'Kanal';
+
+  @override
+  String get guildCommandCounterPersonas => 'Broji persone zasebno';
+
+  @override
+  String get guildCommandCounterRemove => 'Ukloni brojač';
+
+  @override
+  String get guildCommandCounterReset => 'Poništi brojeve';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'Poništiti brojeve za $name? Ovo se ne može poništiti.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Koristi mala slova, brojke i _, počni slovom i ne koristi naziv koji skripte već koriste.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Koristi ga u skripti kao $variable. Svako pokretanje najprije dodaje jedan, pa prvo čita 1.';
+  }
 }

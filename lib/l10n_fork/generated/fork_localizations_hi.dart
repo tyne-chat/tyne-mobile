@@ -743,4 +743,42 @@ class ForkLocalizationsHi extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'पूरी स्क्रिप्ट गाइड';
+
+  @override
+  String get guildCommandCounters => 'काउंटर';
+
+  @override
+  String get guildCommandCounterAdd => 'काउंटर जोड़ें';
+
+  @override
+  String get guildCommandCounterSeparately => 'हर एक के लिए अलग गिनें:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'उल्लेखित व्यक्ति';
+
+  @override
+  String get guildCommandCounterChannel => 'चैनल';
+
+  @override
+  String get guildCommandCounterPersonas => 'पर्सोना अलग गिनें';
+
+  @override
+  String get guildCommandCounterRemove => 'काउंटर हटाएं';
+
+  @override
+  String get guildCommandCounterReset => 'गिनती रीसेट करें';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return '$name की गिनती रीसेट करें? इसे पूर्ववत नहीं किया जा सकता।';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'छोटे अंग्रेज़ी अक्षर, अंक और _ इस्तेमाल करें, अक्षर से शुरू करें, और ऐसा नाम न लें जो स्क्रिप्ट पहले से इस्तेमाल करती हैं।';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'इसे स्क्रिप्ट में $variable के रूप में इस्तेमाल करें। हर रन पहले एक जोड़ता है, इसलिए पहला रन 1 पढ़ता है।';
+  }
 }

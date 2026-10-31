@@ -211,5 +211,16 @@
     "guildCommandExampleOneWord": "Вибрати випадкове слово",
     "guildCommandExampleWordForNumber": "Підібрати слово до числа",
     "guildCommandExampleOrdinal": "Записати число як 1st, 2nd, 3rd",
-    "guildCommandFullGuide": "Повний посібник зі скриптів"
+    "guildCommandFullGuide": "Повний посібник зі скриптів",
+    "guildCommandCounters": "Лічильники",
+    "guildCommandCounterAdd": "Додати лічильник",
+    "guildCommandCounterSeparately": "Рахувати окремо для кожного:",
+    "guildCommandCounterPersonMentioned": "Згадана людина",
+    "guildCommandCounterChannel": "Канал",
+    "guildCommandCounterPersonas": "Рахувати персони окремо",
+    "guildCommandCounterRemove": "Вилучити лічильник",
+    "guildCommandCounterReset": "Скинути значення",
+    "guildCommandCounterResetConfirm": "Скинути значення {name}? Це не можна скасувати.",
+    "guildCommandCounterNameInvalid": "Використовуйте малі літери, цифри та _, починайте з літери й не беріть назву, яку вже використовують скрипти.",
+    "guildCommandCounterHowToUse": "Використовуйте його в скрипті як {variable}. Кожен запуск спершу додає один, тому перший читає 1."
 }

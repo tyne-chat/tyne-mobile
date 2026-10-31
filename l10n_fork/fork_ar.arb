@@ -211,5 +211,16 @@
     "guildCommandExampleOneWord": "اختيار كلمة واحدة عشوائيًا",
     "guildCommandExampleWordForNumber": "اختيار الكلمة المناسبة للعدد",
     "guildCommandExampleOrdinal": "كتابة الرقم بالشكل 1st, 2nd, 3rd",
-    "guildCommandFullGuide": "الدليل الكامل للنصوص البرمجية"
+    "guildCommandFullGuide": "الدليل الكامل للنصوص البرمجية",
+    "guildCommandCounters": "العدّادات",
+    "guildCommandCounterAdd": "إضافة عدّاد",
+    "guildCommandCounterSeparately": "احسب بشكل منفصل لكل:",
+    "guildCommandCounterPersonMentioned": "الشخص المذكور",
+    "guildCommandCounterChannel": "القناة",
+    "guildCommandCounterPersonas": "احتساب الشخصيات بشكل منفصل",
+    "guildCommandCounterRemove": "إزالة العدّاد",
+    "guildCommandCounterReset": "إعادة تعيين العدد",
+    "guildCommandCounterResetConfirm": "هل تريد إعادة تعيين أعداد {name}؟ لا يمكن التراجع عن هذا.",
+    "guildCommandCounterNameInvalid": "استخدم أحرفًا إنجليزية صغيرة وأرقامًا و_، مع البدء بحرف، واختر اسمًا لا تستخدمه النصوص البرمجية.",
+    "guildCommandCounterHowToUse": "استخدمه في نص برمجي بالشكل {variable}. يضيف كل تشغيل واحدًا أولًا، لذا يقرأ التشغيل الأول 1."
 }
