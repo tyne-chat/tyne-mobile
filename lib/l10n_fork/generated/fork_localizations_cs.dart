@@ -652,10 +652,95 @@ class ForkLocalizationsCs extends ForkLocalizations {
   }
 
   @override
-  String get guildCommandScriptReadOnly =>
-      'Tento příkaz je skript. Upravte ho ve webové nebo desktopové aplikaci.';
-
-  @override
   String get guildCommandEmptyMessage =>
       'Nic by se neodeslalo, takže by příkaz selhal.';
+
+  @override
+  String get guildCommandUseScriptEditor => 'Použít editor skriptů';
+
+  @override
+  String get guildCommandUseBasicEditor => 'Použít základní editor';
+
+  @override
+  String get guildCommandScript => 'Skript';
+
+  @override
+  String get guildCommandRunAgain => 'Spustit znovu';
+
+  @override
+  String guildCommandIssueUnknownTag(String name) {
+    return 'Značka s názvem $name neexistuje.';
+  }
+
+  @override
+  String guildCommandIssueUnknownFilter(String name) {
+    return 'Filtr s názvem $name neexistuje.';
+  }
+
+  @override
+  String guildCommandIssueNotClosed(String name) {
+    return '$name se nikdy neuzavírá.';
+  }
+
+  @override
+  String get guildCommandIssueTooLong => 'Skript je příliš dlouhý.';
+
+  @override
+  String get guildCommandIssueTooLarge => 'Skript vytváří příliš mnoho textu.';
+
+  @override
+  String get guildCommandIssueTooSlow =>
+      'Spuštění skriptu trvalo příliš dlouho.';
+
+  @override
+  String get guildCommandIssueInvalid => 'Tuto část nelze přečíst.';
+
+  @override
+  String get guildCommandIssueFailed => 'Tato část skončila chybou.';
+
+  @override
+  String guildCommandIssueAt(String line, String column, String problem) {
+    return 'Řádek $line, sloupec $column: $problem';
+  }
+
+  @override
+  String get guildCommandReferenceTitle => 'Nápověda ke skriptům';
+
+  @override
+  String get guildCommandReferencePerson => 'Kdo ho používá, jako zmínka';
+
+  @override
+  String get guildCommandReferencePersonName => 'Jméno toho, kdo ho používá';
+
+  @override
+  String get guildCommandReferenceTarget =>
+      'První zmíněná osoba, pokud nějaká je';
+
+  @override
+  String get guildCommandReferenceTargetName => 'Jméno této osoby';
+
+  @override
+  String get guildCommandReferenceChannel => 'Kanál jako zmínka';
+
+  @override
+  String get guildCommandReferenceCommunity => 'Název této komunity';
+
+  @override
+  String get guildCommandExampleRandom => 'Náhodně vybrat jednu možnost';
+
+  @override
+  String get guildCommandExampleDepends =>
+      'Změnit zprávu podle toho, co bylo napsáno';
+
+  @override
+  String get guildCommandExampleOneWord => 'Náhodně vybrat jedno slovo';
+
+  @override
+  String get guildCommandExampleWordForNumber => 'Vybrat slovo podle čísla';
+
+  @override
+  String get guildCommandExampleOrdinal => 'Napsat číslo jako 1st, 2nd, 3rd';
+
+  @override
+  String get guildCommandFullGuide => 'Úplný průvodce skripty';
 }
