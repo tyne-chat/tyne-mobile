@@ -35,9 +35,51 @@ Future<OutgoingMessageResolution> resolveOutgoingPersona({
   bool allowEmptyContent = false,
   bool? hasAttachments,
   String? personaChannelId,
+}) => _resolveOutgoingPersona(
+  ref.read,
+  rawText: rawText,
+  channelId: channelId,
+  allowEmptyContent: allowEmptyContent,
+  hasAttachments: hasAttachments,
+  personaChannelId: personaChannelId,
+);
+
+/// What a forward and its comment go out as in [channelId]. They are one thing
+/// said by one speaker, so a tag in [comment] decides for both. Without one they
+/// use the persona selected where the forward started, which is the one on
+/// screen, and then the destination's, so that the account does not turn up in
+/// a channel where a persona was chosen. Call it once per destination.
+Future<OutgoingMessageResolution> resolveForwardPersona(
+  SignalProviderReader read, {
+  required String sourceChannelId,
+  required String channelId,
+  required String comment,
+}) {
+  final Persona? sourcePersona = latchedPersonaFor(
+    read(activePersonaProvider),
+    read(myPersonasProvider).asData?.value ?? const <Persona>[],
+    sourceChannelId,
+  );
+  return _resolveOutgoingPersona(
+    read,
+    rawText: comment,
+    channelId: channelId,
+    allowEmptyContent: true,
+    hasAttachments: false,
+    personaChannelId: sourcePersona == null ? channelId : sourceChannelId,
+  );
+}
+
+Future<OutgoingMessageResolution> _resolveOutgoingPersona(
+  SignalProviderReader read, {
+  required String rawText,
+  required String channelId,
+  bool allowEmptyContent = false,
+  bool? hasAttachments,
+  String? personaChannelId,
 }) async {
-  final personas = ref.read(myPersonasProvider).asData?.value ?? const [];
-  final activeState = ref.read(activePersonaProvider);
+  final personas = read(myPersonasProvider).asData?.value ?? const [];
+  final activeState = read(activePersonaProvider);
   // Whose selection applies. The composer of a thread or post that does not
   // exist yet has no channel of its own to send in ([channelId] is empty) and
   // names the channel it is opened from here.
@@ -46,7 +88,7 @@ Future<OutgoingMessageResolution> resolveOutgoingPersona({
   final bool hasPendingAttachments =
       hasAttachments ??
       channelId.isNotEmpty &&
-          ref.read(
+          read(
             cloudUploadControllerProvider(
               channelId,
             ).select((CloudComposerAttachments a) => a.items.isNotEmpty),
@@ -65,31 +107,27 @@ Future<OutgoingMessageResolution> resolveOutgoingPersona({
   // whoever it goes out as. A thread or post that does not exist yet passes no
   // channel and changes nothing.
   affirmSignalPersona(
-    ref.read,
+    read,
     channelId,
     matchResult.matched ? matchResult.persona : null,
   );
 
   if (matchResult.clearedLatch ||
       (matchResult.wasEscaped && activeState.mode == PersonaMode.last)) {
-    await ref
-        .read(activePersonaProvider.notifier)
-        .unlatch(channelId: selectionChannelId);
+    await read(
+      activePersonaProvider.notifier,
+    ).unlatch(channelId: selectionChannelId);
   } else if (matchResult.matched && matchResult.persona != null) {
     unawaited(
-      ref
-          .read(activePersonaProvider.notifier)
-          .recordUsage(matchResult.persona!.id),
+      read(activePersonaProvider.notifier).recordUsage(matchResult.persona!.id),
     );
     if (activeState.mode == PersonaMode.last &&
         latchedId != matchResult.persona!.id) {
-      await ref
-          .read(activePersonaProvider.notifier)
-          .setActivePersona(
-            matchResult.persona!.id,
-            mode: PersonaMode.last,
-            channelId: selectionChannelId,
-          );
+      await read(activePersonaProvider.notifier).setActivePersona(
+        matchResult.persona!.id,
+        mode: PersonaMode.last,
+        channelId: selectionChannelId,
+      );
     }
   }
 
@@ -99,7 +137,7 @@ Future<OutgoingMessageResolution> resolveOutgoingPersona({
 
   Map<String, dynamic>? personaData;
   if (matchResult.matched && matchResult.persona != null) {
-    final systemTag = ref.read(systemDisplayTagProvider);
+    final systemTag = read(systemDisplayTagProvider);
     personaData = matchResult.persona!.toSubprofilePayload(
       displayTagText: systemTag.text,
       displayTagIcon: systemTag.iconUrl,
