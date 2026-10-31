@@ -60,6 +60,8 @@
     "personaRemoveAvatar": "아바타 삭제",
     "personaUploadAvatar": "아바타 업로드",
     "personaTagsLabel": "페르소나 태그",
+    "personaAutoTagDisabledLabel": "이 페르소나의 태그를 인식하지 않기",
+    "personaAutoTagDisabledDescription": "이 태그를 입력해도 이 페르소나로 전환되지 않습니다. 태그는 입력한 그대로 전송됩니다.",
     "personaTagPrefixLabel": "접두사",
     "personaTagSuffixLabel": "접미사",
     "personaVisibilityLabel": "공개 범위",
