@@ -99,9 +99,10 @@ class _GuildStickerSettingsWidgetState
     if (state.loadStatus == GuildStickerSettingsLoadStatus.error) {
       return _buildErrorState(context, l10n);
     }
+    // Fork: filteredIndices holds places in the full list, not in itself.
     final List<GuildStickerSettingsEntry> visibleStickers = state
         .filteredIndices
-        .map(state.stickerAtFilteredIndex)
+        .map((int index) => state.stickers[index])
         .toList(growable: false);
     final GuildExpressionLimits? limits = limitsAsync.value;
     final String maxSizeLabel = limits == null
