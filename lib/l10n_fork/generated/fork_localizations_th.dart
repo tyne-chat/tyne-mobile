@@ -245,6 +245,13 @@ class ForkLocalizationsTh extends ForkLocalizations {
   String get personaTagsLabel => 'แท็ก Persona';
 
   @override
+  String get personaAutoTagDisabledLabel => 'ไม่จับคู่แท็กของ Persona นี้';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      'การพิมพ์แท็กเหล่านี้จะไม่สลับไปใช้ Persona นี้ แท็กจะถูกส่งตามที่พิมพ์';
+
+  @override
   String get personaTagPrefixLabel => 'คำนำหน้า';
 
   @override
