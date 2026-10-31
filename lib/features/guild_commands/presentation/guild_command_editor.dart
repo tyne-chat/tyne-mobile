@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/services/composer_autocomplete_trigger.dart';
 import 'package:fluxer_app/features/guild_commands/data/guild_commands_repository.dart';
+import 'package:fluxer_app/features/guild_commands/presentation/guild_command_counters_section.dart';
 import 'package:fluxer_app/features/guild_commands/presentation/guild_command_script_reference.dart';
 import 'package:fluxer_app/features/guild_commands/presentation/guild_command_template_issue.dart';
 import 'package:fluxer_app/features/guild_commands/providers/guild_command_editing.dart';
@@ -175,6 +176,23 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
   /// stays in this editor until it is plain text again.
   late bool _scriptEditor;
   late final GuildCommandScriptPreview _scriptPreview;
+  late List<GuildCommandCounterDraft> _counters;
+
+  List<GuildCommandCounterDraft> _storedCounters() =>
+      <GuildCommandCounterDraft>[
+        for (final GuildCommandCounterSchema counter
+            in _command?.counters ?? const <GuildCommandCounterSchema>[])
+          GuildCommandCounterDraft.of(counter),
+      ];
+
+  String _signature(List<GuildCommandCounterDraft> counters) => counters
+      .map((GuildCommandCounterDraft counter) => counter.signature)
+      .join(';');
+
+  List<String> get _counterNames => <String>[
+    for (final GuildCommandCounterDraft counter in _counters)
+      if (counter.name.text.isNotEmpty) counter.name.text,
+  ];
 
   GuildCommandResponseSchema? get _command => widget.command;
 
@@ -197,9 +215,11 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
     _template = EmojiTextEditingController()..loadWithTokens(_storedTemplate);
     _inputMode = _command?.inputMode ?? GuildCommandInputMode.valueRequired;
     _scriptEditor = _command?.kind == GuildCommandKind.script;
+    _counters = _storedCounters();
     _scriptPreview = GuildCommandScriptPreview(({
       required String template,
       required String input,
+      required List<String> counterNames,
     }) {
       return ref
           .read(guildCommandsRepositoryProvider)
@@ -208,6 +228,7 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
             template: template,
             input: input,
             channelId: _previewChannelId(),
+            counterNames: counterNames,
           );
     });
     _template.addListener(_updatePreview);
@@ -233,6 +254,7 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
     _scriptPreview.update(
       template: _isScript ? _template.actualText : null,
       input: _previewInput,
+      counterNames: _counterNames,
     );
   }
 
@@ -257,13 +279,15 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
           _description.text.isNotEmpty ||
           _hint.text.isNotEmpty ||
           _template.actualText != _newTemplate ||
-          _inputMode != GuildCommandInputMode.valueRequired;
+          _inputMode != GuildCommandInputMode.valueRequired ||
+          _counters.isNotEmpty;
     }
     return _name.text != command.name ||
         _description.text != command.description ||
         _hint.text != (command.inputHint ?? '') ||
         _template.actualText != (command.template ?? '') ||
-        _inputMode != command.inputMode;
+        _inputMode != command.inputMode ||
+        _signature(_counters) != _signature(_storedCounters());
   }
 
   String? _nameError(FluxerLocalizations l10n) {
@@ -283,6 +307,12 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
     if (_name.text.isEmpty) {
       return l10n.fork.guildCommandNameInvalid;
     }
+    if (_counters.any(
+      (GuildCommandCounterDraft counter) =>
+          !isGuildCommandCounterNameValid(_counters, counter),
+    )) {
+      return l10n.fork.guildCommandCounterNameInvalid;
+    }
     return _nameError(l10n) ??
         (_template.actualText.trim().isEmpty
             ? l10n.fork.guildCommandEmptyMessage
@@ -293,6 +323,7 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
     setState(() {
       _triedSaving = false;
       _scriptEditor = _command?.kind == GuildCommandKind.script;
+      _counters = _storedCounters();
       _name.text = _command?.name ?? '';
       _description.text = _command?.description ?? '';
       _hint.text = _command?.inputHint ?? '';
@@ -349,6 +380,10 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
           template: _template.actualText,
           inputMode: _inputMode,
           hint: hint,
+          counters: <GuildCommandCounterInputSchema>[
+            for (final GuildCommandCounterDraft counter in _counters)
+              counter.toInput(),
+          ],
         );
       } else {
         await repository.update(
@@ -359,6 +394,10 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
           template: _template.actualText,
           inputMode: _inputMode,
           hint: hint,
+          counters: <GuildCommandCounterInputSchema>[
+            for (final GuildCommandCounterDraft counter in _counters)
+              counter.toInput(),
+          ],
         );
       }
       if (!mounted) {
@@ -379,6 +418,39 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
                   _name.text,
                   ApiException.from(error).message ?? '',
                 ),
+        );
+      }
+    }
+  }
+
+  Future<void> _confirmReset(GuildCommandCounterDraft counter) async {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    await FluxerConfirmModal.show(
+      context,
+      title: l10n.fork.guildCommandCounterReset,
+      description: l10n.fork.guildCommandCounterResetConfirm(counter.name.text),
+      confirmLabel: l10n.fork.guildCommandCounterReset,
+      isDanger: true,
+      onConfirm: () => unawaited(_resetCounts(counter)),
+    );
+  }
+
+  Future<void> _resetCounts(GuildCommandCounterDraft counter) async {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    try {
+      await ref
+          .read(guildCommandsRepositoryProvider)
+          .resetCounter(
+            guildId: widget.guildId,
+            commandId: _command!.id,
+            counterId: counter.id!,
+          );
+    } on Exception catch (error) {
+      if (mounted) {
+        _toast(
+          ApiException.from(error).message ??
+              l10n.fork.guildCommandCounterReset,
+          variant: FluxerToastVariant.danger,
         );
       }
     }
@@ -689,6 +761,19 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
           const SizedBox(height: 12),
           const GuildCommandScriptReference(),
         ],
+        _sectionLabel(context, l10n.fork.guildCommandCounters),
+        GuildCommandCountersSection(
+          counters: _counters,
+          editable: _canChange,
+          takesInput: _inputMode != GuildCommandInputMode.none,
+          personLabel: l10n.fork.guildCommandInsertPerson,
+          onChanged: () {
+            setState(() {});
+            _updatePreview();
+          },
+          onReset: (GuildCommandCounterDraft counter) =>
+              unawaited(_confirmReset(counter)),
+        ),
         _sectionLabel(context, l10n.fork.guildCommandPreview),
         if (_inputMode != GuildCommandInputMode.none) ...<Widget>[
           FluxerInput(

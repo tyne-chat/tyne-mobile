@@ -752,4 +752,43 @@ class ForkLocalizationsFr extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'Guide complet des scripts';
+
+  @override
+  String get guildCommandCounters => 'Compteurs';
+
+  @override
+  String get guildCommandCounterAdd => 'Ajouter un compteur';
+
+  @override
+  String get guildCommandCounterSeparately =>
+      'Compter séparément pour chaque :';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Personne mentionnée';
+
+  @override
+  String get guildCommandCounterChannel => 'Salon';
+
+  @override
+  String get guildCommandCounterPersonas => 'Compter les personas séparément';
+
+  @override
+  String get guildCommandCounterRemove => 'Retirer le compteur';
+
+  @override
+  String get guildCommandCounterReset => 'Réinitialiser les comptes';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'Réinitialiser les comptes de $name ? Cette action est irréversible.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Utilise des minuscules, des chiffres et _, commence par une lettre et évite les noms déjà utilisés par les scripts.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Utilise-le dans un script sous la forme $variable. Chaque exécution ajoute d’abord un, donc la première lit 1.';
+  }
 }
