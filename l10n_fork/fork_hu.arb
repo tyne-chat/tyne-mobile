@@ -211,5 +211,16 @@
     "guildCommandExampleOneWord": "Egy szó véletlenszerű kiválasztása",
     "guildCommandExampleWordForNumber": "A számhoz illő szó kiválasztása",
     "guildCommandExampleOrdinal": "Szám írása így: 1st, 2nd, 3rd",
-    "guildCommandFullGuide": "Teljes szkriptútmutató"
+    "guildCommandFullGuide": "Teljes szkriptútmutató",
+    "guildCommandCounters": "Számlálók",
+    "guildCommandCounterAdd": "Számláló hozzáadása",
+    "guildCommandCounterSeparately": "Külön számlálás mindegyikhez:",
+    "guildCommandCounterPersonMentioned": "Megemlített személy",
+    "guildCommandCounterChannel": "Csatorna",
+    "guildCommandCounterPersonas": "Personák külön számlálása",
+    "guildCommandCounterRemove": "Számláló eltávolítása",
+    "guildCommandCounterReset": "Számok nullázása",
+    "guildCommandCounterResetConfirm": "Nullázod a(z) {name} számait? Ez nem vonható vissza.",
+    "guildCommandCounterNameInvalid": "Használj kisbetűket, számokat és _ jelet, betűvel kezdj, és ne olyan nevet, amelyet a szkriptek már használnak.",
+    "guildCommandCounterHowToUse": "Szkriptben így használd: {variable}. Minden futás előbb hozzáad egyet, így az első 1-et olvas."
 }
