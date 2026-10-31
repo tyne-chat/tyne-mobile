@@ -655,10 +655,101 @@ class ForkLocalizationsBg extends ForkLocalizations {
   }
 
   @override
-  String get guildCommandScriptReadOnly =>
-      'Тази команда е скрипт. Редактирайте я в уеб или настолното приложение.';
-
-  @override
   String get guildCommandEmptyMessage =>
       'Това няма да публикува нищо, така че командата ще се провали.';
+
+  @override
+  String get guildCommandUseScriptEditor =>
+      'Използване на редактора за скриптове';
+
+  @override
+  String get guildCommandUseBasicEditor => 'Използване на основния редактор';
+
+  @override
+  String get guildCommandScript => 'Скрипт';
+
+  @override
+  String get guildCommandRunAgain => 'Изпълни отново';
+
+  @override
+  String guildCommandIssueUnknownTag(String name) {
+    return 'Няма таг с име $name.';
+  }
+
+  @override
+  String guildCommandIssueUnknownFilter(String name) {
+    return 'Няма филтър с име $name.';
+  }
+
+  @override
+  String guildCommandIssueNotClosed(String name) {
+    return '$name никога не се затваря.';
+  }
+
+  @override
+  String get guildCommandIssueTooLong => 'Скриптът е твърде дълъг.';
+
+  @override
+  String get guildCommandIssueTooLarge =>
+      'Скриптът създава твърде много текст.';
+
+  @override
+  String get guildCommandIssueTooSlow =>
+      'Изпълнението на скрипта отне твърде много време.';
+
+  @override
+  String get guildCommandIssueInvalid => 'Тази част не може да се прочете.';
+
+  @override
+  String get guildCommandIssueFailed => 'Тази част спря с грешка.';
+
+  @override
+  String guildCommandIssueAt(String line, String column, String problem) {
+    return 'Ред $line, колона $column: $problem';
+  }
+
+  @override
+  String get guildCommandReferenceTitle => 'Справка за скриптове';
+
+  @override
+  String get guildCommandReferencePerson =>
+      'Човекът, който я използва, като споменаване';
+
+  @override
+  String get guildCommandReferencePersonName =>
+      'Името на човека, който я използва';
+
+  @override
+  String get guildCommandReferenceTarget =>
+      'Първият споменат човек, ако има такъв';
+
+  @override
+  String get guildCommandReferenceTargetName => 'Името на този човек';
+
+  @override
+  String get guildCommandReferenceChannel => 'Каналът като споменаване';
+
+  @override
+  String get guildCommandReferenceCommunity => 'Името на тази общност';
+
+  @override
+  String get guildCommandExampleRandom => 'Случаен избор на една опция';
+
+  @override
+  String get guildCommandExampleDepends =>
+      'Промяна на съобщението според въведеното';
+
+  @override
+  String get guildCommandExampleOneWord => 'Случаен избор на една дума';
+
+  @override
+  String get guildCommandExampleWordForNumber =>
+      'Избор на думата според числото';
+
+  @override
+  String get guildCommandExampleOrdinal =>
+      'Изписване на число като 1st, 2nd, 3rd';
+
+  @override
+  String get guildCommandFullGuide => 'Пълно ръководство за скриптове';
 }
