@@ -52,9 +52,10 @@ class _FakeMyPersonasNotifier extends MyPersonasNotifier {
 }
 
 /// Answers the persona image uploads and the persona save, and records each
-/// request as `METHOD path`.
+/// request as `METHOD path` and the body of the last save.
 class _PersonaApiAdapter implements HttpClientAdapter {
   final List<String> requests = <String>[];
+  Map<String, dynamic>? lastSavedBody;
   int failBannerUploads = 0;
 
   @override
@@ -65,6 +66,9 @@ class _PersonaApiAdapter implements HttpClientAdapter {
   ) async {
     if (options.path.startsWith('/users/@me/personas')) {
       requests.add('${options.method} ${options.path}');
+      if (options.data case final Map<String, dynamic> body) {
+        lastSavedBody = body;
+      }
     }
     final ({int status, Object body}) reply = switch (options.path) {
       '/users/@me/personas/avatar' => (
@@ -387,6 +391,8 @@ void main() {
       expect(deleteButton, findsOneWidget);
 
       // Tap delete button to open confirmation dialog
+      await tester.ensureVisible(deleteButton);
+      await tester.pumpAndSettle();
       await tester.tap(deleteButton);
       await tester.pumpAndSettle();
 
@@ -519,6 +525,71 @@ void main() {
 
   // Like upstream's profile editor, a picked image is only uploaded on Save
   // (tyne-chat/tyne#204).
+  group('EditPersonaSheet - not matching tags', () {
+    const label = "Don't match this persona's tags";
+
+    Future<_PersonaApiAdapter> openWithApi(
+      WidgetTester tester,
+      PublicPersona persona,
+    ) async {
+      final adapter = _PersonaApiAdapter();
+      final dio = Dio(BaseOptions(baseUrl: 'https://api.test'))
+        ..httpClientAdapter = adapter;
+      await openSheet(tester, persona: persona, dio: dio);
+      return adapter;
+    }
+
+    Future<void> toggle(WidgetTester tester) async {
+      await tester.ensureVisible(find.text(label));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(label));
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('turning it on saves the flag', (tester) async {
+      final adapter = await openWithApi(
+        tester,
+        const PublicPersona(id: 'existing_p1', name: 'Existing Alter'),
+      );
+      expect(isSaveBarVisible(tester), isFalse);
+
+      await toggle(tester);
+      expect(isSaveBarVisible(tester), isTrue);
+
+      await tester.tap(find.text('Save'));
+      await tester.pumpAndSettle();
+      expect(adapter.lastSavedBody?['auto_tag_disabled'], isTrue);
+    });
+
+    testWidgets('a persona with it on can turn it off', (tester) async {
+      final adapter = await openWithApi(
+        tester,
+        const PublicPersona(
+          id: 'existing_p1',
+          name: 'Existing Alter',
+          autoTagDisabled: true,
+        ),
+      );
+
+      await toggle(tester);
+      await tester.tap(find.text('Save'));
+      await tester.pumpAndSettle();
+      expect(adapter.lastSavedBody?['auto_tag_disabled'], isFalse);
+    });
+
+    testWidgets('Reset takes it back', (tester) async {
+      await openWithApi(
+        tester,
+        const PublicPersona(id: 'existing_p1', name: 'Existing Alter'),
+      );
+
+      await toggle(tester);
+      await tester.tap(find.text('Reset'));
+      await tester.pumpAndSettle();
+      expect(isSaveBarVisible(tester), isFalse);
+    });
+  });
+
   group('EditPersonaSheet - picked images', () {
     const persona = PublicPersona(id: 'existing_p1', name: 'Existing Alter');
 

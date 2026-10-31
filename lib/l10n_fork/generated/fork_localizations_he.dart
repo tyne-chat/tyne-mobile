@@ -245,6 +245,13 @@ class ForkLocalizationsHe extends ForkLocalizations {
   String get personaTagsLabel => 'תגיות פרסונה';
 
   @override
+  String get personaAutoTagDisabledLabel => 'לא לזהות את התגיות של פרסונה זו';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      'הקלדת אחת מהתגיות האלה לא תעביר לפרסונה זו. התגית תישלח כפי שנכתבה.';
+
+  @override
   String get personaTagPrefixLabel => 'קידומת';
 
   @override
