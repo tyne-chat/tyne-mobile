@@ -504,4 +504,152 @@ class ForkLocalizationsTh extends ForkLocalizations {
   String guildCommandOneLine(String name) {
     return 'ข้อความที่คุณพิมพ์หลัง /$name ต้องอยู่ในบรรทัดเดียว';
   }
+
+  @override
+  String get permissionCreateCommands => 'สร้างคำสั่ง';
+
+  @override
+  String get permissionManageCommands => 'จัดการคำสั่ง';
+
+  @override
+  String get permissionUseExternalCommands => 'ใช้คำสั่งจากภายนอก';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      'สร้างคำสั่งสำหรับคอมมูนิตี้นี้ และแก้ไขหรือลบคำสั่งของคุณเอง';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      'แก้ไขหรือลบคำสั่งของใครก็ได้ในคอมมูนิตี้นี้';
+
+  @override
+  String get permissionUseExternalCommandsDescription =>
+      'ใช้คำสั่งจากคอมมูนิตี้อื่น';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      'ใช้คำสั่งจากคอมมูนิตี้อื่นในช่องนี้';
+
+  @override
+  String get guildSettingsCategoryMessageTools => 'เครื่องมือข้อความ';
+
+  @override
+  String get guildSettingsCommands => 'คำสั่ง';
+
+  @override
+  String get guildCommandsLoadFailed => 'ไม่สามารถโหลดคำสั่งได้';
+
+  @override
+  String get guildCommandsSubtitle => 'ข้อความที่สมาชิกโพสต์ได้โดยพิมพ์ /name';
+
+  @override
+  String get guildCommandsSlots => 'ช่องคำสั่ง';
+
+  @override
+  String get guildCommandsNew => 'คำสั่งใหม่';
+
+  @override
+  String get guildCommandsSearch => 'ค้นหาคำสั่ง';
+
+  @override
+  String get guildCommandsEmptyTitle => 'ไม่มีคำสั่ง';
+
+  @override
+  String get guildCommandsEmptyBody => 'คอมมูนิตี้นี้ยังไม่มีคำสั่ง';
+
+  @override
+  String get guildCommandsSaved => 'บันทึกคำสั่งแล้ว';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return 'ไม่สามารถบันทึก /$name ได้: $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return 'แก้ไข /$name';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return 'ลบ /$name ไหม';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      'การดำเนินการนี้ย้อนกลับไม่ได้ ข้อความที่สร้างด้วยคำสั่งนี้จะยังแสดงว่าคำสั่งใดสร้างข้อความนั้น';
+
+  @override
+  String get guildCommandDelete => 'ลบ';
+
+  @override
+  String get guildCommandDeleteCommand => 'ลบคำสั่ง';
+
+  @override
+  String get guildCommandSectionCommand => 'คำสั่ง';
+
+  @override
+  String get guildCommandName => 'ชื่อ';
+
+  @override
+  String get guildCommandNameInvalid =>
+      'ใช้ตัวพิมพ์เล็ก ตัวเลข - และ _ ไม่เกิน 32 ตัวอักษร';
+
+  @override
+  String get guildCommandNameTaken =>
+      'มีคำสั่งอื่นหรือคำสั่งในตัวที่ใช้ชื่อนี้อยู่แล้ว';
+
+  @override
+  String get guildCommandDescription => 'คำอธิบาย';
+
+  @override
+  String get guildCommandSectionInput => 'การป้อนข้อความ';
+
+  @override
+  String get guildCommandInputNone => 'ไม่มี';
+
+  @override
+  String get guildCommandInputOptional => 'ไม่บังคับ';
+
+  @override
+  String get guildCommandInputRequired => 'จำเป็น';
+
+  @override
+  String get guildCommandHint => 'คำแนะนำ';
+
+  @override
+  String get guildCommandMessage => 'ข้อความ';
+
+  @override
+  String get guildCommandInsert => 'แทรก:';
+
+  @override
+  String get guildCommandInsertPerson => 'ผู้ที่เรียกใช้';
+
+  @override
+  String get guildCommandInsertInput => 'สิ่งที่พวกเขาพิมพ์';
+
+  @override
+  String get guildCommandPreview => 'ตัวอย่าง';
+
+  @override
+  String get guildCommandSampleInput => 'ข้อความตัวอย่าง';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return 'สร้างด้วย /$name';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return 'ล้างช่องข้อความเพื่อใช้ /$name';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      'คำสั่งนี้เป็นสคริปต์ แก้ไขได้ในแอปเว็บหรือเดสก์ท็อป';
+
+  @override
+  String get guildCommandEmptyMessage =>
+      'จะไม่มีอะไรถูกโพสต์ ดังนั้นคำสั่งจะล้มเหลว';
 }
