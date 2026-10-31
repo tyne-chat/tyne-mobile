@@ -644,10 +644,94 @@ class ForkLocalizationsAr extends ForkLocalizations {
   }
 
   @override
-  String get guildCommandScriptReadOnly =>
-      'هذا الأمر نص برمجي. عدّله من تطبيق الويب أو سطح المكتب.';
-
-  @override
   String get guildCommandEmptyMessage =>
       'لن يؤدي هذا إلى نشر أي شيء، لذا سيفشل الأمر.';
+
+  @override
+  String get guildCommandUseScriptEditor => 'استخدام محرر النصوص البرمجية';
+
+  @override
+  String get guildCommandUseBasicEditor => 'استخدام المحرر الأساسي';
+
+  @override
+  String get guildCommandScript => 'النص البرمجي';
+
+  @override
+  String get guildCommandRunAgain => 'تنفيذ مرة أخرى';
+
+  @override
+  String guildCommandIssueUnknownTag(String name) {
+    return 'لا توجد علامة باسم $name.';
+  }
+
+  @override
+  String guildCommandIssueUnknownFilter(String name) {
+    return 'لا يوجد فلتر باسم $name.';
+  }
+
+  @override
+  String guildCommandIssueNotClosed(String name) {
+    return 'لم يُغلق $name أبدًا.';
+  }
+
+  @override
+  String get guildCommandIssueTooLong => 'النص البرمجي طويل جدًا.';
+
+  @override
+  String get guildCommandIssueTooLarge =>
+      'ينتج النص البرمجي نصًا أكثر من المسموح به.';
+
+  @override
+  String get guildCommandIssueTooSlow =>
+      'استغرق تنفيذ النص البرمجي وقتًا طويلًا جدًا.';
+
+  @override
+  String get guildCommandIssueInvalid => 'تعذرت قراءة هذا الجزء.';
+
+  @override
+  String get guildCommandIssueFailed => 'توقف هذا الجزء بسبب خطأ.';
+
+  @override
+  String guildCommandIssueAt(String line, String column, String problem) {
+    return 'السطر $line، العمود $column: $problem';
+  }
+
+  @override
+  String get guildCommandReferenceTitle => 'مرجع النص البرمجي';
+
+  @override
+  String get guildCommandReferencePerson => 'من يستخدمه، كإشارة';
+
+  @override
+  String get guildCommandReferencePersonName => 'اسم من يستخدمه';
+
+  @override
+  String get guildCommandReferenceTarget => 'أول شخص يشيرون إليه، إن وُجد';
+
+  @override
+  String get guildCommandReferenceTargetName => 'اسم ذلك الشخص';
+
+  @override
+  String get guildCommandReferenceChannel => 'القناة، كإشارة';
+
+  @override
+  String get guildCommandReferenceCommunity => 'اسم هذا المجتمع';
+
+  @override
+  String get guildCommandExampleRandom => 'اختيار خيار واحد عشوائيًا';
+
+  @override
+  String get guildCommandExampleDepends => 'تغيير الرسالة حسب ما كتبوه';
+
+  @override
+  String get guildCommandExampleOneWord => 'اختيار كلمة واحدة عشوائيًا';
+
+  @override
+  String get guildCommandExampleWordForNumber => 'اختيار الكلمة المناسبة للعدد';
+
+  @override
+  String get guildCommandExampleOrdinal => 'كتابة الرقم بالشكل 1st, 2nd, 3rd';
+
+  @override
+  String get guildCommandFullGuide => 'الدليل الكامل للنصوص البرمجية';
 }

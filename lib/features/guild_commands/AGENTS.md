@@ -15,7 +15,7 @@ commands, the chip, and the Commands tab of community settings.
 | Running `/name input` on send | `providers/guild_command_runner.dart`, called from `_forkRunGuildCommand` in `channel_textarea.dart` |
 | The chip, its tap and long press | `presentation/guild_command_chip.dart`, one child each in `message_item.dart`'s main row and compact prefix |
 | The chip's text reaching the composer | `pendingGuildCommandInsertProvider`, listened to in `channel_textarea.dart` |
-| The Commands tab: list and editor | `presentation/guild_commands_settings.dart`, `guild_command_editor.dart`; registered as `GuildSettingsTab.commands` and `GuildAction.settingsCommands` |
+| The Commands tab: list, editor, script reference | `presentation/guild_commands_settings.dart`, `guild_command_editor.dart`, `guild_command_script_reference.dart`; registered as `GuildSettingsTab.commands` and `GuildAction.settingsCommands` |
 | Who may edit, a chip opening a command | `providers/guild_command_editing.dart` |
 | `command` on a message | three fields in `chat/domain/message.dart`, three columns in `core/database/tables/messages.dart`, added on open by `fork_schema.dart` |
 | Grouping | a fork block in `chat/utils/messages/message_grouping_utils.dart` |
@@ -40,8 +40,15 @@ commands, the chip, and the Commands tab of community settings.
   Back returns to the list and unsaved changes keep it from being dragged away. A chip's long press
   opens it through `guildCommandEditRequestProvider` once the list is in. It uses
   `EmojiTextEditingController`, as the profile bio does: custom emoji show as
-  emoji, `:` suggests them, and `actualText` is the stored `<:name:id>` form. A script opens read-only:
-  it is written in the web or desktop editor, which previews through the server.
+  emoji, `:` suggests them, and `actualText` is the stored `<:name:id>` form.
+- **Scripts** are written in the same field, in the script editor, which is the template's text with
+  a code font and without the keyboard's corrections. The text decides what a command is
+  (`isGuildCommandScript`, the server's rule), so a script stays in that editor until it is plain text
+  again. There are no `{{` or `{%` suggestions: `ComposerAutocompleteField` knows emoji and mentions.
+- **A script's preview** is a request: `GuildCommandScriptPreview` sends one per 500 ms of typing, and
+  a failed one waits for the next edit, as the web's hook does. It passes the community's first text
+  channel, so `{{ channel }}` fills in. Problems come back as `issue`, worded by
+  `guild_command_template_issue.dart`.
 - **Permissions:** `createCommands`, `manageCommands` and `useExternalCommands` are fork values in
   `Permission`, with their labels in the role and channel editors. `allPermissions` covers every bit
   for them; nothing sends it to the server.
