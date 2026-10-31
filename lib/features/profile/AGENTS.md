@@ -44,8 +44,8 @@ and "React as…" sheets and persona mentions are in `lib/features/chat`.
 `matchPersona`, `previewPersona` and `matchEditMessage` mirror the server repository's `PersonaMatcher.ts`.
 A change to one must be made in the other and in both test tables. Known differences: a backslash escapes
 even with nothing selected, emoji tags match their shortcode and Unicode forms, and blank text while a
-persona is selected. A persona with `auto_tag_disabled` is one whose tags are ignored; the selected
-persona should still be used (tyne-chat/tyne#130 is the bug where it is dropped).
+persona is selected. A persona with `auto_tag_disabled` is one whose tags are ignored; in every other
+way it acts like any other persona, also when selected.
 `isUnfinishedPersonaTag` keeps typing indicators and signals quiet while a tag is half typed.
 
 ## Sending and showing
@@ -103,7 +103,7 @@ event's guild, then:
 `EditPersonaSheet` checks names, tag collisions and signature-emoji collisions locally, then PATCHes or
 POSTs **every field**: a caller that passes a partial persona wipes tags, emojis and visibility. Avatar and
 banner go through `POST /users/@me/personas/avatar|banner`, checked against the instance's image limit.
-There is no control for `auto_tag_disabled`; it is carried over.
+The form's "Don't match this persona's tags" switch sets `auto_tag_disabled`.
 
 ## Network calls
 
