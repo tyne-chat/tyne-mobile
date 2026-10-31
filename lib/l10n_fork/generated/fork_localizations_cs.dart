@@ -248,6 +248,13 @@ class ForkLocalizationsCs extends ForkLocalizations {
   String get personaTagsLabel => 'Značky persony';
 
   @override
+  String get personaAutoTagDisabledLabel => 'Nerozpoznávat značky této persony';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      'Zadání některé z těchto značek nepřepne na tuto personu. Značka se odešle tak, jak je napsaná.';
+
+  @override
   String get personaTagPrefixLabel => 'Předpona';
 
   @override

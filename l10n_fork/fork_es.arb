@@ -60,6 +60,8 @@
     "personaRemoveAvatar": "Eliminar avatar",
     "personaUploadAvatar": "Subir avatar",
     "personaTagsLabel": "Etiquetas de persona",
+    "personaAutoTagDisabledLabel": "No reconocer las etiquetas de esta persona",
+    "personaAutoTagDisabledDescription": "Escribir una de estas etiquetas no cambiará a esta persona. La etiqueta se envía tal como está escrita.",
     "personaTagPrefixLabel": "Prefijo",
     "personaTagSuffixLabel": "Sufijo",
     "personaVisibilityLabel": "Visibilidad",

@@ -245,6 +245,13 @@ class ForkLocalizationsEn extends ForkLocalizations {
   String get personaTagsLabel => 'Persona Tags';
 
   @override
+  String get personaAutoTagDisabledLabel => 'Don\'t match this persona\'s tags';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      'Typing one of these tags won\'t switch to this persona. The tag is sent as written.';
+
+  @override
   String get personaTagPrefixLabel => 'Prefix';
 
   @override
@@ -1018,6 +1025,13 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   String get personaTagsLabel => 'Persona Tags';
 
   @override
+  String get personaAutoTagDisabledLabel => 'Don\'t match this persona\'s tags';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      'Typing one of these tags won\'t switch to this persona. The tag is sent as written.';
+
+  @override
   String get personaTagPrefixLabel => 'Prefix';
 
   @override
@@ -1789,6 +1803,13 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
 
   @override
   String get personaTagsLabel => 'Persona Tags';
+
+  @override
+  String get personaAutoTagDisabledLabel => 'Don\'t match this persona\'s tags';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      'Typing one of these tags won\'t switch to this persona. The tag is sent as written.';
 
   @override
   String get personaTagPrefixLabel => 'Prefix';
