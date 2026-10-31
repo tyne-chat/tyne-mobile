@@ -735,4 +735,42 @@ class ForkLocalizationsTh extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'คู่มือสคริปต์ฉบับเต็ม';
+
+  @override
+  String get guildCommandCounters => 'ตัวนับ';
+
+  @override
+  String get guildCommandCounterAdd => 'เพิ่มตัวนับ';
+
+  @override
+  String get guildCommandCounterSeparately => 'นับแยกสำหรับแต่ละ:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'คนที่ถูกกล่าวถึง';
+
+  @override
+  String get guildCommandCounterChannel => 'ช่อง';
+
+  @override
+  String get guildCommandCounterPersonas => 'นับเพอร์โซนาแยกกัน';
+
+  @override
+  String get guildCommandCounterRemove => 'ลบตัวนับ';
+
+  @override
+  String get guildCommandCounterReset => 'รีเซ็ตจำนวน';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'รีเซ็ตจำนวนของ $name หรือไม่ การดำเนินการนี้ย้อนกลับไม่ได้';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'ใช้อักษรอังกฤษตัวเล็ก ตัวเลข และ _ ขึ้นต้นด้วยตัวอักษร และอย่าใช้ชื่อที่สคริปต์ใช้อยู่แล้ว';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'ใช้ในสคริปต์เป็น $variable การรันแต่ละครั้งจะบวกหนึ่งก่อน การรันครั้งแรกจึงอ่านได้ 1';
+  }
 }
