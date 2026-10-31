@@ -745,4 +745,42 @@ class ForkLocalizationsRo extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'Ghid complet pentru scripturi';
+
+  @override
+  String get guildCommandCounters => 'Contoare';
+
+  @override
+  String get guildCommandCounterAdd => 'Adaugă contor';
+
+  @override
+  String get guildCommandCounterSeparately => 'Numără separat pentru fiecare:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Persoana menționată';
+
+  @override
+  String get guildCommandCounterChannel => 'Canal';
+
+  @override
+  String get guildCommandCounterPersonas => 'Numără personajele separat';
+
+  @override
+  String get guildCommandCounterRemove => 'Elimină contorul';
+
+  @override
+  String get guildCommandCounterReset => 'Resetează numărătorile';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'Resetezi numărătorile pentru $name? Acțiunea nu poate fi anulată.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Folosește litere mici, cifre și _, începe cu o literă și evită numele folosite deja de scripturi.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Folosește-l într-un script ca $variable. Fiecare rulare adaugă mai întâi unu, deci prima citește 1.';
+  }
 }
