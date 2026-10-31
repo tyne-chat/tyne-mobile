@@ -29,7 +29,7 @@ class GuildCommandsRepository {
       guildId: guildId,
       body: GuildCommandCreateRequestSchema(
         name: name,
-        description: description,
+        description: JsonNullable<String>.of(description),
         template: template,
         inputMode: inputMode,
         inputHint: _hint(hint),
@@ -51,10 +51,32 @@ class GuildCommandsRepository {
       commandId: commandId,
       body: GuildCommandUpdateRequestSchema(
         name: name,
-        description: description,
+        description: JsonNullable<String>.of(description),
         template: template,
         inputMode: inputMode,
         inputHint: _hint(hint),
+      ),
+    );
+  }
+
+  /// Fills in a script without posting it. A script with a problem comes back
+  /// as an answer, not a failed request.
+  Future<GuildCommandPreviewResponseSchema> preview({
+    required String guildId,
+    required String template,
+    required String input,
+    required String? channelId,
+  }) {
+    return _client.guildCommands.previewGuildCommand(
+      guildId: guildId,
+      body: GuildCommandPreviewRequestSchema(
+        template: template,
+        input: input.isEmpty
+            ? const JsonNullable<String>.undefined()
+            : JsonNullable<String>.of(input),
+        channelId: channelId == null
+            ? const JsonNullable<SnowflakeType>.undefined()
+            : JsonNullable<SnowflakeType>.of(channelId),
       ),
     );
   }
