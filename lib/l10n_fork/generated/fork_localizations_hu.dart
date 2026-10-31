@@ -745,4 +745,42 @@ class ForkLocalizationsHu extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'Teljes szkriptútmutató';
+
+  @override
+  String get guildCommandCounters => 'Számlálók';
+
+  @override
+  String get guildCommandCounterAdd => 'Számláló hozzáadása';
+
+  @override
+  String get guildCommandCounterSeparately => 'Külön számlálás mindegyikhez:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Megemlített személy';
+
+  @override
+  String get guildCommandCounterChannel => 'Csatorna';
+
+  @override
+  String get guildCommandCounterPersonas => 'Personák külön számlálása';
+
+  @override
+  String get guildCommandCounterRemove => 'Számláló eltávolítása';
+
+  @override
+  String get guildCommandCounterReset => 'Számok nullázása';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'Nullázod a(z) $name számait? Ez nem vonható vissza.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Használj kisbetűket, számokat és _ jelet, betűvel kezdj, és ne olyan nevet, amelyet a szkriptek már használnak.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Szkriptben így használd: $variable. Minden futás előbb hozzáad egyet, így az első 1-et olvas.';
+  }
 }

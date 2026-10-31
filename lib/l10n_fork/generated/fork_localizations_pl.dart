@@ -744,4 +744,42 @@ class ForkLocalizationsPl extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'Pełny przewodnik po skryptach';
+
+  @override
+  String get guildCommandCounters => 'Liczniki';
+
+  @override
+  String get guildCommandCounterAdd => 'Dodaj licznik';
+
+  @override
+  String get guildCommandCounterSeparately => 'Licz osobno dla każdego:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Wspomniana osoba';
+
+  @override
+  String get guildCommandCounterChannel => 'Kanał';
+
+  @override
+  String get guildCommandCounterPersonas => 'Licz persony osobno';
+
+  @override
+  String get guildCommandCounterRemove => 'Usuń licznik';
+
+  @override
+  String get guildCommandCounterReset => 'Wyzeruj liczby';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'Wyzerować liczby dla $name? Tej operacji nie można cofnąć.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Użyj małych liter, cyfr i _, zacznij od litery i nie wybieraj nazwy, której używają już skrypty.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Użyj go w skrypcie jako $variable. Każde uruchomienie najpierw dodaje jeden, więc pierwsze odczyta 1.';
+  }
 }

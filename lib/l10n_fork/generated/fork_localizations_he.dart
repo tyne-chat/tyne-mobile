@@ -732,4 +732,42 @@ class ForkLocalizationsHe extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'המדריך המלא לסקריפטים';
+
+  @override
+  String get guildCommandCounters => 'מונים';
+
+  @override
+  String get guildCommandCounterAdd => 'הוספת מונה';
+
+  @override
+  String get guildCommandCounterSeparately => 'ספירה נפרדת לכל:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'האדם שאוזכר';
+
+  @override
+  String get guildCommandCounterChannel => 'ערוץ';
+
+  @override
+  String get guildCommandCounterPersonas => 'ספירה נפרדת של פרסונות';
+
+  @override
+  String get guildCommandCounterRemove => 'הסרת מונה';
+
+  @override
+  String get guildCommandCounterReset => 'איפוס ספירות';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'לאפס את הספירות של $name? אי אפשר לבטל פעולה זו.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'יש להשתמש באותיות לטיניות קטנות, ספרות ו־_, להתחיל באות ולבחור שם שסקריפטים לא משתמשים בו.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'אפשר להשתמש בו בסקריפט בתור $variable. כל הרצה מוסיפה אחד קודם, כך שההרצה הראשונה קוראת 1.';
+  }
 }
