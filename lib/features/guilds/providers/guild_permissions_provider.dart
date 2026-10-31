@@ -9,6 +9,10 @@ import 'package:fluxer_app/features/members/domain/member.dart' show MemberRole;
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/guilds/providers/held_guild_permissions_provider.dart';
+
 part 'guild_permissions_provider.g.dart';
 
 typedef _GuildPermissionsOutcome = ({int value, bool shouldCache});
@@ -101,6 +105,7 @@ class GuildPermissions extends _$GuildPermissions {
   }
 
   void evict(String guildId) {
+    ref.read(heldGuildPermissionsProvider.notifier).forget(guildId);
     _evictions[guildId] = (_evictions[guildId] ?? 0) + 1;
     _inFlight.remove(guildId);
     if (!state.containsKey(guildId)) {
@@ -110,6 +115,7 @@ class GuildPermissions extends _$GuildPermissions {
   }
 
   void clearAll() {
+    ref.read(heldGuildPermissionsProvider.notifier).hold(state);
     _generation++;
     _inFlight.clear();
     _evictions.clear();
