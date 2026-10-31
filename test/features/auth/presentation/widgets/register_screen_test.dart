@@ -451,6 +451,7 @@ InstanceConfigSnapshot _snapshot({
       appPublic: InstanceAppPublicSchema(
         branding: const InstanceBrandingSchema(
           productName: 'Fluxer',
+          statusPageInstatus: false,
           iconUrl: null,
           symbolUrl: null,
           logoUrl: null,
