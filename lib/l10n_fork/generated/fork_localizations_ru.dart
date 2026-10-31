@@ -508,4 +508,153 @@ class ForkLocalizationsRu extends ForkLocalizations {
   String guildCommandOneLine(String name) {
     return 'Текст после /$name должен помещаться в одну строку.';
   }
+
+  @override
+  String get permissionCreateCommands => 'Создавать команды';
+
+  @override
+  String get permissionManageCommands => 'Управлять командами';
+
+  @override
+  String get permissionUseExternalCommands => 'Использовать внешние команды';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      'Создавать команды для этого сообщества, а также изменять и удалять свои.';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      'Изменять и удалять команды любых участников этого сообщества.';
+
+  @override
+  String get permissionUseExternalCommandsDescription =>
+      'Использовать команды из других сообществ.';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      'Использовать команды из других сообществ в этом канале.';
+
+  @override
+  String get guildSettingsCategoryMessageTools => 'Инструменты сообщений';
+
+  @override
+  String get guildSettingsCommands => 'Команды';
+
+  @override
+  String get guildCommandsLoadFailed => 'Не удалось загрузить команды.';
+
+  @override
+  String get guildCommandsSubtitle =>
+      'Сообщения, которые участники могут отправить, введя /name.';
+
+  @override
+  String get guildCommandsSlots => 'Слоты для команд';
+
+  @override
+  String get guildCommandsNew => 'Новая команда';
+
+  @override
+  String get guildCommandsSearch => 'Поиск команд';
+
+  @override
+  String get guildCommandsEmptyTitle => 'Нет команд';
+
+  @override
+  String get guildCommandsEmptyBody => 'У этого сообщества пока нет команд.';
+
+  @override
+  String get guildCommandsSaved => 'Команды сохранены';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return 'Не удалось сохранить /$name: $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return 'Изменить /$name';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return 'Удалить /$name?';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      'Это действие нельзя отменить. Сообщения, созданные этой командой, по-прежнему показывают, какая команда их создала.';
+
+  @override
+  String get guildCommandDelete => 'Удалить';
+
+  @override
+  String get guildCommandDeleteCommand => 'Удалить команду';
+
+  @override
+  String get guildCommandSectionCommand => 'Команда';
+
+  @override
+  String get guildCommandName => 'Название';
+
+  @override
+  String get guildCommandNameInvalid =>
+      'Используйте строчные буквы, цифры, - и _, не более 32 символов.';
+
+  @override
+  String get guildCommandNameTaken =>
+      'Это имя уже занято другой командой или встроенной командой.';
+
+  @override
+  String get guildCommandDescription => 'Описание';
+
+  @override
+  String get guildCommandSectionInput => 'Ввод';
+
+  @override
+  String get guildCommandInputNone => 'Нет';
+
+  @override
+  String get guildCommandInputOptional => 'Необязательно';
+
+  @override
+  String get guildCommandInputRequired => 'Обязательно';
+
+  @override
+  String get guildCommandHint => 'Подсказка';
+
+  @override
+  String get guildCommandMessage => 'Сообщение';
+
+  @override
+  String get guildCommandInsert => 'Вставить:';
+
+  @override
+  String get guildCommandInsertPerson => 'Кто её использует';
+
+  @override
+  String get guildCommandInsertInput => 'Что вводят';
+
+  @override
+  String get guildCommandPreview => 'Предпросмотр';
+
+  @override
+  String get guildCommandSampleInput => 'Пример ввода';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return 'Создано с помощью /$name';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return 'Очистите поле сообщения, чтобы использовать /$name';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      'Эта команда — скрипт. Редактируйте её в веб- или настольном приложении.';
+
+  @override
+  String get guildCommandEmptyMessage =>
+      'Это ничего не отправит, поэтому команда не сработает.';
 }

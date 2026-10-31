@@ -507,4 +507,153 @@ class ForkLocalizationsHr extends ForkLocalizations {
   String guildCommandOneLine(String name) {
     return 'Ono što upišete nakon /$name mora stati u jedan redak.';
   }
+
+  @override
+  String get permissionCreateCommands => 'Stvaranje naredbi';
+
+  @override
+  String get permissionManageCommands => 'Upravljanje naredbama';
+
+  @override
+  String get permissionUseExternalCommands => 'Koristi vanjske naredbe';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      'Stvarajte naredbe za ovu zajednicu te uređujte ili brišite vlastite.';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      'Uređujte ili brišite naredbe bilo koga u ovoj zajednici.';
+
+  @override
+  String get permissionUseExternalCommandsDescription =>
+      'Upotrebljavaj naredbe iz drugih zajednica.';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      'Upotrebljavaj naredbe iz drugih zajednica u ovom kanalu.';
+
+  @override
+  String get guildSettingsCategoryMessageTools => 'Alati za poruke';
+
+  @override
+  String get guildSettingsCommands => 'Naredbe';
+
+  @override
+  String get guildCommandsLoadFailed => 'Nije moguće učitati naredbe.';
+
+  @override
+  String get guildCommandsSubtitle =>
+      'Poruke koje članovi mogu objaviti upisivanjem /name.';
+
+  @override
+  String get guildCommandsSlots => 'Mjesta za naredbe';
+
+  @override
+  String get guildCommandsNew => 'Nova naredba';
+
+  @override
+  String get guildCommandsSearch => 'Pretraži naredbe';
+
+  @override
+  String get guildCommandsEmptyTitle => 'Nema naredbi';
+
+  @override
+  String get guildCommandsEmptyBody => 'Ova zajednica još nema naredbi.';
+
+  @override
+  String get guildCommandsSaved => 'Naredbe su spremljene';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return 'Nije moguće spremiti /$name: $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return 'Uredi /$name';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return 'Izbrisati /$name?';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      'Ovo se ne može poništiti. Poruke napravljene njome i dalje pokazuju koja ih je naredba napravila.';
+
+  @override
+  String get guildCommandDelete => 'Izbriši';
+
+  @override
+  String get guildCommandDeleteCommand => 'Izbriši naredbu';
+
+  @override
+  String get guildCommandSectionCommand => 'Naredba';
+
+  @override
+  String get guildCommandName => 'Naziv';
+
+  @override
+  String get guildCommandNameInvalid =>
+      'Koristite mala slova, brojeve, - i _, najviše 32 znaka.';
+
+  @override
+  String get guildCommandNameTaken =>
+      'Druga naredba ili ugrađena naredba već ima ovaj naziv.';
+
+  @override
+  String get guildCommandDescription => 'Opis';
+
+  @override
+  String get guildCommandSectionInput => 'Unos';
+
+  @override
+  String get guildCommandInputNone => 'Ništa';
+
+  @override
+  String get guildCommandInputOptional => 'Neobavezno';
+
+  @override
+  String get guildCommandInputRequired => 'Obavezno';
+
+  @override
+  String get guildCommandHint => 'Savjet';
+
+  @override
+  String get guildCommandMessage => 'Poruka';
+
+  @override
+  String get guildCommandInsert => 'Umetni:';
+
+  @override
+  String get guildCommandInsertPerson => 'Osoba koja je koristi';
+
+  @override
+  String get guildCommandInsertInput => 'Ono što upišu';
+
+  @override
+  String get guildCommandPreview => 'Pretpregled';
+
+  @override
+  String get guildCommandSampleInput => 'Primjer unosa';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return 'Napravljeno s /$name';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return 'Ispraznite okvir poruke da biste upotrijebili /$name';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      'Ova naredba je skripta. Uredi je u web ili desktop aplikaciji.';
+
+  @override
+  String get guildCommandEmptyMessage =>
+      'Ovo ne bi ništa objavilo, pa naredba ne bi uspjela.';
 }

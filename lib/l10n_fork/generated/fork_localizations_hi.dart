@@ -504,4 +504,154 @@ class ForkLocalizationsHi extends ForkLocalizations {
   String guildCommandOneLine(String name) {
     return '/$name के बाद आप जो टाइप करें, वह एक पंक्ति में आना चाहिए।';
   }
+
+  @override
+  String get permissionCreateCommands => 'कमांड बनाएँ';
+
+  @override
+  String get permissionManageCommands => 'कमांड प्रबंधित करें';
+
+  @override
+  String get permissionUseExternalCommands => 'बाहरी कमांड इस्तेमाल करें';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      'इस कम्युनिटी के लिए कमांड बनाएँ, और अपने कमांड बदलें या मिटाएँ।';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      'इस कम्युनिटी में किसी के भी कमांड बदलें या मिटाएँ।';
+
+  @override
+  String get permissionUseExternalCommandsDescription =>
+      'दूसरी कम्युनिटी के कमांड इस्तेमाल करें।';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      'इस चैनल में दूसरी कम्युनिटी के कमांड इस्तेमाल करें।';
+
+  @override
+  String get guildSettingsCategoryMessageTools => 'संदेश टूल';
+
+  @override
+  String get guildSettingsCommands => 'कमांड';
+
+  @override
+  String get guildCommandsLoadFailed => 'कमांड लोड नहीं हो सके।';
+
+  @override
+  String get guildCommandsSubtitle =>
+      'ऐसे मैसेज जिन्हें सदस्य /name टाइप करके पोस्ट कर सकते हैं।';
+
+  @override
+  String get guildCommandsSlots => 'कमांड स्लॉट';
+
+  @override
+  String get guildCommandsNew => 'नया कमांड';
+
+  @override
+  String get guildCommandsSearch => 'कमांड खोजें';
+
+  @override
+  String get guildCommandsEmptyTitle => 'कोई कमांड नहीं';
+
+  @override
+  String get guildCommandsEmptyBody =>
+      'इस कम्युनिटी में अभी कोई कमांड नहीं है।';
+
+  @override
+  String get guildCommandsSaved => 'कमांड सेव हो गए';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return '/$name सेव नहीं हो सका: $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return '/$name बदलें';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return '/$name मिटाएँ?';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      'इसे वापस नहीं किया जा सकता। इससे बने मैसेज अब भी दिखाते हैं कि उन्हें किस कमांड ने बनाया।';
+
+  @override
+  String get guildCommandDelete => 'मिटाएँ';
+
+  @override
+  String get guildCommandDeleteCommand => 'कमांड मिटाएँ';
+
+  @override
+  String get guildCommandSectionCommand => 'कमांड';
+
+  @override
+  String get guildCommandName => 'नाम';
+
+  @override
+  String get guildCommandNameInvalid =>
+      'छोटे अक्षर, अंक, - और _ इस्तेमाल करें, अधिकतम 32 वर्ण।';
+
+  @override
+  String get guildCommandNameTaken =>
+      'यह नाम पहले से किसी दूसरे कमांड या बिल्ट-इन कमांड का है।';
+
+  @override
+  String get guildCommandDescription => 'विवरण';
+
+  @override
+  String get guildCommandSectionInput => 'इनपुट';
+
+  @override
+  String get guildCommandInputNone => 'कोई नहीं';
+
+  @override
+  String get guildCommandInputOptional => 'वैकल्पिक';
+
+  @override
+  String get guildCommandInputRequired => 'ज़रूरी';
+
+  @override
+  String get guildCommandHint => 'संकेत';
+
+  @override
+  String get guildCommandMessage => 'मैसेज';
+
+  @override
+  String get guildCommandInsert => 'डालें:';
+
+  @override
+  String get guildCommandInsertPerson => 'इस्तेमाल करने वाला व्यक्ति';
+
+  @override
+  String get guildCommandInsertInput => 'वे जो टाइप करते हैं';
+
+  @override
+  String get guildCommandPreview => 'प्रीव्यू';
+
+  @override
+  String get guildCommandSampleInput => 'नमूना इनपुट';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return '/$name से बनाया गया';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return '/$name इस्तेमाल करने के लिए मैसेज बॉक्स खाली करें';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      'यह कमांड एक स्क्रिप्ट है। इसे वेब या डेस्कटॉप ऐप पर संपादित करें।';
+
+  @override
+  String get guildCommandEmptyMessage =>
+      'इससे कुछ भी पोस्ट नहीं होगा, इसलिए कमांड विफल हो जाएगा।';
 }
