@@ -114,6 +114,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 // ignore: directives_ordering
 import 'package:fluxer_app/features/chat/data/persona_emoji_usage_store.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
@@ -525,6 +526,14 @@ String _encodeLocalSend(
         snapshot.toJson(),
     ],
     'maybe_created': maybeCreated,
+    // Fork: a restored send still goes out as the persona it was sent as.
+    if (local.personaId != null) ...<String, Object?>{
+      'persona_id': local.personaId,
+      'persona_name': local.personaName,
+      'persona_avatar': local.personaAvatar,
+      'persona_tag': local.personaTag,
+      'persona_tag_icon': local.personaTagIcon,
+    },
     if (options != null) ...<String, Object?>{
       'reply_mention': options.replyMention,
       'favorite_meme_id': options.favoriteMemeId,
@@ -585,6 +594,11 @@ _StoredLocalSend? _decodeLocalSend(
       deliveryState: MessageDeliveryState.failed,
       sendError: sendError,
       clientNonce: row.clientNonce,
+      personaId: json['persona_id'] as String?,
+      personaName: json['persona_name'] as String?,
+      personaAvatar: json['persona_avatar'] as String?,
+      personaTag: json['persona_tag'] as String?,
+      personaTagIcon: json['persona_tag_icon'] as String?,
     );
     final _RetrySendOptions? options =
         json.containsKey('reply_mention') || forward != null
@@ -5141,6 +5155,7 @@ class ChatViewModel extends _$ChatViewModel {
     final String authorName = hasGlobalName
         ? currentUser!.globalName!
         : currentUser?.username ?? 'You';
+    Map<String, dynamic>? forwardPersonaData;
     Message optimistic(String channelId, String content) =>
         _buildOptimisticMessage(
           channelId: channelId,
@@ -5155,9 +5170,20 @@ class ChatViewModel extends _$ChatViewModel {
           authorIsSystem: currentUser?.system ?? false,
           clientNonce: clientNonceGenerator.next(),
           flags: flags,
+          personaData: forwardPersonaData,
         );
     final List<Message> shownHere = <Message>[];
     for (final String channelId in destinationChannelIds) {
+      final OutgoingMessageResolution outgoing = await resolveForwardPersona(
+        ref.read,
+        sourceChannelId: sourceChannelId,
+        channelId: channelId,
+        comment: normalizedComment?.content ?? '',
+      );
+      if (!ref.mounted) {
+        return;
+      }
+      forwardPersonaData = outgoing.personaData;
       final Message forward = optimistic(channelId, '').copyWith(
         messageReference: MessageReference(
           channelId: sourceChannelId,
@@ -5169,7 +5195,7 @@ class ChatViewModel extends _$ChatViewModel {
             ? const <MessageSnapshot>[]
             : <MessageSnapshot>[snapshot],
       );
-      final String commentText = normalizedComment?.content ?? '';
+      final String commentText = outgoing.text;
       final Message? commentMessage = commentText.isEmpty
           ? null
           : optimistic(channelId, commentText);
@@ -5235,6 +5261,7 @@ class ChatViewModel extends _$ChatViewModel {
             embedIndices: source.embedIndices,
             clientNonce: forward.clientNonce!,
             messageFlags: forward.flags,
+            personaId: forward.personaId,
           ),
     );
   }
@@ -5282,6 +5309,9 @@ class ChatViewModel extends _$ChatViewModel {
               content: comment.content,
               clientNonce: comment.clientNonce,
               messageFlags: comment.flags,
+              personaData: comment.personaId == null
+                  ? null
+                  : <String, dynamic>{'id': comment.personaId},
             ),
       );
       if (!ref.mounted) {
