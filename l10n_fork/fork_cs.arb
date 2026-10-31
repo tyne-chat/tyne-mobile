@@ -60,6 +60,8 @@
     "personaRemoveAvatar": "Odebrat avatar",
     "personaUploadAvatar": "Nahrát avatar",
     "personaTagsLabel": "Značky persony",
+    "personaAutoTagDisabledLabel": "Nerozpoznávat značky této persony",
+    "personaAutoTagDisabledDescription": "Zadání některé z těchto značek nepřepne na tuto personu. Značka se odešle tak, jak je napsaná.",
     "personaTagPrefixLabel": "Předpona",
     "personaTagSuffixLabel": "Přípona",
     "personaVisibilityLabel": "Viditelnost",
