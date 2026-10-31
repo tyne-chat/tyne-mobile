@@ -508,4 +508,154 @@ class ForkLocalizationsCs extends ForkLocalizations {
   String guildCommandOneLine(String name) {
     return 'Co napíšete za /$name, se musí vejít na jeden řádek.';
   }
+
+  @override
+  String get permissionCreateCommands => 'Vytvářet příkazy';
+
+  @override
+  String get permissionManageCommands => 'Spravovat příkazy';
+
+  @override
+  String get permissionUseExternalCommands => 'Používat externí příkazy';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      'Vytvářet příkazy pro tuto komunitu a upravovat nebo mazat vlastní.';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      'Upravovat nebo mazat příkazy kohokoli v této komunitě.';
+
+  @override
+  String get permissionUseExternalCommandsDescription =>
+      'Používat příkazy z jiných komunit.';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      'Používat příkazy z jiných komunit v tomto kanálu.';
+
+  @override
+  String get guildSettingsCategoryMessageTools => 'Nástroje zpráv';
+
+  @override
+  String get guildSettingsCommands => 'Příkazy';
+
+  @override
+  String get guildCommandsLoadFailed => 'Příkazy se nepodařilo načíst.';
+
+  @override
+  String get guildCommandsSubtitle =>
+      'Zprávy, které členové mohou odeslat napsáním /name.';
+
+  @override
+  String get guildCommandsSlots => 'Sloty na příkazy';
+
+  @override
+  String get guildCommandsNew => 'Nový příkaz';
+
+  @override
+  String get guildCommandsSearch => 'Hledat příkazy';
+
+  @override
+  String get guildCommandsEmptyTitle => 'Žádné příkazy';
+
+  @override
+  String get guildCommandsEmptyBody =>
+      'Tato komunita zatím nemá žádné příkazy.';
+
+  @override
+  String get guildCommandsSaved => 'Příkazy uloženy';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return 'Nepodařilo se uložit /$name: $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return 'Upravit /$name';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return 'Smazat /$name?';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      'Tuto akci nelze vrátit zpět. Zprávy vytvořené tímto příkazem stále ukazují, který příkaz je vytvořil.';
+
+  @override
+  String get guildCommandDelete => 'Smazat';
+
+  @override
+  String get guildCommandDeleteCommand => 'Smazat příkaz';
+
+  @override
+  String get guildCommandSectionCommand => 'Příkaz';
+
+  @override
+  String get guildCommandName => 'Název';
+
+  @override
+  String get guildCommandNameInvalid =>
+      'Použijte malá písmena, číslice, - a _, nejvýše 32 znaků.';
+
+  @override
+  String get guildCommandNameTaken =>
+      'Tento název už má jiný příkaz nebo vestavěný příkaz.';
+
+  @override
+  String get guildCommandDescription => 'Popis';
+
+  @override
+  String get guildCommandSectionInput => 'Vstup';
+
+  @override
+  String get guildCommandInputNone => 'Žádné';
+
+  @override
+  String get guildCommandInputOptional => 'Volitelné';
+
+  @override
+  String get guildCommandInputRequired => 'Povinné';
+
+  @override
+  String get guildCommandHint => 'Nápověda';
+
+  @override
+  String get guildCommandMessage => 'Zpráva';
+
+  @override
+  String get guildCommandInsert => 'Vložit:';
+
+  @override
+  String get guildCommandInsertPerson => 'Kdo ho používá';
+
+  @override
+  String get guildCommandInsertInput => 'Co napíšou';
+
+  @override
+  String get guildCommandPreview => 'Náhled';
+
+  @override
+  String get guildCommandSampleInput => 'Ukázkový vstup';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return 'Vytvořeno pomocí /$name';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return 'Vyprázdněte pole zprávy, abyste mohli použít /$name';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      'Tento příkaz je skript. Upravte ho ve webové nebo desktopové aplikaci.';
+
+  @override
+  String get guildCommandEmptyMessage =>
+      'Nic by se neodeslalo, takže by příkaz selhal.';
 }

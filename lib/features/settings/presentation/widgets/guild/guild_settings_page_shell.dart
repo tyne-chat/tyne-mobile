@@ -13,6 +13,10 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:go_router/go_router.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+
 Color guildSettingsPageBackgroundColor(BuildContext context) {
   if (isMobileLayout(context)) {
     return context.colors.backgroundSecondary;
@@ -136,6 +140,7 @@ String guildSettingsTabTitle(FluxerLocalizations l10n, GuildSettingsTab tab) {
     GuildSettingsTab.invites => l10n.guildMenuSettingsInviteLinks,
     GuildSettingsTab.bans => l10n.guildMenuSettingsBans,
     GuildSettingsTab.channels => l10n.guildMenuSettingsChannels,
+    GuildSettingsTab.commands => l10n.fork.guildSettingsCommands,
   };
 }
 
@@ -153,5 +158,6 @@ IconData guildSettingsTabIcon(GuildSettingsTab tab) {
     GuildSettingsTab.invites => PhosphorIconsFill.ticket,
     GuildSettingsTab.bans => PhosphorIconsFill.prohibit,
     GuildSettingsTab.channels => PhosphorIconsBold.hash,
+    GuildSettingsTab.commands => PhosphorIconsFill.terminalWindow,
   };
 }
