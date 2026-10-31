@@ -633,9 +633,91 @@ class ForkLocalizationsKo extends ForkLocalizations {
   }
 
   @override
-  String get guildCommandScriptReadOnly =>
-      '이 명령어는 스크립트입니다. 웹 또는 데스크톱 앱에서 편집하세요.';
+  String get guildCommandEmptyMessage => '아무것도 게시되지 않으므로 명령이 실패합니다.';
 
   @override
-  String get guildCommandEmptyMessage => '아무것도 게시되지 않으므로 명령이 실패합니다.';
+  String get guildCommandUseScriptEditor => '스크립트 편집기 사용';
+
+  @override
+  String get guildCommandUseBasicEditor => '기본 편집기 사용';
+
+  @override
+  String get guildCommandScript => '스크립트';
+
+  @override
+  String get guildCommandRunAgain => '다시 실행';
+
+  @override
+  String guildCommandIssueUnknownTag(String name) {
+    return '$name(이)라는 태그가 없습니다.';
+  }
+
+  @override
+  String guildCommandIssueUnknownFilter(String name) {
+    return '$name(이)라는 필터가 없습니다.';
+  }
+
+  @override
+  String guildCommandIssueNotClosed(String name) {
+    return '$name이(가) 닫히지 않았습니다.';
+  }
+
+  @override
+  String get guildCommandIssueTooLong => '스크립트가 너무 깁니다.';
+
+  @override
+  String get guildCommandIssueTooLarge => '스크립트가 만드는 텍스트가 너무 많습니다.';
+
+  @override
+  String get guildCommandIssueTooSlow => '스크립트를 실행하는 데 시간이 너무 오래 걸렸습니다.';
+
+  @override
+  String get guildCommandIssueInvalid => '이 부분을 읽을 수 없습니다.';
+
+  @override
+  String get guildCommandIssueFailed => '이 부분에서 오류가 발생해 중단되었습니다.';
+
+  @override
+  String guildCommandIssueAt(String line, String column, String problem) {
+    return '$line행 $column열: $problem';
+  }
+
+  @override
+  String get guildCommandReferenceTitle => '스크립트 참조';
+
+  @override
+  String get guildCommandReferencePerson => '실행한 사람 멘션';
+
+  @override
+  String get guildCommandReferencePersonName => '실행한 사람의 이름';
+
+  @override
+  String get guildCommandReferenceTarget => '멘션된 첫 번째 사람(있는 경우)';
+
+  @override
+  String get guildCommandReferenceTargetName => '그 사람의 이름';
+
+  @override
+  String get guildCommandReferenceChannel => '채널 멘션';
+
+  @override
+  String get guildCommandReferenceCommunity => '이 커뮤니티의 이름';
+
+  @override
+  String get guildCommandExampleRandom => '선택지 하나를 무작위로 고르기';
+
+  @override
+  String get guildCommandExampleDepends => '입력한 내용에 따라 메시지 바꾸기';
+
+  @override
+  String get guildCommandExampleOneWord => '단어 하나를 무작위로 고르기';
+
+  @override
+  String get guildCommandExampleWordForNumber => '숫자에 맞는 단어 고르기';
+
+  @override
+  String get guildCommandExampleOrdinal => '숫자를 1st, 2nd, 3rd처럼 쓰기';
+
+  @override
+  String get guildCommandFullGuide => '스크립트 전체 가이드';
 }

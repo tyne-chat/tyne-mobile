@@ -650,10 +650,96 @@ class ForkLocalizationsNl extends ForkLocalizations {
   }
 
   @override
-  String get guildCommandScriptReadOnly =>
-      'Dit commando is een script. Bewerk het in de web- of desktop-app.';
-
-  @override
   String get guildCommandEmptyMessage =>
       'Dit zou niets plaatsen, dus de opdracht zou mislukken.';
+
+  @override
+  String get guildCommandUseScriptEditor => 'Scripteditor gebruiken';
+
+  @override
+  String get guildCommandUseBasicEditor => 'Basiseditor gebruiken';
+
+  @override
+  String get guildCommandScript => 'Script';
+
+  @override
+  String get guildCommandRunAgain => 'Opnieuw uitvoeren';
+
+  @override
+  String guildCommandIssueUnknownTag(String name) {
+    return 'Er is geen tag met de naam $name.';
+  }
+
+  @override
+  String guildCommandIssueUnknownFilter(String name) {
+    return 'Er is geen filter met de naam $name.';
+  }
+
+  @override
+  String guildCommandIssueNotClosed(String name) {
+    return '$name wordt nooit afgesloten.';
+  }
+
+  @override
+  String get guildCommandIssueTooLong => 'Het script is te lang.';
+
+  @override
+  String get guildCommandIssueTooLarge => 'Het script maakt te veel tekst.';
+
+  @override
+  String get guildCommandIssueTooSlow => 'Het script deed er te lang over.';
+
+  @override
+  String get guildCommandIssueInvalid => 'Dit deel kan niet worden gelezen.';
+
+  @override
+  String get guildCommandIssueFailed => 'Dit deel is gestopt met een fout.';
+
+  @override
+  String guildCommandIssueAt(String line, String column, String problem) {
+    return 'Regel $line, kolom $column: $problem';
+  }
+
+  @override
+  String get guildCommandReferenceTitle => 'Scriptreferentie';
+
+  @override
+  String get guildCommandReferencePerson => 'Wie hem gebruikt, als vermelding';
+
+  @override
+  String get guildCommandReferencePersonName => 'De naam van wie hem gebruikt';
+
+  @override
+  String get guildCommandReferenceTarget =>
+      'De eerste persoon die wordt vermeld, als die er is';
+
+  @override
+  String get guildCommandReferenceTargetName => 'De naam van die persoon';
+
+  @override
+  String get guildCommandReferenceChannel => 'Het kanaal, als vermelding';
+
+  @override
+  String get guildCommandReferenceCommunity => 'De naam van deze community';
+
+  @override
+  String get guildCommandExampleRandom => 'Een willekeurige optie kiezen';
+
+  @override
+  String get guildCommandExampleDepends =>
+      'Het bericht aanpassen aan wat er is getypt';
+
+  @override
+  String get guildCommandExampleOneWord => 'Een willekeurig woord kiezen';
+
+  @override
+  String get guildCommandExampleWordForNumber =>
+      'Het woord bij een getal kiezen';
+
+  @override
+  String get guildCommandExampleOrdinal =>
+      'Een getal schrijven als 1st, 2nd, 3rd';
+
+  @override
+  String get guildCommandFullGuide => 'Volledige scriptgids';
 }

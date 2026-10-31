@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/guild_commands/presentation/guild_commands_settings.dart';
 import 'package:fluxer_app/features/guild_commands/providers/guild_command_editing.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
@@ -17,6 +18,8 @@ import 'guild_commands_test_support.dart';
 
 const String _guild = 'g';
 const String _menu = 'the settings menu';
+const String _plain = '{{ person }} hugs {{ input }}';
+const String _script = '{% if target %}{{ target }}{% endif %}';
 
 class _Permissions extends GuildPermissions {
   @override
@@ -39,21 +42,23 @@ void sheetTest(String name, Future<void> Function(WidgetTester) body) {
 
 void main() {
   late RecordingAdapter adapter;
+  late String template;
+  late Map<String, Object?> previewAnswer;
+
+  Map<String, Object?> hug() => <String, Object?>{
+    ...commandJson('7', _guild, 'hug'),
+    'template': template,
+    'kind': template == _plain ? 'basic' : 'script',
+  };
 
   setUp(() {
+    template = _plain;
+    previewAnswer = <String, Object?>{'content': 'filled in', 'issue': null};
     adapter = RecordingAdapter((RequestOptions options) {
-      if (options.method == 'GET') {
-        return <Object?>[
-          <String, Object?>{
-            ...commandJson('7', _guild, 'hug'),
-            'template': '{{ person }} hugs {{ input }}',
-          },
-        ];
+      if (options.path.endsWith('/preview')) {
+        return previewAnswer;
       }
-      return <String, Object?>{
-        ...commandJson('7', _guild, 'hug'),
-        'template': '{{ person }} hugs {{ input }}',
-      };
+      return options.method == 'GET' ? <Object?>[hug()] : hug();
     });
   });
 
@@ -196,6 +201,176 @@ void main() {
     await tester.binding.handlePopRoute();
     await tester.pumpAndSettle();
     expect(find.text('Edit /hug'), findsNothing);
+  });
+
+  Future<void> openScript(WidgetTester tester) async {
+    template = _script;
+    await openCommands(tester);
+    await tester.tap(find.text('/hug'));
+    await tester.pumpAndSettle();
+    await tester.pump(const Duration(milliseconds: 500));
+    await tester.pumpAndSettle();
+  }
+
+  /// The server's answer, in the preview. It is rich text, which find.text
+  /// does not see.
+  Finder filledIn() => find.byWidgetPredicate(
+    (Widget widget) => widget is MessageMarkdown && widget.data == 'filled in',
+  );
+
+  List<RequestOptions> previews() => <RequestOptions>[
+    for (final RequestOptions options in adapter.requests)
+      if (options.path.endsWith('/preview')) options,
+  ];
+
+  sheetTest('a script opens in the script editor, filled in by the server', (
+    WidgetTester tester,
+  ) async {
+    await openScript(tester);
+
+    expect(find.text('Script'), findsOneWidget);
+    expect(find.text('Script reference'), findsOneWidget);
+    expect(filledIn(), findsOneWidget);
+    expect(find.text('Use the basic editor'), findsNothing);
+    expect(previews(), hasLength(1));
+    expect(previews().single.data, containsPair('template', _script));
+  });
+
+  sheetTest('typing in a script sends one preview for the burst', (
+    WidgetTester tester,
+  ) async {
+    await openScript(tester);
+
+    for (final String text in <String>['{{ a', '{{ ab', '{{ abc }}']) {
+      await tester.enterText(field('Script'), text);
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+    await tester.pump(const Duration(milliseconds: 500));
+    await tester.pumpAndSettle();
+
+    expect(previews(), hasLength(2));
+    expect(previews().last.data, containsPair('template', '{{ abc }}'));
+  });
+
+  sheetTest('a basic command can move to the script editor and back', (
+    WidgetTester tester,
+  ) async {
+    await openCommands(tester);
+    await openHug(tester);
+    expect(find.text('Insert:'), findsOneWidget);
+
+    await tester.ensureVisible(find.text('Use the script editor'));
+    await tester.tap(find.text('Use the script editor'));
+    await tester.pumpAndSettle();
+    expect(find.text('Insert:'), findsNothing);
+    expect(previews(), isEmpty);
+
+    await tester.tap(find.text('Use the basic editor'));
+    await tester.pumpAndSettle();
+    expect(find.text('Insert:'), findsOneWidget);
+  });
+
+  sheetTest('a script cannot go back to the basic editor', (
+    WidgetTester tester,
+  ) async {
+    await openCommands(tester);
+    await openHug(tester);
+    await tester.ensureVisible(find.text('Use the script editor'));
+    await tester.tap(find.text('Use the script editor'));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(field('Script'), '{% if target %}x{% endif %}');
+    await tester.pumpAndSettle();
+
+    expect(find.text('Use the basic editor'), findsNothing);
+  });
+
+  sheetTest('a problem in a script shows with its position', (
+    WidgetTester tester,
+  ) async {
+    previewAnswer = <String, Object?>{
+      'content': null,
+      'issue': <String, Object?>{
+        'code': 'unknown_tag',
+        'line': 2,
+        'column': 3,
+        'name': 'for',
+      },
+    };
+    await openScript(tester);
+
+    expect(
+      find.text("Line 2, column 3: There's no tag called for."),
+      findsOneWidget,
+    );
+    expect(filledIn(), findsNothing);
+  });
+
+  sheetTest('a script that prints nothing says so', (
+    WidgetTester tester,
+  ) async {
+    previewAnswer = <String, Object?>{'content': '', 'issue': null};
+    await openScript(tester);
+
+    expect(
+      find.text('This would post nothing, so the command would fail.'),
+      findsOneWidget,
+    );
+  });
+
+  sheetTest('Run again appears for random scripts and asks at once', (
+    WidgetTester tester,
+  ) async {
+    await openScript(tester);
+    expect(find.text('Run again'), findsNothing);
+
+    await tester.enterText(
+      field('Script'),
+      '{% random %}a{% or %}b{% endrandom %}',
+    );
+    await tester.pump(const Duration(milliseconds: 500));
+    await tester.pumpAndSettle();
+    final int before = previews().length;
+
+    await tester.ensureVisible(find.text('Run again'));
+    await tester.tap(find.text('Run again'));
+    await tester.pumpAndSettle();
+
+    expect(previews(), hasLength(before + 1));
+  });
+
+  sheetTest('a changed script is saved', (WidgetTester tester) async {
+    await openScript(tester);
+    await tester.enterText(field('Script'), '{{ person.name }}!');
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Save'));
+    await tester.pumpAndSettle();
+
+    final RequestOptions saved = adapter.requests.firstWhere(
+      (RequestOptions o) => o.method == 'PATCH',
+    );
+    expect(saved.data, containsPair('template', '{{ person.name }}!'));
+    expect(find.text('Edit /hug'), findsNothing);
+  });
+
+  sheetTest('Reset returns a changed script to the script editor', (
+    WidgetTester tester,
+  ) async {
+    await openScript(tester);
+    await tester.enterText(field('Script'), 'plain text');
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Use the basic editor'));
+    await tester.tap(find.text('Use the basic editor'));
+    await tester.pumpAndSettle();
+    expect(find.text('Insert:'), findsOneWidget);
+
+    await tester.ensureVisible(find.text('Reset'));
+    await tester.tap(find.text('Reset'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Insert:'), findsNothing);
+    expect(find.text('Script reference'), findsOneWidget);
   });
 
   sheetTest('saving closes the sheet and lists the commands again', (
