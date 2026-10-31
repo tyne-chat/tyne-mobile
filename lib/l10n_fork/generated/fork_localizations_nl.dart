@@ -742,4 +742,42 @@ class ForkLocalizationsNl extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'Volledige scriptgids';
+
+  @override
+  String get guildCommandCounters => 'Tellers';
+
+  @override
+  String get guildCommandCounterAdd => 'Teller toevoegen';
+
+  @override
+  String get guildCommandCounterSeparately => 'Apart tellen voor elke:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Genoemde persoon';
+
+  @override
+  String get guildCommandCounterChannel => 'Kanaal';
+
+  @override
+  String get guildCommandCounterPersonas => 'Persona’s apart tellen';
+
+  @override
+  String get guildCommandCounterRemove => 'Teller verwijderen';
+
+  @override
+  String get guildCommandCounterReset => 'Tellingen resetten';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'Tellingen van $name resetten? Dit kan niet ongedaan worden gemaakt.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Gebruik kleine letters, cijfers en _, begin met een letter en kies geen naam die scripts al gebruiken.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Gebruik hem in een script als $variable. Elke uitvoering telt eerst één op, dus de eerste leest 1.';
+  }
 }
