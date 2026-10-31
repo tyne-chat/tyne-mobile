@@ -211,5 +211,16 @@
     "guildCommandExampleOneWord": "随机选择一个词",
     "guildCommandExampleWordForNumber": "根据数字选择对应的词",
     "guildCommandExampleOrdinal": "将数字写成 1st, 2nd, 3rd",
-    "guildCommandFullGuide": "完整脚本指南"
+    "guildCommandFullGuide": "完整脚本指南",
+    "guildCommandCounters": "计数器",
+    "guildCommandCounterAdd": "添加计数器",
+    "guildCommandCounterSeparately": "分别计数:",
+    "guildCommandCounterPersonMentioned": "被提及的人",
+    "guildCommandCounterChannel": "频道",
+    "guildCommandCounterPersonas": "分别计数人格",
+    "guildCommandCounterRemove": "移除计数器",
+    "guildCommandCounterReset": "重置计数",
+    "guildCommandCounterResetConfirm": "要重置 {name} 的计数吗?此操作无法撤销。",
+    "guildCommandCounterNameInvalid": "请使用小写字母、数字和 _,以字母开头,且不要使用脚本已占用的名称。",
+    "guildCommandCounterHowToUse": "在脚本中以 {variable} 使用。每次运行会先加一,所以第一次读到的是 1。"
 }

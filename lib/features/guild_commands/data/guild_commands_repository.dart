@@ -24,6 +24,7 @@ class GuildCommandsRepository {
     required String template,
     required GuildCommandInputMode inputMode,
     required String hint,
+    required List<GuildCommandCounterInputSchema> counters,
   }) async {
     await _client.guildCommands.createGuildCommand(
       guildId: guildId,
@@ -33,6 +34,7 @@ class GuildCommandsRepository {
         template: template,
         inputMode: inputMode,
         inputHint: _hint(hint),
+        counters: counters,
       ),
     );
   }
@@ -45,6 +47,7 @@ class GuildCommandsRepository {
     required String template,
     required GuildCommandInputMode inputMode,
     required String hint,
+    required List<GuildCommandCounterInputSchema> counters,
   }) async {
     await _client.guildCommands.updateGuildCommand(
       guildId: guildId,
@@ -55,6 +58,7 @@ class GuildCommandsRepository {
         template: template,
         inputMode: inputMode,
         inputHint: _hint(hint),
+        counters: counters,
       ),
     );
   }
@@ -66,6 +70,8 @@ class GuildCommandsRepository {
     required String template,
     required String input,
     required String? channelId,
+    required List<String> counterNames,
+    required int run,
   }) {
     return _client.guildCommands.previewGuildCommand(
       guildId: guildId,
@@ -77,7 +83,28 @@ class GuildCommandsRepository {
         channelId: channelId == null
             ? const JsonNullable<SnowflakeType>.undefined()
             : JsonNullable<SnowflakeType>.of(channelId),
+        counters: <GuildCommandCounterInputSchema>[
+          for (final String name in counterNames)
+            GuildCommandCounterInputSchema(
+              name: name,
+              per: const <GuildCommandCounterPart>[],
+            ),
+        ],
+        run: counterNames.isEmpty ? null : run,
       ),
+    );
+  }
+
+  /// Deletes all of a counter's counts.
+  Future<void> resetCounter({
+    required String guildId,
+    required String commandId,
+    required String counterId,
+  }) {
+    return _client.guildCommands.resetGuildCommandCounter(
+      guildId: guildId,
+      commandId: commandId,
+      counterId: counterId,
     );
   }
 

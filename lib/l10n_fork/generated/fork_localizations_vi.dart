@@ -741,4 +741,42 @@ class ForkLocalizationsVi extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'Hướng dẫn đầy đủ về tập lệnh';
+
+  @override
+  String get guildCommandCounters => 'Bộ đếm';
+
+  @override
+  String get guildCommandCounterAdd => 'Thêm bộ đếm';
+
+  @override
+  String get guildCommandCounterSeparately => 'Đếm riêng cho mỗi:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Người được nhắc đến';
+
+  @override
+  String get guildCommandCounterChannel => 'Kênh';
+
+  @override
+  String get guildCommandCounterPersonas => 'Đếm riêng từng persona';
+
+  @override
+  String get guildCommandCounterRemove => 'Xóa bộ đếm';
+
+  @override
+  String get guildCommandCounterReset => 'Đặt lại số đếm';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'Đặt lại số đếm của $name? Không thể hoàn tác.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Dùng chữ thường, số và _, bắt đầu bằng chữ cái và không dùng tên mà tập lệnh đã dùng.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Dùng trong tập lệnh là $variable. Mỗi lần chạy cộng một trước, nên lần đầu đọc được 1.';
+  }
 }
