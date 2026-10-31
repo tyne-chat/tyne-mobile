@@ -246,6 +246,14 @@ class ForkLocalizationsSv extends ForkLocalizations {
   String get personaTagsLabel => 'Personataggar';
 
   @override
+  String get personaAutoTagDisabledLabel =>
+      'Känn inte igen den här personans taggar';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      'Om du skriver en av de här taggarna byter du inte till den här personan. Taggen skickas som den är skriven.';
+
+  @override
   String get personaTagPrefixLabel => 'Prefix';
 
   @override
