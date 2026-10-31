@@ -60,6 +60,8 @@
     "personaRemoveAvatar": "Profilkép eltávolítása",
     "personaUploadAvatar": "Profilkép feltöltése",
     "personaTagsLabel": "Persona címkék",
+    "personaAutoTagDisabledLabel": "Ne ismerje fel ennek a personának a címkéit",
+    "personaAutoTagDisabledDescription": "Ha beírod valamelyik címkét, nem vált erre a personára. A címke úgy kerül elküldésre, ahogy beírtad.",
     "personaTagPrefixLabel": "Előtag",
     "personaTagSuffixLabel": "Utótag",
     "personaVisibilityLabel": "Láthatóság",

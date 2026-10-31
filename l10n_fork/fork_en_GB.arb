@@ -60,6 +60,8 @@
     "personaRemoveAvatar": "Remove Avatar",
     "personaUploadAvatar": "Upload Avatar",
     "personaTagsLabel": "Persona Tags",
+    "personaAutoTagDisabledLabel": "Don't match this persona's tags",
+    "personaAutoTagDisabledDescription": "Typing one of these tags won't switch to this persona. The tag is sent as written.",
     "personaTagPrefixLabel": "Prefix",
     "personaTagSuffixLabel": "Suffix",
     "personaVisibilityLabel": "Visibility",
