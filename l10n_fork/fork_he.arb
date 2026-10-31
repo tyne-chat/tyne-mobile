@@ -211,5 +211,16 @@
     "guildCommandExampleOneWord": "בחירת מילה אחת באקראי",
     "guildCommandExampleWordForNumber": "בחירת המילה לפי מספר",
     "guildCommandExampleOrdinal": "כתיבת מספר כמו 1st, 2nd, 3rd",
-    "guildCommandFullGuide": "המדריך המלא לסקריפטים"
+    "guildCommandFullGuide": "המדריך המלא לסקריפטים",
+    "guildCommandCounters": "מונים",
+    "guildCommandCounterAdd": "הוספת מונה",
+    "guildCommandCounterSeparately": "ספירה נפרדת לכל:",
+    "guildCommandCounterPersonMentioned": "האדם שאוזכר",
+    "guildCommandCounterChannel": "ערוץ",
+    "guildCommandCounterPersonas": "ספירה נפרדת של פרסונות",
+    "guildCommandCounterRemove": "הסרת מונה",
+    "guildCommandCounterReset": "איפוס ספירות",
+    "guildCommandCounterResetConfirm": "לאפס את הספירות של {name}? אי אפשר לבטל פעולה זו.",
+    "guildCommandCounterNameInvalid": "יש להשתמש באותיות לטיניות קטנות, ספרות ו־_, להתחיל באות ולבחור שם שסקריפטים לא משתמשים בו.",
+    "guildCommandCounterHowToUse": "אפשר להשתמש בו בסקריפט בתור {variable}. כל הרצה מוסיפה אחד קודם, כך שההרצה הראשונה קוראת 1."
 }
