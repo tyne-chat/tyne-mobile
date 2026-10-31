@@ -749,4 +749,42 @@ class ForkLocalizationsIt extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'Guida completa agli script';
+
+  @override
+  String get guildCommandCounters => 'Contatori';
+
+  @override
+  String get guildCommandCounterAdd => 'Aggiungi contatore';
+
+  @override
+  String get guildCommandCounterSeparately => 'Conta separatamente per ogni:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Persona menzionata';
+
+  @override
+  String get guildCommandCounterChannel => 'Canale';
+
+  @override
+  String get guildCommandCounterPersonas => 'Conta le persona separatamente';
+
+  @override
+  String get guildCommandCounterRemove => 'Rimuovi contatore';
+
+  @override
+  String get guildCommandCounterReset => 'Azzera i conteggi';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'Azzerare i conteggi di $name? L’azione non può essere annullata.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Usa lettere minuscole, numeri e _, inizia con una lettera e non usare un nome già usato dagli script.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Usalo in uno script come $variable. Ogni esecuzione aggiunge prima uno, quindi la prima legge 1.';
+  }
 }
