@@ -248,6 +248,14 @@ class ForkLocalizationsIt extends ForkLocalizations {
   String get personaTagsLabel => 'Tag di persona';
 
   @override
+  String get personaAutoTagDisabledLabel =>
+      'Non riconoscere i tag di questa persona';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      'Digitare uno di questi tag non passerà a questa persona. Il tag viene inviato così come è scritto.';
+
+  @override
   String get personaTagPrefixLabel => 'Prefisso';
 
   @override

@@ -248,6 +248,14 @@ class ForkLocalizationsTr extends ForkLocalizations {
   String get personaTagsLabel => 'Persona Etiketleri';
 
   @override
+  String get personaAutoTagDisabledLabel =>
+      'Bu personanın etiketlerini eşleştirme';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      'Bu etiketlerden birini yazmak bu personaya geçmez. Etiket yazıldığı gibi gönderilir.';
+
+  @override
   String get personaTagPrefixLabel => 'Önek';
 
   @override
