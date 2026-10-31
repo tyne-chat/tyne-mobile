@@ -749,4 +749,42 @@ class ForkLocalizationsEl extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'Πλήρης οδηγός σεναρίων';
+
+  @override
+  String get guildCommandCounters => 'Μετρητές';
+
+  @override
+  String get guildCommandCounterAdd => 'Προσθήκη μετρητή';
+
+  @override
+  String get guildCommandCounterSeparately => 'Ξεχωριστή μέτρηση για κάθε:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Άτομο που αναφέρθηκε';
+
+  @override
+  String get guildCommandCounterChannel => 'Κανάλι';
+
+  @override
+  String get guildCommandCounterPersonas => 'Ξεχωριστή μέτρηση persona';
+
+  @override
+  String get guildCommandCounterRemove => 'Αφαίρεση μετρητή';
+
+  @override
+  String get guildCommandCounterReset => 'Επαναφορά μετρήσεων';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'Επαναφορά των μετρήσεων του $name; Αυτό δεν αναιρείται.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Χρησιμοποίησε πεζά λατινικά γράμματα, αριθμούς και _, ξεκίνα με γράμμα και απόφυγε ονόματα που χρησιμοποιούν ήδη τα σενάρια.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Χρησιμοποίησέ το σε σενάριο ως $variable. Κάθε εκτέλεση προσθέτει πρώτα ένα, οπότε η πρώτη διαβάζει 1.';
+  }
 }
