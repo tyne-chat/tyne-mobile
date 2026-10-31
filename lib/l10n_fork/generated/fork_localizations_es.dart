@@ -249,6 +249,14 @@ class ForkLocalizationsEs extends ForkLocalizations {
   String get personaTagsLabel => 'Etiquetas de persona';
 
   @override
+  String get personaAutoTagDisabledLabel =>
+      'No reconocer las etiquetas de esta persona';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      'Escribir una de estas etiquetas no cambiará a esta persona. La etiqueta se envía tal como está escrita.';
+
+  @override
   String get personaTagPrefixLabel => 'Prefijo';
 
   @override
@@ -1032,6 +1040,14 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
 
   @override
   String get personaTagsLabel => 'Etiquetas de persona';
+
+  @override
+  String get personaAutoTagDisabledLabel =>
+      'No reconocer las etiquetas de esta persona';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      'Escribir una de estas etiquetas no cambiará a esta persona. La etiqueta se envía tal como está escrita.';
 
   @override
   String get personaTagPrefixLabel => 'Prefijo';
