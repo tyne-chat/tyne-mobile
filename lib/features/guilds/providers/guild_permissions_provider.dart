@@ -9,6 +9,10 @@ import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/guilds/providers/held_guild_permissions_provider.dart';
+
 part 'guild_permissions_provider.g.dart';
 
 @Riverpod(keepAlive: true)
@@ -45,6 +49,7 @@ class GuildPermissions extends _$GuildPermissions {
   }
 
   void evict(String guildId) {
+    ref.read(heldGuildPermissionsProvider.notifier).forget(guildId);
     if (!state.containsKey(guildId)) {
       return;
     }
@@ -53,6 +58,7 @@ class GuildPermissions extends _$GuildPermissions {
   }
 
   void clearAll() {
+    ref.read(heldGuildPermissionsProvider.notifier).hold(state);
     if (state.isEmpty) {
       return;
     }
