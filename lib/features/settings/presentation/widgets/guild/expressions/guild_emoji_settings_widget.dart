@@ -99,8 +99,9 @@ class _GuildEmojiSettingsWidgetState
     if (state.loadStatus == GuildEmojiSettingsLoadStatus.error) {
       return _buildErrorState(context, l10n);
     }
+    // Fork: filteredIndices holds places in the full list, not in itself.
     final List<GuildEmojiSettingsEntry> visibleEmojis = state.filteredIndices
-        .map(state.emojiAtFilteredIndex)
+        .map((int index) => state.emojis[index])
         .toList(growable: false);
     final List<GuildEmojiSettingsEntry> staticEmojis = visibleEmojis
         .where((GuildEmojiSettingsEntry entry) => !entry.animated)
