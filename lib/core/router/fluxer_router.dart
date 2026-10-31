@@ -72,6 +72,10 @@ import 'package:fluxer_dart/gateway.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/guild_commands/presentation/settings_commands_page.dart';
+
 export 'package:fluxer_app/core/router/shell_navigator_keys.dart';
 
 part 'fluxer_router.g.dart';
@@ -466,6 +470,18 @@ GoRouter fluxerRouter(Ref ref) {
           context: context,
           key: state.pageKey,
           child: SettingsBansPage(
+            guildId: state.pathParameters['guildId'] ?? '',
+          ),
+        ),
+      ),
+      GoRoute(
+        path: '/settings/guild/:guildId/commands',
+        name: RouteNames.guildSettingsCommands,
+        parentNavigatorKey: rootNavigatorKey,
+        pageBuilder: (context, state) => shellMobileRootPushPage(
+          context: context,
+          key: state.pageKey,
+          child: SettingsCommandsPage(
             guildId: state.pathParameters['guildId'] ?? '',
           ),
         ),
