@@ -742,4 +742,42 @@ class ForkLocalizationsLt extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'Išsamus scenarijų vadovas';
+
+  @override
+  String get guildCommandCounters => 'Skaitikliai';
+
+  @override
+  String get guildCommandCounterAdd => 'Pridėti skaitiklį';
+
+  @override
+  String get guildCommandCounterSeparately => 'Skaičiuoti atskirai kiekvienam:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Paminėtas asmuo';
+
+  @override
+  String get guildCommandCounterChannel => 'Kanalas';
+
+  @override
+  String get guildCommandCounterPersonas => 'Skaičiuoti personas atskirai';
+
+  @override
+  String get guildCommandCounterRemove => 'Pašalinti skaitiklį';
+
+  @override
+  String get guildCommandCounterReset => 'Nustatyti skaičius iš naujo';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'Nustatyti $name skaičius iš naujo? To atšaukti negalima.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Naudok mažąsias raides, skaičius ir _, pradėk raide ir nerink vardo, kurį jau naudoja scenarijai.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Scenarijuje naudok kaip $variable. Kiekvienas paleidimas pirmiausia prideda vienetą, todėl pirmas nuskaito 1.';
+  }
 }
