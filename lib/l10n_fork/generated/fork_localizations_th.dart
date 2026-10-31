@@ -646,10 +646,93 @@ class ForkLocalizationsTh extends ForkLocalizations {
   }
 
   @override
-  String get guildCommandScriptReadOnly =>
-      'คำสั่งนี้เป็นสคริปต์ แก้ไขได้ในแอปเว็บหรือเดสก์ท็อป';
-
-  @override
   String get guildCommandEmptyMessage =>
       'จะไม่มีอะไรถูกโพสต์ ดังนั้นคำสั่งจะล้มเหลว';
+
+  @override
+  String get guildCommandUseScriptEditor => 'ใช้ตัวแก้ไขสคริปต์';
+
+  @override
+  String get guildCommandUseBasicEditor => 'ใช้ตัวแก้ไขพื้นฐาน';
+
+  @override
+  String get guildCommandScript => 'สคริปต์';
+
+  @override
+  String get guildCommandRunAgain => 'เรียกใช้อีกครั้ง';
+
+  @override
+  String guildCommandIssueUnknownTag(String name) {
+    return 'ไม่มีแท็กชื่อ $name';
+  }
+
+  @override
+  String guildCommandIssueUnknownFilter(String name) {
+    return 'ไม่มีตัวกรองชื่อ $name';
+  }
+
+  @override
+  String guildCommandIssueNotClosed(String name) {
+    return 'ไม่มีการปิด $name';
+  }
+
+  @override
+  String get guildCommandIssueTooLong => 'สคริปต์ยาวเกินไป';
+
+  @override
+  String get guildCommandIssueTooLarge => 'สคริปต์สร้างข้อความมากเกินไป';
+
+  @override
+  String get guildCommandIssueTooSlow => 'สคริปต์ใช้เวลาทำงานนานเกินไป';
+
+  @override
+  String get guildCommandIssueInvalid => 'อ่านส่วนนี้ไม่ได้';
+
+  @override
+  String get guildCommandIssueFailed => 'ส่วนนี้หยุดทำงานเพราะเกิดข้อผิดพลาด';
+
+  @override
+  String guildCommandIssueAt(String line, String column, String problem) {
+    return 'บรรทัด $line คอลัมน์ $column: $problem';
+  }
+
+  @override
+  String get guildCommandReferenceTitle => 'ข้อมูลอ้างอิงสคริปต์';
+
+  @override
+  String get guildCommandReferencePerson => 'ผู้ที่เรียกใช้ในรูปแบบการกล่าวถึง';
+
+  @override
+  String get guildCommandReferencePersonName => 'ชื่อของผู้ที่เรียกใช้';
+
+  @override
+  String get guildCommandReferenceTarget => 'บุคคลแรกที่พวกเขากล่าวถึง หากมี';
+
+  @override
+  String get guildCommandReferenceTargetName => 'ชื่อของบุคคลนั้น';
+
+  @override
+  String get guildCommandReferenceChannel => 'ช่องในรูปแบบการกล่าวถึง';
+
+  @override
+  String get guildCommandReferenceCommunity => 'ชื่อของคอมมูนิตี้นี้';
+
+  @override
+  String get guildCommandExampleRandom => 'สุ่มเลือกหนึ่งตัวเลือก';
+
+  @override
+  String get guildCommandExampleDepends =>
+      'เปลี่ยนข้อความตามสิ่งที่พวกเขาพิมพ์';
+
+  @override
+  String get guildCommandExampleOneWord => 'สุ่มเลือกหนึ่งคำ';
+
+  @override
+  String get guildCommandExampleWordForNumber => 'เลือกคำตามตัวเลข';
+
+  @override
+  String get guildCommandExampleOrdinal => 'เขียนตัวเลขแบบ 1st, 2nd, 3rd';
+
+  @override
+  String get guildCommandFullGuide => 'คู่มือสคริปต์ฉบับเต็ม';
 }
