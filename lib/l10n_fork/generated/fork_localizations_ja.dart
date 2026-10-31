@@ -242,6 +242,13 @@ class ForkLocalizationsJa extends ForkLocalizations {
   String get personaTagsLabel => 'ペルソナタグ';
 
   @override
+  String get personaAutoTagDisabledLabel => 'このペルソナのタグを認識しない';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      'これらのタグを入力してもこのペルソナには切り替わりません。タグは入力したとおりに送信されます。';
+
+  @override
   String get personaTagPrefixLabel => 'プレフィックス';
 
   @override
