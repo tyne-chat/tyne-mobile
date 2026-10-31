@@ -4,6 +4,8 @@
             "personaTagExampleText"
         ],
         "de": [
+            "guildCommandInputOptional",
+            "guildCommandName",
             "personaSectionTitle",
             "personaTagSuffixLabel",
             "userSettingsNavPersonas"
@@ -19,6 +21,8 @@
             "userSettingsNavPersonas"
         ],
         "fr": [
+            "guildCommandDescription",
+            "guildCommandMessage",
             "personaSectionTitle",
             "personaVisibilityPublic",
             "timestampPickerDateLabel",
@@ -30,6 +34,7 @@
             "personaModeManual"
         ],
         "it": [
+            "guildCommandSectionInput",
             "personaSectionTitle",
             "userSettingsNavPersonas"
         ],

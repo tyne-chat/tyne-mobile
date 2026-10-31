@@ -511,4 +511,154 @@ class ForkLocalizationsIt extends ForkLocalizations {
   String guildCommandOneLine(String name) {
     return 'Ciò che scrivi dopo /$name deve stare su una riga.';
   }
+
+  @override
+  String get permissionCreateCommands => 'Crea comandi';
+
+  @override
+  String get permissionManageCommands => 'Gestisci comandi';
+
+  @override
+  String get permissionUseExternalCommands => 'Usa comandi esterni';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      'Crea comandi per questa community e modifica o elimina i tuoi.';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      'Modifica o elimina i comandi di chiunque in questa community.';
+
+  @override
+  String get permissionUseExternalCommandsDescription =>
+      'Usa i comandi di altre community.';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      'Usa i comandi di altre community in questo canale.';
+
+  @override
+  String get guildSettingsCategoryMessageTools => 'Strumenti messaggi';
+
+  @override
+  String get guildSettingsCommands => 'Comandi';
+
+  @override
+  String get guildCommandsLoadFailed => 'Impossibile caricare i comandi.';
+
+  @override
+  String get guildCommandsSubtitle =>
+      'Messaggi che i membri possono pubblicare digitando /name.';
+
+  @override
+  String get guildCommandsSlots => 'Slot comandi';
+
+  @override
+  String get guildCommandsNew => 'Nuovo comando';
+
+  @override
+  String get guildCommandsSearch => 'Cerca comandi';
+
+  @override
+  String get guildCommandsEmptyTitle => 'Nessun comando';
+
+  @override
+  String get guildCommandsEmptyBody =>
+      'Questa community non ha ancora comandi.';
+
+  @override
+  String get guildCommandsSaved => 'Comandi salvati';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return 'Impossibile salvare /$name: $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return 'Modifica /$name';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return 'Eliminare /$name?';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      'Non può essere annullato. I messaggi creati con questo comando continuano a mostrare quale comando li ha creati.';
+
+  @override
+  String get guildCommandDelete => 'Elimina';
+
+  @override
+  String get guildCommandDeleteCommand => 'Elimina comando';
+
+  @override
+  String get guildCommandSectionCommand => 'Comando';
+
+  @override
+  String get guildCommandName => 'Nome';
+
+  @override
+  String get guildCommandNameInvalid =>
+      'Usa lettere minuscole, numeri, - e _, fino a 32 caratteri.';
+
+  @override
+  String get guildCommandNameTaken =>
+      'Un altro comando o un comando integrato ha già questo nome.';
+
+  @override
+  String get guildCommandDescription => 'Descrizione';
+
+  @override
+  String get guildCommandSectionInput => 'Input';
+
+  @override
+  String get guildCommandInputNone => 'Nessuno';
+
+  @override
+  String get guildCommandInputOptional => 'Facoltativo';
+
+  @override
+  String get guildCommandInputRequired => 'Obbligatorio';
+
+  @override
+  String get guildCommandHint => 'Suggerimento';
+
+  @override
+  String get guildCommandMessage => 'Messaggio';
+
+  @override
+  String get guildCommandInsert => 'Inserisci:';
+
+  @override
+  String get guildCommandInsertPerson => 'Chi lo usa';
+
+  @override
+  String get guildCommandInsertInput => 'Ciò che si scrive';
+
+  @override
+  String get guildCommandPreview => 'Anteprima';
+
+  @override
+  String get guildCommandSampleInput => 'Testo di esempio';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return 'Creato con /$name';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return 'Svuota la casella del messaggio per usare /$name';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      'Questo comando è uno script. Modificalo dall\'app web o desktop.';
+
+  @override
+  String get guildCommandEmptyMessage =>
+      'Non verrebbe pubblicato nulla, quindi il comando non riuscirebbe.';
 }
