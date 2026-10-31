@@ -635,9 +635,91 @@ class ForkLocalizationsJa extends ForkLocalizations {
   }
 
   @override
-  String get guildCommandScriptReadOnly =>
-      'このコマンドはスクリプトです。ウェブまたはデスクトップアプリで編集してください。';
+  String get guildCommandEmptyMessage => '何も投稿されないため、コマンドは失敗します。';
 
   @override
-  String get guildCommandEmptyMessage => '何も投稿されないため、コマンドは失敗します。';
+  String get guildCommandUseScriptEditor => 'スクリプトエディターを使う';
+
+  @override
+  String get guildCommandUseBasicEditor => '基本エディターを使う';
+
+  @override
+  String get guildCommandScript => 'スクリプト';
+
+  @override
+  String get guildCommandRunAgain => 'もう一度実行';
+
+  @override
+  String guildCommandIssueUnknownTag(String name) {
+    return '$name というタグはありません。';
+  }
+
+  @override
+  String guildCommandIssueUnknownFilter(String name) {
+    return '$name というフィルターはありません。';
+  }
+
+  @override
+  String guildCommandIssueNotClosed(String name) {
+    return '$name が閉じられていません。';
+  }
+
+  @override
+  String get guildCommandIssueTooLong => 'スクリプトが長すぎます。';
+
+  @override
+  String get guildCommandIssueTooLarge => 'スクリプトが生成するテキストが多すぎます。';
+
+  @override
+  String get guildCommandIssueTooSlow => 'スクリプトの実行に時間がかかりすぎました。';
+
+  @override
+  String get guildCommandIssueInvalid => 'この部分を読み取れません。';
+
+  @override
+  String get guildCommandIssueFailed => 'この部分はエラーで停止しました。';
+
+  @override
+  String guildCommandIssueAt(String line, String column, String problem) {
+    return '$line 行目、$column 列目: $problem';
+  }
+
+  @override
+  String get guildCommandReferenceTitle => 'スクリプトリファレンス';
+
+  @override
+  String get guildCommandReferencePerson => '使った人のメンション';
+
+  @override
+  String get guildCommandReferencePersonName => '使った人の名前';
+
+  @override
+  String get guildCommandReferenceTarget => 'メンションされた最初の人（いる場合）';
+
+  @override
+  String get guildCommandReferenceTargetName => 'その人の名前';
+
+  @override
+  String get guildCommandReferenceChannel => 'チャンネルのメンション';
+
+  @override
+  String get guildCommandReferenceCommunity => 'このコミュニティの名前';
+
+  @override
+  String get guildCommandExampleRandom => '選択肢を1つランダムに選ぶ';
+
+  @override
+  String get guildCommandExampleDepends => '入力された内容に応じてメッセージを変える';
+
+  @override
+  String get guildCommandExampleOneWord => '単語を1つランダムに選ぶ';
+
+  @override
+  String get guildCommandExampleWordForNumber => '数に合わせて単語を選ぶ';
+
+  @override
+  String get guildCommandExampleOrdinal => '数を 1st, 2nd, 3rd の形で書く';
+
+  @override
+  String get guildCommandFullGuide => 'スクリプトの完全ガイド';
 }

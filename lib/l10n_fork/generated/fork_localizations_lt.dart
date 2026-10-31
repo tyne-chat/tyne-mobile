@@ -648,10 +648,98 @@ class ForkLocalizationsLt extends ForkLocalizations {
   }
 
   @override
-  String get guildCommandScriptReadOnly =>
-      'Ši komanda yra scenarijus. Redaguokite ją žiniatinklio arba darbalaukio programėlėje.';
-
-  @override
   String get guildCommandEmptyMessage =>
       'Nieko nebūtų paskelbta, todėl komandos nepavyktų įvykdyti.';
+
+  @override
+  String get guildCommandUseScriptEditor => 'Naudoti scenarijų redaktorių';
+
+  @override
+  String get guildCommandUseBasicEditor => 'Naudoti paprastą redaktorių';
+
+  @override
+  String get guildCommandScript => 'Scenarijus';
+
+  @override
+  String get guildCommandRunAgain => 'Vykdyti dar kartą';
+
+  @override
+  String guildCommandIssueUnknownTag(String name) {
+    return 'Žymos $name nėra.';
+  }
+
+  @override
+  String guildCommandIssueUnknownFilter(String name) {
+    return 'Filtro $name nėra.';
+  }
+
+  @override
+  String guildCommandIssueNotClosed(String name) {
+    return '$name niekada neužsidaro.';
+  }
+
+  @override
+  String get guildCommandIssueTooLong => 'Scenarijus per ilgas.';
+
+  @override
+  String get guildCommandIssueTooLarge => 'Scenarijus sukuria per daug teksto.';
+
+  @override
+  String get guildCommandIssueTooSlow =>
+      'Scenarijaus vykdymas užtruko per ilgai.';
+
+  @override
+  String get guildCommandIssueInvalid => 'Šios dalies nepavyksta perskaityti.';
+
+  @override
+  String get guildCommandIssueFailed => 'Ši dalis sustojo dėl klaidos.';
+
+  @override
+  String guildCommandIssueAt(String line, String column, String problem) {
+    return 'Eilutė $line, stulpelis $column: $problem';
+  }
+
+  @override
+  String get guildCommandReferenceTitle => 'Scenarijų žinynas';
+
+  @override
+  String get guildCommandReferencePerson =>
+      'Ją naudojantis asmuo kaip paminėjimas';
+
+  @override
+  String get guildCommandReferencePersonName => 'Ją naudojančio asmens vardas';
+
+  @override
+  String get guildCommandReferenceTarget =>
+      'Pirmas paminėtas asmuo, jei toks yra';
+
+  @override
+  String get guildCommandReferenceTargetName => 'To asmens vardas';
+
+  @override
+  String get guildCommandReferenceChannel => 'Kanalas kaip paminėjimas';
+
+  @override
+  String get guildCommandReferenceCommunity => 'Šios bendruomenės pavadinimas';
+
+  @override
+  String get guildCommandExampleRandom =>
+      'Atsitiktinai pasirinkti vieną parinktį';
+
+  @override
+  String get guildCommandExampleDepends =>
+      'Keisti žinutę pagal tai, kas įvesta';
+
+  @override
+  String get guildCommandExampleOneWord => 'Atsitiktinai pasirinkti vieną žodį';
+
+  @override
+  String get guildCommandExampleWordForNumber =>
+      'Pasirinkti žodį pagal skaičių';
+
+  @override
+  String get guildCommandExampleOrdinal => 'Rašyti skaičių kaip 1st, 2nd, 3rd';
+
+  @override
+  String get guildCommandFullGuide => 'Išsamus scenarijų vadovas';
 }
