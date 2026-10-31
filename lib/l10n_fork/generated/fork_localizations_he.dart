@@ -502,4 +502,152 @@ class ForkLocalizationsHe extends ForkLocalizations {
   String guildCommandOneLine(String name) {
     return 'מה שמקלידים אחרי /$name חייב להיכנס בשורה אחת.';
   }
+
+  @override
+  String get permissionCreateCommands => 'יצירת פקודות';
+
+  @override
+  String get permissionManageCommands => 'ניהול פקודות';
+
+  @override
+  String get permissionUseExternalCommands => 'שימוש בפקודות חיצוניות';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      'יצירת פקודות לקהילה הזו, ועריכה או מחיקה של הפקודות שלך.';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      'עריכה או מחיקה של הפקודות של כל אחד בקהילה הזו.';
+
+  @override
+  String get permissionUseExternalCommandsDescription =>
+      'שימוש בפקודות מקהילות אחרות.';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      'שימוש בפקודות מקהילות אחרות בערוץ הזה.';
+
+  @override
+  String get guildSettingsCategoryMessageTools => 'כלי הודעות';
+
+  @override
+  String get guildSettingsCommands => 'פקודות';
+
+  @override
+  String get guildCommandsLoadFailed => 'לא ניתן היה לטעון את הפקודות.';
+
+  @override
+  String get guildCommandsSubtitle =>
+      'הודעות שחברים יכולים לפרסם על ידי הקלדת /name.';
+
+  @override
+  String get guildCommandsSlots => 'מקומות לפקודות';
+
+  @override
+  String get guildCommandsNew => 'פקודה חדשה';
+
+  @override
+  String get guildCommandsSearch => 'חיפוש פקודות';
+
+  @override
+  String get guildCommandsEmptyTitle => 'אין פקודות';
+
+  @override
+  String get guildCommandsEmptyBody => 'לקהילה הזו אין עדיין פקודות.';
+
+  @override
+  String get guildCommandsSaved => 'הפקודות נשמרו';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return 'לא ניתן היה לשמור את /$name: $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return 'עריכת /$name';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return 'למחוק את /$name?';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      'אי אפשר לבטל את הפעולה. הודעות שנוצרו איתה עדיין מראות איזו פקודה יצרה אותן.';
+
+  @override
+  String get guildCommandDelete => 'מחק';
+
+  @override
+  String get guildCommandDeleteCommand => 'מחיקת הפקודה';
+
+  @override
+  String get guildCommandSectionCommand => 'פקודה';
+
+  @override
+  String get guildCommandName => 'שם';
+
+  @override
+  String get guildCommandNameInvalid =>
+      'השתמשו באותיות קטנות, ספרות, - ו-_, עד 32 תווים.';
+
+  @override
+  String get guildCommandNameTaken =>
+      'לפקודה אחרת או לפקודה מובנית כבר יש את השם הזה.';
+
+  @override
+  String get guildCommandDescription => 'תיאור';
+
+  @override
+  String get guildCommandSectionInput => 'קלט';
+
+  @override
+  String get guildCommandInputNone => 'ללא';
+
+  @override
+  String get guildCommandInputOptional => 'אופציונלי';
+
+  @override
+  String get guildCommandInputRequired => 'נדרש';
+
+  @override
+  String get guildCommandHint => 'רמז';
+
+  @override
+  String get guildCommandMessage => 'הודעה';
+
+  @override
+  String get guildCommandInsert => 'הוספה:';
+
+  @override
+  String get guildCommandInsertPerson => 'מי שמשתמש בה';
+
+  @override
+  String get guildCommandInsertInput => 'מה שהם מקלידים';
+
+  @override
+  String get guildCommandPreview => 'תצוגה מקדימה';
+
+  @override
+  String get guildCommandSampleInput => 'קלט לדוגמה';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return 'נוצרה עם /$name';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return 'רוקנו את תיבת ההודעה כדי להשתמש ב-/$name';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      'הפקודה הזו היא סקריפט. אפשר לערוך אותה באפליקציית האינטרנט או בשולחן העבודה.';
+
+  @override
+  String get guildCommandEmptyMessage => 'זה לא יפרסם כלום, ולכן הפקודה תיכשל.';
 }
