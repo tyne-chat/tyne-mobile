@@ -8,6 +8,7 @@ const Map<String, String> _guildSettingsScreenNames = {
   'moderation': RouteNames.guildSettingsModeration,
   'audit-log': RouteNames.guildSettingsAuditLog,
   'bans': RouteNames.guildSettingsBans,
+  'commands': RouteNames.guildSettingsCommands,
   'members': RouteNames.guildSettingsMembers,
   'invites': RouteNames.guildSettingsInvites,
   'webhooks': RouteNames.guildSettingsWebhooks,
