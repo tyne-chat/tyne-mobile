@@ -742,4 +742,42 @@ class ForkLocalizationsDa extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'Komplet scriptguide';
+
+  @override
+  String get guildCommandCounters => 'Tællere';
+
+  @override
+  String get guildCommandCounterAdd => 'Tilføj tæller';
+
+  @override
+  String get guildCommandCounterSeparately => 'Tæl separat for hver:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Nævnt person';
+
+  @override
+  String get guildCommandCounterChannel => 'Kanal';
+
+  @override
+  String get guildCommandCounterPersonas => 'Tæl personaer separat';
+
+  @override
+  String get guildCommandCounterRemove => 'Fjern tæller';
+
+  @override
+  String get guildCommandCounterReset => 'Nulstil optællinger';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'Vil du nulstille optællingerne for $name? Dette kan ikke fortrydes.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Brug små bogstaver, tal og _, start med et bogstav, og brug ikke et navn, scripts allerede bruger.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Brug den i et script som $variable. Hver kørsel lægger først én til, så den første kørsel læser 1.';
+  }
 }

@@ -211,5 +211,16 @@
     "guildCommandExampleOneWord": "Náhodně vybrat jedno slovo",
     "guildCommandExampleWordForNumber": "Vybrat slovo podle čísla",
     "guildCommandExampleOrdinal": "Napsat číslo jako 1st, 2nd, 3rd",
-    "guildCommandFullGuide": "Úplný průvodce skripty"
+    "guildCommandFullGuide": "Úplný průvodce skripty",
+    "guildCommandCounters": "Počítadla",
+    "guildCommandCounterAdd": "Přidat počítadlo",
+    "guildCommandCounterSeparately": "Počítat zvlášť pro každého:",
+    "guildCommandCounterPersonMentioned": "Zmíněná osoba",
+    "guildCommandCounterChannel": "Kanál",
+    "guildCommandCounterPersonas": "Počítat persony zvlášť",
+    "guildCommandCounterRemove": "Odebrat počítadlo",
+    "guildCommandCounterReset": "Vynulovat počty",
+    "guildCommandCounterResetConfirm": "Vynulovat počty pro {name}? Tuto akci nelze vrátit zpět.",
+    "guildCommandCounterNameInvalid": "Použij malá písmena, číslice a _, začni písmenem a nepoužívej název, který už skripty používají.",
+    "guildCommandCounterHowToUse": "Ve skriptu ho použij jako {variable}. Každé spuštění nejdřív přičte jedničku, takže první spuštění přečte 1."
 }

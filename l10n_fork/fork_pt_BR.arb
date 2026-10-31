@@ -211,5 +211,16 @@
     "guildCommandExampleOneWord": "Escolher uma palavra ao acaso",
     "guildCommandExampleWordForNumber": "Escolher a palavra de acordo com um número",
     "guildCommandExampleOrdinal": "Escrever um número como 1st, 2nd, 3rd",
-    "guildCommandFullGuide": "Guia completo de scripts"
+    "guildCommandFullGuide": "Guia completo de scripts",
+    "guildCommandCounters": "Contadores",
+    "guildCommandCounterAdd": "Adicionar contador",
+    "guildCommandCounterSeparately": "Contar separadamente para cada:",
+    "guildCommandCounterPersonMentioned": "Pessoa mencionada",
+    "guildCommandCounterChannel": "Canal",
+    "guildCommandCounterPersonas": "Contar personas separadamente",
+    "guildCommandCounterRemove": "Remover contador",
+    "guildCommandCounterReset": "Redefinir contagens",
+    "guildCommandCounterResetConfirm": "Redefinir as contagens de {name}? Isso não pode ser desfeito.",
+    "guildCommandCounterNameInvalid": "Use letras minúsculas, números e _, comece com uma letra e não use um nome que os scripts já usam.",
+    "guildCommandCounterHowToUse": "Use em um script como {variable}. Cada execução soma um primeiro, então a primeira lê 1."
 }
