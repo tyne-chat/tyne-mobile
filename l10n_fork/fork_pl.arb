@@ -211,5 +211,16 @@
     "guildCommandExampleOneWord": "Wybierz losowo jedno słowo",
     "guildCommandExampleWordForNumber": "Wybierz słowo pasujące do liczby",
     "guildCommandExampleOrdinal": "Zapisz liczbę jako 1st, 2nd, 3rd",
-    "guildCommandFullGuide": "Pełny przewodnik po skryptach"
+    "guildCommandFullGuide": "Pełny przewodnik po skryptach",
+    "guildCommandCounters": "Liczniki",
+    "guildCommandCounterAdd": "Dodaj licznik",
+    "guildCommandCounterSeparately": "Licz osobno dla każdego:",
+    "guildCommandCounterPersonMentioned": "Wspomniana osoba",
+    "guildCommandCounterChannel": "Kanał",
+    "guildCommandCounterPersonas": "Licz persony osobno",
+    "guildCommandCounterRemove": "Usuń licznik",
+    "guildCommandCounterReset": "Wyzeruj liczby",
+    "guildCommandCounterResetConfirm": "Wyzerować liczby dla {name}? Tej operacji nie można cofnąć.",
+    "guildCommandCounterNameInvalid": "Użyj małych liter, cyfr i _, zacznij od litery i nie wybieraj nazwy, której używają już skrypty.",
+    "guildCommandCounterHowToUse": "Użyj go w skrypcie jako {variable}. Każde uruchomienie najpierw dodaje jeden, więc pierwsze odczyta 1."
 }

@@ -211,5 +211,16 @@
     "guildCommandExampleOneWord": "Τυχαία επιλογή μίας λέξης",
     "guildCommandExampleWordForNumber": "Επιλογή της λέξης ανάλογα με έναν αριθμό",
     "guildCommandExampleOrdinal": "Γραφή αριθμού ως 1st, 2nd, 3rd",
-    "guildCommandFullGuide": "Πλήρης οδηγός σεναρίων"
+    "guildCommandFullGuide": "Πλήρης οδηγός σεναρίων",
+    "guildCommandCounters": "Μετρητές",
+    "guildCommandCounterAdd": "Προσθήκη μετρητή",
+    "guildCommandCounterSeparately": "Ξεχωριστή μέτρηση για κάθε:",
+    "guildCommandCounterPersonMentioned": "Άτομο που αναφέρθηκε",
+    "guildCommandCounterChannel": "Κανάλι",
+    "guildCommandCounterPersonas": "Ξεχωριστή μέτρηση persona",
+    "guildCommandCounterRemove": "Αφαίρεση μετρητή",
+    "guildCommandCounterReset": "Επαναφορά μετρήσεων",
+    "guildCommandCounterResetConfirm": "Επαναφορά των μετρήσεων του {name}; Αυτό δεν αναιρείται.",
+    "guildCommandCounterNameInvalid": "Χρησιμοποίησε πεζά λατινικά γράμματα, αριθμούς και _, ξεκίνα με γράμμα και απόφυγε ονόματα που χρησιμοποιούν ήδη τα σενάρια.",
+    "guildCommandCounterHowToUse": "Χρησιμοποίησέ το σε σενάριο ως {variable}. Κάθε εκτέλεση προσθέτει πρώτα ένα, οπότε η πρώτη διαβάζει 1."
 }
