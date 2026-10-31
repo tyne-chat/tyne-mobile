@@ -506,4 +506,153 @@ class ForkLocalizationsId extends ForkLocalizations {
   String guildCommandOneLine(String name) {
     return 'Yang Anda ketik setelah /$name harus muat dalam satu baris.';
   }
+
+  @override
+  String get permissionCreateCommands => 'Buat perintah';
+
+  @override
+  String get permissionManageCommands => 'Kelola perintah';
+
+  @override
+  String get permissionUseExternalCommands => 'Gunakan perintah eksternal';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      'Buat perintah untuk komunitas ini, dan ubah atau hapus perintah Anda sendiri.';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      'Ubah atau hapus perintah siapa pun di komunitas ini.';
+
+  @override
+  String get permissionUseExternalCommandsDescription =>
+      'Gunakan perintah dari komunitas lain.';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      'Gunakan perintah dari komunitas lain di saluran ini.';
+
+  @override
+  String get guildSettingsCategoryMessageTools => 'Alat Pesan';
+
+  @override
+  String get guildSettingsCommands => 'Perintah';
+
+  @override
+  String get guildCommandsLoadFailed => 'Tidak dapat memuat perintah.';
+
+  @override
+  String get guildCommandsSubtitle =>
+      'Pesan yang dapat dikirim anggota dengan mengetik /name.';
+
+  @override
+  String get guildCommandsSlots => 'Slot perintah';
+
+  @override
+  String get guildCommandsNew => 'Perintah baru';
+
+  @override
+  String get guildCommandsSearch => 'Cari perintah';
+
+  @override
+  String get guildCommandsEmptyTitle => 'Tidak ada perintah';
+
+  @override
+  String get guildCommandsEmptyBody => 'Komunitas ini belum punya perintah.';
+
+  @override
+  String get guildCommandsSaved => 'Perintah disimpan';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return 'Tidak dapat menyimpan /$name: $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return 'Ubah /$name';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return 'Hapus /$name?';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      'Ini tidak dapat dibatalkan. Pesan yang dibuat dengannya tetap menunjukkan perintah yang membuatnya.';
+
+  @override
+  String get guildCommandDelete => 'Hapus';
+
+  @override
+  String get guildCommandDeleteCommand => 'Hapus perintah';
+
+  @override
+  String get guildCommandSectionCommand => 'Perintah';
+
+  @override
+  String get guildCommandName => 'Nama';
+
+  @override
+  String get guildCommandNameInvalid =>
+      'Gunakan huruf kecil, angka, - dan _, maksimal 32 karakter.';
+
+  @override
+  String get guildCommandNameTaken =>
+      'Perintah lain atau perintah bawaan sudah memakai nama ini.';
+
+  @override
+  String get guildCommandDescription => 'Deskripsi';
+
+  @override
+  String get guildCommandSectionInput => 'Masukan';
+
+  @override
+  String get guildCommandInputNone => 'Tidak ada';
+
+  @override
+  String get guildCommandInputOptional => 'Opsional';
+
+  @override
+  String get guildCommandInputRequired => 'Wajib';
+
+  @override
+  String get guildCommandHint => 'Petunjuk';
+
+  @override
+  String get guildCommandMessage => 'Pesan';
+
+  @override
+  String get guildCommandInsert => 'Sisipkan:';
+
+  @override
+  String get guildCommandInsertPerson => 'Orang yang menjalankannya';
+
+  @override
+  String get guildCommandInsertInput => 'Yang mereka ketik';
+
+  @override
+  String get guildCommandPreview => 'Pratinjau';
+
+  @override
+  String get guildCommandSampleInput => 'Contoh masukan';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return 'Dibuat dengan /$name';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return 'Kosongkan kotak pesan untuk menggunakan /$name';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      'Perintah ini adalah skrip. Ubah di aplikasi web atau desktop.';
+
+  @override
+  String get guildCommandEmptyMessage =>
+      'Ini tidak akan memposting apa pun, jadi perintah akan gagal.';
 }
