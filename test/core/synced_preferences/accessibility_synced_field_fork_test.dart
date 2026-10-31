@@ -1,10 +1,12 @@
 // Fork: tests the fork adds, kept out of upstream's accessibility_synced_field_test.dart so that file stays as
 // upstream has it.
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/accessibility_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/accessibility.pb.dart'
     as accessibility_pb;
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/chat_preferences_provider.dart';
 
 import 'accessibility_synced_field_test.dart' hide main;
 
@@ -61,5 +63,72 @@ void main() {
         expect(merged.messageGroupSpacing, 18);
       },
     );
+  });
+
+  // tyne-chat/tyne#281: the field has no "not set", so a record the phone creates
+  // without it reads as off on the web and desktop apps.
+  group('auto-send GIFs in a save', () {
+    const local = AccessibilityLocalState(
+      hideKeyboardHints: false,
+      channelTypingIndicatorMode: ChannelTypingIndicatorMode.avatars,
+      showSelectedChannelTypingIndicator: false,
+      showFadedUnreadOnMutedChannels: false,
+      dmMessagePreviewMode: DmMessagePreviewMode.all,
+      showFavorites: true,
+      useSystemLocaleForTimeFormat: false,
+      messageGroupSpacing: 18,
+      compactMessageGroupSpacing: 2,
+      saturationFactor: 1,
+      customThemeCss: null,
+      advanced: forkDefaultAdvancedAccessibility,
+    );
+
+    Future<bool> saved({
+      required bool onThePhone,
+      accessibility_pb.AccessibilitySettings? onTheServer,
+    }) async {
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+      await container
+          .read(chatPreferencesProvider.notifier)
+          .setAutoSendKlipyGifs(value: onThePhone);
+      final field = container.read(
+        Provider<AccessibilitySyncedField>(AccessibilitySyncedField.new),
+      );
+      final proto =
+          field.toProtoMessageForPush(local, wireSubMessage: onTheServer)
+              as accessibility_pb.AccessibilitySettings;
+      return proto.autoSendKlipyGifs;
+    }
+
+    test("a new record carries the phone's setting, on", () async {
+      expect(await saved(onThePhone: true), isTrue);
+    });
+
+    test("a new record carries the phone's setting, off", () async {
+      expect(await saved(onThePhone: false), isFalse);
+    });
+
+    test('an existing record stays on, whatever the phone holds', () async {
+      expect(
+        await saved(
+          onThePhone: false,
+          onTheServer: accessibility_pb.AccessibilitySettings(
+            autoSendKlipyGifs: true,
+          ),
+        ),
+        isTrue,
+      );
+    });
+
+    test('an existing record stays off, whatever the phone holds', () async {
+      expect(
+        await saved(
+          onThePhone: true,
+          onTheServer: accessibility_pb.AccessibilitySettings(),
+        ),
+        isFalse,
+      );
+    });
   });
 }
