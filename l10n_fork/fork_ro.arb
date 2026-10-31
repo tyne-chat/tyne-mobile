@@ -211,5 +211,16 @@
     "guildCommandExampleOneWord": "Alege la întâmplare un cuvânt",
     "guildCommandExampleWordForNumber": "Alege cuvântul potrivit pentru un număr",
     "guildCommandExampleOrdinal": "Scrie un număr ca 1st, 2nd, 3rd",
-    "guildCommandFullGuide": "Ghid complet pentru scripturi"
+    "guildCommandFullGuide": "Ghid complet pentru scripturi",
+    "guildCommandCounters": "Contoare",
+    "guildCommandCounterAdd": "Adaugă contor",
+    "guildCommandCounterSeparately": "Numără separat pentru fiecare:",
+    "guildCommandCounterPersonMentioned": "Persoana menționată",
+    "guildCommandCounterChannel": "Canal",
+    "guildCommandCounterPersonas": "Numără personajele separat",
+    "guildCommandCounterRemove": "Elimină contorul",
+    "guildCommandCounterReset": "Resetează numărătorile",
+    "guildCommandCounterResetConfirm": "Resetezi numărătorile pentru {name}? Acțiunea nu poate fi anulată.",
+    "guildCommandCounterNameInvalid": "Folosește litere mici, cifre și _, începe cu o literă și evită numele folosite deja de scripturi.",
+    "guildCommandCounterHowToUse": "Folosește-l într-un script ca {variable}. Fiecare rulare adaugă mai întâi unu, deci prima citește 1."
 }

@@ -211,5 +211,16 @@
     "guildCommandExampleOneWord": "Pick one word at random",
     "guildCommandExampleWordForNumber": "Pick the word for a number",
     "guildCommandExampleOrdinal": "Write a number as 1st, 2nd, 3rd",
-    "guildCommandFullGuide": "Full script guide"
+    "guildCommandFullGuide": "Full script guide",
+    "guildCommandCounters": "Counters",
+    "guildCommandCounterAdd": "Add counter",
+    "guildCommandCounterSeparately": "Count separately for each:",
+    "guildCommandCounterPersonMentioned": "Person mentioned",
+    "guildCommandCounterChannel": "Channel",
+    "guildCommandCounterPersonas": "Count personas separately",
+    "guildCommandCounterRemove": "Remove counter",
+    "guildCommandCounterReset": "Reset counts",
+    "guildCommandCounterResetConfirm": "Reset the counts of {name}? This can't be undone.",
+    "guildCommandCounterNameInvalid": "Use lowercase letters, numbers and _, starting with a letter, and not a name scripts already use.",
+    "guildCommandCounterHowToUse": "Use it in a script as {variable}. Each run adds one first, so the first run reads 1."
 }
