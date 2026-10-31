@@ -247,6 +247,14 @@ class ForkLocalizationsFi extends ForkLocalizations {
   String get personaTagsLabel => 'Persoonatunnisteet';
 
   @override
+  String get personaAutoTagDisabledLabel =>
+      'Älä tunnista tämän persoonan tunnisteita';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      'Näiden tunnisteiden kirjoittaminen ei vaihda tähän persoonaan. Tunniste lähetetään sellaisena kuin se on kirjoitettu.';
+
+  @override
   String get personaTagPrefixLabel => 'Etuliite';
 
   @override

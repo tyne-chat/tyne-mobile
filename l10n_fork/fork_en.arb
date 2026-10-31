@@ -325,6 +325,14 @@
     "@personaTagsLabel": {
         "description": "Label for persona tags section in persona form."
     },
+    "personaAutoTagDisabledLabel": "Don't match this persona's tags",
+    "@personaAutoTagDisabledLabel": {
+        "description": "Switch in the persona form. When on, typing one of the persona's tags does not switch to this persona."
+    },
+    "personaAutoTagDisabledDescription": "Typing one of these tags won't switch to this persona. The tag is sent as written.",
+    "@personaAutoTagDisabledDescription": {
+        "description": "Explanation under the persona form's switch for not matching a persona's tags."
+    },
     "personaTagPrefixLabel": "Prefix",
     "@personaTagPrefixLabel": {
         "description": "Label for tag prefix input."
