@@ -60,6 +60,8 @@
     "personaRemoveAvatar": "アバターを削除",
     "personaUploadAvatar": "アバターをアップロード",
     "personaTagsLabel": "ペルソナタグ",
+    "personaAutoTagDisabledLabel": "このペルソナのタグを認識しない",
+    "personaAutoTagDisabledDescription": "これらのタグを入力してもこのペルソナには切り替わりません。タグは入力したとおりに送信されます。",
     "personaTagPrefixLabel": "プレフィックス",
     "personaTagSuffixLabel": "サフィックス",
     "personaVisibilityLabel": "公開設定",

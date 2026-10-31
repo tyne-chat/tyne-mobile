@@ -60,6 +60,8 @@
     "personaRemoveAvatar": "Poista avatar",
     "personaUploadAvatar": "Lataa avatar",
     "personaTagsLabel": "Persoonatunnisteet",
+    "personaAutoTagDisabledLabel": "Älä tunnista tämän persoonan tunnisteita",
+    "personaAutoTagDisabledDescription": "Näiden tunnisteiden kirjoittaminen ei vaihda tähän persoonaan. Tunniste lähetetään sellaisena kuin se on kirjoitettu.",
     "personaTagPrefixLabel": "Etuliite",
     "personaTagSuffixLabel": "Jälkiliite",
     "personaVisibilityLabel": "Näkyvyys",
