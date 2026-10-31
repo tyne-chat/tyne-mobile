@@ -650,10 +650,95 @@ class ForkLocalizationsVi extends ForkLocalizations {
   }
 
   @override
-  String get guildCommandScriptReadOnly =>
-      'Lệnh này là một tập lệnh. Hãy chỉnh sửa trong ứng dụng web hoặc máy tính.';
-
-  @override
   String get guildCommandEmptyMessage =>
       'Thao tác này sẽ không đăng gì cả, nên lệnh sẽ thất bại.';
+
+  @override
+  String get guildCommandUseScriptEditor => 'Dùng trình chỉnh sửa tập lệnh';
+
+  @override
+  String get guildCommandUseBasicEditor => 'Dùng trình chỉnh sửa cơ bản';
+
+  @override
+  String get guildCommandScript => 'Tập lệnh';
+
+  @override
+  String get guildCommandRunAgain => 'Chạy lại';
+
+  @override
+  String guildCommandIssueUnknownTag(String name) {
+    return 'Không có thẻ nào tên là $name.';
+  }
+
+  @override
+  String guildCommandIssueUnknownFilter(String name) {
+    return 'Không có bộ lọc nào tên là $name.';
+  }
+
+  @override
+  String guildCommandIssueNotClosed(String name) {
+    return '$name không bao giờ được đóng.';
+  }
+
+  @override
+  String get guildCommandIssueTooLong => 'Tập lệnh quá dài.';
+
+  @override
+  String get guildCommandIssueTooLarge => 'Tập lệnh tạo ra quá nhiều văn bản.';
+
+  @override
+  String get guildCommandIssueTooSlow => 'Tập lệnh chạy quá lâu.';
+
+  @override
+  String get guildCommandIssueInvalid => 'Không thể đọc phần này.';
+
+  @override
+  String get guildCommandIssueFailed => 'Phần này đã dừng vì lỗi.';
+
+  @override
+  String guildCommandIssueAt(String line, String column, String problem) {
+    return 'Dòng $line, cột $column: $problem';
+  }
+
+  @override
+  String get guildCommandReferenceTitle => 'Tài liệu tham khảo tập lệnh';
+
+  @override
+  String get guildCommandReferencePerson =>
+      'Người chạy lệnh, dưới dạng lượt nhắc đến';
+
+  @override
+  String get guildCommandReferencePersonName => 'Tên của người chạy lệnh';
+
+  @override
+  String get guildCommandReferenceTarget =>
+      'Người đầu tiên họ nhắc đến, nếu có';
+
+  @override
+  String get guildCommandReferenceTargetName => 'Tên của người đó';
+
+  @override
+  String get guildCommandReferenceChannel => 'Kênh, dưới dạng lượt nhắc đến';
+
+  @override
+  String get guildCommandReferenceCommunity => 'Tên của cộng đồng này';
+
+  @override
+  String get guildCommandExampleRandom => 'Chọn ngẫu nhiên một tùy chọn';
+
+  @override
+  String get guildCommandExampleDepends =>
+      'Đổi tin nhắn tùy theo nội dung họ gõ';
+
+  @override
+  String get guildCommandExampleOneWord => 'Chọn ngẫu nhiên một từ';
+
+  @override
+  String get guildCommandExampleWordForNumber => 'Chọn từ theo con số';
+
+  @override
+  String get guildCommandExampleOrdinal => 'Viết số dưới dạng 1st, 2nd, 3rd';
+
+  @override
+  String get guildCommandFullGuide => 'Hướng dẫn đầy đủ về tập lệnh';
 }
