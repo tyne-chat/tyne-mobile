@@ -60,6 +60,8 @@
     "personaRemoveAvatar": "移除头像",
     "personaUploadAvatar": "上传头像",
     "personaTagsLabel": "人格标签",
+    "personaAutoTagDisabledLabel": "不匹配此人格的标签",
+    "personaAutoTagDisabledDescription": "输入这些标签不会切换到此人格。标签将按原样发送。",
     "personaTagPrefixLabel": "前缀",
     "personaTagSuffixLabel": "后缀",
     "personaVisibilityLabel": "可见性",
