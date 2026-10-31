@@ -245,6 +245,13 @@ class ForkLocalizationsAr extends ForkLocalizations {
   String get personaTagsLabel => 'علامات الشخصية';
 
   @override
+  String get personaAutoTagDisabledLabel => 'عدم مطابقة علامات هذه الشخصية';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      'كتابة إحدى هذه العلامات لن تبدّل إلى هذه الشخصية. تُرسَل العلامة كما كُتبت.';
+
+  @override
   String get personaTagPrefixLabel => 'البادئة';
 
   @override
