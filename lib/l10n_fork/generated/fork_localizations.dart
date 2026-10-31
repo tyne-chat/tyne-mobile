@@ -1277,17 +1277,167 @@ abstract class ForkLocalizations {
   /// **'Clear the message box to use /{name}'**
   String guildCommandClearBox(String name);
 
-  /// Shown on the phone above a community command written as a script, which can only be edited on the web or desktop app.
-  ///
-  /// In en, this message translates to:
-  /// **'This command is a script. Edit it on the web or desktop app.'**
-  String get guildCommandScriptReadOnly;
-
   /// Shown on the phone when a community command's message is left empty, so it cannot be saved.
   ///
   /// In en, this message translates to:
   /// **'This would post nothing, so the command would fail.'**
   String get guildCommandEmptyMessage;
+
+  /// Community command scripts on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the script editor'**
+  String get guildCommandUseScriptEditor;
+
+  /// Community command scripts on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the basic editor'**
+  String get guildCommandUseBasicEditor;
+
+  /// Community command scripts on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Script'**
+  String get guildCommandScript;
+
+  /// Community command scripts on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Run again'**
+  String get guildCommandRunAgain;
+
+  /// Community command scripts on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'There\'s no tag called {name}.'**
+  String guildCommandIssueUnknownTag(String name);
+
+  /// Community command scripts on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'There\'s no filter called {name}.'**
+  String guildCommandIssueUnknownFilter(String name);
+
+  /// Community command scripts on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is never closed.'**
+  String guildCommandIssueNotClosed(String name);
+
+  /// Community command scripts on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'The script is too long.'**
+  String get guildCommandIssueTooLong;
+
+  /// Community command scripts on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'The script builds too much text.'**
+  String get guildCommandIssueTooLarge;
+
+  /// Community command scripts on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'The script took too long to run.'**
+  String get guildCommandIssueTooSlow;
+
+  /// Community command scripts on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'This part can\'t be read.'**
+  String get guildCommandIssueInvalid;
+
+  /// Community command scripts on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'This part stopped with an error.'**
+  String get guildCommandIssueFailed;
+
+  /// Community command scripts on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Line {line}, column {column}: {problem}'**
+  String guildCommandIssueAt(String line, String column, String problem);
+
+  /// Community command scripts on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Script reference'**
+  String get guildCommandReferenceTitle;
+
+  /// Community command scripts on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'The person running it, as a mention'**
+  String get guildCommandReferencePerson;
+
+  /// Community command scripts on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Their name'**
+  String get guildCommandReferencePersonName;
+
+  /// Community command scripts on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'The first person they mention, if any'**
+  String get guildCommandReferenceTarget;
+
+  /// Community command scripts on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'That person’s name'**
+  String get guildCommandReferenceTargetName;
+
+  /// Community command scripts on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'The channel, as a mention'**
+  String get guildCommandReferenceChannel;
+
+  /// Community command scripts on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'The name of this community'**
+  String get guildCommandReferenceCommunity;
+
+  /// Community command scripts on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick one option at random'**
+  String get guildCommandExampleRandom;
+
+  /// Community command scripts on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Change the message depending on what they typed'**
+  String get guildCommandExampleDepends;
+
+  /// Community command scripts on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick one word at random'**
+  String get guildCommandExampleOneWord;
+
+  /// Community command scripts on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the word for a number'**
+  String get guildCommandExampleWordForNumber;
+
+  /// Community command scripts on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a number as 1st, 2nd, 3rd'**
+  String get guildCommandExampleOrdinal;
+
+  /// Community command scripts on the phone. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Full script guide'**
+  String get guildCommandFullGuide;
 }
 
 class _ForkLocalizationsDelegate

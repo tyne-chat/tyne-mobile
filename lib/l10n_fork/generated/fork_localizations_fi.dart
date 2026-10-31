@@ -651,10 +651,96 @@ class ForkLocalizationsFi extends ForkLocalizations {
   }
 
   @override
-  String get guildCommandScriptReadOnly =>
-      'Tämä komento on skripti. Muokkaa sitä verkko- tai työpöytäsovelluksessa.';
-
-  @override
   String get guildCommandEmptyMessage =>
       'Tämä ei lähettäisi mitään, joten komento epäonnistuisi.';
+
+  @override
+  String get guildCommandUseScriptEditor => 'Käytä skriptimuokkainta';
+
+  @override
+  String get guildCommandUseBasicEditor => 'Käytä perusmuokkainta';
+
+  @override
+  String get guildCommandScript => 'Skripti';
+
+  @override
+  String get guildCommandRunAgain => 'Suorita uudelleen';
+
+  @override
+  String guildCommandIssueUnknownTag(String name) {
+    return 'Tunnistetta $name ei ole.';
+  }
+
+  @override
+  String guildCommandIssueUnknownFilter(String name) {
+    return 'Suodatinta $name ei ole.';
+  }
+
+  @override
+  String guildCommandIssueNotClosed(String name) {
+    return '$name jää sulkematta.';
+  }
+
+  @override
+  String get guildCommandIssueTooLong => 'Skripti on liian pitkä.';
+
+  @override
+  String get guildCommandIssueTooLarge => 'Skripti tuottaa liikaa tekstiä.';
+
+  @override
+  String get guildCommandIssueTooSlow => 'Skriptin suoritus kesti liian kauan.';
+
+  @override
+  String get guildCommandIssueInvalid => 'Tätä kohtaa ei voi lukea.';
+
+  @override
+  String get guildCommandIssueFailed => 'Tämä kohta pysähtyi virheeseen.';
+
+  @override
+  String guildCommandIssueAt(String line, String column, String problem) {
+    return 'Rivi $line, sarake $column: $problem';
+  }
+
+  @override
+  String get guildCommandReferenceTitle => 'Skriptiopas';
+
+  @override
+  String get guildCommandReferencePerson => 'Käyttäjä mainintana';
+
+  @override
+  String get guildCommandReferencePersonName => 'Käyttäjän nimi';
+
+  @override
+  String get guildCommandReferenceTarget =>
+      'Ensimmäinen mainittu henkilö, jos sellainen on';
+
+  @override
+  String get guildCommandReferenceTargetName => 'Tämän henkilön nimi';
+
+  @override
+  String get guildCommandReferenceChannel => 'Kanava mainintana';
+
+  @override
+  String get guildCommandReferenceCommunity => 'Tämän yhteisön nimi';
+
+  @override
+  String get guildCommandExampleRandom =>
+      'Valitse yksi vaihtoehto satunnaisesti';
+
+  @override
+  String get guildCommandExampleDepends =>
+      'Muuta viestiä sen mukaan, mitä kirjoitettiin';
+
+  @override
+  String get guildCommandExampleOneWord => 'Valitse yksi sana satunnaisesti';
+
+  @override
+  String get guildCommandExampleWordForNumber => 'Valitse sana luvun mukaan';
+
+  @override
+  String get guildCommandExampleOrdinal =>
+      'Kirjoita luku muodossa 1st, 2nd, 3rd';
+
+  @override
+  String get guildCommandFullGuide => 'Täydellinen skriptiopas';
 }
