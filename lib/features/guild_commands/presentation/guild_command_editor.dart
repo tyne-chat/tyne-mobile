@@ -220,6 +220,7 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
       required String template,
       required String input,
       required List<String> counterNames,
+      required int run,
     }) {
       return ref
           .read(guildCommandsRepositoryProvider)
@@ -229,6 +230,7 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
             input: input,
             channelId: _previewChannelId(),
             counterNames: counterNames,
+            run: run,
           );
     });
     _template.addListener(_updatePreview);
@@ -622,7 +624,8 @@ class _GuildCommandEditorState extends ConsumerState<GuildCommandEditor> {
               )
             else if (content != null)
               _previewBox(context, content),
-            if (guildCommandPicksAtRandom(_template.actualText)) ...<Widget>[
+            if (guildCommandPicksAtRandom(_template.actualText) ||
+                _counters.isNotEmpty) ...<Widget>[
               const SizedBox(height: 8),
               FluxerButton.secondary(
                 label: l10n.fork.guildCommandRunAgain,
