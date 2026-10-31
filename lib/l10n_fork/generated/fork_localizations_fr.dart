@@ -656,10 +656,100 @@ class ForkLocalizationsFr extends ForkLocalizations {
   }
 
   @override
-  String get guildCommandScriptReadOnly =>
-      'Cette commande est un script. Modifie-la sur l\'application web ou de bureau.';
-
-  @override
   String get guildCommandEmptyMessage =>
       'Cela ne publierait rien, donc la commande échouerait.';
+
+  @override
+  String get guildCommandUseScriptEditor => 'Utiliser l\'éditeur de script';
+
+  @override
+  String get guildCommandUseBasicEditor => 'Utiliser l\'éditeur de base';
+
+  @override
+  String get guildCommandScript => 'Script';
+
+  @override
+  String get guildCommandRunAgain => 'Exécuter à nouveau';
+
+  @override
+  String guildCommandIssueUnknownTag(String name) {
+    return 'Il n\'existe aucune balise nommée $name.';
+  }
+
+  @override
+  String guildCommandIssueUnknownFilter(String name) {
+    return 'Il n\'existe aucun filtre nommé $name.';
+  }
+
+  @override
+  String guildCommandIssueNotClosed(String name) {
+    return '$name n\'est jamais fermé.';
+  }
+
+  @override
+  String get guildCommandIssueTooLong => 'Le script est trop long.';
+
+  @override
+  String get guildCommandIssueTooLarge => 'Le script génère trop de texte.';
+
+  @override
+  String get guildCommandIssueTooSlow =>
+      'Le script a mis trop de temps à s\'exécuter.';
+
+  @override
+  String get guildCommandIssueInvalid => 'Impossible de lire cette partie.';
+
+  @override
+  String get guildCommandIssueFailed =>
+      'Cette partie s\'est arrêtée sur une erreur.';
+
+  @override
+  String guildCommandIssueAt(String line, String column, String problem) {
+    return 'Ligne $line, colonne $column : $problem';
+  }
+
+  @override
+  String get guildCommandReferenceTitle => 'Référence des scripts';
+
+  @override
+  String get guildCommandReferencePerson =>
+      'La personne qui l\'utilise, sous forme de mention';
+
+  @override
+  String get guildCommandReferencePersonName =>
+      'Le nom de la personne qui l\'utilise';
+
+  @override
+  String get guildCommandReferenceTarget =>
+      'La première personne mentionnée, s\'il y en a une';
+
+  @override
+  String get guildCommandReferenceTargetName => 'Le nom de cette personne';
+
+  @override
+  String get guildCommandReferenceChannel => 'Le salon, sous forme de mention';
+
+  @override
+  String get guildCommandReferenceCommunity => 'Le nom de cette communauté';
+
+  @override
+  String get guildCommandExampleRandom => 'Choisir une option au hasard';
+
+  @override
+  String get guildCommandExampleDepends =>
+      'Changer le message selon ce qui a été tapé';
+
+  @override
+  String get guildCommandExampleOneWord => 'Choisir un mot au hasard';
+
+  @override
+  String get guildCommandExampleWordForNumber =>
+      'Choisir le mot selon un nombre';
+
+  @override
+  String get guildCommandExampleOrdinal =>
+      'Écrire un nombre sous la forme 1st, 2nd, 3rd';
+
+  @override
+  String get guildCommandFullGuide => 'Guide complet des scripts';
 }
