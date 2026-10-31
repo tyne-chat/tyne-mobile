@@ -154,7 +154,7 @@ its media service from any engine (tyne-chat/tyne#210).
 - **Signal bar:** `features/signal_bar` (the strip in the composer, its notifiers and the gateway
   events; guide in its `AGENTS.md`).
 - **Server commands:** `features/guild_commands` (the commands in the `/` list, running one on send,
-  the chip on its messages; no editor on phones yet; guide in its `AGENTS.md`).
+  the chip on its messages, the Commands tab of community settings; guide in its `AGENTS.md`).
 - **Pinned emojis:** `features/emoji` (`EmojiPins`, `emojiPinsProvider`), synced with the web through
   the fork's `emoji_pins` field (`core/synced_preferences/AGENTS.md`); in chat, the emoji info sheet,
   the picker's frequently used row and the quick reactions (`features/chat/AGENTS.md`).
