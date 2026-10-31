@@ -649,10 +649,97 @@ class ForkLocalizationsId extends ForkLocalizations {
   }
 
   @override
-  String get guildCommandScriptReadOnly =>
-      'Perintah ini adalah skrip. Ubah di aplikasi web atau desktop.';
-
-  @override
   String get guildCommandEmptyMessage =>
       'Ini tidak akan memposting apa pun, jadi perintah akan gagal.';
+
+  @override
+  String get guildCommandUseScriptEditor => 'Gunakan editor skrip';
+
+  @override
+  String get guildCommandUseBasicEditor => 'Gunakan editor dasar';
+
+  @override
+  String get guildCommandScript => 'Skrip';
+
+  @override
+  String get guildCommandRunAgain => 'Jalankan lagi';
+
+  @override
+  String guildCommandIssueUnknownTag(String name) {
+    return 'Tidak ada tag bernama $name.';
+  }
+
+  @override
+  String guildCommandIssueUnknownFilter(String name) {
+    return 'Tidak ada filter bernama $name.';
+  }
+
+  @override
+  String guildCommandIssueNotClosed(String name) {
+    return '$name tidak pernah ditutup.';
+  }
+
+  @override
+  String get guildCommandIssueTooLong => 'Skrip terlalu panjang.';
+
+  @override
+  String get guildCommandIssueTooLarge =>
+      'Skrip menghasilkan terlalu banyak teks.';
+
+  @override
+  String get guildCommandIssueTooSlow => 'Skrip terlalu lama dijalankan.';
+
+  @override
+  String get guildCommandIssueInvalid => 'Bagian ini tidak dapat dibaca.';
+
+  @override
+  String get guildCommandIssueFailed => 'Bagian ini berhenti karena kesalahan.';
+
+  @override
+  String guildCommandIssueAt(String line, String column, String problem) {
+    return 'Baris $line, kolom $column: $problem';
+  }
+
+  @override
+  String get guildCommandReferenceTitle => 'Referensi skrip';
+
+  @override
+  String get guildCommandReferencePerson =>
+      'Orang yang menjalankannya, sebagai sebutan';
+
+  @override
+  String get guildCommandReferencePersonName =>
+      'Nama orang yang menjalankannya';
+
+  @override
+  String get guildCommandReferenceTarget =>
+      'Orang pertama yang mereka sebut, jika ada';
+
+  @override
+  String get guildCommandReferenceTargetName => 'Nama orang tersebut';
+
+  @override
+  String get guildCommandReferenceChannel => 'Saluran, sebagai sebutan';
+
+  @override
+  String get guildCommandReferenceCommunity => 'Nama komunitas ini';
+
+  @override
+  String get guildCommandExampleRandom => 'Pilih satu opsi secara acak';
+
+  @override
+  String get guildCommandExampleDepends =>
+      'Ubah pesan sesuai yang mereka ketik';
+
+  @override
+  String get guildCommandExampleOneWord => 'Pilih satu kata secara acak';
+
+  @override
+  String get guildCommandExampleWordForNumber => 'Pilih kata sesuai angka';
+
+  @override
+  String get guildCommandExampleOrdinal => 'Tulis angka sebagai 1st, 2nd, 3rd';
+
+  @override
+  String get guildCommandFullGuide => 'Panduan lengkap skrip';
 }
