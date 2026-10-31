@@ -713,6 +713,44 @@ class ForkLocalizationsZh extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => '完整脚本指南';
+
+  @override
+  String get guildCommandCounters => '计数器';
+
+  @override
+  String get guildCommandCounterAdd => '添加计数器';
+
+  @override
+  String get guildCommandCounterSeparately => '分别计数:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => '被提及的人';
+
+  @override
+  String get guildCommandCounterChannel => '频道';
+
+  @override
+  String get guildCommandCounterPersonas => '分别计数人格';
+
+  @override
+  String get guildCommandCounterRemove => '移除计数器';
+
+  @override
+  String get guildCommandCounterReset => '重置计数';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return '要重置 $name 的计数吗?此操作无法撤销。';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      '请使用小写字母、数字和 _,以字母开头,且不要使用脚本已占用的名称。';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return '在脚本中以 $variable 使用。每次运行会先加一,所以第一次读到的是 1。';
+  }
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -1424,4 +1462,42 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get guildCommandFullGuide => '完整腳本指南';
+
+  @override
+  String get guildCommandCounters => '計數器';
+
+  @override
+  String get guildCommandCounterAdd => '新增計數器';
+
+  @override
+  String get guildCommandCounterSeparately => '分別計數:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => '被提及的人';
+
+  @override
+  String get guildCommandCounterChannel => '頻道';
+
+  @override
+  String get guildCommandCounterPersonas => '分別計數人格';
+
+  @override
+  String get guildCommandCounterRemove => '移除計數器';
+
+  @override
+  String get guildCommandCounterReset => '重設計數';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return '要重設 $name 的計數嗎?此操作無法復原。';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      '請使用小寫字母、數字和 _,以字母開頭,且不要使用腳本已占用的名稱。';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return '在腳本中以 $variable 使用。每次執行會先加一,所以第一次讀到的是 1。';
+  }
 }
