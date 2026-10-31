@@ -650,10 +650,95 @@ class ForkLocalizationsHr extends ForkLocalizations {
   }
 
   @override
-  String get guildCommandScriptReadOnly =>
-      'Ova naredba je skripta. Uredi je u web ili desktop aplikaciji.';
-
-  @override
   String get guildCommandEmptyMessage =>
       'Ovo ne bi ništa objavilo, pa naredba ne bi uspjela.';
+
+  @override
+  String get guildCommandUseScriptEditor => 'Upotrijebi uređivač skripti';
+
+  @override
+  String get guildCommandUseBasicEditor => 'Upotrijebi osnovni uređivač';
+
+  @override
+  String get guildCommandScript => 'Skripta';
+
+  @override
+  String get guildCommandRunAgain => 'Pokreni ponovno';
+
+  @override
+  String guildCommandIssueUnknownTag(String name) {
+    return 'Ne postoji oznaka pod nazivom $name.';
+  }
+
+  @override
+  String guildCommandIssueUnknownFilter(String name) {
+    return 'Ne postoji filtar pod nazivom $name.';
+  }
+
+  @override
+  String guildCommandIssueNotClosed(String name) {
+    return '$name se nikada ne zatvara.';
+  }
+
+  @override
+  String get guildCommandIssueTooLong => 'Skripta je preduga.';
+
+  @override
+  String get guildCommandIssueTooLarge => 'Skripta stvara previše teksta.';
+
+  @override
+  String get guildCommandIssueTooSlow =>
+      'Izvođenje skripte trajalo je predugo.';
+
+  @override
+  String get guildCommandIssueInvalid => 'Ovaj se dio ne može pročitati.';
+
+  @override
+  String get guildCommandIssueFailed => 'Ovaj se dio zaustavio zbog pogreške.';
+
+  @override
+  String guildCommandIssueAt(String line, String column, String problem) {
+    return 'Redak $line, stupac $column: $problem';
+  }
+
+  @override
+  String get guildCommandReferenceTitle => 'Priručnik za skripte';
+
+  @override
+  String get guildCommandReferencePerson =>
+      'Osoba koja je koristi, kao spominjanje';
+
+  @override
+  String get guildCommandReferencePersonName => 'Ime osobe koja je koristi';
+
+  @override
+  String get guildCommandReferenceTarget => 'Prva spomenuta osoba, ako je ima';
+
+  @override
+  String get guildCommandReferenceTargetName => 'Ime te osobe';
+
+  @override
+  String get guildCommandReferenceChannel => 'Kanal, kao spominjanje';
+
+  @override
+  String get guildCommandReferenceCommunity => 'Naziv ove zajednice';
+
+  @override
+  String get guildCommandExampleRandom => 'Odaberi nasumično jednu opciju';
+
+  @override
+  String get guildCommandExampleDepends =>
+      'Promijeni poruku ovisno o tome što je upisano';
+
+  @override
+  String get guildCommandExampleOneWord => 'Odaberi nasumično jednu riječ';
+
+  @override
+  String get guildCommandExampleWordForNumber => 'Odaberi riječ prema broju';
+
+  @override
+  String get guildCommandExampleOrdinal => 'Zapiši broj kao 1st, 2nd, 3rd';
+
+  @override
+  String get guildCommandFullGuide => 'Potpuni priručnik za skripte';
 }

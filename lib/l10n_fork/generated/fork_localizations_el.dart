@@ -653,10 +653,100 @@ class ForkLocalizationsEl extends ForkLocalizations {
   }
 
   @override
-  String get guildCommandScriptReadOnly =>
-      'Αυτή η εντολή είναι σενάριο. Επεξεργαστείτε την στην εφαρμογή ιστού ή υπολογιστή.';
-
-  @override
   String get guildCommandEmptyMessage =>
       'Αυτό δεν θα δημοσίευε τίποτα, οπότε η εντολή θα αποτύγχανε.';
+
+  @override
+  String get guildCommandUseScriptEditor => 'Χρήση του επεξεργαστή σεναρίων';
+
+  @override
+  String get guildCommandUseBasicEditor => 'Χρήση του βασικού επεξεργαστή';
+
+  @override
+  String get guildCommandScript => 'Σενάριο';
+
+  @override
+  String get guildCommandRunAgain => 'Εκτέλεση ξανά';
+
+  @override
+  String guildCommandIssueUnknownTag(String name) {
+    return 'Δεν υπάρχει ετικέτα με το όνομα $name.';
+  }
+
+  @override
+  String guildCommandIssueUnknownFilter(String name) {
+    return 'Δεν υπάρχει φίλτρο με το όνομα $name.';
+  }
+
+  @override
+  String guildCommandIssueNotClosed(String name) {
+    return 'Το $name δεν κλείνει ποτέ.';
+  }
+
+  @override
+  String get guildCommandIssueTooLong => 'Το σενάριο είναι υπερβολικά μεγάλο.';
+
+  @override
+  String get guildCommandIssueTooLarge =>
+      'Το σενάριο παράγει υπερβολικά πολύ κείμενο.';
+
+  @override
+  String get guildCommandIssueTooSlow =>
+      'Η εκτέλεση του σεναρίου διήρκεσε υπερβολικά πολύ.';
+
+  @override
+  String get guildCommandIssueInvalid =>
+      'Αυτό το τμήμα δεν μπορεί να διαβαστεί.';
+
+  @override
+  String get guildCommandIssueFailed => 'Αυτό το τμήμα σταμάτησε με σφάλμα.';
+
+  @override
+  String guildCommandIssueAt(String line, String column, String problem) {
+    return 'Γραμμή $line, στήλη $column: $problem';
+  }
+
+  @override
+  String get guildCommandReferenceTitle => 'Οδηγός σεναρίων';
+
+  @override
+  String get guildCommandReferencePerson =>
+      'Όποιος τη χρησιμοποιεί, ως αναφορά';
+
+  @override
+  String get guildCommandReferencePersonName =>
+      'Το όνομα όποιου τη χρησιμοποιεί';
+
+  @override
+  String get guildCommandReferenceTarget =>
+      'Το πρώτο άτομο που αναφέρουν, αν υπάρχει';
+
+  @override
+  String get guildCommandReferenceTargetName => 'Το όνομα αυτού του ατόμου';
+
+  @override
+  String get guildCommandReferenceChannel => 'Το κανάλι, ως αναφορά';
+
+  @override
+  String get guildCommandReferenceCommunity => 'Το όνομα αυτής της κοινότητας';
+
+  @override
+  String get guildCommandExampleRandom => 'Τυχαία επιλογή μίας εναλλακτικής';
+
+  @override
+  String get guildCommandExampleDepends =>
+      'Αλλαγή του μηνύματος ανάλογα με το τι πληκτρολόγησαν';
+
+  @override
+  String get guildCommandExampleOneWord => 'Τυχαία επιλογή μίας λέξης';
+
+  @override
+  String get guildCommandExampleWordForNumber =>
+      'Επιλογή της λέξης ανάλογα με έναν αριθμό';
+
+  @override
+  String get guildCommandExampleOrdinal => 'Γραφή αριθμού ως 1st, 2nd, 3rd';
+
+  @override
+  String get guildCommandFullGuide => 'Πλήρης οδηγός σεναρίων';
 }
