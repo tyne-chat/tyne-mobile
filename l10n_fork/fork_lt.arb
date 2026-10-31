@@ -211,5 +211,16 @@
     "guildCommandExampleOneWord": "Atsitiktinai pasirinkti vieną žodį",
     "guildCommandExampleWordForNumber": "Pasirinkti žodį pagal skaičių",
     "guildCommandExampleOrdinal": "Rašyti skaičių kaip 1st, 2nd, 3rd",
-    "guildCommandFullGuide": "Išsamus scenarijų vadovas"
+    "guildCommandFullGuide": "Išsamus scenarijų vadovas",
+    "guildCommandCounters": "Skaitikliai",
+    "guildCommandCounterAdd": "Pridėti skaitiklį",
+    "guildCommandCounterSeparately": "Skaičiuoti atskirai kiekvienam:",
+    "guildCommandCounterPersonMentioned": "Paminėtas asmuo",
+    "guildCommandCounterChannel": "Kanalas",
+    "guildCommandCounterPersonas": "Skaičiuoti personas atskirai",
+    "guildCommandCounterRemove": "Pašalinti skaitiklį",
+    "guildCommandCounterReset": "Nustatyti skaičius iš naujo",
+    "guildCommandCounterResetConfirm": "Nustatyti {name} skaičius iš naujo? To atšaukti negalima.",
+    "guildCommandCounterNameInvalid": "Naudok mažąsias raides, skaičius ir _, pradėk raide ir nerink vardo, kurį jau naudoja scenarijai.",
+    "guildCommandCounterHowToUse": "Scenarijuje naudok kaip {variable}. Kiekvienas paleidimas pirmiausia prideda vienetą, todėl pirmas nuskaito 1."
 }

@@ -743,4 +743,42 @@ class ForkLocalizationsCs extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'Úplný průvodce skripty';
+
+  @override
+  String get guildCommandCounters => 'Počítadla';
+
+  @override
+  String get guildCommandCounterAdd => 'Přidat počítadlo';
+
+  @override
+  String get guildCommandCounterSeparately => 'Počítat zvlášť pro každého:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Zmíněná osoba';
+
+  @override
+  String get guildCommandCounterChannel => 'Kanál';
+
+  @override
+  String get guildCommandCounterPersonas => 'Počítat persony zvlášť';
+
+  @override
+  String get guildCommandCounterRemove => 'Odebrat počítadlo';
+
+  @override
+  String get guildCommandCounterReset => 'Vynulovat počty';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'Vynulovat počty pro $name? Tuto akci nelze vrátit zpět.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Použij malá písmena, číslice a _, začni písmenem a nepoužívej název, který už skripty používají.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Ve skriptu ho použij jako $variable. Každé spuštění nejdřív přičte jedničku, takže první spuštění přečte 1.';
+  }
 }

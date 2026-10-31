@@ -744,4 +744,42 @@ class ForkLocalizationsRu extends ForkLocalizations {
 
   @override
   String get guildCommandFullGuide => 'Полное руководство по скриптам';
+
+  @override
+  String get guildCommandCounters => 'Счётчики';
+
+  @override
+  String get guildCommandCounterAdd => 'Добавить счётчик';
+
+  @override
+  String get guildCommandCounterSeparately => 'Считать отдельно для каждого:';
+
+  @override
+  String get guildCommandCounterPersonMentioned => 'Упомянутый человек';
+
+  @override
+  String get guildCommandCounterChannel => 'Канал';
+
+  @override
+  String get guildCommandCounterPersonas => 'Считать персоны отдельно';
+
+  @override
+  String get guildCommandCounterRemove => 'Удалить счётчик';
+
+  @override
+  String get guildCommandCounterReset => 'Сбросить значения';
+
+  @override
+  String guildCommandCounterResetConfirm(String name) {
+    return 'Сбросить значения $name? Это нельзя отменить.';
+  }
+
+  @override
+  String get guildCommandCounterNameInvalid =>
+      'Используйте строчные буквы, цифры и _, начинайте с буквы и не берите имя, которое уже используют скрипты.';
+
+  @override
+  String guildCommandCounterHowToUse(String variable) {
+    return 'Используйте его в скрипте как $variable. Каждый запуск сначала прибавляет один, поэтому первый читает 1.';
+  }
 }
