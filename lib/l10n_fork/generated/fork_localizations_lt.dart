@@ -505,4 +505,153 @@ class ForkLocalizationsLt extends ForkLocalizations {
   String guildCommandOneLine(String name) {
     return 'Tai, ką įvedate po /$name, turi tilpti vienoje eilutėje.';
   }
+
+  @override
+  String get permissionCreateCommands => 'Kurti komandas';
+
+  @override
+  String get permissionManageCommands => 'Tvarkyti komandas';
+
+  @override
+  String get permissionUseExternalCommands => 'Naudoti išorines komandas';
+
+  @override
+  String get permissionCreateCommandsDescription =>
+      'Kurti šios bendruomenės komandas ir redaguoti ar ištrinti savo.';
+
+  @override
+  String get permissionManageCommandsDescription =>
+      'Redaguoti ar ištrinti bet kurio nario komandas šioje bendruomenėje.';
+
+  @override
+  String get permissionUseExternalCommandsDescription =>
+      'Naudoti kitų bendruomenių komandas.';
+
+  @override
+  String get permissionUseExternalCommandsChannelDescription =>
+      'Naudoti kitų bendruomenių komandas šiame kanale.';
+
+  @override
+  String get guildSettingsCategoryMessageTools => 'Žinučių įrankiai';
+
+  @override
+  String get guildSettingsCommands => 'Komandos';
+
+  @override
+  String get guildCommandsLoadFailed => 'Nepavyko įkelti komandų.';
+
+  @override
+  String get guildCommandsSubtitle =>
+      'Žinutės, kurias nariai gali paskelbti įvesdami /name.';
+
+  @override
+  String get guildCommandsSlots => 'Komandų vietos';
+
+  @override
+  String get guildCommandsNew => 'Nauja komanda';
+
+  @override
+  String get guildCommandsSearch => 'Ieškoti komandų';
+
+  @override
+  String get guildCommandsEmptyTitle => 'Komandų nėra';
+
+  @override
+  String get guildCommandsEmptyBody => 'Ši bendruomenė dar neturi komandų.';
+
+  @override
+  String get guildCommandsSaved => 'Komandos išsaugotos';
+
+  @override
+  String guildCommandSaveFailed(String name, String detail) {
+    return 'Nepavyko išsaugoti /$name: $detail';
+  }
+
+  @override
+  String guildCommandEdit(String name) {
+    return 'Redaguoti /$name';
+  }
+
+  @override
+  String guildCommandDeleteTitle(String name) {
+    return 'Ištrinti /$name?';
+  }
+
+  @override
+  String get guildCommandDeleteBody =>
+      'To negalima atšaukti. Ja sukurtos žinutės vis tiek rodo, kuri komanda jas sukūrė.';
+
+  @override
+  String get guildCommandDelete => 'Ištrinti';
+
+  @override
+  String get guildCommandDeleteCommand => 'Ištrinti komandą';
+
+  @override
+  String get guildCommandSectionCommand => 'Komanda';
+
+  @override
+  String get guildCommandName => 'Pavadinimas';
+
+  @override
+  String get guildCommandNameInvalid =>
+      'Naudokite mažąsias raides, skaičius, - ir _, ne daugiau kaip 32 simbolius.';
+
+  @override
+  String get guildCommandNameTaken =>
+      'Kita komanda arba integruota komanda jau turi šį pavadinimą.';
+
+  @override
+  String get guildCommandDescription => 'Aprašymas';
+
+  @override
+  String get guildCommandSectionInput => 'Įvestis';
+
+  @override
+  String get guildCommandInputNone => 'Nėra';
+
+  @override
+  String get guildCommandInputOptional => 'Neprivaloma';
+
+  @override
+  String get guildCommandInputRequired => 'Būtina';
+
+  @override
+  String get guildCommandHint => 'Užuomina';
+
+  @override
+  String get guildCommandMessage => 'Žinutė';
+
+  @override
+  String get guildCommandInsert => 'Įterpti:';
+
+  @override
+  String get guildCommandInsertPerson => 'Ją naudojantis asmuo';
+
+  @override
+  String get guildCommandInsertInput => 'Ką jie įveda';
+
+  @override
+  String get guildCommandPreview => 'Peržiūra';
+
+  @override
+  String get guildCommandSampleInput => 'Pavyzdinė įvestis';
+
+  @override
+  String guildCommandMadeWith(String name) {
+    return 'Sukurta su /$name';
+  }
+
+  @override
+  String guildCommandClearBox(String name) {
+    return 'Išvalykite žinutės laukelį, kad galėtumėte naudoti /$name';
+  }
+
+  @override
+  String get guildCommandScriptReadOnly =>
+      'Ši komanda yra scenarijus. Redaguokite ją žiniatinklio arba darbalaukio programėlėje.';
+
+  @override
+  String get guildCommandEmptyMessage =>
+      'Nieko nebūtų paskelbta, todėl komandos nepavyktų įvykdyti.';
 }
