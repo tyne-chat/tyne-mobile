@@ -42,12 +42,12 @@ comment saying the SDK lacks the endpoints is out of date.
 |---|---|
 | `signalBarConfigProvider` (`SignalBarConfigNotifier`) | `SignalBarConfig`: `version` (-1 until loaded), `signals`, and the unused `guildId` and `canManage`. `refresh()` shares the request in flight; `ensureLoaded()` and `ensureVersion(v)` call it; a failure keeps the old state |
 | `channelSignalsProvider` (`ChannelSignalsNotifier`) | every channel loaded this session, id to entries; and `_disabledChannels`, an instance field outside `state` |
-| `signalBarCollapsedProvider` | the caret, in memory, one value for every channel and account |
+| `signalBarCollapsedProvider` (`signal_bar_collapsed_provider.dart`) | the caret: one value per account on this device, for every channel, in `SharedPreferences`, not synced. It watches the account, and the strip watches it before it has anything to show, so the value is in before a collapsed bar could appear open |
 
 - A channel is on when it is in the map and not in `_disabledChannels`. An unknown channel is off,
   so the strip stays hidden until its GET returns.
-- The providers are not `autoDispose` and do not watch the account: an account switch or sign-out
-  leaves them as they are. Only READY resets them (`invalidate()` and `refresh()` in `onReady`), and
+- The config and channel providers are not `autoDispose` and do not watch the account: an account
+  switch or sign-out leaves them as they are. Only READY resets them (`invalidate()` and `refresh()` in `onReady`), and
   nothing calls `ref.invalidate` on them.
 - `SignalEntry` keeps the user's id, `username`, `global_name` and avatar hash, and the persona's id,
   name and avatar hash, parsed by hand with hard casts. `applySignalUpdate` replaces an account's
@@ -171,7 +171,8 @@ Tracked in tyne-chat/tyne#148 unless another issue is named.
 - `test/features/signal_bar/`: `signal_bar_providers_test.dart` (a fake repository that records
   calls: parsing, in-place replacement, version refetch, the enabled flag, local removal, the scope of
   `affirmPersona`, loading never re-pointing); `signal_persona_affirmation_test.dart`;
-  `signal_bar_repository_test.dart` (each call's method, path and body); `signal_bar_view_test.dart`
+  `signal_bar_repository_test.dart` (each call's method, path and body);
+  `signal_bar_collapsed_provider_test.dart` (restarts, accounts, a read that lands late); `signal_bar_view_test.dart`
   (`SignalBarView`, `SignalDetailsSheet`, the size table).
 - `test/core/gateway/gateway_event_handler_missing_events_fork_test.dart`: the three events reach
   `onSignalBarEvent` unparsed.
