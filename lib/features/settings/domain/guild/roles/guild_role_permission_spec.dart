@@ -1,6 +1,9 @@
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
+// Fork imports.
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+
 class GuildPermissionEntry {
   const GuildPermissionEntry({
     required this.title,
@@ -49,6 +52,8 @@ List<GuildPermissionCategorySpec> generateGuildPermissionSpec(
         _entry(l10n, Permission.manageNicknames),
         _entry(l10n, Permission.createExpressions),
         _entry(l10n, Permission.manageExpressions),
+        _entry(l10n, Permission.createCommands),
+        _entry(l10n, Permission.manageCommands),
         _entry(l10n, Permission.manageWebhooks),
       ],
     ),
@@ -71,6 +76,7 @@ List<GuildPermissionCategorySpec> generateGuildPermissionSpec(
         _entry(l10n, Permission.readMessageHistory),
         _entry(l10n, Permission.mentionEveryone),
         _entry(l10n, Permission.useExternalEmojis),
+        _entry(l10n, Permission.useExternalCommands),
         _entry(l10n, Permission.useExternalStickers),
         _entry(l10n, Permission.addReactions),
         _entry(l10n, Permission.bypassSlowmode),
@@ -133,6 +139,9 @@ String permissionTitle(FluxerLocalizations l10n, Permission permission) {
     Permission.readMessageHistory => l10n.permissionReadMessageHistory,
     Permission.mentionEveryone => l10n.permissionMentionEveryone,
     Permission.useExternalEmojis => l10n.permissionUseExternalEmoji,
+    Permission.createCommands => l10n.fork.permissionCreateCommands,
+    Permission.manageCommands => l10n.fork.permissionManageCommands,
+    Permission.useExternalCommands => l10n.fork.permissionUseExternalCommands,
     Permission.useExternalStickers => l10n.permissionUseExternalStickers,
     Permission.addReactions => l10n.permissionAddReactions,
     Permission.bypassSlowmode => l10n.permissionBypassSlowmode,
@@ -173,6 +182,10 @@ String? permissionDescription(FluxerLocalizations l10n, Permission permission) {
     Permission.manageMessages => l10n.permissionManageMessagesDescription,
     Permission.mentionEveryone => l10n.permissionMentionEveryoneDescription,
     Permission.useExternalEmojis => l10n.permissionUseExternalEmojiDescription,
+    Permission.createCommands => l10n.fork.permissionCreateCommandsDescription,
+    Permission.manageCommands => l10n.fork.permissionManageCommandsDescription,
+    Permission.useExternalCommands =>
+      l10n.fork.permissionUseExternalCommandsDescription,
     Permission.addReactions => l10n.permissionAddReactionsDescription,
     Permission.bypassSlowmode => l10n.permissionBypassSlowmodeDescription,
     Permission.moderateMembers => l10n.permissionTimeOutMembersDescription,

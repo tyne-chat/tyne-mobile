@@ -690,5 +690,205 @@
                 "type": "String"
             }
         }
+    },
+    "permissionCreateCommands": "Create commands",
+    "@permissionCreateCommands": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "permissionManageCommands": "Manage commands",
+    "@permissionManageCommands": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "permissionUseExternalCommands": "Use external commands",
+    "@permissionUseExternalCommands": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "permissionCreateCommandsDescription": "Create commands for this community, and edit or delete your own.",
+    "@permissionCreateCommandsDescription": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "permissionManageCommandsDescription": "Edit or delete anyone's commands in this community.",
+    "@permissionManageCommandsDescription": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "permissionUseExternalCommandsDescription": "Use commands from other communities.",
+    "@permissionUseExternalCommandsDescription": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "permissionUseExternalCommandsChannelDescription": "Use commands from other communities in this channel.",
+    "@permissionUseExternalCommandsChannelDescription": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildSettingsCategoryMessageTools": "Message Tools",
+    "@guildSettingsCategoryMessageTools": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildSettingsCommands": "Commands",
+    "@guildSettingsCommands": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandsLoadFailed": "Couldn't load the commands.",
+    "@guildCommandsLoadFailed": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandsSubtitle": "Messages members can post by typing /name.",
+    "@guildCommandsSubtitle": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandsSlots": "Command slots",
+    "@guildCommandsSlots": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandsNew": "New command",
+    "@guildCommandsNew": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandsSearch": "Search commands",
+    "@guildCommandsSearch": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandsEmptyTitle": "No commands",
+    "@guildCommandsEmptyTitle": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandsEmptyBody": "This community doesn't have any commands yet.",
+    "@guildCommandsEmptyBody": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandsSaved": "Commands saved",
+    "@guildCommandsSaved": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandSaveFailed": "Couldn't save /{name}: {detail}",
+    "@guildCommandSaveFailed": {
+        "description": "Community commands on the phone. Same wording as the web app's string.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            },
+            "detail": {
+                "type": "String"
+            }
+        }
+    },
+    "guildCommandEdit": "Edit /{name}",
+    "@guildCommandEdit": {
+        "description": "Community commands on the phone. Same wording as the web app's string.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "guildCommandDeleteTitle": "Delete /{name}?",
+    "@guildCommandDeleteTitle": {
+        "description": "Community commands on the phone. Same wording as the web app's string.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "guildCommandDeleteBody": "This can't be undone. Messages made with it still show which command made them.",
+    "@guildCommandDeleteBody": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandDelete": "Delete",
+    "@guildCommandDelete": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandDeleteCommand": "Delete command",
+    "@guildCommandDeleteCommand": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandSectionCommand": "Command",
+    "@guildCommandSectionCommand": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandName": "Name",
+    "@guildCommandName": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandNameInvalid": "Use lowercase letters, numbers, - and _, up to 32 characters.",
+    "@guildCommandNameInvalid": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandNameTaken": "Another command or a built-in command already has this name.",
+    "@guildCommandNameTaken": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandDescription": "Description",
+    "@guildCommandDescription": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandSectionInput": "Input",
+    "@guildCommandSectionInput": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandInputNone": "None",
+    "@guildCommandInputNone": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandInputOptional": "Optional",
+    "@guildCommandInputOptional": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandInputRequired": "Required",
+    "@guildCommandInputRequired": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandHint": "Hint",
+    "@guildCommandHint": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandMessage": "Message",
+    "@guildCommandMessage": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandInsert": "Insert:",
+    "@guildCommandInsert": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandInsertPerson": "Person running it",
+    "@guildCommandInsertPerson": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandInsertInput": "What they type",
+    "@guildCommandInsertInput": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandPreview": "Preview",
+    "@guildCommandPreview": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandSampleInput": "Sample input",
+    "@guildCommandSampleInput": {
+        "description": "Community commands on the phone. Same wording as the web app's string."
+    },
+    "guildCommandMadeWith": "Made with /{name}",
+    "@guildCommandMadeWith": {
+        "description": "Community commands on the phone. Same wording as the web app's string.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "guildCommandClearBox": "Clear the message box to use /{name}",
+    "@guildCommandClearBox": {
+        "description": "Community commands on the phone. Same wording as the web app's string.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "guildCommandScriptReadOnly": "This command is a script. Edit it on the web or desktop app.",
+    "@guildCommandScriptReadOnly": {
+        "description": "Shown on the phone above a community command written as a script, which can only be edited on the web or desktop app."
+    },
+    "guildCommandEmptyMessage": "This would post nothing, so the command would fail.",
+    "@guildCommandEmptyMessage": {
+        "description": "Shown on the phone when a community command's message is left empty, so it cannot be saved."
     }
 }
