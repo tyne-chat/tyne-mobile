@@ -8,6 +8,7 @@ typedef GuildCommandPreviewFetch =
       required String template,
       required String input,
       required List<String> counterNames,
+      required int run,
     });
 
 /// Fork: a script's preview, which only the server can fill in. As on the web:
@@ -24,6 +25,9 @@ class GuildCommandScriptPreview extends ChangeNotifier {
   String? _template;
   String _input = '';
   List<String> _counterNames = const <String>[];
+
+  /// Which run the preview stands for: Run again adds one, an edit starts over.
+  int _run = 1;
   Timer? _timer;
   int _latest = 0;
   bool _disposed = false;
@@ -46,6 +50,7 @@ class GuildCommandScriptPreview extends ChangeNotifier {
     _template = template;
     _input = input;
     _counterNames = counterNames;
+    _run = 1;
     _latest++;
     _timer?.cancel();
     if (template != null) {
@@ -60,6 +65,7 @@ class GuildCommandScriptPreview extends ChangeNotifier {
   void runAgain() {
     _timer?.cancel();
     _latest++;
+    _run++;
     if (_template != null) {
       unawaited(_request(_latest));
     }
@@ -71,6 +77,7 @@ class GuildCommandScriptPreview extends ChangeNotifier {
         template: _template!,
         input: _input,
         counterNames: _counterNames,
+        run: _run,
       );
       if (request == _latest && !_disposed) {
         _result = result;

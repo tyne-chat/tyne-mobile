@@ -71,6 +71,7 @@ class GuildCommandsRepository {
     required String input,
     required String? channelId,
     required List<String> counterNames,
+    required int run,
   }) {
     return _client.guildCommands.previewGuildCommand(
       guildId: guildId,
@@ -89,6 +90,7 @@ class GuildCommandsRepository {
               per: const <GuildCommandCounterPart>[],
             ),
         ],
+        run: counterNames.isEmpty ? null : run,
       ),
     );
   }
