@@ -77,6 +77,19 @@ pendingGuildCommandInsertProvider =
 
 final RegExp _basicOutput = RegExp(r'\{\{\s*(?:person|input)\s*\}\}');
 
+final RegExp _picksAtRandom = RegExp(r'\{%-?\s*random\b|\|\s*one_of\b');
+
+/// The server's rule: a template is basic when it is only text and the outputs
+/// `{{ person }}` and `{{ input }}`, and a script otherwise.
+bool isGuildCommandScript(String template) {
+  final String rest = template.replaceAll(_basicOutput, '');
+  return rest.contains('{{') || rest.contains('{%');
+}
+
+/// Whether running it again could give something else.
+bool guildCommandPicksAtRandom(String template) =>
+    _picksAtRandom.hasMatch(template);
+
 /// What a basic template becomes; the server does the same for a real run.
 String fillBasicGuildCommandTemplate(
   String template, {
