@@ -50,7 +50,9 @@ class ComposerAutocompleteTrigger {
   static final RegExp _memeSearch = RegExp(r'(^\s*)/saved\s*(.*)$');
   static final RegExp _gifSearch = RegExp(r'(^\s*)/(gif|klipy)\s*(.*)$');
   static final RegExp _stickerSearch = RegExp(r'(^\s*)/sticker\s*(.*)$');
-  static final RegExp _command = RegExp(r'(^\s*)/(\S*)$');
+  // Fork: a second slash ends the query, so `//` and `/a/b` are ordinary text
+  // (tyne-chat/tyne#278).
+  static final RegExp _command = RegExp(r'(^\s*)/([^\s/]*)$');
 
   static bool hasOpenCodeBlockBeforeCaret(String fullText, int caretIndex) {
     final int end = caretIndex < 0
