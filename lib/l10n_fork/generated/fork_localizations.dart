@@ -575,6 +575,18 @@ abstract class ForkLocalizations {
   /// **'Persona Tags'**
   String get personaTagsLabel;
 
+  /// Switch in the persona form. When on, typing one of the persona's tags does not switch to this persona.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t match this persona\'s tags'**
+  String get personaAutoTagDisabledLabel;
+
+  /// Explanation under the persona form's switch for not matching a persona's tags.
+  ///
+  /// In en, this message translates to:
+  /// **'Typing one of these tags won\'t switch to this persona. The tag is sent as written.'**
+  String get personaAutoTagDisabledDescription;
+
   /// Label for tag prefix input.
   ///
   /// In en, this message translates to:

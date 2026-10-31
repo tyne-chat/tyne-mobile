@@ -248,6 +248,14 @@ class ForkLocalizationsFr extends ForkLocalizations {
   String get personaTagsLabel => 'Balises de persona';
 
   @override
+  String get personaAutoTagDisabledLabel =>
+      'Ne pas reconnaître les balises de cette persona';
+
+  @override
+  String get personaAutoTagDisabledDescription =>
+      'Saisir l\'une de ces balises ne basculera pas sur cette persona. La balise est envoyée telle quelle.';
+
+  @override
   String get personaTagPrefixLabel => 'Préfixe';
 
   @override
