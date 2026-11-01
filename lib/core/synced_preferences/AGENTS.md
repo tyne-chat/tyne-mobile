@@ -76,7 +76,7 @@ two devices saving at once can undo each other's change to another field.
   `font_size` and spacings). Read in the code and the package; no test covers it.
 - **Replaced wholesale:** `FavoritesSyncedField`, `GuildFoldersSyncedField`,
   `LocalSpamOverridesSyncedField`, `UnreadChannelsSyncedField` build their sub-message from scratch and
-  drop whatever another client added inside it (tyne-chat/tyne#154).
+  drop whatever another client added inside it (tyne-chat/tyne#341).
 - **Wrong wire type:** Dart keeps a declared number arriving with another wire type as an unknown
   field and writes it back. The API refuses such a blob on save, and the web reads it as empty
   (tyne-chat/tyne#125).
@@ -174,7 +174,7 @@ decoder the API strips them (`RetiredSyncedPreferenceFields.ts`). Never reuse th
 
 A failed push, a 400 included, is retried after 2, 4, 8, 16, 32 and 60 s (after a 429, its
 Retry-After clamped to 0.25–60 s), then dropped until the next change; a change during the back-off
-does not reset it. Retrying a 400 and the repair's missing cooldown are tyne-chat/tyne#154. `RetryInterceptor` replays a `PATCH` only after a connection failure, and
+does not reset it. Retrying a 400 and the repair's missing cooldown are tyne-chat/tyne#338 and #339. `RetryInterceptor` replays a `PATCH` only after a connection failure, and
 `RateLimitInterceptor` answers locally inside a 429 window.
 
 ## Tests
