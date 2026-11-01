@@ -105,7 +105,11 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Fork imports.
 // ignore: directives_ordering
+import 'package:flutter_riverpod/flutter_riverpod.dart'
+    show ProviderSubscription;
 import 'package:fluxer_app/features/chat/data/persona_emoji_usage_store.dart';
+import 'package:fluxer_app/features/chat/data/prepared_attachments.dart';
+import 'package:fluxer_app/features/chat/domain/cloud_composer_attachments.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
@@ -742,6 +746,8 @@ class ChatViewModel extends _$ChatViewModel {
       <String, int>{};
   Future<void> _sendPreparation = Future<void>.value();
   final UploadKeepAlive _uploadKeepAlive = UploadKeepAlive();
+  // Fork: edits whose files are landing, by message id (_forkSaveEditWithFiles).
+  final Map<String, CancelToken> _forkEditFileSaves = <String, CancelToken>{};
   final Set<String> _preparingSendKeys = <String>{};
   int _channelSwitchGeneration = 0;
   ({String channelId, String? targetMessageId, bool loadMessages})?
@@ -844,6 +850,7 @@ class ChatViewModel extends _$ChatViewModel {
     _removeReadAckStateListener?.call();
     _removeReadAckStateListener = listenSelf((_, _) {
       _syncReadAckEligibility(ref.read(chatReadViewportProvider));
+      _forkStopSavesOfClosedEdits();
     });
     ref
       ..listen<ChatReadViewportState>(
@@ -7342,6 +7349,13 @@ class ChatViewModel extends _$ChatViewModel {
     if (editingMessage == null || identical(editingMessage, _endingEdit)) {
       return;
     }
+    // Fork: files in the composer go with the edit, and Send waits for them (tyne-chat/tyne#293).
+    if (_forkEditFileSaves.containsKey(editingMessage.id)) {
+      return;
+    }
+    final List<PendingAttachment> editFiles = ref
+        .read(cloudUploadControllerProvider(editingMessage.channelId))
+        .items;
     final String rawText = (text ?? state.messageText).trim();
     final List<Persona> personas =
         ref.read(myPersonasProvider).asData?.value ?? const [];
@@ -7351,7 +7365,9 @@ class ChatViewModel extends _$ChatViewModel {
       personas: personas,
       currentPersonaId: editingMessage.personaId,
       hasAttachments:
-          editingMessage.attachments.isNotEmpty || editingMessage.hasStickers,
+          editingMessage.attachments.isNotEmpty ||
+          editingMessage.hasStickers ||
+          editFiles.isNotEmpty,
       originalContent: editingMessage.content,
     );
 
@@ -7370,7 +7386,7 @@ class ChatViewModel extends _$ChatViewModel {
             editMatch.persona!.id != editingMessage.personaId);
     final bool contentChanged = editedContent != editingMessage.content;
 
-    if (!contentChanged && !personaChanged) {
+    if (!contentChanged && !personaChanged && editFiles.isEmpty) {
       talker.debug(
         '[ChatViewModel] edit save noop messageId=${editingMessage.id}',
       );
@@ -7389,7 +7405,8 @@ class ChatViewModel extends _$ChatViewModel {
 
     if (editedContent.isEmpty &&
         !editingMessage.attachments.isNotEmpty &&
-        !editingMessage.hasStickers) {
+        !editingMessage.hasStickers &&
+        editFiles.isEmpty) {
       return;
     }
 
@@ -7406,6 +7423,15 @@ class ChatViewModel extends _$ChatViewModel {
       if (!confirmed) {
         return;
       }
+    }
+    if (editFiles.isNotEmpty) {
+      await _forkSaveEditWithFiles(
+        editing: editingMessage,
+        files: editFiles,
+        editedContent: editedContent,
+        editMatch: editMatch,
+      );
+      return;
     }
     final String channelId = editingMessage.channelId;
     final String messageId = editingMessage.id;
@@ -8277,5 +8303,167 @@ class ChatViewModel extends _$ChatViewModel {
 
   void _markChannelNetworkRefresh(String channelId) {
     _lastNetworkRefreshByChannel[channelId] = DateTime.now();
+  }
+
+  // Fork: adds the composer's files to the message being edited (tyne-chat/tyne#293). Phones edit in
+  // the composer, so an edit's files are the composer's. The rules are the web app's
+  // (`InlineEditUploads.ts`): the edit stays open until the files land, so a failure loses neither the
+  // text nor the files and Send can try again. Send does nothing while a save runs, or a newer text
+  // edit could land first and be overwritten. Text typed or files added meanwhile stay for the next
+  // Send. Removing or changing a file being saved stops the save, and so does closing the edit.
+  Future<void> _forkSaveEditWithFiles({
+    required Message editing,
+    required List<PendingAttachment> files,
+    required String editedContent,
+    required EditMatchResult editMatch,
+  }) async {
+    final String channelId = editing.channelId;
+    final String messageId = editing.id;
+    final String textAtSave = state.messageText;
+    final Persona? persona = editMatch.persona;
+    if (editMatch.shouldUpdatePersona && persona != null) {
+      unawaited(
+        ref.read(activePersonaProvider.notifier).recordUsage(persona.id),
+      );
+    }
+    final CancelToken stop = CancelToken();
+    _forkEditFileSaves[messageId] = stop;
+    final CloudUploadController uploads = ref.read(
+      cloudUploadControllerProvider(channelId).notifier,
+    );
+    final ProviderSubscription<CloudComposerAttachments> composerFiles = ref
+        .listen(cloudUploadControllerProvider(channelId), (
+          CloudComposerAttachments? _,
+          CloudComposerAttachments next,
+        ) {
+          if (files.any(
+            (PendingAttachment f) => _forkFileChangedOrGone(f, next),
+          )) {
+            stop.cancel();
+          }
+        });
+    _uploadKeepAlive.begin(
+      notificationTitle: ref
+          .read(appLocalizationsProvider)
+          .chatUploadingAttachmentsSummary(files.length),
+    );
+    try {
+      final PreparedAttachments prepared = await uploads.prepareComposerFiles(
+        files.map((PendingAttachment f) => f.id).toList(),
+      );
+      if (stop.isCancelled) {
+        return;
+      }
+      // Files already in storage make this a quick request that cannot be recalled, and stopping it
+      // halfway would leave them in the composer to be added twice. Files sent with it can still stop.
+      if (prepared.attachmentFiles == null) {
+        composerFiles.close();
+      }
+      // Read now because an upload can be slow, and another device can change them meanwhile.
+      final Message latest =
+          state.messages.where((Message m) => m.id == messageId).firstOrNull ??
+          editing;
+      final Message saved = await ref
+          .read(messageRepositoryProvider)
+          .editMessageWithFiles(
+            channelId: channelId,
+            messageId: messageId,
+            content: editedContent,
+            keptAttachmentIds: latest.attachments
+                .map((Attachment a) => a.id)
+                .toList(),
+            attachmentMetadata:
+                prepared.attachmentMetadata ?? const <ApiAttachmentMetadata>[],
+            attachmentFiles: prepared.attachmentFiles,
+            personaData: persona == null ? null : _buildPersonaPayload(persona),
+            updatePersona: editMatch.shouldUpdatePersona,
+            cancelToken: stop,
+          );
+      for (final PendingAttachment file in files) {
+        await uploads.removeAttachment(file.id);
+      }
+      if (state.channelId == channelId) {
+        state = state.copyWith(
+          write: (
+            messages: _replaceById(state.messages, saved) ?? state.messages,
+            origin: MessagesOrigin.localMutation,
+          ),
+          errorMessage: null,
+        );
+      }
+      final Message? open = state.editingMessage;
+      if (open == null || open.id != messageId) {
+        return;
+      }
+      final bool composerUnchanged =
+          state.messageText == textAtSave &&
+          ref.read(cloudUploadControllerProvider(channelId)).items.isEmpty;
+      if (composerUnchanged) {
+        await _endEditRestoringDraft(open);
+      } else {
+        state = state.copyWith(editingMessage: saved);
+      }
+    } on MessageUploadSendCancelledException {
+      debugPrint('[ChatViewModel] Edit stopped: a file was removed');
+    } on Exception catch (error) {
+      if (!stop.isCancelled) {
+        debugPrint('[ChatViewModel] Failed to add files to a message: $error');
+        _forkShowEditFailure(error);
+      }
+    } finally {
+      composerFiles.close();
+      _forkEditFileSaves.remove(messageId);
+      _uploadKeepAlive.end();
+    }
+  }
+
+  bool _forkFileChangedOrGone(
+    PendingAttachment saving,
+    CloudComposerAttachments composer,
+  ) {
+    final PendingAttachment? now = composer.items
+        .where((PendingAttachment a) => a.id == saving.id)
+        .firstOrNull;
+    return now == null ||
+        now.filename != saving.filename ||
+        now.description != saving.description ||
+        now.flags != saving.flags;
+  }
+
+  // Closing an edit stops its save, whichever way it closed. Opening another edit does not: that
+  // person still expects this one to land.
+  void _forkStopSavesOfClosedEdits() {
+    if (_forkEditFileSaves.isEmpty || state.editingMessage != null) {
+      return;
+    }
+    for (final CancelToken stop in _forkEditFileSaves.values) {
+      stop.cancel();
+    }
+  }
+
+  void _forkShowEditFailure(Exception error) {
+    if (error is DioException &&
+        apiErrorCodeFromDioException(error) ==
+            kPublishedMessageEditRateLimited) {
+      final BuildContext? sheetContext = rootNavigatorKey.currentContext;
+      if (sheetContext != null && sheetContext.mounted) {
+        unawaited(
+          showPublishedEditLimitSheet(
+            sheetContext,
+            retryAfterMs: retryAfterMsFromDioException(error),
+          ),
+        );
+      }
+      return;
+    }
+    unawaited(
+      showApiErrorFromRoot(
+        ApiErrorAction.editMessage,
+        error,
+        details: ApiErrorDetails(
+          selfHosted: ref.read(instanceRuntimeConfigProvider).selfHosted,
+        ),
+      ),
+    );
   }
 }
