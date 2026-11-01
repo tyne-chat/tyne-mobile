@@ -585,7 +585,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         nameContent = Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (maxWidth != null) Flexible(child: gesture) else gesture,
+            Flexible(child: gesture),
             Padding(
               padding: const EdgeInsets.only(left: 4),
               child: RoleIcon(role: iconRole, size: 20),
