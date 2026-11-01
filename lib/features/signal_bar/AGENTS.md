@@ -137,16 +137,14 @@ bar change. Neither has a cooldown, and neither repeats on rebuilds.
 
 ## Known gaps
 
-Tracked in tyne-chat/tyne#148 unless another issue is named.
-
 - `canReset` treats every DM, group DMs included, and any channel missing from the channel list as
   manageable. The server refuses a group DM member who is not its owner: the entry vanishes, then
-  comes back with the refetch.
-- A loaded channel is not fetched again before READY, so an event the session misses stays missed.
-- Threads and forum posts mount the strip and send a GET the API refuses with 400.
+  comes back with the refetch (tyne-chat/tyne#312).
+- A loaded channel is not fetched again before READY, so an event the session misses stays missed (tyne-chat/tyne#447).
+- Threads and forum posts mount the strip and send a GET the API refuses with 400 (tyne-chat/tyne#309).
 - `affirmPersona` has no batch route and no cooldown: one PUT per own lit signal at once, and a
   re-point the server refuses is sent again at the next text change, because the failure refetch
-  puts the old persona back.
+  puts the old persona back (tyne-chat/tyne#310).
 - A selected persona with `auto_tag_disabled` is dropped by the matcher (tyne-chat/tyne#130), so
   signals light and re-point as the account.
 - A malformed event payload throws out of the hand parsers, and the gateway handler does not catch

@@ -104,10 +104,10 @@ whose values are a server resource mirrored in SharedPreferences.
 - The web's page (tyne-chat/tyne `fluxer_app/src/features/persona/`) also imports from PluralKit,
   exports, and rolls failed changes back with a toast; mobile does none of these.
 
-Known gaps (tyne-chat/tyne#156): an unsaved tag is lost when the sheet closes or the section changes. The `ref.listen` meant
+Known gaps: an unsaved tag is lost when the sheet closes or the section changes (tyne-chat/tyne#348). The `ref.listen` meant
 to refresh the form tests `_isDirty`, which already reads the new value, so a tag changed elsewhere
-shows as an unsaved change holding the old one, and Save writes it back. A failed list load shows the
-empty state, with no error or retry. Every card is built (a `Column`, not a lazy list).
+shows as an unsaved change holding the old one, and Save writes it back (tyne-chat/tyne#347). A failed list load shows the
+empty state, with no error or retry (tyne-chat/tyne#350). Every card is built (a `Column`, not a lazy list).
 `_confirmDeletePersona` uses `ref` after the `DELETE` without checking `mounted`.
 
 ## Other fork changes and where they hook in
@@ -144,7 +144,7 @@ empty state, with no error or retry. Every card is built (a `Column`, not a lazy
 - A new upstream `switch` over `UserSettingsSection` does not compile until it has a `personas` case.
 - Staff-only sections (developer tools, limits, feature flags) show when `AppBuildConfig.isCanary`;
   Tyne builds as canary (`tool/dart_defines/canary.json`), so every user sees them
-  (tyne-chat/tyne#156).
+  (tyne-chat/tyne#353).
 - `services/premium_store_purchase_client.dart` is overwritten by `tool/configure_build.dart` from its
   `.stub.dart` or `.billing.dart` variant: edit the variants.
 
