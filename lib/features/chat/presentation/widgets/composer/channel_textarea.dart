@@ -2195,6 +2195,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         emojiContext.lookupMarkdown,
       );
       FluxerHaptics.send();
+      if (_forkSendEditWithFiles(channelId, vm, resolved.trim())) {
+        return;
+      }
       _resetComposerInputAfterSend();
       unawaited(vm.sendMessage(text: resolved.trim()));
       return;
@@ -2781,6 +2784,34 @@ extension on _ChannelTextareaState {
     );
     ref.read(chatViewModelProvider.notifier).updateMessageText(text);
     _focusNode.requestFocus();
+  }
+
+  // Fork: an edit with files keeps its text in the composer until they land, so a failure loses
+  // nothing (tyne-chat/tyne#293). The server counts the message's own attachments too.
+  bool _forkSendEditWithFiles(String channelId, ChatViewModel vm, String text) {
+    final int fileCount = ref
+        .read(cloudUploadControllerProvider(channelId))
+        .items
+        .length;
+    if (fileCount == 0) {
+      return false;
+    }
+    final int existingCount =
+        ref.read(chatViewModelProvider).editingMessage?.attachments.length ?? 0;
+    final int limit = ref.read(
+      instanceLimitProvider(LimitKeys.maxAttachmentsPerMessage),
+    );
+    if (existingCount + fileCount > limit) {
+      _toastUploadValidation(
+        const FileUploadValidationResult.failure(
+          FileUploadValidationError.tooManyAttachments,
+        ),
+      );
+      return true;
+    }
+    _closeAttachmentPanelAfterSend();
+    unawaited(vm.sendMessage(text: text));
+    return true;
   }
 
   /// Whether [wireText] was a command, and so needs no further sending. A
