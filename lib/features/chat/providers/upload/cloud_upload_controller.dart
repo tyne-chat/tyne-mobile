@@ -724,6 +724,50 @@ class CloudUploadController extends _$CloudUploadController {
     return const FileUploadValidationResult.success();
   }
 
+  // Fork: an edit's files stay in the composer until the edit lands, so they upload from here and a
+  // failure leaves them in place (tyne-chat/tyne#293). Throws if one was removed meanwhile.
+  Future<PreparedAttachments> prepareComposerFiles(
+    List<int> attachmentIds,
+  ) async {
+    List<PendingAttachment> held() {
+      final List<PendingAttachment> files = state.items
+          .where((PendingAttachment a) => attachmentIds.contains(a.id))
+          .toList();
+      if (files.length != attachmentIds.length) {
+        throw const MessageUploadSendCancelledException();
+      }
+      return files;
+    }
+
+    if (ref.read(instanceRuntimeConfigProvider).presignedAttachmentUploads) {
+      await Future.wait<void>(held().map(_startUpload));
+      final bool anyFailed = held().any(
+        (PendingAttachment a) => a.status == PendingAttachmentStatus.failed,
+      );
+      if (!anyFailed) {
+        return PreparedAttachments(attachmentMetadata: _mapApi(held()));
+      }
+      for (final PendingAttachment attachment in held()) {
+        _patchAttachment(
+          attachment.id,
+          (PendingAttachment a) => a.copyWith(
+            status: PendingAttachmentStatus.pending,
+            uploadProgress: 0,
+            uploadFilename: null,
+            multipartUploadId: null,
+            fileSizePlan: null,
+            contentTypePlan: null,
+          ),
+        );
+      }
+    }
+    final List<PendingAttachment> files = held();
+    return PreparedAttachments(
+      attachmentMetadata: _mapApi(files),
+      attachmentFiles: files.map((PendingAttachment a) => a.file).toList(),
+    );
+  }
+
   List<ApiAttachmentMetadata> _mapApi(List<PendingAttachment> list) {
     return List<ApiAttachmentMetadata>.generate(list.length, (int i) {
       final PendingAttachment a = list[i];
