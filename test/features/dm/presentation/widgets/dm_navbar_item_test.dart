@@ -469,3 +469,24 @@ class _FakeUnreadDmChannels extends UnreadDmChannels {
   @override
   UnreadDmState build() => _state;
 }
+
+// Fork: upstream's helpers that dm_navbar_item_fork_test.dart uses, named here so they stay private
+// and are not copied.
+// ignore: unreachable_from_main // Fork: used by dm_navbar_item_fork_test.dart.
+typedef ForkUpstreamHelpers = ({
+  GoRouter Function({required Widget home}) buildRouter,
+  Widget Function({
+    required GoRouter router,
+    DmViewState? dmViewState,
+    String? activeChannelId,
+    UnreadDmState? unreadState,
+  })
+  buildTestApp,
+});
+// ignore: unreachable_from_main // Fork: used by dm_navbar_item_fork_test.dart.
+const ForkUpstreamHelpers forkUpstream = (
+  buildRouter: _buildRouter,
+  buildTestApp: _buildTestApp,
+);
+// ignore: unreachable_from_main // Fork: used by dm_navbar_item_fork_test.dart.
+set forkUpstreamDatabase(FluxerDatabase database) => _database = database;
