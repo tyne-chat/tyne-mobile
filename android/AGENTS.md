@@ -184,12 +184,10 @@ if the user opted in and the build has a Measure key and URL.
 
 ## Known gaps
 
-Tracked in tyne-chat/tyne#155.
-
 - A notification reply carries no `persona_id` (here and in Dart's reply path): it goes out as the
-  account even where a persona is selected.
+  account even where a persona is selected (tyne-chat/tyne#343).
 - Nothing in `lib/` or `android/` configures the embedded distributor; it merges two receivers into the
-  app. Whether it delivers anything for Tyne has not been checked.
+  app. Whether it delivers anything for Tyne has not been checked (tyne-chat/tyne#345).
 
 ## Tests
 
