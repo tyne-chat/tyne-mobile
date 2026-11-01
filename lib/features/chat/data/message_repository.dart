@@ -1017,6 +1017,70 @@ class MessageRepository {
     }
   }
 
+  // Fork: adds files to a message (tyne-chat/tyne#293). The server drops every attachment an edit
+  // leaves out, so the ones the message keeps are named first. Files already in storage are only
+  // named; otherwise they go with the request, as a send falls back to.
+  Future<Message> editMessageWithFiles({
+    required String channelId,
+    required String messageId,
+    required String content,
+    required List<String> keptAttachmentIds,
+    required List<ApiAttachmentMetadata> attachmentMetadata,
+    List<XFile>? attachmentFiles,
+    Map<String, dynamic>? personaData,
+    bool updatePersona = false,
+    CancelToken? cancelToken,
+  }) async {
+    final String path = '/channels/$channelId/messages/$messageId';
+    final Map<String, dynamic> body = <String, dynamic>{
+      'content': content,
+      if (updatePersona) 'persona_id': personaData?['id'],
+      'attachments': <Map<String, dynamic>>[
+        for (final String id in keptAttachmentIds)
+          MessageAttachmentUpdate(id: id).toJson(),
+        for (final ApiAttachmentMetadata attachment in attachmentMetadata)
+          attachment.toJson(),
+      ],
+    };
+    final Response<Map<String, dynamic>> response;
+    if (attachmentFiles == null || attachmentFiles.isEmpty) {
+      response = await _dio.patch<Map<String, dynamic>>(
+        path,
+        data: body,
+        options: Options(extra: <String, Object>{kNoRetryKey: true}),
+      );
+    } else {
+      final FormData formData = FormData();
+      formData.fields.add(MapEntry('payload_json', jsonEncode(body)));
+      for (var i = 0; i < attachmentFiles.length; i++) {
+        final XFile x = attachmentFiles[i];
+        formData.files.add(
+          MapEntry(
+            'files[$i]',
+            await MultipartFile.fromFile(x.path, filename: x.name),
+          ),
+        );
+      }
+      response = await _dio.patch<Map<String, dynamic>>(
+        path,
+        data: formData,
+        cancelToken: cancelToken,
+        options: Options(
+          contentType: 'multipart/form-data',
+          sendTimeout: const Duration(minutes: 30),
+          receiveTimeout: const Duration(minutes: 5),
+          extra: <String, Object>{kNoRetryKey: true},
+        ),
+      );
+    }
+    final Map<String, dynamic>? data = response.data;
+    if (data == null) {
+      throw Exception('Empty response from editMessageWithFiles');
+    }
+    final MessageResponseSchema schema = MessageResponseSchema.fromJson(data);
+    return _persistSdkMessage(channelId: channelId, schema: schema);
+  }
+
   Future<Message> editMessagePersona({
     required String channelId,
     required String messageId,
