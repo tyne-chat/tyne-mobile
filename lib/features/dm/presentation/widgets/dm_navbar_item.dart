@@ -86,10 +86,12 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
         (s) => s.showFadedUnreadOnMutedChannels,
       ),
     );
+    // Fork: muting a DM changes only its row in the DM list, as on Discord. Its rail item looks the
+    // same, so a count on the back button always has a visible source (tyne-chat/tyne#284).
     final unreadState = computeDmUnreadIndicator(
       unreadCount: hasUnread ? 1 : 0,
       mentionCount: mentionCount,
-      isMuted: isMuted,
+      isMuted: false,
       showFadedUnreadOnMutedChannels: showFadedOnMuted,
     );
 
