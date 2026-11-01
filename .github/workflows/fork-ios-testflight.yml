@@ -110,6 +110,13 @@ jobs:
       - name: Run build_runner
         run: dart run build_runner build --delete-conflicting-outputs
 
+      # Before the long build: a build that cannot read production's discovery document must
+      # not reach TestFlight (tyne-chat/tyne#459). A network failure stops the release too.
+      - name: Check production's discovery document
+        run: |
+          curl -fsS --max-time 20 -o "$RUNNER_TEMP/discovery.json" https://temple.hypersystem.xyz/api/.well-known/fluxer
+          dart run tool/check_discovery_document.dart "$RUNNER_TEMP/discovery.json"
+
       - name: Import the distribution certificate
         env:
           P12: ${{ secrets.TYNE_IOS_DIST_P12 }}
