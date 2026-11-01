@@ -74,6 +74,15 @@ froze the panel on the previous conversation.
 - **Autocomplete** re-checks its generation after every `await`; keep that when adding a source.
 - **Uploads:** `CloudUploadController(channelId)` stages attachments; `claimForMessage` hands them to
   the send, which falls back to multipart if a pre-upload failed.
+- **Files in an edit** (tyne-chat/tyne#293): an edit happens in the composer, so its files are the
+  composer's. `_forkSaveEditWithFiles`, at the end of `ChatViewModel`, adds them to the message,
+  under the web app's rules (`InlineEditUploads.ts`): the edit stays open until they
+  land, uploading from the composer (`prepareComposerFiles`) rather than a claim, so a failure loses
+  nothing. Send does nothing while a save runs. Text typed or files added meanwhile stay for the next
+  Send. Removing or changing a file being saved stops the save, and so does closing the edit, but
+  not opening another. `editMessageWithFiles` names the attachments the message keeps, read when the
+  upload ends: the server drops the rest. The limit on files is checked at Send, because the
+  composer's checks count only the composer's files.
 - **Keyboard (Android IME).** The space under the composer is shared by the keyboard and the emoji and
   attachment panels. `MobileKeyboardMetrics` and `BottomInputSlot` (upstream) resolve its height;
   `ChatComposerColumn` re-syncs the keyboard metrics on resume (upstream). The fork's part is in
