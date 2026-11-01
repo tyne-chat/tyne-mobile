@@ -49,6 +49,7 @@ import 'package:window_manager/window_manager.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/core/gateway/fork_gateway_parse_skip_log.dart';
+import 'package:fluxer_app/core/instance/fork_discovery_failure_report.dart';
 import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/observability/fork_measure_start_on_resume.dart';
 import 'package:fluxer_app/features/settings/providers/quick_switcher_button_preferences_provider.dart';
@@ -151,6 +152,8 @@ Future<void> _bootstrapFluxer(List<String> args) async {
   }
   // Fork: log what the gateway parser skips (tyne-chat/tyne#193).
   forkLogGatewayParseSkips();
+  // Fork: report a discovery document the app cannot parse (tyne-chat/tyne#458).
+  installForkDiscoveryFailureReport();
 
   final ProviderContainer container = ProviderContainer();
   if (Platform.isIOS || Platform.isAndroid) {
