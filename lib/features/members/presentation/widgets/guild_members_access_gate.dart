@@ -7,6 +7,10 @@ import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_providers.dart';
+
 class GuildMembersAccessGate extends ConsumerStatefulWidget {
   const GuildMembersAccessGate({
     required this.guildId,
@@ -47,11 +51,10 @@ class _GuildMembersAccessGateState
       return const Center(child: FluxerLoadingSpinner());
     }
 
-    final int permissions =
-        ref.watch(
-          guildPermissionsProvider(watchAccountUserId(ref)),
-        )[widget.guildId] ??
-        0;
+    // Fork: survives the moment every READY empties the map (tyne-chat/tyne#275).
+    final int permissions = ref.watch(
+      guildSettingsPermissionsProvider(widget.guildId),
+    );
     if (!hasMembersPagePermission(permissions)) {
       return Center(
         child: Padding(
