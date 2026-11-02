@@ -19,6 +19,7 @@ import 'package:fluxer_app/shared/utils/mention_display_utils.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/features/chat/services/timestamp_inline_token.dart';
+import 'package:fluxer_app/features/chat/utils/timezone_picker_utils.dart';
 import 'package:fluxer_app/features/profile/data/known_personas.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_color.dart';
@@ -320,7 +321,7 @@ class ComposerMentionController extends InlineTokenTextEditingController {
     final RegExp comboRegex = RegExp(r'<t:(\d+):f>\s*\(\s*<t:\1:R>\s*\)');
     final String afterCombo = text.replaceAllMapped(comboRegex, (Match m) {
       final int? epoch = int.tryParse(m.group(1)!);
-      if (epoch != null) {
+      if (epoch != null && isComposableTimestampEpoch(epoch)) {
         return allocate(
           TimestampInlineToken(
             epoch: epoch,
@@ -337,7 +338,7 @@ class ComposerMentionController extends InlineTokenTextEditingController {
     return afterCombo.replaceAllMapped(singleRegex, (Match m) {
       final int? epoch = int.tryParse(m.group(1)!);
       final String style = m.group(2) ?? 'f';
-      if (epoch != null) {
+      if (epoch != null && isComposableTimestampEpoch(epoch)) {
         return allocate(
           TimestampInlineToken(
             epoch: epoch,
