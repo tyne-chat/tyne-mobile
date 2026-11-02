@@ -49,6 +49,39 @@ void main() {
     });
   });
 
+  test('a reconnect in the background clears a reconnecting banner', () {
+    fakeAsync((FakeAsync async) {
+      final ForkTestGatewayConnection connection = ForkTestGatewayConnection();
+      final ProviderContainer container = ProviderContainer(
+        overrides: <Override>[
+          gatewayConnectionProvider.overrideWithValue(connection),
+        ],
+      )..read(gatewayReconnectBannerListenerProvider);
+      container.read(appUiForegroundProvider.notifier).setResumed(true);
+
+      connection
+        ..emit(GatewayState.connected)
+        ..emit(GatewayState.reconnecting);
+      async.elapse(kReconnectBannerDelay);
+      expect(
+        container.read(gatewayReconnectBannerProvider),
+        GatewayReconnectBannerPhase.reconnecting,
+      );
+
+      container.read(appUiForegroundProvider.notifier).setResumed(false);
+      connection.emit(GatewayState.connected);
+      container.read(appUiForegroundProvider.notifier).setResumed(true);
+
+      expect(
+        container.read(gatewayReconnectBannerProvider),
+        GatewayReconnectBannerPhase.hidden,
+      );
+
+      container.dispose();
+      unawaited(connection.dispose());
+    });
+  });
+
   test(
     'background disconnect and reconnect does not show reconnect banner',
     () {

@@ -561,7 +561,9 @@ void gatewayReconnectBannerListener(Ref ref) {
         final GatewayReconnectBannerPhase phase = ref.read(
           gatewayReconnectBannerProvider,
         );
-        if (phase == GatewayReconnectBannerPhase.connected) {
+        // A banner still saying "reconnecting" is out of date now too
+        // (tyne-chat/tyne#438).
+        if (phase != GatewayReconnectBannerPhase.hidden) {
           hideBanner();
         }
       }
