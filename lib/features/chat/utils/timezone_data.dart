@@ -1,4 +1,6 @@
-import 'package:timezone/data/latest.dart' as tz;
+import 'package:fluxer_app/features/chat/utils/timezone_menu.dart';
+import 'package:fluxer_app/features/chat/utils/timezone_menu_data.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 class TimezoneOption {
@@ -816,10 +818,11 @@ String _formatSearchText(String ianaName, String label, String abbreviation) {
       .replaceAll('_', ' ')
       .replaceAll('/', ' ');
   final String? curated = _kTimezoneSearchText[ianaName];
+  final String aliases = timezoneAliasSearchTerms(ianaName);
   if (curated != null) {
-    return '$curated $label $abbreviation $ianaName $normalizedIana';
+    return '$curated $label $abbreviation $ianaName $normalizedIana $aliases';
   }
-  return '$ianaName $normalizedIana $label $abbreviation';
+  return '$ianaName $normalizedIana $label $abbreviation $aliases';
 }
 
 /// Builds the timezone options list from Dart's timezone database.
@@ -846,8 +849,9 @@ List<TimezoneOption> _buildTimezoneOptions() {
   for (final MapEntry<String, tz.Location> entry in locations.entries) {
     final String name = entry.key;
 
-    // Skip Etc/ entries (confusing inverted-sign offsets) and Factory.
-    if (name.startsWith('Etc/') || name == 'Factory') {
+    // The database also holds older names and technical ones (Etc/, Factory),
+    // which still resolve but get no entry (tyne-chat/tyne#429).
+    if (!kOfficialTimezoneNames.contains(name)) {
       continue;
     }
 
@@ -856,7 +860,8 @@ List<TimezoneOption> _buildTimezoneOptions() {
     final String abbreviation = now.timeZoneName;
     final String offsetPrefix = _formatOffsetPrefix(offsetMinutes);
 
-    final String? curatedLabel = _kTimezoneLabels[name];
+    final String? curatedLabel =
+        _kTimezoneLabels[name] ?? kGeneratedTimezoneLabels[name];
     final String description = curatedLabel ?? _formatFallbackCity(name);
     final String label = '$offsetPrefix $description';
     final String searchText = _formatSearchText(

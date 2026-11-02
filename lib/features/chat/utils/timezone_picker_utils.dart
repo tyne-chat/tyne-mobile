@@ -1,6 +1,7 @@
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:fluxer_app/features/chat/utils/timezone_data.dart';
-import 'package:timezone/data/latest.dart' as tzdata;
+import 'package:fluxer_app/features/chat/utils/timezone_menu.dart';
+import 'package:timezone/data/latest_all.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
 
 bool _tzInitialized = false;
@@ -147,7 +148,7 @@ String _normalizeIanaName(String name) {
       name == 'Etc/GMT') {
     return 'UTC';
   }
-  return name;
+  return timezoneMenuName(name);
 }
 
 /// Finds a [TimezoneOption] by IANA name, device IANA name, or
