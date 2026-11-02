@@ -12,14 +12,14 @@ void _ensureInitialized() {
   }
 }
 
-/// Returns the device's IANA timezone name (e.g. 'America/Los_Angeles').
-/// Falls back to 'UTC' if the platform plugin fails.
-Future<String> getDeviceIanaTimezone() async {
+/// Returns the device's IANA timezone name (e.g. 'America/Los_Angeles'), or
+/// null if the platform plugin fails, so callers fall back to the offset.
+Future<String?> getDeviceIanaTimezone() async {
   try {
     final TimezoneInfo info = await FlutterTimezone.getLocalTimezone();
     return info.identifier;
   } on Object {
-    return 'UTC';
+    return null;
   }
 }
 
