@@ -2,6 +2,10 @@ import 'package:fluxer_app/features/profile/utils/supported_timezone_ids.dart';
 import 'package:timezone/data/latest_all.dart' as tz_data;
 import 'package:timezone/timezone.dart' as tz;
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/utils/timezone_menu.dart';
+
 bool _initialized = false;
 
 void ensureTimezoneDatabaseInitialized() {
@@ -71,7 +75,7 @@ List<TimezoneCatalogOption> buildTimezoneCatalogOptions() {
       TimezoneCatalogOption(
         id: id,
         label: label,
-        searchText: '$id $place',
+        searchText: '$id $place ${timezoneAliasSearchTerms(id)}',
         offsetMinutes: offsetMinutes,
       ),
     );
