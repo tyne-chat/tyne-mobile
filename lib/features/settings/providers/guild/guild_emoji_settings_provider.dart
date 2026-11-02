@@ -219,8 +219,8 @@ class GuildEmojiSettings extends _$GuildEmojiSettings {
   }) async {
     final List<String> updatedFeatures = setGuildFeatureEnabled(
       features: currentFeatures,
-      feature: GuildFeatures.cloneEmojiDisabled,
-      enabled: !allowed,
+      feature: GuildFeatures.cloneEmojiEnabled,
+      enabled: allowed,
     );
     final List<String>? featuresUpdate = buildGuildFeaturesUpdate(
       original: currentFeatures,
