@@ -150,6 +150,19 @@ void main() {
 
   // A persona mention in the composer takes the persona's colour, as in
   // messages (tyne-chat/tyne#241).
+  testWidgets('a timestamp past the last date stays plain text', (
+    WidgetTester tester,
+  ) async {
+    final ComposerMentionController controller = await forkUpstream
+        .pumpController(tester);
+
+    await controller.applyWireText('<t:99999999999999> <t:0:f>', force: true);
+    await tester.pump();
+
+    expect(tester.takeException(), isNull);
+    expect(controller.text, '<t:99999999999999> <t:0:f>');
+  });
+
   testWidgets('a persona picked in the autocomplete is drawn in its colour', (
     WidgetTester tester,
   ) async {
