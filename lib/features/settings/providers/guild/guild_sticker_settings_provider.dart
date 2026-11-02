@@ -216,8 +216,8 @@ class GuildStickerSettings extends _$GuildStickerSettings {
   }) async {
     final List<String> updatedFeatures = setGuildFeatureEnabled(
       features: currentFeatures,
-      feature: GuildFeatures.cloneStickerDisabled,
-      enabled: !allowed,
+      feature: GuildFeatures.cloneStickerEnabled,
+      enabled: allowed,
     );
     final List<String>? featuresUpdate = buildGuildFeaturesUpdate(
       original: currentFeatures,
