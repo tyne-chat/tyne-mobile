@@ -13,14 +13,19 @@ abstract final class GuildFeatures {
   static const String cloneEmojiDisabled = 'CLONE_EMOJI_DISABLED';
   static const String cloneStickerDisabled = 'CLONE_STICKER_DISABLED';
   static const String expressionPurgeAllowed = 'EXPRESSION_PURGE_ALLOWED';
+
+  // Fork: the server dropped the *_DISABLED flags for these opt-in ones, which
+  // the web uses (tyne-chat/tyne#452).
+  static const String cloneEmojiEnabled = 'CLONE_EMOJI_ENABLED';
+  static const String cloneStickerEnabled = 'CLONE_STICKER_ENABLED';
 }
 
 bool isCloneEmojiAllowed(List<String> features) {
-  return !hasGuildFeature(features, GuildFeatures.cloneEmojiDisabled);
+  return hasGuildFeature(features, GuildFeatures.cloneEmojiEnabled);
 }
 
 bool isCloneStickerAllowed(List<String> features) {
-  return !hasGuildFeature(features, GuildFeatures.cloneStickerDisabled);
+  return hasGuildFeature(features, GuildFeatures.cloneStickerEnabled);
 }
 
 bool hasGuildFeature(List<String> features, String feature) {
