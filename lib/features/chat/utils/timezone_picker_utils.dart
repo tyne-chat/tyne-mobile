@@ -23,6 +23,16 @@ Future<String> getDeviceIanaTimezone() async {
   }
 }
 
+/// The last timestamp the app converts between zones, in seconds: two days
+/// short of Dart's `DateTime` limit, which is also the markdown parser's. A
+/// conversion adds the zone's offset, which must not pass that limit.
+const int kLastConvertibleEpochSeconds = 8640000000000 - 172800;
+
+/// Whether the composer shows [epoch] as a timestamp chip. Anything else stays
+/// plain text.
+bool isComposableTimestampEpoch(int epoch) =>
+    epoch > 0 && epoch <= kLastConvertibleEpochSeconds;
+
 /// Resolves an IANA timezone name to a [tz.Location].
 ///
 /// Handles UTC aliases ('Etc/UTC', 'GMT', etc.) and returns null
@@ -89,6 +99,9 @@ DateTime getCurrentWallClockTime(TimezoneOption option) {
 /// original epoch DateTime directly — no timezone conversion needed.
 DateTime adjustToViewerTimezone(DateTime dt, String? timezoneIana) {
   if (timezoneIana == null || timezoneIana.isEmpty) {
+    return dt;
+  }
+  if (dt.millisecondsSinceEpoch ~/ 1000 > kLastConvertibleEpochSeconds) {
     return dt;
   }
   final tz.Location? loc = safeGetLocation(timezoneIana);
