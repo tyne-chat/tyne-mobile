@@ -12,8 +12,12 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../../../../helpers/pump_fluxer_app.dart';
 
 class _FakeUserSettings extends UserSettingsViewModel {
+  _FakeUserSettings([this.timezone = 'UTC']);
+
+  final String timezone;
+
   @override
-  UserSettingsViewState build() => const UserSettingsViewState(
+  UserSettingsViewState build() => UserSettingsViewState(
     userId: '1',
     username: 'tester',
     displayName: 'Root User',
@@ -24,8 +28,8 @@ class _FakeUserSettings extends UserSettingsViewModel {
     status: 'online',
     messageDisplayCompact: false,
     developerMode: false,
-    trustedDomains: <String>[],
-    timezone: 'UTC',
+    trustedDomains: const <String>[],
+    timezone: timezone,
   );
 }
 
@@ -35,11 +39,14 @@ void main() {
   Widget buildTestBed({
     int? initialEpoch,
     String? initialStyle,
+    String timezone = 'UTC',
     void Function(int epoch, String style)? onInsert,
   }) {
     return pumpFluxerApp(
       overrides: [
-        userSettingsViewModelProvider.overrideWith(_FakeUserSettings.new),
+        userSettingsViewModelProvider.overrideWith(
+          () => _FakeUserSettings(timezone),
+        ),
         use12HourTimeFormatProvider.overrideWith((ref) => true),
       ],
       child: Scaffold(
@@ -65,6 +72,7 @@ void main() {
     WidgetTester tester, {
     int? initialEpoch,
     String? initialStyle,
+    String timezone = 'UTC',
     void Function(int epoch, String style)? onInsert,
   }) async {
     tester.view.physicalSize = const Size(800, 1600);
@@ -78,6 +86,7 @@ void main() {
       buildTestBed(
         initialEpoch: initialEpoch,
         initialStyle: initialStyle,
+        timezone: timezone,
         onInsert: onInsert,
       ),
     );
@@ -123,6 +132,27 @@ void main() {
         expect(find.text('tomorrow at 3pm'), findsNothing);
       },
     );
+
+    // The tests run with the device on UTC, so these zones differ from it.
+    for (final String zone in <String>['Asia/Tokyo', 'America/New_York']) {
+      testWidgets('Insert keeps the time with the profile in $zone', (
+        tester,
+      ) async {
+        int? capturedEpoch;
+
+        await openPicker(
+          tester,
+          initialEpoch: 1774008007,
+          timezone: zone,
+          onInsert: (epoch, style) => capturedEpoch = epoch,
+        );
+
+        await tester.tap(find.text('Insert'));
+        await tester.pumpAndSettle();
+
+        expect(capturedEpoch, 1774008007);
+      });
+    }
 
     testWidgets('tapping Insert invokes onInsert callback and closes sheet', (
       tester,
