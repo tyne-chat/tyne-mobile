@@ -94,13 +94,6 @@ class _TimestampPickerBodyState extends ConsumerState<_TimestampPickerBody> {
       baseDateTime = DateTime.now();
     }
 
-    _selectedDate = DateTime(
-      baseDateTime.year,
-      baseDateTime.month,
-      baseDateTime.day,
-    );
-    _selectedTime = TimeOfDay.fromDateTime(baseDateTime);
-    _selectedSecond = baseDateTime.second;
     _selectedFormat = widget.initialStyle ?? 'combo';
 
     final String? userTimezone = ref.read(
@@ -110,6 +103,17 @@ class _TimestampPickerBodyState extends ConsumerState<_TimestampPickerBody> {
       userTimezone,
       DateTime.now().timeZoneOffset.inMinutes,
     );
+
+    // The fields are the wall clock in the selected zone, which is how
+    // _computeEpoch reads them (tyne-chat/tyne#428).
+    final DateTime wallClock = adjustToViewerTimezone(
+      baseDateTime,
+      _selectedTimezone.value,
+    );
+    _selectedDate = DateTime(wallClock.year, wallClock.month, wallClock.day);
+    _selectedTime = TimeOfDay.fromDateTime(wallClock);
+    _selectedSecond = wallClock.second;
+
     if (userTimezone == null || userTimezone.isEmpty) {
       unawaited(
         getDeviceIanaTimezone().then((iana) {
