@@ -17,7 +17,8 @@ configurations.all {
 
 val requestedTasks = gradle.startParameter.taskNames.joinToString(" ").lowercase()
 val googleServicesJson = file("google-services.json")
-if (googleServicesJson.exists() || requestedTasks.contains("fcm")) {
+// Fork: google-services.json has no client for the Play test build's application ID.
+if ((googleServicesJson.exists() || requestedTasks.contains("fcm")) && !project.hasProperty("tynePlayTest")) {
     apply(plugin = "com.google.gms.google-services")
 }
 
@@ -276,4 +277,13 @@ dependencies {
     add("fcmImplementation", "com.google.android.gms:play-services-cloud-messaging:17.4.0")
     add("fcmImplementation", "com.google.android.play:age-signals:0.0.4")
     add("fcmImplementation", "com.google.android.play:integrity:1.5.0")
+}
+
+// Fork: `build_apk.sh --play-test` builds Tyne as a separate app for Play's Internal app sharing.
+// Play re-signs those builds, so they could not install over the GitHub build's chat.tyne.app.
+if (project.hasProperty("tynePlayTest")) {
+    android.productFlavors.getByName("canary") {
+        applicationId = "chat.tyne.app.test"
+        manifestPlaceholders["appLabel"] = "Tyne Test"
+    }
 }
