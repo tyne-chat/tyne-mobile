@@ -305,4 +305,38 @@ void main() {
       expect(await getDeviceIanaTimezone(), 'UTC');
     },
   );
+
+  group('timestamps near the last date', () {
+    test('the composer takes only what can be converted', () {
+      expect(isComposableTimestampEpoch(0), isFalse);
+      expect(isComposableTimestampEpoch(1), isTrue);
+      expect(isComposableTimestampEpoch(kLastConvertibleEpochSeconds), isTrue);
+      expect(
+        isComposableTimestampEpoch(kLastConvertibleEpochSeconds + 1),
+        isFalse,
+      );
+      expect(isComposableTimestampEpoch(99999999999999), isFalse);
+    });
+
+    test('the last chip converts in the zones furthest from UTC', () {
+      final DateTime last = DateTime.fromMillisecondsSinceEpoch(
+        kLastConvertibleEpochSeconds * 1000,
+      );
+
+      for (final String zone in <String>[
+        'Pacific/Kiritimati',
+        'Pacific/Pago_Pago',
+      ]) {
+        expect(() => adjustToViewerTimezone(last, zone), returnsNormally);
+      }
+    });
+
+    test('a later date than that is left as it is, in any zone', () {
+      final DateTime end = DateTime.fromMillisecondsSinceEpoch(
+        8640000000000 * 1000,
+      );
+
+      expect(adjustToViewerTimezone(end, 'Asia/Tokyo'), end);
+    });
+  });
 }
