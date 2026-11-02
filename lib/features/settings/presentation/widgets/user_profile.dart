@@ -34,6 +34,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/features/chat/utils/timezone_data.dart';
+import 'package:fluxer_app/features/chat/utils/timezone_menu.dart';
 import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 import 'package:fluxer_app/shared/utils/fork_image_upload_limit.dart';
 
@@ -926,7 +927,7 @@ class _UserProfileState extends ConsumerState<UserProfile> {
       description: l10n.fork.userProfileTimezoneSettingDescription,
       searchHint: l10n.fork.timestampPickerSearchTimezones,
       items: items,
-      value: currentTimezone ?? '',
+      value: timezoneMenuName(currentTimezone ?? ''),
       stretch: true,
       onChanged: (value) {
         vm.updateTimezone(value.isEmpty ? null : value);
