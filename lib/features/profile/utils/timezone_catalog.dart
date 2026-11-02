@@ -1,5 +1,11 @@
-import 'package:timezone/data/latest.dart' as tz_data;
+// Fork: the whole database. The database is global, so a later load of the short
+// one would drop names for every other reader (tyne-chat/tyne#429).
+import 'package:timezone/data/latest_all.dart' as tz_data;
 import 'package:timezone/timezone.dart' as tz;
+
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/utils/timezone_menu.dart';
 
 bool _initialized = false;
 
@@ -63,6 +69,10 @@ List<TimezoneCatalogOption> buildTimezoneCatalogOptions() {
   for (final MapEntry<String, tz.Location> entry
       in tz.timeZoneDatabase.locations.entries) {
     final String id = entry.key;
+    // Fork: older and technical names resolve but get no entry.
+    if (!isMenuTimezone(id)) {
+      continue;
+    }
     final tz.Location location = entry.value;
     final tz.TZDateTime zoned = tz.TZDateTime.from(utcNow, location);
     final int offsetMinutes = zoned.timeZoneOffset.inMinutes;
@@ -72,7 +82,7 @@ List<TimezoneCatalogOption> buildTimezoneCatalogOptions() {
       TimezoneCatalogOption(
         id: id,
         label: label,
-        searchText: '$id $place',
+        searchText: '$id $place ${timezoneAliasSearchTerms(id)}',
         offsetMinutes: offsetMinutes,
       ),
     );
