@@ -113,7 +113,7 @@ class _TimestampPickerBodyState extends ConsumerState<_TimestampPickerBody> {
     if (userTimezone == null || userTimezone.isEmpty) {
       unawaited(
         getDeviceIanaTimezone().then((iana) {
-          if (mounted) {
+          if (mounted && iana != null) {
             setState(() {
               _selectedTimezone = findTimezoneOption(
                 null,
