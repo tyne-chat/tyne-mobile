@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/utils/timezone_data.dart';
+import 'package:fluxer_app/features/chat/utils/timezone_menu_data.dart';
 import 'package:fluxer_app/features/chat/utils/timezone_picker_utils.dart';
+import 'package:fluxer_app/features/profile/utils/timezone_catalog.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 void main() {
@@ -313,6 +315,98 @@ void main() {
       findTimezoneOption(null, kolkata.offsetMinutes).offsetMinutes,
       kolkata.offsetMinutes,
     );
+  });
+
+  group('the menu and the database (tyne-chat/tyne#429)', () {
+    TimezoneOption option(String name) =>
+        kTimezoneOptions.firstWhere((o) => o.value == name);
+
+    test('offers every official name and UTC, and nothing else', () {
+      expect(kTimezoneOptions.map((o) => o.value).toSet(), <String>{
+        'UTC',
+        ...kOfficialTimezoneNames,
+      });
+    });
+
+    test('every official name and every older one resolves', () {
+      for (final String name in <String>[
+        ...kOfficialTimezoneNames,
+        ...kTimezoneAliases.keys,
+      ]) {
+        expect(safeGetLocation(name), isNotNull, reason: name);
+      }
+    });
+
+    test('every older name leads to an entry in the menu', () {
+      final Set<String> entries = kTimezoneOptions.map((o) => o.value).toSet();
+      expect(entries.containsAll(kTimezoneAliases.values), isTrue);
+    });
+
+    test('a place the short database lacks keeps its own clock changes', () {
+      final tz.Location stockholm = safeGetLocation('Europe/Stockholm')!;
+      Duration offsetIn(int month) => stockholm
+          .timeZone(DateTime.utc(2026, month).millisecondsSinceEpoch)
+          .offset;
+
+      expect(offsetIn(1), const Duration(hours: 1));
+      expect(offsetIn(7), const Duration(hours: 2));
+    });
+
+    test('a later load by the profile catalog keeps the whole database', () {
+      expect(safeGetLocation('Europe/Stockholm'), isNotNull);
+
+      ensureTimezoneDatabaseInitialized();
+
+      expect(safeGetLocation('Europe/Stockholm'), isNotNull);
+    });
+
+    test('new places get a readable label', () {
+      expect(
+        option('Europe/Stockholm').label,
+        endsWith('Central European Time - Stockholm, Sweden'),
+      );
+    });
+
+    test('an older name selects its current entry', () {
+      expect(findTimezoneOption('Europe/Kiev').value, 'Europe/Kyiv');
+      expect(findTimezoneOption('Asia/Calcutta').value, 'Asia/Kolkata');
+      expect(findTimezoneOption('US/Eastern').value, 'America/New_York');
+      expect(
+        findTimezoneOption(null, 0, 'Asia/Saigon').value,
+        'Asia/Ho_Chi_Minh',
+      );
+    });
+
+    test('the UTC family selects UTC', () {
+      for (final String name in <String>[
+        'Zulu',
+        'Universal',
+        'Etc/Zulu',
+        'UCT',
+      ]) {
+        expect(findTimezoneOption(name).value, 'UTC', reason: name);
+      }
+    });
+
+    test('search finds an entry by an older name', () {
+      expect(option('Asia/Ho_Chi_Minh').searchText, contains('Saigon'));
+      expect(option('Europe/Kyiv').searchText, contains('Kiev'));
+    });
+
+    test('the profile catalog offers the same places', () {
+      final Set<String> ids = buildTimezoneCatalogOptions()
+          .map((o) => o.id)
+          .toSet();
+
+      expect(ids, <String>{'UTC', ...kOfficialTimezoneNames});
+    });
+
+    test('the profile catalog searches older names too', () {
+      final TimezoneCatalogOption saigon = buildTimezoneCatalogOptions()
+          .firstWhere((o) => o.id == 'Asia/Ho_Chi_Minh');
+
+      expect(saigon.searchText, contains('Saigon'));
+    });
   });
 
   group('timestamps near the last date', () {
