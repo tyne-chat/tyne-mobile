@@ -16,6 +16,7 @@ import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'accessibility.pb.dart' as $0;
+import 'fork_emoji_pins.pb.dart' as $2;
 import 'pickers.pb.dart' as $1;
 import 'preferences.pbenum.dart';
 
@@ -65,6 +66,7 @@ class SyncedPreferences extends $pb.GeneratedMessage {
     AnnouncementPromptsState? announcementPrompts,
     DoubleTapAction? doubleTapAction,
     SwipeAction? swipeRightToLeftAction,
+    $2.EmojiPinsState? emojiPins,
   }) {
     final result = SyncedPreferences._();
     if (accessibility != null) result.accessibility = accessibility;
@@ -114,6 +116,7 @@ class SyncedPreferences extends $pb.GeneratedMessage {
     if (doubleTapAction != null) result.doubleTapAction = doubleTapAction;
     if (swipeRightToLeftAction != null)
       result.swipeRightToLeftAction = swipeRightToLeftAction;
+    if (emojiPins != null) result.emojiPins = emojiPins;
     return result;
   }
 
@@ -219,6 +222,8 @@ class SyncedPreferences extends $pb.GeneratedMessage {
         enumValues: DoubleTapAction.values)
     ..aE<SwipeAction>(118, _omitFieldNames ? '' : 'swipeRightToLeftAction',
         enumValues: SwipeAction.values)
+    ..aOM<$2.EmojiPinsState>(2200, _omitFieldNames ? '' : 'emojiPins',
+        subBuilder: $2.EmojiPinsState.$_createMessage)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -683,6 +688,20 @@ class SyncedPreferences extends $pb.GeneratedMessage {
   $core.bool hasSwipeRightToLeftAction() => $_has(39);
   @$pb.TagNumber(118)
   void clearSwipeRightToLeftAction() => $_clearField(118);
+
+  /// Fork fields. The fork numbers its own fields from 2200 up, in this block; never give a
+  /// fork field the next number after upstream's last one (`accessibility.proto` says why), and
+  /// never one of 120 to 125, which the fork once used (`RetiredSyncedPreferenceFields.ts`).
+  @$pb.TagNumber(2200)
+  $2.EmojiPinsState get emojiPins => $_getN(40);
+  @$pb.TagNumber(2200)
+  set emojiPins($2.EmojiPinsState value) => $_setField(2200, value);
+  @$pb.TagNumber(2200)
+  $core.bool hasEmojiPins() => $_has(40);
+  @$pb.TagNumber(2200)
+  void clearEmojiPins() => $_clearField(2200);
+  @$pb.TagNumber(2200)
+  $2.EmojiPinsState ensureEmojiPins() => $_ensure(40);
 }
 
 class SpellcheckSettings extends $pb.GeneratedMessage {
