@@ -35,6 +35,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/features/chat/data/persona_emoji_usage_store.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/favorite_emoji_order.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/emoji/domain/emoji_pins.dart';
 import 'package:fluxer_app/features/emoji/providers/emoji_pins_provider.dart';
@@ -657,6 +658,8 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
         if (favorites.contains(emoji.favoriteKey))
           _FavoriteCustomEmojiItem(emoji),
     ];
+    // Fork: the order the account stored, as on the web (tyne-chat/tyne#101).
+    sortByFavoriteOrder(items, favoriteKeys, _forkFavoriteItemKey);
     _cachedFavoriteKeys = favoriteKeys;
     _cachedFavoriteGuildEmojisByGuild = guildEmojisByGuild;
     _cachedFavoriteItems = items;
@@ -1926,3 +1929,9 @@ class _GuildInitial extends StatelessWidget {
     child: FluxerGuildAcronym(name: name, color: colors.textPrimaryMuted),
   );
 }
+
+// Fork: the key a favourite is stored under (tyne-chat/tyne#101).
+String _forkFavoriteItemKey(_FavoriteEmojiItem item) => switch (item) {
+  _FavoriteUnicodeEmojiItem(:final emoji) => unicodeEmojiFavoriteKey(emoji),
+  _FavoriteCustomEmojiItem(:final emoji) => emoji.favoriteKey,
+};
