@@ -298,13 +298,22 @@ void main() {
   });
 
   test(
-    'reports UTC when the platform cannot say which zone the device is in',
+    'reports no zone when the platform cannot say which one the device is in',
     () async {
       TestWidgetsFlutterBinding.ensureInitialized();
 
-      expect(await getDeviceIanaTimezone(), 'UTC');
+      expect(await getDeviceIanaTimezone(), isNull);
     },
   );
+
+  test('an unknown device zone falls back to the offset, not UTC', () {
+    final TimezoneOption kolkata = findTimezoneOption('Asia/Kolkata');
+
+    expect(
+      findTimezoneOption(null, kolkata.offsetMinutes).offsetMinutes,
+      kolkata.offsetMinutes,
+    );
+  });
 
   group('timestamps near the last date', () {
     test('the composer takes only what can be converted', () {
