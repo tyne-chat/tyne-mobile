@@ -134,6 +134,8 @@ empty state, with no error or retry (tyne-chat/tyne#350). Every card is built (a
   `features/chat/utils/timezone_data.dart`) and upstream's later `ProfileLocalTimeSettingsSection` both
   call `vm.updateTimezone`; the fork's ignores `needsKnownEmailVerification`, and its `isDirty` line
   repeats upstream's. Which stays is a maintainer's decision (root `AGENTS.md`).
+  Both menus offer IANA's current names; lookups use the whole database, and older names lead to
+  their current entry (`features/chat/utils/timezone_menu.dart`, tyne-chat/tyne#429).
 - **Community emojis A to Z:** `compareGuildEmojiSettingsEntriesByName` appended to
   `guild_emoji_settings_entry.dart`; `_forkSortedByName` appended to `guild_emoji_settings_provider.dart`
   and used at upstream's two `_sortNewestFirst` calls and after an update; upstream's helper stays under
