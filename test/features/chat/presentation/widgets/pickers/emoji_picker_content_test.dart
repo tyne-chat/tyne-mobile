@@ -361,3 +361,18 @@ void main() {
     await releaseTestWidgetTree(tester);
   });
 }
+
+// Fork: names the helpers emoji_picker_content_fork_test.dart uses.
+// ignore: unreachable_from_main // Fork: used by emoji_picker_content_fork_test.dart.
+typedef ForkUpstreamHelpers = ({
+  Widget Function({
+    required List<GuildEmojiEntry> allGuildEmojis,
+    required List<String> rankedUsageKeys,
+    required Widget child,
+  })
+  buildTestApp,
+});
+// ignore: unreachable_from_main // Fork: used by emoji_picker_content_fork_test.dart.
+const ForkUpstreamHelpers forkUpstream = (buildTestApp: _buildTestApp);
+// ignore: unreachable_from_main // Fork: used by emoji_picker_content_fork_test.dart.
+void forkUseDatabase(FluxerDatabase database) => _database = database;
