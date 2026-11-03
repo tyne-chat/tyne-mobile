@@ -161,6 +161,12 @@ its media service from any engine (tyne-chat/tyne#210).
 - **Pinned emojis:** `features/emoji` (`EmojiPins`, `emojiPinsProvider`), synced with the web through
   the fork's `emoji_pins` field (`core/synced_preferences/AGENTS.md`); in chat, the emoji info sheet,
   the picker's frequently used row and the quick reactions (`features/chat/AGENTS.md`).
+- **Animated emoji in step** (tyne-chat/tyne#91): every animated custom emoji shows the frame the
+  clock for its loop length gives, so a left and a right wing flap together wherever and whenever
+  they were loaded; a clock restarts at frame 1 when no emoji with its loop length is on screen. The
+  app binding (`core/zoom/fluxer_app_zoom.dart`) installs `ForkSyncedEmojiImageCache`, which
+  recognises those images by URL whichever upstream widget draws them
+  (`core/media/fork_synced_emoji_*.dart`).
 - **Instance defaults:** Tyne's instance as the default, upstream's hosts treated as ordinary instances,
   the server-list buttons.
 - **Updater** (`core/updater`), **inline timestamps** (picker sheet, composer chips, message pills),
