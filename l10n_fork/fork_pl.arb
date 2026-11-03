@@ -224,5 +224,7 @@
     "guildCommandCounterReset": "Wyzeruj liczby",
     "guildCommandCounterResetConfirm": "Wyzerować liczby dla {name}? Tej operacji nie można cofnąć.",
     "guildCommandCounterNameInvalid": "Użyj małych liter, cyfr i _, zacznij od litery i nie wybieraj nazwy, której używają już skrypty.",
-    "guildCommandCounterHowToUse": "Użyj go w skrypcie jako {variable}. Każde uruchomienie najpierw dodaje jeden, więc pierwsze odczyta 1."
+    "guildCommandCounterHowToUse": "Użyj go w skrypcie jako {variable}. Każde uruchomienie najpierw dodaje jeden, więc pierwsze odczyta 1.",
+    "notificationsAlertEveryMessageLabel": "Powiadamiaj o każdej wiadomości",
+    "notificationsAlertEveryMessageDescription": "Gdy wyłączone, aktywna rozmowa powiadamia tylko raz, a potem aktualizuje się po cichu, dopóki jej nie przeczytasz lub nie odrzucisz."
 }

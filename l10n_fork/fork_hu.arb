@@ -224,5 +224,7 @@
     "guildCommandCounterReset": "Számok nullázása",
     "guildCommandCounterResetConfirm": "Nullázod a(z) {name} számait? Ez nem vonható vissza.",
     "guildCommandCounterNameInvalid": "Használj kisbetűket, számokat és _ jelet, betűvel kezdj, és ne olyan nevet, amelyet a szkriptek már használnak.",
-    "guildCommandCounterHowToUse": "Szkriptben így használd: {variable}. Minden futás előbb hozzáad egyet, így az első 1-et olvas."
+    "guildCommandCounterHowToUse": "Szkriptben így használd: {variable}. Minden futás előbb hozzáad egyet, így az első 1-et olvas.",
+    "notificationsAlertEveryMessageLabel": "Értesítés minden üzenetről",
+    "notificationsAlertEveryMessageDescription": "Kikapcsolva egy élénk beszélgetés csak egyszer értesít, utána csendben frissül, amíg el nem olvasod vagy el nem veted."
 }
