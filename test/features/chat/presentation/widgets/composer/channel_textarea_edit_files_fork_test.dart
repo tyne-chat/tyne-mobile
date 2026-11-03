@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dart';
 import 'package:riverpod/src/framework.dart' show Override;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../../helpers/composer_channel_textarea_harness.dart';
 
@@ -53,6 +54,10 @@ void main() {
       () => TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
           .setMockMethodCallHandler(_recorder, null),
     );
+    // The composer builds the signal bar, which reads SharedPreferences. Unmocked, its
+    // MissingPluginException failed a test whenever it landed during the tests' real-async
+    // file adds (tyne-chat/tyne#475).
+    SharedPreferences.setMockInitialValues(<String, Object>{});
   });
 
   Future<(ProviderContainer, MutableChatViewModel)> editing(
