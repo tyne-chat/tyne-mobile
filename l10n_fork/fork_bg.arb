@@ -224,5 +224,7 @@
     "guildCommandCounterReset": "Нулиране на броенето",
     "guildCommandCounterResetConfirm": "Да се нулира ли броенето на {name}? Това не може да бъде отменено.",
     "guildCommandCounterNameInvalid": "Използвайте малки букви, цифри и _, започнете с буква и изберете име, което скриптовете още не използват.",
-    "guildCommandCounterHowToUse": "Използвайте го в скрипт като {variable}. Всяко изпълнение първо добавя едно, така че първото чете 1."
+    "guildCommandCounterHowToUse": "Използвайте го в скрипт като {variable}. Всяко изпълнение първо добавя едно, така че първото чете 1.",
+    "notificationsAlertEveryMessageLabel": "Известие за всяко съобщение",
+    "notificationsAlertEveryMessageDescription": "Когато е изключено, оживен разговор известява веднъж, след което се обновява тихо, докато не бъде прочетен или отхвърлен."
 }

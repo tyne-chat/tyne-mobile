@@ -787,4 +787,12 @@ class ForkLocalizationsLt extends ForkLocalizations {
   String guildCommandCounterHowToUse(String variable) {
     return 'Scenarijuje naudok kaip $variable. Kiekvienas paleidimas pirmiausia prideda vienetą, todėl pirmas nuskaito 1.';
   }
+
+  @override
+  String get notificationsAlertEveryMessageLabel =>
+      'Pranešti apie kiekvieną žinutę';
+
+  @override
+  String get notificationsAlertEveryMessageDescription =>
+      'Išjungus, aktyvus pokalbis praneša vieną kartą, o paskui tyliai atsinaujina, kol jį perskaitysite arba atmesite.';
 }

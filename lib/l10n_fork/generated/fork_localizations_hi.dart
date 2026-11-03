@@ -788,4 +788,11 @@ class ForkLocalizationsHi extends ForkLocalizations {
   String guildCommandCounterHowToUse(String variable) {
     return 'इसे स्क्रिप्ट में $variable के रूप में इस्तेमाल करें। हर रन पहले एक जोड़ता है, इसलिए पहला रन 1 पढ़ता है।';
   }
+
+  @override
+  String get notificationsAlertEveryMessageLabel => 'हर संदेश पर अलर्ट करें';
+
+  @override
+  String get notificationsAlertEveryMessageDescription =>
+      'बंद होने पर, व्यस्त बातचीत एक बार अलर्ट करती है, फिर पढ़ने या हटाने तक चुपचाप अपडेट होती रहती है।';
 }

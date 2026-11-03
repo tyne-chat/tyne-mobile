@@ -224,5 +224,7 @@
     "guildCommandCounterReset": "איפוס ספירות",
     "guildCommandCounterResetConfirm": "לאפס את הספירות של {name}? אי אפשר לבטל פעולה זו.",
     "guildCommandCounterNameInvalid": "יש להשתמש באותיות לטיניות קטנות, ספרות ו־_, להתחיל באות ולבחור שם שסקריפטים לא משתמשים בו.",
-    "guildCommandCounterHowToUse": "אפשר להשתמש בו בסקריפט בתור {variable}. כל הרצה מוסיפה אחד קודם, כך שההרצה הראשונה קוראת 1."
+    "guildCommandCounterHowToUse": "אפשר להשתמש בו בסקריפט בתור {variable}. כל הרצה מוסיפה אחד קודם, כך שההרצה הראשונה קוראת 1.",
+    "notificationsAlertEveryMessageLabel": "התראה על כל הודעה",
+    "notificationsAlertEveryMessageDescription": "כשהאפשרות כבויה, שיחה פעילה מתריעה פעם אחת ואז מתעדכנת בשקט עד שתקרא אותה או תסגור אותה."
 }

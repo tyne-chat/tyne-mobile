@@ -783,4 +783,11 @@ class ForkLocalizationsTr extends ForkLocalizations {
   String guildCommandCounterHowToUse(String variable) {
     return 'Betikte $variable olarak kullan. Her çalıştırma önce bir ekler, yani ilk çalıştırma 1 okur.';
   }
+
+  @override
+  String get notificationsAlertEveryMessageLabel => 'Her mesajda uyar';
+
+  @override
+  String get notificationsAlertEveryMessageDescription =>
+      'Kapalıyken, hareketli bir sohbet yalnızca bir kez uyarır, ardından siz okuyana veya kapatana kadar sessizce güncellenir.';
 }
