@@ -224,5 +224,7 @@
     "guildCommandCounterReset": "Скинути значення",
     "guildCommandCounterResetConfirm": "Скинути значення {name}? Це не можна скасувати.",
     "guildCommandCounterNameInvalid": "Використовуйте малі літери, цифри та _, починайте з літери й не беріть назву, яку вже використовують скрипти.",
-    "guildCommandCounterHowToUse": "Використовуйте його в скрипті як {variable}. Кожен запуск спершу додає один, тому перший читає 1."
+    "guildCommandCounterHowToUse": "Використовуйте його в скрипті як {variable}. Кожен запуск спершу додає один, тому перший читає 1.",
+    "notificationsAlertEveryMessageLabel": "Сповіщати про кожне повідомлення",
+    "notificationsAlertEveryMessageDescription": "Якщо вимкнено, активна розмова сповіщає один раз, а потім тихо оновлюється, доки ви її не прочитаєте або не змахнете."
 }

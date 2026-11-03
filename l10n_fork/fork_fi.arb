@@ -224,5 +224,7 @@
     "guildCommandCounterReset": "Nollaa laskennat",
     "guildCommandCounterResetConfirm": "Nollataanko laskurin {name} laskennat? Tätä ei voi perua.",
     "guildCommandCounterNameInvalid": "Käytä pieniä kirjaimia, numeroita ja _-merkkiä, aloita kirjaimella äläkä käytä nimeä, jota skriptit jo käyttävät.",
-    "guildCommandCounterHowToUse": "Käytä sitä skriptissä muodossa {variable}. Jokainen suoritus lisää ensin yhden, joten ensimmäinen lukee 1."
+    "guildCommandCounterHowToUse": "Käytä sitä skriptissä muodossa {variable}. Jokainen suoritus lisää ensin yhden, joten ensimmäinen lukee 1.",
+    "notificationsAlertEveryMessageLabel": "Ilmoita jokaisesta viestistä",
+    "notificationsAlertEveryMessageDescription": "Kun tämä on pois päältä, vilkas keskustelu ilmoittaa kerran ja päivittyy sen jälkeen hiljaa, kunnes luet tai hylkäät sen."
 }

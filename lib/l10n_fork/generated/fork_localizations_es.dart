@@ -795,6 +795,13 @@ class ForkLocalizationsEs extends ForkLocalizations {
   String guildCommandCounterHowToUse(String variable) {
     return 'Úsalo en un script como $variable. Cada ejecución suma uno primero, así que la primera lee 1.';
   }
+
+  @override
+  String get notificationsAlertEveryMessageLabel => 'Avisar con cada mensaje';
+
+  @override
+  String get notificationsAlertEveryMessageDescription =>
+      'Si está desactivado, una conversación activa avisa una sola vez y luego se actualiza en silencio hasta que la leas o la descartes.';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -1588,4 +1595,11 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
   String guildCommandCounterHowToUse(String variable) {
     return 'Úsalo en un script como $variable. Cada ejecución suma uno primero, así que la primera lee 1.';
   }
+
+  @override
+  String get notificationsAlertEveryMessageLabel => 'Avisar con cada mensaje';
+
+  @override
+  String get notificationsAlertEveryMessageDescription =>
+      'Si está desactivado, una conversación activa avisa una sola vez y luego se actualiza en silencio hasta que la leas o la descartes.';
 }

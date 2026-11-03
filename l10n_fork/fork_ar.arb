@@ -224,5 +224,7 @@
     "guildCommandCounterReset": "إعادة تعيين العدد",
     "guildCommandCounterResetConfirm": "هل تريد إعادة تعيين أعداد {name}؟ لا يمكن التراجع عن هذا.",
     "guildCommandCounterNameInvalid": "استخدم أحرفًا إنجليزية صغيرة وأرقامًا و_، مع البدء بحرف، واختر اسمًا لا تستخدمه النصوص البرمجية.",
-    "guildCommandCounterHowToUse": "استخدمه في نص برمجي بالشكل {variable}. يضيف كل تشغيل واحدًا أولًا، لذا يقرأ التشغيل الأول 1."
+    "guildCommandCounterHowToUse": "استخدمه في نص برمجي بالشكل {variable}. يضيف كل تشغيل واحدًا أولًا، لذا يقرأ التشغيل الأول 1.",
+    "notificationsAlertEveryMessageLabel": "تنبيه لكل رسالة",
+    "notificationsAlertEveryMessageDescription": "عند الإيقاف، تنبّهك المحادثة النشطة مرة واحدة، ثم تتحدّث بهدوء حتى تقرأها أو تتجاهلها."
 }
