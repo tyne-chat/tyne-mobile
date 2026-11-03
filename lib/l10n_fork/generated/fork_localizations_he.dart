@@ -777,4 +777,11 @@ class ForkLocalizationsHe extends ForkLocalizations {
   String guildCommandCounterHowToUse(String variable) {
     return 'אפשר להשתמש בו בסקריפט בתור $variable. כל הרצה מוסיפה אחד קודם, כך שההרצה הראשונה קוראת 1.';
   }
+
+  @override
+  String get notificationsAlertEveryMessageLabel => 'התראה על כל הודעה';
+
+  @override
+  String get notificationsAlertEveryMessageDescription =>
+      'כשהאפשרות כבויה, שיחה פעילה מתריעה פעם אחת ואז מתעדכנת בשקט עד שתקרא אותה או תסגור אותה.';
 }

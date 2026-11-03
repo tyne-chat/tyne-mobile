@@ -794,6 +794,13 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String guildCommandCounterHowToUse(String variable) {
     return 'Use em um script como $variable. Cada execução soma um primeiro, então a primeira lê 1.';
   }
+
+  @override
+  String get notificationsAlertEveryMessageLabel => 'Alertar a cada mensagem';
+
+  @override
+  String get notificationsAlertEveryMessageDescription =>
+      'Quando desativado, uma conversa movimentada alerta apenas uma vez e depois é atualizada em silêncio até ser lida ou dispensada.';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -1586,4 +1593,11 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
   String guildCommandCounterHowToUse(String variable) {
     return 'Use em um script como $variable. Cada execução soma um primeiro, então a primeira lê 1.';
   }
+
+  @override
+  String get notificationsAlertEveryMessageLabel => 'Alertar a cada mensagem';
+
+  @override
+  String get notificationsAlertEveryMessageDescription =>
+      'Quando desativado, uma conversa movimentada alerta só uma vez e depois é atualizada em silêncio até ser lida ou dispensada.';
 }
