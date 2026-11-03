@@ -224,5 +224,7 @@
     "guildCommandCounterReset": "Sayıları sıfırla",
     "guildCommandCounterResetConfirm": "{name} sayıları sıfırlansın mı? Bu işlem geri alınamaz.",
     "guildCommandCounterNameInvalid": "Küçük harf, rakam ve _ kullan, harfle başla ve betiklerin zaten kullandığı bir ad seçme.",
-    "guildCommandCounterHowToUse": "Betikte {variable} olarak kullan. Her çalıştırma önce bir ekler, yani ilk çalıştırma 1 okur."
+    "guildCommandCounterHowToUse": "Betikte {variable} olarak kullan. Her çalıştırma önce bir ekler, yani ilk çalıştırma 1 okur.",
+    "notificationsAlertEveryMessageLabel": "Her mesajda uyar",
+    "notificationsAlertEveryMessageDescription": "Kapalıyken, hareketli bir sohbet yalnızca bir kez uyarır, ardından siz okuyana veya kapatana kadar sessizce güncellenir."
 }
