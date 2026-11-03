@@ -798,4 +798,12 @@ class ForkLocalizationsBg extends ForkLocalizations {
   String guildCommandCounterHowToUse(String variable) {
     return 'Използвайте го в скрипт като $variable. Всяко изпълнение първо добавя едно, така че първото чете 1.';
   }
+
+  @override
+  String get notificationsAlertEveryMessageLabel =>
+      'Известие за всяко съобщение';
+
+  @override
+  String get notificationsAlertEveryMessageDescription =>
+      'Когато е изключено, оживен разговор известява веднъж, след което се обновява тихо, докато не бъде прочетен или отхвърлен.';
 }
