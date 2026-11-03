@@ -224,5 +224,7 @@
     "guildCommandCounterReset": "Nustatyti skaičius iš naujo",
     "guildCommandCounterResetConfirm": "Nustatyti {name} skaičius iš naujo? To atšaukti negalima.",
     "guildCommandCounterNameInvalid": "Naudok mažąsias raides, skaičius ir _, pradėk raide ir nerink vardo, kurį jau naudoja scenarijai.",
-    "guildCommandCounterHowToUse": "Scenarijuje naudok kaip {variable}. Kiekvienas paleidimas pirmiausia prideda vienetą, todėl pirmas nuskaito 1."
+    "guildCommandCounterHowToUse": "Scenarijuje naudok kaip {variable}. Kiekvienas paleidimas pirmiausia prideda vienetą, todėl pirmas nuskaito 1.",
+    "notificationsAlertEveryMessageLabel": "Pranešti apie kiekvieną žinutę",
+    "notificationsAlertEveryMessageDescription": "Išjungus, aktyvus pokalbis praneša vieną kartą, o paskui tyliai atsinaujina, kol jį perskaitysite arba atmesite."
 }

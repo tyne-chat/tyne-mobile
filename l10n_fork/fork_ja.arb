@@ -224,5 +224,7 @@
     "guildCommandCounterReset": "カウントをリセット",
     "guildCommandCounterResetConfirm": "{name} のカウントをリセットしますか?元に戻すことはできません。",
     "guildCommandCounterNameInvalid": "小文字の英字、数字、_ を使い、英字で始めてください。スクリプトで既に使われている名前は使えません。",
-    "guildCommandCounterHowToUse": "スクリプトでは {variable} として使います。実行のたびに先に1増えるので、最初の実行では1になります。"
+    "guildCommandCounterHowToUse": "スクリプトでは {variable} として使います。実行のたびに先に1増えるので、最初の実行では1になります。",
+    "notificationsAlertEveryMessageLabel": "すべてのメッセージで通知",
+    "notificationsAlertEveryMessageDescription": "オフの場合、活発な会話は一度だけ通知し、その後は既読にするか閉じるまで静かに更新されます。"
 }

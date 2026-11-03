@@ -786,4 +786,12 @@ class ForkLocalizationsVi extends ForkLocalizations {
   String guildCommandCounterHowToUse(String variable) {
     return 'Dùng trong tập lệnh là $variable. Mỗi lần chạy cộng một trước, nên lần đầu đọc được 1.';
   }
+
+  @override
+  String get notificationsAlertEveryMessageLabel =>
+      'Thông báo cho mọi tin nhắn';
+
+  @override
+  String get notificationsAlertEveryMessageDescription =>
+      'Khi tắt, một cuộc trò chuyện sôi nổi chỉ thông báo một lần, sau đó cập nhật âm thầm cho đến khi bạn đọc hoặc đóng nó.';
 }
