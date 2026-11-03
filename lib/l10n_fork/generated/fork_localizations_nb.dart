@@ -789,4 +789,11 @@ class ForkLocalizationsNb extends ForkLocalizations {
   String guildCommandCounterHowToUse(String variable) {
     return 'Bruk den i et skript som $variable. Hver kjøring legger først til én, så den første leser 1.';
   }
+
+  @override
+  String get notificationsAlertEveryMessageLabel => 'Varsle for hver melding';
+
+  @override
+  String get notificationsAlertEveryMessageDescription =>
+      'Når dette er av, varsler en travel samtale én gang og oppdateres deretter stille til du leser eller lukker den.';
 }
