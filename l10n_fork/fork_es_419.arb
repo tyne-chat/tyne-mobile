@@ -224,5 +224,7 @@
     "guildCommandCounterReset": "Restablecer conteos",
     "guildCommandCounterResetConfirm": "¿Restablecer los conteos de {name}? Esto no se puede deshacer.",
     "guildCommandCounterNameInvalid": "Usa minúsculas, números y _, empieza con una letra y no uses un nombre que ya usen los scripts.",
-    "guildCommandCounterHowToUse": "Úsalo en un script como {variable}. Cada ejecución suma uno primero, así que la primera lee 1."
+    "guildCommandCounterHowToUse": "Úsalo en un script como {variable}. Cada ejecución suma uno primero, así que la primera lee 1.",
+    "notificationsAlertEveryMessageLabel": "Avisar con cada mensaje",
+    "notificationsAlertEveryMessageDescription": "Si está desactivado, una conversación activa avisa una sola vez y luego se actualiza en silencio hasta que la leas o la descartes."
 }

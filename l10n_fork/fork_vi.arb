@@ -224,5 +224,7 @@
     "guildCommandCounterReset": "Đặt lại số đếm",
     "guildCommandCounterResetConfirm": "Đặt lại số đếm của {name}? Không thể hoàn tác.",
     "guildCommandCounterNameInvalid": "Dùng chữ thường, số và _, bắt đầu bằng chữ cái và không dùng tên mà tập lệnh đã dùng.",
-    "guildCommandCounterHowToUse": "Dùng trong tập lệnh là {variable}. Mỗi lần chạy cộng một trước, nên lần đầu đọc được 1."
+    "guildCommandCounterHowToUse": "Dùng trong tập lệnh là {variable}. Mỗi lần chạy cộng một trước, nên lần đầu đọc được 1.",
+    "notificationsAlertEveryMessageLabel": "Thông báo cho mọi tin nhắn",
+    "notificationsAlertEveryMessageDescription": "Khi tắt, một cuộc trò chuyện sôi nổi chỉ thông báo một lần, sau đó cập nhật âm thầm cho đến khi bạn đọc hoặc đóng nó."
 }
