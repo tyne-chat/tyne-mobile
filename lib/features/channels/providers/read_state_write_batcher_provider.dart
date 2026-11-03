@@ -6,6 +6,10 @@ import 'package:fluxer_app/core/providers/gateway/gateway_ready_provider.dart';
 import 'package:fluxer_app/features/channels/data/read_state_write_batcher.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/channels/data/fork_read_state_write_batcher.dart';
+
 part 'read_state_write_batcher_provider.g.dart';
 
 @Riverpod(keepAlive: true)
@@ -18,7 +22,8 @@ class ReadStateOverlayVersion extends _$ReadStateOverlayVersion {
 
 @Riverpod(keepAlive: true)
 ReadStateWriteBatcher readStateWriteBatcher(Ref ref) {
-  final batcher = ReadStateWriteBatcher(
+  // Fork: a batcher that stores acks as soon as they are queued (tyne-chat/tyne#466).
+  final batcher = ForkReadStateWriteBatcher(
     database: ref.watch(fluxerDatabaseProvider),
     onOverlayChanged: () {
       if (!ref.mounted) {
