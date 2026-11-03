@@ -224,5 +224,7 @@
     "guildCommandCounterReset": "Reset counts",
     "guildCommandCounterResetConfirm": "Reset the counts of {name}? This can't be undone.",
     "guildCommandCounterNameInvalid": "Use lowercase letters, numbers and _, starting with a letter, and not a name scripts already use.",
-    "guildCommandCounterHowToUse": "Use it in a script as {variable}. Each run adds one first, so the first run reads 1."
+    "guildCommandCounterHowToUse": "Use it in a script as {variable}. Each run adds one first, so the first run reads 1.",
+    "notificationsAlertEveryMessageLabel": "Alert for every message",
+    "notificationsAlertEveryMessageDescription": "When off, a busy conversation alerts once, then updates quietly until you read it or dismiss it."
 }

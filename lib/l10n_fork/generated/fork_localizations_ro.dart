@@ -791,4 +791,12 @@ class ForkLocalizationsRo extends ForkLocalizations {
   String guildCommandCounterHowToUse(String variable) {
     return 'Folosește-l într-un script ca $variable. Fiecare rulare adaugă mai întâi unu, deci prima citește 1.';
   }
+
+  @override
+  String get notificationsAlertEveryMessageLabel =>
+      'Alertă pentru fiecare mesaj';
+
+  @override
+  String get notificationsAlertEveryMessageDescription =>
+      'Când este dezactivat, o conversație animată te alertează o singură dată, apoi se actualizează în liniște până când o citești sau o închizi.';
 }
