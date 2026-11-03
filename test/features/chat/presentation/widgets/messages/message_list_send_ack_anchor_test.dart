@@ -535,3 +535,16 @@ class _IdleAppStartup extends AppStartup {
   @override
   Future<void> build() => Future<void>.value();
 }
+
+// Fork: upstream's helpers that message_list_detached_send_fork_test.dart uses, named here so
+// they stay private and are not copied.
+// ignore: unreachable_from_main // Fork: used by message_list_detached_send_fork_test.dart.
+typedef ForkUpstreamHelpers = ({
+  List<Override> Function() messageListUiOverrides,
+  Widget Function(ProviderContainer container) messageListApp,
+});
+// ignore: unreachable_from_main // Fork: used by message_list_detached_send_fork_test.dart.
+const ForkUpstreamHelpers forkUpstream = (
+  messageListUiOverrides: _messageListUiOverrides,
+  messageListApp: _messageListApp,
+);
