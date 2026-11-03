@@ -268,6 +268,8 @@ ProviderContainer _container({
 }) {
   return ProviderContainer(
     overrides: [
+      // Fork: upstream's batcher here; see _forkUpstreamBatcher.
+      readStateWriteBatcherProvider.overrideWith(_forkUpstreamBatcher),
       fluxerDatabaseProvider.overrideWithValue(db),
       currentUserIdProvider.overrideWithValue(userId),
       userSettingsViewModelProvider.overrideWith(
@@ -1030,4 +1032,21 @@ void main() {
       );
     },
   );
+}
+
+// Fork: these tests are about upstream's unread logic, so they run on upstream's batcher. The app's
+// provider builds the fork's (fork_read_state_write_batcher.dart), which stores each ack as soon as
+// it is queued (tyne-chat/tyne#466): its own reads of read_states would count as requeries in
+// 'read state overlay changes leave retained channels idle'. The fork's batcher has tests of its own.
+ReadStateWriteBatcher _forkUpstreamBatcher(Ref ref) {
+  final ReadStateWriteBatcher batcher = ReadStateWriteBatcher(
+    database: ref.watch(fluxerDatabaseProvider),
+    onOverlayChanged: () {
+      if (ref.mounted) {
+        ref.read(readStateOverlayVersionProvider.notifier).bump();
+      }
+    },
+  );
+  ref.onDispose(batcher.dispose);
+  return batcher;
 }
