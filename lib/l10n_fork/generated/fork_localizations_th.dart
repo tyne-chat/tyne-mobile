@@ -780,4 +780,11 @@ class ForkLocalizationsTh extends ForkLocalizations {
   String guildCommandCounterHowToUse(String variable) {
     return 'ใช้ในสคริปต์เป็น $variable การรันแต่ละครั้งจะบวกหนึ่งก่อน การรันครั้งแรกจึงอ่านได้ 1';
   }
+
+  @override
+  String get notificationsAlertEveryMessageLabel => 'แจ้งเตือนทุกข้อความ';
+
+  @override
+  String get notificationsAlertEveryMessageDescription =>
+      'เมื่อปิดไว้ บทสนทนาที่คึกคักจะแจ้งเตือนเพียงครั้งเดียว แล้วอัปเดตอย่างเงียบ ๆ จนกว่าคุณจะอ่านหรือปิดการแจ้งเตือน';
 }

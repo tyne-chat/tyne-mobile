@@ -224,5 +224,7 @@
     "guildCommandCounterReset": "重設計數",
     "guildCommandCounterResetConfirm": "要重設 {name} 的計數嗎?此操作無法復原。",
     "guildCommandCounterNameInvalid": "請使用小寫字母、數字和 _,以字母開頭,且不要使用腳本已占用的名稱。",
-    "guildCommandCounterHowToUse": "在腳本中以 {variable} 使用。每次執行會先加一,所以第一次讀到的是 1。"
+    "guildCommandCounterHowToUse": "在腳本中以 {variable} 使用。每次執行會先加一,所以第一次讀到的是 1。",
+    "notificationsAlertEveryMessageLabel": "每則訊息都提醒",
+    "notificationsAlertEveryMessageDescription": "關閉後，熱絡的對話只會提醒一次，之後靜默更新，直到你閱讀或清除它。"
 }
