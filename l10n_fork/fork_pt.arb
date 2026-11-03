@@ -224,5 +224,7 @@
     "guildCommandCounterReset": "Redefinir contagens",
     "guildCommandCounterResetConfirm": "Redefinir as contagens de {name}? Isso não pode ser desfeito.",
     "guildCommandCounterNameInvalid": "Use letras minúsculas, números e _, comece com uma letra e não use um nome que os scripts já usam.",
-    "guildCommandCounterHowToUse": "Use em um script como {variable}. Cada execução soma um primeiro, então a primeira lê 1."
+    "guildCommandCounterHowToUse": "Use em um script como {variable}. Cada execução soma um primeiro, então a primeira lê 1.",
+    "notificationsAlertEveryMessageLabel": "Alertar a cada mensagem",
+    "notificationsAlertEveryMessageDescription": "Quando desativado, uma conversa movimentada alerta apenas uma vez e depois é atualizada em silêncio até ser lida ou dispensada."
 }
