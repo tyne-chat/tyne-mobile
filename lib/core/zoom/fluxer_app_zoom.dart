@@ -8,6 +8,9 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+// Fork imports.
+import 'package:fluxer_app/core/media/fork_synced_emoji_image_cache.dart';
+
 const String _kTextInputChannel = 'flutter/textinput';
 const String _kPlatformChannel = 'flutter/platform';
 const MethodCodec _kJsonMethodCodec = JSONMethodCodec();
@@ -110,6 +113,10 @@ class FluxerAppZoomBinding extends WidgetsFlutterBinding {
   @override
   BinaryMessenger createBinaryMessenger() =>
       _ZoomBinaryMessenger(super.createBinaryMessenger(), () => _zoom);
+
+  // Fork: animated custom emoji stay in step (tyne-chat/tyne#91).
+  @override
+  ImageCache createImageCache() => ForkSyncedEmojiImageCache();
 }
 
 @visibleForTesting
