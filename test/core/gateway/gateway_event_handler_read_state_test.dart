@@ -2034,3 +2034,21 @@ class _ReadStateSqlCounter extends QueryInterceptor {
     return super.runBatched(executor, statements);
   }
 }
+
+// Fork: upstream's helpers that gateway_event_handler_read_state_fork_test.dart uses, named here so
+// they stay private and are not copied.
+// ignore: unreachable_from_main // Fork: used by gateway_event_handler_read_state_fork_test.dart.
+typedef ForkUpstreamHelpers = ({
+  MessageResponseSchema Function({
+    required String id,
+    required String channelId,
+    required String authorId,
+  })
+  message,
+  String Function(DateTime utc) snowflakeForUtc,
+});
+// ignore: unreachable_from_main // Fork: used by gateway_event_handler_read_state_fork_test.dart.
+const ForkUpstreamHelpers forkUpstream = (
+  message: _message,
+  snowflakeForUtc: _snowflakeForUtc,
+);
