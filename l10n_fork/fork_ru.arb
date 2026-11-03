@@ -224,5 +224,7 @@
     "guildCommandCounterReset": "Сбросить значения",
     "guildCommandCounterResetConfirm": "Сбросить значения {name}? Это нельзя отменить.",
     "guildCommandCounterNameInvalid": "Используйте строчные буквы, цифры и _, начинайте с буквы и не берите имя, которое уже используют скрипты.",
-    "guildCommandCounterHowToUse": "Используйте его в скрипте как {variable}. Каждый запуск сначала прибавляет один, поэтому первый читает 1."
+    "guildCommandCounterHowToUse": "Используйте его в скрипте как {variable}. Каждый запуск сначала прибавляет один, поэтому первый читает 1.",
+    "notificationsAlertEveryMessageLabel": "Уведомлять о каждом сообщении",
+    "notificationsAlertEveryMessageDescription": "Если выключено, активный разговор уведомляет один раз, а затем обновляется беззвучно, пока вы его не прочитаете или не смахнёте."
 }

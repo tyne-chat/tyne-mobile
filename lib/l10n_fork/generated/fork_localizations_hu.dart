@@ -791,4 +791,12 @@ class ForkLocalizationsHu extends ForkLocalizations {
   String guildCommandCounterHowToUse(String variable) {
     return 'Szkriptben így használd: $variable. Minden futás előbb hozzáad egyet, így az első 1-et olvas.';
   }
+
+  @override
+  String get notificationsAlertEveryMessageLabel =>
+      'Értesítés minden üzenetről';
+
+  @override
+  String get notificationsAlertEveryMessageDescription =>
+      'Kikapcsolva egy élénk beszélgetés csak egyszer értesít, utána csendben frissül, amíg el nem olvasod vagy el nem veted.';
 }
