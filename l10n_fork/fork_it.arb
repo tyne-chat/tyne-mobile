@@ -224,5 +224,7 @@
     "guildCommandCounterReset": "Azzera i conteggi",
     "guildCommandCounterResetConfirm": "Azzerare i conteggi di {name}? L’azione non può essere annullata.",
     "guildCommandCounterNameInvalid": "Usa lettere minuscole, numeri e _, inizia con una lettera e non usare un nome già usato dagli script.",
-    "guildCommandCounterHowToUse": "Usalo in uno script come {variable}. Ogni esecuzione aggiunge prima uno, quindi la prima legge 1."
+    "guildCommandCounterHowToUse": "Usalo in uno script come {variable}. Ogni esecuzione aggiunge prima uno, quindi la prima legge 1.",
+    "notificationsAlertEveryMessageLabel": "Avvisa per ogni messaggio",
+    "notificationsAlertEveryMessageDescription": "Se disattivato, una conversazione animata avvisa una sola volta, poi si aggiorna in silenzio finché non la leggi o la chiudi."
 }

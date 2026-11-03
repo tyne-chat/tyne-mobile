@@ -757,6 +757,13 @@ class ForkLocalizationsZh extends ForkLocalizations {
   String guildCommandCounterHowToUse(String variable) {
     return '在脚本中以 $variable 使用。每次运行会先加一,所以第一次读到的是 1。';
   }
+
+  @override
+  String get notificationsAlertEveryMessageLabel => '每条消息都提醒';
+
+  @override
+  String get notificationsAlertEveryMessageDescription =>
+      '关闭后，活跃的对话只提醒一次，之后静默更新，直到你阅读或清除它。';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -1512,4 +1519,11 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
   String guildCommandCounterHowToUse(String variable) {
     return '在腳本中以 $variable 使用。每次執行會先加一,所以第一次讀到的是 1。';
   }
+
+  @override
+  String get notificationsAlertEveryMessageLabel => '每則訊息都提醒';
+
+  @override
+  String get notificationsAlertEveryMessageDescription =>
+      '關閉後，熱絡的對話只會提醒一次，之後靜默更新，直到你閱讀或清除它。';
 }

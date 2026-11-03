@@ -224,5 +224,7 @@
     "guildCommandCounterReset": "Poništi brojeve",
     "guildCommandCounterResetConfirm": "Poništiti brojeve za {name}? Ovo se ne može poništiti.",
     "guildCommandCounterNameInvalid": "Koristi mala slova, brojke i _, počni slovom i ne koristi naziv koji skripte već koriste.",
-    "guildCommandCounterHowToUse": "Koristi ga u skripti kao {variable}. Svako pokretanje najprije dodaje jedan, pa prvo čita 1."
+    "guildCommandCounterHowToUse": "Koristi ga u skripti kao {variable}. Svako pokretanje najprije dodaje jedan, pa prvo čita 1.",
+    "notificationsAlertEveryMessageLabel": "Obavijest za svaku poruku",
+    "notificationsAlertEveryMessageDescription": "Kad je isključeno, živahan razgovor obavijestit će vas samo jednom, a zatim se tiho ažurira dok ga ne pročitate ili odbacite."
 }
