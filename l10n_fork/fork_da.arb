@@ -224,5 +224,7 @@
     "guildCommandCounterReset": "Nulstil optællinger",
     "guildCommandCounterResetConfirm": "Vil du nulstille optællingerne for {name}? Dette kan ikke fortrydes.",
     "guildCommandCounterNameInvalid": "Brug små bogstaver, tal og _, start med et bogstav, og brug ikke et navn, scripts allerede bruger.",
-    "guildCommandCounterHowToUse": "Brug den i et script som {variable}. Hver kørsel lægger først én til, så den første kørsel læser 1."
+    "guildCommandCounterHowToUse": "Brug den i et script som {variable}. Hver kørsel lægger først én til, så den første kørsel læser 1.",
+    "notificationsAlertEveryMessageLabel": "Underret ved hver besked",
+    "notificationsAlertEveryMessageDescription": "Når det er slået fra, underretter en travl samtale dig én gang og opdateres derefter lydløst, indtil du læser eller lukker den."
 }
