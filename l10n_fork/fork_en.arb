@@ -1078,5 +1078,13 @@
                 "type": "String"
             }
         }
+    },
+    "notificationsAlertEveryMessageLabel": "Alert for every message",
+    "@notificationsAlertEveryMessageLabel": {
+        "description": "Settings switch in Notifications (Android): when on, every message alerts; when off, a busy conversation alerts once (tyne-chat/tyne#468)."
+    },
+    "notificationsAlertEveryMessageDescription": "When off, a busy conversation alerts once, then updates quietly until you read it or dismiss it.",
+    "@notificationsAlertEveryMessageDescription": {
+        "description": "Description under the \"Alert for every message\" switch."
     }
 }

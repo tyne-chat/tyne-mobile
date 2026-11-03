@@ -779,4 +779,11 @@ class ForkLocalizationsAr extends ForkLocalizations {
   String guildCommandCounterHowToUse(String variable) {
     return 'استخدمه في نص برمجي بالشكل $variable. يضيف كل تشغيل واحدًا أولًا، لذا يقرأ التشغيل الأول 1.';
   }
+
+  @override
+  String get notificationsAlertEveryMessageLabel => 'تنبيه لكل رسالة';
+
+  @override
+  String get notificationsAlertEveryMessageDescription =>
+      'عند الإيقاف، تنبّهك المحادثة النشطة مرة واحدة، ثم تتحدّث بهدوء حتى تقرأها أو تتجاهلها.';
 }

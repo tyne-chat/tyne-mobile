@@ -788,4 +788,12 @@ class ForkLocalizationsCs extends ForkLocalizations {
   String guildCommandCounterHowToUse(String variable) {
     return 'Ve skriptu ho použij jako $variable. Každé spuštění nejdřív přičte jedničku, takže první spuštění přečte 1.';
   }
+
+  @override
+  String get notificationsAlertEveryMessageLabel =>
+      'Upozornit na každou zprávu';
+
+  @override
+  String get notificationsAlertEveryMessageDescription =>
+      'Když je vypnuto, rušná konverzace upozorní jen jednou a pak se tiše aktualizuje, dokud ji nepřečtete nebo nezavřete.';
 }
