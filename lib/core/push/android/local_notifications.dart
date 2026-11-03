@@ -24,6 +24,10 @@ import 'package:fluxer_app/core/push/notification/sound_settings.dart';
 import 'package:fluxer_app/core/push/notification/time.dart';
 import 'package:fluxer_app/core/push/push_message.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/push/android/conversation/fork_alert_entry.dart';
+
 export 'package:fluxer_app/core/push/android/channels.dart'
     show androidPushChannelId;
 
@@ -370,6 +374,16 @@ final class LocalPushNotifications {
       avatarPath: media[0],
       imagePath: media[1],
     );
+    // Fork: one alert per burst, and the newest lines only (tyne-chat/tyne#468).
+    // Here, after the media downloads, so nothing slow sits between the
+    // decision and the post.
+    final bool forkAlert = await forkPreparePushConversation(
+      payload,
+      conversationTag: conversationTag,
+      messageId: messageId,
+      title: title,
+      alert: alert,
+    );
     final PushConversationState state =
         await AndroidPushConversationHistoryStore.appendLine(
           conversationTag: conversationTag,
@@ -383,7 +397,7 @@ final class LocalPushNotifications {
       title: title,
       badgeCount: badgeCount,
       whenMillis: whenMillis,
-      alert: alert,
+      alert: forkAlert,
     );
   }
 
