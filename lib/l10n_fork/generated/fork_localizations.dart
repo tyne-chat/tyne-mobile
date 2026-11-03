@@ -1516,6 +1516,18 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'Use it in a script as {variable}. Each run adds one first, so the first run reads 1.'**
   String guildCommandCounterHowToUse(String variable);
+
+  /// Settings switch in Notifications (Android): when on, every message alerts; when off, a busy conversation alerts once (tyne-chat/tyne#468).
+  ///
+  /// In en, this message translates to:
+  /// **'Alert for every message'**
+  String get notificationsAlertEveryMessageLabel;
+
+  /// Description under the "Alert for every message" switch.
+  ///
+  /// In en, this message translates to:
+  /// **'When off, a busy conversation alerts once, then updates quietly until you read it or dismiss it.'**
+  String get notificationsAlertEveryMessageDescription;
 }
 
 class _ForkLocalizationsDelegate

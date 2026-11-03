@@ -795,4 +795,12 @@ class ForkLocalizationsEl extends ForkLocalizations {
   String guildCommandCounterHowToUse(String variable) {
     return 'Χρησιμοποίησέ το σε σενάριο ως $variable. Κάθε εκτέλεση προσθέτει πρώτα ένα, οπότε η πρώτη διαβάζει 1.';
   }
+
+  @override
+  String get notificationsAlertEveryMessageLabel =>
+      'Ειδοποίηση για κάθε μήνυμα';
+
+  @override
+  String get notificationsAlertEveryMessageDescription =>
+      'Όταν είναι ανενεργό, μια πολυσύχναστη συνομιλία σε ειδοποιεί μία φορά και μετά ενημερώνεται αθόρυβα μέχρι να τη διαβάσεις ή να την απορρίψεις.';
 }
