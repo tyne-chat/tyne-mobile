@@ -17,12 +17,17 @@ Future<void> prepareUnifiedPushBackgroundNative() async {
   }
 }
 
-Future<void> finishUnifiedPushBackgroundNative() async {
+// Fork: `handled` tells native how many pushes this isolate has handled, so it ends the push
+// session only when every push it delivered is done (tyne-chat/tyne#474).
+Future<void> finishUnifiedPushBackgroundNative({int? handled}) async {
   if (!Platform.isAndroid) {
     return;
   }
   try {
-    await _kUnifiedPushBackgroundChannel.invokeMethod<void>('finish');
+    await _kUnifiedPushBackgroundChannel.invokeMethod<void>(
+      'finish',
+      handled == null ? null : <String, Object?>{'handled': handled},
+    );
   } on Object {
     return;
   }

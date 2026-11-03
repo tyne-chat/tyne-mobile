@@ -29,6 +29,8 @@ class MainActivity : AudioServiceActivity() {
         if (deferOAuthDeepLinkToBrowser(intent)) {
             return
         }
+        // Fork: an idle push engine goes before this activity's engine registers plugins (tyne-chat/tyne#474).
+        FluxerUnifiedPushService.forkBeforeAppEngine()
         super.onCreate(savedInstanceState)
         FlutterCallkitIncomingPlugin.registerEventCallback(callkitEventCallback)
     }
