@@ -224,5 +224,7 @@
     "guildCommandCounterReset": "รีเซ็ตจำนวน",
     "guildCommandCounterResetConfirm": "รีเซ็ตจำนวนของ {name} หรือไม่ การดำเนินการนี้ย้อนกลับไม่ได้",
     "guildCommandCounterNameInvalid": "ใช้อักษรอังกฤษตัวเล็ก ตัวเลข และ _ ขึ้นต้นด้วยตัวอักษร และอย่าใช้ชื่อที่สคริปต์ใช้อยู่แล้ว",
-    "guildCommandCounterHowToUse": "ใช้ในสคริปต์เป็น {variable} การรันแต่ละครั้งจะบวกหนึ่งก่อน การรันครั้งแรกจึงอ่านได้ 1"
+    "guildCommandCounterHowToUse": "ใช้ในสคริปต์เป็น {variable} การรันแต่ละครั้งจะบวกหนึ่งก่อน การรันครั้งแรกจึงอ่านได้ 1",
+    "notificationsAlertEveryMessageLabel": "แจ้งเตือนทุกข้อความ",
+    "notificationsAlertEveryMessageDescription": "เมื่อปิดไว้ บทสนทนาที่คึกคักจะแจ้งเตือนเพียงครั้งเดียว แล้วอัปเดตอย่างเงียบ ๆ จนกว่าคุณจะอ่านหรือปิดการแจ้งเตือน"
 }

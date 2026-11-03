@@ -29,6 +29,10 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/settings/presentation/widgets/fork_notification_alert_every_message_switch.dart';
+
 const int _kMinAfkTimeoutMinutes = 1;
 const int _kMaxAfkTimeoutMinutes = 10;
 
@@ -108,6 +112,7 @@ class UserNotificationsSettings extends ConsumerWidget {
                 ),
               ),
               const UserNotificationsPushDeliveryDetails(),
+              const ForkNotificationAlertEveryMessageSwitch(),
               if (isDesktopOs) ...[
                 Text(
                   l10n.notificationsPushInactiveTimeoutLabel,
