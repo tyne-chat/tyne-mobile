@@ -32,7 +32,9 @@ internal class FluxerUnifiedPushBackgroundBridge :
             }
             METHOD_FINISH -> {
                 result.success(null)
-                handler.post { FluxerUnifiedPushService.onDartBackgroundFinished() }
+                // Fork: Dart passes how many pushes it has handled (tyne-chat/tyne#474).
+                val handled = call.argument<Int>("handled")
+                handler.post { FluxerUnifiedPushService.onDartBackgroundFinished(handled) }
             }
             else -> result.notImplemented()
         }

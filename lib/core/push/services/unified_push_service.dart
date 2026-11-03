@@ -14,6 +14,10 @@ import 'package:fluxer_app/core/push/unified_push/unified_push_message_mapper.da
 import 'package:fluxer_app/core/push/unified_push/unified_push_vapid_cache.dart';
 import 'package:unifiedpush/unifiedpush.dart' as up;
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/push/unified_push/fork_unified_push_background_count.dart';
+
 const String kFluxerUnifiedPushInstance = 'fluxer';
 
 const Duration _kEndpointWaitTimeout = Duration(seconds: 12);
@@ -99,7 +103,10 @@ class UnifiedPushService implements PushService {
         onTimeout: () {},
       );
     } finally {
-      await finishUnifiedPushBackgroundNative();
+      // Fork: with the count, so pushes still in flight keep the session (tyne-chat/tyne#474).
+      await finishUnifiedPushBackgroundNative(
+        handled: forkUnifiedPushHandledCount,
+      );
       instance._backgroundMessageHandled = null;
     }
   }
@@ -449,12 +456,16 @@ class UnifiedPushService implements PushService {
   Future<void> _onMessage(up.PushMessage message, String instance) async {
     if (instance.isEmpty) {
       _completeBackgroundMessageWait();
+      // Fork: counted too, or native would wait for it (tyne-chat/tyne#474).
+      await forkNoteUnifiedPushMessageHandled(backgroundMode: _backgroundMode);
       return;
     }
     try {
       await _handleIncomingMessage(message, instance);
     } finally {
       _completeBackgroundMessageWait();
+      // Fork: report each handled push to native (tyne-chat/tyne#474).
+      await forkNoteUnifiedPushMessageHandled(backgroundMode: _backgroundMode);
     }
   }
 

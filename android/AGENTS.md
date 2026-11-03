@@ -78,12 +78,48 @@ The push engine is now a `ForkPushEngine`:
   the only registration. `FlutterEngine(context)` used to register every plugin a second time; logcat
   showed `already registered` for each.
 - It leaves `AudioServicePlugin` out of that registration.
+- It empties the UnifiedPush plugin's replay of recent calls when it starts (tyne-chat/tyne#474).
+  Otherwise its plugin replays pushes the main app already handled, and they would be shown again.
 
 To check it on a phone, end Tyne in the background with `adb shell am kill chat.tyne.app`, then send it
 a push. Don't use `force-stop`: Android delivers no pushes to a force-stopped app. The push must
 produce its notification, with no `MediaBrowserCompat: Connecting` line, no
 `MediaSessionStack: addSession ... chat.tyne.app` and no `[Measure] Native SDK is not configured` in
 logcat.
+
+**Background pushes** (fork, tyne-chat/tyne#474; the fork blocks at the end of
+`FluxerUnifiedPushService.kt`, plus `ForkPushSessionLedger.kt`):
+
+- **The connector bug behind it.** The UnifiedPush connector (3.3.5) unbinds from the service 5 s
+  after its first event but never resets its `connected` flag. From then on it calls `onMessage` on
+  that destroyed instance, on its own thread, and no new instance follows. So without the fork, only
+  the first push after Tyne stopped running showed a notification.
+- **`forkAcceptPush`:** counts each push and holds a wake lock on the caller's thread, then does the
+  rest on the main thread:
+  - **The app is running:** the push goes to the main engine through the plugin.
+  - **Otherwise:** a push session opens.
+- **A session** is a *started* service in the foreground (`onStartCommand` always calls
+  `startForeground`), plus the wake lock. The service must be started, because one the connector
+  only bound is destroyed at its unbind.
+- **The engine is kept between pushes.** A session ends when Dart's count of handled pushes
+  (`fork_unified_push_background_count.dart`, passed with `finish`) catches up with the pushes
+  delivered.
+- **The engine is discarded** before the app's engine is created (`MainActivity.onCreate`), or when
+  a session hits the 30 s limit. **It is never destroyed while an app engine exists**, the activity's
+  or audio_service's cached one: shared_preferences_android keeps one process-wide registration
+  that every engine's attach overwrites and any engine's detach removes. Destroying the push engine
+  then left the app without preferences, stuck at its launch screen (2026-11-02, build 170).
+  While the app runs, a push engine still alive only loses its UnifiedPush plugin, and goes when
+  the app stops.
+- **Logs:** `FluxerPushSession` lines in logcat show each push's thread, each session's open and
+  close, and refused service starts.
+
+**To check it:** run `am kill`, then send a burst of pushes. Expect:
+
+- one engine start;
+- a notification post for every push;
+- no `ForegroundServiceDidNotStartInTimeException`;
+- no `fluxer:unifiedpush` wake locks in `dumpsys power` once the burst is done.
 
 **Reply from a notification:** Dart posts the notification, then `attachAndroidNotificationReply` has
 Kotlin add a reply action to it. On reply, `FluxerNotificationReplyReceiver` reads the account's token
@@ -98,6 +134,7 @@ under a 30-second wake lock, without starting Flutter.
 | Artwork | fork-owned, generated files in `app/src/canary/res/` that replace `main`'s by resource name (`drawable/fluxer_logo_monochrome.xml` points at `tyne_notification_glyph`); do not edit them by hand. One upstream line changed: the colour in `values/ic_launcher_background.xml` |
 | APK installer | fork-owned `AppInstallBridge.kt` and `file_paths.xml`; a `REQUEST_INSTALL_PACKAGES` line; the `FileProvider` appended to `<application>` (no fork comment); registered first in `configureFlutterEngine` |
 | Push engine without audio_service (tyne-chat/tyne#210) | fork-owned `ForkPushEngine.kt`, created by one line in `FluxerUnifiedPushService.getEngine` (below) |
+| Background pushes after the first (tyne-chat/tyne#474) | fork blocks at the end of `FluxerUnifiedPushService.kt`'s companion and class, reached by single `// Fork:` lines in about ten of its functions (they need its private state); fork-owned `ForkPushSessionLedger.kt`; one line in `FluxerUnifiedPushBackgroundBridge.kt`; `ForkPushEngine`'s replay reset |
 | Keyboard inset fix | in `MainActivity.kt`, unmarked: `onWindowFocusChanged`, `insetResync`, `scheduleInsetResync`, `resyncFlutterInsets`, two companion constants, a line in `onDestroy`, five imports in upstream's list |
 | Push library | `embedded-fcm-distributor` for every flavour, its keep rule last in `app/proguard-rules.pro`, and the google-services plugin applied whenever `app/google-services.json` exists (upstream: `fcm` tasks only) |
 | SDK level | `compileSdk = 37` in place of Flutter's value, with null-safe `taskInfo` in `InAppBrowserTasks` and `SsoAuthSessionTasks`; nothing records why |
@@ -187,13 +224,15 @@ if the user opted in and the build has a Measure key and URL.
 - A notification reply carries no `persona_id` (here and in Dart's reply path): it goes out as the
   account even where a persona is selected (tyne-chat/tyne#343).
 - Nothing in `lib/` or `android/` configures the embedded distributor; it merges two receivers into the
-  app. Whether it delivers anything for Tyne has not been checked (tyne-chat/tyne#345).
+  app (tyne-chat/tyne#345). It does deliver Tyne's pushes: on 2026-11-02, logcat on Chiara's phone
+  showed pushes arriving through `embedded_fcm_distributor.impl.FirebaseReceiver` (tyne-chat/tyne#474).
 
 ## Tests
 
-- **Kotlin:** ten JUnit files in `app/src/test/kotlin/com/fluxer/`. Eight are upstream's; two are the
-  fork's: `AppInstallBridgeTest.kt` (the installer's package, signer and path checks) and
-  `ForkPushEngineTest.kt` (the plugins the push engine leaves out). No check or workflow runs them.
+- **Kotlin:** eleven JUnit files in `app/src/test/kotlin/com/fluxer/`. Eight are upstream's; three are
+  the fork's: `AppInstallBridgeTest.kt` (the installer's package, signer and path checks),
+  `ForkPushEngineTest.kt` (the plugins the push engine leaves out) and `ForkPushSessionLedgerTest.kt`
+  (when a background push session ends). No check or workflow runs them.
   Run them from `android/` once a Flutter build has written `gradlew` and `local.properties`, for
   example `./gradlew :app:testCanaryUnifiedpushDebugUnitTest`. Two of upstream's tests in
   `SsoAuthSessionTasksTest` fail there with `Method parse in android.net.Uri not mocked`: they call
