@@ -787,4 +787,11 @@ class ForkLocalizationsDa extends ForkLocalizations {
   String guildCommandCounterHowToUse(String variable) {
     return 'Brug den i et script som $variable. Hver kørsel lægger først én til, så den første kørsel læser 1.';
   }
+
+  @override
+  String get notificationsAlertEveryMessageLabel => 'Underret ved hver besked';
+
+  @override
+  String get notificationsAlertEveryMessageDescription =>
+      'Når det er slået fra, underretter en travl samtale dig én gang og opdateres derefter lydløst, indtil du læser eller lukker den.';
 }

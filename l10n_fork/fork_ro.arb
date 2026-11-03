@@ -224,5 +224,7 @@
     "guildCommandCounterReset": "Resetează numărătorile",
     "guildCommandCounterResetConfirm": "Resetezi numărătorile pentru {name}? Acțiunea nu poate fi anulată.",
     "guildCommandCounterNameInvalid": "Folosește litere mici, cifre și _, începe cu o literă și evită numele folosite deja de scripturi.",
-    "guildCommandCounterHowToUse": "Folosește-l într-un script ca {variable}. Fiecare rulare adaugă mai întâi unu, deci prima citește 1."
+    "guildCommandCounterHowToUse": "Folosește-l într-un script ca {variable}. Fiecare rulare adaugă mai întâi unu, deci prima citește 1.",
+    "notificationsAlertEveryMessageLabel": "Alertă pentru fiecare mesaj",
+    "notificationsAlertEveryMessageDescription": "Când este dezactivat, o conversație animată te alertează o singură dată, apoi se actualizează în liniște până când o citești sau o închizi."
 }
