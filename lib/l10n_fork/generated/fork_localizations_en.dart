@@ -782,6 +782,13 @@ class ForkLocalizationsEn extends ForkLocalizations {
   String guildCommandCounterHowToUse(String variable) {
     return 'Use it in a script as $variable. Each run adds one first, so the first run reads 1.';
   }
+
+  @override
+  String get notificationsAlertEveryMessageLabel => 'Alert for every message';
+
+  @override
+  String get notificationsAlertEveryMessageDescription =>
+      'When off, a busy conversation alerts once, then updates quietly until you read it or dismiss it.';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -1562,6 +1569,13 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   String guildCommandCounterHowToUse(String variable) {
     return 'Use it in a script as $variable. Each run adds one first, so the first run reads 1.';
   }
+
+  @override
+  String get notificationsAlertEveryMessageLabel => 'Alert for every message';
+
+  @override
+  String get notificationsAlertEveryMessageDescription =>
+      'When off, a busy conversation alerts once, then updates quietly until you read it or dismiss it.';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -2342,4 +2356,11 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
   String guildCommandCounterHowToUse(String variable) {
     return 'Use it in a script as $variable. Each run adds one first, so the first run reads 1.';
   }
+
+  @override
+  String get notificationsAlertEveryMessageLabel => 'Alert for every message';
+
+  @override
+  String get notificationsAlertEveryMessageDescription =>
+      'When off, a busy conversation alerts once, then updates quietly until you read it or dismiss it.';
 }

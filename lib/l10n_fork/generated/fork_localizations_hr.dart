@@ -786,4 +786,11 @@ class ForkLocalizationsHr extends ForkLocalizations {
   String guildCommandCounterHowToUse(String variable) {
     return 'Koristi ga u skripti kao $variable. Svako pokretanje najprije dodaje jedan, pa prvo čita 1.';
   }
+
+  @override
+  String get notificationsAlertEveryMessageLabel => 'Obavijest za svaku poruku';
+
+  @override
+  String get notificationsAlertEveryMessageDescription =>
+      'Kad je isključeno, živahan razgovor obavijestit će vas samo jednom, a zatim se tiho ažurira dok ga ne pročitate ili odbacite.';
 }
