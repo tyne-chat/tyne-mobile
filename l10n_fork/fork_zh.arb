@@ -224,5 +224,7 @@
     "guildCommandCounterReset": "重置计数",
     "guildCommandCounterResetConfirm": "要重置 {name} 的计数吗?此操作无法撤销。",
     "guildCommandCounterNameInvalid": "请使用小写字母、数字和 _,以字母开头,且不要使用脚本已占用的名称。",
-    "guildCommandCounterHowToUse": "在脚本中以 {variable} 使用。每次运行会先加一,所以第一次读到的是 1。"
+    "guildCommandCounterHowToUse": "在脚本中以 {variable} 使用。每次运行会先加一,所以第一次读到的是 1。",
+    "notificationsAlertEveryMessageLabel": "每条消息都提醒",
+    "notificationsAlertEveryMessageDescription": "关闭后，活跃的对话只提醒一次，之后静默更新，直到你阅读或清除它。"
 }
