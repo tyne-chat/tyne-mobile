@@ -110,6 +110,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart'
 import 'package:fluxer_app/features/chat/data/persona_emoji_usage_store.dart';
 import 'package:fluxer_app/features/chat/data/prepared_attachments.dart';
 import 'package:fluxer_app/features/chat/domain/cloud_composer_attachments.dart';
+import 'package:fluxer_app/features/chat/providers/core/fork_detached_send.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
@@ -1441,6 +1442,10 @@ class ChatViewModel extends _$ChatViewModel {
     if (state.channelId != channelId) {
       return;
     }
+    // Fork: a delivered send leaves a list that does not reach the newest messages (tyne#212).
+    if (_forkTakeOutDetachedDelivery(optimisticMessageId)) {
+      return;
+    }
     final int optimisticIndex = state.messages.indexWhere(
       (Message m) => m.id == optimisticMessageId,
     );
@@ -1914,6 +1919,14 @@ class ChatViewModel extends _$ChatViewModel {
               return updated;
             }
             return null;
+          }
+          // Fork: a delivered send leaves a list that does not reach the newest messages (tyne#212).
+          final List<Message>? forkDetached = _forkDetachedDelivery(
+            messages,
+            existing.id,
+          );
+          if (forkDetached != null) {
+            return forkDetached;
           }
           return _replaceOptimisticWithDelivered(
             messages: messages,
@@ -5049,7 +5062,7 @@ class ChatViewModel extends _$ChatViewModel {
     }
     state = state.copyWith(
       write: (
-        messages: [...state.messages, ...shownHere],
+        messages: _forkWithOwnSend(shownHere),
         origin: MessagesOrigin.ownSend,
       ),
       errorMessage: null,
@@ -5480,7 +5493,7 @@ class ChatViewModel extends _$ChatViewModel {
       replyingTo: null,
       replyMentioning: false,
       write: (
-        messages: [...state.messages, optimisticMessage],
+        messages: _forkWithOwnSend(<Message>[optimisticMessage]),
         origin: MessagesOrigin.ownSend,
       ),
       errorMessage: null,
@@ -5674,7 +5687,7 @@ class ChatViewModel extends _$ChatViewModel {
         replyMentioning: false,
         messageText: clearMessageText ? '' : state.messageText,
         write: (
-          messages: [...state.messages, optimisticMessage],
+          messages: _forkWithOwnSend(<Message>[optimisticMessage]),
           origin: MessagesOrigin.ownSend,
         ),
         errorMessage: null,
@@ -8465,5 +8478,40 @@ class ChatViewModel extends _$ChatViewModel {
         ),
       ),
     );
+  }
+
+  // Fork: tyne-chat/tyne#212. While the list does not reach the newest messages, the user's sends
+  // stay out of it unless the send moves it there, and a delivered send leaves it
+  // (fork_detached_send.dart).
+  List<Message> _forkWithOwnSend(List<Message> sent) => forkMessagesWithOwnSend(
+    state.messages,
+    sent,
+    hasMoreNewerMessages: state.hasMoreNewerMessages,
+    movesToNewest: ref
+        .read(advancedPreferencesProvider)
+        .scrollToBottomOnMessageSend,
+  );
+
+  List<Message>? _forkDetachedDelivery(
+    List<Message> messages,
+    String localId,
+  ) => forkMessagesAfterDetachedDelivery(
+    messages,
+    localId,
+    hasMoreNewerMessages: state.hasMoreNewerMessages,
+    jumpingToNewest: _jumpToLatestActive,
+  );
+
+  bool _forkTakeOutDetachedDelivery(String localId) {
+    final List<Message>? next = _forkDetachedDelivery(state.messages, localId);
+    if (next == null) {
+      return false;
+    }
+    if (next.length != state.messages.length) {
+      state = state.copyWith(
+        write: (messages: next, origin: MessagesOrigin.localMutation),
+      );
+    }
+    return true;
   }
 }
