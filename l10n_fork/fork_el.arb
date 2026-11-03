@@ -224,5 +224,7 @@
     "guildCommandCounterReset": "Επαναφορά μετρήσεων",
     "guildCommandCounterResetConfirm": "Επαναφορά των μετρήσεων του {name}; Αυτό δεν αναιρείται.",
     "guildCommandCounterNameInvalid": "Χρησιμοποίησε πεζά λατινικά γράμματα, αριθμούς και _, ξεκίνα με γράμμα και απόφυγε ονόματα που χρησιμοποιούν ήδη τα σενάρια.",
-    "guildCommandCounterHowToUse": "Χρησιμοποίησέ το σε σενάριο ως {variable}. Κάθε εκτέλεση προσθέτει πρώτα ένα, οπότε η πρώτη διαβάζει 1."
+    "guildCommandCounterHowToUse": "Χρησιμοποίησέ το σε σενάριο ως {variable}. Κάθε εκτέλεση προσθέτει πρώτα ένα, οπότε η πρώτη διαβάζει 1.",
+    "notificationsAlertEveryMessageLabel": "Ειδοποίηση για κάθε μήνυμα",
+    "notificationsAlertEveryMessageDescription": "Όταν είναι ανενεργό, μια πολυσύχναστη συνομιλία σε ειδοποιεί μία φορά και μετά ενημερώνεται αθόρυβα μέχρι να τη διαβάσεις ή να την απορρίψεις."
 }
