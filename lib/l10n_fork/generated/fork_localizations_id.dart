@@ -787,4 +787,11 @@ class ForkLocalizationsId extends ForkLocalizations {
   String guildCommandCounterHowToUse(String variable) {
     return 'Gunakan dalam skrip sebagai $variable. Setiap jalannya menambah satu lebih dulu, jadi yang pertama membaca 1.';
   }
+
+  @override
+  String get notificationsAlertEveryMessageLabel => 'Beri tahu setiap pesan';
+
+  @override
+  String get notificationsAlertEveryMessageDescription =>
+      'Jika nonaktif, percakapan yang ramai memberi tahu sekali, lalu diperbarui diam-diam sampai Anda membacanya atau menutupnya.';
 }
