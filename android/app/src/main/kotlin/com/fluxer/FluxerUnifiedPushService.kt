@@ -53,7 +53,8 @@ class FluxerUnifiedPushService : UnifiedPushService() {
                     closeBackgroundSession()
                     throw error
                 }
-            } else {
+            } else if (backgroundSessionOpen) {
+                // Fork: only for a push session, which stops it again (tyne-chat/tyne#474).
                 startPushForeground()
             }
             ensurePluginOnBackgroundEngine()
@@ -80,6 +81,8 @@ class FluxerUnifiedPushService : UnifiedPushService() {
             foregroundActive = false
             activeService = null
         }
+        // Fork: tyne-chat/tyne#474.
+        forkNoteServiceDestroyed()
         super.onDestroy()
     }
 
@@ -113,6 +116,10 @@ class FluxerUnifiedPushService : UnifiedPushService() {
     }
 
     override fun onMessage(message: PushMessage, instance: String) {
+        // Fork: every push goes through forkAcceptPush, on any thread (tyne-chat/tyne#474).
+        if (forkAcceptPush(message, instance)) {
+            return
+        }
         if (deliverToBackgroundEngineIfActive(PLUGIN_CALL_MESSAGE, messagePayload(message, instance))) {
             return
         }
@@ -174,7 +181,8 @@ class FluxerUnifiedPushService : UnifiedPushService() {
         method: String,
         data: Map<String, Any?>,
     ): Boolean {
-        if (mainEngineRunning || backgroundEngine == null) {
+        // Fork: an idle kept engine has no listener for these; leave them for the app (tyne-chat/tyne#474).
+        if (mainEngineRunning || backgroundEngine == null || !backgroundSessionOpen) {
             return false
         }
         enqueueOrDeliverFlutterEvent(method, data)
@@ -276,7 +284,11 @@ class FluxerUnifiedPushService : UnifiedPushService() {
                 lock.release()
             }
         }
-        private val closeSession = Runnable { closeBackgroundSession() }
+        // Fork: a session that times out also discards the engine (tyne-chat/tyne#474).
+        private val closeSession = Runnable {
+            forkSessionTimedOut = true
+            closeBackgroundSession()
+        }
         private var backgroundEngine: FlutterEngine? = null
         private var wakeLock: PowerManager.WakeLock? = null
         private var mainEngineRunning = false
@@ -288,6 +300,8 @@ class FluxerUnifiedPushService : UnifiedPushService() {
 
         fun noteMainEngineStarted() {
             mainEngineRunning = true
+            // Fork: tyne-chat/tyne#474.
+            forkOnMainEngineStarted()
             handler.postDelayed(
                 {
                     if (mainEngineRunning) {
@@ -316,7 +330,11 @@ class FluxerUnifiedPushService : UnifiedPushService() {
             }
         }
 
-        fun onDartBackgroundFinished() {
+        // Fork: Dart reports how many pushes it has handled (tyne-chat/tyne#474).
+        fun onDartBackgroundFinished(handled: Int? = null) {
+            if (!forkSessionLedger.shouldClose(handled)) {
+                return
+            }
             closeBackgroundSession()
         }
 
@@ -325,6 +343,8 @@ class FluxerUnifiedPushService : UnifiedPushService() {
                 return
             }
             backgroundSessionOpen = true
+            // Fork: tyne-chat/tyne#474.
+            forkSessionGeneration = forkMainEngineGeneration
             handler.removeCallbacks(closeSession)
             handler.postDelayed(closeSession, CPU_HOLD_MS)
         }
@@ -337,7 +357,8 @@ class FluxerUnifiedPushService : UnifiedPushService() {
             handler.removeCallbacks(closeSession)
             val service = activeService
             service?.stopPushForeground()
-            discardBackgroundEngine()
+            // Fork: keep the engine for the next push, release the CPU now (tyne-chat/tyne#474).
+            forkOnSessionClose()
             service?.requestStop()
         }
 
@@ -380,8 +401,15 @@ class FluxerUnifiedPushService : UnifiedPushService() {
             if (backgroundSessionOpen) {
                 return
             }
+            // Fork: never while the app's engine exists; see forkAppEngineAlive (tyne-chat/tyne#474).
+            if (forkAppEngineAlive()) {
+                forkDetachPushPlugin()
+                return
+            }
             val engine = backgroundEngine ?: return
             backgroundEngine = null
+            // Fork: tyne-chat/tyne#474.
+            forkSessionLedger.reset()
             dartBackgroundReady = false
             synchronized(pendingFlutterEvents) {
                 pendingFlutterEvents.clear()
@@ -410,5 +438,225 @@ class FluxerUnifiedPushService : UnifiedPushService() {
                 PLUGIN_ARG_ENDPOINT_KEY_AUTH to endpoint.pubKeySet?.auth,
                 PLUGIN_ARG_ENDPOINT_TEMP to endpoint.temporary,
             )
+
+        // Fork (tyne-chat/tyne#474): push session state and helpers.
+        //
+        // The UnifiedPush connector (3.3.5) unbinds from this service 5 s after its first event but
+        // never resets its `connected` flag. From then on it calls onMessage on that first, destroyed
+        // instance, on its own thread, and no new instance (so no onCreate, no engine) ever follows.
+        // So forkAcceptPush counts each push and holds the CPU at once, and does the rest on the main
+        // thread: a started service carries the foreground service, the engine is kept between
+        // pushes, and a session ends once Dart has handled every push it was given.
+        private const val FORK_TAG = "FluxerPushSession"
+        private val forkSessionLedger = ForkPushSessionLedger()
+        private val forkWakeLockGuard = Any()
+
+        @Volatile
+        private var forkWakeLock: PowerManager.WakeLock? = null
+        private var forkSessionTimedOut = false
+        private var forkMainEngineGeneration = 0
+        private var forkSessionGeneration = 0
+        private var forkStartedService: FluxerUnifiedPushService? = null
+        private var forkServiceStartPending = false
+
+        /** Holds the CPU for up to [CPU_HOLD_MS] from now; each call restarts that limit. */
+        private fun forkHoldCpu(context: Context) {
+            val lock =
+                forkWakeLock
+                    ?: synchronized(forkWakeLockGuard) {
+                        forkWakeLock
+                            ?: (context.applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager)
+                                .newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "fluxer:unifiedpush-session")
+                                .also {
+                                    it.setReferenceCounted(false)
+                                    forkWakeLock = it
+                                }
+                    }
+            lock.acquire(CPU_HOLD_MS)
+        }
+
+        /** Releases this block's wake lock and upstream's at once. */
+        private fun forkReleaseCpu() {
+            val lock = forkWakeLock
+            if (lock != null && lock.isHeld) {
+                lock.release()
+            }
+            handler.removeCallbacks(releaseCpu)
+            releaseCpu.run()
+        }
+
+        private fun forkOnSessionClose() {
+            forkReleaseCpu()
+            val discard =
+                ForkPushSessionLedger.shouldDiscardOnClose(
+                    mainEngineRunning,
+                    forkMainEngineGeneration != forkSessionGeneration,
+                    forkSessionTimedOut,
+                )
+            android.util.Log.d(
+                FORK_TAG,
+                "session closed: delivered=${forkSessionLedger.delivered()} " +
+                    "timedOut=$forkSessionTimedOut discardEngine=$discard",
+            )
+            forkSessionTimedOut = false
+            if (discard) {
+                discardBackgroundEngine()
+            }
+        }
+
+        /**
+         * The main app's engine handles pushes from now on. A push engine still alive here (a
+         * session was open when the app started) loses its UnifiedPush plugin: that plugin would
+         * otherwise take pushes meant for the app while the app's own plugin starts, and make the
+         * app's plugin skip what is waiting in `Plugin.calls`. The engine itself stays until the app
+         * stops (see [forkAppEngineAlive]).
+         */
+        private fun forkOnMainEngineStarted() {
+            forkMainEngineGeneration += 1
+            forkDetachPushPlugin()
+        }
+
+        /**
+         * Called by `MainActivity.onCreate` before its engine exists. An idle push engine is
+         * destroyed now, while that is still safe; during a session it stays (and loses its plugin
+         * once the app's engine starts).
+         */
+        fun forkBeforeAppEngine() {
+            discardBackgroundEngine()
+        }
+
+        /**
+         * Whether an app engine exists: the activity's (`mainEngineRunning`) or the one audio_service
+         * keeps in [io.flutter.embedding.engine.FlutterEngineCache], which also plays audio without
+         * an activity. While one does, the push engine must not be destroyed:
+         * shared_preferences_android (2.5.4) keeps a single process-wide registration per name, which
+         * every engine's attach overwrites and any engine's detach removes, so destroying the push
+         * engine would leave the app's engine without preferences (on 2026-11-02 that stopped the
+         * app at its launch screen).
+         */
+        private fun forkAppEngineAlive(): Boolean =
+            mainEngineRunning ||
+                io.flutter.embedding.engine.FlutterEngineCache.getInstance()
+                    .contains(com.ryanheise.audioservice.AudioServicePlugin.getFlutterEngineId())
+
+        private fun forkDetachPushPlugin() {
+            val registry = backgroundEngine?.plugins ?: return
+            if (registry.has(Plugin::class.java)) {
+                registry.remove(Plugin::class.java)
+                android.util.Log.d(FORK_TAG, "app engine alive: push plugin detached, engine kept")
+            }
+        }
+    }
+
+    // Fork (tyne-chat/tyne#474): see the companion's fork block.
+
+    /**
+     * Counts the push and holds the CPU on the caller's thread (the connector's, after its first
+     * event), before the connector releases its own wake lock, then hands the push on from the main
+     * thread: to the main app's engine through the plugin when the app is running, else to a push
+     * session. Always returns `true`. `this` may be an instance Android has already destroyed; only
+     * its application context and the companion's state are used.
+     */
+    private fun forkAcceptPush(message: PushMessage, instance: String): Boolean {
+        val appContext = applicationContext
+        forkSessionLedger.onDelivered()
+        forkHoldCpu(appContext)
+        android.util.Log.d(FORK_TAG, "push received on thread ${Thread.currentThread().name}")
+        handler.post {
+            if (mainEngineRunning) {
+                forkSessionLedger.undoDelivered()
+                super@FluxerUnifiedPushService.onMessage(message, instance)
+                if (!backgroundSessionOpen) {
+                    forkReleaseCpu()
+                }
+                return@post
+            }
+            if (!forkBeginPushSession(appContext)) {
+                forkSessionLedger.undoDelivered()
+                super@FluxerUnifiedPushService.onMessage(message, instance)
+                return@post
+            }
+            enqueueOrDeliverFlutterEvent(PLUGIN_CALL_MESSAGE, messagePayload(message, instance))
+        }
+        return true
+    }
+
+    /**
+     * Opens or extends a push session on the main thread: a started service in the foreground and a
+     * running engine. Returns `false` if no engine could be started.
+     */
+    private fun forkBeginPushSession(appContext: Context): Boolean {
+        if (backgroundSessionOpen) {
+            handler.removeCallbacks(closeSession)
+            handler.postDelayed(closeSession, CPU_HOLD_MS)
+        } else {
+            openBackgroundSession()
+        }
+        forkHoldCpu(appContext)
+        val live = activeService
+        if (live != null) {
+            live.stopWhenUnbound = false
+            live.startPushForeground()
+        }
+        // A service the connector only bound is destroyed when it unbinds, foreground or not, so
+        // the session needs a started one. onStartCommand puts it in the foreground.
+        if ((forkStartedService == null || live == null) && !forkServiceStartPending) {
+            val started =
+                runCatching {
+                    androidx.core.content.ContextCompat.startForegroundService(
+                        appContext,
+                        Intent(appContext, FluxerUnifiedPushService::class.java),
+                    )
+                }
+            forkServiceStartPending = started.isSuccess
+            started.exceptionOrNull()?.let {
+                android.util.Log.w(FORK_TAG, "service start refused; no foreground service", it)
+            }
+        }
+        val startingEngine = backgroundEngine == null
+        if (startingEngine) {
+            try {
+                getEngine(appContext)
+                ensurePluginOnBackgroundEngine()
+            } catch (error: Exception) {
+                android.util.Log.w(FORK_TAG, "engine start failed", error)
+                closeBackgroundSession()
+                return false
+            }
+        }
+        android.util.Log.d(
+            FORK_TAG,
+            "session open: engine ${if (startingEngine) "started" else "kept"}, " +
+                "delivered=${forkSessionLedger.delivered()}",
+        )
+        return true
+    }
+
+    /**
+     * A start from [forkBeginPushSession] must reach the foreground within seconds, also when its
+     * session has already ended (a push Dart drops at once), or Android ends the process. So this
+     * always enters the foreground, then leaves it again if no session is open.
+     */
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        forkServiceStartPending = false
+        forkStartedService = this
+        if (activeService !== this) {
+            // The flag belongs to an instance that no longer exists.
+            foregroundActive = false
+        }
+        startPushForeground()
+        if (!backgroundSessionOpen) {
+            stopPushForeground()
+            requestStop()
+            forkReleaseCpu()
+        }
+        return START_NOT_STICKY
+    }
+
+    private fun forkNoteServiceDestroyed() {
+        if (forkStartedService === this) {
+            forkStartedService = null
+            forkServiceStartPending = false
+        }
     }
 }
