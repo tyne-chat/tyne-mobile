@@ -224,5 +224,7 @@
     "guildCommandCounterReset": "Återställ antal",
     "guildCommandCounterResetConfirm": "Vill du återställa antalen för {name}? Det går inte att ångra.",
     "guildCommandCounterNameInvalid": "Använd små bokstäver, siffror och _, börja med en bokstav och välj inget namn som skript redan använder.",
-    "guildCommandCounterHowToUse": "Använd den i ett skript som {variable}. Varje körning lägger först till ett, så den första läser 1."
+    "guildCommandCounterHowToUse": "Använd den i ett skript som {variable}. Varje körning lägger först till ett, så den första läser 1.",
+    "notificationsAlertEveryMessageLabel": "Avisera för varje meddelande",
+    "notificationsAlertEveryMessageDescription": "När det är av aviserar en livlig konversation en gång och uppdateras sedan tyst tills du läser eller stänger den."
 }

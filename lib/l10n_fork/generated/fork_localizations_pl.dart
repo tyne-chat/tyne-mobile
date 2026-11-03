@@ -789,4 +789,12 @@ class ForkLocalizationsPl extends ForkLocalizations {
   String guildCommandCounterHowToUse(String variable) {
     return 'Użyj go w skrypcie jako $variable. Każde uruchomienie najpierw dodaje jeden, więc pierwsze odczyta 1.';
   }
+
+  @override
+  String get notificationsAlertEveryMessageLabel =>
+      'Powiadamiaj o każdej wiadomości';
+
+  @override
+  String get notificationsAlertEveryMessageDescription =>
+      'Gdy wyłączone, aktywna rozmowa powiadamia tylko raz, a potem aktualizuje się po cichu, dopóki jej nie przeczytasz lub nie odrzucisz.';
 }
