@@ -6,6 +6,7 @@ import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/features/chat/data/prepared_attachments.dart';
 import 'package:fluxer_app/features/chat/domain/message_upload_send_cancelled_exception.dart';
@@ -43,12 +44,20 @@ void main() {
     );
     addTearDown(container.dispose);
     final CloudUploadController controller = container.read(
-      cloudUploadControllerProvider('channel-1').notifier,
+      cloudUploadControllerProvider(
+        readAccountUserId(container),
+        'channel-1',
+      ).notifier,
     );
     final File file = File('${tempDir.path}/a.png')..writeAsBytesSync(<int>[1]);
     await controller.addFiles(composerUploadFiles(<XFile>[XFile(file.path)]));
     final int id = container
-        .read(cloudUploadControllerProvider('channel-1'))
+        .read(
+          cloudUploadControllerProvider(
+            readAccountUserId(container),
+            'channel-1',
+          ),
+        )
         .items
         .single
         .id;
@@ -56,7 +65,14 @@ void main() {
   }
 
   List<PendingAttachment> composerFiles(ProviderContainer container) =>
-      container.read(cloudUploadControllerProvider('channel-1')).items;
+      container
+          .read(
+            cloudUploadControllerProvider(
+              readAccountUserId(container),
+              'channel-1',
+            ),
+          )
+          .items;
 
   test('uploaded files are named and stay in the composer', () async {
     final (container, controller, id) = await withFile();
