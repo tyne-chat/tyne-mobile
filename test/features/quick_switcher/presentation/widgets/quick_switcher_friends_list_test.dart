@@ -173,6 +173,8 @@ void main() {
 
         expect(repository.lastEnsureUserId, '200');
         expect(friendSelectedCalled, isTrue);
+        // Its widgets read the account's settings, whose database stream must not outlive the test.
+        await releaseTestWidgetTree(tester);
       },
     );
 

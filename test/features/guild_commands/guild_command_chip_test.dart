@@ -30,8 +30,8 @@ class _Permissions extends GuildPermissions {
   final int permissions;
 
   @override
-  Map<String, int> build() {
-    super.build();
+  Map<String, int> build(String accountUserId) {
+    super.build(accountUserId);
     return <String, int>{_guild: permissions};
   }
 }
@@ -77,7 +77,9 @@ void main() {
       adapter: adapter,
       clock: TestClock(),
       overrides: [
-        guildPermissionsProvider.overrideWith(() => _Permissions(permissions)),
+        guildPermissionsProvider(
+          'me',
+        ).overrideWith(() => _Permissions(permissions)),
         channelByIdProvider(
           'c',
         ).overrideWith((Ref ref) => Stream<Channel?>.value(null)),

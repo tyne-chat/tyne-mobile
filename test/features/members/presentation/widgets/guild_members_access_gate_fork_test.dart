@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -9,6 +10,8 @@ import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.
 import 'package:fluxer_app/features/members/presentation/widgets/guild_members_access_gate.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+
+import '../../../../helpers/test_account_user_id.dart';
 
 const String _guild = 'g';
 const String _denied = 'You do not have permission to view this settings tab.';
@@ -29,11 +32,18 @@ void main() {
     WidgetTester tester,
   ) async {
     final ProviderContainer container = ProviderContainer(
-      overrides: [guildPermissionsProvider.overrideWith(_Permissions.new)],
+      overrides: [
+        guildPermissionsProvider(
+          kTestAccountUserId,
+        ).overrideWith(_Permissions.new),
+      ],
     );
     addTearDown(container.dispose);
     final _Permissions permissions =
-        container.read(guildPermissionsProvider.notifier) as _Permissions
+        container.read(
+                guildPermissionsProvider(readAccountUserId(container)).notifier,
+              )
+              as _Permissions
           ..give(_guild, _manage);
 
     final colorTheme = buildDarkColorTheme();

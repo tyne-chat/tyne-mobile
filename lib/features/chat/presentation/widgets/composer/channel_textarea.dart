@@ -1842,7 +1842,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                             return const SizedBox.shrink();
                           }
                           final bool hasAttachments = ref.watch(
-                            cloudUploadControllerProvider(channelId).select(
+                            cloudUploadControllerProvider(
+                              watchAccountUserId(ref),
+                              channelId,
+                            ).select(
                               (CloudComposerAttachments a) =>
                                   a.items.isNotEmpty,
                             ),
@@ -2340,6 +2343,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     // Match persona tags or active latched persona
     final bool hasPendingAttachments = ref.read(
       cloudUploadControllerProvider(
+        watchAccountUserId(ref),
         channelId,
       ).select((CloudComposerAttachments a) => a.items.isNotEmpty),
     );
@@ -2790,7 +2794,7 @@ extension on _ChannelTextareaState {
   // nothing (tyne-chat/tyne#293). The server counts the message's own attachments too.
   bool _forkSendEditWithFiles(String channelId, ChatViewModel vm, String text) {
     final int fileCount = ref
-        .read(cloudUploadControllerProvider(channelId))
+        .read(cloudUploadControllerProvider(readAccountUserId(ref), channelId))
         .items
         .length;
     if (fileCount == 0) {
