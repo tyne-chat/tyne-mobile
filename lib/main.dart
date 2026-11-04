@@ -115,11 +115,11 @@ Future<void> _bootstrapFluxer(List<String> args) async {
     ),
     () async {
       await Future.wait<void>([
+        container.read(quickSwitcherButtonPreferencesProvider.notifier).load(),
         container.read(observabilityReportingProvider.notifier).load(),
         container.read(pushRelayConsentProvider.notifier).load(),
         container.read(localSettingsProvider.notifier).load(),
         loadMessageStickerAspectRatios(),
-        container.read(quickSwitcherButtonPreferencesProvider.notifier).load(),
       ]);
       await loadObservabilityReportingPrompt(container);
       // Fork: start Measure at the first resume if this start had no screen (tyne-chat/tyne#210).
