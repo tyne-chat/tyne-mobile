@@ -23,6 +23,7 @@ import 'package:fluxer_app/shared/markdown/native_markdown_parser.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_image_cache.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
+import '../../helpers/open_test_database.dart';
 import 'fork_synced_emoji_test_support.dart';
 
 const String _wingsL = '1553996962712256513';
@@ -349,6 +350,8 @@ void main() {
       expect(images, hasLength(1));
       expect(isForkSyncedEmojiProvider(images.single.provider), isTrue);
       expect(images.single.frame, 0);
+      // The image reads the account's settings, whose database stream must not outlive the test.
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets("the composer's emoji token", (WidgetTester tester) async {
