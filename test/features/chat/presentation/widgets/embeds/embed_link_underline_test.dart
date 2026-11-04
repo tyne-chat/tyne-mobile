@@ -14,6 +14,9 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/markdown/message_markdown_settings.dart';
 
+// Fork imports.
+import '../../../../../helpers/message_item_test_overrides.dart';
+
 const List<String> _linkTexts = <String>[
   'GitHub',
   'hampus',
@@ -26,6 +29,9 @@ const List<String> _linkTexts = <String>[
 Widget _wrap(Widget child, {required bool underline}) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
+    // Fork: the fork's MessageMarkdown reads the user's settings (the viewer's time zone), which
+    // would open the account's database here; upstream's fixtures for message rendering stub them.
+    overrides: messageItemTestProviderOverrides(),
     child: MaterialApp(
       theme: buildFluxerTheme(
         colorTheme: colorTheme,
