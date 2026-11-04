@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
@@ -232,7 +233,10 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
         true;
     final bool canReset =
         widget.guildId.isEmpty ||
-        ((ref.watch(guildPermissionsProvider)[widget.guildId] ?? 0) &
+        ((ref.watch(
+                      guildPermissionsProvider(watchAccountUserId(ref)),
+                    )[widget.guildId] ??
+                    0) &
                 Permission.manageGuild.value) !=
             0;
     return SignalBarView(
