@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
@@ -42,7 +43,10 @@ class GuildCommandChip extends ConsumerWidget {
           .value
           ?.guildId,
       channelPermissionBits:
-          ref.read(channelPermissionCacheProvider)[message.channelId] ?? 0,
+          ref.read(
+            channelPermissionCacheProvider(readAccountUserId(ref)),
+          )[message.channelId] ??
+          0,
     );
     return command?.id == message.commandId ? command : null;
   }
@@ -77,7 +81,7 @@ class GuildCommandChip extends ConsumerWidget {
     );
     await commands.ensureLoaded();
     final int permissions = await ref
-        .read(guildPermissionsProvider.notifier)
+        .read(guildPermissionsProvider(readAccountUserId(ref)).notifier)
         .getPermissions(guildId);
     final GuildCommandResponseSchema? command = commands.findById(
       message.commandId!,
