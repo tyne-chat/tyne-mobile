@@ -14,6 +14,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
@@ -204,13 +205,25 @@ void main() {
     await paginationFlushAsync();
     final File file = File('${tempDir.path}/a.png')..writeAsBytesSync(<int>[1]);
     await container
-        .read(cloudUploadControllerProvider(_channelId).notifier)
+        .read(
+          cloudUploadControllerProvider(
+            readAccountUserId(container),
+            _channelId,
+          ).notifier,
+        )
         .addFiles(composerUploadFiles(<XFile>[XFile(file.path)]));
     return notifier;
   }
 
   List<PendingAttachment> composerFiles(ProviderContainer container) =>
-      container.read(cloudUploadControllerProvider(_channelId)).items;
+      container
+          .read(
+            cloudUploadControllerProvider(
+              readAccountUserId(container),
+              _channelId,
+            ),
+          )
+          .items;
 
   Message row(ProviderContainer container) => container
       .read(chatViewModelProvider)
@@ -358,7 +371,12 @@ void main() {
     final Future<void> save = notifier.saveEditedMessage(text: 'Test 2');
     await paginationFlushAsync();
     await container
-        .read(cloudUploadControllerProvider(_channelId).notifier)
+        .read(
+          cloudUploadControllerProvider(
+            readAccountUserId(container),
+            _channelId,
+          ).notifier,
+        )
         .removeAttachment(composerFiles(container).single.id);
     uploads.gate!.complete();
     await save;
@@ -380,7 +398,12 @@ void main() {
     await paginationFlushAsync();
     final PendingAttachment file = composerFiles(container).single;
     container
-        .read(cloudUploadControllerProvider(_channelId).notifier)
+        .read(
+          cloudUploadControllerProvider(
+            readAccountUserId(container),
+            _channelId,
+          ).notifier,
+        )
         .updateAttachment(
           file.id,
           filename: file.filename,
@@ -455,7 +478,12 @@ void main() {
     final ProviderContainer container = containerWith(adapter);
     final ChatViewModel notifier = await editWithFile(container);
     await container
-        .read(cloudUploadControllerProvider(_channelId).notifier)
+        .read(
+          cloudUploadControllerProvider(
+            readAccountUserId(container),
+            _channelId,
+          ).notifier,
+        )
         .removeAttachment(composerFiles(container).single.id);
 
     await notifier.saveEditedMessage(text: 'Test');
