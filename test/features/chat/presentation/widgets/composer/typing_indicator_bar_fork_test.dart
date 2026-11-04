@@ -3,6 +3,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/gateway/providers/typing_personas_provider.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_dart/models/message_subprofile_response_schema.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -30,9 +31,11 @@ void main() {
     'typing indicator renders persona name when subprofile is provided',
     (WidgetTester tester) async {
       await forkUpstream.pumpTypingIndicatorBar(tester, compact: false);
-      container.read(typingIndicatorsProvider.notifier).clearAll();
       container
-          .read(typingIndicatorsProvider.notifier)
+          .read(typingIndicatorsProvider(readAccountUserId(container)).notifier)
+          .clearAll();
+      container
+          .read(typingIndicatorsProvider(readAccountUserId(container)).notifier)
           .addTyping('channel-1', forkKTyperUserId);
       container
           .read(typingPersonasProvider.notifier)
@@ -51,7 +54,9 @@ void main() {
 
       expect(find.textContaining('Ruby Rose'), findsOneWidget);
       expect(find.textContaining('is typing'), findsOneWidget);
-      container.read(typingIndicatorsProvider.notifier).clearAll();
+      container
+          .read(typingIndicatorsProvider(readAccountUserId(container)).notifier)
+          .clearAll();
     },
   );
 }
