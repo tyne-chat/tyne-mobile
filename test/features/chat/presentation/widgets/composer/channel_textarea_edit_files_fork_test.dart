@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
@@ -35,7 +36,12 @@ Message _edited({List<Attachment> attachments = const <Attachment>[]}) =>
 Future<void> _addFile(ProviderContainer container, Directory dir) async {
   final File file = File('${dir.path}/a.png')..writeAsBytesSync(<int>[1]);
   await container
-      .read(cloudUploadControllerProvider(kComposerHarnessChannelA).notifier)
+      .read(
+        cloudUploadControllerProvider(
+          readAccountUserId(container),
+          kComposerHarnessChannelA,
+        ).notifier,
+      )
       .addFiles(composerUploadFiles(<XFile>[XFile(file.path)]));
 }
 
@@ -123,7 +129,12 @@ void main() {
     expect(vm.sentTexts, isEmpty);
     expect(
       container
-          .read(cloudUploadControllerProvider(kComposerHarnessChannelA))
+          .read(
+            cloudUploadControllerProvider(
+              readAccountUserId(container),
+              kComposerHarnessChannelA,
+            ),
+          )
           .items,
       hasLength(1),
     );

@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show ProviderListenable;
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/chat/domain/cloud_composer_attachments.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
@@ -16,6 +18,16 @@ import 'package:fluxer_app/features/signal_bar/providers/signal_bar_providers.da
 
 /// `ref.read` of a widget or of a notifier.
 typedef SignalProviderReader = T Function<T>(ProviderListenable<T> provider);
+
+/// The account [read] acts for, found as upstream's `readAccountUserId` finds it, for the
+/// providers keyed by it: a reader has no `Ref` to hand that function. Null without one.
+String? signalReaderAccountUserId(SignalProviderReader read) {
+  final String? userId = read(currentUserIdProvider);
+  if (userId != null && userId.isNotEmpty) {
+    return userId;
+  }
+  return kReleaseMode ? null : accountUserIdTestFallback;
+}
 
 /// The account's lit signals in [channelId] now name [persona], or the
 /// account itself when it is null.
@@ -90,11 +102,15 @@ Persona? composerSignalPersona(
     return null;
   }
   final String text = read(chatViewModelProvider).messageText;
-  final bool hasAttachments = read(
-    cloudUploadControllerProvider(channelId).select(
-      (CloudComposerAttachments attachments) => attachments.items.isNotEmpty,
-    ),
-  );
+  final String? accountUserId = signalReaderAccountUserId(read);
+  final bool hasAttachments =
+      accountUserId != null &&
+      read(
+        cloudUploadControllerProvider(accountUserId, channelId).select(
+          (CloudComposerAttachments attachments) =>
+              attachments.items.isNotEmpty,
+        ),
+      );
   return previewPersona(
     text,
     personas,

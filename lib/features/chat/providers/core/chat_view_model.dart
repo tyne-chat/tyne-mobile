@@ -7334,7 +7334,9 @@ class ChatViewModel extends _$ChatViewModel {
       final activeState = ref.read(activePersonaProvider);
       final String? latchedId = activeState.latchedIdFor(channelId);
       final bool hasPendingAttachments = ref
-          .read(cloudUploadControllerProvider(channelId))
+          .read(
+            cloudUploadControllerProvider(readAccountUserId(ref), channelId),
+          )
           .items
           .isNotEmpty;
       final PreviewResult preview = previewPersona(
@@ -7443,7 +7445,12 @@ class ChatViewModel extends _$ChatViewModel {
       return;
     }
     final List<PendingAttachment> editFiles = ref
-        .read(cloudUploadControllerProvider(editingMessage.channelId))
+        .read(
+          cloudUploadControllerProvider(
+            readAccountUserId(ref),
+            editingMessage.channelId,
+          ),
+        )
         .items;
     final String rawText = (text ?? state.messageText).trim();
     final List<Persona> personas =
@@ -8418,19 +8425,19 @@ class ChatViewModel extends _$ChatViewModel {
     final CancelToken stop = CancelToken();
     _forkEditFileSaves[messageId] = stop;
     final CloudUploadController uploads = ref.read(
-      cloudUploadControllerProvider(channelId).notifier,
+      cloudUploadControllerProvider(readAccountUserId(ref), channelId).notifier,
     );
     final ProviderSubscription<CloudComposerAttachments> composerFiles = ref
-        .listen(cloudUploadControllerProvider(channelId), (
-          CloudComposerAttachments? _,
-          CloudComposerAttachments next,
-        ) {
-          if (files.any(
-            (PendingAttachment f) => _forkFileChangedOrGone(f, next),
-          )) {
-            stop.cancel();
-          }
-        });
+        .listen(
+          cloudUploadControllerProvider(readAccountUserId(ref), channelId),
+          (CloudComposerAttachments? _, CloudComposerAttachments next) {
+            if (files.any(
+              (PendingAttachment f) => _forkFileChangedOrGone(f, next),
+            )) {
+              stop.cancel();
+            }
+          },
+        );
     _uploadKeepAlive.begin(
       notificationTitle: ref
           .read(appLocalizationsProvider)
@@ -8486,7 +8493,15 @@ class ChatViewModel extends _$ChatViewModel {
       }
       final bool composerUnchanged =
           state.messageText == textAtSave &&
-          ref.read(cloudUploadControllerProvider(channelId)).items.isEmpty;
+          ref
+              .read(
+                cloudUploadControllerProvider(
+                  readAccountUserId(ref),
+                  channelId,
+                ),
+              )
+              .items
+              .isEmpty;
       if (composerUnchanged) {
         await _endEditRestoringDraft(open);
       } else {
