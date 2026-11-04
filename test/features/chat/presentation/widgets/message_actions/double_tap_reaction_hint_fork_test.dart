@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/settings/providers/preferences/message_ui_pr
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_image_cache.dart';
 
+import '../../../../../helpers/open_test_database.dart';
 import '../../../../../helpers/test_l10n.dart';
 
 class _FakeDoubleTapReactionPreferences extends DoubleTapReactionPreferences {
@@ -74,6 +75,8 @@ void main() {
       expect(image.emojiId, 'e1');
       expect(image.animated, isTrue);
       expect(image.pauseWhenOffscreen, isFalse);
+      // Its widgets read the account's settings, whose database stream must not outlive the test.
+      await releaseTestWidgetTree(tester);
     },
   );
 }

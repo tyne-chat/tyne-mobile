@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -55,14 +56,19 @@ class _EditorState extends State<_Editor> {
 
 ProviderContainer _container() {
   final ProviderContainer container = ProviderContainer(
-    overrides: [guildPermissionsProvider.overrideWith(_Permissions.new)],
+    overrides: [
+      guildPermissionsProvider.overrideWith2((String _) => _Permissions()),
+    ],
   );
   addTearDown(container.dispose);
   return container;
 }
 
 _Permissions _permissions(ProviderContainer container) =>
-    container.read(guildPermissionsProvider.notifier) as _Permissions;
+    container.read(
+          guildPermissionsProvider(readAccountUserId(container)).notifier,
+        )
+        as _Permissions;
 
 void main() {
   group('guildSettingsPermissions', () {
@@ -149,8 +155,8 @@ void main() {
     ProviderContainer gateContainer() {
       final ProviderContainer container = ProviderContainer(
         overrides: [
-          guildPermissionsProvider.overrideWith(_Permissions.new),
-          guildSyncProvider.overrideWith(_NoSync.new),
+          guildPermissionsProvider.overrideWith2((String _) => _Permissions()),
+          guildSyncProvider.overrideWith2((String _) => _NoSync()),
           guildByIdProvider(
             _guild,
           ).overrideWith((Ref ref) => Future<Guild?>.value()),
