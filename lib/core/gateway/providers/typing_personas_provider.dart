@@ -3,6 +3,7 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_dart/models/message_subprofile_response_schema.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -34,7 +35,7 @@ class TypingPersonas extends _$TypingPersonas {
     MessageSubprofileResponseSchema? subprofile,
   ) {
     final Map<String, Map<String, DateTime>> typing = ref.read(
-      typingIndicatorsProvider,
+      typingIndicatorsProvider(readAccountUserId(ref)),
     );
     final Map<String, Map<String, MessageSubprofileResponseSchema>> next =
         <String, Map<String, MessageSubprofileResponseSchema>>{};
@@ -78,7 +79,7 @@ final channelTypingSubprofileProvider = Provider.autoDispose
       (String channelId, String userId)
     >((Ref ref, (String channelId, String userId) args) {
       final bool isTyping = ref.watch(
-        typingIndicatorsProvider.select(
+        typingIndicatorsProvider(watchAccountUserId(ref)).select(
           (Map<String, Map<String, DateTime>> typing) =>
               typing[args.$1]?.containsKey(args.$2) ?? false,
         ),

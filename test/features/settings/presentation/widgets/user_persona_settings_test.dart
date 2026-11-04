@@ -16,6 +16,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../helpers/pump_fluxer_app.dart';
+import '../../../../helpers/test_account_user_id.dart';
 
 class _MockDioAdapter implements HttpClientAdapter {
   @override
@@ -66,7 +67,7 @@ class _FixedCurrentUserPrivate extends CurrentUserPrivateRead {
   final UserPrivateResponse? _user;
 
   @override
-  UserPrivateResponse? build() => _user;
+  UserPrivateResponse? build(String accountUserId) => _user;
 }
 
 class _FakeMyPersonasNotifier extends MyPersonasNotifier {
@@ -158,9 +159,9 @@ void main() {
       overrides: [
         fluxerDioProvider.overrideWithValue(_createMockDio()),
         userSettingsViewModelProvider.overrideWith(_FakeUserSettings.new),
-        currentUserPrivateReadProvider.overrideWith(
-          () => _FixedCurrentUserPrivate(null),
-        ),
+        currentUserPrivateReadProvider(
+          kTestAccountUserId,
+        ).overrideWith(() => _FixedCurrentUserPrivate(null)),
         myPersonasProvider.overrideWith(
           () => _FakeMyPersonasNotifier(personas),
         ),
