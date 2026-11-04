@@ -20,8 +20,12 @@ import '../../../helpers/pump_fluxer_app.dart';
 import '../../../helpers/test_l10n.dart';
 
 // Fork imports.
-// ignore: directives_ordering
+// Fork: the fork's imports stay in this group, after upstream's, instead of sorted in among them.
+// ignore_for_file: directives_ordering
+import 'package:fluxer_app/core/providers/instance/well_known_provider.dart';
 import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+
+import '../../../helpers/fake_well_known.dart';
 
 class _SignedIn extends AuthState {
   @override
@@ -64,6 +68,10 @@ void main() {
           authStateProvider.overrideWith(_SignedIn.new),
           serviceStatusIncidentReadProvider.overrideWith(_NoopIncidentRead.new),
           accountManagerProvider.overrideWith(_NoAccounts.new),
+          // Fork: the fork's status footer loads the instance's .well-known, which over the
+          // network would read this signed-in account's settings from the test database
+          // (test/helpers/fork_no_personas.dart says why that fails).
+          wellKnownProvider.overrideWith(FakeWellKnown.new),
         ],
         child: const ReconnectingScreen(),
       ),
