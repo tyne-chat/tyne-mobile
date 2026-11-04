@@ -85,11 +85,14 @@ Future<OutgoingMessageResolution> _resolveOutgoingPersona(
   // names the channel it is opened from here.
   final String selectionChannelId = personaChannelId ?? channelId;
   // A composer that keeps its own files (the forum post sheet) says so itself.
+  final String? accountUserId = signalReaderAccountUserId(read);
   final bool hasPendingAttachments =
       hasAttachments ??
       channelId.isNotEmpty &&
+          accountUserId != null &&
           read(
             cloudUploadControllerProvider(
+              accountUserId,
               channelId,
             ).select((CloudComposerAttachments a) => a.items.isNotEmpty),
           );

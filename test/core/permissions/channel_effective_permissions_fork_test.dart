@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 
@@ -149,7 +150,7 @@ void main() {
     'rebuilding every channel at once sends no request while the own member is missing',
     () async {
       final ChannelPermissionCache cache = container.read(
-        channelPermissionCacheProvider.notifier,
+        channelPermissionCacheProvider(readAccountUserId(container)).notifier,
       );
 
       await Future.wait(<Future<void>>[
@@ -166,7 +167,7 @@ void main() {
     'resolves reactions once the own member arrives, as READY writes it',
     () async {
       final ChannelPermissionCache cache = container.read(
-        channelPermissionCacheProvider.notifier,
+        channelPermissionCacheProvider(readAccountUserId(container)).notifier,
       );
       await cache.rebuildChannel(_channelId(0));
       expect(cache.getChannelBits(_channelId(0)), isNull);

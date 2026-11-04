@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/api_exception.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/features/chat/utils/messages/client_nonce.dart';
 import 'package:fluxer_app/features/guild_commands/data/guild_commands_repository.dart';
 import 'package:fluxer_app/features/guild_commands/providers/guild_commands_providers.dart';
@@ -97,7 +98,10 @@ class GuildCommandRunner {
       name,
       channelGuildId: channelGuildId,
       channelPermissionBits:
-          _ref.read(channelPermissionCacheProvider)[channelId] ?? 0,
+          _ref.read(
+            channelPermissionCacheProvider(readAccountUserId(_ref)),
+          )[channelId] ??
+          0,
     );
     if (command == null) {
       return const GuildCommandNotACommand();
