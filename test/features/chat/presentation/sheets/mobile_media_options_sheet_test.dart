@@ -23,6 +23,13 @@ import '../../../../helpers/core_test_provider_overrides.dart';
 import '../../../../helpers/open_test_database.dart';
 import '../../../../helpers/test_l10n.dart';
 
+// Fork imports.
+// Fork: the fork's imports stay in this group, after upstream's, instead of sorted in among them.
+// ignore_for_file: directives_ordering
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+
+import '../../../../helpers/fork_no_personas.dart';
+
 const String _testAttachmentUrl =
     'https://fluxerusercontent.com/attachments/1427764813854588943/1531388054034460672/video.mp4';
 const String _testImageUrl =
@@ -38,6 +45,8 @@ Widget _wrap(Widget child, {List<Override> overrides = const []}) {
         favoriteMemesProvider.overrideWith(
           (Ref ref) => Stream<List<FavoriteMeme>>.value(const <FavoriteMeme>[]),
         ),
+        // Fork: no personas, so the fork's code asks the server for none (ForkNoPersonas).
+        myPersonasProvider.overrideWith(ForkNoPersonas.new),
         ...overrides,
       ],
     ),

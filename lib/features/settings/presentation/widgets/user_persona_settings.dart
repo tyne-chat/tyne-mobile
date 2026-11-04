@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
@@ -242,7 +243,9 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
     final activeState = ref.watch(activePersonaProvider);
     final systemDisplayTag = ref.watch(systemDisplayTagProvider);
     final personasAsync = ref.watch(myPersonasProvider);
-    final currentUser = ref.watch(currentUserPrivateReadProvider);
+    final currentUser = ref.watch(
+      currentUserPrivateReadProvider(watchAccountUserId(ref)),
+    );
 
     ref.listen<SystemDisplayTag>(systemDisplayTagProvider, (prev, next) {
       if (!_isDirty) {

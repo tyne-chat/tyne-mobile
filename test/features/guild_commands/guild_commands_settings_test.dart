@@ -27,8 +27,8 @@ const String _script = '{% if target %}{{ target }}{% endif %}';
 
 class _Permissions extends GuildPermissions {
   @override
-  Map<String, int> build() {
-    super.build();
+  Map<String, int> build(String accountUserId) {
+    super.build(accountUserId);
     return <String, int>{
       _guild: Permission.createCommands.value | Permission.manageCommands.value,
     };
@@ -82,7 +82,8 @@ void main() {
             Dio(BaseOptions(baseUrl: 'https://api.test'))
               ..httpClientAdapter = adapter,
           ),
-          guildPermissionsProvider.overrideWith(_Permissions.new),
+          currentUserIdProvider.overrideWithValue('1'),
+          guildPermissionsProvider('1').overrideWith(_Permissions.new),
           fluxerDatabaseProvider.overrideWithValue(openTestDatabase()),
         ],
         child: Consumer(
@@ -91,7 +92,6 @@ void main() {
               body: Center(
                 child: TextButton(
                   onPressed: () {
-                    ref.read(currentUserIdProvider.notifier).set('1');
                     before?.call(ref);
                     Navigator.of(context).push(
                       MaterialPageRoute<void>(

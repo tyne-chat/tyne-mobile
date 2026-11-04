@@ -499,7 +499,9 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       instanceRuntimeConfigProvider.select((config) => config.exploreAvailable),
     );
     final bool isStaff = ref.watch(
-      currentUserPrivateReadProvider.select((user) => user?.isStaff ?? false),
+      currentUserPrivateReadProvider(
+        watchAccountUserId(ref),
+      ).select((user) => user?.isStaff ?? false),
     );
     final bool hideDirectMessages = ref.watch(
       instanceRuntimeConfigProvider.select(
