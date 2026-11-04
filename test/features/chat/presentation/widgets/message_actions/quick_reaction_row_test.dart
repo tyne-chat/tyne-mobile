@@ -10,6 +10,7 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_image_cache.dart';
 import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
 
+import '../../../../../helpers/open_test_database.dart';
 import '../../../../../helpers/test_l10n.dart';
 
 void main() {
@@ -75,6 +76,8 @@ void main() {
       );
       expect(staticEmoji.animated, isFalse);
       expect(staticEmoji.pauseWhenOffscreen, isFalse);
+      // Its widgets read the account's settings, whose database stream must not outlive the test.
+      await releaseTestWidgetTree(tester);
     },
   );
 
