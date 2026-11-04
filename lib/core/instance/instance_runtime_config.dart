@@ -171,6 +171,7 @@ class InstanceRuntimeConfig {
   @override
   bool operator ==(Object other) {
     return other is InstanceRuntimeConfig &&
+        other.serverListButtons == serverListButtons &&
         other.productName == productName &&
         other.premiumProductName == premiumProductName &&
         other.iconUrl == iconUrl &&
@@ -197,12 +198,12 @@ class InstanceRuntimeConfig {
         other.adminRegistrationUrlsEnabled == adminRegistrationUrlsEnabled &&
         other.collectDateOfBirth == collectDateOfBirth &&
         other.usernameSignIn == usernameSignIn &&
-        other.uniqueUsernames == uniqueUsernames &&
-        other.serverListButtons == serverListButtons;
+        other.uniqueUsernames == uniqueUsernames;
   }
 
   @override
   int get hashCode => Object.hashAll(<Object?>[
+    serverListButtons,
     productName,
     premiumProductName,
     iconUrl,
@@ -230,7 +231,6 @@ class InstanceRuntimeConfig {
     collectDateOfBirth,
     usernameSignIn,
     uniqueUsernames,
-    serverListButtons,
   ]);
 
   static String? _nonEmpty(String? value) {
