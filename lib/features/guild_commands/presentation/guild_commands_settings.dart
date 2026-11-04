@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
@@ -55,7 +56,7 @@ class _GuildCommandsSettingsState extends ConsumerState<GuildCommandsSettings> {
 
   Future<void> _loadPermissions() async {
     final int permissions = await ref
-        .read(guildPermissionsProvider.notifier)
+        .read(guildPermissionsProvider(readAccountUserId(ref)).notifier)
         .getPermissions(widget.guildId);
     if (mounted) {
       setState(() => _permissions = permissions);
@@ -79,7 +80,7 @@ class _GuildCommandsSettingsState extends ConsumerState<GuildCommandsSettings> {
     _isOpening = true;
     try {
       final int permissions = await ref
-          .read(guildPermissionsProvider.notifier)
+          .read(guildPermissionsProvider(readAccountUserId(ref)).notifier)
           .getPermissions(widget.guildId);
       if (!mounted) {
         return;

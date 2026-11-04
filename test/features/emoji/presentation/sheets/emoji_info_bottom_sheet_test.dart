@@ -24,8 +24,12 @@ import '../../../../helpers/core_test_provider_overrides.dart';
 import '../../../../helpers/test_l10n.dart';
 
 // Fork imports.
-// ignore: directives_ordering
+// Fork: the fork's imports stay in this group, after upstream's, instead of sorted in among them.
+// ignore_for_file: directives_ordering
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:riverpod/src/framework.dart' show Override;
+
+import '../../../../helpers/fork_no_personas.dart';
 
 class _FakeFavoriteEmojiKeys extends FavoriteEmojiKeys {
   @override
@@ -60,6 +64,8 @@ Widget _buildTestApp({
           ),
         ),
         guildByIdProvider('guild-3').overrideWith((ref) => null),
+        // Fork: no personas, so the fork's sheet asks the server for none (ForkNoPersonas).
+        myPersonasProvider.overrideWith(ForkNoPersonas.new),
         ...extraOverrides,
       ],
     ),
@@ -389,7 +395,12 @@ typedef ForkFakeFavoriteEmojiKeys = _FakeFavoriteEmojiKeys;
 typedef ForkFakeGuildListViewModel = _FakeGuildListViewModel;
 // ignore: unreachable_from_main // Fork: used by emoji_info_bottom_sheet_fork_test.dart.
 typedef ForkUpstreamHelpers = ({
-  Widget Function({required Widget child, String? currentGuildId}) buildTestApp,
+  Widget Function({
+    required Widget child,
+    String? currentGuildId,
+    List<Override> extraOverrides,
+  })
+  buildTestApp,
 });
 // ignore: unreachable_from_main // Fork: used by emoji_info_bottom_sheet_fork_test.dart.
 const ForkUpstreamHelpers forkUpstream = (buildTestApp: _buildTestApp);
