@@ -67,15 +67,11 @@ List<Override> _personaInUse([
   chatViewModelProvider.overrideWith(_FakeChat.new),
 ];
 
+// Through upstream's builder, after the overrides it sets itself (no personas among them).
 Widget _buildTestApp({
   required Widget child,
   List<Override> extraOverrides = const [],
-}) {
-  return ProviderScope(
-    overrides: extraOverrides,
-    child: forkUpstream.buildTestApp(child: child),
-  );
-}
+}) => forkUpstream.buildTestApp(child: child, extraOverrides: extraOverrides);
 
 void main() {
   setUpAll(() async {
