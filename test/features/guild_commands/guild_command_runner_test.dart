@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/features/guild_commands/providers/guild_command_runner.dart';
 import 'package:fluxer_app/features/guild_commands/providers/guild_commands_providers.dart';
 
@@ -181,7 +182,9 @@ void main() {
         );
     expect(await elsewhere(), isA<GuildCommandNotACommand>());
     container
-        .read(channelPermissionCacheProvider.notifier)
+        .read(
+          channelPermissionCacheProvider(readAccountUserId(container)).notifier,
+        )
         .cacheEffectiveBits(
           channelId: 'c',
           outcome: (
