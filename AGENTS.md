@@ -74,6 +74,8 @@ code that hands over to fork code elsewhere. Rewriting or reordering upstream's 
   add fork behaviour as a separate statement rather than a cascade on upstream's expression. After
   formatting an upstream file, check that only fork lines moved.
 - **An `// ignore:`** always has a comment above it (or after it) saying why.
+- **Lists and objects:** fork entries go first in upstream's lists, maps and argument lists, not
+  last where upstream appends, unless the order shows on screen.
 - **Numbers upstream hands out** (protobuf fields, Drift schema versions, enum values, binary tags):
   never take upstream's next value or insert into the middle; the server repository's `AGENTS.md`
   has the rule and why. Here that means:
