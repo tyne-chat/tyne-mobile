@@ -21,11 +21,11 @@ class InstanceRuntimeConfig {
     required this.adminRegistrationUrlsEnabled,
     required this.collectDateOfBirth,
     this.premiumEnabled = false,
+    this.serverListButtons = InstanceServerListButtons.defaults,
     this.usernameSignIn = false,
     this.uniqueUsernames = false,
     this.guildCreateAccess = true,
     this.discoveryEnabled = true,
-    this.serverListButtons = InstanceServerListButtons.defaults,
     this.iconUrl,
     this.symbolUrl,
     this.logoUrl,
@@ -36,6 +36,7 @@ class InstanceRuntimeConfig {
     this.premiumProductName = InstanceConstants.defaultPremiumProductName,
   });
 
+  final InstanceServerListButtons serverListButtons;
   final String productName;
   final String premiumProductName;
   final String? iconUrl;
@@ -63,7 +64,6 @@ class InstanceRuntimeConfig {
   final bool collectDateOfBirth;
   final bool usernameSignIn;
   final bool uniqueUsernames;
-  final InstanceServerListButtons serverListButtons;
 
   static const InstanceRuntimeConfig defaults = InstanceRuntimeConfig(
     productName: InstanceConstants.defaultProductName,
