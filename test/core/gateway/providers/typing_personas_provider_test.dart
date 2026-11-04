@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/gateway/providers/typing_personas_provider.dart';
+import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_dart/models/message_subprofile_response_schema.dart';
 
@@ -31,7 +32,7 @@ void _typingStart(
   MessageSubprofileResponseSchema? subprofile,
 ) {
   container
-      .read(typingIndicatorsProvider.notifier)
+      .read(typingIndicatorsProvider(readAccountUserId(container)).notifier)
       .addTyping(channelId, userId);
   container
       .read(typingPersonasProvider.notifier)
@@ -69,11 +70,15 @@ void main() {
     _typingStart(container, 'c1', 'u1', _ruby);
     _typingStart(container, 'c1', 'u2', _jade);
 
-    container.read(typingIndicatorsProvider.notifier).removeTyping('c1', 'u1');
+    container
+        .read(typingIndicatorsProvider(readAccountUserId(container)).notifier)
+        .removeTyping('c1', 'u1');
     expect(_shown(container, 'c1', 'u1'), isNull);
     expect(_shown(container, 'c1', 'u2'), same(_jade));
 
-    container.read(typingIndicatorsProvider.notifier).clearAll();
+    container
+        .read(typingIndicatorsProvider(readAccountUserId(container)).notifier)
+        .clearAll();
     expect(_shown(container, 'c1', 'u2'), isNull);
   });
 
@@ -94,7 +99,9 @@ void main() {
   test('drops the entries of users who stopped typing', () {
     final ProviderContainer container = _container();
     _typingStart(container, 'c1', 'u1', _ruby);
-    container.read(typingIndicatorsProvider.notifier).removeTyping('c1', 'u1');
+    container
+        .read(typingIndicatorsProvider(readAccountUserId(container)).notifier)
+        .removeTyping('c1', 'u1');
 
     _typingStart(container, 'c2', 'u2', _jade);
 
