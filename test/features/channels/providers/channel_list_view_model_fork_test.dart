@@ -13,6 +13,8 @@ import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
+import '../../../helpers/test_account_user_id.dart';
+
 // Fork: the channel list after a sign-out, when the provider is invalidated
 // but kept alive (tyne-chat/tyne#250), and the early return in loadChannels
 // (tyne-chat/tyne#249).
@@ -53,7 +55,7 @@ ProviderContainer _container(_RecordingChannelRepository channels) {
       guildRepositoryProvider.overrideWithValue(_SilentGuildRepository()),
       // The channel's permissions are cached, so the list does not ask the
       // permission cache to rebuild (as in upstream's test).
-      channelPermissionCacheProvider.overrideWithValue(
+      channelPermissionCacheProvider(kTestAccountUserId).overrideWithValue(
         ChannelPermissionCaches(
           effective: <String, int>{'c1': Permission.viewChannel.value},
         ),
