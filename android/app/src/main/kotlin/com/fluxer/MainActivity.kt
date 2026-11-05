@@ -31,6 +31,8 @@ class MainActivity : AudioServiceFragmentActivity() {
         if (deferOAuthDeepLinkToBrowser(intent)) {
             return
         }
+        // Fork: an idle push engine goes before this activity's engine registers plugins (tyne-chat/tyne#474).
+        FluxerUnifiedPushService.forkBeforeAppEngine()
         super.onCreate(savedInstanceState)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             splashScreen.setOnExitAnimationListener { view ->
