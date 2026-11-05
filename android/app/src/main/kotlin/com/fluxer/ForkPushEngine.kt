@@ -5,6 +5,8 @@ import com.ryanheise.audioservice.AudioServicePlugin
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.PluginRegistry
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.unifiedpush.flutter.connector.Plugin
 
 /**
  * Fork: the engine [FluxerUnifiedPushService] handles a push in when Tyne is not running
@@ -29,7 +31,22 @@ internal class ForkPushEngine(context: Context) :
     private val forkPlugins: PluginRegistry =
         PluginRegistryWithout(super.getPlugins(), PUSH_ENGINE_LEFT_OUT_PLUGINS)
 
+    init {
+        clearPluginReplay()
+    }
+
     override fun getPlugins(): PluginRegistry = forkPlugins
+}
+
+/**
+ * Empties the UnifiedPush plugin's replay of recent calls (tyne-chat/tyne#474). A new push engine's
+ * plugin replays them when no other engine is listening, and they are pushes the main app already
+ * handled while it ran: the push engine would show them again as notifications. Pushes for this
+ * engine reach it directly, not through that replay.
+ */
+@OptIn(ExperimentalCoroutinesApi::class)
+private fun clearPluginReplay() {
+    Plugin.calls.resetReplayCache()
 }
 
 /** Plugins the push engine leaves out. */
