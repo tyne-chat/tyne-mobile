@@ -118,6 +118,8 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 part 'message_list_settings_layer.dart';
+// Fork: tyne-chat/tyne#495.
+part 'message_list_unread_open_fill_fork.dart';
 
 const _kMessageListScrollCacheExtent = 1200.0;
 const _kMessageListCompactScrollCacheExtent = 400.0;
@@ -1619,6 +1621,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       setState(() => _unreadOpenSettling = false);
     }
     _syncReadViewport();
+    _forkWatchUnreadOpenFill();
   }
 
   void _pinWhenRestingAtLiveTail({
