@@ -1,6 +1,7 @@
 package com.fluxer
 
 import android.os.Build
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.WindowInsets
@@ -19,6 +20,12 @@ import io.flutter.embedding.engine.FlutterEngine
  * checks, and `configureFlutterEngine` calls it first.
  */
 open class ForkMainActivity : AudioServiceFragmentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        // An idle push engine goes before this activity's engine registers plugins (tyne-chat/tyne#474).
+        FluxerUnifiedPushService.forkBeforeAppEngine()
+        super.onCreate(savedInstanceState)
+    }
+
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         AppInstallBridge(applicationContext).register(flutterEngine)
