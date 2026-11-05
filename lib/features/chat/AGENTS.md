@@ -35,6 +35,13 @@ inside upstream's files, so read "Where the fork's code sits" before editing.
 - **Paging** (`MessagePaginationCoordinator`): at most `PumpBudget.maxRequestsPerPump` requests per
   pump, then a pause; a failed page parks that edge until the next scroll gesture. Identical page
   requests share one future.
+- **Opening at NEW** (upstream): `MessageList` anchors the first unread message at the middle and
+  lowers it in a few settle passes, then never again. The fork's
+  `presentation/widgets/messages/message_list_unread_open_fill_fork.dart`, a `part` of
+  `message_list.dart` started from `_finishUnreadOpenSettle`, checks after every frame while the list
+  stays in that layout. When nothing newer is left to load, it lowers NEW until the rows reach the
+  bottom, measured from the slivers' layout extents because rows slide into place after a window
+  swap (tyne-chat/tyne#495). Drop it once upstream refits the unread layout itself.
 
 ## Fragile: changing state while the list lays out
 
