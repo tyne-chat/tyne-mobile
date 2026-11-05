@@ -1,5 +1,6 @@
 package com.fluxer
 
+import android.os.Bundle
 import com.ryanheise.audioservice.AudioServiceFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import org.junit.Assert.assertEquals
@@ -27,6 +28,8 @@ class ForkMainActivityTest {
         val declaredBy = { name: String, types: Array<Class<*>> ->
             ForkMainActivity::class.java.getDeclaredMethod(name, *types).declaringClass
         }
+        // The push engine hook (tyne-chat/tyne#474), before the activity's engine starts.
+        assertEquals(ForkMainActivity::class.java, declaredBy("onCreate", arrayOf(Bundle::class.java)))
         // The APK installer's bridge.
         assertEquals(
             ForkMainActivity::class.java,
