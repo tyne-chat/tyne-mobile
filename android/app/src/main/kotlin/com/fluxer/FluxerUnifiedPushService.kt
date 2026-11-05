@@ -232,6 +232,8 @@ class FluxerUnifiedPushService : UnifiedPushService() {
             }
             backgroundSessionOpen = false
             handler.removeCallbacks(closeSession)
+            // Fork: the push engine is kept while the app's engine exists (tyne-chat/tyne#474).
+            if (forkEndSessionKeepingEngine()) return
             ledger.reset()
             pendingMessages.clear()
             dartBackgroundReady = false
@@ -260,5 +262,50 @@ class FluxerUnifiedPushService : UnifiedPushService() {
                 FluxerUnifiedPushBackgroundBridge.ARG_CONTENT to message.content,
                 FluxerUnifiedPushBackgroundBridge.ARG_DECRYPTED to message.decrypted,
             )
+
+        // Fork: never destroy the push engine while the app's engine exists (tyne-chat/tyne#474).
+        // shared_preferences_android keeps one process-wide registration that every engine's
+        // attach overwrites and any engine's detach removes: destroying the push engine then
+        // left the app without preferences, stuck at its launch screen (2026-11-02, build 170).
+        // The app's engine is the activity's, or audio_service's cached one, which can outlive
+        // the activity, so once one has started the push engine is kept for good. Between
+        // sessions it sits idle, and the next session reuses it.
+
+        /** Set before the app's first engine registers its plugins (`MainActivity.onCreate`). */
+        private var forkAppEngineStarted = false
+
+        /**
+         * Called by `MainActivity.onCreate` before its engine registers plugins. An idle push engine
+         * is destroyed now, while that is still safe; one in the middle of a session stays.
+         */
+        fun forkBeforeAppEngine() {
+            val engine = backgroundEngine
+            if (!backgroundSessionOpen && engine != null) {
+                ledger.reset()
+                pendingMessages.clear()
+                dartBackgroundReady = false
+                backgroundEngine = null
+                engine.destroy()
+            }
+            forkAppEngineStarted = true
+        }
+
+        /**
+         * The end of [closeBackgroundSession] once an app engine has started: the session's
+         * foreground service and wake lock go, the engine (and its Dart side, still ready) stays.
+         * The ledger is not reset: the kept engine's Dart side counts the pushes it handled over
+         * its whole life (`UnifiedPushBackgroundWork.handled`), so the ledger counts the pushes it
+         * accepted over the same span, and pushes still queued for it stay queued. Returns false
+         * when upstream's ending, which destroys the engine, is safe.
+         */
+        private fun forkEndSessionKeepingEngine(): Boolean {
+            if (!forkAppEngineStarted || backgroundEngine == null) {
+                return false
+            }
+            serviceStartRequested = false
+            activeService?.stopPushWork()
+            wakeLock?.takeIf { it.isHeld }?.release()
+            return true
+        }
     }
 }
