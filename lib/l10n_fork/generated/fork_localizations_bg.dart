@@ -157,6 +157,15 @@ class ForkLocalizationsBg extends ForkLocalizations {
   }
 
   @override
+  String get personaSendHeldNotLoaded =>
+      'Не е изпратено: персоните ви още не са заредени.';
+
+  @override
+  String personaSendAsAccountAction(String username) {
+    return 'Изпращане като @$username';
+  }
+
+  @override
   String get personaMainAccount => 'Основен акаунт';
 
   @override

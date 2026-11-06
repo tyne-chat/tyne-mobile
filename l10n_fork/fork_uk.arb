@@ -32,6 +32,8 @@
     "personaSendingAs": "Надсилання як {name}",
     "personaPostingAs": "Публікація як {name}",
     "personaSendingAsRoot": "Надсилання як @{username}",
+    "personaSendHeldNotLoaded": "Не надіслано: ваші персони ще не завантажилися.",
+    "personaSendAsAccountAction": "Надіслати як @{username}",
     "personaMainAccount": "Основний обліковий запис",
     "personaEditPersona": "Редагувати персону",
     "userSettingsNavPersonas": "Персони",

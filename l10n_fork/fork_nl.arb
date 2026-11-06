@@ -32,6 +32,8 @@
     "personaSendingAs": "Verzenden als {name}",
     "personaPostingAs": "Plaatsen als {name}",
     "personaSendingAsRoot": "Verzenden als @{username}",
+    "personaSendHeldNotLoaded": "Niet verzonden: je persona's zijn nog niet geladen.",
+    "personaSendAsAccountAction": "Verzenden als @{username}",
     "personaMainAccount": "Hoofdaccount",
     "personaEditPersona": "Persona bewerken",
     "userSettingsNavPersonas": "Persona's",

@@ -32,6 +32,8 @@
     "personaSendingAs": "Đang gửi dưới dạng {name}",
     "personaPostingAs": "Đang đăng dưới dạng {name}",
     "personaSendingAsRoot": "Đang gửi dưới dạng @{username}",
+    "personaSendHeldNotLoaded": "Chưa gửi: persona của bạn chưa tải xong.",
+    "personaSendAsAccountAction": "Gửi dưới tên @{username}",
     "personaMainAccount": "Tài khoản chính",
     "personaEditPersona": "Chỉnh sửa persona",
     "userSettingsNavPersonas": "Persona",

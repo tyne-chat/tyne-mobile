@@ -32,6 +32,8 @@
     "personaSendingAs": "Siunčiama kaip {name}",
     "personaPostingAs": "Skelbiama kaip {name}",
     "personaSendingAsRoot": "Siunčiama kaip @{username}",
+    "personaSendHeldNotLoaded": "Neišsiųsta: jūsų personos dar neįkeltos.",
+    "personaSendAsAccountAction": "Siųsti kaip @{username}",
     "personaMainAccount": "Pagrindinė paskyra",
     "personaEditPersona": "Redaguoti personą",
     "userSettingsNavPersonas": "Personos",

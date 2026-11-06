@@ -1968,7 +1968,15 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         rawText: _sendableWireText(),
         channelId: ref.read(chatViewModelProvider).channelId,
         allowEmptyContent: true,
+        onSendAsAccount: () {
+          if (mounted) {
+            unawaited(_forkHandleGifSelection(selection));
+          }
+        },
       );
+      if (resolution == null || !mounted) {
+        return;
+      }
       _clearSlashSession();
       _controller.clear();
       ref.read(chatViewModelProvider.notifier).updateMessageText('');
@@ -1998,7 +2006,15 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       rawText: _sendableWireText(),
       channelId: ref.read(chatViewModelProvider).channelId,
       allowEmptyContent: true,
+      onSendAsAccount: () {
+        if (mounted) {
+          unawaited(_forkHandleStickerSelection(sticker));
+        }
+      },
     );
+    if (resolution == null || !mounted) {
+      return;
+    }
     _clearSlashSession();
     _controller.clear();
     ref.read(chatViewModelProvider.notifier).updateMessageText('');
@@ -2026,7 +2042,15 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         rawText: _sendableWireText(),
         channelId: ref.read(chatViewModelProvider).channelId,
         allowEmptyContent: true,
+        onSendAsAccount: () {
+          if (mounted) {
+            unawaited(_processFavoriteMemeSelection(selection));
+          }
+        },
       );
+      if (resolution == null || !mounted) {
+        return;
+      }
       _clearSlashSession();
       _controller.clear();
       ref.read(chatViewModelProvider.notifier).updateMessageText('');
@@ -2365,12 +2389,20 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       ).select((CloudComposerAttachments a) => a.items.isNotEmpty),
     );
 
-    final OutgoingMessageResolution resolution = await resolveOutgoingPersona(
+    final OutgoingMessageResolution? resolution = await resolveOutgoingPersona(
       ref: ref,
       rawText: baseContent,
       channelId: channelId,
       allowEmptyContent: hasPendingAttachments,
+      onSendAsAccount: () {
+        if (mounted) {
+          unawaited(_onSendPressed());
+        }
+      },
     );
+    if (resolution == null || !mounted) {
+      return;
+    }
 
     FluxerHaptics.send();
     final bool proceed = await _confirmMentionsIfNeeded(

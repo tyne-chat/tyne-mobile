@@ -156,6 +156,15 @@ class ForkLocalizationsEl extends ForkLocalizations {
   }
 
   @override
+  String get personaSendHeldNotLoaded =>
+      'Δεν στάλθηκε: οι persona σας δεν έχουν φορτωθεί ακόμη.';
+
+  @override
+  String personaSendAsAccountAction(String username) {
+    return 'Αποστολή ως @$username';
+  }
+
+  @override
   String get personaMainAccount => 'Κύριος λογαριασμός';
 
   @override

@@ -155,6 +155,15 @@ class ForkLocalizationsHu extends ForkLocalizations {
   }
 
   @override
+  String get personaSendHeldNotLoaded =>
+      'Nincs elküldve: a personáid még nem töltődtek be.';
+
+  @override
+  String personaSendAsAccountAction(String username) {
+    return 'Küldés @$username néven';
+  }
+
+  @override
   String get personaMainAccount => 'Fő fiók';
 
   @override
