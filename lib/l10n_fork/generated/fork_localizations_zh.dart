@@ -151,6 +151,17 @@ class ForkLocalizationsZh extends ForkLocalizations {
   }
 
   @override
+  String get personaSendHeldNotLoaded => '未发送：你的人格尚未加载。';
+
+  @override
+  String personaSendHeldAskAccount(String username) {
+    return '未发送：你的人格尚未加载。改为以 @$username 身份发送？';
+  }
+
+  @override
+  String get personaSendAsAccountAction => '仍然发送';
+
+  @override
   String get personaMainAccount => '主账户';
 
   @override
@@ -911,6 +922,17 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
   String personaSendingAsRoot(String username) {
     return '以 @$username 的身分傳送';
   }
+
+  @override
+  String get personaSendHeldNotLoaded => '未傳送：你的人格尚未載入。';
+
+  @override
+  String personaSendHeldAskAccount(String username) {
+    return '未傳送：你的人格尚未載入。改以 @$username 身分傳送？';
+  }
+
+  @override
+  String get personaSendAsAccountAction => '仍要傳送';
 
   @override
   String get personaMainAccount => '主帳號';

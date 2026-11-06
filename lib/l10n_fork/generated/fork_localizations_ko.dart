@@ -151,6 +151,17 @@ class ForkLocalizationsKo extends ForkLocalizations {
   }
 
   @override
+  String get personaSendHeldNotLoaded => '전송되지 않음: 페르소나를 아직 불러오지 못했습니다.';
+
+  @override
+  String personaSendHeldAskAccount(String username) {
+    return '전송되지 않음: 페르소나를 아직 불러오지 못했습니다. 대신 @$username(으)로 보낼까요?';
+  }
+
+  @override
+  String get personaSendAsAccountAction => '그래도 보내기';
+
+  @override
   String get personaMainAccount => '기본 계정';
 
   @override

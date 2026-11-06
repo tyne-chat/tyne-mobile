@@ -154,6 +154,18 @@ class ForkLocalizationsAr extends ForkLocalizations {
   }
 
   @override
+  String get personaSendHeldNotLoaded =>
+      'لم تُرسَل: لم يكتمل تحميل شخصياتك بعد.';
+
+  @override
+  String personaSendHeldAskAccount(String username) {
+    return 'لم تُرسَل: لم يكتمل تحميل شخصياتك بعد. هل تريد إرسالها باسم @$username بدلًا من ذلك؟';
+  }
+
+  @override
+  String get personaSendAsAccountAction => 'إرسال على أي حال';
+
+  @override
   String get personaMainAccount => 'الحساب الرئيسي';
 
   @override

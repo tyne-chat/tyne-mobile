@@ -157,6 +157,18 @@ class ForkLocalizationsEs extends ForkLocalizations {
   }
 
   @override
+  String get personaSendHeldNotLoaded =>
+      'No se ha enviado: tus personas aún no se han cargado.';
+
+  @override
+  String personaSendHeldAskAccount(String username) {
+    return 'No se ha enviado: tus personas aún no se han cargado. ¿Enviarlo como @$username?';
+  }
+
+  @override
+  String get personaSendAsAccountAction => 'Enviar de todos modos';
+
+  @override
   String get personaMainAccount => 'Cuenta principal';
 
   @override
@@ -955,6 +967,18 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
   String personaSendingAsRoot(String username) {
     return 'Enviando como @$username';
   }
+
+  @override
+  String get personaSendHeldNotLoaded =>
+      'No se envió: tus personas todavía no se cargaron.';
+
+  @override
+  String personaSendHeldAskAccount(String username) {
+    return 'No se envió: tus personas todavía no se cargaron. ¿Enviarlo como @$username?';
+  }
+
+  @override
+  String get personaSendAsAccountAction => 'Enviar de todos modos';
 
   @override
   String get personaMainAccount => 'Cuenta principal';

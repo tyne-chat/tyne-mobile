@@ -156,6 +156,18 @@ class ForkLocalizationsId extends ForkLocalizations {
   }
 
   @override
+  String get personaSendHeldNotLoaded =>
+      'Belum terkirim: personamu belum selesai dimuat.';
+
+  @override
+  String personaSendHeldAskAccount(String username) {
+    return 'Belum terkirim: personamu belum selesai dimuat. Kirim sebagai @$username saja?';
+  }
+
+  @override
+  String get personaSendAsAccountAction => 'Tetap kirim';
+
+  @override
   String get personaMainAccount => 'Akun utama';
 
   @override

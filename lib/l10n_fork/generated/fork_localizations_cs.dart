@@ -157,6 +157,18 @@ class ForkLocalizationsCs extends ForkLocalizations {
   }
 
   @override
+  String get personaSendHeldNotLoaded =>
+      'Neodesláno: vaše persony se ještě nenačetly.';
+
+  @override
+  String personaSendHeldAskAccount(String username) {
+    return 'Neodesláno: vaše persony se ještě nenačetly. Odeslat místo toho jako @$username?';
+  }
+
+  @override
+  String get personaSendAsAccountAction => 'Přesto odeslat';
+
+  @override
   String get personaMainAccount => 'Hlavní účet';
 
   @override
