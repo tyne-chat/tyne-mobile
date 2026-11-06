@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/chat/data/channel_persona_mention_cache.dart
 import 'package:fluxer_app/features/emoji/providers/emoji_pins_provider.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_settings.dart';
+import 'package:fluxer_app/features/profile/providers/persona_first_load.dart';
 import 'package:fluxer_dart/models/persona_channel_state_update_request_schema.dart';
 import 'package:native_natural_sort/native_natural_sort.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -104,13 +105,32 @@ class ActivePersonaState {
 // -----------------------------------------------------------------------------
 
 class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
+  /// Whether the account had personas when the list last loaded on this
+  /// device, so a send can tell a late list from an account without personas
+  /// (tyne-chat/tyne#30). Like the selection, the key does not name the
+  /// account, and [reset] clears it.
+  static const _kPrefHadPersonas = 'persona_list_had_personas';
+
+  final FirstLoadGate _gate = FirstLoadGate();
+  bool _hadPersonas = false;
+
+  /// Whether the account had personas when the list last loaded on this
+  /// device: from the device until the list loads, then from the list. A send
+  /// asks it without waiting, so a send from an account without personas
+  /// goes out at once, as before.
+  bool get hadPersonas => _hadPersonas;
+
   @override
   AsyncValue<List<Persona>> build() {
-    unawaited(_loadPersonas());
+    _gate.reset();
+    _hadPersonas = false;
+    unawaited(_readHadPersonas());
+    unawaited(_gate.run(_loadPersonas));
     return const AsyncValue.loading();
   }
 
-  Future<void> _loadPersonas() async {
+  /// Whether the list loaded, and how it went is in [state].
+  Future<bool> _loadPersonas() async {
     try {
       final Dio dio = ref.read(fluxerDioProvider);
       final Response<dynamic> response = await dio.get<dynamic>(
@@ -141,9 +161,12 @@ class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
           .toList();
 
       if (!ref.mounted) {
-        return;
+        return false;
       }
       state = AsyncValue.data(personas);
+      _hadPersonas = personas.isNotEmpty;
+      unawaited(_rememberHadPersonas(personas.isNotEmpty));
+      return true;
     } on Object catch (err, st) {
       talker.warning(
         '[MyPersonasNotifier] Failed to load personas: $err',
@@ -151,26 +174,61 @@ class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
         st,
       );
       if (!ref.mounted) {
-        return;
+        return false;
       }
       // A reload that fails keeps the list already loaded. Readers take
       // `asData`, which is null for an error even when it carries the old
       // list, so an error here would empty the list for all of them, and an
       // untagged message would go out as the account (tyne-chat/tyne#499).
-      if (state.asData != null) {
-        return;
+      if (state.asData == null) {
+        state = AsyncValue.error(err, st);
       }
-      state = AsyncValue.error(err, st);
+      return false;
     }
   }
 
   Future<void> refresh() async {
     state = const AsyncValue.loading();
-    await _loadPersonas();
+    await _gate.run(_loadPersonas);
   }
 
   Future<void> reloadSilently() async {
-    await _loadPersonas();
+    await _gate.run(_loadPersonas);
+  }
+
+  /// The list, waiting up to [timeout] for it when it has not loaded yet: a
+  /// send must not go out as the account only because the list is late
+  /// (tyne-chat/tyne#30). Null if it still has not loaded.
+  Future<List<Persona>?> whenLoaded({
+    Duration timeout = kPersonaSendWait,
+  }) async {
+    final List<Persona>? loaded = state.asData?.value;
+    if (loaded != null) {
+      return loaded;
+    }
+    await _gate.wait(_loadPersonas, timeout: timeout);
+    if (!ref.mounted) {
+      return null;
+    }
+    return state.asData?.value;
+  }
+
+  Future<void> _readHadPersonas() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final bool stored = prefs.getBool(_kPrefHadPersonas) ?? false;
+      // The list, once it has loaded, knows better than the device.
+      if (ref.mounted && state.asData == null) {
+        _hadPersonas = stored;
+      }
+    } on Object catch (_) {}
+  }
+
+  Future<void> _rememberHadPersonas(bool had) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool(_kPrefHadPersonas, had);
+    } on Object catch (_) {}
   }
 
   void upsertPersona(Persona persona) {
@@ -208,6 +266,16 @@ class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
 
   void reset() {
     state = const AsyncValue.data([]);
+    _gate.reset();
+    _hadPersonas = false;
+    unawaited(_forgetHadPersonas());
+  }
+
+  Future<void> _forgetHadPersonas() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove(_kPrefHadPersonas);
+    } on Object catch (_) {}
   }
 }
 
@@ -228,9 +296,18 @@ class ActivePersonaNotifier extends Notifier<ActivePersonaState> {
 
   @override
   ActivePersonaState build() {
+    _channelStatesGate.reset();
+    _channelStatesLoaded = false;
     unawaited(_initFromPrefs());
     return const ActivePersonaState();
   }
+
+  final FirstLoadGate _channelStatesGate = FirstLoadGate();
+  bool _channelStatesLoaded = false;
+
+  /// Whether the per-channel selections have loaded since the account signed
+  /// in (tyne-chat/tyne#30).
+  bool get channelStatesLoaded => _channelStatesLoaded;
 
   Future<void> _initFromPrefs() async {
     try {
@@ -299,13 +376,17 @@ class ActivePersonaNotifier extends Notifier<ActivePersonaState> {
 
   /// Replaces the per-channel selections with what the server holds.
   Future<void> loadChannelStates() async {
+    await _channelStatesGate.run(_loadChannelStates);
+  }
+
+  Future<bool> _loadChannelStates() async {
     try {
       final response = await ref
           .read(fluxerClientProvider)
           .personas
           .listMyPersonaChannelStates();
       if (!ref.mounted) {
-        return;
+        return false;
       }
       state = state.copyWith(
         channelPersonaIds: <String, String>{
@@ -313,11 +394,27 @@ class ActivePersonaNotifier extends Notifier<ActivePersonaState> {
             if (entry.personaId != null) entry.channelId: entry.personaId!,
         },
       );
+      _channelStatesLoaded = true;
+      return true;
     } on Exception catch (err) {
       talker.warning(
         '[ActivePersonaNotifier] Failed to load channel personas: $err',
       );
+      return false;
     }
+  }
+
+  /// Whether the per-channel selections have loaded once, waiting up to
+  /// [timeout] when they have not: until then a channel without one reads as
+  /// the account (tyne-chat/tyne#30).
+  Future<bool> whenChannelStatesLoaded({
+    Duration timeout = kPersonaSendWait,
+  }) async {
+    if (_channelStatesLoaded) {
+      return true;
+    }
+    await _channelStatesGate.wait(_loadChannelStates, timeout: timeout);
+    return ref.mounted && _channelStatesLoaded;
   }
 
   /// Another session of this account selected a persona in a channel, or the
@@ -492,6 +589,8 @@ class ActivePersonaNotifier extends Notifier<ActivePersonaState> {
 
   Future<void> reset() async {
     state = const ActivePersonaState();
+    _channelStatesGate.reset();
+    _channelStatesLoaded = false;
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.remove(_kPrefMode);

@@ -5027,13 +5027,15 @@ class ChatViewModel extends _$ChatViewModel {
         );
     final List<Message> shownHere = <Message>[];
     for (final String channelId in destinationChannelIds) {
-      final OutgoingMessageResolution outgoing = await resolveForwardPersona(
+      final OutgoingMessageResolution? outgoing = await resolveForwardPersona(
         ref.read,
         sourceChannelId: sourceChannelId,
         channelId: channelId,
         comment: normalizedComment?.content ?? '',
       );
-      if (!ref.mounted) {
+      // Held until the personas load (tyne-chat/tyne#30): every destination
+      // waits for the same thing, so this is the first one and nothing went.
+      if (outgoing == null || !ref.mounted) {
         return;
       }
       forwardPersonaData = outgoing.personaData;
