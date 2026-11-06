@@ -213,6 +213,8 @@ flutter analyze lib test --no-fatal-warnings --no-fatal-infos
 dart run tool/fork_string_lint.dart --upstream upstream/canary
 # Every test under test/.
 flutter test test
+# The fork's Kotlin unit tests (android/AGENTS.md, "Tests"); needs Java 17 and the Android SDK.
+flutter build apk --config-only && (cd android && ./gradlew :app:testCanaryUnifiedpushDebugUnitTest --tests 'com.fluxer.Fork*' --tests 'com.fluxer.*ForkTest' --tests 'com.fluxer.AppInstallBridgeTest')
 ```
 
 The nightly gate's analysis step asks more of the fork's code than `flutter analyze` does, and checks
