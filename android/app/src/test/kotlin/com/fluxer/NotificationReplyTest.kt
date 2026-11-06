@@ -24,8 +24,9 @@ class NotificationReplyTest {
             request?.url,
         )
         assertEquals("session-token", request?.authorization)
+        // Fork: the reply asks the server for the persona selected in the channel (tyne-chat/tyne#343).
         assertEquals(
-            """{"content":"hello \"there\"","message_reference":{"message_id":"message-1"},"allowed_mentions":{"replied_user":true}}""",
+            """{"use_persona_selection":true,"content":"hello \"there\"","message_reference":{"message_id":"message-1"},"allowed_mentions":{"replied_user":true}}""",
             request?.body,
         )
     }
