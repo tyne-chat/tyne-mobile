@@ -229,7 +229,9 @@ if the user opted in and the build has a Measure key and URL.
   engine, since a real one needs Flutter's native library). The nightly rebase gate runs the
   fork's, by name: the root guide's "Before committing" has the command. Run them from `android/`
   once `gradlew` and `local.properties` exist (`flutter build apk --config-only` writes both without
-  building). Two of upstream's tests in `SsoAuthSessionTasksTest` fail there with `Method parse in
+  building), leaving out `:app:compileFlutterBuildCanaryUnifiedpushDebug`: without `-x` the task
+  builds the Flutter app for Android, Rust included, which JVM tests do not need and which fails where
+  Rust has no Android targets. Two of upstream's tests in `SsoAuthSessionTasksTest` fail there with `Method parse in
   android.net.Uri not mocked`: they call `Uri.parse` without Robolectric, which is why the gate
   names the fork's. A fork test goes in its own file, `Fork*Test.kt`, or `<UpstreamName>ForkTest.kt`
   for fork behaviour in an upstream class; a name outside those patterns is not run by the gate.
