@@ -159,7 +159,7 @@ Future<PushReplyResult> sendPushNotificationReply({
     }
     final bool replyMention =
         await (resolveReplyMention ?? resolvePushReplyMention)(payload);
-    await (post ?? postPushReply)(
+    await _forkWithPersonaSelection(post ?? postPushReply)(
       PushReplySend(
         apiBaseUrl: account.apiBaseUrl,
         token: account.token,
@@ -224,4 +224,17 @@ String? _nonEmpty(String? value) {
     return null;
   }
   return value;
+}
+
+// Fork: a reply typed in a notification runs without the app's persona
+// selection, so it asks the server to send it as the persona selected in the
+// channel, or the one a tag in the text names, as the app would
+// (tyne-chat/tyne#343).
+Future<void> Function(PushReplySend send) _forkWithPersonaSelection(
+  Future<void> Function(PushReplySend send) post,
+) {
+  return (PushReplySend send) {
+    send.body['use_persona_selection'] = true;
+    return post(send);
+  };
 }
