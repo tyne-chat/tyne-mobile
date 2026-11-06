@@ -108,7 +108,7 @@ import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/features/chat/presentation/sheets/timestamp_picker_sheet.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/composer/persona_composer_pill.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/persona_composer_pill_slot.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/timestamp_insert_provider.dart';
 import 'package:fluxer_app/features/chat/services/timestamp_inline_token.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
@@ -1837,35 +1837,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                           ),
                         ),
                       ),
-                      ListenableBuilder(
-                        listenable: _controller,
-                        builder: (BuildContext context, Widget? _) {
-                          final bool hasPersonas = ref.watch(
-                            myPersonasProvider.select(
-                              (v) => (v.asData?.value ?? const []).isNotEmpty,
-                            ),
-                          );
-                          if (!hasPersonas) {
-                            return const SizedBox.shrink();
-                          }
-                          final bool hasAttachments = ref.watch(
-                            cloudUploadControllerProvider(
-                              watchAccountUserId(ref),
-                              channelId,
-                            ).select(
-                              (CloudComposerAttachments a) =>
-                                  a.items.isNotEmpty,
-                            ),
-                          );
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 2, right: 6),
-                            child: PersonaComposerPill(
-                              text: _sendableWireText(),
-                              hasAttachments: hasAttachments,
-                              channelId: channelId,
-                            ),
-                          );
-                        },
+                      PersonaComposerPillSlot(
+                        controller: _controller,
+                        wireText: _sendableWireText,
+                        channelId: channelId,
                       ),
                       Expanded(
                         child: MobileComposerTextGrowth(
@@ -1973,7 +1948,15 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         rawText: _sendableWireText(),
         channelId: ref.read(chatViewModelProvider).channelId,
         allowEmptyContent: true,
+        onSendAsAccount: () {
+          if (mounted) {
+            unawaited(_forkHandleGifSelection(selection));
+          }
+        },
       );
+      if (resolution == null || !mounted) {
+        return;
+      }
       _clearSlashSession();
       _controller.clear();
       ref.read(chatViewModelProvider.notifier).updateMessageText('');
@@ -2003,7 +1986,15 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       rawText: _sendableWireText(),
       channelId: ref.read(chatViewModelProvider).channelId,
       allowEmptyContent: true,
+      onSendAsAccount: () {
+        if (mounted) {
+          unawaited(_forkHandleStickerSelection(sticker));
+        }
+      },
     );
+    if (resolution == null || !mounted) {
+      return;
+    }
     _clearSlashSession();
     _controller.clear();
     ref.read(chatViewModelProvider.notifier).updateMessageText('');
@@ -2031,7 +2022,15 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         rawText: _sendableWireText(),
         channelId: ref.read(chatViewModelProvider).channelId,
         allowEmptyContent: true,
+        onSendAsAccount: () {
+          if (mounted) {
+            unawaited(_processFavoriteMemeSelection(selection));
+          }
+        },
       );
+      if (resolution == null || !mounted) {
+        return;
+      }
       _clearSlashSession();
       _controller.clear();
       ref.read(chatViewModelProvider.notifier).updateMessageText('');
@@ -2370,12 +2369,20 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       ).select((CloudComposerAttachments a) => a.items.isNotEmpty),
     );
 
-    final OutgoingMessageResolution resolution = await resolveOutgoingPersona(
+    final OutgoingMessageResolution? resolution = await resolveOutgoingPersona(
       ref: ref,
       rawText: baseContent,
       channelId: channelId,
       allowEmptyContent: hasPendingAttachments,
+      onSendAsAccount: () {
+        if (mounted) {
+          unawaited(_onSendPressed());
+        }
+      },
     );
+    if (resolution == null || !mounted) {
+      return;
+    }
 
     FluxerHaptics.send();
     final bool proceed = await _confirmMentionsIfNeeded(
