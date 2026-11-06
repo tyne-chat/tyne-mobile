@@ -26,8 +26,9 @@ import '../../../../helpers/noop_guild_member_hydration_service.dart';
 import '../../../../helpers/open_test_database.dart';
 
 // Fork: what the chat view model does with personas outside sending: a persona
-// edited elsewhere reaches the messages already on screen and in the cache, and
-// typing as a persona names it once the persona's tag is complete.
+// or the account's display tag edited elsewhere reaches the messages already on
+// screen, the reply and edit in progress, and the cache, and typing as a
+// persona names it once the persona's tag is complete.
 
 class _FakeMyPersonasNotifier extends MyPersonasNotifier {
   _FakeMyPersonasNotifier(this._personas);
@@ -40,6 +41,7 @@ class _FakeMyPersonasNotifier extends MyPersonasNotifier {
 
 class _RecordingTypingSender extends TypingSender {
   final List<({String channelId, String? personaId})> sent = [];
+  final List<Map<String, dynamic>?> payloads = [];
 
   @override
   Future<void> notifyUserTyping(
@@ -47,6 +49,7 @@ class _RecordingTypingSender extends TypingSender {
     Map<String, dynamic>? personaData,
   }) async {
     sent.add((channelId: channelId, personaId: personaData?['id'] as String?));
+    payloads.add(personaData);
   }
 }
 
@@ -133,6 +136,30 @@ void main() {
 
   List<Message> shown() => container.read(chatViewModelProvider).messages;
 
+  Message shownAs(String personaId) =>
+      shown().singleWhere((Message m) => m.personaId == personaId);
+
+  Future<void> startReplyTo(Message message) async {
+    viewModel.startReply(message);
+    await paginationFlushAsync();
+    expect(container.read(chatViewModelProvider).replyingTo?.id, message.id);
+  }
+
+  Future<List<cache.Message>> cachedOnceRenamed(
+    bool Function(List<cache.Message> rows) done,
+  ) async {
+    final Stopwatch waited = Stopwatch()..start();
+    List<cache.Message> rows;
+    do {
+      await pumpEventQueue();
+      rows = await db.select(db.messages).get();
+      if (waited.elapsed > const Duration(seconds: 10)) {
+        fail('Timed out waiting for the cached messages to change');
+      }
+    } while (!done(rows));
+    return rows;
+  }
+
   group('a persona edited elsewhere', () {
     test('reaches its messages on screen and leaves the others alone', () {
       expect(
@@ -183,6 +210,36 @@ void main() {
       expect(cached, hasLength(1));
     });
 
+    test('reaches the reply and the edit in progress', () async {
+      await startReplyTo(shownAs('persona_a'));
+
+      viewModel.onPersonaUpdated(
+        personaId: 'persona_a',
+        name: 'Alicia',
+        avatar: null,
+        tag: null,
+        tagIcon: null,
+      );
+      expect(
+        container.read(chatViewModelProvider).replyingTo?.personaName,
+        'Alicia',
+      );
+
+      viewModel
+        ..startEdit(shownAs('persona_b'))
+        ..onPersonaUpdated(
+          personaId: 'persona_b',
+          name: 'Bobby',
+          avatar: null,
+          tag: null,
+          tagIcon: null,
+        );
+      expect(
+        container.read(chatViewModelProvider).editingMessage?.personaName,
+        'Bobby',
+      );
+    });
+
     test('changes nothing for an empty persona id', () {
       final List<Message> before = shown();
 
@@ -193,6 +250,81 @@ void main() {
         tag: null,
         tagIcon: null,
       );
+
+      expect(identical(shown(), before), isTrue);
+    });
+  });
+
+  group("the account's display tag edited elsewhere", () {
+    test(
+      "reaches that account's persona messages on screen, and only them",
+      () {
+        viewModel.onAuthorDisplayTagUpdated(
+          authorId: 'other',
+          tag: 'SYS',
+          tagIcon: 'icon-hash',
+        );
+
+        expect(shownAs('persona_a').personaTag, 'SYS');
+        expect(shownAs('persona_a').personaTagIcon, 'icon-hash');
+        expect(shownAs('persona_b').personaTag, 'SYS');
+        expect(
+          shown().singleWhere((Message m) => m.personaId == null).personaTag,
+          isNull,
+          reason: "the account's own messages show no display tag",
+        );
+      },
+    );
+
+    test('reaches the reply and the edit in progress', () async {
+      await startReplyTo(shownAs('persona_a'));
+      viewModel.onAuthorDisplayTagUpdated(
+        authorId: 'other',
+        tag: 'SYS',
+        tagIcon: null,
+      );
+      expect(
+        container.read(chatViewModelProvider).replyingTo?.personaTag,
+        'SYS',
+      );
+
+      viewModel
+        ..startEdit(shownAs('persona_b'))
+        ..onAuthorDisplayTagUpdated(
+          authorId: 'other',
+          tag: 'NEW',
+          tagIcon: null,
+        );
+      expect(
+        container.read(chatViewModelProvider).editingMessage?.personaTag,
+        'NEW',
+      );
+    });
+
+    test("reaches that account's persona messages in the cache", () async {
+      viewModel.onAuthorDisplayTagUpdated(
+        authorId: 'other',
+        tag: 'SYS',
+        tagIcon: null,
+      );
+
+      final List<cache.Message> rows = await cachedOnceRenamed(
+        (List<cache.Message> rows) => rows
+            .where((cache.Message m) => m.personaId != null)
+            .every((cache.Message m) => m.personaTag == 'SYS'),
+      );
+      expect(
+        rows.where((cache.Message m) => m.personaTag == 'SYS'),
+        hasLength(2),
+      );
+    });
+
+    test('changes nothing for another account or an empty id', () {
+      final List<Message> before = shown();
+
+      viewModel
+        ..onAuthorDisplayTagUpdated(authorId: 'me', tag: 'SYS', tagIcon: null)
+        ..onAuthorDisplayTagUpdated(authorId: '', tag: 'SYS', tagIcon: null);
 
       expect(identical(shown(), before), isTrue);
     });
@@ -209,6 +341,20 @@ void main() {
       viewModel.updateMessageText('a:hello');
 
       expect(typing.sent, [(channelId: 'channel-1', personaId: 'persona_a')]);
+    });
+
+    test("sends the account's display tag along with the persona", () {
+      container
+          .read(systemDisplayTagProvider.notifier)
+          .syncFromSettings(text: '  SYS  ', iconUrl: ' icon-hash ');
+
+      viewModel.updateMessageText('a:hello');
+
+      expect(typing.payloads.single, containsPair('display_tag_text', 'SYS'));
+      expect(
+        typing.payloads.single,
+        containsPair('display_tag_icon', 'icon-hash'),
+      );
     });
 
     test('names no persona for text without a tag', () {
