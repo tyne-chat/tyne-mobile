@@ -2,7 +2,9 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/persona_composer_pill.dart';
+import 'package:fluxer_app/features/profile/data/known_personas.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_settings.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
@@ -37,6 +39,23 @@ class _FakeMyPersonasNotifier extends MyPersonasNotifier {
 
   @override
   AsyncValue<List<Persona>> build() => AsyncData(_initial);
+
+  @override
+  Future<void> reloadSilently() async {}
+}
+
+/// A persona list that has not loaded (tyne-chat/tyne#30), for an account
+/// that had personas when it last did, or not.
+class _LoadingMyPersonasNotifier extends MyPersonasNotifier {
+  _LoadingMyPersonasNotifier({required this.had});
+
+  final bool had;
+
+  @override
+  AsyncValue<List<Persona>> build() => const AsyncLoading();
+
+  @override
+  bool get hadPersonas => had;
 
   @override
   Future<void> reloadSilently() async {}
@@ -86,13 +105,25 @@ void main() {
     String? latchedPersonaId,
     String text = '',
     bool hasAttachments = false,
+    bool listLoaded = true,
+    bool hadPersonas = true,
+    KnownPersona? knownLatched,
   }) {
     return pumpFluxerApp(
       overrides: [
         userSettingsViewModelProvider.overrideWith(_FakeUserSettings.new),
-        myPersonasProvider.overrideWith(
-          () => _FakeMyPersonasNotifier(personas),
-        ),
+        if (listLoaded)
+          myPersonasProvider.overrideWith(
+            () => _FakeMyPersonasNotifier(personas),
+          )
+        else
+          myPersonasProvider.overrideWith(
+            () => _LoadingMyPersonasNotifier(had: hadPersonas),
+          ),
+        if (latchedPersonaId != null)
+          knownPersonaProvider(
+            latchedPersonaId,
+          ).overrideWith((ref) => Stream<KnownPersona?>.value(knownLatched)),
         activePersonaProvider.overrideWith(
           () => _FakeActivePersonaNotifier(initialLatchedId: latchedPersonaId),
         ),
@@ -243,6 +274,51 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Select Persona'), findsOneWidget);
+    });
+
+    // tyne-chat/tyne#30: before the list loads, a selected persona still
+    // decides the send, so the pill stays and opens the picker, where the
+    // account can be chosen again.
+    testWidgets(
+      'stays while a persona is selected and the list has not loaded, drawn '
+      'from the device copy',
+      (tester) async {
+        await tester.pumpWidget(
+          buildTestBed(
+            listLoaded: false,
+            latchedPersonaId: 'p_alpha',
+            knownLatched: const KnownPersona(
+              id: 'p_alpha',
+              name: 'Alpha Alter',
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        final tooltip = tester.widget<Tooltip>(find.byType(Tooltip));
+        expect(tooltip.message, 'Sending as Alpha Alter (Latched)');
+        expect(find.byIcon(PhosphorIconsBold.lockSimple), findsOneWidget);
+      },
+    );
+
+    testWidgets('shows the account while the list has not loaded and nobody '
+        'is selected', (tester) async {
+      await tester.pumpWidget(buildTestBed(listLoaded: false));
+      await tester.pumpAndSettle();
+
+      final tooltip = tester.widget<Tooltip>(find.byType(Tooltip));
+      expect(tooltip.message, 'Sending as @tester');
+      expect(find.byIcon(PhosphorIconsBold.lockSimple), findsNothing);
+    });
+
+    testWidgets('is hidden while the list has not loaded for an account that '
+        'never had personas', (tester) async {
+      await tester.pumpWidget(
+        buildTestBed(listLoaded: false, hadPersonas: false),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byType(Tooltip), findsNothing);
     });
   });
 }
