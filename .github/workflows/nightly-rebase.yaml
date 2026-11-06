@@ -142,10 +142,13 @@ jobs:
       # Gradle's downloads, and the Android runtime jar that Robolectric fetches from Maven
       # Central by itself at test time (~/.m2), kept from night to night: the gate's Kotlin
       # tests would otherwise download them on every run, and a rate limit there (HTTP 429)
-      # would fail the gate (tyne-chat/tyne#8). Only this job restores the cache; the publish
-      # job, which holds WORKFLOW_TOKEN, does not.
-      - name: Cache Gradle and Robolectric downloads
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      # would fail the gate (tyne-chat/tyne#8). Restored here and saved by "Save Gradle and
+      # Robolectric downloads" at the end of this job, whatever the night's outcome (the plain
+      # actions/cache saves only after a successful job). Only this job uses the cache; the
+      # publish job, which holds WORKFLOW_TOKEN, does not.
+      - name: Restore Gradle and Robolectric downloads
+        id: kotlin-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: |
             ~/.gradle/caches/modules-2
@@ -263,6 +266,18 @@ jobs:
             /tmp/rebase_escalation_reason.md
             /tmp/test_failures.log
             /tmp/antigravity_data
+
+      # A new key only: a key that already exists cannot be overwritten. Not after a
+      # cancellation, which may have cut a download short.
+      - name: Save Gradle and Robolectric downloads
+        if: ${{ !cancelled() && steps.kotlin-cache.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            ~/.gradle/caches/modules-2
+            ~/.gradle/wrapper/dists
+            ~/.m2/repository/org/robolectric
+          key: ${{ steps.kotlin-cache.outputs.cache-primary-key }}
 
   # Pushes the rebased branch and the backup tag, opens the escalation and absorbed-commit issues
   # and starts the next repository's rebase: everything that needs WORKFLOW_TOKEN. It runs no code
