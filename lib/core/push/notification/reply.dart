@@ -112,6 +112,10 @@ Future<PushReplyResult> sendPushNotificationReply({
     channelId: channelId,
     body: buildMessageCreateBody(content: content, replyToId: messageId),
   );
+  // Fork: this runs without the app's persona selection, so the server sends
+  // the reply as the persona selected in the channel, or the one a tag in the
+  // text names, as the app would (tyne-chat/tyne#343).
+  send.body['use_persona_selection'] = true;
   try {
     await (post ?? postPushReply)(send);
   } on Object {
