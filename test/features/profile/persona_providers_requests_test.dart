@@ -339,6 +339,100 @@ void main() {
     }
   });
 
+  // A send waits for a list that has not loaded yet (tyne-chat/tyne#30).
+  group('waiting for the persona list', () {
+    test('joins the load in flight, however many sends wait', () async {
+      api
+        ..answers[_list] = _Answer(200, <Object?>[_persona('p1', 'Alice')])
+        ..holdList = Completer<void>();
+      container.listen(myPersonasProvider, (_, _) {});
+      await settle();
+
+      final MyPersonasNotifier notifier = container.read(
+        myPersonasProvider.notifier,
+      );
+      final List<Future<List<Persona>?>> waits = <Future<List<Persona>?>>[
+        for (int i = 0; i < 10; i++) notifier.whenLoaded(),
+      ];
+      api.holdList!.complete();
+
+      for (final List<Persona>? personas in await Future.wait(waits)) {
+        expect(
+          <String>[for (final Persona p in personas!) p.id],
+          <String>['p1'],
+        );
+      }
+      expect(api.callsTo(_list), hasLength(1));
+    });
+
+    for (final ({String name, _Answer answer}) failure in _failures) {
+      test('after a first load that fails ${failure.name}, sends ask nothing '
+          'more for a while', () async {
+        api.answers[_list] = failure.answer;
+        container.listen(myPersonasProvider, (_, _) {});
+        await waitUntil(
+          () => container.read(myPersonasProvider).hasError,
+          'the failed load',
+        );
+
+        for (int i = 0; i < 20; i++) {
+          expect(
+            await container.read(myPersonasProvider.notifier).whenLoaded(),
+            isNull,
+          );
+        }
+        await settle();
+
+        expect(api.callsTo(_list), hasLength(1));
+      });
+    }
+
+    Future<bool?> stored() async => (await SharedPreferences.getInstance())
+        .getBool('persona_list_had_personas');
+
+    test('remembers whether the account had personas, until reset', () async {
+      final MyPersonasNotifier notifier = container.read(
+        myPersonasProvider.notifier,
+      );
+      expect(notifier.hadPersonas, isFalse);
+
+      api.answers[_list] = _Answer(200, <Object?>[_persona('p1', 'Alice')]);
+      await notifier.reloadSilently();
+      await settle();
+      expect(notifier.hadPersonas, isTrue);
+      expect(await stored(), isTrue);
+
+      api.answers[_list] = const _Answer(200, <Object?>[]);
+      await notifier.reloadSilently();
+      await settle();
+      expect(notifier.hadPersonas, isFalse);
+      expect(await stored(), isFalse);
+
+      api.answers[_list] = _Answer(200, <Object?>[_persona('p1', 'Alice')]);
+      await notifier.reloadSilently();
+      await settle();
+      notifier.reset();
+      await settle();
+      expect(notifier.hadPersonas, isFalse);
+      expect(await stored(), isNull);
+    });
+
+    test(
+      'a new start knows it from the device before the list loads',
+      () async {
+        api.holdList = Completer<void>();
+        container = containerWith(
+          prefs: <String, Object>{'persona_list_had_personas': true},
+        )..listen(myPersonasProvider, (_, _) {});
+        await settle();
+
+        expect(container.read(myPersonasProvider).isLoading, isTrue);
+        expect(container.read(myPersonasProvider.notifier).hadPersonas, isTrue);
+        api.holdList!.complete();
+      },
+    );
+  });
+
   test(
     'removing a persona whose pins cannot be dropped still removes it',
     () async {

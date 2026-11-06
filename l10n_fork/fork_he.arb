@@ -32,6 +32,8 @@
     "personaSendingAs": "שולח בתור {name}",
     "personaPostingAs": "מפרסם בתור {name}",
     "personaSendingAsRoot": "שולח בתור @{username}",
+    "personaSendHeldNotLoaded": "לא נשלח: הפרסונות שלכם עדיין לא נטענו.",
+    "personaSendAsAccountAction": "שליחה בתור @{username}",
     "personaMainAccount": "חשבון ראשי",
     "personaEditPersona": "ערוך פרסונה",
     "userSettingsNavPersonas": "פרסונות",

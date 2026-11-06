@@ -32,6 +32,8 @@
     "personaSendingAs": "Se trimite ca {name}",
     "personaPostingAs": "Se postează ca {name}",
     "personaSendingAsRoot": "Se trimite ca @{username}",
+    "personaSendHeldNotLoaded": "Netrimis: personas tale nu s-au încărcat încă.",
+    "personaSendAsAccountAction": "Trimite ca @{username}",
     "personaMainAccount": "Contul principal",
     "personaEditPersona": "Editează persona",
     "userSettingsNavPersonas": "Personas",
