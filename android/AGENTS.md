@@ -224,12 +224,13 @@ if the user opted in and the build has a Measure key and URL.
 
 - **Kotlin:** twelve JUnit files in `app/src/test/kotlin/com/fluxer/`. Ten are upstream's; two are the
   fork's: `AppInstallBridgeTest.kt` (the installer's package, signer and path checks) and
-  `ForkPushEngineTest.kt` (the plugins the push engine leaves out). No check or workflow runs them.
-  Run them from `android/` once a Flutter build has written `gradlew` and `local.properties`, for
-  example `./gradlew :app:testCanaryUnifiedpushDebugUnitTest`. Two of upstream's tests in
-  `SsoAuthSessionTasksTest` fail there with `Method parse in android.net.Uri not mocked`: they call
-  `Uri.parse` without Robolectric. A fork test goes in its own file (`<UpstreamName>ForkTest.kt` for
-  fork behaviour in an upstream class).
+  `ForkPushEngineTest.kt` (the plugins the push engine leaves out). The nightly rebase gate runs the
+  fork's, by name: the root guide's "Before committing" has the command. Run them from `android/`
+  once `gradlew` and `local.properties` exist (`flutter build apk --config-only` writes both without
+  building). Two of upstream's tests in `SsoAuthSessionTasksTest` fail there with `Method parse in
+  android.net.Uri not mocked`: they call `Uri.parse` without Robolectric, which is why the gate
+  names the fork's. A fork test goes in its own file, `Fork*Test.kt`, or `<UpstreamName>ForkTest.kt`
+  for fork behaviour in an upstream class; a name outside those patterns is not run by the gate.
 - **Dart ends** (in the root guide's test list): `test/core/deep_links/fork_app_link_scheme_test.dart`,
   `test/core/updater/`, `test/core/push/`, and upstream's `android_keyboard_insets_test.dart` and
   `mobile_keyboard_metrics_provider_test.dart` under `test/features/chat/`. After a manifest change also
