@@ -101,7 +101,11 @@ internal fun notificationReplyBody(
     messageId: String,
     replyMention: Boolean,
 ): String {
+    // Fork: this runs without the app's persona selection, so the first field has the server send
+    // the reply as the persona selected in the channel, or the one a tag in the text names, as the
+    // app would (tyne-chat/tyne#343).
     return "{" +
+        "\"use_persona_selection\":true," +
         "\"content\":${jsonString(content)}," +
         "\"message_reference\":{\"message_id\":${jsonString(messageId)}}," +
         "\"allowed_mentions\":{\"replied_user\":$replyMention}" +
