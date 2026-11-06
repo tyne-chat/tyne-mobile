@@ -32,6 +32,8 @@
     "personaSendingAs": "{name} として送信中",
     "personaPostingAs": "{name} として投稿中",
     "personaSendingAsRoot": "@{username} として送信中",
+    "personaSendHeldNotLoaded": "送信されていません：ペルソナがまだ読み込まれていません。",
+    "personaSendAsAccountAction": "@{username} として送信",
     "personaMainAccount": "メインアカウント",
     "personaEditPersona": "ペルソナを編集",
     "userSettingsNavPersonas": "ペルソナ",
