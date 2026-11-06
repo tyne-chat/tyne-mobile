@@ -222,9 +222,11 @@ if the user opted in and the build has a Measure key and URL.
 
 ## Tests
 
-- **Kotlin:** twelve JUnit files in `app/src/test/kotlin/com/fluxer/`. Ten are upstream's; two are the
-  fork's: `AppInstallBridgeTest.kt` (the installer's package, signer and path checks) and
-  `ForkPushEngineTest.kt` (the plugins the push engine leaves out). The nightly rebase gate runs the
+- **Kotlin:** thirteen JUnit files in `app/src/test/kotlin/com/fluxer/`. Ten are upstream's; three are
+  the fork's: `AppInstallBridgeTest.kt` (the installer's package, signer and path checks),
+  `ForkPushEngineTest.kt` (the plugins the push engine leaves out) and
+  `FluxerUnifiedPushServiceForkTest.kt` (when the service destroys the push engine, with a stand-in
+  engine, since a real one needs Flutter's native library). The nightly rebase gate runs the
   fork's, by name: the root guide's "Before committing" has the command. Run them from `android/`
   once `gradlew` and `local.properties` exist (`flutter build apk --config-only` writes both without
   building). Two of upstream's tests in `SsoAuthSessionTasksTest` fail there with `Method parse in
