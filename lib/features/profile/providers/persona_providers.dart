@@ -153,6 +153,13 @@ class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
       if (!ref.mounted) {
         return;
       }
+      // A reload that fails keeps the list already loaded. Readers take
+      // `asData`, which is null for an error even when it carries the old
+      // list, so an error here would empty the list for all of them, and an
+      // untagged message would go out as the account (tyne-chat/tyne#499).
+      if (state.asData != null) {
+        return;
+      }
       state = AsyncValue.error(err, st);
     }
   }
