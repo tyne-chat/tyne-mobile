@@ -157,6 +157,18 @@ class ForkLocalizationsNb extends ForkLocalizations {
   }
 
   @override
+  String get personaSendHeldNotLoaded =>
+      'Ikke sendt: personaene dine er ikke lastet inn ennå.';
+
+  @override
+  String personaSendHeldAskAccount(String username) {
+    return 'Ikke sendt: personaene dine er ikke lastet inn ennå. Sende som @$username i stedet?';
+  }
+
+  @override
+  String get personaSendAsAccountAction => 'Send likevel';
+
+  @override
   String get personaMainAccount => 'Hovedkonto';
 
   @override

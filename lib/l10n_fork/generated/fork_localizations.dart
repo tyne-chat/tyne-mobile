@@ -407,6 +407,24 @@ abstract class ForkLocalizations {
   /// **'Sending as @{username}'**
   String personaSendingAsRoot(String username);
 
+  /// Toast when a message is not sent because the account's personas have not loaded yet, so it could go out under the account (tyne-chat/tyne#30). The text stays in the composer.
+  ///
+  /// In en, this message translates to:
+  /// **'Not sent: your personas haven\'t loaded yet.'**
+  String get personaSendHeldNotLoaded;
+
+  /// The same toast when it offers to send the held message as the account itself, named by its username; the action below does that.
+  ///
+  /// In en, this message translates to:
+  /// **'Not sent: your personas haven\'t loaded yet. Send it as @{username} instead?'**
+  String personaSendHeldAskAccount(String username);
+
+  /// Action on that toast: send the held message once as the account, as the message asks.
+  ///
+  /// In en, this message translates to:
+  /// **'Send anyway'**
+  String get personaSendAsAccountAction;
+
   /// Header for root account section in persona profile card.
   ///
   /// In en, this message translates to:
