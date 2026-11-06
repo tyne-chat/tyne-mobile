@@ -32,6 +32,8 @@
     "personaSendingAs": "{name} olarak gönderiliyor",
     "personaPostingAs": "{name} olarak gönderi paylaşılıyor",
     "personaSendingAsRoot": "@{username} olarak gönderiliyor",
+    "personaSendHeldNotLoaded": "Gönderilmedi: Personaların henüz yüklenmedi.",
+    "personaSendAsAccountAction": "@{username} olarak gönder",
     "personaMainAccount": "Ana hesap",
     "personaEditPersona": "Personayı düzenle",
     "userSettingsNavPersonas": "Personalar",

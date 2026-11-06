@@ -32,6 +32,8 @@
     "personaSendingAs": "Sending as {name}",
     "personaPostingAs": "Posting as {name}",
     "personaSendingAsRoot": "Sending as @{username}",
+    "personaSendHeldNotLoaded": "Not sent: your personas haven't loaded yet.",
+    "personaSendAsAccountAction": "Send as @{username}",
     "personaMainAccount": "Main account",
     "personaEditPersona": "Edit persona",
     "userSettingsNavPersonas": "Personas",

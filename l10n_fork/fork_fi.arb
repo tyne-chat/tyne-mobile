@@ -32,6 +32,8 @@
     "personaSendingAs": "Lähetetään nimellä {name}",
     "personaPostingAs": "Julkaistaan nimellä {name}",
     "personaSendingAsRoot": "Lähetetään tunnuksella @{username}",
+    "personaSendHeldNotLoaded": "Ei lähetetty: persoonasi eivät ole vielä latautuneet.",
+    "personaSendAsAccountAction": "Lähetä käyttäjänä @{username}",
     "personaMainAccount": "Päätili",
     "personaEditPersona": "Muokkaa persoonaa",
     "userSettingsNavPersonas": "Persoonat",

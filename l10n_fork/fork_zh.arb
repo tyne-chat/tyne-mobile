@@ -32,6 +32,8 @@
     "personaSendingAs": "以 {name} 发送",
     "personaPostingAs": "以 {name} 发布",
     "personaSendingAsRoot": "以 @{username} 发送",
+    "personaSendHeldNotLoaded": "未发送：你的人格尚未加载。",
+    "personaSendAsAccountAction": "以 @{username} 身份发送",
     "personaMainAccount": "主账户",
     "personaEditPersona": "编辑人格",
     "userSettingsNavPersonas": "人格",

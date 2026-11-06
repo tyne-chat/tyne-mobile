@@ -32,6 +32,8 @@
     "personaSendingAs": "Mengirim sebagai {name}",
     "personaPostingAs": "Memposting sebagai {name}",
     "personaSendingAsRoot": "Mengirim sebagai @{username}",
+    "personaSendHeldNotLoaded": "Belum terkirim: personamu belum selesai dimuat.",
+    "personaSendAsAccountAction": "Kirim sebagai @{username}",
     "personaMainAccount": "Akun utama",
     "personaEditPersona": "Edit persona",
     "userSettingsNavPersonas": "Persona",

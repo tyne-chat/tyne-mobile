@@ -32,6 +32,8 @@
     "personaSendingAs": "Wysyłanie jako {name}",
     "personaPostingAs": "Publikowanie jako {name}",
     "personaSendingAsRoot": "Wysyłanie jako @{username}",
+    "personaSendHeldNotLoaded": "Nie wysłano: twoje persony jeszcze się nie wczytały.",
+    "personaSendAsAccountAction": "Wyślij jako @{username}",
     "personaMainAccount": "Konto główne",
     "personaEditPersona": "Edytuj personę",
     "userSettingsNavPersonas": "Persony",
