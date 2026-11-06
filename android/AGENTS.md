@@ -117,7 +117,10 @@ after one ended: it must reach the chat list, not stay at its launch screen.
 **Reply from a notification:** Dart posts the notification, then `attachAndroidNotificationReply` has
 Kotlin add a reply action to it. On reply, `FluxerNotificationReplyReceiver` reads the account's token
 and API base from secure storage and `HttpNotificationReplyPoster` posts to `/channels/{id}/messages`
-under a 30-second wake lock, without starting Flutter.
+under a 30-second wake lock, without starting Flutter. The fork's first body field,
+`"use_persona_selection":true`, has the server send it as the persona selected in that channel, or the
+one a tag in the text names, since this code cannot see the app's selection (tyne-chat/tyne#343; Dart's
+reply path for iOS sends the same).
 
 ## The fork's changes and where they sit
 
@@ -214,19 +217,19 @@ if the user opted in and the build has a Measure key and URL.
 
 ## Known gaps
 
-- A notification reply carries no `persona_id` (here and in Dart's reply path): it goes out as the
-  account even where a persona is selected (tyne-chat/tyne#343).
 - Nothing in `lib/` or `android/` configures the embedded distributor; it merges two receivers into the
   app (tyne-chat/tyne#345). It does deliver Tyne's pushes: on 2026-11-02, logcat on Chiara's phone
   showed pushes arriving through `embedded_fcm_distributor.impl.FirebaseReceiver` (tyne-chat/tyne#474).
 
 ## Tests
 
-- **Kotlin:** thirteen JUnit files in `app/src/test/kotlin/com/fluxer/`. Ten are upstream's; three are
+- **Kotlin:** fourteen JUnit files in `app/src/test/kotlin/com/fluxer/`. Ten are upstream's; four are
   the fork's: `AppInstallBridgeTest.kt` (the installer's package, signer and path checks),
-  `ForkPushEngineTest.kt` (the plugins the push engine leaves out) and
+  `ForkPushEngineTest.kt` (the plugins the push engine leaves out),
   `FluxerUnifiedPushServiceForkTest.kt` (when the service destroys the push engine, with a stand-in
-  engine, since a real one needs Flutter's native library). The nightly rebase gate runs the
+  engine, since a real one needs Flutter's native library) and `NotificationReplyForkTest.kt` (a reply
+  asks the server for the selected persona). Upstream's `NotificationReplyTest.kt` expects that field
+  too, under a `// Fork:` comment. The nightly rebase gate runs the
   fork's, by name: the root guide's "Before committing" has the command. Run them from `android/`
   once `gradlew` and `local.properties` exist (`flutter build apk --config-only` writes both without
   building), leaving out `:app:compileFlutterBuildCanaryUnifiedpushDebug`: without `-x` the task
