@@ -32,6 +32,8 @@
     "personaSendingAs": "Skickar som {name}",
     "personaPostingAs": "Publicerar som {name}",
     "personaSendingAsRoot": "Skickar som @{username}",
+    "personaSendHeldNotLoaded": "Inte skickat: dina personas har inte laddats än.",
+    "personaSendAsAccountAction": "Skicka som @{username}",
     "personaMainAccount": "Huvudkonto",
     "personaEditPersona": "Redigera persona",
     "userSettingsNavPersonas": "Personas",

@@ -203,6 +203,19 @@
             }
         }
     },
+    "personaSendHeldNotLoaded": "Not sent: your personas haven't loaded yet.",
+    "@personaSendHeldNotLoaded": {
+        "description": "Toast when a message is not sent because the account's personas have not loaded yet, so it could go out under the account (tyne-chat/tyne#30). The text stays in the composer."
+    },
+    "personaSendAsAccountAction": "Send as @{username}",
+    "@personaSendAsAccountAction": {
+        "description": "Action on that toast: send the held message once as the account itself, named by its username.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
     "personaMainAccount": "Main account",
     "@personaMainAccount": {
         "description": "Header for root account section in persona profile card."
