@@ -32,6 +32,8 @@
     "personaSendingAs": "Αποστολή ως {name}",
     "personaPostingAs": "Δημοσίευση ως {name}",
     "personaSendingAsRoot": "Αποστολή ως @{username}",
+    "personaSendHeldNotLoaded": "Δεν στάλθηκε: οι persona σας δεν έχουν φορτωθεί ακόμη.",
+    "personaSendAsAccountAction": "Αποστολή ως @{username}",
     "personaMainAccount": "Κύριος λογαριασμός",
     "personaEditPersona": "Επεξεργασία persona",
     "userSettingsNavPersonas": "Persona",

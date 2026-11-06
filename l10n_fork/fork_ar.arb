@@ -32,6 +32,8 @@
     "personaSendingAs": "إرسال باسم {name}",
     "personaPostingAs": "النشر باسم {name}",
     "personaSendingAsRoot": "إرسال باسم @{username}",
+    "personaSendHeldNotLoaded": "لم تُرسَل: لم يكتمل تحميل شخصياتك بعد.",
+    "personaSendAsAccountAction": "إرسال باسم @{username}",
     "personaMainAccount": "الحساب الرئيسي",
     "personaEditPersona": "تعديل الشخصية",
     "userSettingsNavPersonas": "الشخصيات",
