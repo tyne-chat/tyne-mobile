@@ -156,6 +156,15 @@ class ForkLocalizationsPl extends ForkLocalizations {
   }
 
   @override
+  String get personaSendHeldNotLoaded =>
+      'Nie wysłano: twoje persony jeszcze się nie wczytały.';
+
+  @override
+  String personaSendAsAccountAction(String username) {
+    return 'Wyślij jako @$username';
+  }
+
+  @override
   String get personaMainAccount => 'Konto główne';
 
   @override

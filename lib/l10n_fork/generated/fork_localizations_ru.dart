@@ -156,6 +156,15 @@ class ForkLocalizationsRu extends ForkLocalizations {
   }
 
   @override
+  String get personaSendHeldNotLoaded =>
+      'Не отправлено: ваши персоны ещё не загрузились.';
+
+  @override
+  String personaSendAsAccountAction(String username) {
+    return 'Отправить как @$username';
+  }
+
+  @override
   String get personaMainAccount => 'Основной аккаунт';
 
   @override

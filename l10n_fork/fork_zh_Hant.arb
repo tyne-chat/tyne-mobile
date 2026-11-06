@@ -32,6 +32,8 @@
     "personaSendingAs": "以 {name} 的身分傳送",
     "personaPostingAs": "以 {name} 的身分發佈",
     "personaSendingAsRoot": "以 @{username} 的身分傳送",
+    "personaSendHeldNotLoaded": "未傳送：你的人格尚未載入。",
+    "personaSendAsAccountAction": "以 @{username} 身分傳送",
     "personaMainAccount": "主帳號",
     "personaEditPersona": "編輯人格",
     "userSettingsNavPersonas": "人格",

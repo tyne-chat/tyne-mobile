@@ -169,15 +169,20 @@ class _ForumPostComposerState extends ConsumerState<_ForumPostComposer> {
     // Fork: the post is made as the persona the picker shows, as a message from
     // the channel composer would be. The tag comes out of the text first, so a
     // tag with nothing after it is not a message.
-    final OutgoingMessageResolution outgoing = await resolveOutgoingPersona(
+    final OutgoingMessageResolution? outgoing = await resolveOutgoingPersona(
       ref: ref,
       rawText: _content.text,
       channelId: '',
       allowEmptyContent: _files.isNotEmpty,
       hasAttachments: _files.isNotEmpty,
       personaChannelId: widget.forum.id,
+      onSendAsAccount: () {
+        if (mounted) {
+          unawaited(_submit());
+        }
+      },
     );
-    if (!mounted) {
+    if (outgoing == null || !mounted) {
       return;
     }
     final String? strippedError = forumPostDraftError(
