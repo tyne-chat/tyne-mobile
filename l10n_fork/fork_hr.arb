@@ -32,6 +32,8 @@
     "personaSendingAs": "Šalje se kao {name}",
     "personaPostingAs": "Objavljuje se kao {name}",
     "personaSendingAsRoot": "Šalje se kao @{username}",
+    "personaSendHeldNotLoaded": "Nije poslano: vaše persone još se nisu učitale.",
+    "personaSendAsAccountAction": "Pošalji kao @{username}",
     "personaMainAccount": "Glavni račun",
     "personaEditPersona": "Uredi personu",
     "userSettingsNavPersonas": "Persone",
