@@ -155,6 +155,15 @@ class ForkLocalizationsSv extends ForkLocalizations {
   }
 
   @override
+  String get personaSendHeldNotLoaded =>
+      'Inte skickat: dina personas har inte laddats än.';
+
+  @override
+  String personaSendAsAccountAction(String username) {
+    return 'Skicka som @$username';
+  }
+
+  @override
   String get personaMainAccount => 'Huvudkonto';
 
   @override

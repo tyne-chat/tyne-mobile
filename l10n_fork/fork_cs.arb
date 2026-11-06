@@ -32,6 +32,8 @@
     "personaSendingAs": "Odesílá se jako {name}",
     "personaPostingAs": "Publikuje se jako {name}",
     "personaSendingAsRoot": "Odesílá se jako @{username}",
+    "personaSendHeldNotLoaded": "Neodesláno: vaše persony se ještě nenačetly.",
+    "personaSendAsAccountAction": "Odeslat jako @{username}",
     "personaMainAccount": "Hlavní účet",
     "personaEditPersona": "Upravit personu",
     "userSettingsNavPersonas": "Persony",

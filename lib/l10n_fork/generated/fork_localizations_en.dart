@@ -154,6 +154,15 @@ class ForkLocalizationsEn extends ForkLocalizations {
   }
 
   @override
+  String get personaSendHeldNotLoaded =>
+      'Not sent: your personas haven\'t loaded yet.';
+
+  @override
+  String personaSendAsAccountAction(String username) {
+    return 'Send as @$username';
+  }
+
+  @override
   String get personaMainAccount => 'Main account';
 
   @override
@@ -941,6 +950,15 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   }
 
   @override
+  String get personaSendHeldNotLoaded =>
+      'Not sent: your personas haven\'t loaded yet.';
+
+  @override
+  String personaSendAsAccountAction(String username) {
+    return 'Send as @$username';
+  }
+
+  @override
   String get personaMainAccount => 'Main account';
 
   @override
@@ -1725,6 +1743,15 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
   @override
   String personaSendingAsRoot(String username) {
     return 'Sending as @$username';
+  }
+
+  @override
+  String get personaSendHeldNotLoaded =>
+      'Not sent: your personas haven\'t loaded yet.';
+
+  @override
+  String personaSendAsAccountAction(String username) {
+    return 'Send as @$username';
   }
 
   @override

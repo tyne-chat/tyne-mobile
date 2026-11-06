@@ -155,6 +155,15 @@ class ForkLocalizationsVi extends ForkLocalizations {
   }
 
   @override
+  String get personaSendHeldNotLoaded =>
+      'Chưa gửi: persona của bạn chưa tải xong.';
+
+  @override
+  String personaSendAsAccountAction(String username) {
+    return 'Gửi dưới tên @$username';
+  }
+
+  @override
   String get personaMainAccount => 'Tài khoản chính';
 
   @override
