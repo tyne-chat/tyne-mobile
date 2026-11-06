@@ -151,6 +151,14 @@ class ForkLocalizationsJa extends ForkLocalizations {
   }
 
   @override
+  String get personaSendHeldNotLoaded => '送信されていません：ペルソナがまだ読み込まれていません。';
+
+  @override
+  String personaSendAsAccountAction(String username) {
+    return '@$username として送信';
+  }
+
+  @override
   String get personaMainAccount => 'メインアカウント';
 
   @override

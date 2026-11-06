@@ -32,6 +32,8 @@
     "personaSendingAs": "Sender som {name}",
     "personaPostingAs": "Publiserer som {name}",
     "personaSendingAsRoot": "Sender som @{username}",
+    "personaSendHeldNotLoaded": "Ikke sendt: personaene dine er ikke lastet inn ennå.",
+    "personaSendAsAccountAction": "Send som @{username}",
     "personaMainAccount": "Hovedkonto",
     "personaEditPersona": "Rediger persona",
     "userSettingsNavPersonas": "Personaer",
