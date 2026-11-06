@@ -47,6 +47,13 @@ const _Answer _signedOut = _Answer(401, <String, Object?>{
   'message': 'Unauthorized',
 });
 
+const List<({String name, _Answer answer})> _failures =
+    <({String name, _Answer answer})>[
+      (name: 'rate limited (429)', answer: _rateLimited),
+      (name: 'signed out (401)', answer: _signedOut),
+      (name: 'offline', answer: _Answer.offline()),
+    ];
+
 /// The persona routes: answers each from [answers] and records every request
 /// as "METHOD path body".
 class _PersonaApi implements HttpClientAdapter {
@@ -232,12 +239,7 @@ void main() {
       expect(_ids(container.read(myPersonasProvider)), isEmpty);
     });
 
-    for (final ({String name, _Answer answer}) failure
-        in <({String name, _Answer answer})>[
-          (name: 'rate limited (429)', answer: _rateLimited),
-          (name: 'signed out (401)', answer: _signedOut),
-          (name: 'offline', answer: const _Answer.offline()),
-        ]) {
+    for (final ({String name, _Answer answer}) failure in _failures) {
       test('a first load that fails ${failure.name} shows the error and is '
           'not asked again by later reads', () async {
         api.answers[_list] = failure.answer;
@@ -309,6 +311,32 @@ void main() {
         expect(api.callsTo(_list), hasLength(2));
       },
     );
+
+    // Every reader takes `asData`, so an error would hide the list from all of
+    // them and untagged messages would go out as the account
+    // (tyne-chat/tyne#499).
+    for (final ({String name, _Answer answer}) failure in _failures) {
+      test('a silent reload that fails ${failure.name} keeps the list it had '
+          'and asks nothing more', () async {
+        api.answers[_list] = _Answer(200, <Object?>[_persona('p1', 'Alice')]);
+        container.listen(myPersonasProvider, (_, _) {});
+        await waitUntil(
+          () => container.read(myPersonasProvider).hasValue,
+          'the first load',
+        );
+        api.answers[_list] = failure.answer;
+
+        await container.read(myPersonasProvider.notifier).reloadSilently();
+        for (int i = 0; i < 20; i++) {
+          container.read(myPersonasProvider);
+        }
+        await settle();
+
+        expect(container.read(myPersonasProvider).hasError, isFalse);
+        expect(_ids(container.read(myPersonasProvider)), <String>['p1']);
+        expect(api.callsTo(_list), hasLength(2));
+      });
+    }
   });
 
   test(

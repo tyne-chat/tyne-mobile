@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import 'dart:async';
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
@@ -235,4 +237,110 @@ void main() {
     expect(res.personaData!['id'], alice.id);
     await tester.pumpAndSettle();
   });
+
+  // tyne-chat/tyne#499: the list reloads on every resume and READY, and a
+  // reload the server refused used to empty it, so messages went out as the
+  // account until the next reload worked.
+  testWidgets(
+    'still sends as the latched persona after a reload of the list fails',
+    (tester) async {
+      final _PersonaListThenRefused api = _PersonaListThenRefused();
+      late WidgetRef capturedRef;
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            fluxerDioProvider.overrideWithValue(
+              Dio(BaseOptions(baseUrl: 'https://test.fluxer.invalid'))
+                ..httpClientAdapter = api,
+            ),
+            activePersonaProvider.overrideWith(ActivePersonaNotifier.new),
+          ],
+          child: Consumer(
+            builder: (context, ref, child) {
+              capturedRef = ref;
+              ref.watch(myPersonasProvider);
+              return const SizedBox();
+            },
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(capturedRef.read(myPersonasProvider).asData?.value, hasLength(1));
+
+      await capturedRef
+          .read(activePersonaProvider.notifier)
+          .setActivePersona(bob.id, mode: PersonaMode.manual);
+      // Not awaited: the request finishes on the test's clock, which only
+      // moves when it pumps.
+      unawaited(capturedRef.read(myPersonasProvider.notifier).reloadSilently());
+      await tester.pumpAndSettle();
+      expect(api.listRequests, 2);
+
+      final res = await resolveOutgoingPersona(
+        ref: capturedRef,
+        rawText: 'hello',
+        channelId: 'test_channel',
+      );
+
+      expect(res.text, 'hello');
+      expect(res.personaData?['id'], bob.id);
+      await tester.pumpAndSettle();
+    },
+  );
+}
+
+/// Answers the first request for the persona list with Bob, refuses every
+/// later one with a 429, says Bob is selected when asked for the settings, and
+/// answers anything else with an empty object.
+class _PersonaListThenRefused implements HttpClientAdapter {
+  int listRequests = 0;
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) async {
+    final Map<String, List<String>> json = {
+      Headers.contentTypeHeader: [Headers.jsonContentType],
+    };
+    if (options.method == 'GET' && options.uri.path == '/users/@me/personas') {
+      listRequests++;
+      if (listRequests > 1) {
+        return ResponseBody.fromString(
+          '{"code":"RATE_LIMITED","message":"Slow down","retry_after":1}',
+          429,
+          headers: json,
+        );
+      }
+      return ResponseBody.fromString(
+        jsonEncode(<Object?>[
+          <String, Object?>{
+            'id': 'persona_bob',
+            'name': 'Bob the Fox',
+            'persona_tags': <Object?>[
+              <String, Object?>{'prefix': 'B:'},
+            ],
+          },
+        ]),
+        200,
+        headers: json,
+      );
+    }
+    if (options.uri.path == '/users/@me/personas/settings') {
+      return ResponseBody.fromString(
+        jsonEncode(<String, Object?>{
+          'active_persona_mode': 'manual',
+          'active_persona_id': 'persona_bob',
+          'is_latched': true,
+        }),
+        200,
+        headers: json,
+      );
+    }
+    return ResponseBody.fromString('{}', 200, headers: json);
+  }
+
+  @override
+  void close({bool force = false}) {}
 }
