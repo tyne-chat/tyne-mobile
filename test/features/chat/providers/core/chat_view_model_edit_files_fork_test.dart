@@ -28,9 +28,12 @@ import 'package:fluxer_app/features/chat/providers/upload/attachment_upload_clie
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/chat/providers/upload/user_upload_limits_provider.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dart';
+import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/shared/services/guild_member_hydration_service.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../helpers/chat_view_model_pagination_test_harness.dart';
 import '../../../../helpers/fake_attachment_upload_client.dart';
@@ -48,6 +51,21 @@ Map<String, Object?> _attachmentJson(String id, String filename) =>
       'url': 'https://cdn.test/$filename',
       'proxy_url': 'https://cdn.test/$filename',
     };
+
+const Persona _bao = Persona(
+  id: 'persona_bao',
+  name: 'Bao',
+  personaTags: <PersonaTag>[PersonaTag(prefix: 'B:')],
+);
+
+class _Personas extends MyPersonasNotifier {
+  _Personas(this._personas);
+
+  final List<Persona> _personas;
+
+  @override
+  AsyncValue<List<Persona>> build() => AsyncValue.data(_personas);
+}
 
 /// Records every edit of the message, and answers as the server does or with a 400.
 class _EditRecorder extends PaginatingAdapter {
@@ -151,6 +169,7 @@ void main() {
   ProviderContainer containerWith(
     _EditRecorder adapter, {
     bool presigned = true,
+    List<Persona>? personas,
   }) {
     final Dio dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
       ..httpClientAdapter = adapter;
@@ -166,6 +185,8 @@ void main() {
         fluxerClientProvider.overrideWithValue(client),
         currentUserIdProvider.overrideWithValue('me'),
         attachmentUploadClientProvider.overrideWithValue(uploads),
+        if (personas != null)
+          myPersonasProvider.overrideWith(() => _Personas(personas)),
         maxAttachmentFileBytesProvider.overrideWithValue(1024 * 1024),
         instanceRuntimeConfigProvider.overrideWithValue(
           testInstanceRuntimeConfig(presignedAttachmentUploads: presigned),
@@ -491,4 +512,27 @@ void main() {
     expect(adapter.edits, isEmpty);
     expect(container.read(chatViewModelProvider).editingMessage, isNull);
   });
+
+  test(
+    'a persona tag in an edit with files moves the message to that persona',
+    () async {
+      SharedPreferences.setMockInitialValues(<String, Object>{});
+      final _EditRecorder adapter = _EditRecorder();
+      final ProviderContainer container = containerWith(
+        adapter,
+        personas: const <Persona>[_bao],
+      );
+      final ChatViewModel notifier = await editWithFile(container);
+
+      await notifier.saveEditedMessage(text: 'B: Test 2');
+      await paginationFlushAsync();
+
+      expect(adapter.edits.single['content'], 'Test 2');
+      expect(adapter.edits.single['persona_id'], _bao.id);
+      expect(
+        container.read(activePersonaProvider).frecencyUsage[_bao.id]?.count,
+        1,
+      );
+    },
+  );
 }
