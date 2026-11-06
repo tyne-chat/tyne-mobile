@@ -154,6 +154,15 @@ class ForkLocalizationsHe extends ForkLocalizations {
   }
 
   @override
+  String get personaSendHeldNotLoaded =>
+      'לא נשלח: הפרסונות שלכם עדיין לא נטענו.';
+
+  @override
+  String personaSendAsAccountAction(String username) {
+    return 'שליחה בתור @$username';
+  }
+
+  @override
   String get personaMainAccount => 'חשבון ראשי';
 
   @override

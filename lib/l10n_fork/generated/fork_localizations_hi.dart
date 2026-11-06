@@ -155,6 +155,15 @@ class ForkLocalizationsHi extends ForkLocalizations {
   }
 
   @override
+  String get personaSendHeldNotLoaded =>
+      'नहीं भेजा गया: आपके परसोना अभी लोड नहीं हुए हैं।';
+
+  @override
+  String personaSendAsAccountAction(String username) {
+    return '@$username के रूप में भेजें';
+  }
+
+  @override
   String get personaMainAccount => 'मेन अकाउंट';
 
   @override
