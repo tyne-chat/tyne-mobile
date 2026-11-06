@@ -257,14 +257,19 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
     final Channel parent = widget.parent;
     // Fork: the thread is started, and its first message sent, as the persona
     // the picker shows, as a message from the channel composer would be.
-    final OutgoingMessageResolution outgoing = await resolveOutgoingPersona(
+    final OutgoingMessageResolution? outgoing = await resolveOutgoingPersona(
       ref: ref,
       rawText: _message.text.trim(),
       channelId: '',
       hasAttachments: false,
       personaChannelId: parent.id,
+      onSendAsAccount: () {
+        if (mounted) {
+          unawaited(_submit(private: private));
+        }
+      },
     );
-    if (!mounted) {
+    if (outgoing == null || !mounted) {
       return;
     }
     final String content = outgoing.text.trim();

@@ -32,6 +32,8 @@
     "personaSendingAs": "Изпращане като {name}",
     "personaPostingAs": "Публикуване като {name}",
     "personaSendingAsRoot": "Изпращане като @{username}",
+    "personaSendHeldNotLoaded": "Не е изпратено: персоните ви още не са заредени.",
+    "personaSendAsAccountAction": "Изпращане като @{username}",
     "personaMainAccount": "Основен акаунт",
     "personaEditPersona": "Редактиране на персона",
     "userSettingsNavPersonas": "Персони",

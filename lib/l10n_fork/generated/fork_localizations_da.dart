@@ -157,6 +157,15 @@ class ForkLocalizationsDa extends ForkLocalizations {
   }
 
   @override
+  String get personaSendHeldNotLoaded =>
+      'Ikke sendt: dine personaer er ikke indlæst endnu.';
+
+  @override
+  String personaSendAsAccountAction(String username) {
+    return 'Send som @$username';
+  }
+
+  @override
   String get personaMainAccount => 'Hovedkonto';
 
   @override
