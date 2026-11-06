@@ -32,6 +32,8 @@
     "personaSendingAs": "Küldés mint {name}",
     "personaPostingAs": "Közzététel mint {name}",
     "personaSendingAsRoot": "Küldés mint @{username}",
+    "personaSendHeldNotLoaded": "Nincs elküldve: a personáid még nem töltődtek be.",
+    "personaSendAsAccountAction": "Küldés @{username} néven",
     "personaMainAccount": "Fő fiók",
     "personaEditPersona": "Persona szerkesztése",
     "userSettingsNavPersonas": "Personák",

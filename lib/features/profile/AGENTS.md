@@ -16,6 +16,7 @@ reaches most of the app. The server side is tyne-chat/tyne `fluxer_api/src/api/p
 | Tag matching | `domain/persona_matcher.dart` (a port of the server repository's `PersonaMatcher.ts`) |
 | Image addresses: persona avatar and banner, display tag icon | `domain/persona_image_urls.dart` |
 | Own personas, the selection, settings, the display tag | `providers/persona_providers.dart` |
+| Waiting for the first load before a send (tyne-chat/tyne#30) | `providers/persona_first_load.dart` |
 | Other people's persona profiles | `providers/public_persona_provider.dart` |
 | Persona gateway events | `providers/persona_gateway_events.dart` (`handlePersonaGatewayEvent`) |
 | The device's persona cache | `data/known_personas.dart` (Drift table `known_personas`) |
@@ -112,7 +113,11 @@ The form's "Don't match this persona's tags" switch sets `auto_tag_disabled`.
   repeats the three loads.
 - **Own persona events** cost one list GET per mobile session each; the web's "Replace all", which
   deletes one persona per request, multiplies that.
-- Nothing here sends per message or per render.
+- **A send before the list has loaded** (tyne-chat/tyne#30), from an account that had personas when
+  the list last loaded here, waits for the load in flight, or starts one, through `FirstLoadGate`
+  (`providers/persona_first_load.dart`); after a failure it asks again at most every 10 seconds,
+  however many sends wait. The per-channel selections are waited for the same way. Nothing else here
+  sends per message or per render.
 
 ## Where the fork's code sits in upstream files
 

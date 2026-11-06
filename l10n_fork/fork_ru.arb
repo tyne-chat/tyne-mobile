@@ -32,6 +32,8 @@
     "personaSendingAs": "Отправка от имени {name}",
     "personaPostingAs": "Публикация от имени {name}",
     "personaSendingAsRoot": "Отправка как @{username}",
+    "personaSendHeldNotLoaded": "Не отправлено: ваши персоны ещё не загрузились.",
+    "personaSendAsAccountAction": "Отправить как @{username}",
     "personaMainAccount": "Основной аккаунт",
     "personaEditPersona": "Редактировать персону",
     "userSettingsNavPersonas": "Персоны",
