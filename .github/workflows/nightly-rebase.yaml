@@ -139,6 +139,22 @@ jobs:
       - name: Enable native assets
         run: flutter config --enable-native-assets
 
+      # Gradle's downloads, and the Android runtime jar that Robolectric fetches from Maven
+      # Central by itself at test time (~/.m2), kept from night to night: the gate's Kotlin
+      # tests would otherwise download them on every run, and a rate limit there (HTTP 429)
+      # would fail the gate (tyne-chat/tyne#8). Only this job restores the cache; the publish
+      # job, which holds WORKFLOW_TOKEN, does not.
+      - name: Cache Gradle and Robolectric downloads
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            ~/.gradle/caches/modules-2
+            ~/.gradle/wrapper/dists
+            ~/.m2/repository/org/robolectric
+          key: kotlin-tests-${{ runner.os }}-${{ hashFiles('android/build.gradle.kts', 'android/app/build.gradle.kts', 'android/settings.gradle.kts', 'android/gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            kotlin-tests-${{ runner.os }}-
+
       # The pipeline runs as one step per phase, so this page shows which phase is
       # running, how long each took, and whether the repair agent was needed (its
       # steps are skipped when it was not). The phases share their state through
