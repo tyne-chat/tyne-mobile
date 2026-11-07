@@ -36,11 +36,11 @@ class OutgoingMessageResolution {
 
 /// Who a message about to be sent goes out as, and its text without the tag.
 ///
-/// Null means the send is held: the account had personas when the list last
-/// loaded on this device, but the list (or, with personas chosen per channel,
-/// the per-channel selections) has not loaded even after a wait, so sending
-/// now could put the message under the account (tyne-chat/tyne#30). Other
-/// accounts never wait. The caller then sends nothing and keeps what
+/// Null means the send is held: the message could go out as a persona (one is
+/// selected, or the text carries one of the account's tags), but the list (or,
+/// with personas chosen per channel, the per-channel selections) has not
+/// loaded even after a wait, so sending now could put it under the account
+/// (tyne-chat/tyne#30). Any other message goes out at once, as before. The caller then sends nothing and keeps what
 /// was typed. A toast says why, with a "Send as @name" action when
 /// [onSendAsAccount] is given: it should start the same send again, which then
 /// goes out as the account once.
@@ -118,10 +118,9 @@ Future<OutgoingMessageResolution?> _resolveOutgoingPersona(
     if (escaped != null) {
       return escaped;
     }
-    // Only an account that had personas when the list last loaded here waits
-    // and can be held. Without one (or before the list has loaded once on
-    // this device) a send goes out as before, at once.
-    if (read(myPersonasProvider.notifier).hadPersonas &&
+    // Only a message that could go out as a persona waits and can be held.
+    // Any other goes out as the account whatever the list says, at once.
+    if (_mayGoOutAsPersona(read, rawText, selectionChannelId) &&
         !await _waitForPersonas(read)) {
       _showSendHeld(read, selectionChannelId, onSendAsAccount);
       return null;
@@ -241,6 +240,35 @@ bool _personasReady(SignalProviderReader read) {
       read(activePersonaProvider.notifier).channelStatesLoaded;
 }
 
+/// Whether a message could go out as a persona, as far as the device can tell
+/// before the list loads: the account had personas when the list last loaded
+/// here, and a persona is selected in the channel (or, when personas are
+/// chosen per channel, the per-channel selections have not loaded), or the
+/// text carries one of the account's tags as they were then.
+bool _mayGoOutAsPersona(
+  SignalProviderReader read,
+  String rawText,
+  String selectionChannelId,
+) {
+  final MyPersonasNotifier personas = read(myPersonasProvider.notifier);
+  if (!personas.hadPersonas) {
+    return false;
+  }
+  final ActivePersonaState activeState = read(activePersonaProvider);
+  if (activeState.latchedIdFor(selectionChannelId) != null ||
+      (activeState.scope == PersonaScope.channel &&
+          !read(activePersonaProvider.notifier).channelStatesLoaded)) {
+    return true;
+  }
+  return matchPersona(
+    rawText,
+    <Persona>[Persona(id: '', name: '', personaTags: personas.knownTags)],
+    null,
+    hasAttachments: true,
+    allowEmptyContent: true,
+  ).matched;
+}
+
 /// Waits for what [_personasReady] needs, sharing loads in flight.
 Future<bool> _waitForPersonas(SignalProviderReader read) async {
   final List<Persona>? personas = await read(
@@ -293,13 +321,17 @@ void _showSendHeld(
   final String username = read(userSettingsViewModelProvider).username;
   read(toastProvider.notifier).show(
     FluxerToast(
-      message: l10n.personaSendHeldNotLoaded,
+      // With the action, the message names the account, so the action itself
+      // stays short and leaves the message room, whatever the username.
+      message: onSendAsAccount == null
+          ? l10n.personaSendHeldNotLoaded
+          : l10n.personaSendHeldAskAccount(username),
       variant: FluxerToastVariant.warning,
       duration: const Duration(seconds: 8),
       action: onSendAsAccount == null
           ? null
           : FluxerToastAction(
-              label: l10n.personaSendAsAccountAction(username),
+              label: l10n.personaSendAsAccountAction,
               onPressed: () {
                 try {
                   read(
