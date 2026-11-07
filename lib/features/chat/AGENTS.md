@@ -107,13 +107,16 @@ froze the panel on the previous conversation.
   `personaData` map. Only the persona's id goes on the wire (`persona_id`); the map just draws the
   pending row. Voice messages use the selection only.
 - **Before the personas load** (tyne-chat/tyne#30): when the persona list, or with the per-channel
-  scope the per-channel selections, has not loaded and the account had personas when the list last
-  loaded here (`MyPersonasNotifier.hadPersonas`), `resolveOutgoingPersona` waits for it (up to
-  `kPersonaSendWait`, joining the load in flight). If it still has not loaded, it returns null: the
-  caller sends nothing and keeps what was typed, and a toast offers "Send as @name", which runs the
-  caller's `onSendAsAccount` once as the account (`personaSendAsAccountOnceProvider`). Other accounts,
-  and a device where the list never loaded, send at once as before. A leading `\` with a persona
-  selected sends as the account without waiting. Forwards and Shift-drops are held without the action.
+  scope the per-channel selections, has not loaded, a message that could go out as a persona waits
+  for it (up to `kPersonaSendWait`, joining the load in flight): the account had personas when the
+  list last loaded here (`MyPersonasNotifier.hadPersonas`), and a persona is selected in the channel
+  or the text carries one of the account's tags as they were then (`knownTags`). If it still has not
+  loaded, `resolveOutgoingPersona` returns null: the caller sends nothing and keeps what was typed,
+  and a toast offers "Send anyway", which runs the caller's `onSendAsAccount` once as the account
+  (`personaSendAsAccountOnceProvider`). Any other message, and every message on a device where the
+  list never loaded, goes out at once as before. A leading `\` with a persona selected sends as the
+  account without waiting. Forwards and Shift-drops are held without the action. The pill stays
+  while the list is missing (`watchPersonaPillVisible`), so the selection can be changed back.
 - **Forwards** go through `resolveForwardPersona` from `forwardMessage`, once per destination: a tag in
   the comment decides for the forward and its comment; otherwise the selection where the forward
   started, then the destination's, then the account. A stored send keeps its persona, so a retry after
