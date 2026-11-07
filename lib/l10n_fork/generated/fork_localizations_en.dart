@@ -158,9 +158,12 @@ class ForkLocalizationsEn extends ForkLocalizations {
       'Not sent: your personas haven\'t loaded yet.';
 
   @override
-  String personaSendAsAccountAction(String username) {
-    return 'Send as @$username';
+  String personaSendHeldAskAccount(String username) {
+    return 'Not sent: your personas haven\'t loaded yet. Send it as @$username instead?';
   }
+
+  @override
+  String get personaSendAsAccountAction => 'Send anyway';
 
   @override
   String get personaMainAccount => 'Main account';
@@ -954,9 +957,12 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
       'Not sent: your personas haven\'t loaded yet.';
 
   @override
-  String personaSendAsAccountAction(String username) {
-    return 'Send as @$username';
+  String personaSendHeldAskAccount(String username) {
+    return 'Not sent: your personas haven\'t loaded yet. Send it as @$username instead?';
   }
+
+  @override
+  String get personaSendAsAccountAction => 'Send anyway';
 
   @override
   String get personaMainAccount => 'Main account';
@@ -1750,9 +1756,12 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
       'Not sent: your personas haven\'t loaded yet.';
 
   @override
-  String personaSendAsAccountAction(String username) {
-    return 'Send as @$username';
+  String personaSendHeldAskAccount(String username) {
+    return 'Not sent: your personas haven\'t loaded yet. Send it as @$username instead?';
   }
+
+  @override
+  String get personaSendAsAccountAction => 'Send anyway';
 
   @override
   String get personaMainAccount => 'Main account';

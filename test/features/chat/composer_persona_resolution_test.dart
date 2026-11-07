@@ -12,6 +12,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_dart/fluxer_client.dart';
@@ -43,6 +44,25 @@ Dio _createMockDio() {
   final dio = Dio(BaseOptions(baseUrl: 'https://test.fluxer.invalid'))
     ..httpClientAdapter = _MockDioAdapter();
   return dio;
+}
+
+/// The account the "Send anyway" toast names, without the database the real
+/// view model reads.
+class _FakeUserSettings extends UserSettingsViewModel {
+  @override
+  UserSettingsViewState build() => const UserSettingsViewState(
+    userId: '1',
+    username: 'tester',
+    displayName: 'Tester',
+    discriminator: '0001',
+    avatar: null,
+    avatarColor: null,
+    memberSince: null,
+    status: 'online',
+    messageDisplayCompact: false,
+    developerMode: false,
+    trustedDomains: <String>[],
+  );
 }
 
 class _FakeMyPersonasNotifier extends MyPersonasNotifier {
@@ -311,6 +331,7 @@ void main() {
             fluxerClientProvider.overrideWithValue(
               FluxerClient(dio, baseUrl: 'https://test.fluxer.invalid'),
             ),
+            userSettingsViewModelProvider.overrideWith(_FakeUserSettings.new),
           ],
           child: Consumer(
             builder: (context, ref, child) {
@@ -408,7 +429,10 @@ void main() {
             .last
             .toast
             .action!;
-        expect(action.label, startsWith('Send as @'));
+        expect(action.label, 'Send anyway');
+        final String message = ref.read(toastProvider).last.toast.message;
+        expect(message, startsWith('Not sent:'));
+        expect(message, contains('@tester'));
 
         action.onPressed();
         expect(sentAgain, 1);
@@ -460,6 +484,61 @@ void main() {
         expect(res, isNotNull);
         expect(res?.personaData, isNull);
         expect(ref.read(toastProvider), isEmpty);
+      },
+    );
+
+    testWidgets(
+      'with the account selected, an untagged message goes out at once',
+      (tester) async {
+        SharedPreferences.setMockInitialValues(<String, Object>{
+          'persona_list_had_personas': true,
+          'persona_list_tags': '[{"prefix":"B:"}]',
+        });
+        final _PersonaServer server = _PersonaServer()
+          ..listStatus = 429
+          ..latched = false;
+        final WidgetRef ref = await pumpScope(tester, server);
+
+        final OutgoingMessageResolution? res = await settle(
+          tester,
+          resolveOutgoingPersona(
+            ref: ref,
+            rawText: 'hello',
+            channelId: 'test_channel',
+          ),
+        );
+
+        expect(res?.text, 'hello');
+        expect(res?.personaData, isNull);
+        expect(ref.read(toastProvider), isEmpty);
+      },
+    );
+
+    testWidgets(
+      'with the account selected, a message with one of its tags is held',
+      (tester) async {
+        SharedPreferences.setMockInitialValues(<String, Object>{
+          'persona_list_had_personas': true,
+          'persona_list_tags': '[{"prefix":"B:"}]',
+        });
+        final _PersonaServer server = _PersonaServer()
+          ..listStatus = 429
+          ..latched = false;
+        final WidgetRef ref = await pumpScope(tester, server);
+
+        final OutgoingMessageResolution? res = await settle(
+          tester,
+          resolveOutgoingPersona(
+            ref: ref,
+            rawText: 'B: hello',
+            channelId: 'test_channel',
+          ),
+        );
+
+        expect(res, isNull);
+        await tester.pump(const Duration(seconds: 10));
+        await tester.pump(const Duration(seconds: 10));
+        await releaseTestWidgetTree(tester);
       },
     );
 
@@ -581,6 +660,7 @@ class _PersonaServer implements HttpClientAdapter {
   int listRequests = 0;
   int channelStateRequests = 0;
   int listStatus = 200;
+  bool latched = true;
   String scope = 'global';
   Map<String, String> channelStates = <String, String>{};
   Completer<void>? holdList;
@@ -614,8 +694,8 @@ class _PersonaServer implements HttpClientAdapter {
       body = <String, Object?>{
         'active_persona_mode': 'manual',
         'active_persona_scope': scope,
-        'active_persona_id': 'persona_bob',
-        'is_latched': true,
+        'active_persona_id': latched ? 'persona_bob' : null,
+        'is_latched': latched,
       };
     } else if (path == '/users/@me/personas/channel-states') {
       channelStateRequests++;
