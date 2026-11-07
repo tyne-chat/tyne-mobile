@@ -158,9 +158,12 @@ class ForkLocalizationsTh extends ForkLocalizations {
       'ยังไม่ได้ส่ง: Persona ของคุณยังโหลดไม่เสร็จ';
 
   @override
-  String personaSendAsAccountAction(String username) {
-    return 'ส่งในฐานะ @$username';
+  String personaSendHeldAskAccount(String username) {
+    return 'ยังไม่ได้ส่ง: Persona ของคุณยังโหลดไม่เสร็จ ส่งในฐานะ @$username แทนไหม';
   }
+
+  @override
+  String get personaSendAsAccountAction => 'ส่งเลย';
 
   @override
   String get personaMainAccount => 'บัญชีหลัก';
