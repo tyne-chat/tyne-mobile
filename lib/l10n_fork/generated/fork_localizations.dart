@@ -413,11 +413,17 @@ abstract class ForkLocalizations {
   /// **'Not sent: your personas haven\'t loaded yet.'**
   String get personaSendHeldNotLoaded;
 
-  /// Action on that toast: send the held message once as the account itself, named by its username.
+  /// The same toast when it offers to send the held message as the account itself, named by its username; the action below does that.
   ///
   /// In en, this message translates to:
-  /// **'Send as @{username}'**
-  String personaSendAsAccountAction(String username);
+  /// **'Not sent: your personas haven\'t loaded yet. Send it as @{username} instead?'**
+  String personaSendHeldAskAccount(String username);
+
+  /// Action on that toast: send the held message once as the account, as the message asks.
+  ///
+  /// In en, this message translates to:
+  /// **'Send anyway'**
+  String get personaSendAsAccountAction;
 
   /// Header for root account section in persona profile card.
   ///

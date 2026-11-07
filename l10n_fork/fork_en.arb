@@ -207,14 +207,18 @@
     "@personaSendHeldNotLoaded": {
         "description": "Toast when a message is not sent because the account's personas have not loaded yet, so it could go out under the account (tyne-chat/tyne#30). The text stays in the composer."
     },
-    "personaSendAsAccountAction": "Send as @{username}",
-    "@personaSendAsAccountAction": {
-        "description": "Action on that toast: send the held message once as the account itself, named by its username.",
+    "personaSendHeldAskAccount": "Not sent: your personas haven't loaded yet. Send it as @{username} instead?",
+    "@personaSendHeldAskAccount": {
+        "description": "The same toast when it offers to send the held message as the account itself, named by its username; the action below does that.",
         "placeholders": {
             "username": {
                 "type": "String"
             }
         }
+    },
+    "personaSendAsAccountAction": "Send anyway",
+    "@personaSendAsAccountAction": {
+        "description": "Action on that toast: send the held message once as the account, as the message asks."
     },
     "personaMainAccount": "Main account",
     "@personaMainAccount": {

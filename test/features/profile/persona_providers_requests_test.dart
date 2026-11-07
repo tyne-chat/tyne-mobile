@@ -396,11 +396,31 @@ void main() {
       );
       expect(notifier.hadPersonas, isFalse);
 
-      api.answers[_list] = _Answer(200, <Object?>[_persona('p1', 'Alice')]);
+      api.answers[_list] = const _Answer(200, <Object?>[
+        <String, Object?>{
+          'id': 'p1',
+          'name': 'Alice',
+          'persona_tags': <Object?>[
+            <String, Object?>{'prefix': 'A:'},
+          ],
+        },
+        <String, Object?>{
+          'id': 'p2',
+          'name': 'Quiet',
+          'auto_tag_disabled': true,
+          'persona_tags': <Object?>[
+            <String, Object?>{'prefix': 'Q:'},
+          ],
+        },
+      ]);
       await notifier.reloadSilently();
       await settle();
       expect(notifier.hadPersonas, isTrue);
       expect(await stored(), isTrue);
+      expect(
+        <String?>[for (final t in notifier.knownTags) t.prefix],
+        <String?>['A:'],
+      );
 
       api.answers[_list] = const _Answer(200, <Object?>[]);
       await notifier.reloadSilently();
@@ -414,7 +434,12 @@ void main() {
       notifier.reset();
       await settle();
       expect(notifier.hadPersonas, isFalse);
+      expect(notifier.knownTags, isEmpty);
       expect(await stored(), isNull);
+      expect(
+        (await SharedPreferences.getInstance()).getString('persona_list_tags'),
+        isNull,
+      );
     });
 
     test(
@@ -422,12 +447,22 @@ void main() {
       () async {
         api.holdList = Completer<void>();
         container = containerWith(
-          prefs: <String, Object>{'persona_list_had_personas': true},
+          prefs: <String, Object>{
+            'persona_list_had_personas': true,
+            'persona_list_tags': '[{"prefix":"A:"}]',
+          },
         )..listen(myPersonasProvider, (_, _) {});
         await settle();
 
         expect(container.read(myPersonasProvider).isLoading, isTrue);
-        expect(container.read(myPersonasProvider.notifier).hadPersonas, isTrue);
+        final MyPersonasNotifier notifier = container.read(
+          myPersonasProvider.notifier,
+        );
+        expect(notifier.hadPersonas, isTrue);
+        expect(
+          <String?>[for (final t in notifier.knownTags) t.prefix],
+          <String?>['A:'],
+        );
         api.holdList!.complete();
       },
     );
