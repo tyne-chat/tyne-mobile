@@ -86,11 +86,6 @@ WellKnownFluxerResponse _selfHostedWellKnown({bool premiumEnabled = false}) {
     push: const InstancePushSchema(publicVapidKey: null),
     appPublic: const InstanceAppPublicSchema(
       branding: InstanceBrandingSchema(
-        premiumPageColor: null,
-        premiumShowcaseExpressionsUrl: null,
-        premiumShowcaseProfileUrl: null,
-        premiumShowcaseStreamUrl: null,
-        premiumShowcaseUploadUrl: null,
         productName: 'Acme',
         iconUrl: null,
         symbolUrl: null,
