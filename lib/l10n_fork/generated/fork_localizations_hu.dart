@@ -159,9 +159,12 @@ class ForkLocalizationsHu extends ForkLocalizations {
       'Nincs elküldve: a personáid még nem töltődtek be.';
 
   @override
-  String personaSendAsAccountAction(String username) {
-    return 'Küldés @$username néven';
+  String personaSendHeldAskAccount(String username) {
+    return 'Nincs elküldve: a personáid még nem töltődtek be. Elküldöd inkább @$username néven?';
   }
+
+  @override
+  String get personaSendAsAccountAction => 'Küldés mégis';
 
   @override
   String get personaMainAccount => 'Fő fiók';
