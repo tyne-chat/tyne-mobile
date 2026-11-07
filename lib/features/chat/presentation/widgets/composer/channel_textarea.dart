@@ -1838,12 +1838,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                       ListenableBuilder(
                         listenable: _controller,
                         builder: (BuildContext context, Widget? _) {
-                          final bool hasPersonas = ref.watch(
-                            myPersonasProvider.select(
-                              (v) => (v.asData?.value ?? const []).isNotEmpty,
-                            ),
-                          );
-                          if (!hasPersonas) {
+                          if (!watchPersonaPillVisible(ref)) {
                             return const SizedBox.shrink();
                           }
                           final bool hasAttachments = ref.watch(
