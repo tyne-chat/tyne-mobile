@@ -161,9 +161,12 @@ class ForkLocalizationsFr extends ForkLocalizations {
       'Non envoyé : vos personas ne sont pas encore chargés.';
 
   @override
-  String personaSendAsAccountAction(String username) {
-    return 'Envoyer en tant que @$username';
+  String personaSendHeldAskAccount(String username) {
+    return 'Non envoyé : vos personas ne sont pas encore chargés. L\'envoyer en tant que @$username ?';
   }
+
+  @override
+  String get personaSendAsAccountAction => 'Envoyer quand même';
 
   @override
   String get personaMainAccount => 'Compte principal';
