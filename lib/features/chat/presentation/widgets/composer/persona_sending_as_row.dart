@@ -3,9 +3,11 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/persona_picker_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/persona_composer_pill.dart';
+import 'package:fluxer_app/features/profile/data/known_personas.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
@@ -47,7 +49,7 @@ class PersonaSendingAsRow extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final List<Persona> personas =
         ref.watch(myPersonasProvider).asData?.value ?? const <Persona>[];
-    if (personas.isEmpty) {
+    if (!watchPersonaPillVisible(ref)) {
       return const SizedBox.shrink();
     }
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
@@ -63,7 +65,12 @@ class PersonaSendingAsRow extends ConsumerWidget {
       hasAttachments: hasAttachments,
     );
     final Persona? persona = preview.persona;
-    final String name = persona?.name ?? '@$username';
+    // Before the list loads (tyne-chat/tyne#30), the selected persona's name
+    // comes from the device's copy of it, as the pill's picture does.
+    final KnownPersona? known = persona == null && latchedId != null
+        ? ref.watch(knownPersonaProvider(latchedId)).asData?.value
+        : null;
+    final String name = persona?.name ?? known?.name ?? '@$username';
     final String label = posting
         ? l10n.fork.personaPostingAs(name)
         : l10n.fork.personaSendingAs(name);

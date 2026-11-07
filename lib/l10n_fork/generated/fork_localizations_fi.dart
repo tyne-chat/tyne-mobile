@@ -160,9 +160,12 @@ class ForkLocalizationsFi extends ForkLocalizations {
       'Ei lähetetty: persoonasi eivät ole vielä latautuneet.';
 
   @override
-  String personaSendAsAccountAction(String username) {
-    return 'Lähetä käyttäjänä @$username';
+  String personaSendHeldAskAccount(String username) {
+    return 'Ei lähetetty: persoonasi eivät ole vielä latautuneet. Lähetetäänkö käyttäjänä @$username?';
   }
+
+  @override
+  String get personaSendAsAccountAction => 'Lähetä silti';
 
   @override
   String get personaMainAccount => 'Päätili';
