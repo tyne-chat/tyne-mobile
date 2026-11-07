@@ -518,11 +518,6 @@ InstanceConfigSnapshot _snapshot({
       push: const InstancePushSchema(publicVapidKey: null),
       appPublic: InstanceAppPublicSchema(
         branding: const InstanceBrandingSchema(
-          premiumPageColor: null,
-          premiumShowcaseExpressionsUrl: null,
-          premiumShowcaseProfileUrl: null,
-          premiumShowcaseStreamUrl: null,
-          premiumShowcaseUploadUrl: null,
           productName: 'Fluxer',
           iconUrl: null,
           symbolUrl: null,
