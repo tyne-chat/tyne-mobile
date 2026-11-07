@@ -160,9 +160,12 @@ class ForkLocalizationsLt extends ForkLocalizations {
       'Neišsiųsta: jūsų personos dar neįkeltos.';
 
   @override
-  String personaSendAsAccountAction(String username) {
-    return 'Siųsti kaip @$username';
+  String personaSendHeldAskAccount(String username) {
+    return 'Neišsiųsta: jūsų personos dar neįkeltos. Siųsti kaip @$username?';
   }
+
+  @override
+  String get personaSendAsAccountAction => 'Vis tiek siųsti';
 
   @override
   String get personaMainAccount => 'Pagrindinė paskyra';
