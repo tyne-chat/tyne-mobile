@@ -160,9 +160,12 @@ class ForkLocalizationsEl extends ForkLocalizations {
       'Δεν στάλθηκε: οι persona σας δεν έχουν φορτωθεί ακόμη.';
 
   @override
-  String personaSendAsAccountAction(String username) {
-    return 'Αποστολή ως @$username';
+  String personaSendHeldAskAccount(String username) {
+    return 'Δεν στάλθηκε: οι persona σας δεν έχουν φορτωθεί ακόμη. Να σταλεί ως @$username;';
   }
+
+  @override
+  String get personaSendAsAccountAction => 'Αποστολή ούτως ή άλλως';
 
   @override
   String get personaMainAccount => 'Κύριος λογαριασμός';

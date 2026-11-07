@@ -160,9 +160,12 @@ class ForkLocalizationsNl extends ForkLocalizations {
       'Niet verzonden: je persona\'s zijn nog niet geladen.';
 
   @override
-  String personaSendAsAccountAction(String username) {
-    return 'Verzenden als @$username';
+  String personaSendHeldAskAccount(String username) {
+    return 'Niet verzonden: je persona\'s zijn nog niet geladen. In plaats daarvan verzenden als @$username?';
   }
+
+  @override
+  String get personaSendAsAccountAction => 'Toch verzenden';
 
   @override
   String get personaMainAccount => 'Hoofdaccount';

@@ -111,6 +111,11 @@ class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
   /// account, and [reset] clears it.
   static const _kPrefHadPersonas = 'persona_list_had_personas';
 
+  /// The tags of the account's personas (those whose tags are matched), kept
+  /// with [_kPrefHadPersonas] so a send can tell a tagged message while the
+  /// list has not loaded.
+  static const _kPrefTags = 'persona_list_tags';
+
   final FirstLoadGate _gate = FirstLoadGate();
   bool _hadPersonas = false;
 
@@ -120,10 +125,17 @@ class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
   /// goes out at once, as before.
   bool get hadPersonas => _hadPersonas;
 
+  List<PersonaTag> _tags = const <PersonaTag>[];
+
+  /// The tags of the account's personas when the list last loaded on this
+  /// device, as [hadPersonas] is kept.
+  List<PersonaTag> get knownTags => _tags;
+
   @override
   AsyncValue<List<Persona>> build() {
     _gate.reset();
     _hadPersonas = false;
+    _tags = const <PersonaTag>[];
     unawaited(_readHadPersonas());
     unawaited(_gate.run(_loadPersonas));
     return const AsyncValue.loading();
@@ -165,7 +177,11 @@ class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
       }
       state = AsyncValue.data(personas);
       _hadPersonas = personas.isNotEmpty;
-      unawaited(_rememberHadPersonas(personas.isNotEmpty));
+      _tags = <PersonaTag>[
+        for (final Persona p in personas)
+          if (!p.autoTagDisabled) ...p.personaTags,
+      ];
+      unawaited(_rememberHadPersonas(personas.isNotEmpty, _tags));
       return true;
     } on Object catch (err, st) {
       talker.warning(
@@ -217,17 +233,31 @@ class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
     try {
       final prefs = await SharedPreferences.getInstance();
       final bool stored = prefs.getBool(_kPrefHadPersonas) ?? false;
+      final List<PersonaTag> tags = <PersonaTag>[];
+      try {
+        for (final Object? item
+            in jsonDecode(prefs.getString(_kPrefTags) ?? '[]') as List) {
+          if (item is Map<String, dynamic>) {
+            tags.add(PersonaTag.fromJson(item));
+          }
+        }
+      } on Object catch (_) {}
       // The list, once it has loaded, knows better than the device.
       if (ref.mounted && state.asData == null) {
         _hadPersonas = stored;
+        _tags = tags;
       }
     } on Object catch (_) {}
   }
 
-  Future<void> _rememberHadPersonas(bool had) async {
+  Future<void> _rememberHadPersonas(bool had, List<PersonaTag> tags) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool(_kPrefHadPersonas, had);
+      await prefs.setString(
+        _kPrefTags,
+        jsonEncode(<Object?>[for (final PersonaTag t in tags) t.toJson()]),
+      );
     } on Object catch (_) {}
   }
 
@@ -268,6 +298,7 @@ class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
     state = const AsyncValue.data([]);
     _gate.reset();
     _hadPersonas = false;
+    _tags = const <PersonaTag>[];
     unawaited(_forgetHadPersonas());
   }
 
@@ -275,6 +306,7 @@ class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.remove(_kPrefHadPersonas);
+      await prefs.remove(_kPrefTags);
     } on Object catch (_) {}
   }
 }

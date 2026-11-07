@@ -161,9 +161,12 @@ class ForkLocalizationsTr extends ForkLocalizations {
       'Gönderilmedi: Personaların henüz yüklenmedi.';
 
   @override
-  String personaSendAsAccountAction(String username) {
-    return '@$username olarak gönder';
+  String personaSendHeldAskAccount(String username) {
+    return 'Gönderilmedi: Personaların henüz yüklenmedi. Bunun yerine @$username olarak gönderilsin mi?';
   }
+
+  @override
+  String get personaSendAsAccountAction => 'Yine de gönder';
 
   @override
   String get personaMainAccount => 'Ana hesap';

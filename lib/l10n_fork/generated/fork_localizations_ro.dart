@@ -159,9 +159,12 @@ class ForkLocalizationsRo extends ForkLocalizations {
       'Netrimis: personas tale nu s-au încărcat încă.';
 
   @override
-  String personaSendAsAccountAction(String username) {
-    return 'Trimite ca @$username';
+  String personaSendHeldAskAccount(String username) {
+    return 'Netrimis: personas tale nu s-au încărcat încă. Îl trimiți ca @$username?';
   }
+
+  @override
+  String get personaSendAsAccountAction => 'Trimite oricum';
 
   @override
   String get personaMainAccount => 'Contul principal';
