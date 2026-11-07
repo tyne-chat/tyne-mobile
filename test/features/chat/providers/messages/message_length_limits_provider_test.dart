@@ -100,11 +100,6 @@ WellKnownFluxerResponse _wellKnownWithMessageLength(int length) {
     push: const InstancePushSchema(publicVapidKey: null),
     appPublic: const InstanceAppPublicSchema(
       branding: InstanceBrandingSchema(
-        premiumPageColor: null,
-        premiumShowcaseExpressionsUrl: null,
-        premiumShowcaseProfileUrl: null,
-        premiumShowcaseStreamUrl: null,
-        premiumShowcaseUploadUrl: null,
         productName: 'Acme',
         iconUrl: null,
         symbolUrl: null,
