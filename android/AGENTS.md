@@ -60,7 +60,7 @@ sides: a rename on one side compiles and fails only at run time (`MissingPluginE
 
 `fluxer_app/android_notifications` belongs to `packages/fluxer_android_notifications`; the other
 `fluxer_app/…` channels in `lib/` are iOS-only. Also shared by string: the drawable
-`fluxer_logo_monochrome` (Kotlin, the `fcm` manifest, Dart's `kAndroidPushNotificationIcon`, `keep.xml`),
+`ic_stat_fluxer` (Kotlin, the `fcm` manifest, Dart's `kAndroidPushNotificationIcon`, `keep.xml`),
 the notification channel `fluxer_messages`, and the secure-storage keys of `auth_token_storage.dart`,
 which `SecureAuthTokenReader` reads with its own copy of `flutter_secure_storage`'s options.
 
@@ -127,7 +127,7 @@ reply path for iOS sends the same).
 | Change | Where and how |
 |---|---|
 | ID, label, link scheme | `canary` flavour and `defaultConfig` in `app/build.gradle.kts`, under `// Fork:` comments; `${deepLinkScheme}` in the seven `<data>` lines of the manifest's custom-scheme filter |
-| Artwork | fork-owned, generated files in `app/src/canary/res/` that replace `main`'s by resource name (`drawable/fluxer_logo_monochrome.xml` points at `tyne_notification_glyph`); do not edit them by hand. One upstream line changed: the colour in `values/ic_launcher_background.xml` |
+| Artwork | fork-owned, generated files in `app/src/canary/res/` that replace `main`'s by resource name (`drawable/ic_stat_fluxer.xml` points at `tyne_notification_glyph`); do not edit them by hand. A file there that matches no name in `main/res` replaces nothing, and upstream's artwork ships: when upstream renames one, rename ours in `brand_icons.py` and regenerate (`test/build/android_canary_resources_fork_test.dart` checks it; tyne-chat/tyne#532). One upstream line changed: the colour in `values/ic_launcher_background.xml` |
 | APK installer | fork-owned `AppInstallBridge.kt` and `file_paths.xml`; a `REQUEST_INSTALL_PACKAGES` line; the `FileProvider` appended to `<application>` (no fork comment); registered first in `configureFlutterEngine` |
 | Push engine without audio_service (tyne-chat/tyne#210) | fork-owned `ForkPushEngine.kt`, created by one line in `FluxerUnifiedPushService.createBackgroundEngine` (below) |
 | Push engine kept while the app's engine exists (tyne-chat/tyne#474) | a fork block at the end of `FluxerUnifiedPushService.kt`'s companion, reached by one `// Fork:` line in `closeBackgroundSession`; one line in `MainActivity.onCreate`; `ForkPushEngine`'s replay reset |
