@@ -458,11 +458,6 @@ WellKnownFluxerResponse _buildWellKnown({required bool selfHosted}) {
     push: const InstancePushSchema(publicVapidKey: null),
     appPublic: const InstanceAppPublicSchema(
       branding: InstanceBrandingSchema(
-        premiumPageColor: null,
-        premiumShowcaseExpressionsUrl: null,
-        premiumShowcaseProfileUrl: null,
-        premiumShowcaseStreamUrl: null,
-        premiumShowcaseUploadUrl: null,
         productName: 'Fluxer',
         iconUrl: null,
         symbolUrl: null,
