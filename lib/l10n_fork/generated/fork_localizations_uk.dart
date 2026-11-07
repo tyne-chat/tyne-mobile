@@ -161,9 +161,12 @@ class ForkLocalizationsUk extends ForkLocalizations {
       'Не надіслано: ваші персони ще не завантажилися.';
 
   @override
-  String personaSendAsAccountAction(String username) {
-    return 'Надіслати як @$username';
+  String personaSendHeldAskAccount(String username) {
+    return 'Не надіслано: ваші персони ще не завантажилися. Надіслати як @$username?';
   }
+
+  @override
+  String get personaSendAsAccountAction => 'Усе одно надіслати';
 
   @override
   String get personaMainAccount => 'Основний обліковий запис';

@@ -161,9 +161,12 @@ class ForkLocalizationsHr extends ForkLocalizations {
       'Nije poslano: vaše persone još se nisu učitale.';
 
   @override
-  String personaSendAsAccountAction(String username) {
-    return 'Pošalji kao @$username';
+  String personaSendHeldAskAccount(String username) {
+    return 'Nije poslano: vaše persone još se nisu učitale. Poslati kao @$username?';
   }
+
+  @override
+  String get personaSendAsAccountAction => 'Svejedno pošalji';
 
   @override
   String get personaMainAccount => 'Glavni račun';

@@ -3,8 +3,10 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/persona_picker_sheet.dart';
+import 'package:fluxer_app/features/profile/data/known_personas.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
@@ -41,18 +43,23 @@ class PersonaComposerPill extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final personasAsync = ref.watch(myPersonasProvider);
     final personas = personasAsync.asData?.value ?? const [];
-
-    // Hide completely if the user has no personas configured
-    if (personas.isEmpty) {
-      return const SizedBox.shrink();
-    }
-
-    final l10n = FluxerLocalizations.of(context);
     final activeState = ref.watch(activePersonaProvider);
-    final userSettings = ref.watch(userSettingsViewModelProvider);
-
     final String? selectionChannelId = personaChannelId ?? channelId;
     final String? latchedId = activeState.latchedIdFor(selectionChannelId);
+
+    if (!watchPersonaPillVisible(ref)) {
+      return const SizedBox.shrink();
+    }
+    // Before the list loads, a selected persona is drawn from the device's
+    // copy of it.
+    final bool listMissing = personasAsync.asData == null;
+    final KnownPersona? knownLatched = listMissing && latchedId != null
+        ? ref.watch(knownPersonaProvider(latchedId)).asData?.value
+        : null;
+
+    final l10n = FluxerLocalizations.of(context);
+    final userSettings = ref.watch(userSettingsViewModelProvider);
+
     final PreviewResult preview = previewPersona(
       text,
       personas,
@@ -68,19 +75,27 @@ class PersonaComposerPill extends ConsumerWidget {
 
     final String? avatarUrl = effectivePersona != null
         ? personaImageHash(effectivePersona.avatarHash)
+        : knownLatched != null
+        ? personaImageHash(knownLatched.avatar)
         : userSettings.avatarUrl;
     final String fallbackName = effectivePersona != null
         ? effectivePersona.name
+        : knownLatched != null
+        ? knownLatched.name
         : (userSettings.displayName.isNotEmpty
               ? userSettings.displayName
               : userSettings.username);
     final int? avatarColor =
-        effectivePersona?.color ?? userSettings.avatarColor;
+        effectivePersona?.color ??
+        knownLatched?.color ??
+        userSettings.avatarColor;
 
     final String tooltip = isFromTag && effectivePersona != null
         ? l10n.fork.personaSendingAsTag(effectivePersona.name)
         : isLatched && effectivePersona != null
         ? l10n.fork.personaSendingAsLatched(effectivePersona.name)
+        : isLatched && knownLatched != null
+        ? l10n.fork.personaSendingAsLatched(knownLatched.name)
         : l10n.fork.personaSendingAsRoot(userSettings.username);
 
     return Tooltip(
@@ -188,4 +203,16 @@ class PersonaComposerPill extends ConsumerWidget {
       ),
     );
   }
+}
+
+/// Whether the composer shows the persona pill: the account has personas, or
+/// their list has not loaded yet and it had personas when it last did. Sends
+/// are held then (tyne-chat/tyne#30), and the pill, with the picker it opens,
+/// is how the selection is seen and changed back to the account.
+bool watchPersonaPillVisible(WidgetRef ref) {
+  final List<Persona>? personas = ref.watch(myPersonasProvider).asData?.value;
+  if (personas != null) {
+    return personas.isNotEmpty;
+  }
+  return ref.read(myPersonasProvider.notifier).hadPersonas;
 }

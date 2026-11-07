@@ -161,9 +161,12 @@ class ForkLocalizationsBg extends ForkLocalizations {
       'Не е изпратено: персоните ви още не са заредени.';
 
   @override
-  String personaSendAsAccountAction(String username) {
-    return 'Изпращане като @$username';
+  String personaSendHeldAskAccount(String username) {
+    return 'Не е изпратено: персоните ви още не са заредени. Да се изпрати ли като @$username?';
   }
+
+  @override
+  String get personaSendAsAccountAction => 'Изпрати въпреки това';
 
   @override
   String get personaMainAccount => 'Основен акаунт';
