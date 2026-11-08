@@ -19,6 +19,7 @@ class UserProfileHeader extends ConsumerWidget {
     required this.displayName,
     required this.badges,
     required this.customStatus,
+    this.forkNameTrailing,
     this.pronouns,
     this.showUsername = true,
     this.isBot = false,
@@ -29,6 +30,9 @@ class UserProfileHeader extends ConsumerWidget {
     super.key,
   });
 
+  // Fork: what follows the name: the account's display tag and its
+  // "Personas (N)" pill (tyne-chat/tyne#189).
+  final Widget? forkNameTrailing;
   final String username;
   final String discriminator;
   final String displayName;
@@ -89,6 +93,7 @@ class UserProfileHeader extends ConsumerWidget {
             else
               Text(displayName, style: displayNameStyle),
             if (showUserTag) FluxerUserTag(isSystem: isSystem),
+            ?forkNameTrailing,
           ],
         ),
         if (showUsername) ...[

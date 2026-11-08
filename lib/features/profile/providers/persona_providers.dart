@@ -286,6 +286,46 @@ class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
     unawaited(_forgetPinnedEmojis(id));
   }
 
+  /// Replaces several of the account's personas at once, in one change for
+  /// those watching the list (tyne-chat/tyne#542). Personas not in the list
+  /// are left out.
+  void replacePersonas(Iterable<Persona> personas) {
+    final Map<String, Persona> byId = <String, Persona>{
+      for (final Persona p in personas) p.id: p,
+    };
+    if (byId.isEmpty) {
+      return;
+    }
+    state.whenData((current) {
+      state = AsyncValue.data(<Persona>[
+        for (final Persona p in current) byId[p.id] ?? p,
+      ]);
+    });
+  }
+
+  /// Removes several deleted personas at once, and their pinned emojis in one
+  /// change (tyne-chat/tyne#542).
+  void removePersonas(Iterable<String> ids) {
+    final Set<String> gone = ids.toSet();
+    if (gone.isEmpty) {
+      return;
+    }
+    state.whenData((current) {
+      state = AsyncValue.data(
+        current.where((p) => !gone.contains(p.id)).toList(),
+      );
+    });
+    unawaited(_forgetPinnedEmojisOf(gone));
+  }
+
+  Future<void> _forgetPinnedEmojisOf(Set<String> ids) async {
+    try {
+      await ref.read(emojiPinsProvider.notifier).forgetPersonas(ids);
+    } on Object catch (e, st) {
+      talker.error("Failed to drop deleted personas' pins", e, st);
+    }
+  }
+
   Future<void> _forgetPinnedEmojis(String id) async {
     try {
       await ref.read(emojiPinsProvider.notifier).forgetPersona(id);

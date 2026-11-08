@@ -21,6 +21,7 @@ and pushed is in `lib/core/synced_preferences/AGENTS.md`.
 | Preference providers | `providers/*_preferences_provider.dart` |
 | Community settings | `presentation/guild_settings_modal.dart`, `domain/guild/guild_settings_tab.dart`, `presentation/pages/guild/`, `providers/guild/`, `data/` |
 | Personas page; quick-switcher switch (fork) | `presentation/widgets/user_persona_settings.dart`; `providers/quick_switcher_button_preferences_provider.dart` |
+| The Personas page's filter chips and select mode (fork, tyne-chat/tyne#542) | `presentation/widgets/persona_bulk_edit.dart`, `providers/persona_settings_launch_provider.dart`; the requests in the profile folder's `providers/persona_bulk_actions.dart` |
 | Widget kit (`FluxerSettingsSheet`, `FluxerSettingsSection`) | `lib/features/ui/settings/` |
 
 ## Reaching a section
@@ -101,6 +102,19 @@ whose values are a server resource mirrored in SharedPreferences.
   profile folder's `EditPersonaSheet`, which sends every field: pass the whole persona
   (`persona.toPublicPersona()`). Delete is a raw `DELETE`, then `removePersona`, and `unlatch()` if it
   was the selection.
+- **Filter chips and select mode** (tyne-chat/tyne#542): chips "All", "Public", "Unlisted",
+  "Private" with what the search finds of each filter the cards (the section title counts the
+  search, not the chip). "Select" in the list's header, or a long press on a card, starts select
+  mode: a checkbox on each card, a tap toggles it, the card actions hide, a bar on top shows the
+  count, closes select mode and selects all the cards that show (or none when all are). The
+  selection is kept by id across chips and search; the actions apply to all of it. The bottom bar
+  (`PersonaBulkActionBar`) sets Public, Unlisted or Private (each disabled when every selected
+  persona has it) or deletes. Public, Private and Delete ask first; Unlisted applies at once. The
+  work is the profile folder's `PersonaBulkActions`; a visibility change ends with a toast with Undo,
+  a failure with a toast that keeps the selection. The save bar hides while selecting.
+- **Opened from your Personas gallery** when none of your personas is public ("Choose personas to
+  feature"): `personaSettingsLaunchProvider` holds the Unlisted chip and select mode for the next
+  open; `initState` reads it and clears it after the first frame.
 - The web's page (tyne-chat/tyne `fluxer_app/src/features/persona/`) also imports from PluralKit,
   exports, and rolls failed changes back with a toast; mobile does none of these.
 
@@ -160,6 +174,8 @@ empty state, with no error or retry (tyne-chat/tyne#350). Every card is built (a
 | Display tag Save | 1 `PATCH` | logged; the provider keeps the value, so it looks saved |
 | Tag icon picked | 1 `POST /users/@me/personas/avatar` | logged |
 | Delete persona | 1 `DELETE`, +1 `PATCH` if it was the selection; the delete event then reloads the list once per mobile session | logged; the persona stays |
+| Select mode: Public, Unlisted, Private | 1 `PATCH /users/@me/personas/visibility` per 250 personas, none when nothing changes; Undo is 1 more; the event then reloads the list once per mobile session | toast; the selection stays |
+| Select mode: Delete | 1 `POST /users/@me/personas/bulk-delete` per 250; the server clears the selections itself, so no `PATCH`; the events then reload the list once per mobile session | toast; the selection stays |
 | Profile Save | `PATCH /users/@me`, then `GET /users/@me` | error shown; edits kept |
 | A user-settings toggle | 1 `PATCH /users/@me/settings` | reverted, rethrown |
 | A synced preference | none here; the store sends a debounced `PATCH` | |
@@ -172,14 +188,17 @@ Each request answers a tap; nothing runs per item or per build, and the pages re
 - `test/features/settings/`: upstream's page tests at the top level, then `providers/`, `utils/`,
   `data/`, `domain/`, `presentation/widgets/`.
 - Fork, in the root `AGENTS.md` list: `presentation/widgets/user_persona_settings_test.dart` (render,
-  search, latch, delete, display-tag dirty, reset and save, mode, icon removal). Its Dio answers `{}` to
-  everything and the persona notifiers are fakes, so it neither counts nor fails a request. Also
+  search, latch, delete, display-tag dirty, reset and save, mode, icon removal, and the "select mode"
+  group: chips, long press, select all, disabled actions, which actions ask, Undo, delete, a failure,
+  opening from the gallery). Its Dio answers `{}` and records each request; the select mode tests
+  count them and make them fail. The request rules themselves are in the profile folder's
+  `providers/persona_bulk_actions_test.dart`. Also
   `test/core/deep_links/user_settings_deep_link_fork_test.dart`, through `test/core`.
 - Fork, not in the list: `providers/quick_switcher_button_preferences_provider_test.dart`,
   `test/shared/utils/fork_image_upload_limit_test.dart` (tyne-chat/tyne#132). Upstream's
   `providers/guild/guild_emoji_settings_provider_test.dart`, whose expected order the fork changed
   under `// Fork:`, is not in it either.
-- Not covered: a failed save, upload, delete or `PATCH`; request counts; a remote tag change; the
+- Not covered: a failed save, upload, single delete or `PATCH`; request counts outside select mode; a remote tag change; the
   accent default, the fork's time zone, the instance bio limit.
 - After a change: the root list, `flutter test test/features/settings`, and the image-limit test if
   image checks changed.

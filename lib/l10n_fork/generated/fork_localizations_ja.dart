@@ -785,4 +785,204 @@ class ForkLocalizationsJa extends ForkLocalizations {
   @override
   String get notificationsAlertEveryMessageDescription =>
       'オフの場合、活発な会話は一度だけ通知し、その後は既読にするか閉じるまで静かに更新されます。';
+
+  @override
+  String personaGalleryTitle(int count) {
+    return 'ペルソナ（$count）';
+  }
+
+  @override
+  String personaGallerySearchOther(String name) {
+    return '$name のペルソナを検索';
+  }
+
+  @override
+  String get personaGallerySearchOwn => '自分のペルソナを検索';
+
+  @override
+  String get personaGallerySortBy => '並べ替え';
+
+  @override
+  String get personaGallerySortName => '名前順（A–Z）';
+
+  @override
+  String get personaGallerySortMostUsed => 'よく使う順';
+
+  @override
+  String get personaGallerySortRecentlyUsed => '最近使った順';
+
+  @override
+  String get personaGalleryViewGallery => 'ギャラリー';
+
+  @override
+  String get personaGalleryViewList => 'リスト';
+
+  @override
+  String get personaGalleryViewAvatars => 'アバター';
+
+  @override
+  String personaGalleryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 件のペルソナ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaGalleryCountFiltered(int shown, int total) {
+    return '$total 件中 $shown 件のペルソナ';
+  }
+
+  @override
+  String get personaGalleryNoMatch => '検索に一致するペルソナはありません。';
+
+  @override
+  String get personaGalleryLoadFailed => 'ペルソナを読み込めませんでした。';
+
+  @override
+  String personaGalleryOthersSee(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 件の公開ペルソナ',
+    );
+    return 'ほかの人には $_temp0 が表示されます。';
+  }
+
+  @override
+  String get personaGalleryShowHidden => '限定公開と非公開も表示';
+
+  @override
+  String get personaGalleryManage => 'ペルソナを管理';
+
+  @override
+  String get personaGalleryNonePublic =>
+      '公開しているペルソナはまだありません。ペルソナの公開範囲を「公開」にすると、ほかの人にもここに表示されます。';
+
+  @override
+  String get personaGalleryNoBio => '自己紹介はまだありません。';
+
+  @override
+  String personaGalleryCreated(String date) {
+    return '$date に作成';
+  }
+
+  @override
+  String get personaBulkSelect => '選択';
+
+  @override
+  String get personaBulkSelectAll => 'すべて選択';
+
+  @override
+  String personaBulkSelectedCount(int count) {
+    return '$count 件選択中';
+  }
+
+  @override
+  String get personaFilterAll => 'すべて';
+
+  @override
+  String get personaBulkMakePublic => '公開にする';
+
+  @override
+  String get personaBulkMakeUnlisted => '限定公開にする';
+
+  @override
+  String get personaBulkMakePrivate => '非公開にする';
+
+  @override
+  String personaBulkConfirmPublicTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 件のペルソナ',
+    );
+    return '$_temp0を公開にしますか？';
+  }
+
+  @override
+  String personaBulkConfirmPrivateTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 件のペルソナ',
+    );
+    return '$_temp0を非公開にしますか？';
+  }
+
+  @override
+  String personaBulkConfirmDeleteTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 件のペルソナ',
+    );
+    return '$_temp0を削除しますか？';
+  }
+
+  @override
+  String get personaBulkConfirmPublicBody =>
+      'ほかの人があなたのペルソナ一覧で見られるようになり、プロフィールを開けるようになります。いつでも元に戻せます。';
+
+  @override
+  String get personaBulkConfirmPrivateBody =>
+      'プロフィールはほかの人から見えなくなります。名前とアバターはメッセージとリアクションに引き続き表示されます。';
+
+  @override
+  String get personaBulkConfirmDeleteBody =>
+      'メッセージには名前とアバターが引き続き表示されますが、そのペルソナとして送信できなくなり、タグとシグネチャー絵文字は解放されます。この操作は取り消せません。';
+
+  @override
+  String personaBulkNowPublic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 件のペルソナを公開にしました',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowUnlisted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 件のペルソナを限定公開にしました',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowPrivate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 件のペルソナを非公開にしました',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 件のペルソナを削除しました',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaBulkFailed => 'ペルソナを変更できませんでした。もう一度お試しください。';
+
+  @override
+  String get personaFilterEmpty => 'ここにはペルソナがありません。';
+
+  @override
+  String get personaGalleryChooseFeatured => '紹介するペルソナを選ぶ';
+
+  @override
+  String get personaUndo => '元に戻す';
 }

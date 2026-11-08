@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/profile/data/known_personas.dart';
 import 'package:fluxer_app/features/profile/data/persona_refresh.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+import 'package:fluxer_app/features/profile/providers/public_persona_list_provider.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 
@@ -48,6 +49,13 @@ void handlePersonaGatewayEvent(
         ref.invalidate(
           publicPersonaProvider((userId: userId, personaId: personaId)),
         );
+      }
+
+      // The account's public persona list (its profile's "Personas (N)") is
+      // fetched again where it is on screen, once the copies of this event
+      // have stopped arriving (tyne-chat/tyne#189). A delete changes it too.
+      if (userId != null && userId.isNotEmpty) {
+        ref.read(publicPersonaListRefresherProvider).request(userId);
       }
 
       // A deleted persona keeps showing on its messages as it was (the server

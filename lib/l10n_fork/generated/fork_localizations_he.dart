@@ -796,4 +796,222 @@ class ForkLocalizationsHe extends ForkLocalizations {
   @override
   String get notificationsAlertEveryMessageDescription =>
       'כשהאפשרות כבויה, שיחה פעילה מתריעה פעם אחת ואז מתעדכנת בשקט עד שתקרא אותה או תסגור אותה.';
+
+  @override
+  String personaGalleryTitle(int count) {
+    return 'פרסונות ($count)';
+  }
+
+  @override
+  String personaGallerySearchOther(String name) {
+    return 'חיפוש בפרסונות של $name';
+  }
+
+  @override
+  String get personaGallerySearchOwn => 'חיפוש בפרסונות שלכם';
+
+  @override
+  String get personaGallerySortBy => 'מיון לפי';
+
+  @override
+  String get personaGallerySortName => 'שם (א–ת)';
+
+  @override
+  String get personaGallerySortMostUsed => 'הנפוצות ביותר';
+
+  @override
+  String get personaGallerySortRecentlyUsed => 'בשימוש לאחרונה';
+
+  @override
+  String get personaGalleryViewGallery => 'גלריה';
+
+  @override
+  String get personaGalleryViewList => 'רשימה';
+
+  @override
+  String get personaGalleryViewAvatars => 'תמונות פרופיל';
+
+  @override
+  String personaGalleryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count פרסונות',
+      two: '$count פרסונות',
+      one: 'פרסונה אחת',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaGalleryCountFiltered(int shown, int total) {
+    return '$shown מתוך $total פרסונות';
+  }
+
+  @override
+  String get personaGalleryNoMatch => 'אין פרסונות שתואמות לחיפוש.';
+
+  @override
+  String get personaGalleryLoadFailed => 'לא ניתן היה לטעון את הפרסונות.';
+
+  @override
+  String personaGalleryOthersSee(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count פרסונות ציבוריות',
+      two: '$count פרסונות ציבוריות',
+      one: 'פרסונה ציבורית אחת',
+    );
+    return 'אחרים רואים $_temp0.';
+  }
+
+  @override
+  String get personaGalleryShowHidden => 'הצגת לא רשומות ופרטיות';
+
+  @override
+  String get personaGalleryManage => 'ניהול פרסונות';
+
+  @override
+  String get personaGalleryNonePublic =>
+      'אף אחת מהפרסונות שלכם עדיין לא ציבורית. אחרים יראו פרסונה כאן אחרי שתגדירו את הנראות שלה כ\"ציבורי\".';
+
+  @override
+  String get personaGalleryNoBio => 'עדיין אין ביו.';
+
+  @override
+  String personaGalleryCreated(String date) {
+    return 'נוצרה ב-$date';
+  }
+
+  @override
+  String get personaBulkSelect => 'בחירה';
+
+  @override
+  String get personaBulkSelectAll => 'בחירת הכול';
+
+  @override
+  String personaBulkSelectedCount(int count) {
+    return '$count נבחרו';
+  }
+
+  @override
+  String get personaFilterAll => 'הכול';
+
+  @override
+  String get personaBulkMakePublic => 'הפיכה לציבוריות';
+
+  @override
+  String get personaBulkMakeUnlisted => 'הפיכה ללא רשומות';
+
+  @override
+  String get personaBulkMakePrivate => 'הפיכה לפרטיות';
+
+  @override
+  String personaBulkConfirmPublicTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count פרסונות לציבוריות',
+      two: '$count פרסונות לציבוריות',
+      one: 'פרסונה אחת לציבורית',
+    );
+    return 'להפוך $_temp0?';
+  }
+
+  @override
+  String personaBulkConfirmPrivateTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count פרסונות לפרטיות',
+      two: '$count פרסונות לפרטיות',
+      one: 'פרסונה אחת לפרטית',
+    );
+    return 'להפוך $_temp0?';
+  }
+
+  @override
+  String personaBulkConfirmDeleteTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count פרסונות',
+      two: '$count פרסונות',
+      one: 'פרסונה אחת',
+    );
+    return 'למחוק $_temp0?';
+  }
+
+  @override
+  String get personaBulkConfirmPublicBody =>
+      'אחרים יראו אותן ברשימת הפרסונות שלכם ויוכלו לפתוח את הפרופילים שלהן. אפשר לשנות זאת בחזרה בכל עת.';
+
+  @override
+  String get personaBulkConfirmPrivateBody =>
+      'הפרופילים שלהן יוסתרו מאחרים. השמות והאווטרים שלהן ימשיכו להופיע בהודעות ובתגובות שלהן.';
+
+  @override
+  String get personaBulkConfirmDeleteBody =>
+      'ההודעות שלהן ימשיכו להציג את השמות והאווטרים שלהן, אבל לא תוכלו עוד לשלוח בשמן, והתגיות ואימוג׳י החתימה שלהן יתפנו. אי אפשר לבטל פעולה זו.';
+
+  @override
+  String personaBulkNowPublic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count פרסונות ציבוריות עכשיו',
+      two: '$count פרסונות ציבוריות עכשיו',
+      one: 'פרסונה אחת ציבורית עכשיו',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowUnlisted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count פרסונות לא רשומות עכשיו',
+      two: '$count פרסונות לא רשומות עכשיו',
+      one: 'פרסונה אחת לא רשומה עכשיו',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowPrivate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count פרסונות פרטיות עכשיו',
+      two: '$count פרסונות פרטיות עכשיו',
+      one: 'פרסונה אחת פרטית עכשיו',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count פרסונות נמחקו',
+      two: '$count פרסונות נמחקו',
+      one: 'פרסונה אחת נמחקה',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaBulkFailed => 'לא ניתן היה לשנות את הפרסונות. נסו שוב.';
+
+  @override
+  String get personaFilterEmpty => 'אין כאן פרסונות.';
+
+  @override
+  String get personaGalleryChooseFeatured => 'בחירת פרסונות להצגה';
+
+  @override
+  String get personaUndo => 'ביטול';
 }
