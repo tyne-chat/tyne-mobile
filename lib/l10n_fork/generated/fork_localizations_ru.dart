@@ -809,4 +809,233 @@ class ForkLocalizationsRu extends ForkLocalizations {
   @override
   String get notificationsAlertEveryMessageDescription =>
       'Если выключено, активный разговор уведомляет один раз, а затем обновляется беззвучно, пока вы его не прочитаете или не смахнёте.';
+
+  @override
+  String personaGalleryTitle(int count) {
+    return 'Персоны ($count)';
+  }
+
+  @override
+  String personaGallerySearchOther(String name) {
+    return 'Поиск по персонам $name';
+  }
+
+  @override
+  String get personaGallerySearchOwn => 'Поиск по вашим персонам';
+
+  @override
+  String get personaGallerySortBy => 'Сортировка';
+
+  @override
+  String get personaGallerySortName => 'Имя (А–Я)';
+
+  @override
+  String get personaGallerySortMostUsed => 'Самые используемые';
+
+  @override
+  String get personaGallerySortRecentlyUsed => 'Недавно использованные';
+
+  @override
+  String get personaGalleryViewGallery => 'Галерея';
+
+  @override
+  String get personaGalleryViewList => 'Список';
+
+  @override
+  String get personaGalleryViewAvatars => 'Аватары';
+
+  @override
+  String personaGalleryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count персоны',
+      many: '$count персон',
+      few: '$count персоны',
+      one: '$count персона',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaGalleryCountFiltered(int shown, int total) {
+    return '$shown из $total персон';
+  }
+
+  @override
+  String get personaGalleryNoMatch =>
+      'Ни одна персона не подходит под ваш запрос.';
+
+  @override
+  String get personaGalleryLoadFailed => 'Не удалось загрузить персоны.';
+
+  @override
+  String personaGalleryOthersSee(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count публичной персоны',
+      many: '$count публичных персон',
+      few: '$count публичные персоны',
+      one: '$count публичную персону',
+    );
+    return 'Другие видят $_temp0.';
+  }
+
+  @override
+  String get personaGalleryShowHidden => 'Показать скрытые и приватные';
+
+  @override
+  String get personaGalleryManage => 'Управление персонами';
+
+  @override
+  String get personaGalleryNonePublic =>
+      'Ни одна из ваших персон пока не публичная. Другие увидят персону здесь, когда вы выберете для неё видимость «Публичная».';
+
+  @override
+  String get personaGalleryNoBio => 'Описания пока нет.';
+
+  @override
+  String personaGalleryCreated(String date) {
+    return 'Создана $date';
+  }
+
+  @override
+  String get personaBulkSelect => 'Выбрать';
+
+  @override
+  String get personaBulkSelectAll => 'Выбрать все';
+
+  @override
+  String personaBulkSelectedCount(int count) {
+    return 'Выбрано: $count';
+  }
+
+  @override
+  String get personaFilterAll => 'Все';
+
+  @override
+  String get personaBulkMakePublic => 'Сделать публичными';
+
+  @override
+  String get personaBulkMakeUnlisted => 'Сделать скрытыми';
+
+  @override
+  String get personaBulkMakePrivate => 'Сделать приватными';
+
+  @override
+  String personaBulkConfirmPublicTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count персоны публичными',
+      many: '$count персон публичными',
+      few: '$count персоны публичными',
+      one: '$count персону публичной',
+    );
+    return 'Сделать $_temp0?';
+  }
+
+  @override
+  String personaBulkConfirmPrivateTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count персоны приватными',
+      many: '$count персон приватными',
+      few: '$count персоны приватными',
+      one: '$count персону приватной',
+    );
+    return 'Сделать $_temp0?';
+  }
+
+  @override
+  String personaBulkConfirmDeleteTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count персоны',
+      many: '$count персон',
+      few: '$count персоны',
+      one: '$count персону',
+    );
+    return 'Удалить $_temp0?';
+  }
+
+  @override
+  String get personaBulkConfirmPublicBody =>
+      'Другие увидят их в вашем списке персон и смогут открыть их профили. Вы можете вернуть всё в любой момент.';
+
+  @override
+  String get personaBulkConfirmPrivateBody =>
+      'Их профили будут скрыты от других. Их имена и аватары по-прежнему будут видны у их сообщений и реакций.';
+
+  @override
+  String get personaBulkConfirmDeleteBody =>
+      'Их сообщения по-прежнему будут показывать их имена и аватары, но вы больше не сможете писать от их имени, а их теги и фирменные эмодзи освободятся. Это действие нельзя отменить.';
+
+  @override
+  String personaBulkNowPublic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count персоны теперь публичные',
+      many: '$count персон теперь публичные',
+      few: '$count персоны теперь публичные',
+      one: '$count персона теперь публичная',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowUnlisted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count персоны теперь скрытые',
+      many: '$count персон теперь скрытые',
+      few: '$count персоны теперь скрытые',
+      one: '$count персона теперь скрытая',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowPrivate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count персоны теперь приватные',
+      many: '$count персон теперь приватные',
+      few: '$count персоны теперь приватные',
+      one: '$count персона теперь приватная',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Удалено $count персоны',
+      many: 'Удалено $count персон',
+      few: 'Удалены $count персоны',
+      one: 'Удалена $count персона',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaBulkFailed =>
+      'Не удалось изменить персоны. Попробуйте ещё раз.';
+
+  @override
+  String get personaFilterEmpty => 'Здесь нет персон.';
+
+  @override
+  String get personaGalleryChooseFeatured => 'Выбрать персоны для показа';
+
+  @override
+  String get personaUndo => 'Отменить';
 }

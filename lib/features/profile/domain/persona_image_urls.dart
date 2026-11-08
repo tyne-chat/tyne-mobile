@@ -56,10 +56,12 @@ String? personaAvatarUrl({
   );
 }
 
-/// The address of a persona's banner, or null.
+/// The address of a persona's banner, or null. [size] is the width asked of
+/// the media proxy (a smaller one for a gallery card).
 String? personaBannerUrl({
   required String? ownerUserId,
   required String? hash,
+  int size = MediaProxySizes.profileBannerModal,
   bool animated = true,
 }) {
   final String? valid = _validHash(ownerUserId, hash);
@@ -69,6 +71,7 @@ String? personaBannerUrl({
   return FluxerMediaUrl.userBanner(
     userId: ownerUserId!,
     hash: valid,
+    size: size,
     animated: animated,
   );
 }
