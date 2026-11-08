@@ -801,6 +801,215 @@ class ForkLocalizationsEn extends ForkLocalizations {
   @override
   String get notificationsAlertEveryMessageDescription =>
       'When off, a busy conversation alerts once, then updates quietly until you read it or dismiss it.';
+
+  @override
+  String personaGalleryTitle(int count) {
+    return 'Personas ($count)';
+  }
+
+  @override
+  String personaGallerySearchOther(String name) {
+    return 'Search $name\'s personas';
+  }
+
+  @override
+  String get personaGallerySearchOwn => 'Search your personas';
+
+  @override
+  String get personaGallerySortBy => 'Sort by';
+
+  @override
+  String get personaGallerySortName => 'Name (A–Z)';
+
+  @override
+  String get personaGallerySortMostUsed => 'Most used';
+
+  @override
+  String get personaGallerySortRecentlyUsed => 'Recently used';
+
+  @override
+  String get personaGalleryViewGallery => 'Gallery';
+
+  @override
+  String get personaGalleryViewList => 'List';
+
+  @override
+  String get personaGalleryViewAvatars => 'Avatars';
+
+  @override
+  String personaGalleryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaGalleryCountFiltered(int shown, int total) {
+    return '$shown of $total personas';
+  }
+
+  @override
+  String get personaGalleryNoMatch => 'No personas match your search.';
+
+  @override
+  String get personaGalleryLoadFailed => 'Couldn\'t load personas.';
+
+  @override
+  String personaGalleryOthersSee(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count public personas',
+      one: '$count public persona',
+    );
+    return 'Others see $_temp0.';
+  }
+
+  @override
+  String get personaGalleryShowHidden => 'Show unlisted and private';
+
+  @override
+  String get personaGalleryManage => 'Manage personas';
+
+  @override
+  String get personaGalleryNonePublic =>
+      'None of your personas are public yet. Others see a persona here once you set its visibility to Public.';
+
+  @override
+  String get personaGalleryNoBio => 'No bio yet.';
+
+  @override
+  String personaGalleryCreated(String date) {
+    return 'Created $date';
+  }
+
+  @override
+  String get personaBulkSelect => 'Select';
+
+  @override
+  String get personaBulkSelectAll => 'Select all';
+
+  @override
+  String personaBulkSelectedCount(int count) {
+    return '$count selected';
+  }
+
+  @override
+  String get personaFilterAll => 'All';
+
+  @override
+  String get personaBulkMakePublic => 'Make public';
+
+  @override
+  String get personaBulkMakeUnlisted => 'Make unlisted';
+
+  @override
+  String get personaBulkMakePrivate => 'Make private';
+
+  @override
+  String personaBulkConfirmPublicTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return 'Make $_temp0 public?';
+  }
+
+  @override
+  String personaBulkConfirmPrivateTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return 'Make $_temp0 private?';
+  }
+
+  @override
+  String personaBulkConfirmDeleteTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return 'Delete $_temp0?';
+  }
+
+  @override
+  String get personaBulkConfirmPublicBody =>
+      'Others will see them in your Personas list and can open their profiles. You can change this back at any time.';
+
+  @override
+  String get personaBulkConfirmPrivateBody =>
+      'Their profiles will be hidden from others. Their names and avatars still show on their messages and reactions.';
+
+  @override
+  String get personaBulkConfirmDeleteBody =>
+      'Their messages keep showing their names and avatars, but you can no longer send as them, and their tags and signature emojis become free. This can\'t be undone.';
+
+  @override
+  String personaBulkNowPublic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas are',
+      one: '$count persona is',
+    );
+    return '$_temp0 now public';
+  }
+
+  @override
+  String personaBulkNowUnlisted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas are',
+      one: '$count persona is',
+    );
+    return '$_temp0 now unlisted';
+  }
+
+  @override
+  String personaBulkNowPrivate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas are',
+      one: '$count persona is',
+    );
+    return '$_temp0 now private';
+  }
+
+  @override
+  String personaBulkDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return '$_temp0 deleted';
+  }
+
+  @override
+  String get personaBulkFailed => 'Couldn\'t change the personas. Try again.';
+
+  @override
+  String get personaFilterEmpty => 'No personas here.';
+
+  @override
+  String get personaGalleryChooseFeatured => 'Choose personas to feature';
+
+  @override
+  String get personaUndo => 'Undo';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -1600,6 +1809,215 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   @override
   String get notificationsAlertEveryMessageDescription =>
       'When off, a busy conversation alerts once, then updates quietly until you read it or dismiss it.';
+
+  @override
+  String personaGalleryTitle(int count) {
+    return 'Personas ($count)';
+  }
+
+  @override
+  String personaGallerySearchOther(String name) {
+    return 'Search $name\'s personas';
+  }
+
+  @override
+  String get personaGallerySearchOwn => 'Search your personas';
+
+  @override
+  String get personaGallerySortBy => 'Sort by';
+
+  @override
+  String get personaGallerySortName => 'Name (A–Z)';
+
+  @override
+  String get personaGallerySortMostUsed => 'Most used';
+
+  @override
+  String get personaGallerySortRecentlyUsed => 'Recently used';
+
+  @override
+  String get personaGalleryViewGallery => 'Gallery';
+
+  @override
+  String get personaGalleryViewList => 'List';
+
+  @override
+  String get personaGalleryViewAvatars => 'Avatars';
+
+  @override
+  String personaGalleryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaGalleryCountFiltered(int shown, int total) {
+    return '$shown of $total personas';
+  }
+
+  @override
+  String get personaGalleryNoMatch => 'No personas match your search.';
+
+  @override
+  String get personaGalleryLoadFailed => 'Couldn\'t load personas.';
+
+  @override
+  String personaGalleryOthersSee(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count public personas',
+      one: '$count public persona',
+    );
+    return 'Others see $_temp0.';
+  }
+
+  @override
+  String get personaGalleryShowHidden => 'Show unlisted and private';
+
+  @override
+  String get personaGalleryManage => 'Manage personas';
+
+  @override
+  String get personaGalleryNonePublic =>
+      'None of your personas are public yet. Others see a persona here once you set its visibility to Public.';
+
+  @override
+  String get personaGalleryNoBio => 'No bio yet.';
+
+  @override
+  String personaGalleryCreated(String date) {
+    return 'Created $date';
+  }
+
+  @override
+  String get personaBulkSelect => 'Select';
+
+  @override
+  String get personaBulkSelectAll => 'Select all';
+
+  @override
+  String personaBulkSelectedCount(int count) {
+    return '$count selected';
+  }
+
+  @override
+  String get personaFilterAll => 'All';
+
+  @override
+  String get personaBulkMakePublic => 'Make public';
+
+  @override
+  String get personaBulkMakeUnlisted => 'Make unlisted';
+
+  @override
+  String get personaBulkMakePrivate => 'Make private';
+
+  @override
+  String personaBulkConfirmPublicTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return 'Make $_temp0 public?';
+  }
+
+  @override
+  String personaBulkConfirmPrivateTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return 'Make $_temp0 private?';
+  }
+
+  @override
+  String personaBulkConfirmDeleteTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return 'Delete $_temp0?';
+  }
+
+  @override
+  String get personaBulkConfirmPublicBody =>
+      'Others will see them in your Personas list and can open their profiles. You can change this back at any time.';
+
+  @override
+  String get personaBulkConfirmPrivateBody =>
+      'Their profiles will be hidden from others. Their names and avatars still show on their messages and reactions.';
+
+  @override
+  String get personaBulkConfirmDeleteBody =>
+      'Their messages keep showing their names and avatars, but you can no longer send as them, and their tags and signature emojis become free. This can\'t be undone.';
+
+  @override
+  String personaBulkNowPublic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas are',
+      one: '$count persona is',
+    );
+    return '$_temp0 now public';
+  }
+
+  @override
+  String personaBulkNowUnlisted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas are',
+      one: '$count persona is',
+    );
+    return '$_temp0 now unlisted';
+  }
+
+  @override
+  String personaBulkNowPrivate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas are',
+      one: '$count persona is',
+    );
+    return '$_temp0 now private';
+  }
+
+  @override
+  String personaBulkDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return '$_temp0 deleted';
+  }
+
+  @override
+  String get personaBulkFailed => 'Couldn\'t change the personas. Try again.';
+
+  @override
+  String get personaFilterEmpty => 'No personas here.';
+
+  @override
+  String get personaGalleryChooseFeatured => 'Choose personas to feature';
+
+  @override
+  String get personaUndo => 'Undo';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -2399,4 +2817,213 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
   @override
   String get notificationsAlertEveryMessageDescription =>
       'When off, a busy conversation alerts once, then updates quietly until you read it or dismiss it.';
+
+  @override
+  String personaGalleryTitle(int count) {
+    return 'Personas ($count)';
+  }
+
+  @override
+  String personaGallerySearchOther(String name) {
+    return 'Search $name\'s personas';
+  }
+
+  @override
+  String get personaGallerySearchOwn => 'Search your personas';
+
+  @override
+  String get personaGallerySortBy => 'Sort by';
+
+  @override
+  String get personaGallerySortName => 'Name (A–Z)';
+
+  @override
+  String get personaGallerySortMostUsed => 'Most used';
+
+  @override
+  String get personaGallerySortRecentlyUsed => 'Recently used';
+
+  @override
+  String get personaGalleryViewGallery => 'Gallery';
+
+  @override
+  String get personaGalleryViewList => 'List';
+
+  @override
+  String get personaGalleryViewAvatars => 'Avatars';
+
+  @override
+  String personaGalleryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaGalleryCountFiltered(int shown, int total) {
+    return '$shown of $total personas';
+  }
+
+  @override
+  String get personaGalleryNoMatch => 'No personas match your search.';
+
+  @override
+  String get personaGalleryLoadFailed => 'Couldn\'t load personas.';
+
+  @override
+  String personaGalleryOthersSee(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count public personas',
+      one: '$count public persona',
+    );
+    return 'Others see $_temp0.';
+  }
+
+  @override
+  String get personaGalleryShowHidden => 'Show unlisted and private';
+
+  @override
+  String get personaGalleryManage => 'Manage personas';
+
+  @override
+  String get personaGalleryNonePublic =>
+      'None of your personas are public yet. Others see a persona here once you set its visibility to Public.';
+
+  @override
+  String get personaGalleryNoBio => 'No bio yet.';
+
+  @override
+  String personaGalleryCreated(String date) {
+    return 'Created $date';
+  }
+
+  @override
+  String get personaBulkSelect => 'Select';
+
+  @override
+  String get personaBulkSelectAll => 'Select all';
+
+  @override
+  String personaBulkSelectedCount(int count) {
+    return '$count selected';
+  }
+
+  @override
+  String get personaFilterAll => 'All';
+
+  @override
+  String get personaBulkMakePublic => 'Make public';
+
+  @override
+  String get personaBulkMakeUnlisted => 'Make unlisted';
+
+  @override
+  String get personaBulkMakePrivate => 'Make private';
+
+  @override
+  String personaBulkConfirmPublicTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return 'Make $_temp0 public?';
+  }
+
+  @override
+  String personaBulkConfirmPrivateTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return 'Make $_temp0 private?';
+  }
+
+  @override
+  String personaBulkConfirmDeleteTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return 'Delete $_temp0?';
+  }
+
+  @override
+  String get personaBulkConfirmPublicBody =>
+      'Others will see them in your Personas list and can open their profiles. You can change this back at any time.';
+
+  @override
+  String get personaBulkConfirmPrivateBody =>
+      'Their profiles will be hidden from others. Their names and avatars still show on their messages and reactions.';
+
+  @override
+  String get personaBulkConfirmDeleteBody =>
+      'Their messages keep showing their names and avatars, but you can no longer send as them, and their tags and signature emojis become free. This can\'t be undone.';
+
+  @override
+  String personaBulkNowPublic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas are',
+      one: '$count persona is',
+    );
+    return '$_temp0 now public';
+  }
+
+  @override
+  String personaBulkNowUnlisted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas are',
+      one: '$count persona is',
+    );
+    return '$_temp0 now unlisted';
+  }
+
+  @override
+  String personaBulkNowPrivate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas are',
+      one: '$count persona is',
+    );
+    return '$_temp0 now private';
+  }
+
+  @override
+  String personaBulkDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return '$_temp0 deleted';
+  }
+
+  @override
+  String get personaBulkFailed => 'Couldn\'t change the personas. Try again.';
+
+  @override
+  String get personaFilterEmpty => 'No personas here.';
+
+  @override
+  String get personaGalleryChooseFeatured => 'Choose personas to feature';
+
+  @override
+  String get personaUndo => 'Undo';
 }

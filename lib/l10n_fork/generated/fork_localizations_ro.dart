@@ -811,4 +811,232 @@ class ForkLocalizationsRo extends ForkLocalizations {
   @override
   String get notificationsAlertEveryMessageDescription =>
       'Când este dezactivat, o conversație animată te alertează o singură dată, apoi se actualizează în liniște până când o citești sau o închizi.';
+
+  @override
+  String personaGalleryTitle(int count) {
+    return 'Personas ($count)';
+  }
+
+  @override
+  String personaGallerySearchOther(String name) {
+    return 'Caută în personas lui $name';
+  }
+
+  @override
+  String get personaGallerySearchOwn => 'Caută în personas tale';
+
+  @override
+  String get personaGallerySortBy => 'Sortează după';
+
+  @override
+  String get personaGallerySortName => 'Nume (A–Z)';
+
+  @override
+  String get personaGallerySortMostUsed => 'Cele mai folosite';
+
+  @override
+  String get personaGallerySortRecentlyUsed => 'Folosite recent';
+
+  @override
+  String get personaGalleryViewGallery => 'Galerie';
+
+  @override
+  String get personaGalleryViewList => 'Listă';
+
+  @override
+  String get personaGalleryViewAvatars => 'Avatare';
+
+  @override
+  String personaGalleryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de personas',
+      few: '$count personas',
+      one: '$count persona',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaGalleryCountFiltered(int shown, int total) {
+    return '$shown din $total personas';
+  }
+
+  @override
+  String get personaGalleryNoMatch =>
+      'Nicio persona nu corespunde căutării tale.';
+
+  @override
+  String get personaGalleryLoadFailed => 'Nu s-au putut încărca personas.';
+
+  @override
+  String personaGalleryOthersSee(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de personas publice',
+      few: '$count personas publice',
+      one: '$count persona publică',
+    );
+    return 'Ceilalți văd $_temp0.';
+  }
+
+  @override
+  String get personaGalleryShowHidden => 'Afișează nelistatele și privatele';
+
+  @override
+  String get personaGalleryManage => 'Gestionează personas';
+
+  @override
+  String get personaGalleryNonePublic =>
+      'Niciuna dintre personas tale nu este încă publică. Ceilalți văd o persona aici după ce îi setezi vizibilitatea la Publică.';
+
+  @override
+  String get personaGalleryNoBio => 'Încă nu există o descriere.';
+
+  @override
+  String personaGalleryCreated(String date) {
+    return 'Creată pe $date';
+  }
+
+  @override
+  String get personaBulkSelect => 'Selectează';
+
+  @override
+  String get personaBulkSelectAll => 'Selectează tot';
+
+  @override
+  String personaBulkSelectedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count selectate',
+      few: '$count selectate',
+      one: '$count selectată',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaFilterAll => 'Toate';
+
+  @override
+  String get personaBulkMakePublic => 'Fă-le publice';
+
+  @override
+  String get personaBulkMakeUnlisted => 'Fă-le nelistate';
+
+  @override
+  String get personaBulkMakePrivate => 'Fă-le private';
+
+  @override
+  String personaBulkConfirmPublicTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de personas publice',
+      few: '$count personas publice',
+      one: '$count persona publică',
+    );
+    return 'Faci $_temp0?';
+  }
+
+  @override
+  String personaBulkConfirmPrivateTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de personas private',
+      few: '$count personas private',
+      one: '$count persona privată',
+    );
+    return 'Faci $_temp0?';
+  }
+
+  @override
+  String personaBulkConfirmDeleteTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de personas',
+      few: '$count personas',
+      one: '$count persona',
+    );
+    return 'Ștergi $_temp0?';
+  }
+
+  @override
+  String get personaBulkConfirmPublicBody =>
+      'Ceilalți le vor vedea în lista ta de personas și le vor putea deschide profilurile. Poți schimba asta oricând.';
+
+  @override
+  String get personaBulkConfirmPrivateBody =>
+      'Profilurile lor vor fi ascunse de ceilalți. Numele și avatarurile lor apar în continuare la mesajele și reacțiile lor.';
+
+  @override
+  String get personaBulkConfirmDeleteBody =>
+      'Mesajele lor vor arăta în continuare numele și avatarurile lor, dar nu vei mai putea trimite ca ele, iar etichetele și emoji-urile lor semnătură devin libere. Acțiunea nu poate fi anulată.';
+
+  @override
+  String personaBulkNowPublic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de personas sunt acum publice',
+      few: '$count personas sunt acum publice',
+      one: '$count persona este acum publică',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowUnlisted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de personas sunt acum nelistate',
+      few: '$count personas sunt acum nelistate',
+      one: '$count persona este acum nelistată',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowPrivate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de personas sunt acum private',
+      few: '$count personas sunt acum private',
+      one: '$count persona este acum privată',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de personas șterse',
+      few: '$count personas șterse',
+      one: '$count persona ștearsă',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaBulkFailed =>
+      'Nu s-au putut modifica personas. Încearcă din nou.';
+
+  @override
+  String get personaFilterEmpty => 'Nu există personas aici.';
+
+  @override
+  String get personaGalleryChooseFeatured =>
+      'Alege personas pe care să le pui în evidență';
+
+  @override
+  String get personaUndo => 'Anulează';
 }
