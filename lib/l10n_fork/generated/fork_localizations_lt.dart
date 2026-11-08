@@ -807,4 +807,233 @@ class ForkLocalizationsLt extends ForkLocalizations {
   @override
   String get notificationsAlertEveryMessageDescription =>
       'Išjungus, aktyvus pokalbis praneša vieną kartą, o paskui tyliai atsinaujina, kol jį perskaitysite arba atmesite.';
+
+  @override
+  String personaGalleryTitle(int count) {
+    return 'Personos ($count)';
+  }
+
+  @override
+  String personaGallerySearchOther(String name) {
+    return 'Ieškoti $name personų';
+  }
+
+  @override
+  String get personaGallerySearchOwn => 'Ieškoti jūsų personų';
+
+  @override
+  String get personaGallerySortBy => 'Rūšiuoti pagal';
+
+  @override
+  String get personaGallerySortName => 'Vardas (A–Ž)';
+
+  @override
+  String get personaGallerySortMostUsed => 'Dažniausiai naudojamos';
+
+  @override
+  String get personaGallerySortRecentlyUsed => 'Neseniai naudotos';
+
+  @override
+  String get personaGalleryViewGallery => 'Galerija';
+
+  @override
+  String get personaGalleryViewList => 'Sąrašas';
+
+  @override
+  String get personaGalleryViewAvatars => 'Avatarai';
+
+  @override
+  String personaGalleryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personų',
+      many: '$count personos',
+      few: '$count personos',
+      one: '$count persona',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaGalleryCountFiltered(int shown, int total) {
+    return '$shown iš $total personų';
+  }
+
+  @override
+  String get personaGalleryNoMatch => 'Paieškos neatitinka nė viena persona.';
+
+  @override
+  String get personaGalleryLoadFailed => 'Nepavyko įkelti personų.';
+
+  @override
+  String personaGalleryOthersSee(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count viešų personų',
+      many: '$count viešos personos',
+      few: '$count viešas personas',
+      one: '$count viešą personą',
+    );
+    return 'Kiti mato $_temp0.';
+  }
+
+  @override
+  String get personaGalleryShowHidden =>
+      'Rodyti neįtrauktas į sąrašą ir privačias';
+
+  @override
+  String get personaGalleryManage => 'Tvarkyti personas';
+
+  @override
+  String get personaGalleryNonePublic =>
+      'Nė viena jūsų persona dar nėra vieša. Kiti mato personą čia, kai nustatote jos matomumą į „Viešas“.';
+
+  @override
+  String get personaGalleryNoBio => 'Aprašymo dar nėra.';
+
+  @override
+  String personaGalleryCreated(String date) {
+    return 'Sukurta $date';
+  }
+
+  @override
+  String get personaBulkSelect => 'Pasirinkti';
+
+  @override
+  String get personaBulkSelectAll => 'Pasirinkti visas';
+
+  @override
+  String personaBulkSelectedCount(int count) {
+    return 'Pasirinkta: $count';
+  }
+
+  @override
+  String get personaFilterAll => 'Visos';
+
+  @override
+  String get personaBulkMakePublic => 'Padaryti viešas';
+
+  @override
+  String get personaBulkMakeUnlisted => 'Pašalinti iš sąrašo';
+
+  @override
+  String get personaBulkMakePrivate => 'Padaryti privačias';
+
+  @override
+  String personaBulkConfirmPublicTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personų viešomis',
+      many: '$count personos viešomis',
+      few: '$count personas viešomis',
+      one: '$count personą vieša',
+    );
+    return 'Padaryti $_temp0?';
+  }
+
+  @override
+  String personaBulkConfirmPrivateTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personų privačiomis',
+      many: '$count personos privačiomis',
+      few: '$count personas privačiomis',
+      one: '$count personą privačia',
+    );
+    return 'Padaryti $_temp0?';
+  }
+
+  @override
+  String personaBulkConfirmDeleteTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personų',
+      many: '$count personos',
+      few: '$count personas',
+      one: '$count personą',
+    );
+    return 'Ištrinti $_temp0?';
+  }
+
+  @override
+  String get personaBulkConfirmPublicBody =>
+      'Kiti jas matys jūsų personų sąraše ir galės atidaryti jų profilius. Bet kada galite tai pakeisti atgal.';
+
+  @override
+  String get personaBulkConfirmPrivateBody =>
+      'Jų profiliai bus paslėpti nuo kitų. Jų vardai ir avatarai ir toliau bus rodomi prie jų žinučių ir reakcijų.';
+
+  @override
+  String get personaBulkConfirmDeleteBody =>
+      'Jų žinutėse ir toliau bus rodomi jų vardai ir avatarai, bet nebegalėsite rašyti jų vardu, o jų žymos ir parašo jaustukai atsilaisvins. To atšaukti negalima.';
+
+  @override
+  String personaBulkNowPublic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personų dabar viešos',
+      many: '$count personos dabar viešos',
+      few: '$count personos dabar viešos',
+      one: '$count persona dabar vieša',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowUnlisted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personų dabar neįtrauktos į sąrašą',
+      many: '$count personos dabar neįtrauktos į sąrašą',
+      few: '$count personos dabar neįtrauktos į sąrašą',
+      one: '$count persona dabar neįtraukta į sąrašą',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowPrivate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personų dabar privačios',
+      many: '$count personos dabar privačios',
+      few: '$count personos dabar privačios',
+      one: '$count persona dabar privati',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Ištrinta $count personų',
+      many: 'Ištrinta $count personos',
+      few: 'Ištrintos $count personos',
+      one: 'Ištrinta $count persona',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaBulkFailed =>
+      'Nepavyko pakeisti personų. Bandykite dar kartą.';
+
+  @override
+  String get personaFilterEmpty => 'Čia personų nėra.';
+
+  @override
+  String get personaGalleryChooseFeatured => 'Pasirinkite rodomas personas';
+
+  @override
+  String get personaUndo => 'Anuliuoti';
 }

@@ -775,6 +775,206 @@ class ForkLocalizationsZh extends ForkLocalizations {
   @override
   String get notificationsAlertEveryMessageDescription =>
       '关闭后，活跃的对话只提醒一次，之后静默更新，直到你阅读或清除它。';
+
+  @override
+  String personaGalleryTitle(int count) {
+    return '人格（$count）';
+  }
+
+  @override
+  String personaGallerySearchOther(String name) {
+    return '搜索 $name 的人格';
+  }
+
+  @override
+  String get personaGallerySearchOwn => '搜索你的人格';
+
+  @override
+  String get personaGallerySortBy => '排序方式';
+
+  @override
+  String get personaGallerySortName => '名称（A–Z）';
+
+  @override
+  String get personaGallerySortMostUsed => '最常使用';
+
+  @override
+  String get personaGallerySortRecentlyUsed => '最近使用';
+
+  @override
+  String get personaGalleryViewGallery => '图库';
+
+  @override
+  String get personaGalleryViewList => '列表';
+
+  @override
+  String get personaGalleryViewAvatars => '头像';
+
+  @override
+  String personaGalleryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个人格',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaGalleryCountFiltered(int shown, int total) {
+    return '$shown / $total 个人格';
+  }
+
+  @override
+  String get personaGalleryNoMatch => '没有与你的搜索匹配的人格。';
+
+  @override
+  String get personaGalleryLoadFailed => '无法加载人格。';
+
+  @override
+  String personaGalleryOthersSee(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个公开人格',
+    );
+    return '其他人能看到 $_temp0。';
+  }
+
+  @override
+  String get personaGalleryShowHidden => '显示未列出和私密的人格';
+
+  @override
+  String get personaGalleryManage => '管理人格';
+
+  @override
+  String get personaGalleryNonePublic =>
+      '你还没有公开的人格。将人格的可见性设为“公开”后，其他人就能在这里看到它。';
+
+  @override
+  String get personaGalleryNoBio => '还没有简介。';
+
+  @override
+  String personaGalleryCreated(String date) {
+    return '创建于 $date';
+  }
+
+  @override
+  String get personaBulkSelect => '选择';
+
+  @override
+  String get personaBulkSelectAll => '全选';
+
+  @override
+  String personaBulkSelectedCount(int count) {
+    return '已选择 $count 个';
+  }
+
+  @override
+  String get personaFilterAll => '全部';
+
+  @override
+  String get personaBulkMakePublic => '设为公开';
+
+  @override
+  String get personaBulkMakeUnlisted => '设为未列出';
+
+  @override
+  String get personaBulkMakePrivate => '设为私密';
+
+  @override
+  String personaBulkConfirmPublicTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个人格',
+    );
+    return '将 $_temp0设为公开？';
+  }
+
+  @override
+  String personaBulkConfirmPrivateTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个人格',
+    );
+    return '将 $_temp0设为私密？';
+  }
+
+  @override
+  String personaBulkConfirmDeleteTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个人格',
+    );
+    return '删除 $_temp0？';
+  }
+
+  @override
+  String get personaBulkConfirmPublicBody =>
+      '其他人会在你的人格列表中看到它们，并能打开它们的资料。你可以随时改回来。';
+
+  @override
+  String get personaBulkConfirmPrivateBody =>
+      '它们的资料将对他人隐藏。名称和头像仍会显示在它们的消息和回应上。';
+
+  @override
+  String get personaBulkConfirmDeleteBody =>
+      '它们的消息仍会显示名称和头像，但你将无法再以它们的身份发送，它们的标签和专属表情符号也会释放出来。此操作无法撤销。';
+
+  @override
+  String personaBulkNowPublic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个人格已设为公开',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowUnlisted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个人格已设为未列出',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowPrivate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个人格已设为私密',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '已删除 $count 个人格',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaBulkFailed => '无法更改这些人格。请重试。';
+
+  @override
+  String get personaFilterEmpty => '这里没有人格。';
+
+  @override
+  String get personaGalleryChooseFeatured => '选择要展示的人格';
+
+  @override
+  String get personaUndo => '撤销';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -1548,4 +1748,204 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
   @override
   String get notificationsAlertEveryMessageDescription =>
       '關閉後，熱絡的對話只會提醒一次，之後靜默更新，直到你閱讀或清除它。';
+
+  @override
+  String personaGalleryTitle(int count) {
+    return '人格（$count）';
+  }
+
+  @override
+  String personaGallerySearchOther(String name) {
+    return '搜尋 $name 的人格';
+  }
+
+  @override
+  String get personaGallerySearchOwn => '搜尋你的人格';
+
+  @override
+  String get personaGallerySortBy => '排序方式';
+
+  @override
+  String get personaGallerySortName => '名稱（A–Z）';
+
+  @override
+  String get personaGallerySortMostUsed => '最常使用';
+
+  @override
+  String get personaGallerySortRecentlyUsed => '最近使用';
+
+  @override
+  String get personaGalleryViewGallery => '圖庫';
+
+  @override
+  String get personaGalleryViewList => '列表';
+
+  @override
+  String get personaGalleryViewAvatars => '大頭貼';
+
+  @override
+  String personaGalleryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 個人格',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaGalleryCountFiltered(int shown, int total) {
+    return '$shown / $total 個人格';
+  }
+
+  @override
+  String get personaGalleryNoMatch => '沒有符合你搜尋的人格。';
+
+  @override
+  String get personaGalleryLoadFailed => '無法載入人格。';
+
+  @override
+  String personaGalleryOthersSee(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 個公開人格',
+    );
+    return '其他人能看到 $_temp0。';
+  }
+
+  @override
+  String get personaGalleryShowHidden => '顯示不公開和私人的人格';
+
+  @override
+  String get personaGalleryManage => '管理人格';
+
+  @override
+  String get personaGalleryNonePublic =>
+      '你還沒有公開的人格。將人格的可見度設為「公開」後，其他人就能在這裡看到它。';
+
+  @override
+  String get personaGalleryNoBio => '還沒有簡介。';
+
+  @override
+  String personaGalleryCreated(String date) {
+    return '建立於 $date';
+  }
+
+  @override
+  String get personaBulkSelect => '選取';
+
+  @override
+  String get personaBulkSelectAll => '全選';
+
+  @override
+  String personaBulkSelectedCount(int count) {
+    return '已選擇 $count 個';
+  }
+
+  @override
+  String get personaFilterAll => '全部';
+
+  @override
+  String get personaBulkMakePublic => '設為公開';
+
+  @override
+  String get personaBulkMakeUnlisted => '設為不公開';
+
+  @override
+  String get personaBulkMakePrivate => '設為私人';
+
+  @override
+  String personaBulkConfirmPublicTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 個人格',
+    );
+    return '將 $_temp0設為公開？';
+  }
+
+  @override
+  String personaBulkConfirmPrivateTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 個人格',
+    );
+    return '將 $_temp0設為私人？';
+  }
+
+  @override
+  String personaBulkConfirmDeleteTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 個人格',
+    );
+    return '刪除 $_temp0？';
+  }
+
+  @override
+  String get personaBulkConfirmPublicBody =>
+      '其他人會在你的人格清單中看到它們，並能開啟它們的個人資料。你可以隨時改回來。';
+
+  @override
+  String get personaBulkConfirmPrivateBody =>
+      '它們的個人資料將對他人隱藏。名稱和頭像仍會顯示在它們的訊息和回應上。';
+
+  @override
+  String get personaBulkConfirmDeleteBody =>
+      '它們的訊息仍會顯示名稱和頭像，但你將無法再以它們的身分傳送，它們的標籤和專屬表情符號也會釋出。此操作無法復原。';
+
+  @override
+  String personaBulkNowPublic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 個人格已設為公開',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowUnlisted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 個人格已設為不公開',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowPrivate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 個人格已設為私人',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '已刪除 $count 個人格',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaBulkFailed => '無法變更這些人格。請再試一次。';
+
+  @override
+  String get personaFilterEmpty => '這裡沒有人格。';
+
+  @override
+  String get personaGalleryChooseFeatured => '選擇要展示的人格';
+
+  @override
+  String get personaUndo => '復原';
 }
