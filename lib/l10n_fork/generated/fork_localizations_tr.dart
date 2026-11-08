@@ -802,4 +802,213 @@ class ForkLocalizationsTr extends ForkLocalizations {
   @override
   String get notificationsAlertEveryMessageDescription =>
       'Kapalıyken, hareketli bir sohbet yalnızca bir kez uyarır, ardından siz okuyana veya kapatana kadar sessizce güncellenir.';
+
+  @override
+  String personaGalleryTitle(int count) {
+    return 'Personalar ($count)';
+  }
+
+  @override
+  String personaGallerySearchOther(String name) {
+    return '$name adlı kişinin personalarında ara';
+  }
+
+  @override
+  String get personaGallerySearchOwn => 'Personalarında ara';
+
+  @override
+  String get personaGallerySortBy => 'Sıralama ölçütü';
+
+  @override
+  String get personaGallerySortName => 'Ad (A–Z)';
+
+  @override
+  String get personaGallerySortMostUsed => 'En çok kullanılanlar';
+
+  @override
+  String get personaGallerySortRecentlyUsed => 'Son kullanılanlar';
+
+  @override
+  String get personaGalleryViewGallery => 'Galeri';
+
+  @override
+  String get personaGalleryViewList => 'Liste';
+
+  @override
+  String get personaGalleryViewAvatars => 'Avatarlar';
+
+  @override
+  String personaGalleryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona',
+      one: '$count persona',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaGalleryCountFiltered(int shown, int total) {
+    return '$shown/$total persona';
+  }
+
+  @override
+  String get personaGalleryNoMatch => 'Aramanla eşleşen persona yok.';
+
+  @override
+  String get personaGalleryLoadFailed => 'Personalar yüklenemedi.';
+
+  @override
+  String personaGalleryOthersSee(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count herkese açık persona',
+      one: '$count herkese açık persona',
+    );
+    return 'Diğerleri $_temp0 görüyor.';
+  }
+
+  @override
+  String get personaGalleryShowHidden => 'Liste dışı ve gizli olanları göster';
+
+  @override
+  String get personaGalleryManage => 'Personaları yönet';
+
+  @override
+  String get personaGalleryNonePublic =>
+      'Personalarından hiçbiri henüz herkese açık değil. Bir personanın görünürlüğünü Herkese açık yaptığında diğerleri onu burada görür.';
+
+  @override
+  String get personaGalleryNoBio => 'Henüz biyografi yok.';
+
+  @override
+  String personaGalleryCreated(String date) {
+    return '$date tarihinde oluşturuldu';
+  }
+
+  @override
+  String get personaBulkSelect => 'Seç';
+
+  @override
+  String get personaBulkSelectAll => 'Tümünü seç';
+
+  @override
+  String personaBulkSelectedCount(int count) {
+    return '$count seçildi';
+  }
+
+  @override
+  String get personaFilterAll => 'Tümü';
+
+  @override
+  String get personaBulkMakePublic => 'Herkese açık yap';
+
+  @override
+  String get personaBulkMakeUnlisted => 'Liste dışı yap';
+
+  @override
+  String get personaBulkMakePrivate => 'Gizli yap';
+
+  @override
+  String personaBulkConfirmPublicTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona',
+      one: '$count persona',
+    );
+    return '$_temp0 herkese açık yapılsın mı?';
+  }
+
+  @override
+  String personaBulkConfirmPrivateTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona',
+      one: '$count persona',
+    );
+    return '$_temp0 gizli yapılsın mı?';
+  }
+
+  @override
+  String personaBulkConfirmDeleteTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona',
+      one: '$count persona',
+    );
+    return '$_temp0 silinsin mi?';
+  }
+
+  @override
+  String get personaBulkConfirmPublicBody =>
+      'Diğerleri onları Personalar listende görecek ve profillerini açabilecek. Bunu istediğin zaman geri değiştirebilirsin.';
+
+  @override
+  String get personaBulkConfirmPrivateBody =>
+      'Profilleri diğerlerinden gizlenir. Adları ve avatarları mesajlarında ve tepkilerinde görünmeye devam eder.';
+
+  @override
+  String get personaBulkConfirmDeleteBody =>
+      'Mesajları adlarını ve avatarlarını göstermeye devam eder, ancak artık onlar olarak gönderemezsin ve etiketleri ile imza emojileri boşa çıkar. Bu geri alınamaz.';
+
+  @override
+  String personaBulkNowPublic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona artık herkese açık',
+      one: '$count persona artık herkese açık',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowUnlisted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona artık liste dışı',
+      one: '$count persona artık liste dışı',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowPrivate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona artık gizli',
+      one: '$count persona artık gizli',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona silindi',
+      one: '$count persona silindi',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaBulkFailed => 'Personalar değiştirilemedi. Tekrar dene.';
+
+  @override
+  String get personaFilterEmpty => 'Burada persona yok.';
+
+  @override
+  String get personaGalleryChooseFeatured => 'Öne çıkarılacak personaları seç';
+
+  @override
+  String get personaUndo => 'Geri al';
 }

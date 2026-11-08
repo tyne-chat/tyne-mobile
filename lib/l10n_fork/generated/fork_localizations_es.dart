@@ -814,6 +814,218 @@ class ForkLocalizationsEs extends ForkLocalizations {
   @override
   String get notificationsAlertEveryMessageDescription =>
       'Si está desactivado, una conversación activa avisa una sola vez y luego se actualiza en silencio hasta que la leas o la descartes.';
+
+  @override
+  String personaGalleryTitle(int count) {
+    return 'Personas ($count)';
+  }
+
+  @override
+  String personaGallerySearchOther(String name) {
+    return 'Buscar en las personas de $name';
+  }
+
+  @override
+  String get personaGallerySearchOwn => 'Buscar en tus personas';
+
+  @override
+  String get personaGallerySortBy => 'Ordenar por';
+
+  @override
+  String get personaGallerySortName => 'Nombre (A–Z)';
+
+  @override
+  String get personaGallerySortMostUsed => 'Más usadas';
+
+  @override
+  String get personaGallerySortRecentlyUsed => 'Usadas recientemente';
+
+  @override
+  String get personaGalleryViewGallery => 'Galería';
+
+  @override
+  String get personaGalleryViewList => 'Lista';
+
+  @override
+  String get personaGalleryViewAvatars => 'Avatares';
+
+  @override
+  String personaGalleryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaGalleryCountFiltered(int shown, int total) {
+    return '$shown de $total personas';
+  }
+
+  @override
+  String get personaGalleryNoMatch =>
+      'Ninguna persona coincide con tu búsqueda.';
+
+  @override
+  String get personaGalleryLoadFailed =>
+      'No se han podido cargar las personas.';
+
+  @override
+  String personaGalleryOthersSee(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas públicas',
+      one: '$count persona pública',
+    );
+    return 'Los demás ven $_temp0.';
+  }
+
+  @override
+  String get personaGalleryShowHidden => 'Mostrar ocultas y privadas';
+
+  @override
+  String get personaGalleryManage => 'Gestionar personas';
+
+  @override
+  String get personaGalleryNonePublic =>
+      'Ninguna de tus personas es pública todavía. Los demás ven una persona aquí cuando cambias su visibilidad a Pública.';
+
+  @override
+  String get personaGalleryNoBio => 'Aún no hay biografía.';
+
+  @override
+  String personaGalleryCreated(String date) {
+    return 'Creada el $date';
+  }
+
+  @override
+  String get personaBulkSelect => 'Seleccionar';
+
+  @override
+  String get personaBulkSelectAll => 'Seleccionar todas';
+
+  @override
+  String personaBulkSelectedCount(int count) {
+    return '$count seleccionadas';
+  }
+
+  @override
+  String get personaFilterAll => 'Todas';
+
+  @override
+  String get personaBulkMakePublic => 'Hacer públicas';
+
+  @override
+  String get personaBulkMakeUnlisted => 'Ocultar';
+
+  @override
+  String get personaBulkMakePrivate => 'Hacer privadas';
+
+  @override
+  String personaBulkConfirmPublicTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'públicas $count personas',
+      one: 'pública $count persona',
+    );
+    return '¿Hacer $_temp0?';
+  }
+
+  @override
+  String personaBulkConfirmPrivateTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'privadas $count personas',
+      one: 'privada $count persona',
+    );
+    return '¿Hacer $_temp0?';
+  }
+
+  @override
+  String personaBulkConfirmDeleteTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return '¿Eliminar $_temp0?';
+  }
+
+  @override
+  String get personaBulkConfirmPublicBody =>
+      'Los demás las verán en tu lista de personas y podrán abrir sus perfiles. Puedes cambiarlo cuando quieras.';
+
+  @override
+  String get personaBulkConfirmPrivateBody =>
+      'Sus perfiles quedarán ocultos para los demás. Sus nombres y avatares seguirán apareciendo en sus mensajes y reacciones.';
+
+  @override
+  String get personaBulkConfirmDeleteBody =>
+      'Sus mensajes seguirán mostrando sus nombres y avatares, pero ya no podrás enviar como ellas, y sus etiquetas y emojis de firma quedarán libres. Esto no se puede deshacer.';
+
+  @override
+  String personaBulkNowPublic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas ahora son públicas',
+      one: '$count persona ahora es pública',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowUnlisted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas ahora están ocultas',
+      one: '$count persona ahora está oculta',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowPrivate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas ahora son privadas',
+      one: '$count persona ahora es privada',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Se han eliminado $count personas',
+      one: 'Se ha eliminado $count persona',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaBulkFailed =>
+      'No se han podido cambiar las personas. Inténtalo de nuevo.';
+
+  @override
+  String get personaFilterEmpty => 'No hay personas aquí.';
+
+  @override
+  String get personaGalleryChooseFeatured => 'Elegir personas para destacar';
+
+  @override
+  String get personaUndo => 'Deshacer';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -1626,4 +1838,215 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
   @override
   String get notificationsAlertEveryMessageDescription =>
       'Si está desactivado, una conversación activa avisa una sola vez y luego se actualiza en silencio hasta que la leas o la descartes.';
+
+  @override
+  String personaGalleryTitle(int count) {
+    return 'Personas ($count)';
+  }
+
+  @override
+  String personaGallerySearchOther(String name) {
+    return 'Buscar en las personas de $name';
+  }
+
+  @override
+  String get personaGallerySearchOwn => 'Buscar en tus personas';
+
+  @override
+  String get personaGallerySortBy => 'Ordenar por';
+
+  @override
+  String get personaGallerySortName => 'Nombre (A–Z)';
+
+  @override
+  String get personaGallerySortMostUsed => 'Más usadas';
+
+  @override
+  String get personaGallerySortRecentlyUsed => 'Usadas recientemente';
+
+  @override
+  String get personaGalleryViewGallery => 'Galería';
+
+  @override
+  String get personaGalleryViewList => 'Lista';
+
+  @override
+  String get personaGalleryViewAvatars => 'Avatares';
+
+  @override
+  String personaGalleryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaGalleryCountFiltered(int shown, int total) {
+    return '$shown de $total personas';
+  }
+
+  @override
+  String get personaGalleryNoMatch =>
+      'Ninguna persona coincide con tu búsqueda.';
+
+  @override
+  String get personaGalleryLoadFailed => 'No se pudieron cargar las personas.';
+
+  @override
+  String personaGalleryOthersSee(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas públicas',
+      one: '$count persona pública',
+    );
+    return 'Los demás ven $_temp0.';
+  }
+
+  @override
+  String get personaGalleryShowHidden => 'Mostrar no listadas y privadas';
+
+  @override
+  String get personaGalleryManage => 'Administrar personas';
+
+  @override
+  String get personaGalleryNonePublic =>
+      'Ninguna de tus personas es pública todavía. Los demás ven una persona aquí cuando cambias su visibilidad a Pública.';
+
+  @override
+  String get personaGalleryNoBio => 'Aún no hay biografía.';
+
+  @override
+  String personaGalleryCreated(String date) {
+    return 'Creada el $date';
+  }
+
+  @override
+  String get personaBulkSelect => 'Seleccionar';
+
+  @override
+  String get personaBulkSelectAll => 'Seleccionar todas';
+
+  @override
+  String personaBulkSelectedCount(int count) {
+    return '$count seleccionadas';
+  }
+
+  @override
+  String get personaFilterAll => 'Todas';
+
+  @override
+  String get personaBulkMakePublic => 'Hacer públicas';
+
+  @override
+  String get personaBulkMakeUnlisted => 'Hacer no listadas';
+
+  @override
+  String get personaBulkMakePrivate => 'Hacer privadas';
+
+  @override
+  String personaBulkConfirmPublicTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'públicas $count personas',
+      one: 'pública $count persona',
+    );
+    return '¿Hacer $_temp0?';
+  }
+
+  @override
+  String personaBulkConfirmPrivateTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'privadas $count personas',
+      one: 'privada $count persona',
+    );
+    return '¿Hacer $_temp0?';
+  }
+
+  @override
+  String personaBulkConfirmDeleteTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return '¿Eliminar $_temp0?';
+  }
+
+  @override
+  String get personaBulkConfirmPublicBody =>
+      'Los demás las verán en tu lista de personas y podrán abrir sus perfiles. Puedes cambiarlo cuando quieras.';
+
+  @override
+  String get personaBulkConfirmPrivateBody =>
+      'Sus perfiles quedarán ocultos para los demás. Sus nombres y avatares seguirán apareciendo en sus mensajes y reacciones.';
+
+  @override
+  String get personaBulkConfirmDeleteBody =>
+      'Sus mensajes seguirán mostrando sus nombres y avatares, pero ya no podrás enviar como ellas, y sus etiquetas y emojis distintivos quedarán libres. Esto no se puede deshacer.';
+
+  @override
+  String personaBulkNowPublic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas ahora son públicas',
+      one: '$count persona ahora es pública',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowUnlisted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas ahora no están listadas',
+      one: '$count persona ahora no está listada',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowPrivate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas ahora son privadas',
+      one: '$count persona ahora es privada',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Se eliminaron $count personas',
+      one: 'Se eliminó $count persona',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaBulkFailed =>
+      'No se pudieron cambiar las personas. Inténtalo de nuevo.';
+
+  @override
+  String get personaFilterEmpty => 'No hay personas aquí.';
+
+  @override
+  String get personaGalleryChooseFeatured => 'Elegir personas para destacar';
+
+  @override
+  String get personaUndo => 'Deshacer';
 }
