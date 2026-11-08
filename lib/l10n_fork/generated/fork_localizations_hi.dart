@@ -807,4 +807,213 @@ class ForkLocalizationsHi extends ForkLocalizations {
   @override
   String get notificationsAlertEveryMessageDescription =>
       'बंद होने पर, व्यस्त बातचीत एक बार अलर्ट करती है, फिर पढ़ने या हटाने तक चुपचाप अपडेट होती रहती है।';
+
+  @override
+  String personaGalleryTitle(int count) {
+    return 'परसोना ($count)';
+  }
+
+  @override
+  String personaGallerySearchOther(String name) {
+    return '$name के परसोना खोजें';
+  }
+
+  @override
+  String get personaGallerySearchOwn => 'अपने परसोना खोजें';
+
+  @override
+  String get personaGallerySortBy => 'इसके अनुसार क्रमबद्ध करें';
+
+  @override
+  String get personaGallerySortName => 'नाम (A–Z)';
+
+  @override
+  String get personaGallerySortMostUsed => 'सबसे ज़्यादा इस्तेमाल किए गए';
+
+  @override
+  String get personaGallerySortRecentlyUsed => 'हाल ही में इस्तेमाल किए गए';
+
+  @override
+  String get personaGalleryViewGallery => 'गैलरी';
+
+  @override
+  String get personaGalleryViewList => 'सूची';
+
+  @override
+  String get personaGalleryViewAvatars => 'अवतार';
+
+  @override
+  String personaGalleryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count परसोना',
+      one: '$count परसोना',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaGalleryCountFiltered(int shown, int total) {
+    return '$total में से $shown परसोना';
+  }
+
+  @override
+  String get personaGalleryNoMatch => 'आपकी खोज से कोई परसोना मेल नहीं खाता।';
+
+  @override
+  String get personaGalleryLoadFailed => 'परसोना लोड नहीं हो सके।';
+
+  @override
+  String personaGalleryOthersSee(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count पब्लिक परसोना',
+      one: '$count पब्लिक परसोना',
+    );
+    return 'दूसरे $_temp0 देखते हैं।';
+  }
+
+  @override
+  String get personaGalleryShowHidden => 'अनलिस्टेड और प्राइवेट दिखाएँ';
+
+  @override
+  String get personaGalleryManage => 'परसोना प्रबंधित करें';
+
+  @override
+  String get personaGalleryNonePublic =>
+      'आपका कोई भी परसोना अभी पब्लिक नहीं है। जब आप किसी परसोना की दृश्यता पब्लिक पर सेट करते हैं, तब दूसरे उसे यहाँ देखते हैं।';
+
+  @override
+  String get personaGalleryNoBio => 'अभी कोई बायो नहीं है।';
+
+  @override
+  String personaGalleryCreated(String date) {
+    return '$date को बनाया गया';
+  }
+
+  @override
+  String get personaBulkSelect => 'चुनें';
+
+  @override
+  String get personaBulkSelectAll => 'सभी चुनें';
+
+  @override
+  String personaBulkSelectedCount(int count) {
+    return '$count चुने गए';
+  }
+
+  @override
+  String get personaFilterAll => 'सभी';
+
+  @override
+  String get personaBulkMakePublic => 'पब्लिक बनाएँ';
+
+  @override
+  String get personaBulkMakeUnlisted => 'अनलिस्टेड बनाएँ';
+
+  @override
+  String get personaBulkMakePrivate => 'प्राइवेट बनाएँ';
+
+  @override
+  String personaBulkConfirmPublicTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count परसोना',
+      one: '$count परसोना',
+    );
+    return '$_temp0 को पब्लिक बनाएँ?';
+  }
+
+  @override
+  String personaBulkConfirmPrivateTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count परसोना',
+      one: '$count परसोना',
+    );
+    return '$_temp0 को प्राइवेट बनाएँ?';
+  }
+
+  @override
+  String personaBulkConfirmDeleteTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count परसोना',
+      one: '$count परसोना',
+    );
+    return '$_temp0 हटाएँ?';
+  }
+
+  @override
+  String get personaBulkConfirmPublicBody =>
+      'दूसरे लोग उन्हें आपकी परसोना सूची में देखेंगे और उनकी प्रोफ़ाइल खोल सकेंगे। आप इसे कभी भी वापस बदल सकते हैं।';
+
+  @override
+  String get personaBulkConfirmPrivateBody =>
+      'उनकी प्रोफ़ाइल दूसरों से छिपा दी जाएगी। उनके नाम और अवतार उनके संदेशों और प्रतिक्रियाओं पर दिखते रहेंगे।';
+
+  @override
+  String get personaBulkConfirmDeleteBody =>
+      'उनके संदेशों में उनके नाम और अवतार दिखते रहेंगे, लेकिन आप अब उनके रूप में संदेश नहीं भेज पाएँगे, और उनके टैग और हस्ताक्षर इमोजी खाली हो जाएँगे। इसे पूर्ववत नहीं किया जा सकता।';
+
+  @override
+  String personaBulkNowPublic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count परसोना अब पब्लिक हैं',
+      one: '$count परसोना अब पब्लिक है',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowUnlisted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count परसोना अब अनलिस्टेड हैं',
+      one: '$count परसोना अब अनलिस्टेड है',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowPrivate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count परसोना अब प्राइवेट हैं',
+      one: '$count परसोना अब प्राइवेट है',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count परसोना हटाए गए',
+      one: '$count परसोना हटाया गया',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaBulkFailed => 'परसोना नहीं बदले जा सके। फिर से कोशिश करें।';
+
+  @override
+  String get personaFilterEmpty => 'यहाँ कोई परसोना नहीं है।';
+
+  @override
+  String get personaGalleryChooseFeatured => 'दिखाने के लिए परसोना चुनें';
+
+  @override
+  String get personaUndo => 'पहले जैसा करें';
 }

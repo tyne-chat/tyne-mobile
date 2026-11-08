@@ -807,4 +807,216 @@ class ForkLocalizationsNl extends ForkLocalizations {
   @override
   String get notificationsAlertEveryMessageDescription =>
       'Als dit uit staat, geeft een drukke chat één keer een melding en wordt daarna stil bijgewerkt tot je hem leest of wegveegt.';
+
+  @override
+  String personaGalleryTitle(int count) {
+    return 'Persona\'s ($count)';
+  }
+
+  @override
+  String personaGallerySearchOther(String name) {
+    return 'Persona\'s van $name doorzoeken';
+  }
+
+  @override
+  String get personaGallerySearchOwn => 'Je persona\'s doorzoeken';
+
+  @override
+  String get personaGallerySortBy => 'Sorteren op';
+
+  @override
+  String get personaGallerySortName => 'Naam (A–Z)';
+
+  @override
+  String get personaGallerySortMostUsed => 'Meest gebruikt';
+
+  @override
+  String get personaGallerySortRecentlyUsed => 'Recent gebruikt';
+
+  @override
+  String get personaGalleryViewGallery => 'Galerij';
+
+  @override
+  String get personaGalleryViewList => 'Lijst';
+
+  @override
+  String get personaGalleryViewAvatars => 'Avatars';
+
+  @override
+  String personaGalleryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona\'s',
+      one: '$count persona',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaGalleryCountFiltered(int shown, int total) {
+    return '$shown van $total persona\'s';
+  }
+
+  @override
+  String get personaGalleryNoMatch =>
+      'Geen persona\'s gevonden voor je zoekopdracht.';
+
+  @override
+  String get personaGalleryLoadFailed =>
+      'Persona\'s konden niet worden geladen.';
+
+  @override
+  String personaGalleryOthersSee(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count openbare persona\'s',
+      one: '$count openbare persona',
+    );
+    return 'Anderen zien $_temp0.';
+  }
+
+  @override
+  String get personaGalleryShowHidden => 'Niet vermelde en privé tonen';
+
+  @override
+  String get personaGalleryManage => 'Persona\'s beheren';
+
+  @override
+  String get personaGalleryNonePublic =>
+      'Nog geen van je persona\'s is openbaar. Anderen zien een persona hier zodra je de zichtbaarheid op Openbaar zet.';
+
+  @override
+  String get personaGalleryNoBio => 'Nog geen bio.';
+
+  @override
+  String personaGalleryCreated(String date) {
+    return 'Gemaakt op $date';
+  }
+
+  @override
+  String get personaBulkSelect => 'Selecteren';
+
+  @override
+  String get personaBulkSelectAll => 'Alles selecteren';
+
+  @override
+  String personaBulkSelectedCount(int count) {
+    return '$count geselecteerd';
+  }
+
+  @override
+  String get personaFilterAll => 'Alle';
+
+  @override
+  String get personaBulkMakePublic => 'Openbaar maken';
+
+  @override
+  String get personaBulkMakeUnlisted => 'Niet vermelden';
+
+  @override
+  String get personaBulkMakePrivate => 'Privé maken';
+
+  @override
+  String personaBulkConfirmPublicTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona\'s',
+      one: '$count persona',
+    );
+    return '$_temp0 openbaar maken?';
+  }
+
+  @override
+  String personaBulkConfirmPrivateTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona\'s',
+      one: '$count persona',
+    );
+    return '$_temp0 privé maken?';
+  }
+
+  @override
+  String personaBulkConfirmDeleteTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona\'s',
+      one: '$count persona',
+    );
+    return '$_temp0 verwijderen?';
+  }
+
+  @override
+  String get personaBulkConfirmPublicBody =>
+      'Anderen zien ze in je lijst met persona\'s en kunnen hun profielen openen. Je kunt dit altijd terugdraaien.';
+
+  @override
+  String get personaBulkConfirmPrivateBody =>
+      'Hun profielen worden verborgen voor anderen. Hun namen en avatars blijven zichtbaar bij hun berichten en reacties.';
+
+  @override
+  String get personaBulkConfirmDeleteBody =>
+      'Hun berichten blijven hun namen en avatars tonen, maar je kunt niet meer als hen sturen, en hun tags en handtekening-emoji\'s komen vrij. Dit kan niet ongedaan worden gemaakt.';
+
+  @override
+  String personaBulkNowPublic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona\'s zijn nu openbaar',
+      one: '$count persona is nu openbaar',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowUnlisted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona\'s zijn nu niet vermeld',
+      one: '$count persona is nu niet vermeld',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowPrivate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona\'s zijn nu privé',
+      one: '$count persona is nu privé',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona\'s verwijderd',
+      one: '$count persona verwijderd',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaBulkFailed =>
+      'De persona\'s konden niet worden gewijzigd. Probeer het opnieuw.';
+
+  @override
+  String get personaFilterEmpty => 'Hier zijn geen persona\'s.';
+
+  @override
+  String get personaGalleryChooseFeatured => 'Persona\'s kiezen om te tonen';
+
+  @override
+  String get personaUndo => 'Ongedaan maken';
 }
