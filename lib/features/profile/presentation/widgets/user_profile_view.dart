@@ -75,7 +75,9 @@ import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart'
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/edit_persona_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
+import 'package:fluxer_app/features/profile/presentation/widgets/persona_gallery_entry.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+import 'package:fluxer_app/features/profile/providers/public_persona_list_provider.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
 import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
@@ -371,6 +373,16 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     final EdgeInsets hostedSide = profileHostedSideContentInsets(context);
     final double contentPadLeft = layout.s4 + hostedSide.left;
     final double contentPadRight = layout.s4 + hostedSide.right;
+    // Fork: whose personas the "Personas (N)" pill and row open (tyne-chat/tyne#189).
+    final PersonaGalleryOwner? forkPersonas = personaGalleryOwnerFor(
+      userId: userId,
+      isSelf: isCurrentUser,
+      name: displayName,
+      avatarUrl: avatarUrl,
+      avatarColor: avatarColor,
+      guildId: widget.guildId,
+      hidden: isWebhook || isBot || isSystem,
+    );
     void openActions(Offset position) {
       unawaited(
         UserProfileActionsSheet.show(
@@ -592,6 +604,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
           sliver: SliverList(
             delegate: SliverChildListDelegate.fixed(<Widget>[
               UserProfileHeader(
+                forkNameTrailing: accountPersonaNameTrailing(forkPersonas),
                 username: username,
                 discriminator: discriminator,
                 displayName: displayName,
@@ -672,8 +685,14 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                   ),
                 ],
                 SizedBox(height: layout.s4),
+                // Fork: your own "Personas (N)" row, where others' profiles show the mutuals.
+                ...ownPersonaGallerySection(forkPersonas, gap: layout.s4),
                 if (!isCurrentUser) ...[
                   UserProfileMutualsSection(
+                    forkLeadingRows: personaGalleryLeadingRows(
+                      ref,
+                      forkPersonas,
+                    ),
                     friends: mutualFriends,
                     communities: mutualCommunities,
                     onFriendTap: (UserPartialResponse friend) =>
@@ -825,6 +844,18 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
               ),
             if (isBot || isSystem || isWebhook)
               FluxerUserTag(isSystem: isSystem),
+            // Fork: the display tag and "Personas (N)" (tyne-chat/tyne#189).
+            ?accountPersonaNameTrailing(
+              personaGalleryOwnerFor(
+                userId: userId,
+                isSelf: isCurrentUser,
+                name: displayName,
+                avatarUrl: avatarUrl,
+                avatarColor: avatarColor,
+                guildId: widget.guildId,
+                hidden: isWebhook || isBot || isSystem,
+              ),
+            ),
           ],
         ),
         if (!isWebhook)
@@ -1061,6 +1092,14 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     final Color bannerColor = bannerColorInt != null
         ? Color(bannerColorInt | 0xFF000000)
         : colors.backgroundSecondary;
+    final PersonaGalleryOwner? galleryOwner = personaGalleryOwnerFor(
+      userId: effectiveUserId,
+      isSelf: isCurrentUser,
+      name: rootDisplayName,
+      avatarUrl: rootAvatarUrl,
+      avatarColor: rootAvatarColor,
+      guildId: widget.guildId,
+    );
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -1164,6 +1203,9 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                         label: personaTag.trim(),
                         iconUrl: personaTagIcon,
                       ),
+                    // The account's "Personas (N)" (tyne-chat/tyne#189).
+                    if (galleryOwner != null)
+                      PersonaGalleryPill(owner: galleryOwner),
                   ],
                 ),
                 if (pronouns != null &&
