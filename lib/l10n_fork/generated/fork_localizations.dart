@@ -1546,6 +1546,252 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'When off, a busy conversation alerts once, then updates quietly until you read it or dismiss it.'**
   String get notificationsAlertEveryMessageDescription;
+
+  /// The "Personas (N)" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Pill and row on a profile, and the gallery sheet's title: the account's public personas and how many there are.
+  ///
+  /// In en, this message translates to:
+  /// **'Personas ({count})'**
+  String personaGalleryTitle(int count);
+
+  /// The "Personas (N)" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Search field of someone else's persona gallery; {name} is the account's name.
+  ///
+  /// In en, this message translates to:
+  /// **'Search {name}\'s personas'**
+  String personaGallerySearchOther(String name);
+
+  /// The "Personas (N)" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Search field of your own persona gallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Search your personas'**
+  String get personaGallerySearchOwn;
+
+  /// The "Personas (N)" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Title of the sort menu of the persona gallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort by'**
+  String get personaGallerySortBy;
+
+  /// The "Personas (N)" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Sort option: by name, alphabetically.
+  ///
+  /// In en, this message translates to:
+  /// **'Name (A–Z)'**
+  String get personaGallerySortName;
+
+  /// The "Personas (N)" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Sort option: the most used personas first.
+  ///
+  /// In en, this message translates to:
+  /// **'Most used'**
+  String get personaGallerySortMostUsed;
+
+  /// The "Personas (N)" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Sort option, only in your own gallery: the personas you used most recently first.
+  ///
+  /// In en, this message translates to:
+  /// **'Recently used'**
+  String get personaGallerySortRecentlyUsed;
+
+  /// The "Personas (N)" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Layout chip: cards with banner, avatar and bio.
+  ///
+  /// In en, this message translates to:
+  /// **'Gallery'**
+  String get personaGalleryViewGallery;
+
+  /// The "Personas (N)" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Layout chip: one row per persona.
+  ///
+  /// In en, this message translates to:
+  /// **'List'**
+  String get personaGalleryViewList;
+
+  /// The "Personas (N)" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Layout chip: a grid of avatars with names.
+  ///
+  /// In en, this message translates to:
+  /// **'Avatars'**
+  String get personaGalleryViewAvatars;
+
+  /// The "Personas (N)" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. How many personas the gallery lists.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} persona} other{{count} personas}}'**
+  String personaGalleryCount(int count);
+
+  /// The "Personas (N)" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. How many personas match the search, of how many.
+  ///
+  /// In en, this message translates to:
+  /// **'{shown} of {total} personas'**
+  String personaGalleryCountFiltered(int shown, int total);
+
+  /// The "Personas (N)" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. The search matches no persona.
+  ///
+  /// In en, this message translates to:
+  /// **'No personas match your search.'**
+  String get personaGalleryNoMatch;
+
+  /// The "Personas (N)" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. The account's personas could not be loaded; a Retry action follows.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load personas.'**
+  String get personaGalleryLoadFailed;
+
+  /// The "Personas (N)" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Top of your own gallery: how many of your personas others see.
+  ///
+  /// In en, this message translates to:
+  /// **'Others see {count, plural, one{{count} public persona} other{{count} public personas}}.'**
+  String personaGalleryOthersSee(int count);
+
+  /// The "Personas (N)" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Switch in your own gallery: also list your unlisted and private personas, dimmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Show unlisted and private'**
+  String get personaGalleryShowHidden;
+
+  /// The "Personas (N)" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Button in your own gallery that opens the Personas settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage personas'**
+  String get personaGalleryManage;
+
+  /// The "Personas (N)" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Your own gallery when none of your personas is public.
+  ///
+  /// In en, this message translates to:
+  /// **'None of your personas are public yet. Others see a persona here once you set its visibility to Public.'**
+  String get personaGalleryNonePublic;
+
+  /// The "Personas (N)" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. A persona card without a bio.
+  ///
+  /// In en, this message translates to:
+  /// **'No bio yet.'**
+  String get personaGalleryNoBio;
+
+  /// The "Personas (N)" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. When a persona was created, in the gallery's list; {date} is a date.
+  ///
+  /// In en, this message translates to:
+  /// **'Created {date}'**
+  String personaGalleryCreated(String date);
+
+  /// Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Button in the persona list's header that starts select mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Select'**
+  String get personaBulkSelect;
+
+  /// Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Checkbox while selecting: select every persona the search and filter show, or none when all are.
+  ///
+  /// In en, this message translates to:
+  /// **'Select all'**
+  String get personaBulkSelectAll;
+
+  /// Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Top of the persona list while selecting: how many are selected.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} selected'**
+  String personaBulkSelectedCount(int count);
+
+  /// Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Filter chip: every persona, whatever its visibility; the count follows it.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get personaFilterAll;
+
+  /// Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Confirm button, and the label read out for the Public action.
+  ///
+  /// In en, this message translates to:
+  /// **'Make public'**
+  String get personaBulkMakePublic;
+
+  /// Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Label read out for the Unlisted action, which applies at once.
+  ///
+  /// In en, this message translates to:
+  /// **'Make unlisted'**
+  String get personaBulkMakeUnlisted;
+
+  /// Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Confirm button, and the label read out for the Private action.
+  ///
+  /// In en, this message translates to:
+  /// **'Make private'**
+  String get personaBulkMakePrivate;
+
+  /// Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Title of the confirmation before making the selected personas public.
+  ///
+  /// In en, this message translates to:
+  /// **'Make {count, plural, one{{count} persona} other{{count} personas}} public?'**
+  String personaBulkConfirmPublicTitle(int count);
+
+  /// Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Title of the confirmation before making the selected personas private.
+  ///
+  /// In en, this message translates to:
+  /// **'Make {count, plural, one{{count} persona} other{{count} personas}} private?'**
+  String personaBulkConfirmPrivateTitle(int count);
+
+  /// Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Title of the confirmation before deleting the selected personas.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete {count, plural, one{{count} persona} other{{count} personas}}?'**
+  String personaBulkConfirmDeleteTitle(int count);
+
+  /// Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. What making personas public does.
+  ///
+  /// In en, this message translates to:
+  /// **'Others will see them in your Personas list and can open their profiles. You can change this back at any time.'**
+  String get personaBulkConfirmPublicBody;
+
+  /// Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. What making personas private does.
+  ///
+  /// In en, this message translates to:
+  /// **'Their profiles will be hidden from others. Their names and avatars still show on their messages and reactions.'**
+  String get personaBulkConfirmPrivateBody;
+
+  /// Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. What deleting personas does; it cannot be undone.
+  ///
+  /// In en, this message translates to:
+  /// **'Their messages keep showing their names and avatars, but you can no longer send as them, and their tags and signature emojis become free. This can\'t be undone.'**
+  String get personaBulkConfirmDeleteBody;
+
+  /// Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Snack bar after the change, with Undo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} persona is} other{{count} personas are}} now public'**
+  String personaBulkNowPublic(int count);
+
+  /// Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Snack bar after the change, with Undo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} persona is} other{{count} personas are}} now unlisted'**
+  String personaBulkNowUnlisted(int count);
+
+  /// Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Snack bar after the change, with Undo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} persona is} other{{count} personas are}} now private'**
+  String personaBulkNowPrivate(int count);
+
+  /// Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Snack bar after deleting personas.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} persona} other{{count} personas}} deleted'**
+  String personaBulkDeleted(int count);
+
+  /// Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. A bulk change or deletion failed; the selection is kept.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t change the personas. Try again.'**
+  String get personaBulkFailed;
+
+  /// Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. The chosen visibility filter has no personas.
+  ///
+  /// In en, this message translates to:
+  /// **'No personas here.'**
+  String get personaFilterEmpty;
+
+  /// Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Button in your own Personas gallery when none is public: opens the settings with your unlisted personas selectable.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose personas to feature'**
+  String get personaGalleryChooseFeatured;
+
+  /// Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Snack bar action that puts back each persona's previous visibility.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get personaUndo;
 }
 
 class _ForkLocalizationsDelegate

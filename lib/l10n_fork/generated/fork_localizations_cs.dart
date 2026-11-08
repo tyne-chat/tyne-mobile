@@ -808,4 +808,233 @@ class ForkLocalizationsCs extends ForkLocalizations {
   @override
   String get notificationsAlertEveryMessageDescription =>
       'Když je vypnuto, rušná konverzace upozorní jen jednou a pak se tiše aktualizuje, dokud ji nepřečtete nebo nezavřete.';
+
+  @override
+  String personaGalleryTitle(int count) {
+    return 'Persony ($count)';
+  }
+
+  @override
+  String personaGallerySearchOther(String name) {
+    return 'Hledat v personách uživatele $name';
+  }
+
+  @override
+  String get personaGallerySearchOwn => 'Hledat ve vašich personách';
+
+  @override
+  String get personaGallerySortBy => 'Seřadit podle';
+
+  @override
+  String get personaGallerySortName => 'Jméno (A–Z)';
+
+  @override
+  String get personaGallerySortMostUsed => 'Nejpoužívanější';
+
+  @override
+  String get personaGallerySortRecentlyUsed => 'Naposledy použité';
+
+  @override
+  String get personaGalleryViewGallery => 'Galerie';
+
+  @override
+  String get personaGalleryViewList => 'Seznam';
+
+  @override
+  String get personaGalleryViewAvatars => 'Avatary';
+
+  @override
+  String personaGalleryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count person',
+      many: '$count persony',
+      few: '$count persony',
+      one: '$count persona',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaGalleryCountFiltered(int shown, int total) {
+    return '$shown z $total person';
+  }
+
+  @override
+  String get personaGalleryNoMatch => 'Hledání neodpovídá žádná persona.';
+
+  @override
+  String get personaGalleryLoadFailed => 'Persony se nepodařilo načíst.';
+
+  @override
+  String personaGalleryOthersSee(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count veřejných person',
+      many: '$count veřejné persony',
+      few: '$count veřejné persony',
+      one: '$count veřejnou personu',
+    );
+    return 'Ostatní vidí $_temp0.';
+  }
+
+  @override
+  String get personaGalleryShowHidden => 'Zobrazit neuvedené a soukromé';
+
+  @override
+  String get personaGalleryManage => 'Spravovat persony';
+
+  @override
+  String get personaGalleryNonePublic =>
+      'Žádná z vašich person zatím není veřejná. Ostatní tu personu uvidí, jakmile jí nastavíte viditelnost na „Veřejné“.';
+
+  @override
+  String get personaGalleryNoBio => 'Zatím bez popisu.';
+
+  @override
+  String personaGalleryCreated(String date) {
+    return 'Vytvořeno $date';
+  }
+
+  @override
+  String get personaBulkSelect => 'Vybrat';
+
+  @override
+  String get personaBulkSelectAll => 'Vybrat vše';
+
+  @override
+  String personaBulkSelectedCount(int count) {
+    return 'Vybráno: $count';
+  }
+
+  @override
+  String get personaFilterAll => 'Vše';
+
+  @override
+  String get personaBulkMakePublic => 'Nastavit jako veřejné';
+
+  @override
+  String get personaBulkMakeUnlisted => 'Nastavit jako neuvedené';
+
+  @override
+  String get personaBulkMakePrivate => 'Nastavit jako soukromé';
+
+  @override
+  String personaBulkConfirmPublicTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count person',
+      many: '$count persony',
+      few: '$count persony',
+      one: '$count personu',
+    );
+    return 'Nastavit $_temp0 jako veřejné?';
+  }
+
+  @override
+  String personaBulkConfirmPrivateTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count person',
+      many: '$count persony',
+      few: '$count persony',
+      one: '$count personu',
+    );
+    return 'Nastavit $_temp0 jako soukromé?';
+  }
+
+  @override
+  String personaBulkConfirmDeleteTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count person',
+      many: '$count persony',
+      few: '$count persony',
+      one: '$count personu',
+    );
+    return 'Smazat $_temp0?';
+  }
+
+  @override
+  String get personaBulkConfirmPublicBody =>
+      'Ostatní je uvidí ve vašem seznamu person a budou moci otevřít jejich profily. Kdykoli to můžete změnit zpět.';
+
+  @override
+  String get personaBulkConfirmPrivateBody =>
+      'Jejich profily budou před ostatními skryté. Jejich jména a avatary se budou dál zobrazovat u jejich zpráv a reakcí.';
+
+  @override
+  String get personaBulkConfirmDeleteBody =>
+      'Jejich zprávy budou dál ukazovat jejich jména a avatary, ale už za ně nebudete moci psát a jejich značky a podpisové emoji se uvolní. Tuto akci nelze vrátit.';
+
+  @override
+  String personaBulkNowPublic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count person je nyní veřejných',
+      many: '$count persony jsou nyní veřejné',
+      few: '$count persony jsou nyní veřejné',
+      one: '$count persona je nyní veřejná',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowUnlisted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count person je nyní neuvedených',
+      many: '$count persony jsou nyní neuvedené',
+      few: '$count persony jsou nyní neuvedené',
+      one: '$count persona je nyní neuvedená',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowPrivate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count person je nyní soukromých',
+      many: '$count persony jsou nyní soukromé',
+      few: '$count persony jsou nyní soukromé',
+      one: '$count persona je nyní soukromá',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count person smazáno',
+      many: '$count persony smazány',
+      few: '$count persony smazány',
+      one: '$count persona smazána',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaBulkFailed =>
+      'Persony se nepodařilo změnit. Zkuste to znovu.';
+
+  @override
+  String get personaFilterEmpty => 'Žádné persony.';
+
+  @override
+  String get personaGalleryChooseFeatured =>
+      'Vyberte persony, které chcete ukázat';
+
+  @override
+  String get personaUndo => 'Zpět';
 }
