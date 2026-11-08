@@ -806,4 +806,206 @@ class ForkLocalizationsVi extends ForkLocalizations {
   @override
   String get notificationsAlertEveryMessageDescription =>
       'Khi tắt, một cuộc trò chuyện sôi nổi chỉ thông báo một lần, sau đó cập nhật âm thầm cho đến khi bạn đọc hoặc đóng nó.';
+
+  @override
+  String personaGalleryTitle(int count) {
+    return 'Persona ($count)';
+  }
+
+  @override
+  String personaGallerySearchOther(String name) {
+    return 'Tìm persona của $name';
+  }
+
+  @override
+  String get personaGallerySearchOwn => 'Tìm persona của bạn';
+
+  @override
+  String get personaGallerySortBy => 'Sắp xếp theo';
+
+  @override
+  String get personaGallerySortName => 'Tên (A–Z)';
+
+  @override
+  String get personaGallerySortMostUsed => 'Dùng nhiều nhất';
+
+  @override
+  String get personaGallerySortRecentlyUsed => 'Dùng gần đây';
+
+  @override
+  String get personaGalleryViewGallery => 'Thư viện';
+
+  @override
+  String get personaGalleryViewList => 'Danh sách';
+
+  @override
+  String get personaGalleryViewAvatars => 'Ảnh đại diện';
+
+  @override
+  String personaGalleryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaGalleryCountFiltered(int shown, int total) {
+    return '$shown / $total persona';
+  }
+
+  @override
+  String get personaGalleryNoMatch =>
+      'Không có persona nào khớp với tìm kiếm của bạn.';
+
+  @override
+  String get personaGalleryLoadFailed => 'Không thể tải persona.';
+
+  @override
+  String personaGalleryOthersSee(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona công khai',
+    );
+    return 'Người khác thấy $_temp0.';
+  }
+
+  @override
+  String get personaGalleryShowHidden =>
+      'Hiện persona không được liệt kê và riêng tư';
+
+  @override
+  String get personaGalleryManage => 'Quản lý persona';
+
+  @override
+  String get personaGalleryNonePublic =>
+      'Chưa có persona nào của bạn ở chế độ công khai. Người khác sẽ thấy một persona ở đây khi bạn đặt chế độ hiển thị của nó thành Công khai.';
+
+  @override
+  String get personaGalleryNoBio => 'Chưa có tiểu sử.';
+
+  @override
+  String personaGalleryCreated(String date) {
+    return 'Đã tạo vào $date';
+  }
+
+  @override
+  String get personaBulkSelect => 'Chọn';
+
+  @override
+  String get personaBulkSelectAll => 'Chọn tất cả';
+
+  @override
+  String personaBulkSelectedCount(int count) {
+    return 'Đã chọn $count';
+  }
+
+  @override
+  String get personaFilterAll => 'Tất cả';
+
+  @override
+  String get personaBulkMakePublic => 'Đặt công khai';
+
+  @override
+  String get personaBulkMakeUnlisted => 'Đặt không liệt kê';
+
+  @override
+  String get personaBulkMakePrivate => 'Đặt riêng tư';
+
+  @override
+  String personaBulkConfirmPublicTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona',
+    );
+    return 'Đặt $_temp0 thành công khai?';
+  }
+
+  @override
+  String personaBulkConfirmPrivateTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona',
+    );
+    return 'Đặt $_temp0 thành riêng tư?';
+  }
+
+  @override
+  String personaBulkConfirmDeleteTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona',
+    );
+    return 'Xóa $_temp0?';
+  }
+
+  @override
+  String get personaBulkConfirmPublicBody =>
+      'Người khác sẽ thấy chúng trong danh sách persona của bạn và có thể mở hồ sơ của chúng. Bạn có thể đổi lại bất cứ lúc nào.';
+
+  @override
+  String get personaBulkConfirmPrivateBody =>
+      'Hồ sơ của chúng sẽ bị ẩn với người khác. Tên và ảnh đại diện của chúng vẫn hiện trên tin nhắn và cảm xúc.';
+
+  @override
+  String get personaBulkConfirmDeleteBody =>
+      'Tin nhắn của chúng vẫn hiện tên và ảnh đại diện, nhưng bạn sẽ không thể gửi dưới tên chúng nữa, và thẻ cùng biểu tượng cảm xúc đặc trưng của chúng sẽ được giải phóng. Không thể hoàn tác.';
+
+  @override
+  String personaBulkNowPublic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona giờ là công khai',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowUnlisted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona giờ không được liệt kê',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowPrivate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona giờ là riêng tư',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Đã xóa $count persona',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaBulkFailed => 'Không thể thay đổi persona. Hãy thử lại.';
+
+  @override
+  String get personaFilterEmpty => 'Không có persona nào ở đây.';
+
+  @override
+  String get personaGalleryChooseFeatured => 'Chọn persona để giới thiệu';
+
+  @override
+  String get personaUndo => 'Hoàn tác';
 }

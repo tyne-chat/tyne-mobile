@@ -799,4 +799,204 @@ class ForkLocalizationsTh extends ForkLocalizations {
   @override
   String get notificationsAlertEveryMessageDescription =>
       'เมื่อปิดไว้ บทสนทนาที่คึกคักจะแจ้งเตือนเพียงครั้งเดียว แล้วอัปเดตอย่างเงียบ ๆ จนกว่าคุณจะอ่านหรือปิดการแจ้งเตือน';
+
+  @override
+  String personaGalleryTitle(int count) {
+    return 'Persona ($count)';
+  }
+
+  @override
+  String personaGallerySearchOther(String name) {
+    return 'ค้นหา Persona ของ $name';
+  }
+
+  @override
+  String get personaGallerySearchOwn => 'ค้นหา Persona ของคุณ';
+
+  @override
+  String get personaGallerySortBy => 'เรียงตาม';
+
+  @override
+  String get personaGallerySortName => 'ชื่อ (A–Z)';
+
+  @override
+  String get personaGallerySortMostUsed => 'ใช้บ่อยที่สุด';
+
+  @override
+  String get personaGallerySortRecentlyUsed => 'ใช้ล่าสุด';
+
+  @override
+  String get personaGalleryViewGallery => 'แกลเลอรี';
+
+  @override
+  String get personaGalleryViewList => 'รายการ';
+
+  @override
+  String get personaGalleryViewAvatars => 'รูปโปรไฟล์';
+
+  @override
+  String personaGalleryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Persona $count รายการ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaGalleryCountFiltered(int shown, int total) {
+    return 'Persona $shown จาก $total รายการ';
+  }
+
+  @override
+  String get personaGalleryNoMatch => 'ไม่มี Persona ที่ตรงกับการค้นหาของคุณ';
+
+  @override
+  String get personaGalleryLoadFailed => 'โหลด Persona ไม่ได้';
+
+  @override
+  String personaGalleryOthersSee(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Persona สาธารณะ $count รายการ',
+    );
+    return 'ผู้อื่นเห็น $_temp0';
+  }
+
+  @override
+  String get personaGalleryShowHidden => 'แสดงที่ไม่แสดงในรายการและส่วนตัว';
+
+  @override
+  String get personaGalleryManage => 'จัดการ Persona';
+
+  @override
+  String get personaGalleryNonePublic =>
+      'ยังไม่มี Persona ของคุณที่เป็นสาธารณะ ผู้อื่นจะเห็น Persona ที่นี่เมื่อคุณตั้งค่าการมองเห็นเป็นสาธารณะ';
+
+  @override
+  String get personaGalleryNoBio => 'ยังไม่มีประวัติ';
+
+  @override
+  String personaGalleryCreated(String date) {
+    return 'สร้างเมื่อ $date';
+  }
+
+  @override
+  String get personaBulkSelect => 'เลือก';
+
+  @override
+  String get personaBulkSelectAll => 'เลือกทั้งหมด';
+
+  @override
+  String personaBulkSelectedCount(int count) {
+    return 'เลือกแล้ว $count รายการ';
+  }
+
+  @override
+  String get personaFilterAll => 'ทั้งหมด';
+
+  @override
+  String get personaBulkMakePublic => 'ตั้งเป็นสาธารณะ';
+
+  @override
+  String get personaBulkMakeUnlisted => 'ตั้งเป็นไม่แสดงในรายการ';
+
+  @override
+  String get personaBulkMakePrivate => 'ตั้งเป็นส่วนตัว';
+
+  @override
+  String personaBulkConfirmPublicTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Persona $count รายการ',
+    );
+    return 'ตั้ง $_temp0 เป็นสาธารณะใช่ไหม';
+  }
+
+  @override
+  String personaBulkConfirmPrivateTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Persona $count รายการ',
+    );
+    return 'ตั้ง $_temp0 เป็นส่วนตัวใช่ไหม';
+  }
+
+  @override
+  String personaBulkConfirmDeleteTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Persona $count รายการ',
+    );
+    return 'ลบ $_temp0 ใช่ไหม';
+  }
+
+  @override
+  String get personaBulkConfirmPublicBody =>
+      'ผู้อื่นจะเห็นในรายการ Persona ของคุณและเปิดโปรไฟล์ได้ คุณเปลี่ยนกลับได้ทุกเมื่อ';
+
+  @override
+  String get personaBulkConfirmPrivateBody =>
+      'โปรไฟล์จะถูกซ่อนจากผู้อื่น ชื่อและอวตารยังแสดงในข้อความและความรู้สึกที่แสดง';
+
+  @override
+  String get personaBulkConfirmDeleteBody =>
+      'ข้อความของ Persona เหล่านี้จะยังแสดงชื่อและอวตาร แต่คุณจะส่งข้อความในฐานะ Persona เหล่านี้ไม่ได้อีก และแท็กกับอีโมจิประจำตัวจะว่างให้ใช้ใหม่ เลิกทำไม่ได้';
+
+  @override
+  String personaBulkNowPublic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Persona $count รายการเป็นสาธารณะแล้ว',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowUnlisted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Persona $count รายการไม่แสดงในรายการแล้ว',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowPrivate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Persona $count รายการเป็นส่วนตัวแล้ว',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ลบ Persona $count รายการแล้ว',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaBulkFailed => 'เปลี่ยน Persona ไม่ได้ ลองอีกครั้ง';
+
+  @override
+  String get personaFilterEmpty => 'ไม่มี Persona ที่นี่';
+
+  @override
+  String get personaGalleryChooseFeatured => 'เลือก Persona ที่จะแสดง';
+
+  @override
+  String get personaUndo => 'เลิกทำ';
 }
