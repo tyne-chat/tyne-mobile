@@ -13,8 +13,11 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/edit_persona_sheet.dart';
+import 'package:fluxer_app/features/profile/providers/persona_bulk_actions.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/persona_bulk_edit.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
+import 'package:fluxer_app/features/settings/providers/persona_settings_launch_provider.dart';
 import 'package:fluxer_app/features/shell/providers/user/current_user_private_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -42,9 +45,30 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
   bool _isSaving = false;
   String? _pendingTagIcon;
 
+  // Select mode (tyne-chat/tyne#542). The selection is kept by id across
+  // filter and search changes; an id whose persona is gone counts for
+  // nothing.
+  PersonaVisibilityFilter _filter = PersonaVisibilityFilter.all;
+  bool _selecting = false;
+  final Set<String> _selected = <String>{};
+  bool _bulkBusy = false;
+
   @override
   void initState() {
     super.initState();
+    // Opened from your Personas gallery to pick personas to make public.
+    final PersonaSettingsLaunch? launch = ref.read(
+      personaSettingsLaunchProvider,
+    );
+    if (launch != null) {
+      _filter = launch.filter;
+      _selecting = launch.selecting;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          ref.read(personaSettingsLaunchProvider.notifier).next = null;
+        }
+      });
+    }
     final initialTag = ref.read(systemDisplayTagProvider);
     _tagTextController = TextEditingController(text: initialTag.text ?? '');
     _pendingTagIcon = initialTag.iconUrl;
@@ -233,6 +257,178 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
     }
   }
 
+  void _startSelecting([String? firstId]) {
+    setState(() {
+      _selecting = true;
+      if (firstId != null) {
+        _selected.add(firstId);
+      }
+    });
+  }
+
+  void _stopSelecting() {
+    setState(() {
+      _selecting = false;
+      _selected.clear();
+    });
+  }
+
+  void _toggleSelected(String id) {
+    setState(() {
+      if (!_selected.remove(id)) {
+        _selected.add(id);
+      }
+    });
+  }
+
+  String _nowMessage(FluxerLocalizations l10n, String visibility, int count) =>
+      switch (visibility) {
+        'public' => l10n.fork.personaBulkNowPublic(count),
+        'private' => l10n.fork.personaBulkNowPrivate(count),
+        _ => l10n.fork.personaBulkNowUnlisted(count),
+      };
+
+  /// Gives [visibility] to the selected personas, after asking for public
+  /// and private; Unlisted applies at once.
+  Future<void> _bulkSetVisibility(
+    String visibility,
+    List<Persona> selected,
+  ) async {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final int changing = selected
+        .where((Persona p) => p.visibility != visibility)
+        .length;
+    if (changing == 0) {
+      return;
+    }
+    if (visibility == 'public' || visibility == 'private') {
+      final bool isPublic = visibility == 'public';
+      final bool confirmed = await confirmPersonaBulkAction(
+        context,
+        title: isPublic
+            ? l10n.fork.personaBulkConfirmPublicTitle(changing)
+            : l10n.fork.personaBulkConfirmPrivateTitle(changing),
+        body: isPublic
+            ? l10n.fork.personaBulkConfirmPublicBody
+            : l10n.fork.personaBulkConfirmPrivateBody,
+        confirmLabel: isPublic
+            ? l10n.fork.personaBulkMakePublic
+            : l10n.fork.personaBulkMakePrivate,
+      );
+      if (!confirmed || !mounted) {
+        return;
+      }
+    }
+    final PersonaBulkActions actions = ref.read(personaBulkActionsProvider);
+    final Toast toasts = ref.read(toastProvider.notifier);
+    final String failed = l10n.fork.personaBulkFailed;
+    setState(() => _bulkBusy = true);
+    try {
+      final PersonaVisibilityChange? change = await actions.setVisibility(
+        <String>[for (final Persona p in selected) p.id],
+        visibility,
+      );
+      if (mounted) {
+        _stopSelecting();
+      }
+      if (change != null) {
+        toasts.show(
+          FluxerToast(
+            message: _nowMessage(l10n, visibility, change.count),
+            variant: FluxerToastVariant.success,
+            action: FluxerToastAction(
+              label: l10n.fork.personaUndo,
+              onPressed: () =>
+                  unawaited(_undoVisibility(actions, toasts, change, failed)),
+            ),
+          ),
+        );
+      }
+    } on Object catch (err, st) {
+      talker.warning(
+        '[UserPersonaSettings] Bulk visibility change failed: $err',
+        err,
+        st,
+      );
+      toasts.show(
+        FluxerToast(message: failed, variant: FluxerToastVariant.danger),
+      );
+    } finally {
+      if (mounted) {
+        setState(() => _bulkBusy = false);
+      }
+    }
+  }
+
+  static Future<void> _undoVisibility(
+    PersonaBulkActions actions,
+    Toast toasts,
+    PersonaVisibilityChange change,
+    String failed,
+  ) async {
+    try {
+      await actions.undo(change);
+    } on Object catch (err, st) {
+      talker.warning(
+        '[UserPersonaSettings] Undoing a visibility change failed: $err',
+        err,
+        st,
+      );
+      toasts.show(
+        FluxerToast(message: failed, variant: FluxerToastVariant.danger),
+      );
+    }
+  }
+
+  /// Deletes the selected personas after asking.
+  Future<void> _bulkDelete(List<Persona> selected) async {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    if (selected.isEmpty) {
+      return;
+    }
+    final bool confirmed = await confirmPersonaBulkAction(
+      context,
+      title: l10n.fork.personaBulkConfirmDeleteTitle(selected.length),
+      body: l10n.fork.personaBulkConfirmDeleteBody,
+      confirmLabel: l10n.fork.personaDeleteConfirm,
+      danger: true,
+    );
+    if (!confirmed || !mounted) {
+      return;
+    }
+    final PersonaBulkActions actions = ref.read(personaBulkActionsProvider);
+    final Toast toasts = ref.read(toastProvider.notifier);
+    setState(() => _bulkBusy = true);
+    try {
+      final int deleted = await actions.delete(<String>[
+        for (final Persona p in selected) p.id,
+      ]);
+      if (mounted) {
+        _stopSelecting();
+      }
+      if (deleted > 0) {
+        toasts.show(
+          FluxerToast(
+            message: l10n.fork.personaBulkDeleted(deleted),
+            variant: FluxerToastVariant.success,
+          ),
+        );
+      }
+    } on Object catch (err, st) {
+      talker.warning('[UserPersonaSettings] Bulk delete failed: $err', err, st);
+      toasts.show(
+        FluxerToast(
+          message: l10n.fork.personaBulkFailed,
+          variant: FluxerToastVariant.danger,
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() => _bulkBusy = false);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = FluxerLocalizations.of(context);
@@ -280,6 +476,24 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
             (t.suffix?.toLowerCase().contains(_searchQuery) ?? false),
       );
     }).toList();
+
+    // Select mode (tyne-chat/tyne#542): the chips count what the search
+    // finds, and filter it.
+    final Map<PersonaVisibilityFilter, int> filterCounts =
+        <PersonaVisibilityFilter, int>{
+          for (final PersonaVisibilityFilter f
+              in PersonaVisibilityFilter.values)
+            f: filteredPersonas.where((p) => f.matches(p.visibility)).length,
+        };
+    final List<Persona> shownPersonas = filteredPersonas
+        .where((p) => _filter.matches(p.visibility))
+        .toList();
+    final List<Persona> selectedPersonas = personas
+        .where((p) => _selected.contains(p.id))
+        .toList();
+    final bool allShownSelected =
+        shownPersonas.isNotEmpty &&
+        shownPersonas.every((p) => _selected.contains(p.id));
 
     final Persona? activePersona = activeState.activePersonaId != null
         ? personas.where((p) => p.id == activeState.activePersonaId).firstOrNull
@@ -563,12 +777,27 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
             title: _searchQuery.isNotEmpty
                 ? '${l10n.fork.personaListTitle} (${filteredPersonas.length})'
                 : '${l10n.fork.personaListTitle} (${personas.length})',
-            titleTrailing: FluxerButton.primary(
-              size: FluxerButtonSize.small,
-              fitContent: true,
-              label: l10n.fork.personaAddButton,
-              icon: PhosphorIconsBold.plus,
-              onPressed: () => EditPersonaSheet.show(context),
+            titleTrailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (personas.isNotEmpty && !_selecting) ...[
+                  FluxerButton.ghost(
+                    key: const ValueKey<String>('persona-select-mode'),
+                    size: FluxerButtonSize.small,
+                    fitContent: true,
+                    label: l10n.fork.personaBulkSelect,
+                    onPressed: _startSelecting,
+                  ),
+                  SizedBox(width: layout.s1),
+                ],
+                FluxerButton.primary(
+                  size: FluxerButtonSize.small,
+                  fitContent: true,
+                  label: l10n.fork.personaAddButton,
+                  icon: PhosphorIconsBold.plus,
+                  onPressed: () => EditPersonaSheet.show(context),
+                ),
+              ],
             ),
             children: [
               if (personas.isNotEmpty)
@@ -587,6 +816,15 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                     onSuffixTap: _searchQuery.isNotEmpty
                         ? () => _searchController.clear()
                         : null,
+                  ),
+                ),
+              if (personas.isNotEmpty)
+                Padding(
+                  padding: EdgeInsets.only(bottom: layout.s1_5),
+                  child: PersonaVisibilityChips(
+                    counts: filterCounts,
+                    selected: _filter,
+                    onSelected: (filter) => setState(() => _filter = filter),
                   ),
                 ),
               if (personasAsync.isLoading && personas.isEmpty)
@@ -658,8 +896,26 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                     ],
                   ),
                 )
+              else if (shownPersonas.isEmpty)
+                Container(
+                  key: const ValueKey<String>('persona-filter-empty'),
+                  width: double.infinity,
+                  padding: EdgeInsets.all(layout.s4),
+                  decoration: BoxDecoration(
+                    color: colors.backgroundSecondary,
+                    borderRadius: BorderRadius.circular(layout.s2),
+                    border: Border.all(color: colors.borderColor),
+                  ),
+                  child: Text(
+                    l10n.fork.personaFilterEmpty,
+                    style: textStyles.bodySmall.copyWith(
+                      color: colors.textPrimaryMuted,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                )
               else
-                ...filteredPersonas.map(
+                ...shownPersonas.map(
                   (persona) => _buildPersonaCard(
                     context,
                     persona,
@@ -679,12 +935,52 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
       ),
     );
 
+    // While selecting, the bar on top and the actions at the bottom frame
+    // the list; the save bar waits until select mode ends.
+    final Widget framed = _selecting
+        ? Column(
+            children: [
+              PersonaSelectionBar(
+                selectedCount: selectedPersonas.length,
+                allShownSelected: allShownSelected,
+                canSelectAll: shownPersonas.isNotEmpty,
+                onClose: _stopSelecting,
+                onSelectAll: () => setState(() {
+                  if (allShownSelected) {
+                    _selected.removeAll(shownPersonas.map((p) => p.id));
+                  } else {
+                    _selected.addAll(shownPersonas.map((p) => p.id));
+                  }
+                }),
+              ),
+              Expanded(child: content),
+              if (selectedPersonas.isNotEmpty)
+                PersonaBulkActionBar(
+                  canMakePublic: selectedPersonas.any(
+                    (p) => p.visibility != 'public',
+                  ),
+                  canMakeUnlisted: selectedPersonas.any(
+                    (p) => p.visibility != 'unlisted',
+                  ),
+                  canMakePrivate: selectedPersonas.any(
+                    (p) => p.visibility != 'private',
+                  ),
+                  busy: _bulkBusy,
+                  onVisibility: (visibility) => unawaited(
+                    _bulkSetVisibility(visibility, selectedPersonas),
+                  ),
+                  onDelete: () => unawaited(_bulkDelete(selectedPersonas)),
+                ),
+            ],
+          )
+        : content;
+
     return FluxerSettingsSheet(
-      hasUnsavedChanges: isDirty,
+      hasUnsavedChanges: isDirty && !_selecting,
       isSaving: _isSaving,
       onReset: _onReset,
       onSave: _onSave,
-      child: content,
+      child: framed,
     );
   }
 
@@ -699,17 +995,19 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
     final layout = context.layout;
     final textStyles = context.textStyles;
     final l10n = FluxerLocalizations.of(context);
+    final bool isSelected = _selecting && _selected.contains(persona.id);
+    final bool highlighted = isSelected || (!_selecting && isThisActive);
 
-    return Container(
+    final Widget card = Container(
       padding: EdgeInsets.all(layout.s3),
       decoration: BoxDecoration(
-        color: isThisActive
+        color: highlighted
             ? colors.brandPrimary.withValues(alpha: 0.08)
             : colors.backgroundSecondary,
         borderRadius: BorderRadius.circular(layout.s2),
         border: Border.all(
-          color: isThisActive ? colors.brandPrimary : colors.borderColor,
-          width: isThisActive ? 1.5 : 1.0,
+          color: highlighted ? colors.brandPrimary : colors.borderColor,
+          width: highlighted ? 1.5 : 1.0,
         ),
       ),
       child: Column(
@@ -717,6 +1015,13 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
         children: [
           Row(
             children: [
+              if (_selecting) ...[
+                FluxerCheckbox(
+                  value: isSelected,
+                  onChanged: (_) => _toggleSelected(persona.id),
+                ),
+                SizedBox(width: layout.s2),
+              ],
               FluxerAvatar.user(
                 userId: userId,
                 imageUrl: personaImageHash(persona.avatarHash),
@@ -825,50 +1130,63 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
               ),
             ],
           ),
-          SizedBox(height: layout.s2),
-          // Actions row
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              if (canSetActive && isThisActive)
+          // Select mode hides the actions: a tap selects instead.
+          if (!_selecting) ...[
+            SizedBox(height: layout.s2),
+            // Actions row
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                if (canSetActive && isThisActive)
+                  FluxerButton.secondary(
+                    size: FluxerButtonSize.small,
+                    fitContent: true,
+                    label: l10n.fork.personaActiveBadge,
+                    icon: PhosphorIconsFill.lockSimple,
+                    onPressed: () =>
+                        ref.read(activePersonaProvider.notifier).unlatch(),
+                  )
+                else if (canSetActive)
+                  FluxerButton.secondary(
+                    size: FluxerButtonSize.small,
+                    fitContent: true,
+                    label: l10n.fork.personaMakeActive,
+                    icon: PhosphorIconsBold.lockSimpleOpen,
+                    onPressed: () => ref
+                        .read(activePersonaProvider.notifier)
+                        .setActivePersona(persona.id),
+                  ),
+                if (canSetActive) SizedBox(width: layout.s2),
                 FluxerButton.secondary(
                   size: FluxerButtonSize.small,
-                  fitContent: true,
-                  label: l10n.fork.personaActiveBadge,
-                  icon: PhosphorIconsFill.lockSimple,
-                  onPressed: () =>
-                      ref.read(activePersonaProvider.notifier).unlatch(),
-                )
-              else if (canSetActive)
-                FluxerButton.secondary(
+                  isSquare: true,
+                  icon: PhosphorIconsBold.pencilSimple,
+                  onPressed: () => EditPersonaSheet.show(
+                    context,
+                    persona: persona.toPublicPersona(),
+                  ),
+                ),
+                SizedBox(width: layout.s2),
+                FluxerButton.dangerSecondary(
                   size: FluxerButtonSize.small,
-                  fitContent: true,
-                  label: l10n.fork.personaMakeActive,
-                  icon: PhosphorIconsBold.lockSimpleOpen,
-                  onPressed: () => ref
-                      .read(activePersonaProvider.notifier)
-                      .setActivePersona(persona.id),
+                  isSquare: true,
+                  icon: PhosphorIconsBold.trash,
+                  onPressed: () => _confirmDeletePersona(context, persona),
                 ),
-              if (canSetActive) SizedBox(width: layout.s2),
-              FluxerButton.secondary(
-                size: FluxerButtonSize.small,
-                isSquare: true,
-                icon: PhosphorIconsBold.pencilSimple,
-                onPressed: () => EditPersonaSheet.show(
-                  context,
-                  persona: persona.toPublicPersona(),
-                ),
-              ),
-              SizedBox(width: layout.s2),
-              FluxerButton.dangerSecondary(
-                size: FluxerButtonSize.small,
-                isSquare: true,
-                icon: PhosphorIconsBold.trash,
-                onPressed: () => _confirmDeletePersona(context, persona),
-              ),
-            ],
-          ),
+              ],
+            ),
+          ],
         ],
+      ),
+    );
+    return Semantics(
+      key: ValueKey<String>('persona-card-${persona.id}'),
+      selected: _selecting ? isSelected : null,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: _selecting ? () => _toggleSelected(persona.id) : null,
+        onLongPress: _selecting ? null : () => _startSelecting(persona.id),
+        child: card,
       ),
     );
   }

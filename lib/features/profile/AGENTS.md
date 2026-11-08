@@ -22,6 +22,8 @@ reaches most of the app. The server side is tyne-chat/tyne `fluxer_api/src/api/p
 | The device's persona cache | `data/known_personas.dart` (Drift table `known_personas`) |
 | Create, edit, delete | `presentation/sheets/edit_persona_sheet.dart` |
 | The persona profile | `_buildPersonaProfile` in `presentation/widgets/user_profile_view.dart` |
+| Changing the visibility of, or deleting, many own personas at once (tyne-chat/tyne#542) | `providers/persona_bulk_actions.dart` (the settings page's select mode uses it) |
+| An account's public personas: the "Personas (N)" pill, row and gallery (tyne-chat/tyne#189) | `providers/public_persona_list_provider.dart`, `domain/persona_gallery.dart`, `presentation/widgets/persona_gallery_entry.dart`, `presentation/sheets/persona_gallery_sheet.dart`, `presentation/sheets/persona_profile_pager.dart`, `providers/persona_gallery_view_provider.dart` |
 
 The persona settings page is in `lib/features/settings`; the composer's persona resolution, the picker
 and "React as…" sheets and persona mentions are in `lib/features/chat`.
@@ -82,6 +84,26 @@ way it acts like any other persona, also when selected.
   from that fetch. "Private" hides the profile, not the identity: name and avatar are always shown
   (opened from a mention, a private persona's sheet currently falls back to the account's name:
   tyne-chat/tyne#139).
+- **"Personas (N)"** (tyne-chat/tyne#189): `GET /users/:id/personas` answers an account's public
+  personas, the most used first, with its display tag (`publicPersonaListProvider`; a 403 means the
+  viewer may not see the profile). The account's profile header shows that display tag after the
+  name; wherever a profile shows the display tag (the header, a persona's profile) the "Personas (N)"
+  pill follows, and the same count is the first row of the mutuals section (alone in a section on
+  your own profile). For others both show once they have a public persona; on your own profile
+  always, from `myPersonasProvider` and `systemDisplayTagProvider`, with no request
+  (`personaGallerySummaryProvider`). The gallery (cards, list or avatars, remembered per device)
+  searches and sorts on the device. It never shows use counts or times: "Most used" is the server's
+  order for someone else's personas, "Recently used" and the proxy tags are the owner's only. A
+  persona opens in `PersonaProfilePager`, a `PageView` of persona profiles sharing the sheet's scroll
+  controller, in the gallery's order. In your own gallery with no public persona, "Choose personas to
+  feature" opens the Personas settings on the Unlisted chip in select mode
+  (`personaSettingsLaunchProvider`, tyne-chat/tyne#542).
+- **Many at once** (tyne-chat/tyne#542): `PersonaBulkActions` sends only the personas that change, in
+  one request per 250 (the server's limit, each all or nothing), applies the answer to the list in
+  one change (`replacePersonas`), and keeps each persona's previous visibility for Undo. A bulk
+  delete drops the personas (`removePersonas`, their pinned emojis in one synced change through
+  `forgetPersonas`) and clears the selection and per-channel selections naming them here at once,
+  without a request: the server clears them itself and its events follow.
 
 ## Gateway events
 
@@ -94,7 +116,8 @@ event's guild, then:
   there. Otherwise `PersonaRefresher` (`data/persona_refresh.dart`) waits a second, to collect the copy
   sent per shared community, then fetches again in one request the personas of that account the device
   holds (`knownPersonaIdsOf`: stored with that owner, or on cached messages it sent), and nothing if it
-  holds none; it also invalidates the profiles.
+  holds none; it also invalidates the profiles. Every one, deletes included, also asks
+  `PublicPersonaListRefresher` to drop that account's public list once the burst of copies is over.
 - `USER_PERSONA_CHANNEL_STATE_UPDATE`, `USER_PERSONA_SETTINGS_UPDATE`: apply the change.
 - The account's own `USER_PERSONA_CREATE|UPDATE|DELETE` and `USER_PERSONAS_UPDATE`: reload the own list
   (one GET from every mobile session of the account), apply the payload's persona, rename messages.
@@ -118,6 +141,16 @@ The form's "Don't match this persona's tags" switch sets `auto_tag_disabled`.
   (`providers/persona_first_load.dart`); after a failure it asks again at most every 10 seconds,
   however many sends wait. The per-channel selections are waited for the same way. Nothing else here
   sends per message or per render.
+- **"Personas (N)"**: one `GET /users/:id/personas` per profile opened, shared by the pill, the row
+  and the gallery, kept 60 seconds after the last of them goes. A failure is not asked again by
+  itself: the row offers Retry, and a failed answer is dropped with its last listener, so the next
+  profile opened asks again. A `GUILD_PERSONAS_DIRTY` for the account drops it one
+  `personaRefreshDelayProvider` after the last copy, and only a list on screen is fetched again.
+  Opening a persona from the gallery fetches its profile once per session, one per persona swiped to.
+- **Many at once**: one `PATCH /users/@me/personas/visibility` or `POST /users/@me/personas/bulk-delete`
+  per 250 personas, nothing when none would change, never retried; Undo is one more `PATCH`. The
+  server's `USER_PERSONAS_UPDATE` then reloads the own list once per mobile session, as one change
+  does.
 
 ## Where the fork's code sits in upstream files
 
@@ -126,16 +159,28 @@ file here, using the state's private helpers; a fork-owned widget given the clos
 would leave one line in `build`. `UserProfileBanner` gained a hash branch no caller uses. After a rebase
 that touches `UserProfileView`'s `build`, constructor or private constants, check the persona profile.
 
+"Personas (N)" hooks into upstream's files at four places, each handing over to
+`persona_gallery_entry.dart` (five with the popout card's): a `forkNameTrailing` widget at the end of `UserProfileHeader`'s name row,
+`forkLeadingRows` first in `UserProfileMutualsSection`, and in `_buildLoadedView` a `forkPersonas` local
+(null for webhooks, bots and system accounts) passed to those two and to `ownPersonaGallerySection`,
+one line above the mutuals. Upstream's `user_profile_view_test.dart` overrides
+`publicPersonaListProvider` for the other account under a `// Fork:` comment: a request left running
+would fail its tests. The popout card (wide layouts with a pointer, `_buildPopoutCard`) shows the
+display tag and pill through one more element in its name `Wrap`.
+
 ## Tests
 
 - Fork: `test/features/profile/persona_*_test.dart` (matcher with the unfinished-tag table, providers,
   per-channel scope with a request-counting adapter, gateway events, models),
   `data/known_personas_test.dart`, `providers/public_persona_provider_test.dart`,
   `presentation/sheets/edit_persona_sheet_test.dart`, `user_profile_view_fork_test.dart`,
-  `domain/persona_image_urls_test.dart`;
+  `domain/persona_image_urls_test.dart`, `domain/persona_gallery_test.dart`,
+  `providers/public_persona_list_provider_test.dart`, `presentation/widgets/persona_gallery_entry_test.dart`;
   `test/fork_support/wait_until.dart` instead of sleeps.
-- Request counts: `data/persona_lookup_test.dart` and the "without naming one" group of
-  `persona_gateway_events_test.dart`.
+- Request counts: `providers/persona_bulk_actions_test.dart`, `data/persona_lookup_test.dart`, the "without naming one" group of
+  `persona_gateway_events_test.dart`, and `providers/public_persona_list_provider_test.dart` (shared,
+  kept, not repeated after a failure, a burst of change events).
+- Not covered: the persona pager (swiping, and dragging a page down to close the sheet).
 - Not covered: request counts for profile lookups; a private or unreachable persona profile.
 - After a change: `flutter test test/features/profile` (in the nightly gate) and the chat persona tests
   (`composer_persona_resolution_test`, `typing_sender_persona_test`, `voice_message_persona_test`,

@@ -798,4 +798,249 @@ class ForkLocalizationsAr extends ForkLocalizations {
   @override
   String get notificationsAlertEveryMessageDescription =>
       'عند الإيقاف، تنبّهك المحادثة النشطة مرة واحدة، ثم تتحدّث بهدوء حتى تقرأها أو تتجاهلها.';
+
+  @override
+  String personaGalleryTitle(int count) {
+    return 'الشخصيات ($count)';
+  }
+
+  @override
+  String personaGallerySearchOther(String name) {
+    return 'ابحث في شخصيات $name';
+  }
+
+  @override
+  String get personaGallerySearchOwn => 'ابحث في شخصياتك';
+
+  @override
+  String get personaGallerySortBy => 'ترتيب حسب';
+
+  @override
+  String get personaGallerySortName => 'الاسم (أ–ي)';
+
+  @override
+  String get personaGallerySortMostUsed => 'الأكثر استخدامًا';
+
+  @override
+  String get personaGallerySortRecentlyUsed => 'المستخدمة مؤخرًا';
+
+  @override
+  String get personaGalleryViewGallery => 'معرض';
+
+  @override
+  String get personaGalleryViewList => 'قائمة';
+
+  @override
+  String get personaGalleryViewAvatars => 'الصور الرمزية';
+
+  @override
+  String personaGalleryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count شخصية',
+      many: '$count شخصية',
+      few: '$count شخصيات',
+      two: 'شخصيتان',
+      one: 'شخصية واحدة',
+      zero: 'لا شخصيات',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaGalleryCountFiltered(int shown, int total) {
+    return '$shown من $total شخصية';
+  }
+
+  @override
+  String get personaGalleryNoMatch => 'لا توجد شخصيات تطابق بحثك.';
+
+  @override
+  String get personaGalleryLoadFailed => 'تعذّر تحميل الشخصيات.';
+
+  @override
+  String personaGalleryOthersSee(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count شخصية عامة',
+      many: '$count شخصية عامة',
+      few: '$count شخصيات عامة',
+      two: 'شخصيتين عامتين',
+      one: 'شخصية عامة واحدة',
+      zero: 'لا شخصيات عامة',
+    );
+    return 'يرى الآخرون $_temp0.';
+  }
+
+  @override
+  String get personaGalleryShowHidden => 'إظهار غير المدرجة والخاصة';
+
+  @override
+  String get personaGalleryManage => 'إدارة الشخصيات';
+
+  @override
+  String get personaGalleryNonePublic =>
+      'لا توجد أي شخصية عامة من شخصياتك بعد. يرى الآخرون الشخصية هنا بعد أن تضبط ظهورها على «عام».';
+
+  @override
+  String get personaGalleryNoBio => 'لا توجد نبذة بعد.';
+
+  @override
+  String personaGalleryCreated(String date) {
+    return 'أُنشئت في $date';
+  }
+
+  @override
+  String get personaBulkSelect => 'تحديد';
+
+  @override
+  String get personaBulkSelectAll => 'تحديد الكل';
+
+  @override
+  String personaBulkSelectedCount(int count) {
+    return 'تم تحديد $count';
+  }
+
+  @override
+  String get personaFilterAll => 'الكل';
+
+  @override
+  String get personaBulkMakePublic => 'اجعلها عامة';
+
+  @override
+  String get personaBulkMakeUnlisted => 'اجعلها غير مدرجة';
+
+  @override
+  String get personaBulkMakePrivate => 'اجعلها خاصة';
+
+  @override
+  String personaBulkConfirmPublicTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count شخصية',
+      many: '$count شخصية',
+      few: '$count شخصيات',
+      two: 'شخصيتين',
+      one: 'شخصية واحدة',
+      zero: 'لا شخصيات',
+    );
+    return 'جعل $_temp0 عامة؟';
+  }
+
+  @override
+  String personaBulkConfirmPrivateTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count شخصية',
+      many: '$count شخصية',
+      few: '$count شخصيات',
+      two: 'شخصيتين',
+      one: 'شخصية واحدة',
+      zero: 'لا شخصيات',
+    );
+    return 'جعل $_temp0 خاصة؟';
+  }
+
+  @override
+  String personaBulkConfirmDeleteTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count شخصية',
+      many: '$count شخصية',
+      few: '$count شخصيات',
+      two: 'شخصيتين',
+      one: 'شخصية واحدة',
+      zero: 'لا شخصيات',
+    );
+    return 'حذف $_temp0؟';
+  }
+
+  @override
+  String get personaBulkConfirmPublicBody =>
+      'سيراها الآخرون في قائمة شخصياتك ويمكنهم فتح ملفاتها الشخصية. يمكنك تغيير ذلك في أي وقت.';
+
+  @override
+  String get personaBulkConfirmPrivateBody =>
+      'ستُخفى ملفاتها الشخصية عن الآخرين. ستظل أسماؤها وصورها الرمزية تظهر على رسائلها وتفاعلاتها.';
+
+  @override
+  String get personaBulkConfirmDeleteBody =>
+      'ستظل رسائلها تعرض أسماءها وصورها الرمزية، لكن لن يعود بإمكانك الإرسال باسمها، وتصبح علاماتها ورموزها التعبيرية المميزة متاحة. لا يمكن التراجع عن ذلك.';
+
+  @override
+  String personaBulkNowPublic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'أصبحت $count شخصية عامة',
+      many: 'أصبحت $count شخصية عامة',
+      few: 'أصبحت $count شخصيات عامة',
+      two: 'أصبحت شخصيتان عامتين',
+      one: 'أصبحت شخصية واحدة عامة',
+      zero: 'لا شخصيات عامة الآن',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowUnlisted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'أصبحت $count شخصية غير مدرجة',
+      many: 'أصبحت $count شخصية غير مدرجة',
+      few: 'أصبحت $count شخصيات غير مدرجة',
+      two: 'أصبحت شخصيتان غير مدرجتين',
+      one: 'أصبحت شخصية واحدة غير مدرجة',
+      zero: 'لا شخصيات غير مدرجة الآن',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowPrivate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'أصبحت $count شخصية خاصة',
+      many: 'أصبحت $count شخصية خاصة',
+      few: 'أصبحت $count شخصيات خاصة',
+      two: 'أصبحت شخصيتان خاصتين',
+      one: 'أصبحت شخصية واحدة خاصة',
+      zero: 'لا شخصيات خاصة الآن',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'حُذفت $count شخصية',
+      many: 'حُذفت $count شخصية',
+      few: 'حُذفت $count شخصيات',
+      two: 'حُذفت شخصيتان',
+      one: 'حُذفت شخصية واحدة',
+      zero: 'لم تُحذف أي شخصية',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaBulkFailed => 'تعذّر تغيير الشخصيات. حاول مرة أخرى.';
+
+  @override
+  String get personaFilterEmpty => 'لا توجد شخصيات هنا.';
+
+  @override
+  String get personaGalleryChooseFeatured => 'اختر الشخصيات التي تريد إبرازها';
+
+  @override
+  String get personaUndo => 'تراجع';
 }
