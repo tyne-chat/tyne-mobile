@@ -805,4 +805,224 @@ class ForkLocalizationsHr extends ForkLocalizations {
   @override
   String get notificationsAlertEveryMessageDescription =>
       'Kad je isključeno, živahan razgovor obavijestit će vas samo jednom, a zatim se tiho ažurira dok ga ne pročitate ili odbacite.';
+
+  @override
+  String personaGalleryTitle(int count) {
+    return 'Persone ($count)';
+  }
+
+  @override
+  String personaGallerySearchOther(String name) {
+    return 'Pretraži persone korisnika $name';
+  }
+
+  @override
+  String get personaGallerySearchOwn => 'Pretraži svoje persone';
+
+  @override
+  String get personaGallerySortBy => 'Poredaj po';
+
+  @override
+  String get personaGallerySortName => 'Ime (A–Ž)';
+
+  @override
+  String get personaGallerySortMostUsed => 'Najkorištenije';
+
+  @override
+  String get personaGallerySortRecentlyUsed => 'Nedavno korištene';
+
+  @override
+  String get personaGalleryViewGallery => 'Galerija';
+
+  @override
+  String get personaGalleryViewList => 'Popis';
+
+  @override
+  String get personaGalleryViewAvatars => 'Avatari';
+
+  @override
+  String personaGalleryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona',
+      few: '$count persone',
+      one: '$count persona',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaGalleryCountFiltered(int shown, int total) {
+    return '$shown od $total persona';
+  }
+
+  @override
+  String get personaGalleryNoMatch =>
+      'Nijedna persona ne odgovara vašem pretraživanju.';
+
+  @override
+  String get personaGalleryLoadFailed => 'Persone se nisu mogle učitati.';
+
+  @override
+  String personaGalleryOthersSee(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count javnih persona',
+      few: '$count javne persone',
+      one: '$count javnu personu',
+    );
+    return 'Drugi vide $_temp0.';
+  }
+
+  @override
+  String get personaGalleryShowHidden => 'Prikaži nenavedene i privatne';
+
+  @override
+  String get personaGalleryManage => 'Upravljanje personama';
+
+  @override
+  String get personaGalleryNonePublic =>
+      'Nijedna od vaših persona još nije javna. Drugi vide personu ovdje kada joj postavite vidljivost na „Javno”.';
+
+  @override
+  String get personaGalleryNoBio => 'Još nema opisa.';
+
+  @override
+  String personaGalleryCreated(String date) {
+    return 'Stvorena $date';
+  }
+
+  @override
+  String get personaBulkSelect => 'Odaberi';
+
+  @override
+  String get personaBulkSelectAll => 'Odaberi sve';
+
+  @override
+  String personaBulkSelectedCount(int count) {
+    return 'Odabrano: $count';
+  }
+
+  @override
+  String get personaFilterAll => 'Sve';
+
+  @override
+  String get personaBulkMakePublic => 'Postavi kao javne';
+
+  @override
+  String get personaBulkMakeUnlisted => 'Postavi kao nenavedene';
+
+  @override
+  String get personaBulkMakePrivate => 'Postavi kao privatne';
+
+  @override
+  String personaBulkConfirmPublicTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona kao javne',
+      few: '$count persone kao javne',
+      one: '$count personu kao javnu',
+    );
+    return 'Postaviti $_temp0?';
+  }
+
+  @override
+  String personaBulkConfirmPrivateTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona kao privatne',
+      few: '$count persone kao privatne',
+      one: '$count personu kao privatnu',
+    );
+    return 'Postaviti $_temp0?';
+  }
+
+  @override
+  String personaBulkConfirmDeleteTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona',
+      few: '$count persone',
+      one: '$count personu',
+    );
+    return 'Izbrisati $_temp0?';
+  }
+
+  @override
+  String get personaBulkConfirmPublicBody =>
+      'Drugi će ih vidjeti na vašem popisu persona i moći će otvoriti njihove profile. To možete vratiti u bilo kojem trenutku.';
+
+  @override
+  String get personaBulkConfirmPrivateBody =>
+      'Njihovi profili bit će skriveni od drugih. Njihova imena i avatari i dalje će se prikazivati uz njihove poruke i reakcije.';
+
+  @override
+  String get personaBulkConfirmDeleteBody =>
+      'Njihove poruke i dalje će prikazivati njihova imena i avatare, ali više nećete moći slati kao one, a njihove oznake i prepoznatljivi emojiji postat će slobodni. Ovo se ne može poništiti.';
+
+  @override
+  String personaBulkNowPublic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona sada je javno',
+      few: '$count persone sada su javne',
+      one: '$count persona sada je javna',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowUnlisted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona sada je nenavedeno',
+      few: '$count persone sada su nenavedene',
+      one: '$count persona sada je nenavedena',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowPrivate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona sada je privatno',
+      few: '$count persone sada su privatne',
+      one: '$count persona sada je privatna',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona izbrisano',
+      few: '$count persone izbrisane',
+      one: '$count persona izbrisana',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaBulkFailed =>
+      'Persone se nisu mogle promijeniti. Pokušajte ponovno.';
+
+  @override
+  String get personaFilterEmpty => 'Ovdje nema persona.';
+
+  @override
+  String get personaGalleryChooseFeatured => 'Odaberite persone za isticanje';
+
+  @override
+  String get personaUndo => 'Poništi';
 }

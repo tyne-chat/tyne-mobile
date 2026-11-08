@@ -808,4 +808,214 @@ class ForkLocalizationsNb extends ForkLocalizations {
   @override
   String get notificationsAlertEveryMessageDescription =>
       'Når dette er av, varsler en travel samtale én gang og oppdateres deretter stille til du leser eller lukker den.';
+
+  @override
+  String personaGalleryTitle(int count) {
+    return 'Personaer ($count)';
+  }
+
+  @override
+  String personaGallerySearchOther(String name) {
+    return 'Søk i personaene til $name';
+  }
+
+  @override
+  String get personaGallerySearchOwn => 'Søk i personaene dine';
+
+  @override
+  String get personaGallerySortBy => 'Sorter etter';
+
+  @override
+  String get personaGallerySortName => 'Navn (A–Å)';
+
+  @override
+  String get personaGallerySortMostUsed => 'Mest brukt';
+
+  @override
+  String get personaGallerySortRecentlyUsed => 'Nylig brukt';
+
+  @override
+  String get personaGalleryViewGallery => 'Galleri';
+
+  @override
+  String get personaGalleryViewList => 'Liste';
+
+  @override
+  String get personaGalleryViewAvatars => 'Avatarer';
+
+  @override
+  String personaGalleryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personaer',
+      one: '$count persona',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaGalleryCountFiltered(int shown, int total) {
+    return '$shown av $total personaer';
+  }
+
+  @override
+  String get personaGalleryNoMatch =>
+      'Ingen personaer samsvarer med søket ditt.';
+
+  @override
+  String get personaGalleryLoadFailed => 'Kunne ikke laste inn personaene.';
+
+  @override
+  String personaGalleryOthersSee(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count offentlige personaer',
+      one: '$count offentlig persona',
+    );
+    return 'Andre ser $_temp0.';
+  }
+
+  @override
+  String get personaGalleryShowHidden => 'Vis uoppførte og private';
+
+  @override
+  String get personaGalleryManage => 'Administrer personaer';
+
+  @override
+  String get personaGalleryNonePublic =>
+      'Ingen av personaene dine er offentlige ennå. Andre ser en persona her når du setter synligheten til Offentlig.';
+
+  @override
+  String get personaGalleryNoBio => 'Ingen bio ennå.';
+
+  @override
+  String personaGalleryCreated(String date) {
+    return 'Opprettet $date';
+  }
+
+  @override
+  String get personaBulkSelect => 'Velg';
+
+  @override
+  String get personaBulkSelectAll => 'Velg alle';
+
+  @override
+  String personaBulkSelectedCount(int count) {
+    return '$count valgt';
+  }
+
+  @override
+  String get personaFilterAll => 'Alle';
+
+  @override
+  String get personaBulkMakePublic => 'Gjør offentlige';
+
+  @override
+  String get personaBulkMakeUnlisted => 'Gjør uoppførte';
+
+  @override
+  String get personaBulkMakePrivate => 'Gjør private';
+
+  @override
+  String personaBulkConfirmPublicTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personaer offentlige',
+      one: '$count persona offentlig',
+    );
+    return 'Gjøre $_temp0?';
+  }
+
+  @override
+  String personaBulkConfirmPrivateTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personaer private',
+      one: '$count persona privat',
+    );
+    return 'Gjøre $_temp0?';
+  }
+
+  @override
+  String personaBulkConfirmDeleteTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personaer',
+      one: '$count persona',
+    );
+    return 'Slette $_temp0?';
+  }
+
+  @override
+  String get personaBulkConfirmPublicBody =>
+      'Andre vil se dem i personalisten din og kan åpne profilene deres. Du kan endre det tilbake når som helst.';
+
+  @override
+  String get personaBulkConfirmPrivateBody =>
+      'Profilene deres blir skjult for andre. Navnene og avatarene deres vises fortsatt ved meldingene og reaksjonene deres.';
+
+  @override
+  String get personaBulkConfirmDeleteBody =>
+      'Meldingene deres viser fortsatt navnene og avatarene deres, men du kan ikke lenger sende som dem, og taggene og signaturemojiene deres blir ledige. Dette kan ikke angres.';
+
+  @override
+  String personaBulkNowPublic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personaer er nå offentlige',
+      one: '$count persona er nå offentlig',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowUnlisted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personaer er nå uoppførte',
+      one: '$count persona er nå uoppført',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowPrivate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personaer er nå private',
+      one: '$count persona er nå privat',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personaer slettet',
+      one: '$count persona slettet',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaBulkFailed => 'Kunne ikke endre personaene. Prøv igjen.';
+
+  @override
+  String get personaFilterEmpty => 'Ingen personaer her.';
+
+  @override
+  String get personaGalleryChooseFeatured => 'Velg personaer å vise frem';
+
+  @override
+  String get personaUndo => 'Angre';
 }
