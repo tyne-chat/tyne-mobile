@@ -783,4 +783,204 @@ class ForkLocalizationsKo extends ForkLocalizations {
   @override
   String get notificationsAlertEveryMessageDescription =>
       '끄면 활발한 대화는 한 번만 알리고, 읽거나 닫을 때까지 조용히 업데이트됩니다.';
+
+  @override
+  String personaGalleryTitle(int count) {
+    return '페르소나 ($count)';
+  }
+
+  @override
+  String personaGallerySearchOther(String name) {
+    return '$name님의 페르소나 검색';
+  }
+
+  @override
+  String get personaGallerySearchOwn => '내 페르소나 검색';
+
+  @override
+  String get personaGallerySortBy => '정렬 기준';
+
+  @override
+  String get personaGallerySortName => '이름순 (A–Z)';
+
+  @override
+  String get personaGallerySortMostUsed => '많이 사용한 순';
+
+  @override
+  String get personaGallerySortRecentlyUsed => '최근 사용한 순';
+
+  @override
+  String get personaGalleryViewGallery => '갤러리';
+
+  @override
+  String get personaGalleryViewList => '목록';
+
+  @override
+  String get personaGalleryViewAvatars => '아바타';
+
+  @override
+  String personaGalleryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '페르소나 $count개',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaGalleryCountFiltered(int shown, int total) {
+    return '페르소나 $total개 중 $shown개';
+  }
+
+  @override
+  String get personaGalleryNoMatch => '검색과 일치하는 페르소나가 없습니다.';
+
+  @override
+  String get personaGalleryLoadFailed => '페르소나를 불러오지 못했습니다.';
+
+  @override
+  String personaGalleryOthersSee(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '공개 페르소나 $count개',
+    );
+    return '다른 사람에게는 $_temp0가 보입니다.';
+  }
+
+  @override
+  String get personaGalleryShowHidden => '일부 공개와 비공개도 표시';
+
+  @override
+  String get personaGalleryManage => '페르소나 관리';
+
+  @override
+  String get personaGalleryNonePublic =>
+      '아직 공개된 페르소나가 없어요. 페르소나의 공개 범위를 공개로 설정하면 다른 사람에게도 여기에 표시됩니다.';
+
+  @override
+  String get personaGalleryNoBio => '아직 소개가 없습니다.';
+
+  @override
+  String personaGalleryCreated(String date) {
+    return '$date에 생성됨';
+  }
+
+  @override
+  String get personaBulkSelect => '선택';
+
+  @override
+  String get personaBulkSelectAll => '모두 선택';
+
+  @override
+  String personaBulkSelectedCount(int count) {
+    return '$count개 선택됨';
+  }
+
+  @override
+  String get personaFilterAll => '전체';
+
+  @override
+  String get personaBulkMakePublic => '공개로 설정';
+
+  @override
+  String get personaBulkMakeUnlisted => '일부 공개로 설정';
+
+  @override
+  String get personaBulkMakePrivate => '비공개로 설정';
+
+  @override
+  String personaBulkConfirmPublicTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '페르소나 $count개',
+    );
+    return '$_temp0를 공개로 설정할까요?';
+  }
+
+  @override
+  String personaBulkConfirmPrivateTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '페르소나 $count개',
+    );
+    return '$_temp0를 비공개로 설정할까요?';
+  }
+
+  @override
+  String personaBulkConfirmDeleteTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '페르소나 $count개',
+    );
+    return '$_temp0를 삭제할까요?';
+  }
+
+  @override
+  String get personaBulkConfirmPublicBody =>
+      '다른 사람이 내 페르소나 목록에서 볼 수 있고 프로필을 열 수 있게 됩니다. 언제든 다시 바꿀 수 있습니다.';
+
+  @override
+  String get personaBulkConfirmPrivateBody =>
+      '프로필이 다른 사람에게 숨겨집니다. 이름과 아바타는 메시지와 반응에 계속 표시됩니다.';
+
+  @override
+  String get personaBulkConfirmDeleteBody =>
+      '메시지에는 이름과 아바타가 계속 표시되지만, 이제 해당 페르소나로 보낼 수 없으며 태그와 시그니처 이모지는 다시 쓸 수 있게 됩니다. 되돌릴 수 없습니다.';
+
+  @override
+  String personaBulkNowPublic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '페르소나 $count개가 공개로 설정됨',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowUnlisted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '페르소나 $count개가 일부 공개로 설정됨',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowPrivate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '페르소나 $count개가 비공개로 설정됨',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '페르소나 $count개 삭제됨',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaBulkFailed => '페르소나를 변경하지 못했습니다. 다시 시도해 주세요.';
+
+  @override
+  String get personaFilterEmpty => '여기에는 페르소나가 없습니다.';
+
+  @override
+  String get personaGalleryChooseFeatured => '보여 줄 페르소나 선택';
+
+  @override
+  String get personaUndo => '실행 취소';
 }

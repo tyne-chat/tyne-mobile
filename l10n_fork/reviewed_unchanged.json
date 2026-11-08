@@ -9,18 +9,24 @@
         "de": [
             "guildCommandInputOptional",
             "guildCommandName",
+            "personaGallerySortName",
+            "personaGalleryTitle",
             "personaSectionTitle",
             "personaTagSuffixLabel",
             "userSettingsNavPersonas"
         ],
         "es": [
             "guildCommandScript",
+            "personaGalleryCount",
+            "personaGalleryTitle",
             "personaModeManual",
             "personaSectionTitle",
             "userSettingsNavPersonas"
         ],
         "es_419": [
             "guildCommandScript",
+            "personaGalleryCount",
+            "personaGalleryTitle",
             "personaModeManual",
             "personaSectionTitle",
             "userSettingsNavPersonas"
@@ -29,6 +35,9 @@
             "guildCommandDescription",
             "guildCommandMessage",
             "guildCommandScript",
+            "personaGalleryCount",
+            "personaGalleryTitle",
+            "personaGalleryViewAvatars",
             "personaSectionTitle",
             "personaVisibilityPublic",
             "timestampPickerDateLabel",
@@ -47,22 +56,28 @@
         ],
         "nl": [
             "guildCommandScript",
-            "instanceOfflineTitle"
+            "instanceOfflineTitle",
+            "personaGalleryViewAvatars"
         ],
         "pt": [
             "guildCommandScript",
+            "personaGalleryCount",
+            "personaGalleryTitle",
             "personaModeManual",
             "personaSectionTitle",
             "userSettingsNavPersonas"
         ],
         "pt_BR": [
             "guildCommandScript",
+            "personaGalleryCount",
+            "personaGalleryTitle",
             "personaModeManual",
             "personaSectionTitle",
             "userSettingsNavPersonas"
         ],
         "ro": [
             "guildCommandScript",
+            "personaGalleryTitle",
             "personaModeManual",
             "personaSectionTitle",
             "personaTagExampleText",
@@ -70,6 +85,8 @@
             "userSettingsNavPersonas"
         ],
         "sv": [
+            "personaGalleryCount",
+            "personaGalleryTitle",
             "personaSectionTitle",
             "personaTagExampleText",
             "personaTagPrefixLabel",
