@@ -809,4 +809,214 @@ class ForkLocalizationsSv extends ForkLocalizations {
   @override
   String get notificationsAlertEveryMessageDescription =>
       'När det är av aviserar en livlig konversation en gång och uppdateras sedan tyst tills du läser eller stänger den.';
+
+  @override
+  String personaGalleryTitle(int count) {
+    return 'Personas ($count)';
+  }
+
+  @override
+  String personaGallerySearchOther(String name) {
+    return 'Sök bland ${name}s personas';
+  }
+
+  @override
+  String get personaGallerySearchOwn => 'Sök bland dina personas';
+
+  @override
+  String get personaGallerySortBy => 'Sortera efter';
+
+  @override
+  String get personaGallerySortName => 'Namn (A–Ö)';
+
+  @override
+  String get personaGallerySortMostUsed => 'Mest använda';
+
+  @override
+  String get personaGallerySortRecentlyUsed => 'Senast använda';
+
+  @override
+  String get personaGalleryViewGallery => 'Galleri';
+
+  @override
+  String get personaGalleryViewList => 'Lista';
+
+  @override
+  String get personaGalleryViewAvatars => 'Avatarer';
+
+  @override
+  String personaGalleryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaGalleryCountFiltered(int shown, int total) {
+    return '$shown av $total personas';
+  }
+
+  @override
+  String get personaGalleryNoMatch => 'Inga personas matchar din sökning.';
+
+  @override
+  String get personaGalleryLoadFailed => 'Det gick inte att läsa in personas.';
+
+  @override
+  String personaGalleryOthersSee(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count offentliga personas',
+      one: '$count offentlig persona',
+    );
+    return 'Andra ser $_temp0.';
+  }
+
+  @override
+  String get personaGalleryShowHidden => 'Visa olistade och privata';
+
+  @override
+  String get personaGalleryManage => 'Hantera personas';
+
+  @override
+  String get personaGalleryNonePublic =>
+      'Ingen av dina personas är offentlig än. Andra ser en persona här när du ställer in dess synlighet på Offentlig.';
+
+  @override
+  String get personaGalleryNoBio => 'Ingen bio än.';
+
+  @override
+  String personaGalleryCreated(String date) {
+    return 'Skapad $date';
+  }
+
+  @override
+  String get personaBulkSelect => 'Välj';
+
+  @override
+  String get personaBulkSelectAll => 'Välj alla';
+
+  @override
+  String personaBulkSelectedCount(int count) {
+    return '$count valda';
+  }
+
+  @override
+  String get personaFilterAll => 'Alla';
+
+  @override
+  String get personaBulkMakePublic => 'Gör offentliga';
+
+  @override
+  String get personaBulkMakeUnlisted => 'Gör olistade';
+
+  @override
+  String get personaBulkMakePrivate => 'Gör privata';
+
+  @override
+  String personaBulkConfirmPublicTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas offentliga',
+      one: '$count persona offentlig',
+    );
+    return 'Göra $_temp0?';
+  }
+
+  @override
+  String personaBulkConfirmPrivateTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas privata',
+      one: '$count persona privat',
+    );
+    return 'Göra $_temp0?';
+  }
+
+  @override
+  String personaBulkConfirmDeleteTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return 'Ta bort $_temp0?';
+  }
+
+  @override
+  String get personaBulkConfirmPublicBody =>
+      'Andra ser dem i din lista över personas och kan öppna deras profiler. Du kan ändra tillbaka när som helst.';
+
+  @override
+  String get personaBulkConfirmPrivateBody =>
+      'Deras profiler döljs för andra. Deras namn och avatarer visas fortfarande vid deras meddelanden och reaktioner.';
+
+  @override
+  String get personaBulkConfirmDeleteBody =>
+      'Deras meddelanden visar fortfarande deras namn och avatarer, men du kan inte längre skicka som dem, och deras taggar och signaturemojier blir lediga. Det går inte att ångra.';
+
+  @override
+  String personaBulkNowPublic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas är nu offentliga',
+      one: '$count persona är nu offentlig',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowUnlisted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas är nu olistade',
+      one: '$count persona är nu olistad',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowPrivate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas är nu privata',
+      one: '$count persona är nu privat',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas borttagna',
+      one: '$count persona borttagen',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaBulkFailed =>
+      'Det gick inte att ändra personas. Försök igen.';
+
+  @override
+  String get personaFilterEmpty => 'Inga personas här.';
+
+  @override
+  String get personaGalleryChooseFeatured => 'Välj personas att visa upp';
+
+  @override
+  String get personaUndo => 'Ångra';
 }

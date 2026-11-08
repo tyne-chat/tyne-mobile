@@ -145,6 +145,8 @@ its media service from any engine (tyne-chat/tyne#210).
     `persona_gateway_events.dart`, the `known_personas` table.
   - Chat: the composer's pill and "sending as" row, `resolveOutgoingPersona`, the persona picker and
     "React as…" sheets, persona fields on `Message`, the header badge, persona mentions.
+  - Profiles: the account's display tag after its name and its public personas behind "Personas (N)",
+    a gallery searched and sorted on the device (`persona_gallery_sheet.dart`).
   - Threads and forum posts start as the persona that created them; typing as a persona
     (`core/gateway/providers/typing_personas_provider.dart`); settings: the Personas page (mode,
     scope, display tag, the persona list; `lib/features/settings/AGENTS.md`). PluralKit import and

@@ -809,4 +809,214 @@ class ForkLocalizationsFi extends ForkLocalizations {
   @override
   String get notificationsAlertEveryMessageDescription =>
       'Kun tämä on pois päältä, vilkas keskustelu ilmoittaa kerran ja päivittyy sen jälkeen hiljaa, kunnes luet tai hylkäät sen.';
+
+  @override
+  String personaGalleryTitle(int count) {
+    return 'Persoonat ($count)';
+  }
+
+  @override
+  String personaGallerySearchOther(String name) {
+    return 'Hae käyttäjän $name persoonista';
+  }
+
+  @override
+  String get personaGallerySearchOwn => 'Hae persoonistasi';
+
+  @override
+  String get personaGallerySortBy => 'Lajitteluperuste';
+
+  @override
+  String get personaGallerySortName => 'Nimi (A–Ö)';
+
+  @override
+  String get personaGallerySortMostUsed => 'Eniten käytetyt';
+
+  @override
+  String get personaGallerySortRecentlyUsed => 'Viimeksi käytetyt';
+
+  @override
+  String get personaGalleryViewGallery => 'Galleria';
+
+  @override
+  String get personaGalleryViewList => 'Luettelo';
+
+  @override
+  String get personaGalleryViewAvatars => 'Profiilikuvat';
+
+  @override
+  String personaGalleryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persoonaa',
+      one: '$count persoona',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaGalleryCountFiltered(int shown, int total) {
+    return '$shown/$total persoonaa';
+  }
+
+  @override
+  String get personaGalleryNoMatch => 'Hakuasi vastaavia persoonia ei ole.';
+
+  @override
+  String get personaGalleryLoadFailed => 'Persoonia ei voitu ladata.';
+
+  @override
+  String personaGalleryOthersSee(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count julkista persoonaa',
+      one: '$count julkisen persoonan',
+    );
+    return 'Muut näkevät $_temp0.';
+  }
+
+  @override
+  String get personaGalleryShowHidden => 'Näytä piilotetut ja yksityiset';
+
+  @override
+  String get personaGalleryManage => 'Hallitse persoonia';
+
+  @override
+  String get personaGalleryNonePublic =>
+      'Mikään persoonistasi ei ole vielä julkinen. Muut näkevät persoonan täällä, kun asetat sen näkyvyydeksi Julkinen.';
+
+  @override
+  String get personaGalleryNoBio => 'Ei vielä kuvausta.';
+
+  @override
+  String personaGalleryCreated(String date) {
+    return 'Luotu $date';
+  }
+
+  @override
+  String get personaBulkSelect => 'Valitse';
+
+  @override
+  String get personaBulkSelectAll => 'Valitse kaikki';
+
+  @override
+  String personaBulkSelectedCount(int count) {
+    return '$count valittu';
+  }
+
+  @override
+  String get personaFilterAll => 'Kaikki';
+
+  @override
+  String get personaBulkMakePublic => 'Tee julkisiksi';
+
+  @override
+  String get personaBulkMakeUnlisted => 'Piilota';
+
+  @override
+  String get personaBulkMakePrivate => 'Tee yksityisiksi';
+
+  @override
+  String personaBulkConfirmPublicTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persoonasta julkisia',
+      one: '$count persoonasta julkinen',
+    );
+    return 'Tehdäänkö $_temp0?';
+  }
+
+  @override
+  String personaBulkConfirmPrivateTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persoonasta yksityisiä',
+      one: '$count persoonasta yksityinen',
+    );
+    return 'Tehdäänkö $_temp0?';
+  }
+
+  @override
+  String personaBulkConfirmDeleteTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persoonaa',
+      one: '$count persoona',
+    );
+    return 'Poistetaanko $_temp0?';
+  }
+
+  @override
+  String get personaBulkConfirmPublicBody =>
+      'Muut näkevät ne persoonaluettelossasi ja voivat avata niiden profiilit. Voit muuttaa tämän takaisin milloin tahansa.';
+
+  @override
+  String get personaBulkConfirmPrivateBody =>
+      'Niiden profiilit piilotetaan muilta. Niiden nimet ja avatarit näkyvät edelleen niiden viesteissä ja reaktioissa.';
+
+  @override
+  String get personaBulkConfirmDeleteBody =>
+      'Niiden viestit näyttävät edelleen niiden nimet ja avatarit, mutta et voi enää lähettää niinä, ja niiden tunnisteet ja nimikkoemojit vapautuvat. Tätä ei voi perua.';
+
+  @override
+  String personaBulkNowPublic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persoonaa on nyt julkisia',
+      one: '$count persoona on nyt julkinen',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowUnlisted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persoonaa on nyt piilotettuja',
+      one: '$count persoona on nyt piilotettu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowPrivate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persoonaa on nyt yksityisiä',
+      one: '$count persoona on nyt yksityinen',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persoonaa poistettu',
+      one: '$count persoona poistettu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaBulkFailed =>
+      'Persoonia ei voitu muuttaa. Yritä uudelleen.';
+
+  @override
+  String get personaFilterEmpty => 'Täällä ei ole persoonia.';
+
+  @override
+  String get personaGalleryChooseFeatured => 'Valitse esiteltävät persoonat';
+
+  @override
+  String get personaUndo => 'Kumoa';
 }

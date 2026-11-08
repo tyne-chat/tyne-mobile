@@ -811,4 +811,215 @@ class ForkLocalizationsHu extends ForkLocalizations {
   @override
   String get notificationsAlertEveryMessageDescription =>
       'Kikapcsolva egy élénk beszélgetés csak egyszer értesít, utána csendben frissül, amíg el nem olvasod vagy el nem veted.';
+
+  @override
+  String personaGalleryTitle(int count) {
+    return 'Personák ($count)';
+  }
+
+  @override
+  String personaGallerySearchOther(String name) {
+    return 'Keresés $name personái között';
+  }
+
+  @override
+  String get personaGallerySearchOwn => 'Keresés a personáid között';
+
+  @override
+  String get personaGallerySortBy => 'Rendezés';
+
+  @override
+  String get personaGallerySortName => 'Név (A–Z)';
+
+  @override
+  String get personaGallerySortMostUsed => 'Leggyakrabban használt';
+
+  @override
+  String get personaGallerySortRecentlyUsed => 'Nemrég használt';
+
+  @override
+  String get personaGalleryViewGallery => 'Galéria';
+
+  @override
+  String get personaGalleryViewList => 'Lista';
+
+  @override
+  String get personaGalleryViewAvatars => 'Profilképek';
+
+  @override
+  String personaGalleryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona',
+      one: '$count persona',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaGalleryCountFiltered(int shown, int total) {
+    return '$shown/$total persona';
+  }
+
+  @override
+  String get personaGalleryNoMatch => 'Egy persona sem felel meg a keresésnek.';
+
+  @override
+  String get personaGalleryLoadFailed => 'Nem sikerült betölteni a personákat.';
+
+  @override
+  String personaGalleryOthersSee(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count nyilvános personát',
+      one: '$count nyilvános personát',
+    );
+    return 'Mások $_temp0 látnak.';
+  }
+
+  @override
+  String get personaGalleryShowHidden =>
+      'Nem listázott és privát personák mutatása';
+
+  @override
+  String get personaGalleryManage => 'Personák kezelése';
+
+  @override
+  String get personaGalleryNonePublic =>
+      'Még egyik personád sem nyilvános. Mások akkor látnak itt egy personát, ha a láthatóságát Nyilvánosra állítod.';
+
+  @override
+  String get personaGalleryNoBio => 'Még nincs bemutatkozás.';
+
+  @override
+  String personaGalleryCreated(String date) {
+    return 'Létrehozva: $date';
+  }
+
+  @override
+  String get personaBulkSelect => 'Kijelölés';
+
+  @override
+  String get personaBulkSelectAll => 'Összes kijelölése';
+
+  @override
+  String personaBulkSelectedCount(int count) {
+    return '$count kiválasztva';
+  }
+
+  @override
+  String get personaFilterAll => 'Összes';
+
+  @override
+  String get personaBulkMakePublic => 'Legyen nyilvános';
+
+  @override
+  String get personaBulkMakeUnlisted => 'Legyen nem listázott';
+
+  @override
+  String get personaBulkMakePrivate => 'Legyen privát';
+
+  @override
+  String personaBulkConfirmPublicTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona',
+      one: '$count persona',
+    );
+    return '$_temp0 legyen nyilvános?';
+  }
+
+  @override
+  String personaBulkConfirmPrivateTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona',
+      one: '$count persona',
+    );
+    return '$_temp0 legyen privát?';
+  }
+
+  @override
+  String personaBulkConfirmDeleteTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona',
+      one: '$count persona',
+    );
+    return '$_temp0 törlése?';
+  }
+
+  @override
+  String get personaBulkConfirmPublicBody =>
+      'Mások látni fogják őket a Personák listádban, és megnyithatják a profiljukat. Ezt bármikor visszaállíthatod.';
+
+  @override
+  String get personaBulkConfirmPrivateBody =>
+      'A profiljuk rejtve lesz mások elől. A nevük és avatarjuk továbbra is látszik az üzeneteiknél és reakcióiknál.';
+
+  @override
+  String get personaBulkConfirmDeleteBody =>
+      'Az üzeneteik továbbra is a nevüket és avatarjukat mutatják, de már nem küldhetsz a nevükben, és a címkéik és aláírási hangulatjeleik felszabadulnak. Ez nem vonható vissza.';
+
+  @override
+  String personaBulkNowPublic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona mostantól nyilvános',
+      one: '$count persona mostantól nyilvános',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowUnlisted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona mostantól nem listázott',
+      one: '$count persona mostantól nem listázott',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowPrivate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona mostantól privát',
+      one: '$count persona mostantól privát',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona törölve',
+      one: '$count persona törölve',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaBulkFailed =>
+      'Nem sikerült módosítani a personákat. Próbáld újra.';
+
+  @override
+  String get personaFilterEmpty => 'Itt nincsenek personák.';
+
+  @override
+  String get personaGalleryChooseFeatured => 'Kiemelendő personák kiválasztása';
+
+  @override
+  String get personaUndo => 'Visszavonás';
 }
