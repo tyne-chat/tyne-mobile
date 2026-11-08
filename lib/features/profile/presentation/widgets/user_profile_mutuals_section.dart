@@ -15,9 +15,13 @@ class UserProfileMutualsSection extends StatelessWidget {
     required this.communities,
     required this.onFriendTap,
     required this.onCommunityTap,
+    this.forkLeadingRows = const <Widget>[],
     super.key,
   });
 
+  // Fork: rows above the mutual friends, the "Personas (N)" row
+  // (tyne-chat/tyne#189).
+  final List<Widget> forkLeadingRows;
   final List<UserPartialResponse> friends;
   final List<UserProfileFullResponseMutualGuilds> communities;
   final ValueChanged<UserPartialResponse> onFriendTap;
@@ -42,6 +46,7 @@ class UserProfileMutualsSection extends StatelessWidget {
     return FluxerListSection(
       backgroundColor: context.colors.backgroundSecondary,
       children: <Widget>[
+        ...forkLeadingRows,
         FluxerListRow(
           leading: const FluxerAvatar.icon(icon: PhosphorIconsFill.users),
           title: l10n.userProfileMutualFriends(friends.length),
