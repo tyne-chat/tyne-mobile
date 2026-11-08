@@ -1103,5 +1103,242 @@
     "notificationsAlertEveryMessageDescription": "When off, a busy conversation alerts once, then updates quietly until you read it or dismiss it.",
     "@notificationsAlertEveryMessageDescription": {
         "description": "Description under the \"Alert for every message\" switch."
+    },
+    "personaGalleryTitle": "Personas ({count})",
+    "@personaGalleryTitle": {
+        "description": "The \"Personas (N)\" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Pill and row on a profile, and the gallery sheet's title: the account's public personas and how many there are.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "personaGallerySearchOther": "Search {name}'s personas",
+    "@personaGallerySearchOther": {
+        "description": "The \"Personas (N)\" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Search field of someone else's persona gallery; {name} is the account's name.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "personaGallerySearchOwn": "Search your personas",
+    "@personaGallerySearchOwn": {
+        "description": "The \"Personas (N)\" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Search field of your own persona gallery."
+    },
+    "personaGallerySortBy": "Sort by",
+    "@personaGallerySortBy": {
+        "description": "The \"Personas (N)\" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Title of the sort menu of the persona gallery."
+    },
+    "personaGallerySortName": "Name (A–Z)",
+    "@personaGallerySortName": {
+        "description": "The \"Personas (N)\" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Sort option: by name, alphabetically."
+    },
+    "personaGallerySortMostUsed": "Most used",
+    "@personaGallerySortMostUsed": {
+        "description": "The \"Personas (N)\" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Sort option: the most used personas first."
+    },
+    "personaGallerySortRecentlyUsed": "Recently used",
+    "@personaGallerySortRecentlyUsed": {
+        "description": "The \"Personas (N)\" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Sort option, only in your own gallery: the personas you used most recently first."
+    },
+    "personaGalleryViewGallery": "Gallery",
+    "@personaGalleryViewGallery": {
+        "description": "The \"Personas (N)\" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Layout chip: cards with banner, avatar and bio."
+    },
+    "personaGalleryViewList": "List",
+    "@personaGalleryViewList": {
+        "description": "The \"Personas (N)\" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Layout chip: one row per persona."
+    },
+    "personaGalleryViewAvatars": "Avatars",
+    "@personaGalleryViewAvatars": {
+        "description": "The \"Personas (N)\" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Layout chip: a grid of avatars with names."
+    },
+    "personaGalleryCount": "{count, plural, one{{count} persona} other{{count} personas}}",
+    "@personaGalleryCount": {
+        "description": "The \"Personas (N)\" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. How many personas the gallery lists.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "personaGalleryCountFiltered": "{shown} of {total} personas",
+    "@personaGalleryCountFiltered": {
+        "description": "The \"Personas (N)\" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. How many personas match the search, of how many.",
+        "placeholders": {
+            "shown": {
+                "type": "int"
+            },
+            "total": {
+                "type": "int"
+            }
+        }
+    },
+    "personaGalleryNoMatch": "No personas match your search.",
+    "@personaGalleryNoMatch": {
+        "description": "The \"Personas (N)\" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. The search matches no persona."
+    },
+    "personaGalleryLoadFailed": "Couldn't load personas.",
+    "@personaGalleryLoadFailed": {
+        "description": "The \"Personas (N)\" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. The account's personas could not be loaded; a Retry action follows."
+    },
+    "personaGalleryOthersSee": "Others see {count, plural, one{{count} public persona} other{{count} public personas}}.",
+    "@personaGalleryOthersSee": {
+        "description": "The \"Personas (N)\" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Top of your own gallery: how many of your personas others see.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "personaGalleryShowHidden": "Show unlisted and private",
+    "@personaGalleryShowHidden": {
+        "description": "The \"Personas (N)\" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Switch in your own gallery: also list your unlisted and private personas, dimmed."
+    },
+    "personaGalleryManage": "Manage personas",
+    "@personaGalleryManage": {
+        "description": "The \"Personas (N)\" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Button in your own gallery that opens the Personas settings."
+    },
+    "personaGalleryNonePublic": "None of your personas are public yet. Others see a persona here once you set its visibility to Public.",
+    "@personaGalleryNonePublic": {
+        "description": "The \"Personas (N)\" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. Your own gallery when none of your personas is public."
+    },
+    "personaGalleryNoBio": "No bio yet.",
+    "@personaGalleryNoBio": {
+        "description": "The \"Personas (N)\" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. A persona card without a bio."
+    },
+    "personaGalleryCreated": "Created {date}",
+    "@personaGalleryCreated": {
+        "description": "The \"Personas (N)\" gallery of an account's profile (tyne-chat/tyne#189). Same wording as the web app's. When a persona was created, in the gallery's list; {date} is a date.",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "personaBulkSelect": "Select",
+    "@personaBulkSelect": {
+        "description": "Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Button in the persona list's header that starts select mode."
+    },
+    "personaBulkSelectAll": "Select all",
+    "@personaBulkSelectAll": {
+        "description": "Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Checkbox while selecting: select every persona the search and filter show, or none when all are."
+    },
+    "personaBulkSelectedCount": "{count} selected",
+    "@personaBulkSelectedCount": {
+        "description": "Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Top of the persona list while selecting: how many are selected.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "personaFilterAll": "All",
+    "@personaFilterAll": {
+        "description": "Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Filter chip: every persona, whatever its visibility; the count follows it."
+    },
+    "personaBulkMakePublic": "Make public",
+    "@personaBulkMakePublic": {
+        "description": "Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Confirm button, and the label read out for the Public action."
+    },
+    "personaBulkMakeUnlisted": "Make unlisted",
+    "@personaBulkMakeUnlisted": {
+        "description": "Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Label read out for the Unlisted action, which applies at once."
+    },
+    "personaBulkMakePrivate": "Make private",
+    "@personaBulkMakePrivate": {
+        "description": "Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Confirm button, and the label read out for the Private action."
+    },
+    "personaBulkConfirmPublicTitle": "Make {count, plural, one{{count} persona} other{{count} personas}} public?",
+    "@personaBulkConfirmPublicTitle": {
+        "description": "Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Title of the confirmation before making the selected personas public.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "personaBulkConfirmPrivateTitle": "Make {count, plural, one{{count} persona} other{{count} personas}} private?",
+    "@personaBulkConfirmPrivateTitle": {
+        "description": "Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Title of the confirmation before making the selected personas private.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "personaBulkConfirmDeleteTitle": "Delete {count, plural, one{{count} persona} other{{count} personas}}?",
+    "@personaBulkConfirmDeleteTitle": {
+        "description": "Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Title of the confirmation before deleting the selected personas.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "personaBulkConfirmPublicBody": "Others will see them in your Personas list and can open their profiles. You can change this back at any time.",
+    "@personaBulkConfirmPublicBody": {
+        "description": "Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. What making personas public does."
+    },
+    "personaBulkConfirmPrivateBody": "Their profiles will be hidden from others. Their names and avatars still show on their messages and reactions.",
+    "@personaBulkConfirmPrivateBody": {
+        "description": "Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. What making personas private does."
+    },
+    "personaBulkConfirmDeleteBody": "Their messages keep showing their names and avatars, but you can no longer send as them, and their tags and signature emojis become free. This can't be undone.",
+    "@personaBulkConfirmDeleteBody": {
+        "description": "Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. What deleting personas does; it cannot be undone."
+    },
+    "personaBulkNowPublic": "{count, plural, one{{count} persona is} other{{count} personas are}} now public",
+    "@personaBulkNowPublic": {
+        "description": "Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Snack bar after the change, with Undo.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "personaBulkNowUnlisted": "{count, plural, one{{count} persona is} other{{count} personas are}} now unlisted",
+    "@personaBulkNowUnlisted": {
+        "description": "Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Snack bar after the change, with Undo.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "personaBulkNowPrivate": "{count, plural, one{{count} persona is} other{{count} personas are}} now private",
+    "@personaBulkNowPrivate": {
+        "description": "Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Snack bar after the change, with Undo.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "personaBulkDeleted": "{count, plural, one{{count} persona} other{{count} personas}} deleted",
+    "@personaBulkDeleted": {
+        "description": "Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Snack bar after deleting personas.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "personaBulkFailed": "Couldn't change the personas. Try again.",
+    "@personaBulkFailed": {
+        "description": "Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. A bulk change or deletion failed; the selection is kept."
+    },
+    "personaFilterEmpty": "No personas here.",
+    "@personaFilterEmpty": {
+        "description": "Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. The chosen visibility filter has no personas."
+    },
+    "personaGalleryChooseFeatured": "Choose personas to feature",
+    "@personaGalleryChooseFeatured": {
+        "description": "Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Button in your own Personas gallery when none is public: opens the settings with your unlisted personas selectable."
+    },
+    "personaUndo": "Undo",
+    "@personaUndo": {
+        "description": "Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Snack bar action that puts back each persona's previous visibility."
     }
 }

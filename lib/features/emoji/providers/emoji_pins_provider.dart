@@ -45,6 +45,17 @@ class EmojiPinsNotifier extends AsyncNotifier<EmojiPins> {
     await _save(current, current.withoutPersona(personaId));
   }
 
+  /// Drops the pins of several deleted personas in one change, so the synced
+  /// field is pushed once (tyne-chat/tyne#542).
+  Future<void> forgetPersonas(Iterable<String> personaIds) async {
+    final EmojiPins current = await future;
+    EmojiPins next = current;
+    for (final String personaId in personaIds) {
+      next = next.withoutPersona(personaId);
+    }
+    await _save(current, next);
+  }
+
   Future<void> _save(EmojiPins current, EmojiPins next) async {
     if (identical(current, next)) {
       return;
