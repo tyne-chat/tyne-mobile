@@ -38,6 +38,10 @@ import 'package:riverpod/src/framework.dart' show Override;
 import '../../../../helpers/instance_runtime_config_override.dart';
 import '../../../../helpers/test_l10n.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/profile/providers/public_persona_list_provider.dart';
+
 const String _kUserId = '1';
 const String _kOtherUserId = '2';
 const String _kGuildId = '10';
@@ -327,6 +331,11 @@ List<Override> _otherUserOverrides(
   String? guildId,
 ) {
   return <Override>[
+    // Fork: the profile asks the server for the account's public personas (tyne-chat/tyne#189), and a
+    // request left running fails the test; here the server shows none.
+    publicPersonaListProvider(
+      _kOtherUserId,
+    ).overrideWith((Ref ref) => const PublicPersonaListForbidden()),
     ..._overrides(),
     userPresenceProvider(
       _kOtherUserId,
