@@ -8,8 +8,13 @@ import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_settings.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_persona_settings.dart';
+import 'package:fluxer_app/features/settings/providers/persona_settings_launch_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/providers/user/current_user_private_provider.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
+import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
+import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -17,17 +22,23 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../helpers/pump_fluxer_app.dart';
 import '../../../../helpers/test_account_user_id.dart';
+import '../../../../helpers/test_l10n.dart';
 
 class _MockDioAdapter implements HttpClientAdapter {
+  /// What the select mode tests answer and count (tyne-chat/tyne#542).
+  int status = 200;
+  final List<RequestOptions> requests = <RequestOptions>[];
+
   @override
   Future<ResponseBody> fetch(
     RequestOptions options,
     Stream<Uint8List>? requestStream,
     Future<void>? cancelFuture,
   ) async {
+    requests.add(options);
     return ResponseBody.fromString(
       '{}',
-      200,
+      status,
       headers: {
         Headers.contentTypeHeader: [Headers.jsonContentType],
       },
@@ -38,10 +49,19 @@ class _MockDioAdapter implements HttpClientAdapter {
   void close({bool force = false}) {}
 }
 
-Dio _createMockDio() {
+Dio _createMockDio([_MockDioAdapter? adapter]) {
   final dio = Dio(BaseOptions(baseUrl: 'https://test.fluxer.invalid'))
-    ..httpClientAdapter = _MockDioAdapter();
+    ..httpClientAdapter = adapter ?? _MockDioAdapter();
   return dio;
+}
+
+/// The settings page opened from the Personas gallery (tyne-chat/tyne#542).
+class _PresetLaunch extends PersonaSettingsLaunchNotifier {
+  @override
+  PersonaSettingsLaunch? build() => const PersonaSettingsLaunch(
+    filter: PersonaVisibilityFilter.unlisted,
+    selecting: true,
+  );
 }
 
 class _FakeUserSettings extends UserSettingsViewModel {
@@ -154,10 +174,14 @@ void main() {
   Widget buildTestBed({
     List<Persona> personas = const [],
     SystemDisplayTag initialTag = const SystemDisplayTag(),
+    _MockDioAdapter? adapter,
+    bool launchFromGallery = false,
   }) {
     return pumpFluxerApp(
       overrides: [
-        fluxerDioProvider.overrideWithValue(_createMockDio()),
+        if (launchFromGallery)
+          personaSettingsLaunchProvider.overrideWith(_PresetLaunch.new),
+        fluxerDioProvider.overrideWithValue(_createMockDio(adapter)),
         userSettingsViewModelProvider.overrideWith(_FakeUserSettings.new),
         currentUserPrivateReadProvider(
           kTestAccountUserId,
@@ -178,6 +202,8 @@ void main() {
     WidgetTester tester, {
     List<Persona> personas = const [],
     SystemDisplayTag initialTag = const SystemDisplayTag(),
+    _MockDioAdapter? adapter,
+    bool launchFromGallery = false,
   }) async {
     tester.view.physicalSize = const Size(800, 1600);
     tester.view.devicePixelRatio = 1.0;
@@ -187,7 +213,12 @@ void main() {
     });
 
     await tester.pumpWidget(
-      buildTestBed(personas: personas, initialTag: initialTag),
+      buildTestBed(
+        personas: personas,
+        initialTag: initialTag,
+        adapter: adapter,
+        launchFromGallery: launchFromGallery,
+      ),
     );
     await tester.pumpAndSettle();
   }
@@ -413,5 +444,350 @@ void main() {
         expect(find.text('Remove Icon'), findsOneWidget);
       },
     );
+  });
+
+  // Fork: selecting many personas to change their visibility or delete them
+  // (tyne-chat/tyne#542).
+  group('select mode', () {
+    const Persona pub = Persona(
+      id: 'pub',
+      name: 'Pub One',
+      visibility: 'public',
+    );
+    const Persona unl = Persona(id: 'unl', name: 'Unl One');
+    const Persona unl2 = Persona(id: 'unl2', name: 'Unl Two');
+    const Persona priv = Persona(
+      id: 'priv',
+      name: 'Priv One',
+      visibility: 'private',
+    );
+    const List<Persona> mixed = <Persona>[pub, unl, unl2, priv];
+
+    setUp(() {
+      SharedPreferences.setMockInitialValues({});
+    });
+
+    Finder selectedText(int count) =>
+        find.text(testL10n.fork.personaBulkSelectedCount(count));
+
+    Future<void> settle(WidgetTester tester) async {
+      for (int i = 0; i < 3; i++) {
+        await tester.pump(const Duration(milliseconds: 10));
+      }
+      await tester.pumpAndSettle();
+    }
+
+    ProviderContainer containerOf(WidgetTester tester) =>
+        ProviderScope.containerOf(
+          tester.element(find.byType(UserPersonaSettings)),
+        );
+
+    bool barButtonEnabled(WidgetTester tester, String key) => tester
+        .widget<FluxerTappable>(
+          find.descendant(
+            of: find.byKey(ValueKey<String>(key)),
+            matching: find.byType(FluxerTappable),
+          ),
+        )
+        .enabled;
+
+    List<Object?> patched(_MockDioAdapter adapter) => <Object?>[
+      for (final RequestOptions r in adapter.requests)
+        if (r.method == 'PATCH') r.data,
+    ];
+
+    testWidgets('chips count each visibility and filter the cards', (
+      tester,
+    ) async {
+      await pumpSettings(tester, personas: mixed);
+
+      Finder count(String filter, String n) => find.descendant(
+        of: find.byKey(ValueKey<String>('persona-filter-$filter')),
+        matching: find.text(n),
+      );
+      expect(count('all', '4'), findsOneWidget);
+      expect(count('public', '1'), findsOneWidget);
+      expect(count('unlisted', '2'), findsOneWidget);
+      expect(count('private', '1'), findsOneWidget);
+
+      await tester.tap(
+        find.byKey(const ValueKey<String>('persona-filter-unlisted')),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('Unl One'), findsOneWidget);
+      expect(find.text('Unl Two'), findsOneWidget);
+      expect(find.text('Pub One'), findsNothing);
+      // The section title keeps the total.
+      expect(find.text('Configured Personas (4)'), findsOneWidget);
+    });
+
+    testWidgets('an empty filter says so', (tester) async {
+      await pumpSettings(tester, personas: const <Persona>[pub]);
+
+      await tester.tap(
+        find.byKey(const ValueKey<String>('persona-filter-private')),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text(testL10n.fork.personaFilterEmpty), findsOneWidget);
+    });
+
+    testWidgets('a long press selects the card and hides the card actions', (
+      tester,
+    ) async {
+      await pumpSettings(tester, personas: mixed);
+      expect(find.text('Set Active'), findsNWidgets(4));
+
+      await tester.longPress(find.text('Unl One'));
+      await tester.pumpAndSettle();
+
+      expect(selectedText(1), findsOneWidget);
+      expect(find.text('Set Active'), findsNothing);
+      expect(find.byIcon(PhosphorIconsBold.pencilSimple), findsNothing);
+
+      // A tap now toggles instead of editing.
+      await tester.tap(find.text('Unl Two'));
+      await tester.pumpAndSettle();
+      expect(selectedText(2), findsOneWidget);
+
+      await tester.tap(
+        find.byKey(const ValueKey<String>('persona-selection-close')),
+      );
+      await tester.pumpAndSettle();
+      expect(
+        find.byKey(const ValueKey<String>('persona-selection-bar')),
+        findsNothing,
+      );
+      expect(find.text('Set Active'), findsNWidgets(4));
+    });
+
+    testWidgets('Select all takes what the filter shows; the selection stays', (
+      tester,
+    ) async {
+      await pumpSettings(tester, personas: mixed);
+      await tester.tap(
+        find.byKey(const ValueKey<String>('persona-filter-unlisted')),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(
+        find.byKey(const ValueKey<String>('persona-select-mode')),
+      );
+      await tester.pumpAndSettle();
+      expect(selectedText(0), findsOneWidget);
+
+      await tester.tap(
+        find.byKey(const ValueKey<String>('persona-select-all')),
+      );
+      await tester.pumpAndSettle();
+      expect(selectedText(2), findsOneWidget);
+
+      await tester.tap(
+        find.byKey(const ValueKey<String>('persona-filter-all')),
+      );
+      await tester.pumpAndSettle();
+      expect(selectedText(2), findsOneWidget);
+
+      await tester.tap(
+        find.byKey(const ValueKey<String>('persona-select-all')),
+      );
+      await tester.pumpAndSettle();
+      expect(selectedText(4), findsOneWidget);
+
+      // All shown are selected: the toggle clears them.
+      await tester.tap(
+        find.byKey(const ValueKey<String>('persona-select-all')),
+      );
+      await tester.pumpAndSettle();
+      expect(selectedText(0), findsOneWidget);
+    });
+
+    testWidgets('a visibility all the selected have is disabled', (
+      tester,
+    ) async {
+      await pumpSettings(tester, personas: mixed);
+      await tester.longPress(find.text('Pub One'));
+      await tester.pumpAndSettle();
+
+      expect(barButtonEnabled(tester, 'persona-bulk-public'), isFalse);
+      expect(barButtonEnabled(tester, 'persona-bulk-unlisted'), isTrue);
+      expect(barButtonEnabled(tester, 'persona-bulk-private'), isTrue);
+
+      await tester.tap(find.text('Unl One'));
+      await tester.pumpAndSettle();
+      expect(barButtonEnabled(tester, 'persona-bulk-public'), isTrue);
+    });
+
+    testWidgets('Unlisted applies at once in one request, and Undo puts back', (
+      tester,
+    ) async {
+      final _MockDioAdapter adapter = _MockDioAdapter();
+      await pumpSettings(tester, personas: mixed, adapter: adapter);
+      await tester.longPress(find.text('Pub One'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Priv One'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(
+        find.byKey(const ValueKey<String>('persona-bulk-unlisted')),
+      );
+      await settle(tester);
+
+      expect(
+        find.byKey(const ValueKey<String>('persona-bulk-confirm')),
+        findsNothing,
+      );
+      expect(patched(adapter), <Object?>[
+        <String, Object?>{
+          'personas': <Map<String, String>>[
+            <String, String>{'id': 'pub', 'visibility': 'unlisted'},
+            <String, String>{'id': 'priv', 'visibility': 'unlisted'},
+          ],
+        },
+      ]);
+      expect(
+        find.byKey(const ValueKey<String>('persona-selection-bar')),
+        findsNothing,
+      );
+
+      final ProviderContainer container = containerOf(tester);
+      final FluxerToast toast = container.read(toastProvider).last.toast;
+      expect(toast.message, testL10n.fork.personaBulkNowUnlisted(2));
+      expect(toast.action?.label, testL10n.fork.personaUndo);
+
+      toast.action!.onPressed();
+      await settle(tester);
+
+      expect(patched(adapter), hasLength(2));
+      expect(patched(adapter).last, <String, Object?>{
+        'personas': <Map<String, String>>[
+          <String, String>{'id': 'pub', 'visibility': 'public'},
+          <String, String>{'id': 'priv', 'visibility': 'private'},
+        ],
+      });
+    });
+
+    testWidgets(
+      'Public asks first; Cancel sends nothing and keeps the selection',
+      (tester) async {
+        final _MockDioAdapter adapter = _MockDioAdapter();
+        await pumpSettings(tester, personas: mixed, adapter: adapter);
+        await tester.longPress(find.text('Unl One'));
+        await tester.pumpAndSettle();
+
+        await tester.tap(
+          find.byKey(const ValueKey<String>('persona-bulk-public')),
+        );
+        await tester.pumpAndSettle();
+        expect(
+          find.text(testL10n.fork.personaBulkConfirmPublicTitle(1)),
+          findsOneWidget,
+        );
+        await tester.tap(find.text(testL10n.cancel));
+        await tester.pumpAndSettle();
+        expect(adapter.requests, isEmpty);
+        expect(selectedText(1), findsOneWidget);
+
+        await tester.tap(
+          find.byKey(const ValueKey<String>('persona-bulk-public')),
+        );
+        await tester.pumpAndSettle();
+        await tester.tap(
+          find.byKey(const ValueKey<String>('persona-bulk-confirm')),
+        );
+        await settle(tester);
+        expect(patched(adapter), hasLength(1));
+      },
+    );
+
+    testWidgets('Private asks first', (tester) async {
+      await pumpSettings(tester, personas: mixed);
+      await tester.longPress(find.text('Unl One'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(
+        find.byKey(const ValueKey<String>('persona-bulk-private')),
+      );
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text(testL10n.fork.personaBulkConfirmPrivateTitle(1)),
+        findsOneWidget,
+      );
+      expect(
+        find.text(testL10n.fork.personaBulkConfirmPrivateBody),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('Delete asks, then deletes all in one request', (tester) async {
+      final _MockDioAdapter adapter = _MockDioAdapter();
+      await pumpSettings(tester, personas: mixed, adapter: adapter);
+      await tester.longPress(find.text('Unl One'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Unl Two'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(
+        find.byKey(const ValueKey<String>('persona-bulk-delete')),
+      );
+      await tester.pumpAndSettle();
+      expect(
+        find.text(testL10n.fork.personaBulkConfirmDeleteTitle(2)),
+        findsOneWidget,
+      );
+      await tester.tap(
+        find.byKey(const ValueKey<String>('persona-bulk-confirm')),
+      );
+      await settle(tester);
+
+      expect(adapter.requests, hasLength(1));
+      expect(adapter.requests.single.method, 'POST');
+      expect(adapter.requests.single.path, '/users/@me/personas/bulk-delete');
+      expect(adapter.requests.single.data, <String, Object?>{
+        'persona_ids': <String>['unl', 'unl2'],
+      });
+      expect(find.text('Unl One'), findsNothing);
+      expect(find.text('Unl Two'), findsNothing);
+      expect(
+        containerOf(tester).read(toastProvider).last.toast.message,
+        testL10n.fork.personaBulkDeleted(2),
+      );
+    });
+
+    testWidgets('a failure says so and keeps the selection', (tester) async {
+      final _MockDioAdapter adapter = _MockDioAdapter()..status = 500;
+      await pumpSettings(tester, personas: mixed, adapter: adapter);
+      await tester.longPress(find.text('Unl One'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(
+        find.byKey(const ValueKey<String>('persona-bulk-private')),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(
+        find.byKey(const ValueKey<String>('persona-bulk-confirm')),
+      );
+      await settle(tester);
+
+      expect(adapter.requests, hasLength(1));
+      expect(selectedText(1), findsOneWidget);
+      final FluxerToast toast = containerOf(
+        tester,
+      ).read(toastProvider).last.toast;
+      expect(toast.message, testL10n.fork.personaBulkFailed);
+      expect(toast.variant, FluxerToastVariant.danger);
+    });
+
+    testWidgets('opened from the gallery: unlisted ones, ready to select', (
+      tester,
+    ) async {
+      await pumpSettings(tester, personas: mixed, launchFromGallery: true);
+
+      expect(selectedText(0), findsOneWidget);
+      expect(find.text('Unl One'), findsOneWidget);
+      expect(find.text('Pub One'), findsNothing);
+      // Only once.
+      expect(containerOf(tester).read(personaSettingsLaunchProvider), isNull);
+    });
   });
 }
