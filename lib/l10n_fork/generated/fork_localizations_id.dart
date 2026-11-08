@@ -806,4 +806,206 @@ class ForkLocalizationsId extends ForkLocalizations {
   @override
   String get notificationsAlertEveryMessageDescription =>
       'Jika nonaktif, percakapan yang ramai memberi tahu sekali, lalu diperbarui diam-diam sampai Anda membacanya atau menutupnya.';
+
+  @override
+  String personaGalleryTitle(int count) {
+    return 'Persona ($count)';
+  }
+
+  @override
+  String personaGallerySearchOther(String name) {
+    return 'Cari persona $name';
+  }
+
+  @override
+  String get personaGallerySearchOwn => 'Cari personamu';
+
+  @override
+  String get personaGallerySortBy => 'Urutkan menurut';
+
+  @override
+  String get personaGallerySortName => 'Nama (A–Z)';
+
+  @override
+  String get personaGallerySortMostUsed => 'Paling sering dipakai';
+
+  @override
+  String get personaGallerySortRecentlyUsed => 'Baru-baru ini dipakai';
+
+  @override
+  String get personaGalleryViewGallery => 'Galeri';
+
+  @override
+  String get personaGalleryViewList => 'Daftar';
+
+  @override
+  String get personaGalleryViewAvatars => 'Avatar';
+
+  @override
+  String personaGalleryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaGalleryCountFiltered(int shown, int total) {
+    return '$shown dari $total persona';
+  }
+
+  @override
+  String get personaGalleryNoMatch =>
+      'Tidak ada persona yang cocok dengan pencarianmu.';
+
+  @override
+  String get personaGalleryLoadFailed => 'Tidak dapat memuat persona.';
+
+  @override
+  String personaGalleryOthersSee(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona publik',
+    );
+    return 'Orang lain melihat $_temp0.';
+  }
+
+  @override
+  String get personaGalleryShowHidden =>
+      'Tampilkan yang tidak terdaftar dan privat';
+
+  @override
+  String get personaGalleryManage => 'Kelola persona';
+
+  @override
+  String get personaGalleryNonePublic =>
+      'Belum ada personamu yang publik. Orang lain melihat persona di sini setelah kamu mengatur visibilitasnya ke Publik.';
+
+  @override
+  String get personaGalleryNoBio => 'Belum ada bio.';
+
+  @override
+  String personaGalleryCreated(String date) {
+    return 'Dibuat $date';
+  }
+
+  @override
+  String get personaBulkSelect => 'Pilih';
+
+  @override
+  String get personaBulkSelectAll => 'Pilih semua';
+
+  @override
+  String personaBulkSelectedCount(int count) {
+    return '$count dipilih';
+  }
+
+  @override
+  String get personaFilterAll => 'Semua';
+
+  @override
+  String get personaBulkMakePublic => 'Jadikan publik';
+
+  @override
+  String get personaBulkMakeUnlisted => 'Jadikan tidak terdaftar';
+
+  @override
+  String get personaBulkMakePrivate => 'Jadikan privat';
+
+  @override
+  String personaBulkConfirmPublicTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona',
+    );
+    return 'Jadikan $_temp0 publik?';
+  }
+
+  @override
+  String personaBulkConfirmPrivateTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona',
+    );
+    return 'Jadikan $_temp0 privat?';
+  }
+
+  @override
+  String personaBulkConfirmDeleteTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona',
+    );
+    return 'Hapus $_temp0?';
+  }
+
+  @override
+  String get personaBulkConfirmPublicBody =>
+      'Orang lain akan melihatnya di daftar Persona-mu dan bisa membuka profilnya. Kamu bisa mengubahnya kembali kapan saja.';
+
+  @override
+  String get personaBulkConfirmPrivateBody =>
+      'Profilnya akan disembunyikan dari orang lain. Nama dan avatarnya tetap tampil di pesan dan reaksinya.';
+
+  @override
+  String get personaBulkConfirmDeleteBody =>
+      'Pesannya tetap menampilkan nama dan avatarnya, tetapi kamu tidak bisa lagi mengirim sebagai persona tersebut, dan tag serta emoji tanda tangannya menjadi bebas. Ini tidak dapat dibatalkan.';
+
+  @override
+  String personaBulkNowPublic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona kini publik',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowUnlisted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona kini tidak terdaftar',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowPrivate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona kini privat',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona dihapus',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaBulkFailed => 'Tidak dapat mengubah persona. Coba lagi.';
+
+  @override
+  String get personaFilterEmpty => 'Tidak ada persona di sini.';
+
+  @override
+  String get personaGalleryChooseFeatured => 'Pilih persona untuk ditampilkan';
+
+  @override
+  String get personaUndo => 'Urungkan';
 }

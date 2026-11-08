@@ -819,4 +819,223 @@ class ForkLocalizationsFr extends ForkLocalizations {
   @override
   String get notificationsAlertEveryMessageDescription =>
       'Si désactivé, une conversation animée vous alerte une seule fois, puis se met à jour en silence jusqu’à ce que vous la lisiez ou la fermiez.';
+
+  @override
+  String personaGalleryTitle(int count) {
+    return 'Personas ($count)';
+  }
+
+  @override
+  String personaGallerySearchOther(String name) {
+    return 'Rechercher dans les personas de $name';
+  }
+
+  @override
+  String get personaGallerySearchOwn => 'Rechercher dans vos personas';
+
+  @override
+  String get personaGallerySortBy => 'Trier par';
+
+  @override
+  String get personaGallerySortName => 'Nom (A–Z)';
+
+  @override
+  String get personaGallerySortMostUsed => 'Les plus utilisées';
+
+  @override
+  String get personaGallerySortRecentlyUsed => 'Utilisées récemment';
+
+  @override
+  String get personaGalleryViewGallery => 'Galerie';
+
+  @override
+  String get personaGalleryViewList => 'Liste';
+
+  @override
+  String get personaGalleryViewAvatars => 'Avatars';
+
+  @override
+  String personaGalleryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaGalleryCountFiltered(int shown, int total) {
+    return '$shown sur $total personas';
+  }
+
+  @override
+  String get personaGalleryNoMatch =>
+      'Aucune persona ne correspond à votre recherche.';
+
+  @override
+  String get personaGalleryLoadFailed => 'Impossible de charger les personas.';
+
+  @override
+  String personaGalleryOthersSee(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas publiques',
+      one: '$count persona publique',
+    );
+    return 'Les autres voient $_temp0.';
+  }
+
+  @override
+  String get personaGalleryShowHidden =>
+      'Afficher les non répertoriées et les privées';
+
+  @override
+  String get personaGalleryManage => 'Gérer les personas';
+
+  @override
+  String get personaGalleryNonePublic =>
+      'Aucune de vos personas n’est encore publique. Les autres voient une persona ici dès que vous réglez sa visibilité sur Public.';
+
+  @override
+  String get personaGalleryNoBio => 'Pas encore de bio.';
+
+  @override
+  String personaGalleryCreated(String date) {
+    return 'Créée le $date';
+  }
+
+  @override
+  String get personaBulkSelect => 'Sélectionner';
+
+  @override
+  String get personaBulkSelectAll => 'Tout sélectionner';
+
+  @override
+  String personaBulkSelectedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sélectionnées',
+      one: '$count sélectionnée',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaFilterAll => 'Tous';
+
+  @override
+  String get personaBulkMakePublic => 'Rendre publiques';
+
+  @override
+  String get personaBulkMakeUnlisted => 'Rendre non répertoriées';
+
+  @override
+  String get personaBulkMakePrivate => 'Rendre privées';
+
+  @override
+  String personaBulkConfirmPublicTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas publiques',
+      one: '$count persona publique',
+    );
+    return 'Rendre $_temp0 ?';
+  }
+
+  @override
+  String personaBulkConfirmPrivateTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas privées',
+      one: '$count persona privée',
+    );
+    return 'Rendre $_temp0 ?';
+  }
+
+  @override
+  String personaBulkConfirmDeleteTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return 'Supprimer $_temp0 ?';
+  }
+
+  @override
+  String get personaBulkConfirmPublicBody =>
+      'Les autres les verront dans votre liste de personas et pourront ouvrir leurs profils. Vous pouvez revenir en arrière à tout moment.';
+
+  @override
+  String get personaBulkConfirmPrivateBody =>
+      'Leurs profils seront masqués aux autres. Leurs noms et avatars resteront visibles sur leurs messages et réactions.';
+
+  @override
+  String get personaBulkConfirmDeleteBody =>
+      'Leurs messages continueront d’afficher leurs noms et avatars, mais vous ne pourrez plus écrire en leur nom, et leurs badges et emojis signature seront libérés. Cette action est irréversible.';
+
+  @override
+  String personaBulkNowPublic(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas sont maintenant publiques',
+      one: '$count persona est maintenant publique',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowUnlisted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas sont maintenant non répertoriées',
+      one: '$count persona est maintenant non répertoriée',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowPrivate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas sont maintenant privées',
+      one: '$count persona est maintenant privée',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas supprimées',
+      one: '$count persona supprimée',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaBulkFailed =>
+      'Impossible de modifier les personas. Réessayez.';
+
+  @override
+  String get personaFilterEmpty => 'Aucune persona ici.';
+
+  @override
+  String get personaGalleryChooseFeatured =>
+      'Choisir les personas à mettre en avant';
+
+  @override
+  String get personaUndo => 'Annuler';
 }
