@@ -1,5 +1,22 @@
 {
     "locales": {
+        "art": [
+            "signalBarSignalWithNames"
+        ],
+        "be": [
+            "signalBarSignalWithNames"
+        ],
+        "bn": [
+            "signalBarSignalWithNames"
+        ],
+        "ca": [
+            "guildCommandScript",
+            "personaGalleryViewAvatars",
+            "personaModeManual",
+            "personaTagExampleText",
+            "personaTagPrefixLabel",
+            "signalBarSignalWithNames"
+        ],
         "cs": [
             "personaTagExampleText"
         ],
@@ -31,6 +48,16 @@
             "personaSectionTitle",
             "userSettingsNavPersonas"
         ],
+        "fil": [
+            "guildCommandCounterChannel",
+            "guildCommandPreview",
+            "guildCommandScript",
+            "guildCommandSectionCommand",
+            "guildCommandSectionInput",
+            "signalBarSignalWithNames",
+            "timestampPickerTimezoneLabel",
+            "userProfileTimezoneSettingLabel"
+        ],
         "fr": [
             "guildCommandDescription",
             "guildCommandMessage",
@@ -52,6 +79,12 @@
             "guildCommandScript",
             "guildCommandSectionInput",
             "personaSectionTitle",
+            "userSettingsNavPersonas"
+        ],
+        "lv": [
+            "personaGalleryTitle",
+            "personaSectionTitle",
+            "signalBarSignalWithNames",
             "userSettingsNavPersonas"
         ],
         "nl": [
@@ -83,6 +116,17 @@
             "personaTagExampleText",
             "personaTagPrefixLabel",
             "userSettingsNavPersonas"
+        ],
+        "sk": [
+            "personaTagExampleText",
+            "signalBarSignalWithNames"
+        ],
+        "sl": [
+            "signalBarSignalWithNames"
+        ],
+        "sq": [
+            "personaVisibilityPrivate",
+            "signalBarSignalWithNames"
         ],
         "sv": [
             "personaGalleryCount",
