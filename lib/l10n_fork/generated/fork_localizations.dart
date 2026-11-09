@@ -6,7 +6,11 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'fork_localizations_ar.dart';
+import 'fork_localizations_art.dart';
+import 'fork_localizations_be.dart';
 import 'fork_localizations_bg.dart';
+import 'fork_localizations_bn.dart';
+import 'fork_localizations_ca.dart';
 import 'fork_localizations_cs.dart';
 import 'fork_localizations_da.dart';
 import 'fork_localizations_de.dart';
@@ -14,6 +18,7 @@ import 'fork_localizations_el.dart';
 import 'fork_localizations_en.dart';
 import 'fork_localizations_es.dart';
 import 'fork_localizations_fi.dart';
+import 'fork_localizations_fil.dart';
 import 'fork_localizations_fr.dart';
 import 'fork_localizations_he.dart';
 import 'fork_localizations_hi.dart';
@@ -24,12 +29,16 @@ import 'fork_localizations_it.dart';
 import 'fork_localizations_ja.dart';
 import 'fork_localizations_ko.dart';
 import 'fork_localizations_lt.dart';
+import 'fork_localizations_lv.dart';
 import 'fork_localizations_nb.dart';
 import 'fork_localizations_nl.dart';
 import 'fork_localizations_pl.dart';
 import 'fork_localizations_pt.dart';
 import 'fork_localizations_ro.dart';
 import 'fork_localizations_ru.dart';
+import 'fork_localizations_sk.dart';
+import 'fork_localizations_sl.dart';
+import 'fork_localizations_sq.dart';
 import 'fork_localizations_sv.dart';
 import 'fork_localizations_th.dart';
 import 'fork_localizations_tr.dart';
@@ -125,7 +134,11 @@ abstract class ForkLocalizations {
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
     Locale('ar'),
+    Locale('art'),
+    Locale('be'),
     Locale('bg'),
+    Locale('bn'),
+    Locale('ca'),
     Locale('cs'),
     Locale('da'),
     Locale('de'),
@@ -135,6 +148,7 @@ abstract class ForkLocalizations {
     Locale('es'),
     Locale('es', '419'),
     Locale('fi'),
+    Locale('fil'),
     Locale('fr'),
     Locale('he'),
     Locale('hi'),
@@ -145,6 +159,7 @@ abstract class ForkLocalizations {
     Locale('ja'),
     Locale('ko'),
     Locale('lt'),
+    Locale('lv'),
     Locale('nb'),
     Locale('nl'),
     Locale('pl'),
@@ -152,6 +167,9 @@ abstract class ForkLocalizations {
     Locale('pt', 'BR'),
     Locale('ro'),
     Locale('ru'),
+    Locale('sk'),
+    Locale('sl'),
+    Locale('sq'),
     Locale('sv'),
     Locale('th'),
     Locale('tr'),
@@ -1808,7 +1826,11 @@ class _ForkLocalizationsDelegate
   @override
   bool isSupported(Locale locale) => <String>[
     'ar',
+    'art',
+    'be',
     'bg',
+    'bn',
+    'ca',
     'cs',
     'da',
     'de',
@@ -1816,6 +1838,7 @@ class _ForkLocalizationsDelegate
     'en',
     'es',
     'fi',
+    'fil',
     'fr',
     'he',
     'hi',
@@ -1826,12 +1849,16 @@ class _ForkLocalizationsDelegate
     'ja',
     'ko',
     'lt',
+    'lv',
     'nb',
     'nl',
     'pl',
     'pt',
     'ro',
     'ru',
+    'sk',
+    'sl',
+    'sq',
     'sv',
     'th',
     'tr',
@@ -1891,8 +1918,16 @@ ForkLocalizations lookupForkLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'ar':
       return ForkLocalizationsAr();
+    case 'art':
+      return ForkLocalizationsArt();
+    case 'be':
+      return ForkLocalizationsBe();
     case 'bg':
       return ForkLocalizationsBg();
+    case 'bn':
+      return ForkLocalizationsBn();
+    case 'ca':
+      return ForkLocalizationsCa();
     case 'cs':
       return ForkLocalizationsCs();
     case 'da':
@@ -1907,6 +1942,8 @@ ForkLocalizations lookupForkLocalizations(Locale locale) {
       return ForkLocalizationsEs();
     case 'fi':
       return ForkLocalizationsFi();
+    case 'fil':
+      return ForkLocalizationsFil();
     case 'fr':
       return ForkLocalizationsFr();
     case 'he':
@@ -1927,6 +1964,8 @@ ForkLocalizations lookupForkLocalizations(Locale locale) {
       return ForkLocalizationsKo();
     case 'lt':
       return ForkLocalizationsLt();
+    case 'lv':
+      return ForkLocalizationsLv();
     case 'nb':
       return ForkLocalizationsNb();
     case 'nl':
@@ -1939,6 +1978,12 @@ ForkLocalizations lookupForkLocalizations(Locale locale) {
       return ForkLocalizationsRo();
     case 'ru':
       return ForkLocalizationsRu();
+    case 'sk':
+      return ForkLocalizationsSk();
+    case 'sl':
+      return ForkLocalizationsSl();
+    case 'sq':
+      return ForkLocalizationsSq();
     case 'sv':
       return ForkLocalizationsSv();
     case 'th':
