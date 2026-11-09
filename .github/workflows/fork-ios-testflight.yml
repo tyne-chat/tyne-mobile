@@ -115,7 +115,7 @@ jobs:
       - name: Check production's discovery document
         run: |
           curl -fsS --max-time 20 -o "$RUNNER_TEMP/discovery.json" https://temple.hypersystem.xyz/api/.well-known/fluxer
-          dart run tool/check_discovery_document.dart "$RUNNER_TEMP/discovery.json"
+          DISCOVERY_DOCUMENT="$RUNNER_TEMP/discovery.json" flutter test tool/check_discovery_document.dart
 
       - name: Import the distribution certificate
         env:
