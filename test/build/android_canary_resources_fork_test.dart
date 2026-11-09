@@ -69,6 +69,47 @@ void main() {
       contains('@drawable/tyne_notification_glyph'),
     );
   });
+
+  // Upstream's launch screens (e46d14911, 2026-11) name their mark in the
+  // splash styles and in launch_background.xml, under names the canary source
+  // set did not replace yet, so v1.2.17 started with Fluxer's mark and was
+  // retracted. Every mark a launch screen shows has to be Tyne's; only the
+  // starfield behind it is upstream's.
+  test("the marks upstream's launch screens show are Tyne's", () {
+    const Set<String> backgrounds = <String>{'splash_starfield'};
+    final Set<String> marks = <String>{};
+    for (final File file in _files(mainRes)) {
+      final String name = file.uri.pathSegments.last;
+      if (name == 'styles.xml') {
+        marks.addAll(
+          RegExp('windowSplashScreen(?:Animated)?Icon">@drawable/([a-z0-9_]+)')
+              .allMatches(file.readAsStringSync())
+              .map((RegExpMatch m) => m.group(1)!),
+        );
+      } else if (name == 'launch_background.xml') {
+        marks.addAll(
+          RegExp('@drawable/([a-z0-9_]+)')
+              .allMatches(file.readAsStringSync())
+              .map((RegExpMatch m) => m.group(1)!),
+        );
+      }
+    }
+    marks.removeAll(backgrounds);
+    expect(marks, isNotEmpty, reason: 'no launch screen marks found');
+    for (final String mark in marks) {
+      final File override = File('${canaryRes.path}/drawable/$mark.xml');
+      expect(
+        override.existsSync(),
+        isTrue,
+        reason: '$mark is shown at launch but has no Tyne version in canary',
+      );
+      expect(
+        override.readAsStringSync(),
+        contains('installed from the icon kit'),
+        reason: '$mark should come from tyne-tools scripts/install_icon_kit.py',
+      );
+    }
+  });
 }
 
 Iterable<File> _files(Directory dir) => dir
