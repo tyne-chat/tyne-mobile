@@ -84,8 +84,23 @@ void main() {
       _readJson('$_forkDir/reviewed_unchanged.json')['locales']
           as Map<String, dynamic>;
 
+  // The nine languages upstream added on 2026-11-09 (fd69eb1b9, #1084) have their fork catalogues
+  // here before the rebase brings upstream's (tyne-chat/tyne#583). Empty this once upstream's
+  // catalogues are in.
+  const Set<String> pendingUpstream = <String>{
+    'art',
+    'be',
+    'bn',
+    'ca',
+    'fil',
+    'lv',
+    'sk',
+    'sl',
+    'sq',
+  };
+
   test('fork catalogue covers the same locales as upstream', () {
-    expect(fork.keys.toSet(), upstream.keys.toSet());
+    expect(fork.keys.toSet(), upstream.keys.toSet().union(pendingUpstream));
   });
 
   test('fork keys do not shadow upstream keys', () {
