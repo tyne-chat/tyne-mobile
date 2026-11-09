@@ -126,7 +126,8 @@ def apply(team_id: str) -> None:
             f"<key>RTCAppGroupIdentifier</key>\n\t<string>{APP_GROUP}</string>",
         ),
     )
-    rewrite("ios/Runner/Assistant/AssistantDefaults.swift", (f'"{UPSTREAM_APP_GROUP}"', f'"{APP_GROUP}"'))
+    # Upstream's 217163f84 (2026-11) moved the app group from ios/Runner/Assistant/AssistantDefaults.swift.
+    rewrite("ios/Shared/PushNotificationPayload.swift", (f'"{UPSTREAM_APP_GROUP}"', f'"{APP_GROUP}"'))
     rewrite("ios/BroadcastExtension/SampleHandler.swift", (f'"{UPSTREAM_APP_GROUP}"', f'"{APP_GROUP}"'))
 
     # The canary flavour's app icon. Written by tyne-tools scripts/install_icon_kit.py.
@@ -139,6 +140,18 @@ def apply(team_id: str) -> None:
     shutil.rmtree(icon_target)
     shutil.copytree(icon_source, icon_target)
     print(f"Replaced {icon_target.relative_to(ROOT)}")
+
+    # The mark on the launch screen (LaunchImage, 85pt; upstream's is Fluxer's). Written by
+    # tyne-tools scripts/install_icon_kit.py. The starfield around it is upstream's and stays.
+    launch_source = ROOT / "tool" / "fork_ios" / "LaunchImage"
+    launch_target = ROOT / "ios" / "Runner" / "Assets.xcassets" / "LaunchImage.imageset"
+    for name in ("LaunchImage.png", "LaunchImage@2x.png", "LaunchImage@3x.png"):
+        if not (launch_source / name).is_file():
+            raise IdentityError(f"{(launch_source / name).relative_to(ROOT)} is missing")
+        if not (launch_target / name).is_file():
+            raise IdentityError(f"{(launch_target / name).relative_to(ROOT)} is gone upstream")
+        shutil.copyfile(launch_source / name, launch_target / name)
+    print(f"Replaced the images in {launch_target.relative_to(ROOT)}")
 
 
 def main(argv: list[str]) -> int:
