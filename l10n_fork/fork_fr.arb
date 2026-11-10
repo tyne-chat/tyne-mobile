@@ -270,5 +270,13 @@
     "personaBulkFailed": "Impossible de modifier les personas. Réessayez.",
     "personaFilterEmpty": "Aucune persona ici.",
     "personaGalleryChooseFeatured": "Choisir les personas à mettre en avant",
-    "personaUndo": "Annuler"
+    "personaUndo": "Annuler",
+    "personaReactionsTitle": "Vos réactions",
+    "personaReactionsEveryoneElse": "TOUS LES AUTRES",
+    "personaReactionsCurrent": "ACTUEL",
+    "personaReactionsAccount": "Compte",
+    "personaReactionsSomeoneElse": "Réagir en tant que quelqu'un d'autre...",
+    "personaReactionsDone": "Terminé",
+    "personaSettingsReactionsHeader": "Réactions",
+    "personaSettingsMultiReactions": "Réagir en tant que plusieurs personas à la fois"
 }

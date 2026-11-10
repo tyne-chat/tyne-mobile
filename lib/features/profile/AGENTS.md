@@ -41,6 +41,10 @@ and "React as…" sheets and persona mentions are in `lib/features/chat`.
   them on every account switch and sign-out.
 - `personaSettingsProvider` loads and patches the server's settings and copies them into
   `activePersonaProvider` and `systemDisplayTagProvider`, which are what the UI reads.
+- `multi_persona_reactions` ("React as several personas at once", tyne-chat/tyne#86) is mirrored by
+  `multiPersonaReactionsProvider` (`providers/multi_persona_reactions_provider.dart`), stored under
+  `persona_multi_reactions` and on until the stored value or the server says otherwise. A settings load that a change
+  of the switch overtook keeps the change (`_withReactionChoice`).
 
 ## Matching
 

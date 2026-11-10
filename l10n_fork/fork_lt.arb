@@ -270,5 +270,13 @@
     "personaBulkFailed": "Nepavyko pakeisti personų. Bandykite dar kartą.",
     "personaFilterEmpty": "Čia personų nėra.",
     "personaGalleryChooseFeatured": "Pasirinkite rodomas personas",
-    "personaUndo": "Anuliuoti"
+    "personaUndo": "Anuliuoti",
+    "personaReactionsTitle": "Jūsų reakcijos",
+    "personaReactionsEveryoneElse": "VISI KITI",
+    "personaReactionsCurrent": "DABARTINIS",
+    "personaReactionsAccount": "Paskyra",
+    "personaReactionsSomeoneElse": "Reaguoti kaip kažkas kitas...",
+    "personaReactionsDone": "Atlikta",
+    "personaSettingsReactionsHeader": "Reakcijos",
+    "personaSettingsMultiReactions": "Reaguoti kaip kelios personos vienu metu"
 }

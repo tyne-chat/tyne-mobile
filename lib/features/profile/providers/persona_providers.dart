@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/chat/data/channel_persona_mention_cache.dart
 import 'package:fluxer_app/features/emoji/providers/emoji_pins_provider.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_settings.dart';
+import 'package:fluxer_app/features/profile/providers/multi_persona_reactions_provider.dart';
 import 'package:fluxer_app/features/profile/providers/persona_first_load.dart';
 import 'package:fluxer_dart/models/persona_channel_state_update_request_schema.dart';
 import 'package:native_natural_sort/native_natural_sort.dart';
@@ -904,6 +905,7 @@ class PersonaSettingsNotifier extends Notifier<AsyncValue<PersonaSettings>> {
   }
 
   Future<void> _loadSettings() async {
+    final int reactionSaves = _reactionSaves;
     try {
       final Dio dio = ref.read(fluxerDioProvider);
       final Response<dynamic> response = await dio.get<dynamic>(
@@ -914,15 +916,21 @@ class PersonaSettingsNotifier extends Notifier<AsyncValue<PersonaSettings>> {
         return;
       }
       if (data is Map<String, dynamic>) {
-        final settings = PersonaSettings.fromJson(data);
-        state = AsyncValue.data(settings);
-        _syncToLegacyProviders(settings);
-      } else if (data is Map) {
-        final settings = PersonaSettings.fromJson(
-          Map<String, dynamic>.from(data),
+        final settings = _withReactionChoice(
+          PersonaSettings.fromJson(data),
+          reactionSaves,
         );
         state = AsyncValue.data(settings);
         _syncToLegacyProviders(settings);
+        _syncReactionSetting(settings);
+      } else if (data is Map) {
+        final settings = _withReactionChoice(
+          PersonaSettings.fromJson(Map<String, dynamic>.from(data)),
+          reactionSaves,
+        );
+        state = AsyncValue.data(settings);
+        _syncToLegacyProviders(settings);
+        _syncReactionSetting(settings);
       }
       // The per-channel selections travel with the settings.
       unawaited(ref.read(activePersonaProvider.notifier).loadChannelStates());
@@ -947,6 +955,69 @@ class PersonaSettingsNotifier extends Notifier<AsyncValue<PersonaSettings>> {
     final settings = PersonaSettings.fromJson(data);
     state = AsyncValue.data(settings);
     _syncToLegacyProviders(settings);
+    _syncReactionSetting(settings);
+  }
+
+  // Only what the server said goes to the device's copy of the reactions
+  // setting: `updateSettings` starts from defaults when the settings never
+  // loaded, and those must not overwrite a remembered "off".
+  void _syncReactionSetting(PersonaSettings settings) {
+    ref
+        .read(multiPersonaReactionsProvider.notifier)
+        .syncFromSettings(enabled: settings.multiPersonaReactions);
+  }
+
+  // Counts the changes of the reactions setting made here. Settings that were
+  // asked for before one of them may be older than it.
+  int _reactionSaves = 0;
+
+  // The answer to a load that a change of the reactions setting overtook keeps
+  // the choice made here instead of the server's value from before it.
+  PersonaSettings _withReactionChoice(
+    PersonaSettings loaded,
+    int savesAtStart,
+  ) {
+    if (savesAtStart == _reactionSaves) {
+      return loaded;
+    }
+    return loaded.copyWith(
+      multiPersonaReactions: ref.read(multiPersonaReactionsProvider),
+    );
+  }
+
+  /// Saves "React as several personas at once". Applied at once and put back
+  /// when the request fails; nothing is retried.
+  Future<void> setMultiPersonaReactions({required bool enabled}) async {
+    _reactionSaves++;
+    final bool previous = ref.read(multiPersonaReactionsProvider);
+    void apply({required bool next}) {
+      final PersonaSettings? loaded = state.asData?.value;
+      if (loaded != null) {
+        state = AsyncValue.data(loaded.copyWith(multiPersonaReactions: next));
+      }
+      ref
+          .read(multiPersonaReactionsProvider.notifier)
+          .syncFromSettings(enabled: next);
+    }
+
+    apply(next: enabled);
+    try {
+      await ref
+          .read(fluxerDioProvider)
+          .patch<dynamic>(
+            '/users/@me/personas/settings',
+            data: <String, dynamic>{'multi_persona_reactions': enabled},
+          );
+    } on Exception catch (err, st) {
+      talker.warning(
+        '[PersonaSettingsNotifier] Failed to save the reactions setting: $err',
+        err,
+        st,
+      );
+      if (ref.mounted) {
+        apply(next: previous);
+      }
+    }
   }
 
   void _syncToLegacyProviders(PersonaSettings settings) {

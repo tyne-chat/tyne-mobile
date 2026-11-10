@@ -15,6 +15,11 @@ import 'package:fluxer_app/shared/utils/emoji/emoji_utils.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/presentation/sheets/persona_reaction_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/persona_reaction_chip_caret.dart';
+
 const _kReactionEmojiSize = 19.0;
 const _kAddReactionIconSize = 19.0;
 const _kDesktopReactionEmojiSize = 20.0;
@@ -80,10 +85,21 @@ class MessageReactionsBar extends StatelessWidget {
         children: [
           for (final reaction in reactions)
             _ReactionChip(
+              messageId: messageId,
               reaction: reaction,
               desktop: desktop,
               onTap: () {
                 FluxerHaptics.selection();
+                // Fork: a chip one of your identities reacted with opens "Your
+                // reactions" instead of toggling (tyne-chat/tyne#86).
+                if (openOwnReactionsSheetOnChipTap(
+                  context,
+                  channelId: channelId,
+                  messageId: messageId,
+                  reaction: reaction,
+                )) {
+                  return;
+                }
                 onReactionTap(
                   reaction.emoji,
                   emojiId: reaction.emojiId,
@@ -117,12 +133,16 @@ class _ReactionChip extends StatelessWidget {
     required this.desktop,
     required this.onTap,
     this.onLongPress,
+    this.messageId,
   });
 
   final Reaction reaction;
   final bool desktop;
   final VoidCallback onTap;
   final VoidCallback? onLongPress;
+
+  // Fork: for the caret that says a tap opens "Your reactions".
+  final String? messageId;
 
   @override
   Widget build(BuildContext context) {
@@ -162,6 +182,11 @@ class _ReactionChip extends StatelessWidget {
                     color: _chipCountColor(context, hasReacted: hasReacted),
                     fontWeight: desktop ? FontWeight.w600 : FontWeight.w700,
                   ),
+                ),
+                PersonaReactionChipCaret(
+                  reaction: reaction,
+                  messageId: messageId,
+                  color: _chipCountColor(context, hasReacted: hasReacted),
                 ),
               ],
             ),

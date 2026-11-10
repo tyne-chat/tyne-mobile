@@ -1011,4 +1011,29 @@ class ForkLocalizationsTr extends ForkLocalizations {
 
   @override
   String get personaUndo => 'Geri al';
+
+  @override
+  String get personaReactionsTitle => 'Tepkileriniz';
+
+  @override
+  String get personaReactionsEveryoneElse => 'DİĞER HERKES';
+
+  @override
+  String get personaReactionsCurrent => 'MEVCUT';
+
+  @override
+  String get personaReactionsAccount => 'Hesap';
+
+  @override
+  String get personaReactionsSomeoneElse => 'Başka biri olarak tepki ver...';
+
+  @override
+  String get personaReactionsDone => 'Bitti';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Tepkiler';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'Aynı anda birden çok persona olarak tepki ver';
 }

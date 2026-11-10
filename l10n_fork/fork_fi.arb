@@ -270,5 +270,13 @@
     "personaBulkFailed": "Persoonia ei voitu muuttaa. Yritä uudelleen.",
     "personaFilterEmpty": "Täällä ei ole persoonia.",
     "personaGalleryChooseFeatured": "Valitse esiteltävät persoonat",
-    "personaUndo": "Kumoa"
+    "personaUndo": "Kumoa",
+    "personaReactionsTitle": "Omat reaktiosi",
+    "personaReactionsEveryoneElse": "KAIKKI MUUT",
+    "personaReactionsCurrent": "NYKYINEN",
+    "personaReactionsAccount": "Tili",
+    "personaReactionsSomeoneElse": "Reagoi jonakuna muuna...",
+    "personaReactionsDone": "Valmis",
+    "personaSettingsReactionsHeader": "Reaktiot",
+    "personaSettingsMultiReactions": "Reagoi useana persoonana kerralla"
 }

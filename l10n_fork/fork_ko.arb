@@ -270,5 +270,13 @@
     "personaBulkFailed": "페르소나를 변경하지 못했습니다. 다시 시도해 주세요.",
     "personaFilterEmpty": "여기에는 페르소나가 없습니다.",
     "personaGalleryChooseFeatured": "보여 줄 페르소나 선택",
-    "personaUndo": "실행 취소"
+    "personaUndo": "실행 취소",
+    "personaReactionsTitle": "내 반응",
+    "personaReactionsEveryoneElse": "그 외 모두",
+    "personaReactionsCurrent": "현재",
+    "personaReactionsAccount": "계정",
+    "personaReactionsSomeoneElse": "다른 누군가로 반응하기...",
+    "personaReactionsDone": "완료",
+    "personaSettingsReactionsHeader": "반응",
+    "personaSettingsMultiReactions": "여러 페르소나로 동시에 반응하기"
 }
