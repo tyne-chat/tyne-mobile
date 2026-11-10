@@ -1007,4 +1007,12 @@ class ForkLocalizationsKo extends ForkLocalizations {
 
   @override
   String get personaSettingsMultiReactions => '여러 페르소나로 동시에 반응하기';
+
+  @override
+  String get personaDuplicateButton => '페르소나 복제';
+
+  @override
+  String personaCopyOf(String name) {
+    return '$name의 사본';
+  }
 }

@@ -1024,4 +1024,12 @@ class ForkLocalizationsTh extends ForkLocalizations {
   @override
   String get personaSettingsMultiReactions =>
       'รีแอ็กชันในฐานะหลาย Persona พร้อมกัน';
+
+  @override
+  String get personaDuplicateButton => 'ทำซ้ำ Persona';
+
+  @override
+  String personaCopyOf(String name) {
+    return 'สำเนาของ $name';
+  }
 }

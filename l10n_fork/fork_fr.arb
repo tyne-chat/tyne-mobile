@@ -278,5 +278,7 @@
     "personaReactionsSomeoneElse": "Réagir en tant que quelqu'un d'autre...",
     "personaReactionsDone": "Terminé",
     "personaSettingsReactionsHeader": "Réactions",
-    "personaSettingsMultiReactions": "Réagir en tant que plusieurs personas à la fois"
+    "personaSettingsMultiReactions": "Réagir en tant que plusieurs personas à la fois",
+    "personaDuplicateButton": "Dupliquer le persona",
+    "personaCopyOf": "Copie de {name}"
 }

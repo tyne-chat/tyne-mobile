@@ -278,5 +278,7 @@
     "personaReactionsSomeoneElse": "Mag-react bilang ibang tao…",
     "personaReactionsDone": "Tapos na",
     "personaSettingsReactionsHeader": "Mga reaksyon",
-    "personaSettingsMultiReactions": "Mag-react bilang ilang persona nang sabay-sabay"
+    "personaSettingsMultiReactions": "Mag-react bilang ilang persona nang sabay-sabay",
+    "personaDuplicateButton": "I-duplicate ang Persona",
+    "personaCopyOf": "Kopya ng {name}"
 }

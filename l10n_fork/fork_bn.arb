@@ -278,5 +278,7 @@
     "personaReactionsSomeoneElse": "অন্য কারও হিসেবে প্রতিক্রিয়া জানান…",
     "personaReactionsDone": "সম্পন্ন",
     "personaSettingsReactionsHeader": "প্রতিক্রিয়া",
-    "personaSettingsMultiReactions": "একসঙ্গে একাধিক পারসোনা হিসেবে প্রতিক্রিয়া জানান"
+    "personaSettingsMultiReactions": "একসঙ্গে একাধিক পারসোনা হিসেবে প্রতিক্রিয়া জানান",
+    "personaDuplicateButton": "পারসোনা ডুপ্লিকেট করুন",
+    "personaCopyOf": "{name}-এর কপি"
 }

@@ -1044,4 +1044,12 @@ class ForkLocalizationsArt extends ForkLocalizations {
   @override
   String get personaSettingsMultiReactions =>
       'jan insa mute li ken pilin lon tenpo sama';
+
+  @override
+  String get personaDuplicateButton => 'o sama e jan insa';
+
+  @override
+  String personaCopyOf(String name) {
+    return 'sama pi jan insa $name';
+  }
 }

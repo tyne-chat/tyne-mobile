@@ -278,5 +278,7 @@
     "personaReactionsSomeoneElse": "تفاعل باسم شخص آخر...",
     "personaReactionsDone": "تم",
     "personaSettingsReactionsHeader": "التفاعلات",
-    "personaSettingsMultiReactions": "التفاعل بعدة شخصيات في الوقت نفسه"
+    "personaSettingsMultiReactions": "التفاعل بعدة شخصيات في الوقت نفسه",
+    "personaDuplicateButton": "تكرار الشخصية",
+    "personaCopyOf": "نسخة من {name}"
 }

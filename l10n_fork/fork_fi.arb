@@ -278,5 +278,7 @@
     "personaReactionsSomeoneElse": "Reagoi jonakuna muuna...",
     "personaReactionsDone": "Valmis",
     "personaSettingsReactionsHeader": "Reaktiot",
-    "personaSettingsMultiReactions": "Reagoi useana persoonana kerralla"
+    "personaSettingsMultiReactions": "Reagoi useana persoonana kerralla",
+    "personaDuplicateButton": "Monista persoona",
+    "personaCopyOf": "Kopio persoonasta {name}"
 }
