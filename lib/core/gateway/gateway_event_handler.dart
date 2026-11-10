@@ -3282,14 +3282,17 @@ class GatewayEventHandler {
         if (emoji == null) {
           continue;
         }
+        // Fork: whose reaction it is, and as which persona (tyne-chat/tyne#597,
+        // tyne-chat/tyne#120); upstream counted every entry as someone else's.
         applyMessageReactionDelta(
           reactions,
           ReactionEmoji(
             name: emoji['name'] as String? ?? '',
             id: emoji['id'] as String?,
           ),
+          personaId: r['persona_id'] as String?,
           isAdd: true,
-          isCurrentUser: false,
+          isCurrentUser: currentUserId != null && r['user_id'] == currentUserId,
         );
       }
       await database.messageDao.updateReactions(
