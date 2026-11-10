@@ -1044,4 +1044,12 @@ class ForkLocalizationsFi extends ForkLocalizations {
   @override
   String get personaSettingsMultiReactions =>
       'Reagoi useana persoonana kerralla';
+
+  @override
+  String get personaDuplicateButton => 'Monista persoona';
+
+  @override
+  String personaCopyOf(String name) {
+    return 'Kopio persoonasta $name';
+  }
 }

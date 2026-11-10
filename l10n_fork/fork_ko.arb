@@ -278,5 +278,7 @@
     "personaReactionsSomeoneElse": "다른 누군가로 반응하기...",
     "personaReactionsDone": "완료",
     "personaSettingsReactionsHeader": "반응",
-    "personaSettingsMultiReactions": "여러 페르소나로 동시에 반응하기"
+    "personaSettingsMultiReactions": "여러 페르소나로 동시에 반응하기",
+    "personaDuplicateButton": "페르소나 복제",
+    "personaCopyOf": "{name}의 사본"
 }

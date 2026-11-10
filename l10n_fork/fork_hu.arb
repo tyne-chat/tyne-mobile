@@ -278,5 +278,7 @@
     "personaReactionsSomeoneElse": "Reakció mint valaki más...",
     "personaReactionsDone": "Kész",
     "personaSettingsReactionsHeader": "Reakciók",
-    "personaSettingsMultiReactions": "Reagálás egyszerre több personaként"
+    "personaSettingsMultiReactions": "Reagálás egyszerre több personaként",
+    "personaDuplicateButton": "Persona másolása",
+    "personaCopyOf": "{name} másolata"
 }

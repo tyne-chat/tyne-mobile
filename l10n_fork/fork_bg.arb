@@ -278,5 +278,7 @@
     "personaReactionsSomeoneElse": "Реагиране като някой друг...",
     "personaReactionsDone": "Готово",
     "personaSettingsReactionsHeader": "Реакции",
-    "personaSettingsMultiReactions": "Реагиране като няколко персони наведнъж"
+    "personaSettingsMultiReactions": "Реагиране като няколко персони наведнъж",
+    "personaDuplicateButton": "Дублиране на персона",
+    "personaCopyOf": "Копие на {name}"
 }
