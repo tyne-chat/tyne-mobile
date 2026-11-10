@@ -1044,4 +1044,12 @@ class ForkLocalizationsSv extends ForkLocalizations {
   @override
   String get personaSettingsMultiReactions =>
       'Reagera som flera personas samtidigt';
+
+  @override
+  String get personaDuplicateButton => 'Duplicera persona';
+
+  @override
+  String personaCopyOf(String name) {
+    return 'Kopia av $name';
+  }
 }

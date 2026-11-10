@@ -1055,4 +1055,12 @@ class ForkLocalizationsFil extends ForkLocalizations {
   @override
   String get personaSettingsMultiReactions =>
       'Mag-react bilang ilang persona nang sabay-sabay';
+
+  @override
+  String get personaDuplicateButton => 'I-duplicate ang Persona';
+
+  @override
+  String personaCopyOf(String name) {
+    return 'Kopya ng $name';
+  }
 }

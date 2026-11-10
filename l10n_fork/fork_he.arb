@@ -278,5 +278,7 @@
     "personaReactionsSomeoneElse": "הגב בתור מישהו אחר...",
     "personaReactionsDone": "בוצע",
     "personaSettingsReactionsHeader": "ריאקציות",
-    "personaSettingsMultiReactions": "הגב בתור כמה פרסונות בבת אחת"
+    "personaSettingsMultiReactions": "הגב בתור כמה פרסונות בבת אחת",
+    "personaDuplicateButton": "שכפול פרסונה",
+    "personaCopyOf": "עותק של {name}"
 }
