@@ -117,8 +117,10 @@ import 'package:fluxer_app/features/chat/domain/cloud_composer_attachments.dart'
 import 'package:fluxer_app/features/chat/providers/core/fork_detached_send.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
+import 'package:fluxer_app/features/chat/utils/reactions/own_reactions.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
+import 'package:fluxer_app/features/profile/providers/multi_persona_reactions_provider.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/convert_emoticons_preference.dart';
 import 'package:fluxer_app/features/signal_bar/providers/signal_persona_affirmation.dart';
@@ -8024,6 +8026,14 @@ class ChatViewModel extends _$ChatViewModel {
     }
 
     final msg = state.messages[msgIndex];
+    // Fork: with "React as several personas at once" off, a plain toggle on an emoji the account
+    // already reacted with takes every own reaction off (tyne-chat/tyne#86).
+    if (personaId == null &&
+        !explicitRoot &&
+        _forkSingleReactionApplies(msg, emoji, emojiId)) {
+      await _forkRemoveOwnReactions(messageId, emoji, emojiId: emojiId);
+      return;
+    }
     final previousReactions = msg.reactions;
     final existingIdx = msg.reactions.indexWhere(
       (r) => r.emoji == emoji && r.emojiId == emojiId,
@@ -8612,5 +8622,118 @@ class ChatViewModel extends _$ChatViewModel {
       );
     }
     return true;
+  }
+
+  // Fork: "React as several personas at once" (tyne-chat/tyne#86). With it off the account has one
+  // reaction per emoji, whoever it is from: a plain toggle on an emoji any own identity reacted with
+  // takes all of them off, and React as… moves the reaction to the chosen identity. The rules are the
+  // web app's (`OwnReactions.ts`). The setting is read last, so an emoji the account has not reacted
+  // with never asks for it.
+  bool _forkSingleReactionApplies(Message msg, String emoji, String? emojiId) {
+    final Reaction? reaction = findReaction(
+      msg.reactions,
+      emoji: emoji,
+      emojiId: emojiId,
+    );
+    return reaction != null &&
+        ownReactedIds(reaction).isNotEmpty &&
+        !ref.read(multiPersonaReactionsProvider);
+  }
+
+  // Takes every own reaction with this emoji off the message. The list changes at once; the requests
+  // go out one after the other (one per identity, never repeated), so even a large system stays far
+  // below the server's request limit. The first failure stops the rest and puts back what was not
+  // removed. Returns whether everything was removed.
+  Future<bool> _forkRemoveOwnReactions(
+    String messageId,
+    String emoji, {
+    String? emojiId,
+  }) async {
+    final Message? msg = state.messages
+        .where((Message m) => m.id == messageId)
+        .firstOrNull;
+    if (msg == null) {
+      return false;
+    }
+    final Reaction? reaction = findReaction(
+      msg.reactions,
+      emoji: emoji,
+      emojiId: emojiId,
+    );
+    if (reaction == null) {
+      return true;
+    }
+    final List<String?> ids = ownReactedIds(reaction);
+    if (ids.isEmpty) {
+      return true;
+    }
+    final String channelId = state.channelId;
+    final List<Reaction> previousReactions = msg.reactions;
+    List<Reaction> without(Iterable<String?> removed) => withoutOwnReactions(
+      previousReactions,
+      emoji: emoji,
+      emojiId: emojiId,
+      ids: removed,
+    );
+    _restoreMessageReactions(messageId, without(ids));
+    final MessageRepository repo = ref.read(messageRepositoryProvider);
+    for (int i = 0; i < ids.length; i++) {
+      try {
+        await repo.removeReaction(
+          channelId: channelId,
+          messageId: messageId,
+          emoji: reaction.apiParam,
+          personaId: ids[i] ?? '0',
+        );
+      } on Exception catch (e) {
+        talker.error('[ChatViewModel] Removing own reactions failed', e);
+        if (ref.mounted && state.channelId == channelId) {
+          _restoreMessageReactions(messageId, without(ids.take(i)));
+        }
+        unawaited(showApiErrorFromRoot(ApiErrorAction.removeReaction, e));
+        return false;
+      }
+      if (!ref.mounted) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /// Fork: React as… with "React as several personas at once" off. Choosing
+  /// the identity that reacted takes its reaction off; choosing another one
+  /// moves the account's reaction to it ([personaId] null is the account).
+  Future<void> reactAsOnly(
+    String messageId,
+    String emoji, {
+    required String? personaId,
+    String? emojiId,
+    bool animated = false,
+  }) async {
+    final Reaction? reaction = findReaction(
+      state.messages
+              .where((Message m) => m.id == messageId)
+              .firstOrNull
+              ?.reactions ??
+          const <Reaction>[],
+      emoji: emoji,
+      emojiId: emojiId,
+    );
+    final bool moves =
+        reaction != null &&
+        !reaction.hasPersonaReacted(personaId) &&
+        ownReactedIds(reaction).isNotEmpty;
+    if (moves &&
+        !await _forkRemoveOwnReactions(messageId, emoji, emojiId: emojiId)) {
+      return;
+    }
+    await toggleReaction(
+      messageId,
+      emoji,
+      emojiId: emojiId,
+      animated: animated,
+      personaId: personaId,
+      explicitRoot: personaId == null,
+    );
   }
 }

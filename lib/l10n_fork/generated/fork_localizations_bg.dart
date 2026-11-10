@@ -1029,4 +1029,29 @@ class ForkLocalizationsBg extends ForkLocalizations {
 
   @override
   String get personaUndo => 'Отмяна';
+
+  @override
+  String get personaReactionsTitle => 'Твоите реакции';
+
+  @override
+  String get personaReactionsEveryoneElse => 'ВСИЧКИ ОСТАНАЛИ';
+
+  @override
+  String get personaReactionsCurrent => 'ТЕКУЩО';
+
+  @override
+  String get personaReactionsAccount => 'Акаунт';
+
+  @override
+  String get personaReactionsSomeoneElse => 'Реагиране като някой друг...';
+
+  @override
+  String get personaReactionsDone => 'Готово';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Реакции';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'Реагиране като няколко персони наведнъж';
 }

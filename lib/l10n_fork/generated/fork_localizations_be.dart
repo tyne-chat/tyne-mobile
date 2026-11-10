@@ -1038,4 +1038,30 @@ class ForkLocalizationsBe extends ForkLocalizations {
 
   @override
   String get personaUndo => 'Адрабіць';
+
+  @override
+  String get personaReactionsTitle => 'Вашы рэакцыі';
+
+  @override
+  String get personaReactionsEveryoneElse => 'УСЕ АСТАТНІЯ';
+
+  @override
+  String get personaReactionsCurrent => 'БЯГУЧАЯ';
+
+  @override
+  String get personaReactionsAccount => 'Уліковы запіс';
+
+  @override
+  String get personaReactionsSomeoneElse =>
+      'Адрэагаваць ад імя кагосьці іншага…';
+
+  @override
+  String get personaReactionsDone => 'Гатова';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Рэакцыі';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'Рэагаваць ад імя некалькіх персон адначасова';
 }

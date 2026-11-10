@@ -270,5 +270,13 @@
     "personaBulkFailed": "ペルソナを変更できませんでした。もう一度お試しください。",
     "personaFilterEmpty": "ここにはペルソナがありません。",
     "personaGalleryChooseFeatured": "紹介するペルソナを選ぶ",
-    "personaUndo": "元に戻す"
+    "personaUndo": "元に戻す",
+    "personaReactionsTitle": "自分のリアクション",
+    "personaReactionsEveryoneElse": "その他",
+    "personaReactionsCurrent": "現在",
+    "personaReactionsAccount": "アカウント",
+    "personaReactionsSomeoneElse": "ほかの誰かとしてリアクション...",
+    "personaReactionsDone": "完了",
+    "personaSettingsReactionsHeader": "リアクション",
+    "personaSettingsMultiReactions": "複数のペルソナで同時にリアクション"
 }
