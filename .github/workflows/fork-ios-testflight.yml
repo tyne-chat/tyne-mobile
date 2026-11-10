@@ -102,6 +102,13 @@ jobs:
             . "$HOME/.cargo/env"
           fi
           rustup target add aarch64-apple-ios
+          # The markdown package builds its parser inside the fluxer submodule, whose
+          # rust-toolchain.toml pins Rust (upstream's pin since tyne 1b346afbca, 2026-11-09);
+          # that toolchain needs the iOS target too. Without it the build fails on the
+          # parser's dependencies (itoa, serde_core, zmij), as on 2026-11-10.
+          if [ -f fluxer/rust-toolchain.toml ]; then
+            (cd fluxer && rustup target add aarch64-apple-ios)
+          fi
           flutter config --enable-native-assets
 
       - name: Get dependencies
