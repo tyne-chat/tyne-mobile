@@ -1016,4 +1016,30 @@ class ForkLocalizationsHi extends ForkLocalizations {
 
   @override
   String get personaUndo => 'पहले जैसा करें';
+
+  @override
+  String get personaReactionsTitle => 'आपके रिएक्शन';
+
+  @override
+  String get personaReactionsEveryoneElse => 'बाकी सभी';
+
+  @override
+  String get personaReactionsCurrent => 'वर्तमान';
+
+  @override
+  String get personaReactionsAccount => 'अकाउंट';
+
+  @override
+  String get personaReactionsSomeoneElse =>
+      'किसी और के रूप में प्रतिक्रिया दें...';
+
+  @override
+  String get personaReactionsDone => 'हो गया';
+
+  @override
+  String get personaSettingsReactionsHeader => 'रिएक्शन';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'एक साथ कई परसोना के रूप में रिएक्ट करें';
 }
