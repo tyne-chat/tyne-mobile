@@ -1047,4 +1047,12 @@ class ForkLocalizationsHu extends ForkLocalizations {
   @override
   String get personaSettingsMultiReactions =>
       'Reagálás egyszerre több personaként';
+
+  @override
+  String get personaDuplicateButton => 'Persona másolása';
+
+  @override
+  String personaCopyOf(String name) {
+    return '$name másolata';
+  }
 }

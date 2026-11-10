@@ -278,5 +278,7 @@
     "personaReactionsSomeoneElse": "Reacționează ca altcineva...",
     "personaReactionsDone": "Gata",
     "personaSettingsReactionsHeader": "Reacții",
-    "personaSettingsMultiReactions": "Reacționează ca mai multe personas deodată"
+    "personaSettingsMultiReactions": "Reacționează ca mai multe personas deodată",
+    "personaDuplicateButton": "Duplică persona",
+    "personaCopyOf": "Copie a personei {name}"
 }

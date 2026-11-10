@@ -278,5 +278,7 @@
     "personaReactionsSomeoneElse": "ほかの誰かとしてリアクション...",
     "personaReactionsDone": "完了",
     "personaSettingsReactionsHeader": "リアクション",
-    "personaSettingsMultiReactions": "複数のペルソナで同時にリアクション"
+    "personaSettingsMultiReactions": "複数のペルソナで同時にリアクション",
+    "personaDuplicateButton": "ペルソナを複製",
+    "personaCopyOf": "{name} のコピー"
 }
