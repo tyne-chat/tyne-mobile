@@ -278,5 +278,7 @@
     "personaReactionsSomeoneElse": "以其他身分回應...",
     "personaReactionsDone": "完成",
     "personaSettingsReactionsHeader": "反應",
-    "personaSettingsMultiReactions": "同時以多個人格加上反應"
+    "personaSettingsMultiReactions": "同時以多個人格加上反應",
+    "personaDuplicateButton": "複製人格",
+    "personaCopyOf": "{name} 的副本"
 }

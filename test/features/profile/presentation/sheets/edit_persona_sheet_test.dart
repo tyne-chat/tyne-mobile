@@ -10,8 +10,10 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/edit_persona_sheet.dart';
+import 'package:fluxer_app/features/profile/presentation/sheets/persona_copy_bar.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
+import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_save_bar.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
@@ -57,6 +59,7 @@ class _PersonaApiAdapter implements HttpClientAdapter {
   final List<String> requests = <String>[];
   Map<String, dynamic>? lastSavedBody;
   int failBannerUploads = 0;
+  int failCreates = 0;
 
   @override
   Future<ResponseBody> fetch(
@@ -83,6 +86,8 @@ class _PersonaApiAdapter implements HttpClientAdapter {
         status: 200,
         body: <String, Object>{'banner_hash': 'bannerhash'},
       ),
+      '/users/@me/personas' when options.method == 'POST' && failCreates > 0 =>
+        (status: 500, body: <String, Object>{'message': 'Server busy'}),
       _ => (
         status: 200,
         body: <String, Object>{'id': 'existing_p1', 'name': 'Existing Alter'},
@@ -90,6 +95,11 @@ class _PersonaApiAdapter implements HttpClientAdapter {
     };
     if (options.path == '/users/@me/personas/banner' && failBannerUploads > 0) {
       failBannerUploads--;
+    }
+    if (options.path == '/users/@me/personas' &&
+        options.method == 'POST' &&
+        failCreates > 0) {
+      failCreates--;
     }
     return ResponseBody.fromString(
       jsonEncode(reply.body),
@@ -134,6 +144,7 @@ void main() {
 
   Widget buildTestBed({
     PublicPersona? persona,
+    PublicPersona? copyOf,
     List<Persona> otherPersonas = const [],
     void Function(WidgetRef ref)? onRef,
     Dio? dio,
@@ -156,8 +167,11 @@ void main() {
             body: Center(
               child: ElevatedButton(
                 key: const ValueKey('open_btn'),
-                onPressed: () =>
-                    EditPersonaSheet.show(context, persona: persona),
+                onPressed: () => EditPersonaSheet.show(
+                  context,
+                  persona: persona,
+                  copyOf: copyOf,
+                ),
                 child: const Text('Open'),
               ),
             ),
@@ -170,6 +184,7 @@ void main() {
   Future<void> openSheet(
     WidgetTester tester, {
     PublicPersona? persona,
+    PublicPersona? copyOf,
     List<Persona> otherPersonas = const [],
     void Function(WidgetRef ref)? onRef,
     Dio? dio,
@@ -184,12 +199,29 @@ void main() {
     await tester.pumpWidget(
       buildTestBed(
         persona: persona,
+        copyOf: copyOf,
         otherPersonas: otherPersonas,
         onRef: onRef,
         dio: dio,
       ),
     );
     await tester.tap(find.byKey(const ValueKey('open_btn')));
+    await tester.pumpAndSettle();
+  }
+
+  /// Scrolls the sheet's form until [target] is built and on screen: the
+  /// buttons at its end are below what the list builds at first.
+  Future<void> scrollTo(WidgetTester tester, Finder target) async {
+    await tester.scrollUntilVisible(
+      target,
+      300,
+      scrollable: find
+          .descendant(
+            of: find.byType(ListView).first,
+            matching: find.byType(Scrollable),
+          )
+          .first,
+    );
     await tester.pumpAndSettle();
   }
 
@@ -388,6 +420,7 @@ void main() {
 
       // Verify Delete Persona button exists
       final deleteButton = find.text('Delete Persona');
+      await scrollTo(tester, deleteButton);
       expect(deleteButton, findsOneWidget);
 
       // Tap delete button to open confirmation dialog
@@ -676,5 +709,185 @@ void main() {
         ]);
       },
     );
+  });
+
+  group('EditPersonaSheet - Duplicate (tyne-chat/tyne#599)', () {
+    const lyra = PublicPersona(
+      id: 'lyra_1',
+      name: 'Lyra',
+      pronouns: 'she/they',
+      bio: 'Night owl, stargazer.',
+      avatarHash: 'lyraavatar',
+      avatarColor: 0x26225E,
+      bannerHash: 'lyrabanner',
+      color: 0x7B6CF6,
+      visibility: 'public',
+      autoTagDisabled: true,
+      personaTags: [
+        PersonaTag(prefix: 'Ly:'),
+        PersonaTag(prefix: '[', suffix: ']'),
+      ],
+      signatureEmojis: [SignatureEmoji(name: '🌙')],
+    );
+    const List<Persona> personas = [
+      Persona(id: 'lyra_1', name: 'Lyra'),
+      Persona(id: 'lyra_2', name: 'Lyra (2)'),
+    ];
+
+    Future<_PersonaApiAdapter> openWithApi(
+      WidgetTester tester, {
+      PublicPersona? persona,
+      PublicPersona? copyOf,
+    }) async {
+      final adapter = _PersonaApiAdapter();
+      final dio = Dio(BaseOptions(baseUrl: 'https://api.test'))
+        ..httpClientAdapter = adapter;
+      await openSheet(
+        tester,
+        persona: persona,
+        copyOf: copyOf,
+        otherPersonas: personas,
+        dio: dio,
+      );
+      return adapter;
+    }
+
+    Future<void> tapText(WidgetTester tester, String text) async {
+      await tester.ensureVisible(find.text(text).last);
+      await tester.tap(find.text(text).last);
+      await tester.pumpAndSettle();
+    }
+
+    TextField nameField(WidgetTester tester) =>
+        tester.widget<TextField>(find.byType(TextField).at(1));
+
+    FluxerButton duplicateButton(WidgetTester tester) =>
+        tester.widget<FluxerButton>(
+          find.widgetWithText(FluxerButton, 'Duplicate Persona'),
+        );
+
+    testWidgets(
+      "Duplicate closes the persona's editor and opens a copy under the next free number",
+      (tester) async {
+        final adapter = await openWithApi(tester, persona: lyra);
+        await scrollTo(tester, find.text('Duplicate Persona'));
+
+        await tapText(tester, 'Duplicate Persona');
+
+        expect(find.text('Edit Persona'), findsNothing);
+        expect(find.text('Create Persona'), findsOneWidget);
+        expect(find.text('Copy of Lyra'), findsOneWidget);
+        expect(find.byType(FluxerSaveBar), findsNothing);
+        final TextField name = nameField(tester);
+        expect(name.controller?.text, 'Lyra (3)');
+        expect(
+          name.controller?.selection,
+          const TextSelection(baseOffset: 0, extentOffset: 8),
+        );
+        expect(
+          tester
+              .widget<TextField>(find.byType(TextField).at(2))
+              .controller
+              ?.text,
+          'she/they',
+        );
+        // One empty tag pair, and no signature emoji chips.
+        expect(find.text('Add Tag Pair (1/5)'), findsOneWidget);
+        expect(
+          tester
+              .widget<TextField>(find.byType(TextField).at(3))
+              .controller
+              ?.text,
+          isEmpty,
+        );
+        expect(find.text('🌙'), findsNothing);
+        expect(adapter.requests, isEmpty);
+      },
+    );
+
+    testWidgets(
+      'Create sends one request, with the same pictures and no tags or emojis',
+      (tester) async {
+        final adapter = await openWithApi(tester, copyOf: lyra);
+
+        await tapText(tester, 'Create');
+
+        expect(adapter.requests, <String>['POST /users/@me/personas']);
+        expect(adapter.lastSavedBody, <String, dynamic>{
+          'name': 'Lyra (3)',
+          'avatar_hash': 'lyraavatar',
+          'banner_hash': 'lyrabanner',
+          'color': 0x7B6CF6,
+          'avatar_color': 0x26225E,
+          'pronouns': 'she/they',
+          'bio': 'Night owl, stargazer.',
+          'auto_tag_disabled': true,
+          'persona_tags': <Map<String, dynamic>>[],
+          'signature_emojis': <Map<String, dynamic>>[],
+          'visibility': 'public',
+        });
+        expect(find.text('Copy of Lyra'), findsNothing);
+      },
+    );
+
+    testWidgets(
+      'a failed Create keeps the copy open as it was, and Create again sends it once more',
+      (tester) async {
+        final adapter = await openWithApi(tester, copyOf: lyra);
+        adapter.failCreates = 1;
+
+        await tapText(tester, 'Create');
+
+        expect(adapter.requests, <String>['POST /users/@me/personas']);
+        expect(find.text('Copy of Lyra'), findsOneWidget);
+        expect(nameField(tester).controller?.text, 'Lyra (3)');
+
+        await tapText(tester, 'Create');
+
+        expect(adapter.requests, <String>[
+          'POST /users/@me/personas',
+          'POST /users/@me/personas',
+        ]);
+        expect(find.text('Copy of Lyra'), findsNothing);
+      },
+    );
+
+    testWidgets('the bar sits below the form, not over it', (tester) async {
+      await openWithApi(tester, copyOf: lyra);
+
+      final Rect bar = tester.getRect(find.byType(PersonaCopyBar));
+      final Rect list = tester.getRect(find.byType(ListView).first);
+      expect(list.bottom, lessThanOrEqualTo(bar.top));
+    });
+
+    testWidgets('Cancel closes the copy without a request; Back does not', (
+      tester,
+    ) async {
+      final adapter = await openWithApi(tester, copyOf: lyra);
+
+      await tester.binding.handlePopRoute();
+      await tester.pumpAndSettle();
+      expect(find.text('Copy of Lyra'), findsOneWidget);
+
+      await tapText(tester, 'Cancel');
+
+      expect(find.text('Copy of Lyra'), findsNothing);
+      expect(adapter.requests, isEmpty);
+    });
+
+    testWidgets('Duplicate is off while the persona has unsaved changes', (
+      tester,
+    ) async {
+      await openWithApi(tester, persona: lyra);
+      await scrollTo(tester, find.text('Duplicate Persona'));
+      expect(duplicateButton(tester).onPressed, isNotNull);
+
+      await tester.enterText(find.byType(TextField).at(2), 'she/her');
+      await tester.pumpAndSettle();
+      expect(duplicateButton(tester).onPressed, isNull);
+
+      await tapText(tester, 'Reset');
+      expect(duplicateButton(tester).onPressed, isNotNull);
+    });
   });
 }

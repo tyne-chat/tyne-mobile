@@ -1009,4 +1009,12 @@ class ForkLocalizationsJa extends ForkLocalizations {
 
   @override
   String get personaSettingsMultiReactions => '複数のペルソナで同時にリアクション';
+
+  @override
+  String get personaDuplicateButton => 'ペルソナを複製';
+
+  @override
+  String personaCopyOf(String name) {
+    return '$name のコピー';
+  }
 }
