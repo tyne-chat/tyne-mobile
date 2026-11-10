@@ -985,4 +985,28 @@ class ForkLocalizationsJa extends ForkLocalizations {
 
   @override
   String get personaUndo => '元に戻す';
+
+  @override
+  String get personaReactionsTitle => '自分のリアクション';
+
+  @override
+  String get personaReactionsEveryoneElse => 'その他';
+
+  @override
+  String get personaReactionsCurrent => '現在';
+
+  @override
+  String get personaReactionsAccount => 'アカウント';
+
+  @override
+  String get personaReactionsSomeoneElse => 'ほかの誰かとしてリアクション...';
+
+  @override
+  String get personaReactionsDone => '完了';
+
+  @override
+  String get personaSettingsReactionsHeader => 'リアクション';
+
+  @override
+  String get personaSettingsMultiReactions => '複数のペルソナで同時にリアクション';
 }

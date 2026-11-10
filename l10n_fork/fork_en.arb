@@ -1340,5 +1340,37 @@
     "personaUndo": "Undo",
     "@personaUndo": {
         "description": "Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Snack bar action that puts back each persona's previous visibility."
+    },
+    "personaReactionsTitle": "Your reactions",
+    "@personaReactionsTitle": {
+        "description": "Title of the sheet a tap on a reaction chip opens when one of your own identities reacted with that emoji (tyne-chat/tyne#86). Same wording as the web app's."
+    },
+    "personaReactionsEveryoneElse": "EVERYONE ELSE",
+    "@personaReactionsEveryoneElse": {
+        "description": "Section heading in the reaction sheets above the personas that have not reacted (tyne-chat/tyne#86). Shown as written: uppercase where the script has case, like the other persona list headings."
+    },
+    "personaReactionsCurrent": "CURRENT",
+    "@personaReactionsCurrent": {
+        "description": "Small badge next to the persona you are currently writing as, in the reaction sheets (tyne-chat/tyne#86). Shown as written: uppercase where the script has case."
+    },
+    "personaReactionsAccount": "Account",
+    "@personaReactionsAccount": {
+        "description": "Small label next to your own account (as opposed to a persona) in the reaction sheets (tyne-chat/tyne#86)."
+    },
+    "personaReactionsSomeoneElse": "React as someone else...",
+    "@personaReactionsSomeoneElse": {
+        "description": "Row in the \"Your reactions\" sheet that opens the search field and the full persona list (tyne-chat/tyne#86)."
+    },
+    "personaReactionsDone": "Done",
+    "@personaReactionsDone": {
+        "description": "Button that closes the reaction sheets (tyne-chat/tyne#86)."
+    },
+    "personaSettingsReactionsHeader": "Reactions",
+    "@personaSettingsReactionsHeader": {
+        "description": "Section heading in the Personas settings above the reaction switch (tyne-chat/tyne#86)."
+    },
+    "personaSettingsMultiReactions": "React as several personas at once",
+    "@personaSettingsMultiReactions": {
+        "description": "Switch in the Personas settings: when on, several of your personas can react to a message with the same emoji (tyne-chat/tyne#86). Same wording as the web app's."
     }
 }
