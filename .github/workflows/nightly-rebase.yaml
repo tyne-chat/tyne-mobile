@@ -47,6 +47,11 @@ on:
         required: false
         default: false
         type: boolean
+      skip_baseline:
+        description: 'Skip the baseline gates before the rebase, for a branch whose baseline already passed, such as a run started again after one that stopped later. The gates after the rebase still run, and the run publishes as usual.'
+        required: false
+        default: false
+        type: boolean
 
 # Read-only by default. The rebase job runs code nobody here controls (upstream's new commits,
 # installs and build scripts, the test suites, the agent), so it holds no token that can write:
@@ -173,6 +178,9 @@ jobs:
           fi
           if [ "${{ inputs.smoke }}" = "true" ]; then
             FLAGS="$FLAGS --force-tests --skip-baseline --stop-after-codegen"
+          fi
+          if [ "${{ inputs.skip_baseline }}" = "true" ]; then
+            FLAGS="$FLAGS --skip-baseline"
           fi
           echo "REBASE_ARGS=--profile flutter --time-budget-minutes 125 --result-dir /tmp/rebase_result $FLAGS" >> "$GITHUB_ENV"
 
