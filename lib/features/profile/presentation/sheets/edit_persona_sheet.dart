@@ -14,8 +14,10 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/profile/data/persona_image_upload.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/domain/persona_duplicate_name.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
+import 'package:fluxer_app/features/profile/presentation/sheets/persona_copy_bar.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_banner.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
@@ -43,13 +45,18 @@ class EditPersonaSheet {
   static Future<({Uint8List bytes, String name})?> Function() pickImage =
       ImageUtils.pickImage;
 
+  /// Opens the editor for [persona], or for a new persona: an empty one, or
+  /// with [copyOf] a copy of that persona (tyne-chat/tyne#599).
   static Future<PublicPersona?> show(
     BuildContext context, {
     PublicPersona? persona,
+    PublicPersona? copyOf,
   }) {
     final l10n = FluxerLocalizations.of(context);
     final isEditing = persona != null;
-    final canDismissNotifier = ValueNotifier<bool>(true);
+    // A copy is unsaved from the start: a drag or Back does not dismiss it,
+    // its bar's Cancel does.
+    final canDismissNotifier = ValueNotifier<bool>(copyOf == null);
 
     return FluxerBottomSheet.showScrollable<PublicPersona?>(
       context,
@@ -59,9 +66,12 @@ class EditPersonaSheet {
       useRootNavigator: true,
       minChildSize: 0.6,
       canDismissNotifier: canDismissNotifier,
+      // A copy has no close button (on wide layouts) that could not close it.
+      isDismissible: copyOf == null,
       builder: (sheetContext, scrollController, close) {
         return _EditPersonaBody(
           persona: persona,
+          copyOf: isEditing ? null : copyOf,
           scrollController: scrollController,
           canDismissNotifier: canDismissNotifier,
         );
@@ -75,9 +85,13 @@ class _EditPersonaBody extends ConsumerStatefulWidget {
     required this.persona,
     required this.scrollController,
     required this.canDismissNotifier,
+    this.copyOf,
   });
 
   final PublicPersona? persona;
+
+  /// The persona a new one starts as a copy of.
+  final PublicPersona? copyOf;
   final ScrollController scrollController;
   final ValueNotifier<bool> canDismissNotifier;
 
@@ -145,9 +159,9 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     if (!mounted) {
       return;
     }
-    final dirty = _hasChanges;
-    if (widget.canDismissNotifier.value != !dirty) {
-      widget.canDismissNotifier.value = !dirty;
+    final bool canDismiss = widget.copyOf == null && !_hasChanges;
+    if (widget.canDismissNotifier.value != canDismiss) {
+      widget.canDismissNotifier.value = canDismiss;
     }
     setState(() {});
   }
@@ -155,6 +169,11 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
   @override
   void initState() {
     super.initState();
+    final PublicPersona? copyOf = widget.copyOf;
+    if (copyOf != null) {
+      _initCopyOf(copyOf);
+      return;
+    }
     final p = widget.persona;
     _initialName = p?.name ?? '';
     _initialPronouns = p?.pronouns ?? '';
@@ -211,6 +230,68 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     _avatarColor = _initialAvatarColor;
     _autoTagDisabled = _initialAutoTagDisabled;
     _visibility = _initialVisibility;
+  }
+
+  /// A new persona that starts as a copy of [source] (tyne-chat/tyne#599): its
+  /// pictures (the same stored files), colours, pronouns, bio, visibility and
+  /// tag matching, under a numbered name, selected so typing replaces it. Tags
+  /// and signature emojis start empty, since each belongs to one persona.
+  void _initCopyOf(PublicPersona source) {
+    final List<Persona> personas =
+        ref.read(myPersonasProvider).asData?.value ?? const <Persona>[];
+    _initialName = duplicatePersonaName(source.name, <String>[
+      source.name,
+      for (final Persona p in personas) p.name,
+    ]);
+    _initialPronouns = source.pronouns ?? '';
+    _initialBio = source.bio ?? '';
+    _initialTags = [(prefix: '', suffix: '')];
+    _initialSignatureEmojis = <SignatureEmoji>[];
+    _signatureEmojis = <SignatureEmoji>[];
+    _tagControllers.add(
+      _TagPairControllers(prefix: '', suffix: '', onChanged: _onFieldChanged),
+    );
+    _initialAvatarHash = source.avatarHash;
+    _initialBannerHash = source.bannerHash;
+    _initialColor = source.color;
+    _initialAvatarColor = source.avatarColor;
+    _initialAutoTagDisabled = source.autoTagDisabled;
+    _initialVisibility = source.visibility ?? 'unlisted';
+
+    _nameController = TextEditingController(text: _initialName)
+      ..selection = TextSelection(
+        baseOffset: 0,
+        extentOffset: _initialName.length,
+      );
+    _pronounsController = TextEditingController(text: _initialPronouns);
+    _bioController = TextEditingController(text: _initialBio);
+    _nameController.addListener(_onFieldChanged);
+    _pronounsController.addListener(_onFieldChanged);
+    _bioController.addListener(_onFieldChanged);
+
+    _avatarHash = _initialAvatarHash;
+    _bannerHash = _initialBannerHash;
+    _color = _initialColor;
+    _avatarColor = _initialAvatarColor;
+    _autoTagDisabled = _initialAutoTagDisabled;
+    _visibility = _initialVisibility;
+  }
+
+  /// Closes this persona's editor and opens a new persona's, filled in from
+  /// it. Only with nothing unsaved: the button is off until Save or Reset.
+  Future<void> _duplicate() async {
+    final PublicPersona? source = widget.persona;
+    if (source == null || _hasChanges) {
+      return;
+    }
+    final NavigatorState navigator = Navigator.of(context, rootNavigator: true)
+      ..pop();
+    // One scrim from this sheet to the next, as other sheet-to-sheet steps do.
+    await handOffFluxerSheet(navigator.context);
+    if (!navigator.mounted) {
+      return;
+    }
+    await EditPersonaSheet.show(navigator.context, copyOf: source);
   }
 
   bool get _hasChanges {
@@ -997,82 +1078,137 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       hash: _bannerHash,
     );
     final bool isColorDefault = _color == null || _color == 0;
+    final PublicPersona? copyOf = widget.copyOf;
 
-    return FluxerSettingsSheet(
-      hasUnsavedChanges: _hasChanges,
-      isSaving: _isSaving,
-      onReset: _reset,
-      onSave: _save,
-      child: ListView(
-        controller: widget.scrollController,
-        padding: EdgeInsets.fromLTRB(
-          layout.s4,
-          0,
-          layout.s4,
-          kSettingsScrollBottomPadding + kSettingsSaveBarScrollExtra,
-        ),
-        children: [
-          // Live Profile Card Preview
-          Container(
-            decoration: BoxDecoration(
-              color: colors.backgroundSecondary,
-              borderRadius: layout.radiusLg,
-              border: Border.all(
-                color: _color != null && _color != 0
-                    ? Color(_color! | 0xFF000000)
-                    : Color(effectiveDefaultColor | 0xFF000000),
-                width: 1.5,
-              ),
+    final Widget form = ListView(
+      controller: widget.scrollController,
+      padding: EdgeInsets.fromLTRB(
+        layout.s4,
+        0,
+        layout.s4,
+        // A copy's bar sits below the list, not over it.
+        copyOf != null
+            ? kSettingsScrollBottomPadding
+            : kSettingsScrollBottomPadding + kSettingsSaveBarScrollExtra,
+      ),
+      children: [
+        // Live Profile Card Preview
+        Container(
+          decoration: BoxDecoration(
+            color: colors.backgroundSecondary,
+            borderRadius: layout.radiusLg,
+            border: Border.all(
+              color: _color != null && _color != 0
+                  ? Color(_color! | 0xFF000000)
+                  : Color(effectiveDefaultColor | 0xFF000000),
+              width: 1.5,
             ),
-            clipBehavior: Clip.antiAlias,
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                final cardWidth = constraints.maxWidth;
-                // Aspect ratio 2.1 matches the mobile profile sheet (e.g. ~390 / 184)
-                final bannerHeight = cardWidth / 2.1;
-                const avatarRadius = 36.0;
-                const avatarBorderWidth = 4.0;
-                const avatarTotalRadius = avatarRadius + avatarBorderWidth;
-                final avatarTop = bannerHeight - avatarTotalRadius;
-                final stackHeight = bannerHeight + avatarTotalRadius;
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final cardWidth = constraints.maxWidth;
+              // Aspect ratio 2.1 matches the mobile profile sheet (e.g. ~390 / 184)
+              final bannerHeight = cardWidth / 2.1;
+              const avatarRadius = 36.0;
+              const avatarBorderWidth = 4.0;
+              const avatarTotalRadius = avatarRadius + avatarBorderWidth;
+              final avatarTop = bannerHeight - avatarTotalRadius;
+              final stackHeight = bannerHeight + avatarTotalRadius;
 
-                return SizedBox(
-                  height: stackHeight + layout.s3,
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      // Banner (tappable)
-                      Positioned(
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        height: bannerHeight,
-                        child: GestureDetector(
-                          onTap: _isSaving ? null : _pickBanner,
-                          behavior: HitTestBehavior.opaque,
-                          child: Stack(
-                            fit: StackFit.expand,
-                            children: [
-                              if (_pendingBanner != null)
-                                Image.memory(_pendingBanner!, fit: BoxFit.cover)
-                              else
-                                UserProfileBanner(
-                                  key: ValueKey(
-                                    '$_bannerHash-$_color-$effectiveDefaultColor',
-                                  ),
-                                  bannerUrl: effectiveBannerUrl,
-                                  bannerColor: _color != null && _color != 0
-                                      ? Color(_color! | 0xFF000000)
-                                      : Color(
-                                          effectiveDefaultColor | 0xFF000000,
-                                        ),
-                                  height: bannerHeight,
+              return SizedBox(
+                height: stackHeight + layout.s3,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    // Banner (tappable)
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: bannerHeight,
+                      child: GestureDetector(
+                        onTap: _isSaving ? null : _pickBanner,
+                        behavior: HitTestBehavior.opaque,
+                        child: Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            if (_pendingBanner != null)
+                              Image.memory(_pendingBanner!, fit: BoxFit.cover)
+                            else
+                              UserProfileBanner(
+                                key: ValueKey(
+                                  '$_bannerHash-$_color-$effectiveDefaultColor',
                                 ),
-                              if (_isSaving && _pendingBanner != null)
+                                bannerUrl: effectiveBannerUrl,
+                                bannerColor: _color != null && _color != 0
+                                    ? Color(_color! | 0xFF000000)
+                                    : Color(effectiveDefaultColor | 0xFF000000),
+                                height: bannerHeight,
+                              ),
+                            if (_isSaving && _pendingBanner != null)
+                              const Positioned.fill(
+                                child: DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    color: Colors.black45,
+                                  ),
+                                  child: Center(
+                                    child: SizedBox(
+                                      width: 24,
+                                      height: 24,
+                                      child: FluxerLoadingSpinner(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    // Avatar (tappable)
+                    Positioned(
+                      left: layout.s4,
+                      top: avatarTop,
+                      child: GestureDetector(
+                        onTap: _isSaving ? null : _pickAvatar,
+                        behavior: HitTestBehavior.opaque,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: colors.backgroundSecondary,
+                              width: avatarBorderWidth,
+                            ),
+                          ),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              CircleAvatar(
+                                radius: avatarRadius,
+                                backgroundColor: colors.backgroundPrimary,
+                                backgroundImage: _pendingAvatar != null
+                                    ? MemoryImage(_pendingAvatar!)
+                                    : effectiveAvatarUrl != null &&
+                                          effectiveAvatarUrl.isNotEmpty
+                                    ? NetworkImage(effectiveAvatarUrl)
+                                    : null,
+                                child:
+                                    _pendingAvatar == null &&
+                                        (effectiveAvatarUrl == null ||
+                                            effectiveAvatarUrl.isEmpty)
+                                    ? Icon(
+                                        PhosphorIconsFill.user,
+                                        size: 36,
+                                        color: colors.textPrimaryMuted,
+                                      )
+                                    : null,
+                              ),
+                              if (_isSaving && _pendingAvatar != null)
                                 const Positioned.fill(
                                   child: DecoratedBox(
                                     decoration: BoxDecoration(
                                       color: Colors.black45,
+                                      shape: BoxShape.circle,
                                     ),
                                     child: Center(
                                       child: SizedBox(
@@ -1087,453 +1223,425 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
                           ),
                         ),
                       ),
-                      // Avatar (tappable)
-                      Positioned(
-                        left: layout.s4,
-                        top: avatarTop,
-                        child: GestureDetector(
-                          onTap: _isSaving ? null : _pickAvatar,
-                          behavior: HitTestBehavior.opaque,
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: colors.backgroundSecondary,
-                                width: avatarBorderWidth,
-                              ),
-                            ),
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                CircleAvatar(
-                                  radius: avatarRadius,
-                                  backgroundColor: colors.backgroundPrimary,
-                                  backgroundImage: _pendingAvatar != null
-                                      ? MemoryImage(_pendingAvatar!)
-                                      : effectiveAvatarUrl != null &&
-                                            effectiveAvatarUrl.isNotEmpty
-                                      ? NetworkImage(effectiveAvatarUrl)
-                                      : null,
-                                  child:
-                                      _pendingAvatar == null &&
-                                          (effectiveAvatarUrl == null ||
-                                              effectiveAvatarUrl.isEmpty)
-                                      ? Icon(
-                                          PhosphorIconsFill.user,
-                                          size: 36,
-                                          color: colors.textPrimaryMuted,
-                                        )
-                                      : null,
-                                ),
-                                if (_isSaving && _pendingAvatar != null)
-                                  const Positioned.fill(
-                                    child: DecoratedBox(
-                                      decoration: BoxDecoration(
-                                        color: Colors.black45,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Center(
-                                        child: SizedBox(
-                                          width: 24,
-                                          height: 24,
-                                          child: FluxerLoadingSpinner(),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-          SizedBox(height: layout.s3),
-
-          // Avatar Actions
-          Row(
-            children: [
-              FluxerButton.secondary(
-                label: _avatarHash != null || _pendingAvatar != null
-                    ? l10n.fork.personaChangeAvatar
-                    : l10n.fork.personaUploadAvatar,
-                icon: PhosphorIconsFill.uploadSimple,
-                size: FluxerButtonSize.small,
-                fitContent: true,
-                onPressed: _isSaving ? null : _pickAvatar,
-              ),
-              if (_avatarHash != null || _pendingAvatar != null) ...[
-                SizedBox(width: layout.s2),
-                FluxerButton.ghost(
-                  label: l10n.fork.personaRemoveAvatar,
-                  icon: PhosphorIconsFill.trash,
-                  size: FluxerButtonSize.small,
-                  fitContent: true,
-                  onPressed: _isSaving
-                      ? null
-                      : () {
-                          final avatarHash = _avatarHash;
-                          if (avatarHash != null) {
-                            final ownUserId = ref
-                                .read(userSettingsViewModelProvider)
-                                .userId;
-                            if (ownUserId.isNotEmpty) {
-                              final oldUrl = FluxerMediaUrl.userAvatar(
-                                userId: ownUserId,
-                                hash: avatarHash,
-                              );
-                              if (oldUrl != null) {
-                                unawaited(
-                                  CachedNetworkImage.evictFromCache(oldUrl),
-                                );
-                              }
-                            }
-                          }
-                          setState(() {
-                            _avatarHash = null;
-                            _avatarColor = null;
-                            _pendingAvatar = null;
-                          });
-                          _onFieldChanged();
-                        },
-                ),
-              ],
-            ],
-          ),
-          SizedBox(height: layout.s2),
-
-          // Banner Actions
-          Row(
-            children: [
-              FluxerButton.secondary(
-                label: l10n.changeBanner,
-                icon: PhosphorIconsFill.image,
-                size: FluxerButtonSize.small,
-                fitContent: true,
-                onPressed: _isSaving ? null : _pickBanner,
-              ),
-              if (_bannerHash != null || _pendingBanner != null) ...[
-                SizedBox(width: layout.s2),
-                FluxerButton.ghost(
-                  label: l10n.removeBanner,
-                  icon: PhosphorIconsFill.trash,
-                  size: FluxerButtonSize.small,
-                  fitContent: true,
-                  onPressed: _isSaving
-                      ? null
-                      : () {
-                          final bannerHash = _bannerHash;
-                          if (bannerHash != null) {
-                            final ownUserId = ref
-                                .read(userSettingsViewModelProvider)
-                                .userId;
-                            if (ownUserId.isNotEmpty) {
-                              final oldUrl = FluxerMediaUrl.userBanner(
-                                userId: ownUserId,
-                                hash: bannerHash,
-                              );
-                              if (oldUrl != null) {
-                                unawaited(
-                                  CachedNetworkImage.evictFromCache(oldUrl),
-                                );
-                              }
-                            }
-                          }
-                          setState(() {
-                            _bannerHash = null;
-                            _pendingBanner = null;
-                          });
-                          _onFieldChanged();
-                        },
-                ),
-              ],
-            ],
-          ),
-          SizedBox(height: layout.s4),
-
-          // Accent Color
-          FluxerColorPickerField(
-            label: l10n.accentColorLabel,
-            description: l10n.accentColorDescription,
-            value: isColorDefault ? effectiveDefaultColor : _color!,
-            defaultValue: effectiveDefaultColor,
-            isDefaultValue: isColorDefault,
-            disabled: _isSaving,
-            onReset: () {
-              setState(() => _color = null);
-              _onFieldChanged();
-            },
-            onChanged: (newColor) {
-              setState(() => _color = newColor);
-              _onFieldChanged();
-            },
-          ),
-          SizedBox(height: layout.s4),
-
-          // Display Name
-          FluxerInput(
-            controller: _nameController,
-            label: l10n.fork.personaDisplayNameLabel,
-            hint: l10n.fork.personaDisplayNameHint,
-            maxLength: 100,
-            enabled: !_isSaving,
-            autofocus: !isEditing,
-          ),
-          SizedBox(height: layout.s3),
-
-          // Pronouns
-          FluxerInput(
-            controller: _pronounsController,
-            label: l10n.fork.personaPronounsLabel,
-            hint: l10n.fork.personaPronounsHint,
-            maxLength: 100,
-            enabled: !_isSaving,
-          ),
-          SizedBox(height: layout.s3),
-
-          // Persona Tags
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                l10n.fork.personaTagsLabel,
-                style: textStyles.label.copyWith(color: colors.textPrimary),
-              ),
-              FluxerButton.secondary(
-                label: l10n.fork.personaAddTagPair(_tagControllers.length),
-                icon: PhosphorIconsBold.plus,
-                size: FluxerButtonSize.small,
-                fitContent: true,
-                onPressed: (_isSaving || _tagControllers.length >= 5)
-                    ? null
-                    : _addTagPair,
-              ),
-            ],
-          ),
-          SizedBox(height: layout.s2),
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  l10n.fork.personaTagPrefixLabel,
-                  style: textStyles.label.copyWith(color: colors.textSecondary),
-                ),
-              ),
-              const SizedBox(width: 32),
-              Expanded(
-                child: Text(
-                  l10n.fork.personaTagSuffixLabel,
-                  style: textStyles.label.copyWith(color: colors.textSecondary),
-                ),
-              ),
-              if (_tagControllers.length > 1) const SizedBox(width: 44),
-            ],
-          ),
-          SizedBox(height: layout.s1),
-          for (int i = 0; i < _tagControllers.length; i++) ...[
-            Padding(
-              padding: EdgeInsets.only(bottom: layout.s2),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: FluxerInput(
-                      controller: _tagControllers[i].prefixController,
-                      hint: '[',
-                      maxLength: 32,
-                      enabled: !_isSaving,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: layout.s2),
-                    child: Text(
-                      l10n.fork.personaTagExampleText,
-                      style: textStyles.bodySmall.copyWith(
-                        color: colors.textPrimaryMuted,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: FluxerInput(
-                      controller: _tagControllers[i].suffixController,
-                      hint: ']',
-                      maxLength: 32,
-                      enabled: !_isSaving,
-                    ),
-                  ),
-                  if (_tagControllers.length > 1) ...[
-                    SizedBox(width: layout.s2),
-                    FluxerButton.dangerSecondary(
-                      size: FluxerButtonSize.small,
-                      isSquare: true,
-                      icon: PhosphorIconsBold.trash,
-                      onPressed: _isSaving ? null : () => _removeTagPair(i),
                     ),
                   ],
-                ],
-              ),
-            ),
-          ],
-          FluxerSettingsSwitchItem(
-            label: l10n.fork.personaAutoTagDisabledLabel,
-            description: l10n.fork.personaAutoTagDisabledDescription,
-            value: _autoTagDisabled,
-            enabled: !_isSaving,
-            onChanged: (bool value) => setState(() => _autoTagDisabled = value),
+                ),
+              );
+            },
           ),
-          SizedBox(height: layout.s3),
+        ),
+        SizedBox(height: layout.s3),
 
-          // Signature Emojis
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                l10n.fork.personaSignatureEmojisLabel,
-                style: textStyles.label.copyWith(color: colors.textPrimary),
-              ),
-              FluxerButton.secondary(
-                label: _signatureEmojis.isEmpty
-                    ? l10n.fork.personaAddSignatureEmoji
-                    : '${l10n.fork.personaAddSignatureEmoji} (${_signatureEmojis.length})',
-                icon: PhosphorIconsBold.plus,
+        // Avatar Actions
+        Row(
+          children: [
+            FluxerButton.secondary(
+              label: _avatarHash != null || _pendingAvatar != null
+                  ? l10n.fork.personaChangeAvatar
+                  : l10n.fork.personaUploadAvatar,
+              icon: PhosphorIconsFill.uploadSimple,
+              size: FluxerButtonSize.small,
+              fitContent: true,
+              onPressed: _isSaving ? null : _pickAvatar,
+            ),
+            if (_avatarHash != null || _pendingAvatar != null) ...[
+              SizedBox(width: layout.s2),
+              FluxerButton.ghost(
+                label: l10n.fork.personaRemoveAvatar,
+                icon: PhosphorIconsFill.trash,
                 size: FluxerButtonSize.small,
                 fitContent: true,
-                onPressed: _isSaving ? null : _addSignatureEmoji,
+                onPressed: _isSaving
+                    ? null
+                    : () {
+                        final avatarHash = _avatarHash;
+                        if (avatarHash != null) {
+                          final ownUserId = ref
+                              .read(userSettingsViewModelProvider)
+                              .userId;
+                          if (ownUserId.isNotEmpty) {
+                            final oldUrl = FluxerMediaUrl.userAvatar(
+                              userId: ownUserId,
+                              hash: avatarHash,
+                            );
+                            if (oldUrl != null) {
+                              unawaited(
+                                CachedNetworkImage.evictFromCache(oldUrl),
+                              );
+                            }
+                          }
+                        }
+                        setState(() {
+                          _avatarHash = null;
+                          _avatarColor = null;
+                          _pendingAvatar = null;
+                        });
+                        _onFieldChanged();
+                      },
               ),
             ],
-          ),
-          SizedBox(height: layout.s1),
-          Text(
-            l10n.fork.personaSignatureEmojisDescription,
-            style: textStyles.bodySmall.copyWith(
-              color: colors.textSecondary,
-              fontSize: 12,
+          ],
+        ),
+        SizedBox(height: layout.s2),
+
+        // Banner Actions
+        Row(
+          children: [
+            FluxerButton.secondary(
+              label: l10n.changeBanner,
+              icon: PhosphorIconsFill.image,
+              size: FluxerButtonSize.small,
+              fitContent: true,
+              onPressed: _isSaving ? null : _pickBanner,
+            ),
+            if (_bannerHash != null || _pendingBanner != null) ...[
+              SizedBox(width: layout.s2),
+              FluxerButton.ghost(
+                label: l10n.removeBanner,
+                icon: PhosphorIconsFill.trash,
+                size: FluxerButtonSize.small,
+                fitContent: true,
+                onPressed: _isSaving
+                    ? null
+                    : () {
+                        final bannerHash = _bannerHash;
+                        if (bannerHash != null) {
+                          final ownUserId = ref
+                              .read(userSettingsViewModelProvider)
+                              .userId;
+                          if (ownUserId.isNotEmpty) {
+                            final oldUrl = FluxerMediaUrl.userBanner(
+                              userId: ownUserId,
+                              hash: bannerHash,
+                            );
+                            if (oldUrl != null) {
+                              unawaited(
+                                CachedNetworkImage.evictFromCache(oldUrl),
+                              );
+                            }
+                          }
+                        }
+                        setState(() {
+                          _bannerHash = null;
+                          _pendingBanner = null;
+                        });
+                        _onFieldChanged();
+                      },
+              ),
+            ],
+          ],
+        ),
+        SizedBox(height: layout.s4),
+
+        // Accent Color
+        FluxerColorPickerField(
+          label: l10n.accentColorLabel,
+          description: l10n.accentColorDescription,
+          value: isColorDefault ? effectiveDefaultColor : _color!,
+          defaultValue: effectiveDefaultColor,
+          isDefaultValue: isColorDefault,
+          disabled: _isSaving,
+          onReset: () {
+            setState(() => _color = null);
+            _onFieldChanged();
+          },
+          onChanged: (newColor) {
+            setState(() => _color = newColor);
+            _onFieldChanged();
+          },
+        ),
+        SizedBox(height: layout.s4),
+
+        // Display Name
+        FluxerInput(
+          controller: _nameController,
+          label: l10n.fork.personaDisplayNameLabel,
+          hint: l10n.fork.personaDisplayNameHint,
+          maxLength: 100,
+          enabled: !_isSaving,
+          autofocus: !isEditing,
+        ),
+        SizedBox(height: layout.s3),
+
+        // Pronouns
+        FluxerInput(
+          controller: _pronounsController,
+          label: l10n.fork.personaPronounsLabel,
+          hint: l10n.fork.personaPronounsHint,
+          maxLength: 100,
+          enabled: !_isSaving,
+        ),
+        SizedBox(height: layout.s3),
+
+        // Persona Tags
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              l10n.fork.personaTagsLabel,
+              style: textStyles.label.copyWith(color: colors.textPrimary),
+            ),
+            FluxerButton.secondary(
+              label: l10n.fork.personaAddTagPair(_tagControllers.length),
+              icon: PhosphorIconsBold.plus,
+              size: FluxerButtonSize.small,
+              fitContent: true,
+              onPressed: (_isSaving || _tagControllers.length >= 5)
+                  ? null
+                  : _addTagPair,
+            ),
+          ],
+        ),
+        SizedBox(height: layout.s2),
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                l10n.fork.personaTagPrefixLabel,
+                style: textStyles.label.copyWith(color: colors.textSecondary),
+              ),
+            ),
+            const SizedBox(width: 32),
+            Expanded(
+              child: Text(
+                l10n.fork.personaTagSuffixLabel,
+                style: textStyles.label.copyWith(color: colors.textSecondary),
+              ),
+            ),
+            if (_tagControllers.length > 1) const SizedBox(width: 44),
+          ],
+        ),
+        SizedBox(height: layout.s1),
+        for (int i = 0; i < _tagControllers.length; i++) ...[
+          Padding(
+            padding: EdgeInsets.only(bottom: layout.s2),
+            child: Row(
+              children: [
+                Expanded(
+                  child: FluxerInput(
+                    controller: _tagControllers[i].prefixController,
+                    hint: '[',
+                    maxLength: 32,
+                    enabled: !_isSaving,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: layout.s2),
+                  child: Text(
+                    l10n.fork.personaTagExampleText,
+                    style: textStyles.bodySmall.copyWith(
+                      color: colors.textPrimaryMuted,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: FluxerInput(
+                    controller: _tagControllers[i].suffixController,
+                    hint: ']',
+                    maxLength: 32,
+                    enabled: !_isSaving,
+                  ),
+                ),
+                if (_tagControllers.length > 1) ...[
+                  SizedBox(width: layout.s2),
+                  FluxerButton.dangerSecondary(
+                    size: FluxerButtonSize.small,
+                    isSquare: true,
+                    icon: PhosphorIconsBold.trash,
+                    onPressed: _isSaving ? null : () => _removeTagPair(i),
+                  ),
+                ],
+              ],
             ),
           ),
-          if (_signatureEmojis.isNotEmpty) ...[
-            SizedBox(height: layout.s2),
-            Wrap(
-              spacing: layout.s2,
-              runSpacing: layout.s2,
-              children: [
-                for (int i = 0; i < _signatureEmojis.length; i++) ...[
-                  Builder(
-                    builder: (context) {
-                      final sig = _signatureEmojis[i];
-                      return Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: colors.backgroundSecondary,
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: colors.borderColor),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            if (sig.isCustom)
-                              CachedEmojiImage(
-                                emojiId: sig.id!,
-                                animated: sig.animated ?? false,
-                                size: 20,
-                                requestSize: kCustomEmojiFetchSize,
-                              )
-                            else
-                              UnicodeEmojiWidget(emoji: sig.name, size: 20),
-                            if (sig.isCustom) ...[
-                              const SizedBox(width: 4),
-                              Text(
-                                ':${sig.name}:',
-                                style: textStyles.bodySmall.copyWith(
-                                  color: colors.textPrimary,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                            const SizedBox(width: 6),
-                            Semantics(
-                              label: l10n.fork.personaRemoveSignatureEmoji,
-                              button: true,
-                              child: FluxerGestureDetector(
-                                onTap: _isSaving
-                                    ? null
-                                    : () => _removeSignatureEmoji(i),
-                                child: PhosphorIcon(
-                                  PhosphorIconsBold.x,
-                                  size: 14,
-                                  color: colors.textSecondary,
-                                ),
+        ],
+        FluxerSettingsSwitchItem(
+          label: l10n.fork.personaAutoTagDisabledLabel,
+          description: l10n.fork.personaAutoTagDisabledDescription,
+          value: _autoTagDisabled,
+          enabled: !_isSaving,
+          onChanged: (bool value) => setState(() => _autoTagDisabled = value),
+        ),
+        SizedBox(height: layout.s3),
+
+        // Signature Emojis
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              l10n.fork.personaSignatureEmojisLabel,
+              style: textStyles.label.copyWith(color: colors.textPrimary),
+            ),
+            FluxerButton.secondary(
+              label: _signatureEmojis.isEmpty
+                  ? l10n.fork.personaAddSignatureEmoji
+                  : '${l10n.fork.personaAddSignatureEmoji} (${_signatureEmojis.length})',
+              icon: PhosphorIconsBold.plus,
+              size: FluxerButtonSize.small,
+              fitContent: true,
+              onPressed: _isSaving ? null : _addSignatureEmoji,
+            ),
+          ],
+        ),
+        SizedBox(height: layout.s1),
+        Text(
+          l10n.fork.personaSignatureEmojisDescription,
+          style: textStyles.bodySmall.copyWith(
+            color: colors.textSecondary,
+            fontSize: 12,
+          ),
+        ),
+        if (_signatureEmojis.isNotEmpty) ...[
+          SizedBox(height: layout.s2),
+          Wrap(
+            spacing: layout.s2,
+            runSpacing: layout.s2,
+            children: [
+              for (int i = 0; i < _signatureEmojis.length; i++) ...[
+                Builder(
+                  builder: (context) {
+                    final sig = _signatureEmojis[i];
+                    return Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: colors.backgroundSecondary,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: colors.borderColor),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (sig.isCustom)
+                            CachedEmojiImage(
+                              emojiId: sig.id!,
+                              animated: sig.animated ?? false,
+                              size: 20,
+                              requestSize: kCustomEmojiFetchSize,
+                            )
+                          else
+                            UnicodeEmojiWidget(emoji: sig.name, size: 20),
+                          if (sig.isCustom) ...[
+                            const SizedBox(width: 4),
+                            Text(
+                              ':${sig.name}:',
+                              style: textStyles.bodySmall.copyWith(
+                                color: colors.textPrimary,
+                                fontSize: 12,
                               ),
                             ),
                           ],
-                        ),
-                      );
-                    },
-                  ),
-                ],
+                          const SizedBox(width: 6),
+                          Semantics(
+                            label: l10n.fork.personaRemoveSignatureEmoji,
+                            button: true,
+                            child: FluxerGestureDetector(
+                              onTap: _isSaving
+                                  ? null
+                                  : () => _removeSignatureEmoji(i),
+                              child: PhosphorIcon(
+                                PhosphorIconsBold.x,
+                                size: 14,
+                                color: colors.textSecondary,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ],
-            ),
-          ],
-          SizedBox(height: layout.s3),
-
-          // Visibility Radio Selector
-          Text(
-            l10n.fork.personaVisibilityLabel,
-            style: textStyles.label.copyWith(color: colors.textPrimary),
-          ),
-          SizedBox(height: layout.s2),
-          FluxerRadioGroup<String>(
-            value: _visibility,
-            items: [
-              FluxerRadioItem(
-                value: 'unlisted',
-                label: l10n.fork.personaVisibilityUnlisted,
-              ),
-              FluxerRadioItem(
-                value: 'public',
-                label: l10n.fork.personaVisibilityPublic,
-              ),
-              FluxerRadioItem(
-                value: 'private',
-                label: l10n.fork.personaVisibilityPrivate,
-              ),
             ],
-            onChanged: (val) {
-              if (!_isSaving) {
-                setState(() => _visibility = val);
-                _onFieldChanged();
-              }
-            },
           ),
-          SizedBox(height: layout.s3),
+        ],
+        SizedBox(height: layout.s3),
 
-          // About Me
-          FluxerInput.multiline(
-            controller: _bioController,
-            textCapitalization: TextCapitalization.sentences,
-            label: l10n.aboutMeLabel,
-            hint: l10n.fork.personaBioHint,
-            maxLines: 8,
-            maxLength: 4096,
-            showCounter: true,
-            enabled: !_isSaving,
-          ),
-          if (isEditing) ...[
-            SizedBox(height: layout.s4),
-            FluxerButton.dangerPrimary(
-              label: l10n.fork.personaDeleteTitle,
-              icon: PhosphorIconsFill.trash,
-              onPressed: _isSaving ? null : _confirmDeletePersona,
+        // Visibility Radio Selector
+        Text(
+          l10n.fork.personaVisibilityLabel,
+          style: textStyles.label.copyWith(color: colors.textPrimary),
+        ),
+        SizedBox(height: layout.s2),
+        FluxerRadioGroup<String>(
+          value: _visibility,
+          items: [
+            FluxerRadioItem(
+              value: 'unlisted',
+              label: l10n.fork.personaVisibilityUnlisted,
+            ),
+            FluxerRadioItem(
+              value: 'public',
+              label: l10n.fork.personaVisibilityPublic,
+            ),
+            FluxerRadioItem(
+              value: 'private',
+              label: l10n.fork.personaVisibilityPrivate,
             ),
           ],
+          onChanged: (val) {
+            if (!_isSaving) {
+              setState(() => _visibility = val);
+              _onFieldChanged();
+            }
+          },
+        ),
+        SizedBox(height: layout.s3),
+
+        // About Me
+        FluxerInput.multiline(
+          controller: _bioController,
+          textCapitalization: TextCapitalization.sentences,
+          label: l10n.aboutMeLabel,
+          hint: l10n.fork.personaBioHint,
+          maxLines: 8,
+          maxLength: 4096,
+          showCounter: true,
+          enabled: !_isSaving,
+        ),
+        if (isEditing) ...[
+          SizedBox(height: layout.s4),
+          FluxerButton.secondary(
+            label: l10n.fork.personaDuplicateButton,
+            icon: PhosphorIconsFill.copy,
+            onPressed: _isSaving || _hasChanges
+                ? null
+                : () => unawaited(_duplicate()),
+          ),
           SizedBox(height: layout.s2),
+          FluxerButton.dangerPrimary(
+            label: l10n.fork.personaDeleteTitle,
+            icon: PhosphorIconsFill.trash,
+            onPressed: _isSaving ? null : _confirmDeletePersona,
+          ),
         ],
-      ),
+        SizedBox(height: layout.s2),
+      ],
+    );
+
+    // The copy's bar is always up, so it takes its own space below the list:
+    // over it, it would cover the field being typed in.
+    if (copyOf != null) {
+      return Column(
+        children: [
+          Expanded(child: form),
+          PersonaCopyBar(
+            label: l10n.fork.personaCopyOf(copyOf.name),
+            isSaving: _isSaving,
+            onCancel: () => Navigator.of(context, rootNavigator: true).pop(),
+            onCreate: _save,
+          ),
+        ],
+      );
+    }
+    return FluxerSettingsSheet(
+      hasUnsavedChanges: _hasChanges,
+      isSaving: _isSaving,
+      onReset: _reset,
+      onSave: _save,
+      child: form,
     );
   }
 }
