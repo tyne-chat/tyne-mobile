@@ -1018,4 +1018,29 @@ class ForkLocalizationsNb extends ForkLocalizations {
 
   @override
   String get personaUndo => 'Angre';
+
+  @override
+  String get personaReactionsTitle => 'Dine reaksjoner';
+
+  @override
+  String get personaReactionsEveryoneElse => 'ALLE ANDRE';
+
+  @override
+  String get personaReactionsCurrent => 'NÅVÆRENDE';
+
+  @override
+  String get personaReactionsAccount => 'Konto';
+
+  @override
+  String get personaReactionsSomeoneElse => 'Reager som noen andre...';
+
+  @override
+  String get personaReactionsDone => 'Ferdig';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Reaksjoner';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'Reager som flere personaer samtidig';
 }

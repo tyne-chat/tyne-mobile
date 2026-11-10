@@ -1015,4 +1015,29 @@ class ForkLocalizationsDa extends ForkLocalizations {
 
   @override
   String get personaUndo => 'Fortryd';
+
+  @override
+  String get personaReactionsTitle => 'Dine reaktioner';
+
+  @override
+  String get personaReactionsEveryoneElse => 'ALLE ANDRE';
+
+  @override
+  String get personaReactionsCurrent => 'NUVÆRENDE';
+
+  @override
+  String get personaReactionsAccount => 'Konto';
+
+  @override
+  String get personaReactionsSomeoneElse => 'Reager som en anden...';
+
+  @override
+  String get personaReactionsDone => 'Færdig';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Reaktioner';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'Reager som flere personaer på én gang';
 }
