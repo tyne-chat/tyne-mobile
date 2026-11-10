@@ -1035,6 +1035,14 @@ class ForkLocalizationsEn extends ForkLocalizations {
   @override
   String get personaSettingsMultiReactions =>
       'React as several personas at once';
+
+  @override
+  String get personaDuplicateButton => 'Duplicate Persona';
+
+  @override
+  String personaCopyOf(String name) {
+    return 'Copy of $name';
+  }
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -2068,6 +2076,14 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   @override
   String get personaSettingsMultiReactions =>
       'React as several personas at once';
+
+  @override
+  String get personaDuplicateButton => 'Duplicate Persona';
+
+  @override
+  String personaCopyOf(String name) {
+    return 'Copy of $name';
+  }
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -3101,4 +3117,12 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
   @override
   String get personaSettingsMultiReactions =>
       'React as several personas at once';
+
+  @override
+  String get personaDuplicateButton => 'Duplicate Persona';
+
+  @override
+  String personaCopyOf(String name) {
+    return 'Copy of $name';
+  }
 }

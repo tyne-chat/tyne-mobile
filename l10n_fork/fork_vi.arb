@@ -278,5 +278,7 @@
     "personaReactionsSomeoneElse": "Thả cảm xúc dưới tên người khác...",
     "personaReactionsDone": "Xong",
     "personaSettingsReactionsHeader": "Cảm xúc",
-    "personaSettingsMultiReactions": "Thả cảm xúc dưới tên nhiều persona cùng lúc"
+    "personaSettingsMultiReactions": "Thả cảm xúc dưới tên nhiều persona cùng lúc",
+    "personaDuplicateButton": "Tạo bản sao persona",
+    "personaCopyOf": "Bản sao của {name}"
 }
