@@ -1025,6 +1025,31 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get personaUndo => 'Anular';
+
+  @override
+  String get personaReactionsTitle => 'As tuas reações';
+
+  @override
+  String get personaReactionsEveryoneElse => 'TODOS OS OUTROS';
+
+  @override
+  String get personaReactionsCurrent => 'ATUAL';
+
+  @override
+  String get personaReactionsAccount => 'Conta';
+
+  @override
+  String get personaReactionsSomeoneElse => 'Reagir como outra pessoa...';
+
+  @override
+  String get personaReactionsDone => 'Concluído';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Reações';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'Reagir como várias personas ao mesmo tempo';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -2054,4 +2079,29 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
 
   @override
   String get personaUndo => 'Desfazer';
+
+  @override
+  String get personaReactionsTitle => 'Suas reações';
+
+  @override
+  String get personaReactionsEveryoneElse => 'TODOS OS OUTROS';
+
+  @override
+  String get personaReactionsCurrent => 'ATUAL';
+
+  @override
+  String get personaReactionsAccount => 'Conta';
+
+  @override
+  String get personaReactionsSomeoneElse => 'Reagir como outra pessoa...';
+
+  @override
+  String get personaReactionsDone => 'Concluído';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Reações';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'Reagir como várias personas ao mesmo tempo';
 }

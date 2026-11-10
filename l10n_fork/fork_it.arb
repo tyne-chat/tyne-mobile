@@ -270,5 +270,13 @@
     "personaBulkFailed": "Impossibile modificare le persona. Riprova.",
     "personaFilterEmpty": "Nessuna persona qui.",
     "personaGalleryChooseFeatured": "Scegli le persona da mettere in evidenza",
-    "personaUndo": "Annulla"
+    "personaUndo": "Annulla",
+    "personaReactionsTitle": "Le tue reazioni",
+    "personaReactionsEveryoneElse": "TUTTI GLI ALTRI",
+    "personaReactionsCurrent": "ATTUALE",
+    "personaReactionsAccount": "Account",
+    "personaReactionsSomeoneElse": "Reagisci come qualcun altro...",
+    "personaReactionsDone": "Fatto",
+    "personaSettingsReactionsHeader": "Reazioni",
+    "personaSettingsMultiReactions": "Reagisci come più persona insieme"
 }

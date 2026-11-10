@@ -270,5 +270,13 @@
     "personaBulkFailed": "No s’han pogut canviar les persones. Torna-ho a provar.",
     "personaFilterEmpty": "Aquí no hi ha cap persona.",
     "personaGalleryChooseFeatured": "Tria les persones que vols destacar",
-    "personaUndo": "Desfés"
+    "personaUndo": "Desfés",
+    "personaReactionsTitle": "Les teves reaccions",
+    "personaReactionsEveryoneElse": "LA RESTA",
+    "personaReactionsCurrent": "ACTUAL",
+    "personaReactionsAccount": "Compte",
+    "personaReactionsSomeoneElse": "Reacciona com a algú altre…",
+    "personaReactionsDone": "Fet",
+    "personaSettingsReactionsHeader": "Reaccions",
+    "personaSettingsMultiReactions": "Reacciona com a diverses persones alhora"
 }

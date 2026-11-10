@@ -1037,4 +1037,29 @@ class ForkLocalizationsSk extends ForkLocalizations {
 
   @override
   String get personaUndo => 'Vrátiť späť';
+
+  @override
+  String get personaReactionsTitle => 'Vaše reakcie';
+
+  @override
+  String get personaReactionsEveryoneElse => 'OSTATNÍ';
+
+  @override
+  String get personaReactionsCurrent => 'AKTUÁLNA';
+
+  @override
+  String get personaReactionsAccount => 'Účet';
+
+  @override
+  String get personaReactionsSomeoneElse => 'Reagovať ako niekto iný…';
+
+  @override
+  String get personaReactionsDone => 'Hotovo';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Reakcie';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'Reagovať ako viacero persón naraz';
 }

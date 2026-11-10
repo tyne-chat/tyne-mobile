@@ -1035,4 +1035,28 @@ class ForkLocalizationsSl extends ForkLocalizations {
 
   @override
   String get personaUndo => 'Razveljavi';
+
+  @override
+  String get personaReactionsTitle => 'Vaši odzivi';
+
+  @override
+  String get personaReactionsEveryoneElse => 'VSI DRUGI';
+
+  @override
+  String get personaReactionsCurrent => 'TRENUTNA';
+
+  @override
+  String get personaReactionsAccount => 'Račun';
+
+  @override
+  String get personaReactionsSomeoneElse => 'Odzovi se kot nekdo drug …';
+
+  @override
+  String get personaReactionsDone => 'Končano';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Odzivi';
+
+  @override
+  String get personaSettingsMultiReactions => 'Odzivanje kot več person hkrati';
 }
