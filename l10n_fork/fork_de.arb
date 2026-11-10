@@ -270,5 +270,13 @@
     "personaBulkFailed": "Die Personas konnten nicht geändert werden. Versuch es noch einmal.",
     "personaFilterEmpty": "Hier gibt es keine Personas.",
     "personaGalleryChooseFeatured": "Personas zum Zeigen auswählen",
-    "personaUndo": "Rückgängig"
+    "personaUndo": "Rückgängig",
+    "personaReactionsTitle": "Deine Reaktionen",
+    "personaReactionsEveryoneElse": "ALLE ANDEREN",
+    "personaReactionsCurrent": "AKTUELL",
+    "personaReactionsAccount": "Konto",
+    "personaReactionsSomeoneElse": "Als jemand anderes reagieren...",
+    "personaReactionsDone": "Fertig",
+    "personaSettingsReactionsHeader": "Reaktionen",
+    "personaSettingsMultiReactions": "Als mehrere Personas gleichzeitig reagieren"
 }

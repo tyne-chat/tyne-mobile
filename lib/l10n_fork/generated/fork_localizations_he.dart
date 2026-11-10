@@ -1014,4 +1014,28 @@ class ForkLocalizationsHe extends ForkLocalizations {
 
   @override
   String get personaUndo => 'ביטול';
+
+  @override
+  String get personaReactionsTitle => 'הריאקציות שלך';
+
+  @override
+  String get personaReactionsEveryoneElse => 'כל השאר';
+
+  @override
+  String get personaReactionsCurrent => 'נוכחי';
+
+  @override
+  String get personaReactionsAccount => 'חשבון';
+
+  @override
+  String get personaReactionsSomeoneElse => 'הגב בתור מישהו אחר...';
+
+  @override
+  String get personaReactionsDone => 'בוצע';
+
+  @override
+  String get personaSettingsReactionsHeader => 'ריאקציות';
+
+  @override
+  String get personaSettingsMultiReactions => 'הגב בתור כמה פרסונות בבת אחת';
 }
