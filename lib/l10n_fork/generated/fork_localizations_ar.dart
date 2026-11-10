@@ -1068,4 +1068,12 @@ class ForkLocalizationsAr extends ForkLocalizations {
   @override
   String get personaSettingsMultiReactions =>
       'التفاعل بعدة شخصيات في الوقت نفسه';
+
+  @override
+  String get personaDuplicateButton => 'تكرار الشخصية';
+
+  @override
+  String personaCopyOf(String name) {
+    return 'نسخة من $name';
+  }
 }

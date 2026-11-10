@@ -1033,4 +1033,12 @@ class ForkLocalizationsId extends ForkLocalizations {
   @override
   String get personaSettingsMultiReactions =>
       'Bereaksi sebagai beberapa persona sekaligus';
+
+  @override
+  String get personaDuplicateButton => 'Duplikat Persona';
+
+  @override
+  String personaCopyOf(String name) {
+    return 'Salinan $name';
+  }
 }
