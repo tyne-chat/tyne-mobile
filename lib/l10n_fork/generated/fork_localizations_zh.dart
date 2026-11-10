@@ -999,6 +999,14 @@ class ForkLocalizationsZh extends ForkLocalizations {
 
   @override
   String get personaSettingsMultiReactions => '同时以多个人格做出反应';
+
+  @override
+  String get personaDuplicateButton => '复制人格';
+
+  @override
+  String personaCopyOf(String name) {
+    return '$name 的副本';
+  }
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -1996,4 +2004,12 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get personaSettingsMultiReactions => '同時以多個人格加上反應';
+
+  @override
+  String get personaDuplicateButton => '複製人格';
+
+  @override
+  String personaCopyOf(String name) {
+    return '$name 的副本';
+  }
 }

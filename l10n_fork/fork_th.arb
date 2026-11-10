@@ -278,5 +278,7 @@
     "personaReactionsSomeoneElse": "แสดงความรู้สึกในฐานะคนอื่น...",
     "personaReactionsDone": "เสร็จสิ้น",
     "personaSettingsReactionsHeader": "รีแอ็กชัน",
-    "personaSettingsMultiReactions": "รีแอ็กชันในฐานะหลาย Persona พร้อมกัน"
+    "personaSettingsMultiReactions": "รีแอ็กชันในฐานะหลาย Persona พร้อมกัน",
+    "personaDuplicateButton": "ทำซ้ำ Persona",
+    "personaCopyOf": "สำเนาของ {name}"
 }

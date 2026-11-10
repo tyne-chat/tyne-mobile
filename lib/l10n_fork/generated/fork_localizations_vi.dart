@@ -1034,4 +1034,12 @@ class ForkLocalizationsVi extends ForkLocalizations {
   @override
   String get personaSettingsMultiReactions =>
       'Thả cảm xúc dưới tên nhiều persona cùng lúc';
+
+  @override
+  String get personaDuplicateButton => 'Tạo bản sao persona';
+
+  @override
+  String personaCopyOf(String name) {
+    return 'Bản sao của $name';
+  }
 }

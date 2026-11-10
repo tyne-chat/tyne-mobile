@@ -278,5 +278,7 @@
     "personaReactionsSomeoneElse": "Reagera som någon annan...",
     "personaReactionsDone": "Klar",
     "personaSettingsReactionsHeader": "Reaktioner",
-    "personaSettingsMultiReactions": "Reagera som flera personas samtidigt"
+    "personaSettingsMultiReactions": "Reagera som flera personas samtidigt",
+    "personaDuplicateButton": "Duplicera persona",
+    "personaCopyOf": "Kopia av {name}"
 }

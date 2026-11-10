@@ -1047,4 +1047,12 @@ class ForkLocalizationsSq extends ForkLocalizations {
 
   @override
   String get personaSettingsMultiReactions => 'Reago si disa persona njëherësh';
+
+  @override
+  String get personaDuplicateButton => 'Dyfisho personën';
+
+  @override
+  String personaCopyOf(String name) {
+    return 'Kopje e personës $name';
+  }
 }

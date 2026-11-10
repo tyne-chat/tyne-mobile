@@ -278,5 +278,7 @@
     "personaReactionsSomeoneElse": "Reaģēt kā kādam citam...",
     "personaReactionsDone": "Gatavs",
     "personaSettingsReactionsHeader": "Reakcijas",
-    "personaSettingsMultiReactions": "Reaģēt kā vairākas personas vienlaikus"
+    "personaSettingsMultiReactions": "Reaģēt kā vairākas personas vienlaikus",
+    "personaDuplicateButton": "Dublēt personu",
+    "personaCopyOf": "Personas {name} kopija"
 }

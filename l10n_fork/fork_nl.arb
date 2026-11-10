@@ -278,5 +278,7 @@
     "personaReactionsSomeoneElse": "Reageren als iemand anders...",
     "personaReactionsDone": "Klaar",
     "personaSettingsReactionsHeader": "Reacties",
-    "personaSettingsMultiReactions": "Als meerdere persona's tegelijk reageren"
+    "personaSettingsMultiReactions": "Als meerdere persona's tegelijk reageren",
+    "personaDuplicateButton": "Persona dupliceren",
+    "personaCopyOf": "Kopie van {name}"
 }

@@ -1040,4 +1040,12 @@ class ForkLocalizationsDa extends ForkLocalizations {
   @override
   String get personaSettingsMultiReactions =>
       'Reager som flere personaer på én gang';
+
+  @override
+  String get personaDuplicateButton => 'Duplikér persona';
+
+  @override
+  String personaCopyOf(String name) {
+    return 'Kopi af $name';
+  }
 }
