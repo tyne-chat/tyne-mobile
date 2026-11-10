@@ -1019,4 +1019,29 @@ class ForkLocalizationsNl extends ForkLocalizations {
 
   @override
   String get personaUndo => 'Ongedaan maken';
+
+  @override
+  String get personaReactionsTitle => 'Jouw reacties';
+
+  @override
+  String get personaReactionsEveryoneElse => 'ALLE ANDEREN';
+
+  @override
+  String get personaReactionsCurrent => 'HUIDIG';
+
+  @override
+  String get personaReactionsAccount => 'Account';
+
+  @override
+  String get personaReactionsSomeoneElse => 'Reageren als iemand anders...';
+
+  @override
+  String get personaReactionsDone => 'Klaar';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Reacties';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'Als meerdere persona\'s tegelijk reageren';
 }

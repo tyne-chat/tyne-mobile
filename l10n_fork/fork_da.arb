@@ -270,5 +270,13 @@
     "personaBulkFailed": "Personaerne kunne ikke ændres. Prøv igen.",
     "personaFilterEmpty": "Ingen personaer her.",
     "personaGalleryChooseFeatured": "Vælg personaer, du vil vise frem",
-    "personaUndo": "Fortryd"
+    "personaUndo": "Fortryd",
+    "personaReactionsTitle": "Dine reaktioner",
+    "personaReactionsEveryoneElse": "ALLE ANDRE",
+    "personaReactionsCurrent": "NUVÆRENDE",
+    "personaReactionsAccount": "Konto",
+    "personaReactionsSomeoneElse": "Reager som en anden...",
+    "personaReactionsDone": "Færdig",
+    "personaSettingsReactionsHeader": "Reaktioner",
+    "personaSettingsMultiReactions": "Reager som flere personaer på én gang"
 }

@@ -270,5 +270,13 @@
     "personaBulkFailed": "Не удалось изменить персоны. Попробуйте ещё раз.",
     "personaFilterEmpty": "Здесь нет персон.",
     "personaGalleryChooseFeatured": "Выбрать персоны для показа",
-    "personaUndo": "Отменить"
+    "personaUndo": "Отменить",
+    "personaReactionsTitle": "Ваши реакции",
+    "personaReactionsEveryoneElse": "ВСЕ ОСТАЛЬНЫЕ",
+    "personaReactionsCurrent": "ТЕКУЩАЯ",
+    "personaReactionsAccount": "Аккаунт",
+    "personaReactionsSomeoneElse": "Реагировать как кто-то другой...",
+    "personaReactionsDone": "Готово",
+    "personaSettingsReactionsHeader": "Реакции",
+    "personaSettingsMultiReactions": "Реагировать сразу как несколько персон"
 }

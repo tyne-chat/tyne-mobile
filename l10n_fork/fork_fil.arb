@@ -270,5 +270,13 @@
     "personaBulkFailed": "Hindi mabago ang mga persona. Subukan ulit.",
     "personaFilterEmpty": "Walang persona dito.",
     "personaGalleryChooseFeatured": "Pumili ng mga personang itatampok",
-    "personaUndo": "I-undo"
+    "personaUndo": "I-undo",
+    "personaReactionsTitle": "Ang iyong mga reaksyon",
+    "personaReactionsEveryoneElse": "ANG IBA PA",
+    "personaReactionsCurrent": "KASALUKUYAN",
+    "personaReactionsAccount": "Account",
+    "personaReactionsSomeoneElse": "Mag-react bilang ibang tao…",
+    "personaReactionsDone": "Tapos na",
+    "personaSettingsReactionsHeader": "Mga reaksyon",
+    "personaSettingsMultiReactions": "Mag-react bilang ilang persona nang sabay-sabay"
 }

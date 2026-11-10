@@ -1810,6 +1810,54 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'Undo'**
   String get personaUndo;
+
+  /// Title of the sheet a tap on a reaction chip opens when one of your own identities reacted with that emoji (tyne-chat/tyne#86). Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Your reactions'**
+  String get personaReactionsTitle;
+
+  /// Section heading in the reaction sheets above the personas that have not reacted (tyne-chat/tyne#86). Shown as written: uppercase where the script has case, like the other persona list headings.
+  ///
+  /// In en, this message translates to:
+  /// **'EVERYONE ELSE'**
+  String get personaReactionsEveryoneElse;
+
+  /// Small badge next to the persona you are currently writing as, in the reaction sheets (tyne-chat/tyne#86). Shown as written: uppercase where the script has case.
+  ///
+  /// In en, this message translates to:
+  /// **'CURRENT'**
+  String get personaReactionsCurrent;
+
+  /// Small label next to your own account (as opposed to a persona) in the reaction sheets (tyne-chat/tyne#86).
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get personaReactionsAccount;
+
+  /// Row in the "Your reactions" sheet that opens the search field and the full persona list (tyne-chat/tyne#86).
+  ///
+  /// In en, this message translates to:
+  /// **'React as someone else...'**
+  String get personaReactionsSomeoneElse;
+
+  /// Button that closes the reaction sheets (tyne-chat/tyne#86).
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get personaReactionsDone;
+
+  /// Section heading in the Personas settings above the reaction switch (tyne-chat/tyne#86).
+  ///
+  /// In en, this message translates to:
+  /// **'Reactions'**
+  String get personaSettingsReactionsHeader;
+
+  /// Switch in the Personas settings: when on, several of your personas can react to a message with the same emoji (tyne-chat/tyne#86). Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'React as several personas at once'**
+  String get personaSettingsMultiReactions;
 }
 
 class _ForkLocalizationsDelegate

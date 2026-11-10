@@ -1039,4 +1039,29 @@ class ForkLocalizationsRo extends ForkLocalizations {
 
   @override
   String get personaUndo => 'Anulează';
+
+  @override
+  String get personaReactionsTitle => 'Reacțiile tale';
+
+  @override
+  String get personaReactionsEveryoneElse => 'TOȚI CEILALȚI';
+
+  @override
+  String get personaReactionsCurrent => 'CURENT';
+
+  @override
+  String get personaReactionsAccount => 'Cont';
+
+  @override
+  String get personaReactionsSomeoneElse => 'Reacționează ca altcineva...';
+
+  @override
+  String get personaReactionsDone => 'Gata';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Reacții';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'Reacționează ca mai multe personas deodată';
 }

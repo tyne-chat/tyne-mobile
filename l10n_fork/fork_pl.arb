@@ -270,5 +270,13 @@
     "personaBulkFailed": "Nie udało się zmienić person. Spróbuj ponownie.",
     "personaFilterEmpty": "Brak person.",
     "personaGalleryChooseFeatured": "Wybierz persony do pokazania",
-    "personaUndo": "Cofnij"
+    "personaUndo": "Cofnij",
+    "personaReactionsTitle": "Twoje reakcje",
+    "personaReactionsEveryoneElse": "WSZYSCY POZOSTALI",
+    "personaReactionsCurrent": "AKTUALNE",
+    "personaReactionsAccount": "Konto",
+    "personaReactionsSomeoneElse": "Zareaguj jako ktoś inny...",
+    "personaReactionsDone": "Gotowe",
+    "personaSettingsReactionsHeader": "Reakcje",
+    "personaSettingsMultiReactions": "Reaguj jako kilka person naraz"
 }
