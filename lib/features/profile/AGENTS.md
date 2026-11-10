@@ -20,7 +20,7 @@ reaches most of the app. The server side is tyne-chat/tyne `fluxer_api/src/api/p
 | Other people's persona profiles | `providers/public_persona_provider.dart` |
 | Persona gateway events | `providers/persona_gateway_events.dart` (`handlePersonaGatewayEvent`) |
 | The device's persona cache | `data/known_personas.dart` (Drift table `known_personas`) |
-| Create, edit, delete | `presentation/sheets/edit_persona_sheet.dart` |
+| Create, edit, duplicate, delete | `presentation/sheets/edit_persona_sheet.dart` (the copy's bar: `persona_copy_bar.dart`) |
 | The persona profile | `_buildPersonaProfile` in `presentation/widgets/user_profile_view.dart` |
 | Changing the visibility of, or deleting, many own personas at once (tyne-chat/tyne#542) | `providers/persona_bulk_actions.dart` (the settings page's select mode uses it) |
 | An account's public personas: the "Personas (N)" pill, row and gallery (tyne-chat/tyne#189) | `providers/public_persona_list_provider.dart`, `domain/persona_gallery.dart`, `presentation/widgets/persona_gallery_entry.dart`, `presentation/sheets/persona_gallery_sheet.dart`, `presentation/sheets/persona_profile_pager.dart`, `providers/persona_gallery_view_provider.dart` |
@@ -132,6 +132,16 @@ event's guild, then:
 POSTs **every field**: a caller that passes a partial persona wipes tags, emojis and visibility. Avatar and
 banner go through `POST /users/@me/personas/avatar|banner`, checked against the instance's image limit.
 The form's "Don't match this persona's tags" switch sets `auto_tag_disabled`.
+
+**Duplicate** (tyne-chat/tyne#599), above Delete, is off while the form has unsaved changes. It closes the
+editor and opens `EditPersonaSheet.show(copyOf:)`: a new persona filled in from the saved one, with the
+same picture hashes (nothing uploaded; the server deletes images only with the account), colours,
+pronouns, bio, visibility and tag matching, under `duplicatePersonaName` (`domain/persona_duplicate_name.dart`,
+the web's rule: "Lyra (2)", a copy of a copy counting on), autofocused and selected. Tags and signature
+emojis start empty, since each belongs to one persona. The copy is unsaved from the start: `PersonaCopyBar`
+("Copy of …", Cancel, Create) stays up below the form (not over it, where it would cover the field being
+typed in) in place of upstream's save bar, and neither a drag, Back nor a close button dismisses it. The
+name counts the API's limit in UTF-16 code units and is cut only between whole characters. Create sends the same POST as a new persona.
 
 ## Network calls
 
