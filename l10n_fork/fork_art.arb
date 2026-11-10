@@ -279,5 +279,7 @@
     "personaReactionsSomeoneElse": "o pilin kepeken nimi ante...",
     "personaReactionsDone": "pini",
     "personaSettingsReactionsHeader": "pilin",
-    "personaSettingsMultiReactions": "jan insa mute li ken pilin lon tenpo sama"
+    "personaSettingsMultiReactions": "jan insa mute li ken pilin lon tenpo sama",
+    "personaDuplicateButton": "o sama e jan insa",
+    "personaCopyOf": "sama pi jan insa {name}"
 }
