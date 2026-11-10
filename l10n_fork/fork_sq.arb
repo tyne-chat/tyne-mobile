@@ -278,5 +278,7 @@
     "personaReactionsSomeoneElse": "Reago si dikush tjetër…",
     "personaReactionsDone": "U krye",
     "personaSettingsReactionsHeader": "Reagimet",
-    "personaSettingsMultiReactions": "Reago si disa persona njëherësh"
+    "personaSettingsMultiReactions": "Reago si disa persona njëherësh",
+    "personaDuplicateButton": "Dyfisho personën",
+    "personaCopyOf": "Kopje e personës {name}"
 }

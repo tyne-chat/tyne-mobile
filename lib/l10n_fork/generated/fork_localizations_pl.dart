@@ -1062,4 +1062,12 @@ class ForkLocalizationsPl extends ForkLocalizations {
 
   @override
   String get personaSettingsMultiReactions => 'Reaguj jako kilka person naraz';
+
+  @override
+  String get personaDuplicateButton => 'Duplikuj personę';
+
+  @override
+  String personaCopyOf(String name) {
+    return 'Kopia persony $name';
+  }
 }
