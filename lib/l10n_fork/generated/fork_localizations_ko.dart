@@ -983,4 +983,28 @@ class ForkLocalizationsKo extends ForkLocalizations {
 
   @override
   String get personaUndo => '실행 취소';
+
+  @override
+  String get personaReactionsTitle => '내 반응';
+
+  @override
+  String get personaReactionsEveryoneElse => '그 외 모두';
+
+  @override
+  String get personaReactionsCurrent => '현재';
+
+  @override
+  String get personaReactionsAccount => '계정';
+
+  @override
+  String get personaReactionsSomeoneElse => '다른 누군가로 반응하기...';
+
+  @override
+  String get personaReactionsDone => '완료';
+
+  @override
+  String get personaSettingsReactionsHeader => '반응';
+
+  @override
+  String get personaSettingsMultiReactions => '여러 페르소나로 동시에 반응하기';
 }

@@ -1043,4 +1043,29 @@ class ForkLocalizationsCa extends ForkLocalizations {
 
   @override
   String get personaUndo => 'Desfés';
+
+  @override
+  String get personaReactionsTitle => 'Les teves reaccions';
+
+  @override
+  String get personaReactionsEveryoneElse => 'LA RESTA';
+
+  @override
+  String get personaReactionsCurrent => 'ACTUAL';
+
+  @override
+  String get personaReactionsAccount => 'Compte';
+
+  @override
+  String get personaReactionsSomeoneElse => 'Reacciona com a algú altre…';
+
+  @override
+  String get personaReactionsDone => 'Fet';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Reaccions';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'Reacciona com a diverses persones alhora';
 }

@@ -1008,4 +1008,30 @@ class ForkLocalizationsVi extends ForkLocalizations {
 
   @override
   String get personaUndo => 'Hoàn tác';
+
+  @override
+  String get personaReactionsTitle => 'Cảm xúc của bạn';
+
+  @override
+  String get personaReactionsEveryoneElse => 'NHỮNG NGƯỜI KHÁC';
+
+  @override
+  String get personaReactionsCurrent => 'HIỆN TẠI';
+
+  @override
+  String get personaReactionsAccount => 'Tài khoản';
+
+  @override
+  String get personaReactionsSomeoneElse =>
+      'Thả cảm xúc dưới tên người khác...';
+
+  @override
+  String get personaReactionsDone => 'Xong';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Cảm xúc';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'Thả cảm xúc dưới tên nhiều persona cùng lúc';
 }
