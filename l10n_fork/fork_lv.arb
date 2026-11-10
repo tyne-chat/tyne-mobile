@@ -270,5 +270,13 @@
     "personaBulkFailed": "Neizdevās mainīt personas. Mēģiniet vēlreiz.",
     "personaFilterEmpty": "Šeit nav personu.",
     "personaGalleryChooseFeatured": "Izvēlēties, kuras personas rādīt",
-    "personaUndo": "Atsaukt"
+    "personaUndo": "Atsaukt",
+    "personaReactionsTitle": "Jūsu reakcijas",
+    "personaReactionsEveryoneElse": "VISI PĀRĒJIE",
+    "personaReactionsCurrent": "PAŠREIZĒJĀ",
+    "personaReactionsAccount": "Konts",
+    "personaReactionsSomeoneElse": "Reaģēt kā kādam citam...",
+    "personaReactionsDone": "Gatavs",
+    "personaSettingsReactionsHeader": "Reakcijas",
+    "personaSettingsMultiReactions": "Reaģēt kā vairākas personas vienlaikus"
 }
