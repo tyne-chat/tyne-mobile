@@ -270,5 +270,13 @@
     "personaBulkFailed": "Personalar değiştirilemedi. Tekrar dene.",
     "personaFilterEmpty": "Burada persona yok.",
     "personaGalleryChooseFeatured": "Öne çıkarılacak personaları seç",
-    "personaUndo": "Geri al"
+    "personaUndo": "Geri al",
+    "personaReactionsTitle": "Tepkileriniz",
+    "personaReactionsEveryoneElse": "DİĞER HERKES",
+    "personaReactionsCurrent": "MEVCUT",
+    "personaReactionsAccount": "Hesap",
+    "personaReactionsSomeoneElse": "Başka biri olarak tepki ver...",
+    "personaReactionsDone": "Bitti",
+    "personaSettingsReactionsHeader": "Tepkiler",
+    "personaSettingsMultiReactions": "Aynı anda birden çok persona olarak tepki ver"
 }

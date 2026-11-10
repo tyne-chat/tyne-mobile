@@ -270,5 +270,13 @@
     "personaBulkFailed": "Δεν ήταν δυνατή η αλλαγή των persona. Δοκιμάστε ξανά.",
     "personaFilterEmpty": "Δεν υπάρχουν persona εδώ.",
     "personaGalleryChooseFeatured": "Επιλέξτε persona για προβολή",
-    "personaUndo": "Αναίρεση"
+    "personaUndo": "Αναίρεση",
+    "personaReactionsTitle": "Οι αντιδράσεις σας",
+    "personaReactionsEveryoneElse": "ΟΛΟΙ ΟΙ ΑΛΛΟΙ",
+    "personaReactionsCurrent": "ΤΡΕΧΟΥΣΑ",
+    "personaReactionsAccount": "Λογαριασμός",
+    "personaReactionsSomeoneElse": "Αντίδραση ως κάποιος άλλος...",
+    "personaReactionsDone": "Τέλος",
+    "personaSettingsReactionsHeader": "Αντιδράσεις",
+    "personaSettingsMultiReactions": "Αντίδραση ως πολλές persona ταυτόχρονα"
 }

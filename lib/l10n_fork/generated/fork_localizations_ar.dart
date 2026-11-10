@@ -1043,4 +1043,29 @@ class ForkLocalizationsAr extends ForkLocalizations {
 
   @override
   String get personaUndo => 'تراجع';
+
+  @override
+  String get personaReactionsTitle => 'تفاعلاتك';
+
+  @override
+  String get personaReactionsEveryoneElse => 'الآخرون';
+
+  @override
+  String get personaReactionsCurrent => 'الحالي';
+
+  @override
+  String get personaReactionsAccount => 'الحساب';
+
+  @override
+  String get personaReactionsSomeoneElse => 'تفاعل باسم شخص آخر...';
+
+  @override
+  String get personaReactionsDone => 'تم';
+
+  @override
+  String get personaSettingsReactionsHeader => 'التفاعلات';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'التفاعل بعدة شخصيات في الوقت نفسه';
 }

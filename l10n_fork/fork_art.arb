@@ -271,5 +271,13 @@
     "personaBulkFailed": "ilo li ken ala ante e jan insa. o lukin sin.",
     "personaFilterEmpty": "jan insa li lon ala.",
     "personaGalleryChooseFeatured": "o wile e jan insa tawa jan ale",
-    "personaUndo": "o weka e ante"
+    "personaUndo": "o weka e ante",
+    "personaReactionsTitle": "pilin sina",
+    "personaReactionsEveryoneElse": "ANTE ALE",
+    "personaReactionsCurrent": "TENPO NI",
+    "personaReactionsAccount": "lipu jan",
+    "personaReactionsSomeoneElse": "o pilin kepeken nimi ante...",
+    "personaReactionsDone": "pini",
+    "personaSettingsReactionsHeader": "pilin",
+    "personaSettingsMultiReactions": "jan insa mute li ken pilin lon tenpo sama"
 }

@@ -270,5 +270,13 @@
     "personaBulkFailed": "Не ўдалося змяніць персоны. Паспрабуйце яшчэ раз.",
     "personaFilterEmpty": "Тут няма персон.",
     "personaGalleryChooseFeatured": "Выбраць персоны для паказу",
-    "personaUndo": "Адрабіць"
+    "personaUndo": "Адрабіць",
+    "personaReactionsTitle": "Вашы рэакцыі",
+    "personaReactionsEveryoneElse": "УСЕ АСТАТНІЯ",
+    "personaReactionsCurrent": "БЯГУЧАЯ",
+    "personaReactionsAccount": "Уліковы запіс",
+    "personaReactionsSomeoneElse": "Адрэагаваць ад імя кагосьці іншага…",
+    "personaReactionsDone": "Гатова",
+    "personaSettingsReactionsHeader": "Рэакцыі",
+    "personaSettingsMultiReactions": "Рэагаваць ад імя некалькіх персон адначасова"
 }
