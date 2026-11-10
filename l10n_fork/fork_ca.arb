@@ -278,5 +278,7 @@
     "personaReactionsSomeoneElse": "Reacciona com a algú altre…",
     "personaReactionsDone": "Fet",
     "personaSettingsReactionsHeader": "Reaccions",
-    "personaSettingsMultiReactions": "Reacciona com a diverses persones alhora"
+    "personaSettingsMultiReactions": "Reacciona com a diverses persones alhora",
+    "personaDuplicateButton": "Duplica la persona",
+    "personaCopyOf": "Còpia de {name}"
 }

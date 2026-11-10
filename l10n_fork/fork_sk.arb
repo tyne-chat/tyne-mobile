@@ -278,5 +278,7 @@
     "personaReactionsSomeoneElse": "Reagovať ako niekto iný…",
     "personaReactionsDone": "Hotovo",
     "personaSettingsReactionsHeader": "Reakcie",
-    "personaSettingsMultiReactions": "Reagovať ako viacero persón naraz"
+    "personaSettingsMultiReactions": "Reagovať ako viacero persón naraz",
+    "personaDuplicateButton": "Duplikovať personu",
+    "personaCopyOf": "Kópia persony {name}"
 }

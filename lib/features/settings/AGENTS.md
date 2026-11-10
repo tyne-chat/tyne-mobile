@@ -105,6 +105,7 @@ whose values are a server resource mirrored in SharedPreferences.
   profile folder's `EditPersonaSheet`, which sends every field: pass the whole persona
   (`persona.toPublicPersona()`). Delete is a raw `DELETE`, then `removePersona`, and `unlatch()` if it
   was the selection.
+  Duplicate is only in that sheet, not on the cards (tyne-chat/tyne#599).
 - **Filter chips and select mode** (tyne-chat/tyne#542): chips "All", "Public", "Unlisted",
   "Private" with what the search finds of each filter the cards (the section title counts the
   search, not the chip). "Select" in the list's header, or a long press on a card, starts select

@@ -278,5 +278,7 @@
     "personaReactionsSomeoneElse": "Odzovi se kot nekdo drug …",
     "personaReactionsDone": "Končano",
     "personaSettingsReactionsHeader": "Odzivi",
-    "personaSettingsMultiReactions": "Odzivanje kot več person hkrati"
+    "personaSettingsMultiReactions": "Odzivanje kot več person hkrati",
+    "personaDuplicateButton": "Podvoji persono",
+    "personaCopyOf": "Kopija persone {name}"
 }

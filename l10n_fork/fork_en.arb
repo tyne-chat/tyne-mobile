@@ -1372,5 +1372,18 @@
     "personaSettingsMultiReactions": "React as several personas at once",
     "@personaSettingsMultiReactions": {
         "description": "Switch in the Personas settings: when on, several of your personas can react to a message with the same emoji (tyne-chat/tyne#86). Same wording as the web app's."
+    },
+    "personaDuplicateButton": "Duplicate Persona",
+    "@personaDuplicateButton": {
+        "description": "Button in a persona's editor that starts a new persona as a copy of this one."
+    },
+    "personaCopyOf": "Copy of {name}",
+    "@personaCopyOf": {
+        "description": "Shown at the bottom of the editor for a new persona that starts as a copy of another; name is the persona it was copied from. Nothing is created until the person presses Create.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     }
 }

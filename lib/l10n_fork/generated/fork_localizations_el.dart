@@ -1053,4 +1053,12 @@ class ForkLocalizationsEl extends ForkLocalizations {
   @override
   String get personaSettingsMultiReactions =>
       'Αντίδραση ως πολλές persona ταυτόχρονα';
+
+  @override
+  String get personaDuplicateButton => 'Αντιγραφή persona';
+
+  @override
+  String personaCopyOf(String name) {
+    return 'Αντίγραφο της persona $name';
+  }
 }

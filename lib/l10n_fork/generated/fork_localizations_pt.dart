@@ -1050,6 +1050,14 @@ class ForkLocalizationsPt extends ForkLocalizations {
   @override
   String get personaSettingsMultiReactions =>
       'Reagir como várias personas ao mesmo tempo';
+
+  @override
+  String get personaDuplicateButton => 'Duplicar persona';
+
+  @override
+  String personaCopyOf(String name) {
+    return 'Cópia de $name';
+  }
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -2104,4 +2112,12 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
   @override
   String get personaSettingsMultiReactions =>
       'Reagir como várias personas ao mesmo tempo';
+
+  @override
+  String get personaDuplicateButton => 'Duplicar persona';
+
+  @override
+  String personaCopyOf(String name) {
+    return 'Cópia de $name';
+  }
 }
