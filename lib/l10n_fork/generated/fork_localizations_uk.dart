@@ -1040,4 +1040,29 @@ class ForkLocalizationsUk extends ForkLocalizations {
 
   @override
   String get personaUndo => 'Скасувати';
+
+  @override
+  String get personaReactionsTitle => 'Ваші реакції';
+
+  @override
+  String get personaReactionsEveryoneElse => 'УСІ ІНШІ';
+
+  @override
+  String get personaReactionsCurrent => 'ПОТОЧНЕ';
+
+  @override
+  String get personaReactionsAccount => 'Обліковий запис';
+
+  @override
+  String get personaReactionsSomeoneElse => 'Відреагувати як хтось інший...';
+
+  @override
+  String get personaReactionsDone => 'Готово';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Реакції';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'Реагувати одразу як кілька персон';
 }

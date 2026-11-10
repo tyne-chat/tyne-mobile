@@ -1019,4 +1019,29 @@ class ForkLocalizationsFi extends ForkLocalizations {
 
   @override
   String get personaUndo => 'Kumoa';
+
+  @override
+  String get personaReactionsTitle => 'Omat reaktiosi';
+
+  @override
+  String get personaReactionsEveryoneElse => 'KAIKKI MUUT';
+
+  @override
+  String get personaReactionsCurrent => 'NYKYINEN';
+
+  @override
+  String get personaReactionsAccount => 'Tili';
+
+  @override
+  String get personaReactionsSomeoneElse => 'Reagoi jonakuna muuna...';
+
+  @override
+  String get personaReactionsDone => 'Valmis';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Reaktiot';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'Reagoi useana persoonana kerralla';
 }

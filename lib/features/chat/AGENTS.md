@@ -133,6 +133,19 @@ froze the panel on the previous conversation.
 - **Reactions:** `resolveEffectiveReactionPersona` picks the persona whose signature emoji it is, then
   a tag in the composer, then the channel's selection. Removing a reaction sends `persona_id`, or `'0'`
   for the account.
+- **Your reactions and React as… (tyne-chat/tyne#86):** both are
+  `presentation/sheets/persona_reaction_sheet.dart`, with the rules from the web app's
+  `features/persona/` in `utils/reactions/own_reactions.dart` (order taken once when a list opens,
+  recents, search). A tap on a chip one of your identities reacted with
+  opens "Your reactions" (one hook in `message_reactions_bar.dart`, `openOwnReactionsSheetOnChipTap`),
+  which a quiet caret on the chip announces (`persona_reaction_chip_caret.dart`); only with the account
+  setting `multi_persona_reactions` on and personas on the account (`multiPersonaReactionsProvider` in
+  the profile folder). Rows toggle and the sheet stays open until Done. With the setting off,
+  `toggleReaction` removes all of your own reactions on a tap of your chip (`_forkRemoveOwnReactions`,
+  one `DELETE` per identity in turn, no retry), and React as… is one choice (`reactAsOnly`) that
+  closes. Upstream's scrollable sheet keeps its resting height once anything in it was tapped, so the
+  body grows it through the scroll controller's drag target when "React as someone else…" opens the
+  full list (`_growToFit`).
 - **Pinned emojis** (`features/emoji`, `emojiPinsProvider`, tyne-chat/tyne#140): pinned and unpinned
   from the emoji info sheet, for the account or for the persona the picker writes as. The picker's
   frequently used row starts with the account's pins, then the persona's, ahead of the ranking it froze
@@ -171,6 +184,9 @@ upstream file above, move fork code out of upstream's lines where you can.
 - Helpers: `test/helpers/composer_channel_textarea_harness.dart` (`pumpComposerChannelTextareaHarness`),
   `pump_fluxer_app.dart`, `open_test_database.dart`; the list has `message_list_test_harness.dart`.
 - Persona tests live in `*_fork_test.dart` and `*persona*_test.dart` files next to upstream's.
+- Reaction sheets: `presentation/sheets/persona_reaction_sheet_test.dart`,
+  `presentation/widgets/messages/message_reactions_bar_fork_test.dart` and
+  `utils/reactions/own_reactions_test.dart`, with fakes in `test/helpers/persona_reaction_fakes.dart`.
 - Not covered: `changeMessagePersona`; a failing persona edit or reaction; the autocomplete's persona
   requests per keystroke; persona resolution for stickers, GIFs, memes and drops.
 

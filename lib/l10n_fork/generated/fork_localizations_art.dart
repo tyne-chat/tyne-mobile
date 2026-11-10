@@ -1019,4 +1019,29 @@ class ForkLocalizationsArt extends ForkLocalizations {
 
   @override
   String get personaUndo => 'o weka e ante';
+
+  @override
+  String get personaReactionsTitle => 'pilin sina';
+
+  @override
+  String get personaReactionsEveryoneElse => 'ANTE ALE';
+
+  @override
+  String get personaReactionsCurrent => 'TENPO NI';
+
+  @override
+  String get personaReactionsAccount => 'lipu jan';
+
+  @override
+  String get personaReactionsSomeoneElse => 'o pilin kepeken nimi ante...';
+
+  @override
+  String get personaReactionsDone => 'pini';
+
+  @override
+  String get personaSettingsReactionsHeader => 'pilin';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'jan insa mute li ken pilin lon tenpo sama';
 }

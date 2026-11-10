@@ -270,5 +270,13 @@
     "personaBulkFailed": "Nem sikerült módosítani a personákat. Próbáld újra.",
     "personaFilterEmpty": "Itt nincsenek personák.",
     "personaGalleryChooseFeatured": "Kiemelendő personák kiválasztása",
-    "personaUndo": "Visszavonás"
+    "personaUndo": "Visszavonás",
+    "personaReactionsTitle": "Reakcióid",
+    "personaReactionsEveryoneElse": "MINDENKI MÁS",
+    "personaReactionsCurrent": "JELENLEGI",
+    "personaReactionsAccount": "Fiók",
+    "personaReactionsSomeoneElse": "Reakció mint valaki más...",
+    "personaReactionsDone": "Kész",
+    "personaSettingsReactionsHeader": "Reakciók",
+    "personaSettingsMultiReactions": "Reagálás egyszerre több personaként"
 }

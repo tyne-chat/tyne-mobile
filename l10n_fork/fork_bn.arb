@@ -270,5 +270,13 @@
     "personaBulkFailed": "পারসোনাগুলো বদলানো যায়নি। আবার চেষ্টা করুন।",
     "personaFilterEmpty": "এখানে কোনো পারসোনা নেই।",
     "personaGalleryChooseFeatured": "কোন পারসোনাগুলো দেখাবেন, বেছে নিন",
-    "personaUndo": "পূর্বাবস্থায় ফেরান"
+    "personaUndo": "পূর্বাবস্থায় ফেরান",
+    "personaReactionsTitle": "আপনার প্রতিক্রিয়া",
+    "personaReactionsEveryoneElse": "অন্য সবাই",
+    "personaReactionsCurrent": "বর্তমান",
+    "personaReactionsAccount": "অ্যাকাউন্ট",
+    "personaReactionsSomeoneElse": "অন্য কারও হিসেবে প্রতিক্রিয়া জানান…",
+    "personaReactionsDone": "সম্পন্ন",
+    "personaSettingsReactionsHeader": "প্রতিক্রিয়া",
+    "personaSettingsMultiReactions": "একসঙ্গে একাধিক পারসোনা হিসেবে প্রতিক্রিয়া জানান"
 }
