@@ -999,4 +999,29 @@ class ForkLocalizationsTh extends ForkLocalizations {
 
   @override
   String get personaUndo => 'เลิกทำ';
+
+  @override
+  String get personaReactionsTitle => 'รีแอ็กชันของคุณ';
+
+  @override
+  String get personaReactionsEveryoneElse => 'คนอื่นทั้งหมด';
+
+  @override
+  String get personaReactionsCurrent => 'ปัจจุบัน';
+
+  @override
+  String get personaReactionsAccount => 'บัญชี';
+
+  @override
+  String get personaReactionsSomeoneElse => 'แสดงความรู้สึกในฐานะคนอื่น...';
+
+  @override
+  String get personaReactionsDone => 'เสร็จสิ้น';
+
+  @override
+  String get personaSettingsReactionsHeader => 'รีแอ็กชัน';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'รีแอ็กชันในฐานะหลาย Persona พร้อมกัน';
 }

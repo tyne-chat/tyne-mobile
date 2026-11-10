@@ -1036,4 +1036,29 @@ class ForkLocalizationsLt extends ForkLocalizations {
 
   @override
   String get personaUndo => 'Anuliuoti';
+
+  @override
+  String get personaReactionsTitle => 'Jūsų reakcijos';
+
+  @override
+  String get personaReactionsEveryoneElse => 'VISI KITI';
+
+  @override
+  String get personaReactionsCurrent => 'DABARTINIS';
+
+  @override
+  String get personaReactionsAccount => 'Paskyra';
+
+  @override
+  String get personaReactionsSomeoneElse => 'Reaguoti kaip kažkas kitas...';
+
+  @override
+  String get personaReactionsDone => 'Atlikta';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Reakcijos';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'Reaguoti kaip kelios personos vienu metu';
 }
