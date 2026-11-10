@@ -278,5 +278,7 @@
     "personaReactionsSomeoneElse": "Reaccionar como alguien más...",
     "personaReactionsDone": "Hecho",
     "personaSettingsReactionsHeader": "Reacciones",
-    "personaSettingsMultiReactions": "Reaccionar como varias personas a la vez"
+    "personaSettingsMultiReactions": "Reaccionar como varias personas a la vez",
+    "personaDuplicateButton": "Duplicar persona",
+    "personaCopyOf": "Copia de {name}"
 }
