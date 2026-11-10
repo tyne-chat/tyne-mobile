@@ -270,5 +270,13 @@
     "personaBulkFailed": "無法變更這些人格。請再試一次。",
     "personaFilterEmpty": "這裡沒有人格。",
     "personaGalleryChooseFeatured": "選擇要展示的人格",
-    "personaUndo": "復原"
+    "personaUndo": "復原",
+    "personaReactionsTitle": "你的反應",
+    "personaReactionsEveryoneElse": "其他人",
+    "personaReactionsCurrent": "目前",
+    "personaReactionsAccount": "帳號",
+    "personaReactionsSomeoneElse": "以其他身分回應...",
+    "personaReactionsDone": "完成",
+    "personaSettingsReactionsHeader": "反應",
+    "personaSettingsMultiReactions": "同時以多個人格加上反應"
 }

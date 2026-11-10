@@ -270,5 +270,13 @@
     "personaBulkFailed": "Det gick inte att ändra personas. Försök igen.",
     "personaFilterEmpty": "Inga personas här.",
     "personaGalleryChooseFeatured": "Välj personas att visa upp",
-    "personaUndo": "Ångra"
+    "personaUndo": "Ångra",
+    "personaReactionsTitle": "Dina reaktioner",
+    "personaReactionsEveryoneElse": "ALLA ANDRA",
+    "personaReactionsCurrent": "NUVARANDE",
+    "personaReactionsAccount": "Konto",
+    "personaReactionsSomeoneElse": "Reagera som någon annan...",
+    "personaReactionsDone": "Klar",
+    "personaSettingsReactionsHeader": "Reaktioner",
+    "personaSettingsMultiReactions": "Reagera som flera personas samtidigt"
 }

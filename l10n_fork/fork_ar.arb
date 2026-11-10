@@ -270,5 +270,13 @@
     "personaBulkFailed": "تعذّر تغيير الشخصيات. حاول مرة أخرى.",
     "personaFilterEmpty": "لا توجد شخصيات هنا.",
     "personaGalleryChooseFeatured": "اختر الشخصيات التي تريد إبرازها",
-    "personaUndo": "تراجع"
+    "personaUndo": "تراجع",
+    "personaReactionsTitle": "تفاعلاتك",
+    "personaReactionsEveryoneElse": "الآخرون",
+    "personaReactionsCurrent": "الحالي",
+    "personaReactionsAccount": "الحساب",
+    "personaReactionsSomeoneElse": "تفاعل باسم شخص آخر...",
+    "personaReactionsDone": "تم",
+    "personaSettingsReactionsHeader": "التفاعلات",
+    "personaSettingsMultiReactions": "التفاعل بعدة شخصيات في الوقت نفسه"
 }

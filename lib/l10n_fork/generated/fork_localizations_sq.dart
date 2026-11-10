@@ -1023,4 +1023,28 @@ class ForkLocalizationsSq extends ForkLocalizations {
 
   @override
   String get personaUndo => 'Zhbëj';
+
+  @override
+  String get personaReactionsTitle => 'Reagimet e tua';
+
+  @override
+  String get personaReactionsEveryoneElse => 'TË GJITHË TË TJERËT';
+
+  @override
+  String get personaReactionsCurrent => 'AKTUALE';
+
+  @override
+  String get personaReactionsAccount => 'Llogaria';
+
+  @override
+  String get personaReactionsSomeoneElse => 'Reago si dikush tjetër…';
+
+  @override
+  String get personaReactionsDone => 'U krye';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Reagimet';
+
+  @override
+  String get personaSettingsMultiReactions => 'Reago si disa persona njëherësh';
 }
