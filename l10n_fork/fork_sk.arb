@@ -270,5 +270,13 @@
     "personaBulkFailed": "Persony sa nepodarilo zmeniť. Skúste to znova.",
     "personaFilterEmpty": "Žiadne persony.",
     "personaGalleryChooseFeatured": "Vyberte persony, ktoré chcete ukázať",
-    "personaUndo": "Vrátiť späť"
+    "personaUndo": "Vrátiť späť",
+    "personaReactionsTitle": "Vaše reakcie",
+    "personaReactionsEveryoneElse": "OSTATNÍ",
+    "personaReactionsCurrent": "AKTUÁLNA",
+    "personaReactionsAccount": "Účet",
+    "personaReactionsSomeoneElse": "Reagovať ako niekto iný…",
+    "personaReactionsDone": "Hotovo",
+    "personaSettingsReactionsHeader": "Reakcie",
+    "personaSettingsMultiReactions": "Reagovať ako viacero persón naraz"
 }

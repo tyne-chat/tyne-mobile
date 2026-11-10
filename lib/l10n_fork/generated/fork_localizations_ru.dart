@@ -1038,4 +1038,29 @@ class ForkLocalizationsRu extends ForkLocalizations {
 
   @override
   String get personaUndo => 'Отменить';
+
+  @override
+  String get personaReactionsTitle => 'Ваши реакции';
+
+  @override
+  String get personaReactionsEveryoneElse => 'ВСЕ ОСТАЛЬНЫЕ';
+
+  @override
+  String get personaReactionsCurrent => 'ТЕКУЩАЯ';
+
+  @override
+  String get personaReactionsAccount => 'Аккаунт';
+
+  @override
+  String get personaReactionsSomeoneElse => 'Реагировать как кто-то другой...';
+
+  @override
+  String get personaReactionsDone => 'Готово';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Реакции';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'Реагировать сразу как несколько персон';
 }

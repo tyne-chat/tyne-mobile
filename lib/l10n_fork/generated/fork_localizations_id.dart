@@ -1008,4 +1008,29 @@ class ForkLocalizationsId extends ForkLocalizations {
 
   @override
   String get personaUndo => 'Urungkan';
+
+  @override
+  String get personaReactionsTitle => 'Reaksi Anda';
+
+  @override
+  String get personaReactionsEveryoneElse => 'SEMUA YANG LAIN';
+
+  @override
+  String get personaReactionsCurrent => 'SAAT INI';
+
+  @override
+  String get personaReactionsAccount => 'Akun';
+
+  @override
+  String get personaReactionsSomeoneElse => 'Bereaksi sebagai orang lain...';
+
+  @override
+  String get personaReactionsDone => 'Selesai';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Reaksi';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'Bereaksi sebagai beberapa persona sekaligus';
 }

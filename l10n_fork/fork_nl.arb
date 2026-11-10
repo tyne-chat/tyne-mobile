@@ -270,5 +270,13 @@
     "personaBulkFailed": "De persona's konden niet worden gewijzigd. Probeer het opnieuw.",
     "personaFilterEmpty": "Hier zijn geen persona's.",
     "personaGalleryChooseFeatured": "Persona's kiezen om te tonen",
-    "personaUndo": "Ongedaan maken"
+    "personaUndo": "Ongedaan maken",
+    "personaReactionsTitle": "Jouw reacties",
+    "personaReactionsEveryoneElse": "ALLE ANDEREN",
+    "personaReactionsCurrent": "HUIDIG",
+    "personaReactionsAccount": "Account",
+    "personaReactionsSomeoneElse": "Reageren als iemand anders...",
+    "personaReactionsDone": "Klaar",
+    "personaSettingsReactionsHeader": "Reacties",
+    "personaSettingsMultiReactions": "Als meerdere persona's tegelijk reageren"
 }

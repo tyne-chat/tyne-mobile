@@ -270,5 +270,13 @@
     "personaBulkFailed": "לא ניתן היה לשנות את הפרסונות. נסו שוב.",
     "personaFilterEmpty": "אין כאן פרסונות.",
     "personaGalleryChooseFeatured": "בחירת פרסונות להצגה",
-    "personaUndo": "ביטול"
+    "personaUndo": "ביטול",
+    "personaReactionsTitle": "הריאקציות שלך",
+    "personaReactionsEveryoneElse": "כל השאר",
+    "personaReactionsCurrent": "נוכחי",
+    "personaReactionsAccount": "חשבון",
+    "personaReactionsSomeoneElse": "הגב בתור מישהו אחר...",
+    "personaReactionsDone": "בוצע",
+    "personaSettingsReactionsHeader": "ריאקציות",
+    "personaSettingsMultiReactions": "הגב בתור כמה פרסונות בבת אחת"
 }

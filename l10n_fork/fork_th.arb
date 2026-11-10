@@ -270,5 +270,13 @@
     "personaBulkFailed": "เปลี่ยน Persona ไม่ได้ ลองอีกครั้ง",
     "personaFilterEmpty": "ไม่มี Persona ที่นี่",
     "personaGalleryChooseFeatured": "เลือก Persona ที่จะแสดง",
-    "personaUndo": "เลิกทำ"
+    "personaUndo": "เลิกทำ",
+    "personaReactionsTitle": "รีแอ็กชันของคุณ",
+    "personaReactionsEveryoneElse": "คนอื่นทั้งหมด",
+    "personaReactionsCurrent": "ปัจจุบัน",
+    "personaReactionsAccount": "บัญชี",
+    "personaReactionsSomeoneElse": "แสดงความรู้สึกในฐานะคนอื่น...",
+    "personaReactionsDone": "เสร็จสิ้น",
+    "personaSettingsReactionsHeader": "รีแอ็กชัน",
+    "personaSettingsMultiReactions": "รีแอ็กชันในฐานะหลาย Persona พร้อมกัน"
 }
