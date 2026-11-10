@@ -59,7 +59,9 @@ the persona and signal-bar events.
   that way (tyne-chat/tyne#136).
 - **Reactions:** `personaId` goes from `MessageReactionAddEvent`/`RemoveEvent` into
   `ReactionWriteBatcher.enqueue` and `applyMessageReactionDelta`. `MESSAGE_REACTION_ADD_MANY` (DMs only)
-  still loses the persona, on the server first (tyne-chat/tyne#120).
+  carries each entry's `user_id` and, since the gateway's fix, `persona_id`; `_handleReactionAddMany`
+  reads both, so the app's own reactions, shown when they were made, are not counted again
+  (upstream counted every entry as someone else's: tyne-chat/tyne#597, tyne-chat/tyne#120).
 - **SDK models back into `fromJson`:** never feed an SDK model's `toJson()` into a `fromJson`. The
   generated `toJson()` leaves enum fields as Dart values, so parsing fails (`v as num`) and the parser
   skips the item without a word. With a reply mention preference set, READY dropped the user's own
@@ -99,8 +101,8 @@ updates are sent only when the presence changes.
   mention preference set, upstream's fix of tyne-chat/tyne#193; a member that does not parse is
   reported from READY's isolate),
   `fork_gateway_parse_skip_log_test.dart` (the skip log),
+  `gateway_reaction_add_many_fork_test.dart` (ADD_MANY with your own reactions and personas),
   `providers/typing_personas_provider_test.dart`.
-- Not covered: the seven persona event names in the handler, known-persona writes from events,
-  ADD_MANY with a persona.
+- Not covered: the seven persona event names in the handler, known-persona writes from events.
 - After a change: `flutter test test/core/gateway test/core/providers test/features/profile
   test/features/signal_bar test/features/chat`. The nightly gate runs all of `test/core`.
