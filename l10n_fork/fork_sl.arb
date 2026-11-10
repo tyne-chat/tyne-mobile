@@ -270,5 +270,13 @@
     "personaBulkFailed": "Person ni bilo mogoče spremeniti. Poskusite znova.",
     "personaFilterEmpty": "Tukaj ni person.",
     "personaGalleryChooseFeatured": "Izberite persone, ki jih želite pokazati",
-    "personaUndo": "Razveljavi"
+    "personaUndo": "Razveljavi",
+    "personaReactionsTitle": "Vaši odzivi",
+    "personaReactionsEveryoneElse": "VSI DRUGI",
+    "personaReactionsCurrent": "TRENUTNA",
+    "personaReactionsAccount": "Račun",
+    "personaReactionsSomeoneElse": "Odzovi se kot nekdo drug …",
+    "personaReactionsDone": "Končano",
+    "personaSettingsReactionsHeader": "Odzivi",
+    "personaSettingsMultiReactions": "Odzivanje kot več person hkrati"
 }

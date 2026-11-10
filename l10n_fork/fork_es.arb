@@ -270,5 +270,13 @@
     "personaBulkFailed": "No se han podido cambiar las personas. Inténtalo de nuevo.",
     "personaFilterEmpty": "No hay personas aquí.",
     "personaGalleryChooseFeatured": "Elegir personas para destacar",
-    "personaUndo": "Deshacer"
+    "personaUndo": "Deshacer",
+    "personaReactionsTitle": "Tus reacciones",
+    "personaReactionsEveryoneElse": "TODOS LOS DEMÁS",
+    "personaReactionsCurrent": "ACTUAL",
+    "personaReactionsAccount": "Cuenta",
+    "personaReactionsSomeoneElse": "Reaccionar como alguien más...",
+    "personaReactionsDone": "Hecho",
+    "personaSettingsReactionsHeader": "Reacciones",
+    "personaSettingsMultiReactions": "Reaccionar como varias personas a la vez"
 }

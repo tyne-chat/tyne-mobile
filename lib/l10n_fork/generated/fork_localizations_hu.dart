@@ -1022,4 +1022,29 @@ class ForkLocalizationsHu extends ForkLocalizations {
 
   @override
   String get personaUndo => 'Visszavonás';
+
+  @override
+  String get personaReactionsTitle => 'Reakcióid';
+
+  @override
+  String get personaReactionsEveryoneElse => 'MINDENKI MÁS';
+
+  @override
+  String get personaReactionsCurrent => 'JELENLEGI';
+
+  @override
+  String get personaReactionsAccount => 'Fiók';
+
+  @override
+  String get personaReactionsSomeoneElse => 'Reakció mint valaki más...';
+
+  @override
+  String get personaReactionsDone => 'Kész';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Reakciók';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'Reagálás egyszerre több personaként';
 }

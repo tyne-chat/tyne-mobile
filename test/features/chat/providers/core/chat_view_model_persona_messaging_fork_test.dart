@@ -2,14 +2,17 @@
 // screen end up as: stickers and voice messages sent as a persona, a failed
 // send retried as the persona it was first sent as, edits and the replace
 // command that move a message to another persona or back to the account,
-// "Change persona", and reactions as a persona. Only the persona's id goes on
-// the wire (`persona_id`); the server builds the `subprofile`.
+// "Change persona", and reactions as a persona, with "React as several personas
+// at once" on and off (tyne-chat/tyne#86; the requests are counted). Only the
+// persona's id goes on the wire (`persona_id`); the server builds the
+// `subprofile`.
 @Tags(['slow'])
 library;
 
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math' as math;
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
@@ -31,6 +34,7 @@ import 'package:fluxer_app/features/chat/providers/upload/attachment_upload_clie
 import 'package:fluxer_app/features/chat/providers/upload/user_upload_limits_provider.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/voice_message_constants.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/providers/multi_persona_reactions_provider.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
@@ -98,6 +102,14 @@ class _Server extends PaginatingAdapter {
   bool failSends = false;
   bool failEdits = false;
 
+  /// Reaction removals are refused from this one on (0 is the first).
+  int? refuseReactionRemovalsFrom;
+  int _reactionRemovals = 0;
+
+  /// The most reaction requests that were ever waiting for an answer at once.
+  int mostReactionRequestsAtOnce = 0;
+  int _reactionRequestsOpen = 0;
+
   List<_Request> where(String method, [Pattern? path]) => requests
       .where(
         (_Request r) =>
@@ -139,6 +151,21 @@ class _Server extends PaginatingAdapter {
     requests.add((method: options.method, path: path, body: body));
 
     if (path.contains('/reactions/')) {
+      _reactionRequestsOpen++;
+      mostReactionRequestsAtOnce = math.max(
+        mostReactionRequestsAtOnce,
+        _reactionRequestsOpen,
+      );
+      // Answered a turn of the event loop later, so requests sent together
+      // are seen together.
+      await Future<void>.delayed(Duration.zero);
+      _reactionRequestsOpen--;
+      if (options.method == 'DELETE') {
+        final int? refuseFrom = refuseReactionRemovalsFrom;
+        if (refuseFrom != null && _reactionRemovals++ >= refuseFrom) {
+          return _refused();
+        }
+      }
       return ResponseBody.fromString('', 204);
     }
     if (options.method == 'POST' && path.endsWith('/messages')) {
@@ -778,6 +805,264 @@ void main() {
       expect(server.where('PUT', '/reactions/').single.body, <String, dynamic>{
         'persona_id': _fox.id,
       });
+    });
+  });
+
+  // tyne-chat/tyne#86. With the setting off the account has one reaction per
+  // emoji. Taking several off is one request per identity: counted here, with
+  // the requests failing too, because a burst of requests signs the user out
+  // (tyne-chat/tyne#114).
+  group('with "React as several personas at once" off', () {
+    Reaction? reactionOn(
+      ProviderContainer container,
+      String messageId,
+      String emoji,
+    ) => shown(
+      container,
+      messageId,
+    ).reactions.where((Reaction r) => r.emoji == emoji).firstOrNull;
+
+    List<String?> removedAs() => <String?>[
+      for (final _Request r in server.where('DELETE', '/reactions/'))
+        Uri.parse(r.path).queryParameters['persona_id'],
+    ];
+
+    Future<(ProviderContainer, ChatViewModel)> openWithSettingOff({
+      ActivePersonaState selection = const ActivePersonaState(),
+    }) async {
+      final (ProviderContainer container, ChatViewModel chat) = await open(
+        selection: selection,
+      );
+      container
+          .read(multiPersonaReactionsProvider.notifier)
+          .syncFromSettings(enabled: false);
+      return (container, chat);
+    }
+
+    test('a tap on an emoji the account reacted with takes every own reaction '
+        'off, one request each', () async {
+      final (ProviderContainer container, ChatViewModel chat) =
+          await openWithSettingOff();
+
+      await chat.toggleReaction(_othersId, '🎉');
+      await paginationFlushAsync();
+
+      expect(reactionOn(container, _othersId, '🎉'), isNull);
+      expect(removedAs(), <String?>['0', _fox.id]);
+      expect(server.where('PUT'), isEmpty);
+      expect(server.requests, hasLength(2));
+    });
+
+    test('it does so whichever persona is selected', () async {
+      final (ProviderContainer container, ChatViewModel chat) =
+          await openWithSettingOff(selection: foxSelected);
+
+      await chat.toggleReaction(_othersId, '🎉');
+      await paginationFlushAsync();
+
+      expect(reactionOn(container, _othersId, '🎉'), isNull);
+      expect(removedAs(), <String?>['0', _fox.id]);
+      expect(server.requests, hasLength(2));
+    });
+
+    // 40 personas and the account reacted, next to four other people.
+    final List<String> manyIds = <String>[
+      for (int i = 0; i < 40; i++) 'persona_$i',
+    ];
+    _Server serverWithManyOwnReactions() => _Server(
+      messages: <Map<String, Object?>>[
+        _message(
+          _othersId,
+          authorId: 'other',
+          content: 'hi',
+          reactions: <Map<String, Object?>>[
+            <String, Object?>{
+              'emoji': <String, Object?>{'id': null, 'name': '🎉'},
+              'count': 45,
+              'me': true,
+              'me_root': true,
+              'persona_reactions': <Map<String, Object?>>[
+                for (final String id in manyIds)
+                  <String, Object?>{'persona_id': id, 'count': 1, 'me': true},
+              ],
+            },
+          ],
+        ),
+      ],
+    );
+
+    test('a large system sends one removal per identity, one after the '
+        'other', () async {
+      server = serverWithManyOwnReactions();
+      final (ProviderContainer container, ChatViewModel chat) =
+          await openWithSettingOff();
+
+      await chat.toggleReaction(_othersId, '🎉');
+      await paginationFlushAsync();
+
+      final Reaction? party = reactionOn(container, _othersId, '🎉');
+      expect(party?.count, 4);
+      expect(party?.hasReacted, isFalse);
+      expect(removedAs(), <String?>['0', ...manyIds]);
+      expect(server.requests, hasLength(41));
+      expect(server.mostReactionRequestsAtOnce, 1);
+    });
+
+    test('a removal the server refuses is the last request: the reactions '
+        'not removed stay', () async {
+      server = serverWithManyOwnReactions()..refuseReactionRemovalsFrom = 3;
+      final (ProviderContainer container, ChatViewModel chat) =
+          await openWithSettingOff();
+
+      await chat.toggleReaction(_othersId, '🎉');
+      await paginationFlushAsync();
+
+      final Reaction? party = reactionOn(container, _othersId, '🎉');
+      expect(party?.count, 42);
+      expect(party?.meRoot, isFalse);
+      expect(party?.personaReactions, manyIds.sublist(2));
+      expect(removedAs(), <String?>['0', ...manyIds.take(3)]);
+      expect(server.requests, hasLength(4));
+    });
+
+    test("a refused removal of the persona's reaction keeps it and takes the "
+        "account's off", () async {
+      server.refuseReactionRemovalsFrom = 1;
+      final (ProviderContainer container, ChatViewModel chat) =
+          await openWithSettingOff();
+
+      await chat.toggleReaction(_othersId, '🎉');
+      await paginationFlushAsync();
+
+      final Reaction? party = reactionOn(container, _othersId, '🎉');
+      expect(party?.count, 1);
+      expect(party?.meRoot, isFalse);
+      expect(party?.personaReactions, <String>[_fox.id]);
+      expect(removedAs(), <String?>['0', _fox.id]);
+      expect(server.requests, hasLength(2));
+    });
+
+    test('when the first removal is refused nothing changes and nothing more '
+        'is sent', () async {
+      server.refuseReactionRemovalsFrom = 0;
+      final (ProviderContainer container, ChatViewModel chat) =
+          await openWithSettingOff();
+
+      await chat.toggleReaction(_othersId, '🎉');
+      await paginationFlushAsync();
+
+      final Reaction? party = reactionOn(container, _othersId, '🎉');
+      expect(party?.count, 2);
+      expect(party?.meRoot, isTrue);
+      expect(party?.personaReactions, <String>[_fox.id]);
+      expect(server.requests, hasLength(1));
+    });
+
+    test('a tap on an emoji the account has not reacted with adds one '
+        'reaction as the current identity', () async {
+      final (ProviderContainer container, ChatViewModel chat) =
+          await openWithSettingOff(selection: foxSelected);
+
+      await chat.toggleReaction(_othersId, '👍');
+      await paginationFlushAsync();
+
+      expect(reactionOn(container, _othersId, '👍')?.personaReactions, <String>[
+        _fox.id,
+      ]);
+      expect(server.requests, hasLength(1));
+      expect(
+        server.where('PUT', '/reactions/👍/@me').single.body,
+        <String, dynamic>{'persona_id': _fox.id},
+      );
+    });
+
+    test('React as… moves the reaction to the chosen persona: the own ones '
+        'come off, then one is added', () async {
+      final (ProviderContainer container, ChatViewModel chat) =
+          await openWithSettingOff();
+
+      await chat.reactAsOnly(_othersId, '🎉', personaId: _bao.id);
+      await paginationFlushAsync();
+
+      final Reaction? party = reactionOn(container, _othersId, '🎉');
+      expect(party?.count, 1);
+      expect(party?.meRoot, isFalse);
+      expect(party?.personaReactions, <String>[_bao.id]);
+      expect(
+        <String>[for (final _Request r in server.requests) r.method],
+        <String>['DELETE', 'DELETE', 'PUT'],
+      );
+      expect(removedAs(), <String?>['0', _fox.id]);
+      expect(server.where('PUT').single.body, <String, dynamic>{
+        'persona_id': _bao.id,
+      });
+      expect(server.mostReactionRequestsAtOnce, 1);
+    });
+
+    test('React as… does not add when an own reaction could not be '
+        'removed', () async {
+      server.refuseReactionRemovalsFrom = 1;
+      final (ProviderContainer container, ChatViewModel chat) =
+          await openWithSettingOff();
+
+      await chat.reactAsOnly(_othersId, '🎉', personaId: _bao.id);
+      await paginationFlushAsync();
+
+      expect(reactionOn(container, _othersId, '🎉')?.personaReactions, <String>[
+        _fox.id,
+      ]);
+      expect(server.where('PUT'), isEmpty);
+      expect(server.requests, hasLength(2));
+    });
+
+    test(
+      'React as… the identity that reacted takes its reaction off',
+      () async {
+        final (ProviderContainer container, ChatViewModel chat) =
+            await openWithSettingOff();
+
+        await chat.reactAsOnly(_othersId, '🎉', personaId: null);
+        await paginationFlushAsync();
+
+        final Reaction? party = reactionOn(container, _othersId, '🎉');
+        expect(party?.count, 1);
+        expect(party?.meRoot, isFalse);
+        expect(party?.personaReactions, <String>[_fox.id]);
+        expect(removedAs(), <String?>['0']);
+        expect(server.requests, hasLength(1));
+      },
+    );
+
+    test('React as… on an emoji the account has not reacted with adds one '
+        'reaction', () async {
+      final (ProviderContainer container, ChatViewModel chat) =
+          await openWithSettingOff(selection: foxSelected);
+
+      await chat.reactAsOnly(_othersId, '👍', personaId: null);
+      await paginationFlushAsync();
+
+      final Reaction? thumbs = reactionOn(container, _othersId, '👍');
+      expect(thumbs?.count, 2);
+      expect(thumbs?.meRoot, isTrue);
+      expect(thumbs?.personaReactions, isEmpty);
+      expect(server.requests, hasLength(1));
+      // The SDK sends an empty object when there is no persona: the account.
+      expect(server.where('PUT').single.body, <String, dynamic>{});
+    });
+
+    test('with the setting on, a tap takes off only the current '
+        "identity's reaction", () async {
+      final (ProviderContainer container, ChatViewModel chat) = await open();
+
+      await chat.toggleReaction(_othersId, '🎉');
+      await paginationFlushAsync();
+
+      final Reaction? party = reactionOn(container, _othersId, '🎉');
+      expect(party?.count, 1);
+      expect(party?.meRoot, isFalse);
+      expect(party?.personaReactions, <String>[_fox.id]);
+      expect(removedAs(), <String?>['0']);
+      expect(server.requests, hasLength(1));
     });
   });
 }

@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/emoji/domain/emoji_pins.dart';
 import 'package:fluxer_app/features/emoji/providers/emoji_pins_provider.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_settings.dart';
+import 'package:fluxer_app/features/profile/providers/multi_persona_reactions_provider.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_dart/fluxer_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -920,5 +921,205 @@ void main() {
         'last',
       ),
     );
+  });
+
+  // "React as several personas at once" (tyne-chat/tyne#86). Every reacted
+  // chip and every plain reaction reads it, so reading it must never ask the
+  // server.
+  group('the reactions setting', () {
+    const String pref = 'persona_multi_reactions';
+
+    Future<bool?> remembered() async =>
+        (await SharedPreferences.getInstance()).getBool(pref);
+
+    test('is on by default, in the model and on the device', () {
+      expect(const PersonaSettings().multiPersonaReactions, isTrue);
+      expect(
+        PersonaSettings.fromJson(
+          const <String, dynamic>{},
+        ).multiPersonaReactions,
+        isTrue,
+      );
+      final PersonaSettings off = PersonaSettings.fromJson(
+        const <String, dynamic>{'multi_persona_reactions': false},
+      );
+      expect(off.multiPersonaReactions, isFalse);
+      expect(off.toJson()['multi_persona_reactions'], isFalse);
+      expect(off, isNot(const PersonaSettings()));
+      expect(
+        off.copyWith(multiPersonaReactions: true),
+        const PersonaSettings(),
+      );
+
+      expect(container.read(multiPersonaReactionsProvider), isTrue);
+    });
+
+    test('is read without asking the server, however often', () async {
+      for (int i = 0; i < 50; i++) {
+        container
+          ..listen(multiPersonaReactionsProvider, (_, _) {})
+          ..read(multiPersonaReactionsProvider);
+      }
+      await settle();
+
+      expect(api.calls, isEmpty);
+    });
+
+    test('follows the settings the server sends and remembers them', () async {
+      api.answers[_settings] = const _Answer(200, <String, Object?>{
+        'multi_persona_reactions': false,
+      });
+
+      await loadSettings();
+
+      expect(container.read(multiPersonaReactionsProvider), isFalse);
+      expect(await remembered(), isFalse);
+    });
+
+    test('follows a change that arrives over the gateway', () async {
+      await loadSettings();
+
+      container.read(personaSettingsProvider.notifier).updateFromGateway(
+        <String, dynamic>{'multi_persona_reactions': false},
+      );
+      await settle();
+
+      expect(container.read(multiPersonaReactionsProvider), isFalse);
+      expect(await remembered(), isFalse);
+      expect(api.calls, isEmpty);
+    });
+
+    test(
+      'starts from the value the device remembers, with no request',
+      () async {
+        container = containerWith(prefs: <String, Object>{pref: false});
+
+        expect(container.read(multiPersonaReactionsProvider), isTrue);
+        await waitUntil(
+          () => !container.read(multiPersonaReactionsProvider),
+          'the remembered value',
+        );
+        await settle();
+
+        expect(api.calls, isEmpty);
+      },
+    );
+
+    test("the server's value wins over a remembered one that is read "
+        'later', () async {
+      container = containerWith(prefs: <String, Object>{pref: false});
+
+      // Building the notifier starts the read of the remembered value; the
+      // server's value arrives before it has finished.
+      container
+          .read(multiPersonaReactionsProvider.notifier)
+          .syncFromSettings(enabled: true);
+      await settle();
+
+      expect(container.read(multiPersonaReactionsProvider), isTrue);
+      expect(await remembered(), isTrue);
+    });
+
+    test('a change sends one request with only that field', () async {
+      await loadSettings();
+
+      await container
+          .read(personaSettingsProvider.notifier)
+          .setMultiPersonaReactions(enabled: false);
+      await settle();
+
+      expect(api.calls, hasLength(1));
+      expect(patches(), hasLength(1));
+      expect(lastPatchBody(), <String, Object?>{
+        'multi_persona_reactions': false,
+      });
+      expect(container.read(multiPersonaReactionsProvider), isFalse);
+      expect(
+        container
+            .read(personaSettingsProvider)
+            .requireValue
+            .multiPersonaReactions,
+        isFalse,
+      );
+      expect(await remembered(), isFalse);
+    });
+
+    test('a change applies before the server answers', () async {
+      await loadSettings();
+
+      final Future<void> saved = container
+          .read(personaSettingsProvider.notifier)
+          .setMultiPersonaReactions(enabled: false);
+
+      expect(container.read(multiPersonaReactionsProvider), isFalse);
+      await saved;
+    });
+
+    test('a change made before the settings loaded is still sent', () async {
+      await container
+          .read(personaSettingsProvider.notifier)
+          .setMultiPersonaReactions(enabled: false);
+
+      expect(patches(), hasLength(1));
+      expect(lastPatchBody(), <String, Object?>{
+        'multi_persona_reactions': false,
+      });
+      expect(container.read(multiPersonaReactionsProvider), isFalse);
+    });
+
+    for (final ({String name, _Answer answer}) failure in _failures) {
+      test('a change that fails ${failure.name} is put back and not sent '
+          'again', () async {
+        await loadSettings();
+        api.answers[_settings] = failure.answer;
+
+        await container
+            .read(personaSettingsProvider.notifier)
+            .setMultiPersonaReactions(enabled: false);
+        for (int i = 0; i < 20; i++) {
+          container.read(multiPersonaReactionsProvider);
+        }
+        await settle();
+
+        expect(api.calls, hasLength(1));
+        expect(container.read(multiPersonaReactionsProvider), isTrue);
+        expect(
+          container
+              .read(personaSettingsProvider)
+              .requireValue
+              .multiPersonaReactions,
+          isTrue,
+        );
+        expect(await remembered(), isTrue);
+      });
+    }
+
+    test('an account change forgets it', () async {
+      final MultiPersonaReactionsNotifier setting = container.read(
+        multiPersonaReactionsProvider.notifier,
+      )..syncFromSettings(enabled: false);
+      await settle();
+      expect(await remembered(), isFalse);
+
+      await setting.reset();
+
+      expect(container.read(multiPersonaReactionsProvider), isTrue);
+      expect(await remembered(), isNull);
+    });
+
+    test("an account change followed at once by the next account's value "
+        'keeps that value', () async {
+      final MultiPersonaReactionsNotifier setting = container.read(
+        multiPersonaReactionsProvider.notifier,
+      )..syncFromSettings(enabled: false);
+
+      final Future<void> forgotten = setting.reset();
+      setting.syncFromSettings(enabled: false);
+      await forgotten;
+      await settle();
+
+      expect(container.read(multiPersonaReactionsProvider), isFalse);
+      expect(await remembered(), isFalse);
+    });
   });
 }

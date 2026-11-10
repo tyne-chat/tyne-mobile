@@ -270,5 +270,13 @@
     "personaBulkFailed": "无法更改这些人格。请重试。",
     "personaFilterEmpty": "这里没有人格。",
     "personaGalleryChooseFeatured": "选择要展示的人格",
-    "personaUndo": "撤销"
+    "personaUndo": "撤销",
+    "personaReactionsTitle": "你的反应",
+    "personaReactionsEveryoneElse": "其他人",
+    "personaReactionsCurrent": "当前",
+    "personaReactionsAccount": "账号",
+    "personaReactionsSomeoneElse": "以其他身份回应...",
+    "personaReactionsDone": "完成",
+    "personaSettingsReactionsHeader": "反应",
+    "personaSettingsMultiReactions": "同时以多个人格做出反应"
 }
