@@ -1858,6 +1858,18 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'React as several personas at once'**
   String get personaSettingsMultiReactions;
+
+  /// Button in a persona's editor that starts a new persona as a copy of this one.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate Persona'**
+  String get personaDuplicateButton;
+
+  /// Shown at the bottom of the editor for a new persona that starts as a copy of another; name is the persona it was copied from. Nothing is created until the person presses Create.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy of {name}'**
+  String personaCopyOf(String name);
 }
 
 class _ForkLocalizationsDelegate

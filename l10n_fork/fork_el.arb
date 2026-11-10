@@ -278,5 +278,7 @@
     "personaReactionsSomeoneElse": "Αντίδραση ως κάποιος άλλος...",
     "personaReactionsDone": "Τέλος",
     "personaSettingsReactionsHeader": "Αντιδράσεις",
-    "personaSettingsMultiReactions": "Αντίδραση ως πολλές persona ταυτόχρονα"
+    "personaSettingsMultiReactions": "Αντίδραση ως πολλές persona ταυτόχρονα",
+    "personaDuplicateButton": "Αντιγραφή persona",
+    "personaCopyOf": "Αντίγραφο της persona {name}"
 }

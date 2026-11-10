@@ -278,5 +278,7 @@
     "personaReactionsSomeoneElse": "Reager som noen andre...",
     "personaReactionsDone": "Ferdig",
     "personaSettingsReactionsHeader": "Reaksjoner",
-    "personaSettingsMultiReactions": "Reager som flere personaer samtidig"
+    "personaSettingsMultiReactions": "Reager som flere personaer samtidig",
+    "personaDuplicateButton": "Dupliser persona",
+    "personaCopyOf": "Kopi av {name}"
 }

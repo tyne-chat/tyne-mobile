@@ -1062,4 +1062,12 @@ class ForkLocalizationsCs extends ForkLocalizations {
   @override
   String get personaSettingsMultiReactions =>
       'Reagovat jako více person najednou';
+
+  @override
+  String get personaDuplicateButton => 'Duplikovat personu';
+
+  @override
+  String personaCopyOf(String name) {
+    return 'Kopie persony $name';
+  }
 }

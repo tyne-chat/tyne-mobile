@@ -278,5 +278,7 @@
     "personaReactionsSomeoneElse": "Bereaksi sebagai orang lain...",
     "personaReactionsDone": "Selesai",
     "personaSettingsReactionsHeader": "Reaksi",
-    "personaSettingsMultiReactions": "Bereaksi sebagai beberapa persona sekaligus"
+    "personaSettingsMultiReactions": "Bereaksi sebagai beberapa persona sekaligus",
+    "personaDuplicateButton": "Duplikat Persona",
+    "personaCopyOf": "Salinan {name}"
 }

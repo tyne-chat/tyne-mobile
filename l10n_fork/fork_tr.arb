@@ -278,5 +278,7 @@
     "personaReactionsSomeoneElse": "Başka biri olarak tepki ver...",
     "personaReactionsDone": "Bitti",
     "personaSettingsReactionsHeader": "Tepkiler",
-    "personaSettingsMultiReactions": "Aynı anda birden çok persona olarak tepki ver"
+    "personaSettingsMultiReactions": "Aynı anda birden çok persona olarak tepki ver",
+    "personaDuplicateButton": "Personayı Çoğalt",
+    "personaCopyOf": "{name} personasının kopyası"
 }
