@@ -13,6 +13,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/edit_persona_sheet.dart';
+import 'package:fluxer_app/features/profile/providers/multi_persona_reactions_provider.dart';
 import 'package:fluxer_app/features/profile/providers/persona_bulk_actions.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/persona_bulk_edit.dart';
@@ -590,6 +591,25 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                 onChanged: (scope) {
                   unawaited(
                     ref.read(activePersonaProvider.notifier).setScope(scope),
+                  );
+                },
+              ),
+            ],
+          ),
+
+          // Reacting as several personas at once (tyne-chat/tyne#86)
+          FluxerSettingsSection(
+            sectionId: 'persona-settings-reactions',
+            title: l10n.fork.personaSettingsReactionsHeader,
+            children: [
+              FluxerSettingsSwitchItem(
+                label: l10n.fork.personaSettingsMultiReactions,
+                value: ref.watch(multiPersonaReactionsProvider),
+                onChanged: (bool value) {
+                  unawaited(
+                    ref
+                        .read(personaSettingsProvider.notifier)
+                        .setMultiPersonaReactions(enabled: value),
                   );
                 },
               ),
