@@ -1063,4 +1063,12 @@ class ForkLocalizationsRu extends ForkLocalizations {
   @override
   String get personaSettingsMultiReactions =>
       'Реагировать сразу как несколько персон';
+
+  @override
+  String get personaDuplicateButton => 'Дублировать персону';
+
+  @override
+  String personaCopyOf(String name) {
+    return 'Копия персоны $name';
+  }
 }

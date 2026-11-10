@@ -1051,6 +1051,14 @@ class ForkLocalizationsEs extends ForkLocalizations {
   @override
   String get personaSettingsMultiReactions =>
       'Reaccionar como varias personas a la vez';
+
+  @override
+  String get personaDuplicateButton => 'Duplicar persona';
+
+  @override
+  String personaCopyOf(String name) {
+    return 'Copia de $name';
+  }
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -2099,4 +2107,12 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
   @override
   String get personaSettingsMultiReactions =>
       'Reaccionar como varias personas a la vez';
+
+  @override
+  String get personaDuplicateButton => 'Duplicar persona';
+
+  @override
+  String personaCopyOf(String name) {
+    return 'Copia de $name';
+  }
 }
