@@ -975,6 +975,30 @@ class ForkLocalizationsZh extends ForkLocalizations {
 
   @override
   String get personaUndo => '撤销';
+
+  @override
+  String get personaReactionsTitle => '你的反应';
+
+  @override
+  String get personaReactionsEveryoneElse => '其他人';
+
+  @override
+  String get personaReactionsCurrent => '当前';
+
+  @override
+  String get personaReactionsAccount => '账号';
+
+  @override
+  String get personaReactionsSomeoneElse => '以其他身份回应...';
+
+  @override
+  String get personaReactionsDone => '完成';
+
+  @override
+  String get personaSettingsReactionsHeader => '反应';
+
+  @override
+  String get personaSettingsMultiReactions => '同时以多个人格做出反应';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -1948,4 +1972,28 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get personaUndo => '復原';
+
+  @override
+  String get personaReactionsTitle => '你的反應';
+
+  @override
+  String get personaReactionsEveryoneElse => '其他人';
+
+  @override
+  String get personaReactionsCurrent => '目前';
+
+  @override
+  String get personaReactionsAccount => '帳號';
+
+  @override
+  String get personaReactionsSomeoneElse => '以其他身分回應...';
+
+  @override
+  String get personaReactionsDone => '完成';
+
+  @override
+  String get personaSettingsReactionsHeader => '反應';
+
+  @override
+  String get personaSettingsMultiReactions => '同時以多個人格加上反應';
 }

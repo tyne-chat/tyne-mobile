@@ -270,5 +270,13 @@
     "personaBulkFailed": "Personat nuk u ndryshuan. Provo sërish.",
     "personaFilterEmpty": "Nuk ka persona këtu.",
     "personaGalleryChooseFeatured": "Zgjidh cilat persona të shfaqen",
-    "personaUndo": "Zhbëj"
+    "personaUndo": "Zhbëj",
+    "personaReactionsTitle": "Reagimet e tua",
+    "personaReactionsEveryoneElse": "TË GJITHË TË TJERËT",
+    "personaReactionsCurrent": "AKTUALE",
+    "personaReactionsAccount": "Llogaria",
+    "personaReactionsSomeoneElse": "Reago si dikush tjetër…",
+    "personaReactionsDone": "U krye",
+    "personaSettingsReactionsHeader": "Reagimet",
+    "personaSettingsMultiReactions": "Reago si disa persona njëherësh"
 }

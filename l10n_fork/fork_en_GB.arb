@@ -270,5 +270,13 @@
     "personaBulkFailed": "Couldn't change the personas. Try again.",
     "personaFilterEmpty": "No personas here.",
     "personaGalleryChooseFeatured": "Choose personas to feature",
-    "personaUndo": "Undo"
+    "personaUndo": "Undo",
+    "personaReactionsTitle": "Your reactions",
+    "personaReactionsEveryoneElse": "EVERYONE ELSE",
+    "personaReactionsCurrent": "CURRENT",
+    "personaReactionsAccount": "Account",
+    "personaReactionsSomeoneElse": "React as someone else...",
+    "personaReactionsDone": "Done",
+    "personaSettingsReactionsHeader": "Reactions",
+    "personaSettingsMultiReactions": "React as several personas at once"
 }

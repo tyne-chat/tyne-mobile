@@ -1038,4 +1038,28 @@ class ForkLocalizationsPl extends ForkLocalizations {
 
   @override
   String get personaUndo => 'Cofnij';
+
+  @override
+  String get personaReactionsTitle => 'Twoje reakcje';
+
+  @override
+  String get personaReactionsEveryoneElse => 'WSZYSCY POZOSTALI';
+
+  @override
+  String get personaReactionsCurrent => 'AKTUALNE';
+
+  @override
+  String get personaReactionsAccount => 'Konto';
+
+  @override
+  String get personaReactionsSomeoneElse => 'Zareaguj jako ktoś inny...';
+
+  @override
+  String get personaReactionsDone => 'Gotowe';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Reakcje';
+
+  @override
+  String get personaSettingsMultiReactions => 'Reaguj jako kilka person naraz';
 }

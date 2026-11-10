@@ -6,11 +6,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_settings.dart';
+import 'package:fluxer_app/features/profile/providers/multi_persona_reactions_provider.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_persona_settings.dart';
 import 'package:fluxer_app/features/settings/providers/persona_settings_launch_provider.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/providers/user/current_user_private_provider.dart';
+import 'package:fluxer_app/features/ui/switch_group/fluxer_switch_group.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
@@ -444,6 +446,86 @@ void main() {
         expect(find.text('Remove Icon'), findsOneWidget);
       },
     );
+  });
+
+  // Fork: "React as several personas at once" (tyne-chat/tyne#86).
+  group('the reactions switch', () {
+    setUp(() {
+      SharedPreferences.setMockInitialValues({});
+    });
+
+    final Finder item = find.widgetWithText(
+      FluxerSettingsSwitchItem,
+      'React as several personas at once',
+    );
+    bool shownOn(WidgetTester tester) =>
+        tester.widget<FluxerSettingsSwitchItem>(item).value;
+
+    List<RequestOptions> saves(_MockDioAdapter adapter) => <RequestOptions>[
+      for (final RequestOptions r in adapter.requests)
+        if (r.method == 'PATCH' && r.path == '/users/@me/personas/settings') r,
+    ];
+
+    testWidgets(
+      'is on until told otherwise, with a label and nothing under it',
+      (tester) async {
+        final adapter = _MockDioAdapter();
+        await pumpSettings(tester, adapter: adapter);
+
+        expect(
+          find.textContaining(
+            RegExp(
+              testL10n.fork.personaSettingsReactionsHeader,
+              caseSensitive: false,
+            ),
+          ),
+          findsOneWidget,
+        );
+        expect(shownOn(tester), isTrue);
+        expect(
+          tester.widget<FluxerSettingsSwitchItem>(item).description,
+          isNull,
+        );
+        expect(saves(adapter), isEmpty);
+      },
+    );
+
+    testWidgets('saves a change in one request that names only this setting', (
+      tester,
+    ) async {
+      final adapter = _MockDioAdapter();
+      await pumpSettings(tester, adapter: adapter);
+
+      await tester.ensureVisible(item);
+      await tester.tap(find.text('React as several personas at once'));
+      await tester.pumpAndSettle();
+
+      expect(shownOn(tester), isFalse);
+      expect(saves(adapter).map((RequestOptions r) => r.data), [
+        <String, dynamic>{'multi_persona_reactions': false},
+      ]);
+      expect(
+        ProviderScope.containerOf(
+          tester.element(find.byType(UserPersonaSettings)),
+        ).read(multiPersonaReactionsProvider),
+        isFalse,
+      );
+    });
+
+    testWidgets('goes back when the save is refused, and does not try again', (
+      tester,
+    ) async {
+      final adapter = _MockDioAdapter();
+      await pumpSettings(tester, adapter: adapter);
+      adapter.status = 429;
+
+      await tester.ensureVisible(item);
+      await tester.tap(find.text('React as several personas at once'));
+      await tester.pumpAndSettle();
+
+      expect(shownOn(tester), isTrue);
+      expect(saves(adapter), hasLength(1));
+    });
   });
 
   // Fork: selecting many personas to change their visibility or delete them
