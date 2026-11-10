@@ -270,5 +270,13 @@
     "personaBulkFailed": "परसोना नहीं बदले जा सके। फिर से कोशिश करें।",
     "personaFilterEmpty": "यहाँ कोई परसोना नहीं है।",
     "personaGalleryChooseFeatured": "दिखाने के लिए परसोना चुनें",
-    "personaUndo": "पहले जैसा करें"
+    "personaUndo": "पहले जैसा करें",
+    "personaReactionsTitle": "आपके रिएक्शन",
+    "personaReactionsEveryoneElse": "बाकी सभी",
+    "personaReactionsCurrent": "वर्तमान",
+    "personaReactionsAccount": "अकाउंट",
+    "personaReactionsSomeoneElse": "किसी और के रूप में प्रतिक्रिया दें...",
+    "personaReactionsDone": "हो गया",
+    "personaSettingsReactionsHeader": "रिएक्शन",
+    "personaSettingsMultiReactions": "एक साथ कई परसोना के रूप में रिएक्ट करें"
 }

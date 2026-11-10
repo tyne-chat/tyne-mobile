@@ -1019,4 +1019,30 @@ class ForkLocalizationsBn extends ForkLocalizations {
 
   @override
   String get personaUndo => 'পূর্বাবস্থায় ফেরান';
+
+  @override
+  String get personaReactionsTitle => 'আপনার প্রতিক্রিয়া';
+
+  @override
+  String get personaReactionsEveryoneElse => 'অন্য সবাই';
+
+  @override
+  String get personaReactionsCurrent => 'বর্তমান';
+
+  @override
+  String get personaReactionsAccount => 'অ্যাকাউন্ট';
+
+  @override
+  String get personaReactionsSomeoneElse =>
+      'অন্য কারও হিসেবে প্রতিক্রিয়া জানান…';
+
+  @override
+  String get personaReactionsDone => 'সম্পন্ন';
+
+  @override
+  String get personaSettingsReactionsHeader => 'প্রতিক্রিয়া';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'একসঙ্গে একাধিক পারসোনা হিসেবে প্রতিক্রিয়া জানান';
 }

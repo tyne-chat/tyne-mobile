@@ -270,5 +270,13 @@
     "personaBulkFailed": "Nu s-au putut modifica personas. Încearcă din nou.",
     "personaFilterEmpty": "Nu există personas aici.",
     "personaGalleryChooseFeatured": "Alege personas pe care să le pui în evidență",
-    "personaUndo": "Anulează"
+    "personaUndo": "Anulează",
+    "personaReactionsTitle": "Reacțiile tale",
+    "personaReactionsEveryoneElse": "TOȚI CEILALȚI",
+    "personaReactionsCurrent": "CURENT",
+    "personaReactionsAccount": "Cont",
+    "personaReactionsSomeoneElse": "Reacționează ca altcineva...",
+    "personaReactionsDone": "Gata",
+    "personaSettingsReactionsHeader": "Reacții",
+    "personaSettingsMultiReactions": "Reacționează ca mai multe personas deodată"
 }

@@ -1019,4 +1019,29 @@ class ForkLocalizationsSv extends ForkLocalizations {
 
   @override
   String get personaUndo => 'Ångra';
+
+  @override
+  String get personaReactionsTitle => 'Dina reaktioner';
+
+  @override
+  String get personaReactionsEveryoneElse => 'ALLA ANDRA';
+
+  @override
+  String get personaReactionsCurrent => 'NUVARANDE';
+
+  @override
+  String get personaReactionsAccount => 'Konto';
+
+  @override
+  String get personaReactionsSomeoneElse => 'Reagera som någon annan...';
+
+  @override
+  String get personaReactionsDone => 'Klar';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Reaktioner';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'Reagera som flera personas samtidigt';
 }

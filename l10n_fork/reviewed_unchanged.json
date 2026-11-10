@@ -54,6 +54,7 @@
             "guildCommandScript",
             "guildCommandSectionCommand",
             "guildCommandSectionInput",
+            "personaReactionsAccount",
             "signalBarSignalWithNames",
             "timestampPickerTimezoneLabel",
             "userProfileTimezoneSettingLabel"
@@ -78,6 +79,7 @@
         "it": [
             "guildCommandScript",
             "guildCommandSectionInput",
+            "personaReactionsAccount",
             "personaSectionTitle",
             "userSettingsNavPersonas"
         ],
@@ -90,7 +92,8 @@
         "nl": [
             "guildCommandScript",
             "instanceOfflineTitle",
-            "personaGalleryViewAvatars"
+            "personaGalleryViewAvatars",
+            "personaReactionsAccount"
         ],
         "pt": [
             "guildCommandScript",

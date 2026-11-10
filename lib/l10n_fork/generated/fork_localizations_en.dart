@@ -1010,6 +1010,31 @@ class ForkLocalizationsEn extends ForkLocalizations {
 
   @override
   String get personaUndo => 'Undo';
+
+  @override
+  String get personaReactionsTitle => 'Your reactions';
+
+  @override
+  String get personaReactionsEveryoneElse => 'EVERYONE ELSE';
+
+  @override
+  String get personaReactionsCurrent => 'CURRENT';
+
+  @override
+  String get personaReactionsAccount => 'Account';
+
+  @override
+  String get personaReactionsSomeoneElse => 'React as someone else...';
+
+  @override
+  String get personaReactionsDone => 'Done';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Reactions';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'React as several personas at once';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -2018,6 +2043,31 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
 
   @override
   String get personaUndo => 'Undo';
+
+  @override
+  String get personaReactionsTitle => 'Your reactions';
+
+  @override
+  String get personaReactionsEveryoneElse => 'EVERYONE ELSE';
+
+  @override
+  String get personaReactionsCurrent => 'CURRENT';
+
+  @override
+  String get personaReactionsAccount => 'Account';
+
+  @override
+  String get personaReactionsSomeoneElse => 'React as someone else...';
+
+  @override
+  String get personaReactionsDone => 'Done';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Reactions';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'React as several personas at once';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -3026,4 +3076,29 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
 
   @override
   String get personaUndo => 'Undo';
+
+  @override
+  String get personaReactionsTitle => 'Your reactions';
+
+  @override
+  String get personaReactionsEveryoneElse => 'EVERYONE ELSE';
+
+  @override
+  String get personaReactionsCurrent => 'CURRENT';
+
+  @override
+  String get personaReactionsAccount => 'Account';
+
+  @override
+  String get personaReactionsSomeoneElse => 'React as someone else...';
+
+  @override
+  String get personaReactionsDone => 'Done';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Reactions';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'React as several personas at once';
 }
