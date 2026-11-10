@@ -1025,4 +1025,29 @@ class ForkLocalizationsHr extends ForkLocalizations {
 
   @override
   String get personaUndo => 'Poništi';
+
+  @override
+  String get personaReactionsTitle => 'Vaše reakcije';
+
+  @override
+  String get personaReactionsEveryoneElse => 'SVI OSTALI';
+
+  @override
+  String get personaReactionsCurrent => 'TRENUTNO';
+
+  @override
+  String get personaReactionsAccount => 'Račun';
+
+  @override
+  String get personaReactionsSomeoneElse => 'Reagiraj kao netko drugi...';
+
+  @override
+  String get personaReactionsDone => 'Gotovo';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Reakcije';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'Reagiraj kao više persona odjednom';
 }

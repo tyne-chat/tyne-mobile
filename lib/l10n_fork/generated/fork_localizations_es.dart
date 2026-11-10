@@ -1026,6 +1026,31 @@ class ForkLocalizationsEs extends ForkLocalizations {
 
   @override
   String get personaUndo => 'Deshacer';
+
+  @override
+  String get personaReactionsTitle => 'Tus reacciones';
+
+  @override
+  String get personaReactionsEveryoneElse => 'TODOS LOS DEMÁS';
+
+  @override
+  String get personaReactionsCurrent => 'ACTUAL';
+
+  @override
+  String get personaReactionsAccount => 'Cuenta';
+
+  @override
+  String get personaReactionsSomeoneElse => 'Reaccionar como alguien más...';
+
+  @override
+  String get personaReactionsDone => 'Hecho';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Reacciones';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'Reaccionar como varias personas a la vez';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -2049,4 +2074,29 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
 
   @override
   String get personaUndo => 'Deshacer';
+
+  @override
+  String get personaReactionsTitle => 'Tus reacciones';
+
+  @override
+  String get personaReactionsEveryoneElse => 'TODOS LOS DEMÁS';
+
+  @override
+  String get personaReactionsCurrent => 'ACTUAL';
+
+  @override
+  String get personaReactionsAccount => 'Cuenta';
+
+  @override
+  String get personaReactionsSomeoneElse => 'Reaccionar como alguien más...';
+
+  @override
+  String get personaReactionsDone => 'Listo';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Reacciones';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'Reaccionar como varias personas a la vez';
 }

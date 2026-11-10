@@ -270,5 +270,13 @@
     "personaBulkFailed": "Tidak dapat mengubah persona. Coba lagi.",
     "personaFilterEmpty": "Tidak ada persona di sini.",
     "personaGalleryChooseFeatured": "Pilih persona untuk ditampilkan",
-    "personaUndo": "Urungkan"
+    "personaUndo": "Urungkan",
+    "personaReactionsTitle": "Reaksi Anda",
+    "personaReactionsEveryoneElse": "SEMUA YANG LAIN",
+    "personaReactionsCurrent": "SAAT INI",
+    "personaReactionsAccount": "Akun",
+    "personaReactionsSomeoneElse": "Bereaksi sebagai orang lain...",
+    "personaReactionsDone": "Selesai",
+    "personaSettingsReactionsHeader": "Reaksi",
+    "personaSettingsMultiReactions": "Bereaksi sebagai beberapa persona sekaligus"
 }
