@@ -278,5 +278,7 @@
     "personaReactionsSomeoneElse": "Адрэагаваць ад імя кагосьці іншага…",
     "personaReactionsDone": "Гатова",
     "personaSettingsReactionsHeader": "Рэакцыі",
-    "personaSettingsMultiReactions": "Рэагаваць ад імя некалькіх персон адначасова"
+    "personaSettingsMultiReactions": "Рэагаваць ад імя некалькіх персон адначасова",
+    "personaDuplicateButton": "Дубляваць персону",
+    "personaCopyOf": "Копія персоны {name}"
 }

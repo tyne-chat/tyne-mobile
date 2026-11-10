@@ -1038,4 +1038,12 @@ class ForkLocalizationsHe extends ForkLocalizations {
 
   @override
   String get personaSettingsMultiReactions => 'הגב בתור כמה פרסונות בבת אחת';
+
+  @override
+  String get personaDuplicateButton => 'שכפול פרסונה';
+
+  @override
+  String personaCopyOf(String name) {
+    return 'עותק של $name';
+  }
 }
