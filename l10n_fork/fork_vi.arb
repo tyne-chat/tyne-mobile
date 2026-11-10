@@ -270,5 +270,13 @@
     "personaBulkFailed": "Không thể thay đổi persona. Hãy thử lại.",
     "personaFilterEmpty": "Không có persona nào ở đây.",
     "personaGalleryChooseFeatured": "Chọn persona để giới thiệu",
-    "personaUndo": "Hoàn tác"
+    "personaUndo": "Hoàn tác",
+    "personaReactionsTitle": "Cảm xúc của bạn",
+    "personaReactionsEveryoneElse": "NHỮNG NGƯỜI KHÁC",
+    "personaReactionsCurrent": "HIỆN TẠI",
+    "personaReactionsAccount": "Tài khoản",
+    "personaReactionsSomeoneElse": "Thả cảm xúc dưới tên người khác...",
+    "personaReactionsDone": "Xong",
+    "personaSettingsReactionsHeader": "Cảm xúc",
+    "personaSettingsMultiReactions": "Thả cảm xúc dưới tên nhiều persona cùng lúc"
 }
