@@ -270,5 +270,13 @@
     "personaBulkFailed": "Kunne ikke endre personaene. Prøv igjen.",
     "personaFilterEmpty": "Ingen personaer her.",
     "personaGalleryChooseFeatured": "Velg personaer å vise frem",
-    "personaUndo": "Angre"
+    "personaUndo": "Angre",
+    "personaReactionsTitle": "Dine reaksjoner",
+    "personaReactionsEveryoneElse": "ALLE ANDRE",
+    "personaReactionsCurrent": "NÅVÆRENDE",
+    "personaReactionsAccount": "Konto",
+    "personaReactionsSomeoneElse": "Reager som noen andre...",
+    "personaReactionsDone": "Ferdig",
+    "personaSettingsReactionsHeader": "Reaksjoner",
+    "personaSettingsMultiReactions": "Reager som flere personaer samtidig"
 }

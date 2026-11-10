@@ -97,6 +97,9 @@ whose values are a server resource mirrored in SharedPreferences.
   `systemDisplayTagProvider.notifier.updateDisplayTag`. The icon is uploaded when picked, after
   `isImageOverUploadLimit`, uncropped, as `data:image/png` whatever the file; the returned
   `avatar_hash` waits for Save.
+- **Reactions:** "React as several personas at once" (`persona-settings-reactions`), on by default:
+  `personaSettingsProvider.notifier.setMultiPersonaReactions`, applied at once (what it changes: the
+  chat folder's `AGENTS.md`, "Your reactions and React as…").
 - **List:** `sortedPersonasProvider`, searched on the device by name, pronouns, bio and tags. "Make
   active" / "Active" (`setActivePersona`, `unlatch`) only with the global scope. Add and edit open the
   profile folder's `EditPersonaSheet`, which sends every field: pass the whole persona
@@ -171,6 +174,7 @@ empty state, with no error or retry (tyne-chat/tyne#350). Every card is built (a
 | Opening the Personas page | none (its providers load at start-up and READY) | |
 | Mode, "Make active", "Active" | 1 `PATCH /users/@me/personas/settings` | state stays; the error escapes unhandled (`unawaited` inside a `try`) |
 | Scope | 1 `PATCH` | put back silently |
+| "React as several personas at once" | 1 `PATCH /users/@me/personas/settings` | logged and put back; no retry |
 | Display tag Save | 1 `PATCH` | logged; the provider keeps the value, so it looks saved |
 | Tag icon picked | 1 `POST /users/@me/personas/avatar` | logged |
 | Delete persona | 1 `DELETE`, +1 `PATCH` if it was the selection; the delete event then reloads the list once per mobile session | logged; the persona stays |

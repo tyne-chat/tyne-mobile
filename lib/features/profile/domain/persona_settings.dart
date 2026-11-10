@@ -12,6 +12,7 @@ class PersonaSettings {
     this.isLatched = false,
     this.displayTagText = '',
     this.displayTagIcon,
+    this.multiPersonaReactions = true,
   });
 
   final String userId;
@@ -25,6 +26,10 @@ class PersonaSettings {
   final String displayTagText;
   final String? displayTagIcon;
 
+  /// "React as several personas at once" (tyne-chat/tyne#86). Off: one
+  /// reaction per emoji for the whole account.
+  final bool multiPersonaReactions;
+
   factory PersonaSettings.fromJson(Map<String, dynamic> json) {
     return PersonaSettings(
       userId: (json['user_id'] as String?) ?? '',
@@ -36,6 +41,7 @@ class PersonaSettings {
       isLatched: (json['is_latched'] as bool?) ?? false,
       displayTagText: (json['display_tag_text'] as String?) ?? '',
       displayTagIcon: json['display_tag_icon'] as String?,
+      multiPersonaReactions: (json['multi_persona_reactions'] as bool?) ?? true,
     );
   }
 
@@ -48,6 +54,7 @@ class PersonaSettings {
       'is_latched': isLatched,
       'display_tag_text': displayTagText,
       if (displayTagIcon != null) 'display_tag_icon': displayTagIcon,
+      'multi_persona_reactions': multiPersonaReactions,
     };
   }
 
@@ -59,6 +66,7 @@ class PersonaSettings {
     bool? isLatched,
     String? displayTagText,
     String? Function()? displayTagIcon,
+    bool? multiPersonaReactions,
   }) {
     return PersonaSettings(
       userId: userId ?? this.userId,
@@ -72,6 +80,8 @@ class PersonaSettings {
       displayTagIcon: displayTagIcon != null
           ? displayTagIcon()
           : this.displayTagIcon,
+      multiPersonaReactions:
+          multiPersonaReactions ?? this.multiPersonaReactions,
     );
   }
 
@@ -86,7 +96,8 @@ class PersonaSettings {
           activePersonaId == other.activePersonaId &&
           isLatched == other.isLatched &&
           displayTagText == other.displayTagText &&
-          displayTagIcon == other.displayTagIcon;
+          displayTagIcon == other.displayTagIcon &&
+          multiPersonaReactions == other.multiPersonaReactions;
 
   @override
   int get hashCode => Object.hash(
@@ -97,5 +108,6 @@ class PersonaSettings {
     isLatched,
     displayTagText,
     displayTagIcon,
+    multiPersonaReactions,
   );
 }

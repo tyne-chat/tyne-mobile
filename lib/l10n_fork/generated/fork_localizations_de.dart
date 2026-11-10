@@ -1026,4 +1026,29 @@ class ForkLocalizationsDe extends ForkLocalizations {
 
   @override
   String get personaUndo => 'Rückgängig';
+
+  @override
+  String get personaReactionsTitle => 'Deine Reaktionen';
+
+  @override
+  String get personaReactionsEveryoneElse => 'ALLE ANDEREN';
+
+  @override
+  String get personaReactionsCurrent => 'AKTUELL';
+
+  @override
+  String get personaReactionsAccount => 'Konto';
+
+  @override
+  String get personaReactionsSomeoneElse => 'Als jemand anderes reagieren...';
+
+  @override
+  String get personaReactionsDone => 'Fertig';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Reaktionen';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'Als mehrere Personas gleichzeitig reagieren';
 }

@@ -1028,4 +1028,29 @@ class ForkLocalizationsEl extends ForkLocalizations {
 
   @override
   String get personaUndo => 'Αναίρεση';
+
+  @override
+  String get personaReactionsTitle => 'Οι αντιδράσεις σας';
+
+  @override
+  String get personaReactionsEveryoneElse => 'ΟΛΟΙ ΟΙ ΑΛΛΟΙ';
+
+  @override
+  String get personaReactionsCurrent => 'ΤΡΕΧΟΥΣΑ';
+
+  @override
+  String get personaReactionsAccount => 'Λογαριασμός';
+
+  @override
+  String get personaReactionsSomeoneElse => 'Αντίδραση ως κάποιος άλλος...';
+
+  @override
+  String get personaReactionsDone => 'Τέλος';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Αντιδράσεις';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'Αντίδραση ως πολλές persona ταυτόχρονα';
 }

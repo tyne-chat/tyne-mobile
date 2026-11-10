@@ -1030,4 +1030,29 @@ class ForkLocalizationsFil extends ForkLocalizations {
 
   @override
   String get personaUndo => 'I-undo';
+
+  @override
+  String get personaReactionsTitle => 'Ang iyong mga reaksyon';
+
+  @override
+  String get personaReactionsEveryoneElse => 'ANG IBA PA';
+
+  @override
+  String get personaReactionsCurrent => 'KASALUKUYAN';
+
+  @override
+  String get personaReactionsAccount => 'Account';
+
+  @override
+  String get personaReactionsSomeoneElse => 'Mag-react bilang ibang tao…';
+
+  @override
+  String get personaReactionsDone => 'Tapos na';
+
+  @override
+  String get personaSettingsReactionsHeader => 'Mga reaksyon';
+
+  @override
+  String get personaSettingsMultiReactions =>
+      'Mag-react bilang ilang persona nang sabay-sabay';
 }
