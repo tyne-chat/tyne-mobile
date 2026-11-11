@@ -1052,4 +1052,93 @@ class ForkLocalizationsArt extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'sama pi jan insa $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'tomo toki $count',
+      one: 'tomo toki $count',
+    );
+    return 'suno sina lon ale · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'tomo toki $count',
+      one: 'tomo toki $count',
+    );
+    return 'o open lon ale ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'o open e $label lon ale';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'o pini e ale';
+
+  @override
+  String get signalsEverywhereRestore => 'o kama sin e ona…';
+
+  @override
+  String get signalsEverywhereNone => 'suno sina li open lon ma ala.';
+
+  @override
+  String get signalsRestoreTitle => 'sina wile ala wile kama sin e suno sina?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'suno sina li kama sama tenpo pini: tenpo $time la sina open e $label lon ale. suno open sina lon ona lon tenpo ni li kama pini.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'suno sina li kama sama tenpo pini: tenpo $time la sina pini e ale. suno open sina lon ona lon tenpo ni li kama pini.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'suno sina li kama sama tenpo pini: tenpo $time la sina kama sin e suno. suno open sina lon ona lon tenpo ni li kama pini.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'tenpo ni';
+
+  @override
+  String get signalsRestoreAfter => 'tenpo kama';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ tomo toki ante $count',
+      one: '+ tomo toki ante $count',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'sina ken ala toki lon tomo toki ni la ona li weka: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'o kama sin e ona';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'ilo li ken ala lukin e ante pi kama sin. o lukin sin.';
+
+  @override
+  String get signalsRestoreNothing => 'ijo ala li ken kama sin.';
+
+  @override
+  String get signalsProfileMenu => 'suno';
 }

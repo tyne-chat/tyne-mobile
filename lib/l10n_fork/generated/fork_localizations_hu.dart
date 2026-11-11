@@ -1055,4 +1055,93 @@ class ForkLocalizationsHu extends ForkLocalizations {
   String personaCopyOf(String name) {
     return '$name másolata';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count beszélgetés',
+      one: '$count beszélgetés',
+    );
+    return 'Jelzéseid mindenhol · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count beszélgetés',
+      one: '$count beszélgetés',
+    );
+    return 'Beállítás mindenhol ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return '$label beállítása mindenhol';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Összes kikapcsolása';
+
+  @override
+  String get signalsEverywhereRestore => 'Visszaállítás…';
+
+  @override
+  String get signalsEverywhereNone => 'Egyik jelzésed sincs bekapcsolva sehol.';
+
+  @override
+  String get signalsRestoreTitle => 'Visszaállítod a jelzéseidet?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Visszaállítja, ami be volt kapcsolva, mielőtt mindenhol beállítottad a(z) $label jelzést ($time). Ami ott most be van kapcsolva, kikapcsol.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Visszaállítja, ami be volt kapcsolva, mielőtt mindet kikapcsoltad ($time). Ami ott most be van kapcsolva, kikapcsol.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Visszaállítja, ami a legutóbbi visszaállításod ($time) előtt be volt kapcsolva. Ami ott most be van kapcsolva, kikapcsol.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Most';
+
+  @override
+  String get signalsRestoreAfter => 'Utána';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ még $count beszélgetés',
+      one: '+ még $count beszélgetés',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Kimaradnak, mert ott már nem írhatsz: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Visszaállítás';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'Nem sikerült betölteni, mit változtatna a Visszaállítás. Próbáld újra.';
+
+  @override
+  String get signalsRestoreNothing => 'Nincs mit visszaállítani.';
+
+  @override
+  String get signalsProfileMenu => 'Jelzések';
 }

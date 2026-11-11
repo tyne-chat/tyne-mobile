@@ -1061,4 +1061,94 @@ class ForkLocalizationsEl extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'Αντίγραφο της persona $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count συνομιλίες',
+      one: '$count συνομιλία',
+    );
+    return 'Τα σήματά σου παντού · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count συνομιλίες',
+      one: '$count συνομιλία',
+    );
+    return 'Ορισμός παντού ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'Ορισμός του $label παντού';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Απενεργοποίηση όλων';
+
+  @override
+  String get signalsEverywhereRestore => 'Επαναφορά…';
+
+  @override
+  String get signalsEverywhereNone =>
+      'Κανένα από τα σήματά σου δεν είναι ενεργό πουθενά.';
+
+  @override
+  String get signalsRestoreTitle => 'Επαναφορά των σημάτων σου;';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Επαναφέρει ό,τι είχες ενεργό πριν ορίσεις το $label παντού ($time). Ό,τι έχεις ενεργό εκεί τώρα θα απενεργοποιηθεί.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Επαναφέρει ό,τι είχες ενεργό πριν τα απενεργοποιήσεις όλα ($time). Ό,τι έχεις ενεργό εκεί τώρα θα απενεργοποιηθεί.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Επαναφέρει ό,τι είχες ενεργό πριν από την τελευταία σου επαναφορά ($time). Ό,τι έχεις ενεργό εκεί τώρα θα απενεργοποιηθεί.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Τώρα';
+
+  @override
+  String get signalsRestoreAfter => 'Μετά';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ $count ακόμη συνομιλίες',
+      one: '+ $count ακόμη συνομιλία',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Παραλείπονται, επειδή δεν μπορείς πια να γράψεις εκεί: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Επαναφορά';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'Δεν ήταν δυνατή η φόρτωση όσων θα άλλαζε η «Επαναφορά». Δοκίμασε ξανά.';
+
+  @override
+  String get signalsRestoreNothing => 'Δεν υπάρχει τίποτα για επαναφορά.';
+
+  @override
+  String get signalsProfileMenu => 'Σήματα';
 }

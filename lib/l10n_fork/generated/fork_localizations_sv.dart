@@ -1052,4 +1052,94 @@ class ForkLocalizationsSv extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'Kopia av $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count chattar',
+      one: '$count chatt',
+    );
+    return 'Dina signaler överallt · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count chattar',
+      one: '$count chatt',
+    );
+    return 'Sätt överallt ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'Sätt $label överallt';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Stäng av alla';
+
+  @override
+  String get signalsEverywhereRestore => 'Återställ…';
+
+  @override
+  String get signalsEverywhereNone =>
+      'Ingen av dina signaler är på någonstans.';
+
+  @override
+  String get signalsRestoreTitle => 'Återställa dina signaler?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Återställer det du hade på innan du satte $label överallt ($time). Det du har på där nu stängs av.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Återställer det du hade på innan du stängde av alla ($time). Det du har på där nu stängs av.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Återställer det du hade på före din senaste återställning ($time). Det du har på där nu stängs av.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Nu';
+
+  @override
+  String get signalsRestoreAfter => 'Efter';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ $count chattar till',
+      one: '+ $count chatt till',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Utelämnade eftersom du inte längre kan skriva där: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Återställ';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'Det gick inte att läsa in vad ”Återställ” skulle ändra. Försök igen.';
+
+  @override
+  String get signalsRestoreNothing => 'Det finns inget att återställa.';
+
+  @override
+  String get signalsProfileMenu => 'Signaler';
 }

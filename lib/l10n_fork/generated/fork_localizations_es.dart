@@ -1059,6 +1059,96 @@ class ForkLocalizationsEs extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'Copia de $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count chats',
+      one: '$count chat',
+    );
+    return 'Tus señales en todas partes · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count chats',
+      one: '$count chat',
+    );
+    return 'Activar en todas partes ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'Activar $label en todas partes';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Desactivar todas';
+
+  @override
+  String get signalsEverywhereRestore => 'Restaurar…';
+
+  @override
+  String get signalsEverywhereNone =>
+      'No tienes ninguna señal activada en ningún sitio.';
+
+  @override
+  String get signalsRestoreTitle => '¿Restaurar tus señales?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Recupera lo que tenías activado antes de activar $label en todas partes ($time). Lo que tienes activado ahí ahora se desactivará.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Recupera lo que tenías activado antes de desactivarlo todo ($time). Lo que tienes activado ahí ahora se desactivará.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Recupera lo que tenías activado antes de tu última restauración ($time). Lo que tienes activado ahí ahora se desactivará.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Ahora';
+
+  @override
+  String get signalsRestoreAfter => 'Después';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ $count chats más',
+      one: '+ $count chat más',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Se omiten porque ya no puedes escribir en ellos: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Restaurar';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'No se ha podido cargar lo que cambiaría «Restaurar». Inténtalo de nuevo.';
+
+  @override
+  String get signalsRestoreNothing => 'No hay nada que restaurar.';
+
+  @override
+  String get signalsProfileMenu => 'Señales';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -2115,4 +2205,94 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
   String personaCopyOf(String name) {
     return 'Copia de $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count chats',
+      one: '$count chat',
+    );
+    return 'Tus señales en todas partes · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count chats',
+      one: '$count chat',
+    );
+    return 'Activar en todas partes ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'Activar $label en todas partes';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Desactivar todas';
+
+  @override
+  String get signalsEverywhereRestore => 'Restaurar…';
+
+  @override
+  String get signalsEverywhereNone =>
+      'No tienes ninguna señal activada en ningún lado.';
+
+  @override
+  String get signalsRestoreTitle => '¿Restaurar tus señales?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Recupera lo que tenías activado antes de activar $label en todas partes ($time). Lo que tienes activado ahí ahora se desactivará.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Recupera lo que tenías activado antes de desactivar todo ($time). Lo que tienes activado ahí ahora se desactivará.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Recupera lo que tenías activado antes de tu última restauración ($time). Lo que tienes activado ahí ahora se desactivará.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Ahora';
+
+  @override
+  String get signalsRestoreAfter => 'Después';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ $count chats más',
+      one: '+ $count chat más',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Se omitieron porque ya no puedes escribir ahí: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Restaurar';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'No se pudo cargar lo que cambiaría “Restaurar”. Inténtalo de nuevo.';
+
+  @override
+  String get signalsRestoreNothing => 'No hay nada que restaurar.';
+
+  @override
+  String get signalsProfileMenu => 'Señales';
 }

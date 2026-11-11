@@ -1042,4 +1042,91 @@ class ForkLocalizationsVi extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'Bản sao của $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count cuộc trò chuyện',
+    );
+    return 'Tín hiệu của bạn ở mọi nơi · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count cuộc trò chuyện',
+    );
+    return 'Đặt ở mọi nơi ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'Đặt $label ở mọi nơi';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Tắt tất cả';
+
+  @override
+  String get signalsEverywhereRestore => 'Khôi phục…';
+
+  @override
+  String get signalsEverywhereNone =>
+      'Không có tín hiệu nào của bạn đang bật ở bất kỳ đâu.';
+
+  @override
+  String get signalsRestoreTitle => 'Khôi phục tín hiệu của bạn?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Đưa lại những gì bạn đã bật trước khi đặt $label ở mọi nơi vào $time. Những gì đang bật ở đó lúc này sẽ tắt.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Đưa lại những gì bạn đã bật trước khi tắt tất cả vào $time. Những gì đang bật ở đó lúc này sẽ tắt.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Đưa lại những gì bạn đã bật trước lần khôi phục gần nhất vào $time. Những gì đang bật ở đó lúc này sẽ tắt.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Hiện tại';
+
+  @override
+  String get signalsRestoreAfter => 'Sau';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ $count cuộc trò chuyện khác',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Bỏ qua vì bạn không thể đăng ở đó nữa: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Khôi phục';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'Không thể tải những gì Khôi phục sẽ thay đổi. Hãy thử lại.';
+
+  @override
+  String get signalsRestoreNothing => 'Không có gì để khôi phục.';
+
+  @override
+  String get signalsProfileMenu => 'Tín hiệu';
 }

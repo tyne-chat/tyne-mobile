@@ -1058,4 +1058,97 @@ class ForkLocalizationsHr extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'Kopija persone $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count razgovora',
+      few: '$count razgovora',
+      one: '$count razgovor',
+    );
+    return 'Tvoji signali svugdje · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count razgovora',
+      few: '$count razgovora',
+      one: '$count razgovor',
+    );
+    return 'Postavi svugdje ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'Postavi $label svugdje';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Isključi sve';
+
+  @override
+  String get signalsEverywhereRestore => 'Vrati…';
+
+  @override
+  String get signalsEverywhereNone =>
+      'Nijedan tvoj signal nije nigdje uključen.';
+
+  @override
+  String get signalsRestoreTitle => 'Vratiti tvoje signale?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Vraća ono što je bilo uključeno prije postavljanja signala $label svugdje ($time). Ono što je ondje sada uključeno, isključit će se.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Vraća ono što je bilo uključeno prije isključivanja svih signala ($time). Ono što je ondje sada uključeno, isključit će se.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Vraća ono što je bilo uključeno prije tvog posljednjeg vraćanja ($time). Ono što je ondje sada uključeno, isključit će se.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Sada';
+
+  @override
+  String get signalsRestoreAfter => 'Poslije';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ još $count razgovora',
+      few: '+ još $count razgovora',
+      one: '+ još $count razgovor',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Izostavljeno jer ondje više ne možeš pisati: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Vrati';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'Nije moguće učitati što bi „Vrati“ promijenilo. Pokušaj ponovno.';
+
+  @override
+  String get signalsRestoreNothing => 'Nema ničega za vraćanje.';
+
+  @override
+  String get signalsProfileMenu => 'Signali';
 }

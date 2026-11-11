@@ -1017,4 +1017,89 @@ class ForkLocalizationsJa extends ForkLocalizations {
   String personaCopyOf(String name) {
     return '$name のコピー';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 件のチャット',
+    );
+    return 'すべての場所のシグナル · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 件のチャット',
+    );
+    return 'すべての場所で設定（$_temp0）';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return '$label をすべての場所で設定';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'すべてオフ';
+
+  @override
+  String get signalsEverywhereRestore => '復元…';
+
+  @override
+  String get signalsEverywhereNone => 'オンになっているシグナルはどこにもありません。';
+
+  @override
+  String get signalsRestoreTitle => 'シグナルを復元しますか？';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return '$time に $label をすべての場所で設定する前の状態に戻します。現在そこでオンになっているシグナルはオフになります。';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return '$time にすべてオフにする前の状態に戻します。現在そこでオンになっているシグナルはオフになります。';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return '$time の前回の復元より前の状態に戻します。現在そこでオンになっているシグナルはオフになります。';
+  }
+
+  @override
+  String get signalsRestoreNow => '現在';
+
+  @override
+  String get signalsRestoreAfter => '復元後';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ ほか $count 件のチャット',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'もう投稿できないため対象外：$chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => '復元';
+
+  @override
+  String get signalsRestoreUnavailable => '「復元」で変わる内容を読み込めませんでした。もう一度お試しください。';
+
+  @override
+  String get signalsRestoreNothing => '復元するものはありません。';
+
+  @override
+  String get signalsProfileMenu => 'シグナル';
 }

@@ -1041,4 +1041,91 @@ class ForkLocalizationsId extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'Salinan $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count obrolan',
+    );
+    return 'Sinyalmu di mana saja · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count obrolan',
+    );
+    return 'Atur di mana saja ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'Atur $label di mana saja';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Matikan semua';
+
+  @override
+  String get signalsEverywhereRestore => 'Pulihkan…';
+
+  @override
+  String get signalsEverywhereNone =>
+      'Tidak ada sinyalmu yang menyala di mana pun.';
+
+  @override
+  String get signalsRestoreTitle => 'Pulihkan sinyalmu?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Mengembalikan yang menyala sebelum kamu mengatur $label di mana saja pada $time. Yang menyala di sana sekarang akan dimatikan.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Mengembalikan yang menyala sebelum kamu mematikan semuanya pada $time. Yang menyala di sana sekarang akan dimatikan.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Mengembalikan yang menyala sebelum pemulihan terakhirmu pada $time. Yang menyala di sana sekarang akan dimatikan.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Sekarang';
+
+  @override
+  String get signalsRestoreAfter => 'Sesudah';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ $count obrolan lainnya',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Dilewati karena kamu tidak bisa lagi mengirim pesan di sana: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Pulihkan';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'Tidak dapat memuat apa yang akan diubah oleh Pulihkan. Coba lagi.';
+
+  @override
+  String get signalsRestoreNothing => 'Tidak ada yang bisa dipulihkan.';
+
+  @override
+  String get signalsProfileMenu => 'Sinyal';
 }

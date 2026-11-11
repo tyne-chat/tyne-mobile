@@ -1071,4 +1071,100 @@ class ForkLocalizationsRu extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'Копия персоны $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count чата',
+      many: '$count чатов',
+      few: '$count чата',
+      one: '$count чат',
+    );
+    return 'Твои сигналы везде · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count чата',
+      many: '$count чатов',
+      few: '$count чата',
+      one: '$count чат',
+    );
+    return 'Включить везде ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'Включить $label везде';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Выключить все';
+
+  @override
+  String get signalsEverywhereRestore => 'Восстановить…';
+
+  @override
+  String get signalsEverywhereNone =>
+      'Ни один из твоих сигналов нигде не включён.';
+
+  @override
+  String get signalsRestoreTitle => 'Восстановить твои сигналы?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Возвращает то, что было включено до включения сигнала $label везде ($time). То, что включено там сейчас, выключится.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Возвращает то, что было включено до выключения всех сигналов ($time). То, что включено там сейчас, выключится.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Возвращает то, что было включено до твоего последнего восстановления ($time). То, что включено там сейчас, выключится.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Сейчас';
+
+  @override
+  String get signalsRestoreAfter => 'После';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ ещё $count чата',
+      many: '+ ещё $count чатов',
+      few: '+ ещё $count чата',
+      one: '+ ещё $count чат',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Пропущены, так как ты больше не можешь там писать: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Восстановить';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'Не удалось загрузить, что изменит «Восстановить». Попробуй ещё раз.';
+
+  @override
+  String get signalsRestoreNothing => 'Нечего восстанавливать.';
+
+  @override
+  String get signalsProfileMenu => 'Сигналы';
 }

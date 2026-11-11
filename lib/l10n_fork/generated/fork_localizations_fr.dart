@@ -1072,4 +1072,94 @@ class ForkLocalizationsFr extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'Copie de $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count discussions',
+      one: '$count discussion',
+    );
+    return 'Tes signaux partout · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count discussions',
+      one: '$count discussion',
+    );
+    return 'Activer partout ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'Activer $label partout';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Tout désactiver';
+
+  @override
+  String get signalsEverywhereRestore => 'Restaurer…';
+
+  @override
+  String get signalsEverywhereNone =>
+      'Aucun de tes signaux n’est activé nulle part.';
+
+  @override
+  String get signalsRestoreTitle => 'Restaurer tes signaux ?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Rétablit ce que tu avais activé avant d’activer $label partout ($time). Ce que tu y as activé maintenant sera désactivé.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Rétablit ce que tu avais activé avant de tout désactiver ($time). Ce que tu y as activé maintenant sera désactivé.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Rétablit ce que tu avais activé avant ta dernière restauration ($time). Ce que tu y as activé maintenant sera désactivé.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Maintenant';
+
+  @override
+  String get signalsRestoreAfter => 'Après';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ $count autres discussions',
+      one: '+ $count autre discussion',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Laissées de côté, car tu ne peux plus y écrire : $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Restaurer';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'Impossible de charger ce que « Restaurer » changerait. Réessaie.';
+
+  @override
+  String get signalsRestoreNothing => 'Il n’y a rien à restaurer.';
+
+  @override
+  String get signalsProfileMenu => 'Signaux';
 }

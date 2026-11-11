@@ -1064,4 +1064,94 @@ class ForkLocalizationsIt extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'Copia di $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count chat',
+      one: '$count chat',
+    );
+    return 'I tuoi segnali ovunque · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count chat',
+      one: '$count chat',
+    );
+    return 'Attiva ovunque ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'Attiva $label ovunque';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Disattiva tutti';
+
+  @override
+  String get signalsEverywhereRestore => 'Ripristina…';
+
+  @override
+  String get signalsEverywhereNone =>
+      'Nessuno dei tuoi segnali è attivo da nessuna parte.';
+
+  @override
+  String get signalsRestoreTitle => 'Ripristinare i tuoi segnali?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Rimette ciò che avevi attivo prima di attivare $label ovunque ($time). Ciò che hai attivo lì ora verrà disattivato.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Rimette ciò che avevi attivo prima di disattivare tutto ($time). Ciò che hai attivo lì ora verrà disattivato.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Rimette ciò che avevi attivo prima del tuo ultimo ripristino ($time). Ciò che hai attivo lì ora verrà disattivato.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Ora';
+
+  @override
+  String get signalsRestoreAfter => 'Dopo';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ altre $count chat',
+      one: '+ $count altra chat',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Escluse perché non puoi più scrivere lì: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Ripristina';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'Impossibile caricare cosa cambierebbe «Ripristina». Riprova.';
+
+  @override
+  String get signalsRestoreNothing => 'Non c\'è nulla da ripristinare.';
+
+  @override
+  String get signalsProfileMenu => 'Segnali';
 }
