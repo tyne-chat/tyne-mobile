@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "Torna a posar el que tenies activat abans de la teva darrera restauració ({time}). El que hi tens activat ara es desactivarà.",
     "signalsRestoreNow": "Ara",
     "signalsRestoreAfter": "Després",
-    "signalsRestoreMoreChats": "{count, plural, one{+ {count} xat més} many{+ {count} xats més} other{+ {count} xats més}}",
     "signalsRestoreLeftOut": "S’han deixat fora perquè ja no hi pots escriure: {chats}",
     "signalsRestoreConfirm": "Restaura",
     "signalsRestoreUnavailable": "No s’ha pogut carregar què canviaria «Restaura». Torna-ho a provar.",
     "signalsRestoreNothing": "No hi ha res per restaurar.",
-    "signalsProfileMenu": "Senyals"
+    "signalsProfileMenu": "Senyals",
+    "signalsEverywhereTurnOffChat": "Desactiva els senyals",
+    "signalsRestoreBeforeChange": "Torna a posar el que tenies activat abans del teu darrer canvi a tot arreu ({time}). El que hi tens activat ara es desactivarà."
 }
