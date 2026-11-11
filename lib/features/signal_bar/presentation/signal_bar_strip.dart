@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/chat/providers/channel/channel_message_permi
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 import 'package:fluxer_app/features/signal_bar/domain/signal_bar_models.dart';
+import 'package:fluxer_app/features/signal_bar/presentation/signals_everywhere_sheet.dart';
 import 'package:fluxer_app/features/signal_bar/providers/signal_bar_collapsed_provider.dart';
 import 'package:fluxer_app/features/signal_bar/providers/signal_bar_providers.dart';
 import 'package:fluxer_app/features/signal_bar/providers/signal_persona_affirmation.dart';
@@ -24,9 +25,16 @@ import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kSignalSize = 40;
-const double _kMinSignalSize = 30;
+const double _kMinSignalSize = 26;
 const double _kMaxSignalSize = 48;
-const double _kSignalSpacing = 10;
+const double _kSignalSpacing = 6;
+
+/// The globe button at the end of the strip, the caret's tap target, the gap
+/// between them, and the divider before them with its gap on each side.
+const double _kGlobeSize = 32;
+const double _kCaretSize = 40;
+const double _kEndGap = 4;
+const double _kEndDividerGap = 8;
 const double _kBadgeSize = 14;
 const int _kMaxBadges = 3;
 const int _kSignalEmojiFetchSize = 128;
@@ -74,7 +82,25 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
       }
       _config.ensureLoaded();
       _loadChannelIfNeeded();
+      _ensureMySignals();
     });
+  }
+
+  void _ensureMySignals() {
+    if (ref.read(signalBarConfigProvider).signals.isNotEmpty) {
+      ref.read(mySignalsProvider.notifier).ensureLoaded();
+    }
+  }
+
+  void _openEverywhere() {
+    FluxerHaptics.light();
+    unawaited(
+      SignalsEverywhereSheet.show(
+        context,
+        openChannelId: widget.channelId,
+        openGuildId: widget.guildId,
+      ),
+    );
   }
 
   @override
@@ -194,7 +220,18 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
     ref
       ..listen<SignalBarConfig>(signalBarConfigProvider, (_, _) {
         _loadChannelIfNeeded();
+        _ensureMySignals();
       })
+      ..listen<bool>(
+        mySignalsProvider.select(
+          (MySignalsState state) => state.summary == null,
+        ),
+        (_, bool missing) {
+          if (missing) {
+            _ensureMySignals();
+          }
+        },
+      )
       ..listen<bool>(
         channelSignalsProvider.select(
           (Map<String, List<SignalEntry>> map) =>
@@ -250,6 +287,12 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
       onDetails: (SignalBarSignal signal, List<SignalEntry> entries) =>
           _showDetails(signal, entries, canManage: canReset),
       onToggleCollapsed: ref.read(signalBarCollapsedProvider.notifier).toggle,
+      myChatCount: ref.watch(
+        mySignalsProvider.select(
+          (MySignalsState state) => state.summary?.chats.length,
+        ),
+      ),
+      onOpenEverywhere: _openEverywhere,
     );
   }
 }
@@ -259,6 +302,30 @@ int _signalsPerRow(double size, double width) {
   final int perRow =
       ((width + _kSignalSpacing + 0.001) / (size + _kSignalSpacing)).floor();
   return perRow < 1 ? 1 : perRow;
+}
+
+/// Whether [count] signals of the default size fit on one row of [width].
+bool signalBarFitsOneRow({required int count, required double width}) =>
+    count > 0 && _signalsPerRow(_kSignalSize, width) >= count;
+
+/// Where the globe and the caret go: side by side when the signals fit on one
+/// row beside the pair, stacked otherwise. Trying the side-by-side pair first
+/// keeps the choice from flipping back and forth. Returns whether they stack
+/// and the width left for the signals.
+({bool stacked, double signalsWidth}) signalBarEndLayout({
+  required int count,
+  required double width,
+  required bool showGlobe,
+}) {
+  final double divider = showGlobe ? 1 + 2 * _kEndDividerGap : 0;
+  final double pair = showGlobe
+      ? _kGlobeSize + _kEndGap + _kCaretSize
+      : _kCaretSize;
+  final double besidePair = width - divider - pair;
+  if (!showGlobe || signalBarFitsOneRow(count: count, width: besidePair)) {
+    return (stacked: false, signalsWidth: besidePair);
+  }
+  return (stacked: true, signalsWidth: width - divider - _kCaretSize);
 }
 
 /// How full the last row is, from just above 0 to 1. A single row counts as
@@ -272,7 +339,7 @@ double _lastRowFill(int count, int perRow) {
 }
 
 /// The signal size for [count] signals in a bar [width] wide. Signals that
-/// fit on one row keep the default 40. Past that, a size within 30 to 48 that
+/// fit on one row keep the default 40. Past that, a size within 26 to 48 that
 /// leaves no row less than half full: of those, the one with the fewest rows,
 /// then the one nearest 40, so fifteen signals on a phone make two rows of 35
 /// rather than rows of 7, 7 and 1. When no size manages it, the one whose
@@ -323,6 +390,8 @@ class SignalBarView extends StatelessWidget {
     required this.onToggle,
     required this.onDetails,
     required this.onToggleCollapsed,
+    this.myChatCount,
+    this.onOpenEverywhere,
     super.key,
   });
 
@@ -340,6 +409,12 @@ class SignalBarView extends StatelessWidget {
   final void Function(SignalBarSignal signal, List<SignalEntry> entries)?
   onDetails;
   final VoidCallback onToggleCollapsed;
+
+  /// How many chats have the account's signals on; null until known.
+  final int? myChatCount;
+
+  /// Opens the signals-everywhere sheet; null shows no globe.
+  final VoidCallback? onOpenEverywhere;
 
   @override
   Widget build(BuildContext context) {
@@ -369,21 +444,41 @@ class SignalBarView extends StatelessWidget {
         ),
         child: Padding(
           padding: EdgeInsets.fromLTRB(12, empty ? 0 : 10, 4, empty ? 0 : 8),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Expanded(
-                child: empty
-                    ? const SizedBox.shrink()
-                    : RebuildSafeLayoutBuilder(
-                        debugLabel: 'SignalBarView',
-                        builder:
-                            (BuildContext context, BoxConstraints constraints) {
-                              final double size = signalBarSignalSize(
-                                count: shown.length,
-                                width: constraints.maxWidth,
-                              );
-                              return Wrap(
+          child: empty
+              ? Row(children: <Widget>[const Spacer(), _caret(context, l10n)])
+              : RebuildSafeLayoutBuilder(
+                  debugLabel: 'SignalBarView',
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    // Collapsed with nothing lit here, only the caret is left:
+                    // the `empty` branch above, with no globe.
+                    final VoidCallback? openEverywhere = onOpenEverywhere;
+                    final layout = signalBarEndLayout(
+                      count: shown.length,
+                      width: constraints.maxWidth,
+                      showGlobe: openEverywhere != null,
+                    );
+                    final double size = signalBarSignalSize(
+                      count: shown.length,
+                      width: layout.signalsWidth,
+                    );
+                    final List<Widget> endButtons = <Widget>[
+                      if (openEverywhere != null)
+                        _GlobeButton(
+                          count: myChatCount,
+                          surface: surface,
+                          onTap: openEverywhere,
+                        ),
+                      _caret(context, l10n),
+                    ];
+                    return IntrinsicHeight(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          SizedBox(
+                            width: layout.signalsWidth,
+                            child: Align(
+                              alignment: AlignmentDirectional.topStart,
+                              child: Wrap(
                                 spacing: _kSignalSpacing,
                                 runSpacing: _kSignalSpacing,
                                 children: <Widget>[
@@ -405,25 +500,145 @@ class SignalBarView extends StatelessWidget {
                                       onDetails: onDetails,
                                     ),
                                 ],
-                              );
-                            },
+                              ),
+                            ),
+                          ),
+                          if (openEverywhere != null) ...<Widget>[
+                            const SizedBox(width: _kEndDividerGap),
+                            VerticalDivider(
+                              key: const ValueKey<String>('signal-bar-divider'),
+                              width: 1,
+                              thickness: 1,
+                              color: dividerColor,
+                            ),
+                            const SizedBox(width: _kEndDividerGap),
+                          ],
+                          Center(
+                            child: layout.stacked
+                                ? Column(
+                                    key: const ValueKey<String>(
+                                      'signal-bar-end-stacked',
+                                    ),
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: endButtons,
+                                  )
+                                : Row(
+                                    key: const ValueKey<String>(
+                                      'signal-bar-end-side-by-side',
+                                    ),
+                                    mainAxisSize: MainAxisSize.min,
+                                    spacing: _kEndGap,
+                                    children: endButtons,
+                                  ),
+                          ),
+                        ],
                       ),
-              ),
-              IconButton(
-                visualDensity: VisualDensity.compact,
-                iconSize: 16,
-                tooltip: collapsed
-                    ? l10n.fork.signalBarShow
-                    : l10n.fork.signalBarHide,
-                onPressed: onToggleCollapsed,
-                icon: PhosphorIcon(
-                  collapsed
-                      ? PhosphorIconsBold.caretUp
-                      : PhosphorIconsBold.caretDown,
-                  color: context.colors.textTertiary,
+                    );
+                  },
                 ),
-              ),
-            ],
+        ),
+      ),
+    );
+  }
+
+  Widget _caret(BuildContext context, FluxerLocalizations l10n) {
+    return SizedBox(
+      width: _kCaretSize,
+      height: _kCaretSize,
+      child: IconButton(
+        padding: EdgeInsets.zero,
+        iconSize: 16,
+        tooltip: collapsed ? l10n.fork.signalBarShow : l10n.fork.signalBarHide,
+        onPressed: onToggleCollapsed,
+        icon: PhosphorIcon(
+          collapsed ? PhosphorIconsBold.caretUp : PhosphorIconsBold.caretDown,
+          color: context.colors.textTertiary,
+        ),
+      ),
+    );
+  }
+}
+
+/// The globe at the end of the strip, with how many chats have the account's
+/// signals on: the brand colour, grey at zero, nothing until known.
+class _GlobeButton extends StatelessWidget {
+  const _GlobeButton({
+    required this.count,
+    required this.surface,
+    required this.onTap,
+  });
+
+  final int? count;
+  final Color surface;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final int? count = this.count;
+    final String label = l10n.fork.signalsEverywhereTooltip(count ?? 0);
+    return Tooltip(
+      message: label,
+      child: Semantics(
+        button: true,
+        label: label,
+        child: ExcludeSemantics(
+          child: SizedBox(
+            key: const ValueKey<String>('signal-bar-globe'),
+            width: _kGlobeSize,
+            height: _kGlobeSize,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: <Widget>[
+                Material(
+                  color: context.colors.backgroundModifierHover,
+                  borderRadius: BorderRadius.circular(8),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(8),
+                    onTap: onTap,
+                    child: Center(
+                      child: PhosphorIcon(
+                        PhosphorIconsBold.globe,
+                        size: 16,
+                        color: context.colors.textSecondary,
+                      ),
+                    ),
+                  ),
+                ),
+                if (count != null)
+                  PositionedDirectional(
+                    top: -5,
+                    end: -6,
+                    child: IgnorePointer(
+                      child: Container(
+                        key: const ValueKey<String>('signal-bar-globe-count'),
+                        constraints: const BoxConstraints(minWidth: 16),
+                        height: 16,
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: count == 0
+                              ? context.colors.backgroundTertiary
+                              : context.colors.brandPrimary,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: surface, width: 1.5),
+                        ),
+                        child: Text(
+                          '$count',
+                          style: TextStyle(
+                            fontSize: 10,
+                            height: 1,
+                            fontWeight: FontWeight.w700,
+                            color: count == 0
+                                ? context.colors.textTertiary
+                                : Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
           ),
         ),
       ),

@@ -1044,4 +1044,94 @@ class ForkLocalizationsTr extends ForkLocalizations {
   String personaCopyOf(String name) {
     return '$name personasının kopyası';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sohbet',
+      one: '$count sohbet',
+    );
+    return 'Her yerdeki sinyallerin · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sohbet',
+      one: '$count sohbet',
+    );
+    return 'Her yerde ayarla ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return '$label sinyalini her yerde ayarla';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Tümünü kapat';
+
+  @override
+  String get signalsEverywhereRestore => 'Geri yükle…';
+
+  @override
+  String get signalsEverywhereNone =>
+      'Sinyallerinden hiçbiri hiçbir yerde açık değil.';
+
+  @override
+  String get signalsRestoreTitle => 'Sinyallerin geri yüklensin mi?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return '$label sinyalini her yerde ayarlamadan önce ($time) açık olan sinyallerini geri getirir. Şu anda orada açık olanlar kapanır.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Hepsini kapatmadan önce ($time) açık olan sinyallerini geri getirir. Şu anda orada açık olanlar kapanır.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Son geri yüklemenden önce ($time) açık olan sinyallerini geri getirir. Şu anda orada açık olanlar kapanır.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Şimdi';
+
+  @override
+  String get signalsRestoreAfter => 'Sonra';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ $count sohbet daha',
+      one: '+ $count sohbet daha',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Artık oraya yazamadığın için atlandı: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Geri yükle';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      '“Geri yükle” işleminin neyi değiştireceği yüklenemedi. Tekrar dene.';
+
+  @override
+  String get signalsRestoreNothing => 'Geri yüklenecek bir şey yok.';
+
+  @override
+  String get signalsProfileMenu => 'Sinyaller';
 }
