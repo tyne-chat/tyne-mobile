@@ -1870,6 +1870,114 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'Copy of {name}'**
   String personaCopyOf(String name);
+
+  /// Signals everywhere (tyne-chat/tyne#223): from the globe at the end of the signal bar, set one signal in every chat where you have one on, turn all off, or restore the last such change. Same wording as the web app's. Tooltip and accessible label of the globe button at the end of the signal bar. count is how many chats have your signals on.
+  ///
+  /// In en, this message translates to:
+  /// **'Your signals everywhere · {count, plural, one{{count} chat} other{{count} chats}}'**
+  String signalsEverywhereTooltip(int count);
+
+  /// Signals everywhere (tyne-chat/tyne#223): from the globe at the end of the signal bar, set one signal in every chat where you have one on, turn all off, or restore the last such change. Same wording as the web app's. Small section heading above the signals that can be set in every chat at once. count is how many chats a tap would change.
+  ///
+  /// In en, this message translates to:
+  /// **'Set everywhere ({count, plural, one{{count} chat} other{{count} chats}})'**
+  String signalsEverywhereHeading(int count);
+
+  /// Signals everywhere (tyne-chat/tyne#223): from the globe at the end of the signal bar, set one signal in every chat where you have one on, turn all off, or restore the last such change. Same wording as the web app's. Tooltip and accessible label on a signal in the signals-everywhere sheet. label is the signal name, such as Sleeping.
+  ///
+  /// In en, this message translates to:
+  /// **'Set {label} everywhere'**
+  String signalsEverywhereSet(String label);
+
+  /// Signals everywhere (tyne-chat/tyne#223): from the globe at the end of the signal bar, set one signal in every chat where you have one on, turn all off, or restore the last such change. Same wording as the web app's. Button that turns off every signal you have on, in every chat. Keep it short.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn all off'**
+  String get signalsEverywhereTurnAllOff;
+
+  /// Signals everywhere (tyne-chat/tyne#223): from the globe at the end of the signal bar, set one signal in every chat where you have one on, turn all off, or restore the last such change. Same wording as the web app's. Button that opens a confirmation showing how your last change everywhere would be undone. Keep the ellipsis.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore…'**
+  String get signalsEverywhereRestore;
+
+  /// Signals everywhere (tyne-chat/tyne#223): from the globe at the end of the signal bar, set one signal in every chat where you have one on, turn all off, or restore the last such change. Same wording as the web app's. Shown in place of the list of chats when you have no signal on in any chat.
+  ///
+  /// In en, this message translates to:
+  /// **'None of your signals are on anywhere.'**
+  String get signalsEverywhereNone;
+
+  /// Signals everywhere (tyne-chat/tyne#223): from the globe at the end of the signal bar, set one signal in every chat where you have one on, turn all off, or restore the last such change. Same wording as the web app's. Title of the confirmation that undoes your last change to your signals in every chat at once.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore your signals?'**
+  String get signalsRestoreTitle;
+
+  /// Signals everywhere (tyne-chat/tyne#223): from the globe at the end of the signal bar, set one signal in every chat where you have one on, turn all off, or restore the last such change. Same wording as the web app's. Body of the restore confirmation when the last change set one signal in every chat. label is the signal name; time is when, such as 11:58 PM or Nov 9, 11:58 PM.
+  ///
+  /// In en, this message translates to:
+  /// **'Puts back what you had on before {label} everywhere at {time}. What you have on there now goes off.'**
+  String signalsRestoreBeforeSet(String label, String time);
+
+  /// Signals everywhere (tyne-chat/tyne#223): from the globe at the end of the signal bar, set one signal in every chat where you have one on, turn all off, or restore the last such change. Same wording as the web app's. Body of the restore confirmation when the last change turned off all your signals. time is when, such as 11:58 PM.
+  ///
+  /// In en, this message translates to:
+  /// **'Puts back what you had on before you turned all off at {time}. What you have on there now goes off.'**
+  String signalsRestoreBeforeOff(String time);
+
+  /// Signals everywhere (tyne-chat/tyne#223): from the globe at the end of the signal bar, set one signal in every chat where you have one on, turn all off, or restore the last such change. Same wording as the web app's. Body of the restore confirmation when the last change was itself a restore, so this one swaps back. time is when, such as 11:58 PM.
+  ///
+  /// In en, this message translates to:
+  /// **'Puts back what you had on before your last restore at {time}. What you have on there now goes off.'**
+  String signalsRestoreBeforeRestore(String time);
+
+  /// Signals everywhere (tyne-chat/tyne#223): from the globe at the end of the signal bar, set one signal in every chat where you have one on, turn all off, or restore the last such change. Same wording as the web app's. Column heading over the signals you have on in each chat now. Keep it short.
+  ///
+  /// In en, this message translates to:
+  /// **'Now'**
+  String get signalsRestoreNow;
+
+  /// Signals everywhere (tyne-chat/tyne#223): from the globe at the end of the signal bar, set one signal in every chat where you have one on, turn all off, or restore the last such change. Same wording as the web app's. Column heading over the signals each chat will have after restoring. Keep it short.
+  ///
+  /// In en, this message translates to:
+  /// **'After'**
+  String get signalsRestoreAfter;
+
+  /// Signals everywhere (tyne-chat/tyne#223): from the globe at the end of the signal bar, set one signal in every chat where you have one on, turn all off, or restore the last such change. Same wording as the web app's. Last line of the list in the restore confirmation when more chats change than are listed.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{+ {count} more chat} other{+ {count} more chats}}'**
+  String signalsRestoreMoreChats(int count);
+
+  /// Signals everywhere (tyne-chat/tyne#223): from the globe at the end of the signal bar, set one signal in every chat where you have one on, turn all off, or restore the last such change. Same wording as the web app's. Line in the restore confirmation naming chats the restore will skip. chats is a comma-separated list of chat names.
+  ///
+  /// In en, this message translates to:
+  /// **'Left out, since you can no longer post there: {chats}'**
+  String signalsRestoreLeftOut(String chats);
+
+  /// Signals everywhere (tyne-chat/tyne#223): from the globe at the end of the signal bar, set one signal in every chat where you have one on, turn all off, or restore the last such change. Same wording as the web app's. Confirm button of the restore confirmation. Keep it short.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get signalsRestoreConfirm;
+
+  /// Signals everywhere (tyne-chat/tyne#223): from the globe at the end of the signal bar, set one signal in every chat where you have one on, turn all off, or restore the last such change. Same wording as the web app's. Shown in place of the restore confirmation when its preview could not be loaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load what Restore would change. Try again.'**
+  String get signalsRestoreUnavailable;
+
+  /// Signals everywhere (tyne-chat/tyne#223): from the globe at the end of the signal bar, set one signal in every chat where you have one on, turn all off, or restore the last such change. Same wording as the web app's. Shown in place of the restore confirmation when there is no earlier change to undo.
+  ///
+  /// In en, this message translates to:
+  /// **'There is nothing to restore.'**
+  String get signalsRestoreNothing;
+
+  /// Signals everywhere (tyne-chat/tyne#223): from the globe at the end of the signal bar, set one signal in every chat where you have one on, turn all off, or restore the last such change. Same wording as the web app's. Item in your profile menu, under your online status, that opens the sheet of every chat where you have a signal on. Signals are the icons above the message box.
+  ///
+  /// In en, this message translates to:
+  /// **'Signals'**
+  String get signalsProfileMenu;
 }
 
 class _ForkLocalizationsDelegate

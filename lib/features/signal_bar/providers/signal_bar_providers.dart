@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/signal_bar/data/signal_bar_repository.dart';
 import 'package:fluxer_app/features/signal_bar/domain/signal_bar_models.dart';
 
@@ -78,6 +79,7 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
   void invalidate() {
     _disabledChannels.clear();
     state = const <String, List<SignalEntry>>{};
+    ref.read(mySignalsProvider.notifier).forget();
   }
 
   void handleChannelUpdate(Map<String, dynamic> data) {
@@ -88,28 +90,31 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
     ref
         .read(signalBarConfigProvider.notifier)
         .ensureVersion((data['bar_version'] as num?)?.toInt() ?? 0);
-    final List<SignalEntry>? current = state[channelId];
-    if (current == null) {
-      return;
-    }
-    _setChannel(
-      channelId,
-      applySignalUpdate(
-        current,
-        added: <SignalEntry>[
-          for (final Object? item
-              in data['added'] as List<dynamic>? ?? const [])
-            SignalEntry.fromJson(item! as Map<String, dynamic>),
-        ],
-        removed: <({String signalId, String userId})>[
+    final List<SignalEntry> added = <SignalEntry>[
+      for (final Object? item in data['added'] as List<dynamic>? ?? const [])
+        SignalEntry.fromJson(item! as Map<String, dynamic>),
+    ];
+    final List<({String signalId, String userId})> removed =
+        <({String signalId, String userId})>[
           for (final Object? item
               in data['removed'] as List<dynamic>? ?? const [])
             (
               signalId: (item! as Map<String, dynamic>)['signal_id'] as String,
               userId: (item as Map<String, dynamic>)['user_id'] as String,
             ),
-        ],
-      ),
+        ];
+    // The account's own signals everywhere follow every channel's events,
+    // loaded here or not.
+    ref
+        .read(mySignalsProvider.notifier)
+        .applyChannelUpdate(channelId, added: added, removed: removed);
+    final List<SignalEntry>? current = state[channelId];
+    if (current == null) {
+      return;
+    }
+    _setChannel(
+      channelId,
+      applySignalUpdate(current, added: added, removed: removed),
     );
   }
 
@@ -266,6 +271,149 @@ channelSignalsProvider =
     NotifierProvider<ChannelSignalsNotifier, Map<String, List<SignalEntry>>>(
       ChannelSignalsNotifier.new,
     );
+
+/// The account's own signals in every chat (`GET /users/@me/signals`), kept up
+/// to date by the channel events that name the account. Null until loaded.
+@immutable
+class MySignalsState {
+  const MySignalsState({this.summary, this.busy = false});
+
+  final UserSignalsSummary? summary;
+
+  /// A change everywhere is on its way; the sheet's buttons wait for it.
+  final bool busy;
+}
+
+/// After a failed load, mounted strips wait this long before asking again.
+const Duration kMySignalsRetryDelay = Duration(minutes: 1);
+
+class MySignalsNotifier extends Notifier<MySignalsState> {
+  Future<void>? _request;
+  DateTime? _failedAt;
+
+  /// The clock, for tests.
+  @visibleForTesting
+  DateTime Function() now = DateTime.now;
+
+  @override
+  MySignalsState build() {
+    _request = null;
+    _failedAt = null;
+    return const MySignalsState();
+  }
+
+  /// Drops the summary after a new gateway session; the next strip or sheet
+  /// loads it again.
+  void forget() {
+    _failedAt = null;
+    state = MySignalsState(busy: state.busy);
+  }
+
+  /// Loads the summary, sharing a request in flight. A failure is logged.
+  Future<void> refresh() {
+    return _request ??= _fetch().whenComplete(() => _request = null);
+  }
+
+  Future<void> _fetch() async {
+    try {
+      final UserSignalsSummary summary = await ref
+          .read(signalBarRepositoryProvider)
+          .fetchMySignals();
+      _failedAt = null;
+      state = MySignalsState(summary: summary, busy: state.busy);
+    } on Exception catch (err) {
+      _failedAt = now();
+      debugPrint('[SignalBar] Failed to load signals everywhere: $err');
+    }
+  }
+
+  /// For a mounting strip: loads the summary once, and after a failure not
+  /// again for [kMySignalsRetryDelay].
+  void ensureLoaded() {
+    if (state.summary != null || _request != null) {
+      return;
+    }
+    final DateTime? failedAt = _failedAt;
+    if (failedAt != null && now().difference(failedAt) < kMySignalsRetryDelay) {
+      return;
+    }
+    unawaited(refresh());
+  }
+
+  void applyChannelUpdate(
+    String channelId, {
+    required List<SignalEntry> added,
+    required List<({String signalId, String userId})> removed,
+  }) {
+    final UserSignalsSummary? summary = state.summary;
+    final String? userId = ref.read(currentUserIdProvider);
+    if (summary == null || userId == null) {
+      return;
+    }
+    final UserSignalsSummary next = summary.withChannelUpdate(
+      channelId,
+      userId: userId,
+      added: added,
+      removed: removed,
+    );
+    if (!identical(next, summary)) {
+      state = MySignalsState(summary: next, busy: state.busy);
+    }
+  }
+
+  /// Sets [signalId] in every chat where the account has a signal on, and in
+  /// [channelId] as [personaId]; with [signalId] null, turns every signal of
+  /// the account's off. One request; the chats follow through their events.
+  Future<void> setEverywhere(
+    String? signalId, {
+    String? channelId,
+    String? personaId,
+  }) {
+    return _send(
+      () => ref
+          .read(signalBarRepositoryProvider)
+          .setEverywhere(
+            signalId: signalId,
+            channelId: signalId == null ? null : channelId,
+            personaId: signalId == null || channelId == null ? null : personaId,
+          ),
+    );
+  }
+
+  Future<void> restore() {
+    return _send(() => ref.read(signalBarRepositoryProvider).restore());
+  }
+
+  /// What Restore would change; null when it could not be loaded.
+  Future<UserSignalsRestorePreview?> fetchRestorePreview() async {
+    try {
+      return await ref.read(signalBarRepositoryProvider).fetchRestorePreview();
+    } on Exception catch (err) {
+      debugPrint('[SignalBar] Failed to load the restore preview: $err');
+      return null;
+    }
+  }
+
+  Future<void> _send(Future<UserSignalsSummary> Function() send) async {
+    if (state.busy) {
+      return;
+    }
+    state = MySignalsState(summary: state.summary, busy: true);
+    try {
+      final UserSignalsSummary summary = await send();
+      state = MySignalsState(summary: summary);
+      return;
+    } on Exception catch (err) {
+      debugPrint('[SignalBar] Failed to change signals everywhere: $err');
+    }
+    state = MySignalsState(summary: state.summary);
+    // Once, to show what did happen; the change itself is not sent again.
+    unawaited(refresh());
+  }
+}
+
+final NotifierProvider<MySignalsNotifier, MySignalsState> mySignalsProvider =
+    NotifierProvider<MySignalsNotifier, MySignalsState>(MySignalsNotifier.new);
 
 /// Routes the two signal bar gateway events to their notifiers.
 void handleSignalBarGatewayEvent(

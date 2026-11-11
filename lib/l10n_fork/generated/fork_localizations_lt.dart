@@ -1069,4 +1069,100 @@ class ForkLocalizationsLt extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'Personos $name kopija';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count pokalbių',
+      many: '$count pokalbio',
+      few: '$count pokalbiai',
+      one: '$count pokalbis',
+    );
+    return 'Tavo signalai visur · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count pokalbių',
+      many: '$count pokalbio',
+      few: '$count pokalbiai',
+      one: '$count pokalbis',
+    );
+    return 'Nustatyti visur ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'Nustatyti $label visur';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Išjungti visus';
+
+  @override
+  String get signalsEverywhereRestore => 'Atkurti…';
+
+  @override
+  String get signalsEverywhereNone =>
+      'Nė vienas tavo signalas niekur neįjungtas.';
+
+  @override
+  String get signalsRestoreTitle => 'Atkurti tavo signalus?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Grąžina tai, kas buvo įjungta prieš nustatant $label visur ($time). Tai, kas ten įjungta dabar, bus išjungta.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Grąžina tai, kas buvo įjungta prieš išjungiant visus signalus ($time). Tai, kas ten įjungta dabar, bus išjungta.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Grąžina tai, kas buvo įjungta prieš paskutinį tavo atkūrimą ($time). Tai, kas ten įjungta dabar, bus išjungta.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Dabar';
+
+  @override
+  String get signalsRestoreAfter => 'Po';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ dar $count pokalbių',
+      many: '+ dar $count pokalbio',
+      few: '+ dar $count pokalbiai',
+      one: '+ dar $count pokalbis',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Praleista, nes ten nebegali rašyti: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Atkurti';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'Nepavyko įkelti, ką pakeistų „Atkurti“. Bandyk dar kartą.';
+
+  @override
+  String get signalsRestoreNothing => 'Nėra ką atkurti.';
+
+  @override
+  String get signalsProfileMenu => 'Signalai';
 }

@@ -1043,6 +1043,95 @@ class ForkLocalizationsEn extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'Copy of $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count chats',
+      one: '$count chat',
+    );
+    return 'Your signals everywhere · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count chats',
+      one: '$count chat',
+    );
+    return 'Set everywhere ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'Set $label everywhere';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Turn all off';
+
+  @override
+  String get signalsEverywhereRestore => 'Restore…';
+
+  @override
+  String get signalsEverywhereNone => 'None of your signals are on anywhere.';
+
+  @override
+  String get signalsRestoreTitle => 'Restore your signals?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Puts back what you had on before $label everywhere at $time. What you have on there now goes off.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Puts back what you had on before you turned all off at $time. What you have on there now goes off.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Puts back what you had on before your last restore at $time. What you have on there now goes off.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Now';
+
+  @override
+  String get signalsRestoreAfter => 'After';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ $count more chats',
+      one: '+ $count more chat',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Left out, since you can no longer post there: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Restore';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'Could not load what Restore would change. Try again.';
+
+  @override
+  String get signalsRestoreNothing => 'There is nothing to restore.';
+
+  @override
+  String get signalsProfileMenu => 'Signals';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -2084,6 +2173,95 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   String personaCopyOf(String name) {
     return 'Copy of $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count chats',
+      one: '$count chat',
+    );
+    return 'Your signals everywhere · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count chats',
+      one: '$count chat',
+    );
+    return 'Set everywhere ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'Set $label everywhere';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Turn all off';
+
+  @override
+  String get signalsEverywhereRestore => 'Restore…';
+
+  @override
+  String get signalsEverywhereNone => 'None of your signals are on anywhere.';
+
+  @override
+  String get signalsRestoreTitle => 'Restore your signals?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Puts back what you had on before $label everywhere at $time. What you have on there now goes off.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Puts back what you had on before you turned all off at $time. What you have on there now goes off.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Puts back what you had on before your last restore at $time. What you have on there now goes off.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Now';
+
+  @override
+  String get signalsRestoreAfter => 'After';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ $count more chats',
+      one: '+ $count more chat',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Left out, since you can no longer post there: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Restore';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'Could not load what Restore would change. Try again.';
+
+  @override
+  String get signalsRestoreNothing => 'There is nothing to restore.';
+
+  @override
+  String get signalsProfileMenu => 'Signals';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -3125,4 +3303,93 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
   String personaCopyOf(String name) {
     return 'Copy of $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count chats',
+      one: '$count chat',
+    );
+    return 'Your signals everywhere · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count chats',
+      one: '$count chat',
+    );
+    return 'Set everywhere ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'Set $label everywhere';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Turn all off';
+
+  @override
+  String get signalsEverywhereRestore => 'Restore…';
+
+  @override
+  String get signalsEverywhereNone => 'None of your signals are on anywhere.';
+
+  @override
+  String get signalsRestoreTitle => 'Restore your signals?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Puts back what you had on before $label everywhere at $time. What you have on there now goes off.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Puts back what you had on before you turned all off at $time. What you have on there now goes off.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Puts back what you had on before your last restore at $time. What you have on there now goes off.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Now';
+
+  @override
+  String get signalsRestoreAfter => 'After';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ $count more chats',
+      one: '+ $count more chat',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Left out, since you can no longer post there: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Restore';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'Could not load what Restore would change. Try again.';
+
+  @override
+  String get signalsRestoreNothing => 'There is nothing to restore.';
+
+  @override
+  String get signalsProfileMenu => 'Signals';
 }

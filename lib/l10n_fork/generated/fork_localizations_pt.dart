@@ -1058,6 +1058,99 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'Cópia de $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count conversas',
+      many: '$count conversas',
+      one: '$count conversa',
+    );
+    return 'Os teus sinais em todo o lado · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count conversas',
+      many: '$count conversas',
+      one: '$count conversa',
+    );
+    return 'Definir em todo o lado ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'Definir $label em todo o lado';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Desligar todos';
+
+  @override
+  String get signalsEverywhereRestore => 'Restaurar…';
+
+  @override
+  String get signalsEverywhereNone =>
+      'Nenhum dos teus sinais está ligado em lado nenhum.';
+
+  @override
+  String get signalsRestoreTitle => 'Restaurar os teus sinais?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Repõe o que tinhas ligado antes de definires $label em todo o lado ($time). O que tens ligado lá agora será desligado.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Repõe o que tinhas ligado antes de desligares tudo ($time). O que tens ligado lá agora será desligado.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Repõe o que tinhas ligado antes do teu último restauro ($time). O que tens ligado lá agora será desligado.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Agora';
+
+  @override
+  String get signalsRestoreAfter => 'Depois';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ $count outras conversas',
+      many: '+ $count outras conversas',
+      one: '+ $count outra conversa',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Ficam de fora porque já não podes publicar nelas: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Restaurar';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'Não foi possível carregar o que «Restaurar» mudaria. Tenta novamente.';
+
+  @override
+  String get signalsRestoreNothing => 'Não há nada para restaurar.';
+
+  @override
+  String get signalsProfileMenu => 'Sinais';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -2120,4 +2213,94 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
   String personaCopyOf(String name) {
     return 'Cópia de $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count conversas',
+      one: '$count conversa',
+    );
+    return 'Seus sinais em todo lugar · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count conversas',
+      one: '$count conversa',
+    );
+    return 'Definir em todo lugar ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'Definir $label em todo lugar';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Desligar todos';
+
+  @override
+  String get signalsEverywhereRestore => 'Restaurar…';
+
+  @override
+  String get signalsEverywhereNone =>
+      'Nenhum dos seus sinais está ligado em lugar nenhum.';
+
+  @override
+  String get signalsRestoreTitle => 'Restaurar seus sinais?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Traz de volta o que você tinha ligado antes de definir $label em todo lugar ($time). O que você tem ligado lá agora será desligado.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Traz de volta o que você tinha ligado antes de desligar tudo ($time). O que você tem ligado lá agora será desligado.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Traz de volta o que você tinha ligado antes da sua última restauração ($time). O que você tem ligado lá agora será desligado.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Agora';
+
+  @override
+  String get signalsRestoreAfter => 'Depois';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ $count outras conversas',
+      one: '+ $count outra conversa',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Deixadas de fora porque você não pode mais postar nelas: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Restaurar';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'Não foi possível carregar o que “Restaurar” mudaria. Tente novamente.';
+
+  @override
+  String get signalsRestoreNothing => 'Não há nada para restaurar.';
+
+  @override
+  String get signalsProfileMenu => 'Sinais';
 }

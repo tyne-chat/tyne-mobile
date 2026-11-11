@@ -1053,4 +1053,93 @@ class ForkLocalizationsBn extends ForkLocalizations {
   String personaCopyOf(String name) {
     return '$name-এর কপি';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count টি চ্যাট',
+      one: '$count টি চ্যাট',
+    );
+    return 'সবখানে আপনার সিগন্যাল · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count টি চ্যাট',
+      one: '$count টি চ্যাট',
+    );
+    return 'সবখানে সেট করুন ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'সবখানে $label সেট করুন';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'সব বন্ধ করুন';
+
+  @override
+  String get signalsEverywhereRestore => 'পুনরুদ্ধার করুন…';
+
+  @override
+  String get signalsEverywhereNone => 'আপনার কোনো সিগন্যাল কোথাও চালু নেই।';
+
+  @override
+  String get signalsRestoreTitle => 'আপনার সিগন্যাল পুনরুদ্ধার করবেন?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return '$time-এ সবখানে $label সেট করার আগে আপনি যা চালু রেখেছিলেন তা ফিরিয়ে আনে। সেখানে এখন যা চালু আছে তা বন্ধ হয়ে যাবে।';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return '$time-এ সব বন্ধ করার আগে আপনি যা চালু রেখেছিলেন তা ফিরিয়ে আনে। সেখানে এখন যা চালু আছে তা বন্ধ হয়ে যাবে।';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return '$time-এ আপনার শেষ পুনরুদ্ধারের আগে যা চালু ছিল তা ফিরিয়ে আনে। সেখানে এখন যা চালু আছে তা বন্ধ হয়ে যাবে।';
+  }
+
+  @override
+  String get signalsRestoreNow => 'এখন';
+
+  @override
+  String get signalsRestoreAfter => 'পরে';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ আরও $count টি চ্যাট',
+      one: '+ আরও $count টি চ্যাট',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'বাদ দেওয়া হয়েছে, কারণ আপনি আর সেখানে পোস্ট করতে পারেন না: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'পুনরুদ্ধার করুন';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'পুনরুদ্ধার করলে কী বদলাবে তা লোড করা যায়নি। আবার চেষ্টা করুন।';
+
+  @override
+  String get signalsRestoreNothing => 'পুনরুদ্ধার করার মতো কিছু নেই।';
+
+  @override
+  String get signalsProfileMenu => 'সিগন্যাল';
 }
