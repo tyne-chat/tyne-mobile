@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "Readuce ce aveai activat înainte de ultima ta restaurare ({time}). Ce ai activat acolo acum se va dezactiva.",
     "signalsRestoreNow": "Acum",
     "signalsRestoreAfter": "După",
-    "signalsRestoreMoreChats": "{count, plural, one{+ încă {count} conversație} few{+ încă {count} conversații} other{+ încă {count} de conversații}}",
     "signalsRestoreLeftOut": "Omise, deoarece nu mai poți scrie acolo: {chats}",
     "signalsRestoreConfirm": "Restaurează",
     "signalsRestoreUnavailable": "Nu s-a putut încărca ce ar schimba „Restaurează”. Încearcă din nou.",
     "signalsRestoreNothing": "Nu există nimic de restaurat.",
-    "signalsProfileMenu": "Semnale"
+    "signalsProfileMenu": "Semnale",
+    "signalsEverywhereTurnOffChat": "Dezactivează semnalele",
+    "signalsRestoreBeforeChange": "Readuce ce aveai activat înainte de ultima ta modificare peste tot ({time}). Ce ai activat acolo acum se va dezactiva."
 }
