@@ -13,16 +13,18 @@ tyne-chat/tyne `fluxer_app/src/features/signal_bar/`.
 
 | Concern | File |
 |---|---|
-| REST: six raw Dio calls | `data/signal_bar_repository.dart` |
-| Models, hand-written parsers, `applySignalUpdate` | `domain/signal_bar_models.dart` |
-| The bar, each channel's entries, event routing, `affirmPersona` | `providers/signal_bar_providers.dart` |
+| REST: ten raw Dio calls | `data/signal_bar_repository.dart` |
+| Models, hand-written parsers, `applySignalUpdate`, the summary's `withChannelUpdate` | `domain/signal_bar_models.dart` |
+| The bar, each channel's entries, event routing, `affirmPersona`; the account's signals everywhere (`mySignalsProvider`) | `providers/signal_bar_providers.dart` |
+| Signals everywhere: the sheet, its rows, the restore confirmation | `presentation/signals_everywhere_sheet.dart` |
+| "Signals" in the profile menu and on your own profile | `presentation/signals_profile_menu_item.dart` (in upstream's `profile_tab_menu_sheet.dart`; `watchSignalsProfileEntryShown`), `presentation/signals_profile_row.dart` (under "Personas (N)" in the fork's `profile/presentation/widgets/persona_gallery_entry.dart`) |
 | Hand-overs from the composer, the picker and sends | `providers/signal_persona_affirmation.dart` |
 | The strip, rights, loading on entry, the details sheet, sizing | `presentation/signal_bar_strip.dart` |
 | Event routing by name | the `UnknownGatewayEvent` case of `core/gateway/gateway_event_handler.dart`, then `onSignalBarEvent` in `core/providers/gateway_provider.dart` |
-| Strings | `signalBar*` keys in `l10n_fork/fork_*.arb` |
+| Strings | `signalBar*` and `signals*` keys in `l10n_fork/fork_*.arb` |
 
-The SDK has a generated `SignalBarApi` and models; the app does not use them, and the repository's
-comment saying the SDK lacks the endpoints is out of date.
+The SDK has a generated `SignalBarApi` and models, signals everywhere included; the app does not
+use them and parses every shape by hand.
 
 ## Where the strip shows
 
@@ -42,6 +44,7 @@ comment saying the SDK lacks the endpoints is out of date.
 |---|---|
 | `signalBarConfigProvider` (`SignalBarConfigNotifier`) | `SignalBarConfig`: `version` (-1 until loaded), `signals`, and the unused `guildId` and `canManage`. `refresh()` shares the request in flight; `ensureLoaded()` and `ensureVersion(v)` call it; a failure keeps the old state |
 | `channelSignalsProvider` (`ChannelSignalsNotifier`) | every channel loaded this session, id to entries; and `_disabledChannels`, an instance field outside `state` |
+| `mySignalsProvider` (`MySignalsNotifier`) | `MySignalsState`: the summary from `GET /users/@me/signals` (null until loaded) and `busy`. `ensureLoaded()` loads once, and after a failure not again for a minute (`kMySignalsRetryDelay`); `refresh()` shares the request in flight; `forget()` drops it (`ChannelSignalsNotifier.invalidate()` calls it on READY) |
 | `signalBarCollapsedProvider` (`signal_bar_collapsed_provider.dart`) | the caret: one value per account on this device, for every channel, in `SharedPreferences`, not synced. It watches the account, and the strip watches it before it has anything to show, so the value is in before a collapsed bar could appear open |
 
 - A channel is on when it is in the map and not in `_disabledChannels`. An unknown channel is off,
@@ -69,6 +72,51 @@ comment saying the SDK lacks the endpoints is out of date.
 - **Lighting.** A tap on an unlit signal lights it as `composerSignalPersona`: `previewPersona` over
   the open composer's text and attachments, with the channel's selected persona (`latchedIdFor`).
   Before personas load, that is the account.
+
+## Signals everywhere
+
+The design, routes and server rules are in the server guide (tyne-chat/tyne#223); the web client
+has the same panel.
+
+- **The strip's end:** a full-height divider, then the globe and the caret, side by side while the
+  signals fit on one row beside that pair and stacked over each other otherwise
+  (`signalBarEndLayout`, which tries the pair first so the choice does not flip). Collapsed with
+  nothing lit in the chat, only the caret is left. The globe's badge counts the summary's chats:
+  brand colour, grey at 0, nothing until loaded.
+- **Sizes:** 6 dp between signals and 26–48 dp per signal, so sixteen signals make two rows of
+  eight on a phone (`signalBarSignalSize`; not yet checked on a device).
+- **Sheet** (`SignalsEverywhereSheet.show`, from the globe with the open chat, or from the profile
+  menu without one): "Set everywhere (N chats)" over the signals ticked `everywhere`, Turn all off
+  and Restore…, then every chat the app knows (the DM list, or the local database with a community
+  the account is in), newest first: icon (the person in a DM; the community with the channel type
+  in the corner), bold name, community or Direct message / Group DM on a second line, and the
+  chat's signals in columns against the right edge, as large as the icon and animated, as lit
+  signals on the strip are. The tiles are larger than the icons (52 dp) and still. A tap on a row
+  closes the sheet and opens the chat; a tile or Turn all off acts and closes the sheet (Chiara,
+  2026-11-11); a long press on a row offers "Turn off signals" for that chat
+  (`MySignalsNotifier.turnOffChat`, through `ChannelSignalsNotifier.withdrawOwn`) and the sheet stays
+  open. The open chat counts only when the bar is on there and the account may post; its signal is
+  lit as `composerSignalPersona`, the others keep theirs.
+- **Restore…** loads the preview (one GET), then a `FluxerConfirmSheet` with what the last change
+  was and when, every chat with what is on now and after (`SignalsRestorePreview`; past ten the
+  rows scroll under a separate heading table, with fixed column widths keeping the two in line),
+  and the chats left out.
+- **Your profile:** `SignalsProfileRow` under "Personas (N)", in the same section, with how many
+  chats have your signals on; shown by the same rule as the menu item.
+- **Profile menu:** `SignalsProfileMenuItem` after the status row of `ProfileTabMenuSheetBody`,
+  shown while the account has a signal on anywhere (every chat the server lists) or Restore has
+  something to put back. The summary loads with the bar (`SignalBarConfigNotifier`), after READY
+  too, so the item works before any strip has mounted. The
+  wide layout's user popout (`shell/presentation/user_area_popout.dart`) has no such row yet.
+- **Events:** `handleChannelUpdate` passes every `CHANNEL_SIGNAL_UPDATE` to the summary before it
+  looks at loaded channels, so the summary follows chats the strip never loaded. A channel switched
+  off drops out of the summary (`dropChat`), since the server clears it without a signal event.
+- **Counting:** the badge counts `knownSignalChatIdsProvider`, the chats the sheet can show, which
+  also keeps their database lookups warm for its first frame; Turn all off goes by every chat the
+  server lists, so signals left in chats the app cannot show (tyne-chat/tyne#305) can be cleared.
+- **Opening a chat** from the sheet navigates while the sheet is still open and then closes it:
+  the navigation reads providers after its own waits, through the sheet's `ref`.
+- The bar editor is web only, and so is the `everywhere` tick.
 
 ## Signals and personas
 
@@ -100,7 +148,8 @@ Opening or loading a channel re-points nothing, and neither does a selection mad
 - **Long press** opens `SignalDetailsSheet` for everyone. With `canReset` its rows turn one person off
   (one's own through `deactivate`, others through `removeUser`) and a last row resets the signal.
 - **Size:** `signalBarSignalSize` keeps 40 dp while one row holds every signal; past that it picks
-  30–48 dp so that no row is less than half full, fewest rows first, then nearest 40.
+  26–48 dp so that no row is less than half full, fewest rows first, then nearest 40. Signals sit
+  6 dp apart.
 - `SignalBarView` reads no providers and is tested alone. `SignalBarStrip.build` watches no composer
   state, so typing does not rebuild it.
 
@@ -117,6 +166,9 @@ Opening or loading a channel re-points nothing, and neither does a selection mad
 | Typing, a pick, a send, a voice message | none, unless own lit signals in that channel name another persona: 1 PUT each, all at once |
 | Tapping a signal | 1 PUT or DELETE, and 1 channel GET if it fails |
 | Long press | none; "Turn off" or "Reset": 1 DELETE, and 1 channel GET if it fails |
+| READY, then the first strip | 1 `GET /users/@me/signals`; after a failure, none for a minute |
+| Opening the signals sheet | 1 summary GET; a tile or Turn all off: 1 PUT, Restore: 1 preview GET and, confirmed, 1 POST; 1 summary GET after a failed change. Nothing is sent while a change is on its way |
+| A row's "Turn off signals" | 1 DELETE per own signal in that chat, all at once; if any fails, 1 summary GET and 1 channel GET (when loaded) |
 | `SIGNAL_BAR_UPDATE` (one copy per community) | 1 bar GET when the version is newer; later copies share it or find it current |
 
 A failed bar GET is tried again by the next strip mounted, a failed channel GET at the next mount or
@@ -161,11 +213,16 @@ bar change. Neither has a cooldown, and neither repeats on rebuilds.
   column, which could be one `_forkSignalBarStrip` call.
 - `chat_view_model.dart`: one call each in `updateMessageText` and `_sendVoiceMessageInner`, inside
   the fork's persona blocks.
+- `profile/presentation/sheets/profile_tab_menu_sheet.dart`: the fork import and one
+  `SignalsProfileMenuItem` line after the status item.
 - Fork-owned files: `composer_persona_resolution.dart`, `persona_picker_sheet.dart`,
   `persona_composer_pill.dart`.
 
 ## Tests
 
+- `test/features/signal_bar/signals_everywhere_test.dart`: the summary's parsing and events, one
+  request per action, the busy guard, the minute's wait, READY, where the globe goes, the badge, the
+  collapsed strip, the sheet's tiles, rows, columns and taps.
 - `test/features/signal_bar/`: `signal_bar_providers_test.dart` (a fake repository that records
   calls: parsing, in-place replacement, version refetch, the enabled flag, local removal, the scope of
   `affirmPersona`, loading never re-pointing); `signal_persona_affirmation_test.dart`;
@@ -174,8 +231,7 @@ bar change. Neither has a cooldown, and neither repeats on rebuilds.
   (`SignalBarView`, `SignalDetailsSheet`, the size table).
 - `test/core/gateway/gateway_event_handler_missing_events_fork_test.dart`: the three events reach
   `onSignalBarEvent` unparsed.
-- **The folder is in neither the nightly gate nor the root list** (tyne-chat/tyne#132): run it by
-  name.
+- The nightly gate runs every test under `test/` since tyne-chat/tyne#132, this folder included.
 - Not covered: nothing mounts `SignalBarStrip` (loading, rights, the lighting persona); no request
   fails or is counted; what the hand-overs do to signals.
 - After a change: `flutter test test/features/signal_bar` and the gateway test above. If a hand-over
