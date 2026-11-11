@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "Visszaállítja, ami a legutóbbi visszaállításod ({time}) előtt be volt kapcsolva. Ami ott most be van kapcsolva, kikapcsol.",
     "signalsRestoreNow": "Most",
     "signalsRestoreAfter": "Utána",
-    "signalsRestoreMoreChats": "{count, plural, one{+ még {count} beszélgetés} other{+ még {count} beszélgetés}}",
     "signalsRestoreLeftOut": "Kimaradnak, mert ott már nem írhatsz: {chats}",
     "signalsRestoreConfirm": "Visszaállítás",
     "signalsRestoreUnavailable": "Nem sikerült betölteni, mit változtatna a Visszaállítás. Próbáld újra.",
     "signalsRestoreNothing": "Nincs mit visszaállítani.",
-    "signalsProfileMenu": "Jelzések"
+    "signalsProfileMenu": "Jelzések",
+    "signalsEverywhereTurnOffChat": "Jelzések kikapcsolása",
+    "signalsRestoreBeforeChange": "Visszaállítja, ami a legutóbbi mindenhol végzett módosításod ({time}) előtt be volt kapcsolva. Ami ott most be van kapcsolva, kikapcsol."
 }

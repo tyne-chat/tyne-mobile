@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "Povrne stanje pred vašo zadnjo obnovitvijo ({time}). Kar je tam vklopljeno zdaj, se izklopi.",
     "signalsRestoreNow": "Zdaj",
     "signalsRestoreAfter": "Potem",
-    "signalsRestoreMoreChats": "{count, plural, one{+ še {count} klepet} two{+ še {count} klepeta} few{+ še {count} klepeti} other{+ še {count} klepetov}}",
     "signalsRestoreLeftOut": "Izpuščeno, ker tam ne morete več pisati: {chats}",
     "signalsRestoreConfirm": "Obnovi",
     "signalsRestoreUnavailable": "Ni bilo mogoče naložiti, kaj bi spremenilo „Obnovi“. Poskusite znova.",
     "signalsRestoreNothing": "Ničesar ni za obnovitev.",
-    "signalsProfileMenu": "Signali"
+    "signalsProfileMenu": "Signali",
+    "signalsEverywhereTurnOffChat": "Izklopi signale",
+    "signalsRestoreBeforeChange": "Povrne stanje pred vašo zadnjo spremembo povsod ({time}). Kar je tam vklopljeno zdaj, se izklopi."
 }

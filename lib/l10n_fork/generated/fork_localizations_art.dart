@@ -1114,17 +1114,6 @@ class ForkLocalizationsArt extends ForkLocalizations {
   String get signalsRestoreAfter => 'tenpo kama';
 
   @override
-  String signalsRestoreMoreChats(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '+ tomo toki ante $count',
-      one: '+ tomo toki ante $count',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String signalsRestoreLeftOut(String chats) {
     return 'sina ken ala toki lon tomo toki ni la ona li weka: $chats';
   }
@@ -1141,4 +1130,12 @@ class ForkLocalizationsArt extends ForkLocalizations {
 
   @override
   String get signalsProfileMenu => 'suno';
+
+  @override
+  String get signalsEverywhereTurnOffChat => 'o pini e suno';
+
+  @override
+  String signalsRestoreBeforeChange(String time) {
+    return 'suno sina li kama sama tenpo pini: tenpo $time la sina ante e suno lon ale. suno open sina lon ona lon tenpo ni li kama pini.';
+  }
 }

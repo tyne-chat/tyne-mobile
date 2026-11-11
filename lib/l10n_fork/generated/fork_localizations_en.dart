@@ -1105,17 +1105,6 @@ class ForkLocalizationsEn extends ForkLocalizations {
   String get signalsRestoreAfter => 'After';
 
   @override
-  String signalsRestoreMoreChats(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '+ $count more chats',
-      one: '+ $count more chat',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String signalsRestoreLeftOut(String chats) {
     return 'Left out, since you can no longer post there: $chats';
   }
@@ -1132,6 +1121,14 @@ class ForkLocalizationsEn extends ForkLocalizations {
 
   @override
   String get signalsProfileMenu => 'Signals';
+
+  @override
+  String get signalsEverywhereTurnOffChat => 'Turn off signals';
+
+  @override
+  String signalsRestoreBeforeChange(String time) {
+    return 'Puts back what you had on before your last change everywhere at $time. What you have on there now goes off.';
+  }
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -2235,17 +2232,6 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   String get signalsRestoreAfter => 'After';
 
   @override
-  String signalsRestoreMoreChats(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '+ $count more chats',
-      one: '+ $count more chat',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String signalsRestoreLeftOut(String chats) {
     return 'Left out, since you can no longer post there: $chats';
   }
@@ -2262,6 +2248,14 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
 
   @override
   String get signalsProfileMenu => 'Signals';
+
+  @override
+  String get signalsEverywhereTurnOffChat => 'Turn off signals';
+
+  @override
+  String signalsRestoreBeforeChange(String time) {
+    return 'Puts back what you had on before your last change everywhere at $time. What you have on there now goes off.';
+  }
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -3365,17 +3359,6 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
   String get signalsRestoreAfter => 'After';
 
   @override
-  String signalsRestoreMoreChats(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '+ $count more chats',
-      one: '+ $count more chat',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String signalsRestoreLeftOut(String chats) {
     return 'Left out, since you can no longer post there: $chats';
   }
@@ -3392,4 +3375,12 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
 
   @override
   String get signalsProfileMenu => 'Signals';
+
+  @override
+  String get signalsEverywhereTurnOffChat => 'Turn off signals';
+
+  @override
+  String signalsRestoreBeforeChange(String time) {
+    return 'Puts back what you had on before your last change everywhere at $time. What you have on there now goes off.';
+  }
 }

@@ -1125,17 +1125,6 @@ class ForkLocalizationsBg extends ForkLocalizations {
   String get signalsRestoreAfter => 'След';
 
   @override
-  String signalsRestoreMoreChats(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '+ още $count чата',
-      one: '+ още $count чат',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String signalsRestoreLeftOut(String chats) {
     return 'Пропуснати, защото вече не можеш да пишеш там: $chats';
   }
@@ -1152,4 +1141,12 @@ class ForkLocalizationsBg extends ForkLocalizations {
 
   @override
   String get signalsProfileMenu => 'Сигнали';
+
+  @override
+  String get signalsEverywhereTurnOffChat => 'Изключване на сигналите';
+
+  @override
+  String signalsRestoreBeforeChange(String time) {
+    return 'Връща сигналите, които бяха включени преди последната ти промяна навсякъде ($time). Включените там сега ще се изключат.';
+  }
 }
