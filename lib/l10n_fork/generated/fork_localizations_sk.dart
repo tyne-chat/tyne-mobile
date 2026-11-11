@@ -1070,4 +1070,94 @@ class ForkLocalizationsSk extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'Kópia persony $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count chatov',
+      many: '$count chatu',
+      few: '$count chaty',
+      one: '$count chat',
+    );
+    return 'Vaše signály všade · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count chatov',
+      many: '$count chatu',
+      few: '$count chaty',
+      one: '$count chat',
+    );
+    return 'Nastaviť všade ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'Nastaviť $label všade';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Vypnúť všetky';
+
+  @override
+  String get signalsEverywhereRestore => 'Obnoviť…';
+
+  @override
+  String get signalsEverywhereNone => 'Nikde nemáte zapnutý žiadny signál.';
+
+  @override
+  String get signalsRestoreTitle => 'Obnoviť vaše signály?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Vráti stav pred nastavením signálu $label všade ($time). Čo tam máte zapnuté teraz, sa vypne.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Vráti stav pred vypnutím všetkých signálov ($time). Čo tam máte zapnuté teraz, sa vypne.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Vráti stav pred vaším posledným obnovením ($time). Čo tam máte zapnuté teraz, sa vypne.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Teraz';
+
+  @override
+  String get signalsRestoreAfter => 'Potom';
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Vynechané, pretože tam už nemôžete písať: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Obnoviť';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'Nepodarilo sa načítať, čo by zmenilo „Obnoviť“. Skúste to znova.';
+
+  @override
+  String get signalsRestoreNothing => 'Nie je čo obnoviť.';
+
+  @override
+  String get signalsProfileMenu => 'Signály';
+
+  @override
+  String get signalsEverywhereTurnOffChat => 'Vypnúť signály';
+
+  @override
+  String signalsRestoreBeforeChange(String time) {
+    return 'Vráti stav pred vašou poslednou zmenou všade ($time). Čo tam máte zapnuté teraz, sa vypne.';
+  }
 }
