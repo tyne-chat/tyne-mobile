@@ -1067,4 +1067,100 @@ class ForkLocalizationsSl extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'Kopija persone $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count klepetov',
+      few: '$count klepeti',
+      two: '$count klepeta',
+      one: '$count klepet',
+    );
+    return 'Vaši signali povsod · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count klepetov',
+      few: '$count klepeti',
+      two: '$count klepeta',
+      one: '$count klepet',
+    );
+    return 'Nastavi povsod ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'Nastavi $label povsod';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Izklopi vse';
+
+  @override
+  String get signalsEverywhereRestore => 'Obnovi…';
+
+  @override
+  String get signalsEverywhereNone =>
+      'Nobeden od vaših signalov ni nikjer vklopljen.';
+
+  @override
+  String get signalsRestoreTitle => 'Želite obnoviti svoje signale?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Povrne stanje pred nastavitvijo signala $label povsod ($time). Kar je tam vklopljeno zdaj, se izklopi.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Povrne stanje pred izklopom vseh signalov ($time). Kar je tam vklopljeno zdaj, se izklopi.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Povrne stanje pred vašo zadnjo obnovitvijo ($time). Kar je tam vklopljeno zdaj, se izklopi.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Zdaj';
+
+  @override
+  String get signalsRestoreAfter => 'Potem';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ še $count klepetov',
+      few: '+ še $count klepeti',
+      two: '+ še $count klepeta',
+      one: '+ še $count klepet',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Izpuščeno, ker tam ne morete več pisati: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Obnovi';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'Ni bilo mogoče naložiti, kaj bi spremenilo „Obnovi“. Poskusite znova.';
+
+  @override
+  String get signalsRestoreNothing => 'Ničesar ni za obnovitev.';
+
+  @override
+  String get signalsProfileMenu => 'Signali';
 }

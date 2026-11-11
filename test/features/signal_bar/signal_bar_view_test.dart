@@ -258,34 +258,40 @@ void main() {
     });
 
     test('keeps the default size when every row is at least half full', () {
-      // 7 and 5; 7, 7 and 7.
+      // 7 and 5; 7 and 7.
       expect(signalBarSignalSize(count: 12, width: 355), 40);
-      expect(signalBarSignalSize(count: 21, width: 355), 40);
+      expect(signalBarSignalSize(count: 14, width: 355), 40);
     });
 
     test('shrinks when that saves a row', () {
-      // 40 gives 7, 7 and 4; 30 gives 9 and 9.
-      expect(signalBarSignalSize(count: 18, width: 355), 30);
+      // 40 gives 7, 7 and 4; 34 gives 9 and 9.
+      expect(signalBarSignalSize(count: 18, width: 355), 34);
+      // 40 gives 7, 7 and 7; 26 gives 11 and 10.
+      expect(signalBarSignalSize(count: 21, width: 355), 26);
     });
 
-    test('shrinks so fifteen signals make two rows instead of 7, 7, 1', () {
-      expect(signalBarSignalSize(count: 15, width: 355), 35);
+    test('shrinks so fifteen or sixteen signals make two rows, not three', () {
+      expect(signalBarSignalSize(count: 15, width: 355), 39);
+      expect(signalBarSignalSize(count: 16, width: 355), 39);
     });
 
-    test('shrinks to fit one row rather than leave one signal alone', () {
-      expect(signalBarSignalSize(count: 8, width: 355), 35);
+    test('shrinks to fit one row rather than leave signals alone', () {
+      expect(signalBarSignalSize(count: 8, width: 355), 39);
+      // 40 gives 7 and 3; 30 fits all ten on one row.
+      expect(signalBarSignalSize(count: 10, width: 355), 30);
     });
 
     test('grows when shrinking cannot fill the last row', () {
-      // 40 gives 7 and 3; 30 gives 9 and 1; 43 gives 6 and 4.
-      expect(signalBarSignalSize(count: 10, width: 355), 43);
+      // 40 gives six rows of 5 and one of 1; 26 gives four of 7 and one of 3;
+      // 42 gives seven of 4 and one of 3.
+      expect(signalBarSignalSize(count: 31, width: 230), 42);
     });
 
     test('stays in range and falls back to the default without a width', () {
       for (int count = 1; count <= 60; count++) {
         for (double width = 120; width <= 900; width += 37) {
           final double size = signalBarSignalSize(count: count, width: width);
-          expect(size, inInclusiveRange(30, 48));
+          expect(size, inInclusiveRange(26, 48));
         }
       }
       expect(signalBarSignalSize(count: 5, width: double.infinity), 40);

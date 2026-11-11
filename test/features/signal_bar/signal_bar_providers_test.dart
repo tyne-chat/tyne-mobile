@@ -48,6 +48,35 @@ class _FakeRepository implements SignalBarRepository {
   @override
   Future<void> reset(String channelId, String signalId) async =>
       calls.add('RESET $channelId $signalId');
+
+  @override
+  Future<UserSignalsSummary> fetchMySignals() async => const UserSignalsSummary(
+    chats: <UserSignalChat>[],
+    restoreAvailable: false,
+  );
+
+  @override
+  Future<UserSignalsSummary> setEverywhere({
+    required String? signalId,
+    String? channelId,
+    String? personaId,
+  }) async => const UserSignalsSummary(
+    chats: <UserSignalChat>[],
+    restoreAvailable: true,
+  );
+
+  @override
+  Future<UserSignalsRestorePreview> fetchRestorePreview() async =>
+      const UserSignalsRestorePreview(
+        available: false,
+        chats: <UserSignalsRestoreChat>[],
+      );
+
+  @override
+  Future<UserSignalsSummary> restore() async => const UserSignalsSummary(
+    chats: <UserSignalChat>[],
+    restoreAvailable: true,
+  );
 }
 
 Map<String, dynamic> _entryJson(

@@ -1073,4 +1073,100 @@ class ForkLocalizationsUk extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'Копія персони $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count чату',
+      many: '$count чатів',
+      few: '$count чати',
+      one: '$count чат',
+    );
+    return 'Твої сигнали всюди · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count чату',
+      many: '$count чатів',
+      few: '$count чати',
+      one: '$count чат',
+    );
+    return 'Увімкнути всюди ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'Увімкнути $label всюди';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Вимкнути всі';
+
+  @override
+  String get signalsEverywhereRestore => 'Відновити…';
+
+  @override
+  String get signalsEverywhereNone =>
+      'Жоден із твоїх сигналів ніде не ввімкнений.';
+
+  @override
+  String get signalsRestoreTitle => 'Відновити твої сигнали?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Повертає те, що було ввімкнено до ввімкнення сигналу $label всюди ($time). Те, що ввімкнено там зараз, вимкнеться.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Повертає те, що було ввімкнено до вимкнення всіх сигналів ($time). Те, що ввімкнено там зараз, вимкнеться.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Повертає те, що було ввімкнено до твого останнього відновлення ($time). Те, що ввімкнено там зараз, вимкнеться.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Зараз';
+
+  @override
+  String get signalsRestoreAfter => 'Після';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ ще $count чату',
+      many: '+ ще $count чатів',
+      few: '+ ще $count чати',
+      one: '+ ще $count чат',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Пропущено, бо ти більше не можеш там писати: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Відновити';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'Не вдалося завантажити, що змінить «Відновити». Спробуй ще раз.';
+
+  @override
+  String get signalsRestoreNothing => 'Немає чого відновлювати.';
+
+  @override
+  String get signalsProfileMenu => 'Сигнали';
 }

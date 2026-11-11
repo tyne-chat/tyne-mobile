@@ -1048,4 +1048,94 @@ class ForkLocalizationsDa extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'Kopi af $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count samtaler',
+      one: '$count samtale',
+    );
+    return 'Dine signaler overalt · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count samtaler',
+      one: '$count samtale',
+    );
+    return 'Slå til overalt ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'Slå $label til overalt';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Slå alle fra';
+
+  @override
+  String get signalsEverywhereRestore => 'Gendan…';
+
+  @override
+  String get signalsEverywhereNone =>
+      'Ingen af dine signaler er slået til nogen steder.';
+
+  @override
+  String get signalsRestoreTitle => 'Gendan dine signaler?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Sætter det tilbage, du havde slået til, før du slog $label til overalt ($time). Det, du har slået til der nu, bliver slået fra.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Sætter det tilbage, du havde slået til, før du slog alle fra ($time). Det, du har slået til der nu, bliver slået fra.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Sætter det tilbage, du havde slået til før din seneste gendannelse ($time). Det, du har slået til der nu, bliver slået fra.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Nu';
+
+  @override
+  String get signalsRestoreAfter => 'Efter';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ $count samtaler mere',
+      one: '+ $count samtale mere',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Udeladt, da du ikke længere kan skrive der: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Gendan';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'Kunne ikke indlæse, hvad »Gendan« ville ændre. Prøv igen.';
+
+  @override
+  String get signalsRestoreNothing => 'Der er intet at gendanne.';
+
+  @override
+  String get signalsProfileMenu => 'Signaler';
 }
