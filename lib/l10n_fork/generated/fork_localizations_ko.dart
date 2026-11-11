@@ -1015,4 +1015,89 @@ class ForkLocalizationsKo extends ForkLocalizations {
   String personaCopyOf(String name) {
     return '$name의 사본';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '채팅 $count개',
+    );
+    return '모든 곳의 내 시그널 · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '채팅 $count개',
+    );
+    return '모든 곳에 설정 ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return '모든 곳에 $label 설정';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => '모두 끄기';
+
+  @override
+  String get signalsEverywhereRestore => '복원…';
+
+  @override
+  String get signalsEverywhereNone => '어디에도 켜진 시그널이 없어요.';
+
+  @override
+  String get signalsRestoreTitle => '시그널을 복원할까요?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return '$time에 $label 시그널을 모든 곳에 설정하기 전에 켜져 있던 시그널을 되돌려요. 지금 그곳에 켜져 있는 시그널은 꺼져요.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return '$time에 모두 끄기 전에 켜져 있던 시그널을 되돌려요. 지금 그곳에 켜져 있는 시그널은 꺼져요.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return '$time에 마지막으로 복원하기 전에 켜져 있던 시그널을 되돌려요. 지금 그곳에 켜져 있는 시그널은 꺼져요.';
+  }
+
+  @override
+  String get signalsRestoreNow => '현재';
+
+  @override
+  String get signalsRestoreAfter => '이후';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ 채팅 $count개 더',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return '더 이상 글을 올릴 수 없어 제외됨: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => '복원';
+
+  @override
+  String get signalsRestoreUnavailable => '복원으로 바뀔 내용을 불러오지 못했어요. 다시 시도해 주세요.';
+
+  @override
+  String get signalsRestoreNothing => '복원할 내용이 없어요.';
+
+  @override
+  String get signalsProfileMenu => '시그널';
 }

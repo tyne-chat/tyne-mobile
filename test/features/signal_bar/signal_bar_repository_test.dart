@@ -125,4 +125,51 @@ void main() {
       ('DELETE', '/channels/c1/signals/s1'),
     ]);
   });
+
+  test('reads, sets and restores signals everywhere', () async {
+    answer = <String, dynamic>{
+      'restore_available': true,
+      'chats': <dynamic>[
+        <String, dynamic>{
+          'channel_id': 'c1',
+          'signals': <dynamic>[
+            <String, dynamic>{'signal_id': 's1', 'persona_id': null},
+          ],
+          'updated_at': 3,
+        },
+      ],
+    };
+
+    final UserSignalsSummary summary = await repository().fetchMySignals();
+    await repository().setEverywhere(
+      signalId: 's1',
+      channelId: 'c1',
+      personaId: 'p1',
+    );
+    await repository().setEverywhere(signalId: null);
+    await repository().restore();
+    answer = <String, dynamic>{'available': false, 'chats': <dynamic>[]};
+    final UserSignalsRestorePreview preview = await repository()
+        .fetchRestorePreview();
+
+    expect(summary.chats.single.channelId, 'c1');
+    expect(summary.restoreAvailable, isTrue);
+    expect(
+      requests.map((RequestOptions r) => '${r.method} ${r.path}'),
+      <String>[
+        'GET /users/@me/signals',
+        'PUT /users/@me/signals',
+        'PUT /users/@me/signals',
+        'POST /users/@me/signals/restore',
+        'GET /users/@me/signals/restore',
+      ],
+    );
+    expect(requests[1].data, <String, dynamic>{
+      'signal_id': 's1',
+      'channel_id': 'c1',
+      'persona_id': 'p1',
+    });
+    expect(requests[2].data, <String, dynamic>{'signal_id': null});
+    expect(preview.available, isFalse);
+  });
 }

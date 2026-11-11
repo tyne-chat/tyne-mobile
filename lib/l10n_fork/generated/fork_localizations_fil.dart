@@ -1063,4 +1063,94 @@ class ForkLocalizationsFil extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'Kopya ng $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count chat',
+      one: '$count chat',
+    );
+    return 'Ang mga signal mo kahit saan · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count chat',
+      one: '$count chat',
+    );
+    return 'I-set kahit saan ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'I-set ang $label kahit saan';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'I-off lahat';
+
+  @override
+  String get signalsEverywhereRestore => 'Ibalik…';
+
+  @override
+  String get signalsEverywhereNone =>
+      'Wala sa mga signal mo ang naka-on kahit saan.';
+
+  @override
+  String get signalsRestoreTitle => 'Ibalik ang mga signal mo?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Ibinabalik ang mga naka-on mo bago mo i-set ang $label kahit saan noong $time. Mag-o-off ang mga naka-on mo roon ngayon.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Ibinabalik ang mga naka-on mo bago mo in-off ang lahat noong $time. Mag-o-off ang mga naka-on mo roon ngayon.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Ibinabalik ang mga naka-on mo bago ang huli mong pagbabalik noong $time. Mag-o-off ang mga naka-on mo roon ngayon.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Ngayon';
+
+  @override
+  String get signalsRestoreAfter => 'Pagkatapos';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ $count pang chat',
+      one: '+ $count pang chat',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Hindi isinama dahil hindi ka na makakapag-post doon: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Ibalik';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'Hindi ma-load kung ano ang babaguhin ng Ibalik. Subukan ulit.';
+
+  @override
+  String get signalsRestoreNothing => 'Walang maibabalik.';
+
+  @override
+  String get signalsProfileMenu => 'Mga signal';
 }

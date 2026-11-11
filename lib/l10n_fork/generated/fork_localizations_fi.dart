@@ -1052,4 +1052,94 @@ class ForkLocalizationsFi extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'Kopio persoonasta $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count keskustelua',
+      one: '$count keskustelu',
+    );
+    return 'Signaalisi kaikkialla · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count keskustelua',
+      one: '$count keskustelu',
+    );
+    return 'Aseta kaikkialle ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'Aseta signaali $label kaikkialle';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Kytke kaikki pois';
+
+  @override
+  String get signalsEverywhereRestore => 'Palauta…';
+
+  @override
+  String get signalsEverywhereNone =>
+      'Mikään signaaleistasi ei ole päällä missään.';
+
+  @override
+  String get signalsRestoreTitle => 'Palautetaanko signaalisi?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Palauttaa sen, mitä sinulla oli päällä ennen kuin asetit signaalin $label kaikkialle ($time). Se, mitä sinulla on siellä nyt päällä, kytkeytyy pois.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Palauttaa sen, mitä sinulla oli päällä ennen kuin kytkit kaikki pois ($time). Se, mitä sinulla on siellä nyt päällä, kytkeytyy pois.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Palauttaa sen, mitä sinulla oli päällä ennen viimeisintä palautustasi ($time). Se, mitä sinulla on siellä nyt päällä, kytkeytyy pois.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Nyt';
+
+  @override
+  String get signalsRestoreAfter => 'Jälkeen';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ $count muuta keskustelua',
+      one: '+ $count muu keskustelu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Jätetty pois, koska et voi enää kirjoittaa niihin: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Palauta';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'Palauta-toiminnon muutoksia ei voitu ladata. Yritä uudelleen.';
+
+  @override
+  String get signalsRestoreNothing => 'Palautettavaa ei ole.';
+
+  @override
+  String get signalsProfileMenu => 'Signaalit';
 }

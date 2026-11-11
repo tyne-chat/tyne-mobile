@@ -1055,4 +1055,94 @@ class ForkLocalizationsSq extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'Kopje e personës $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count biseda',
+      one: '$count bisedë',
+    );
+    return 'Sinjalet e tua kudo · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count biseda',
+      one: '$count bisedë',
+    );
+    return 'Vendos kudo ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'Vendos $label kudo';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Fiki të gjitha';
+
+  @override
+  String get signalsEverywhereRestore => 'Rikthe…';
+
+  @override
+  String get signalsEverywhereNone =>
+      'Asnjë nga sinjalet e tua nuk është ndezur askund.';
+
+  @override
+  String get signalsRestoreTitle => 'Të rikthehen sinjalet e tua?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Rikthen atë që kishe ndezur para se të vendosje $label kudo ($time). Ajo që ke ndezur aty tani do të fiket.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Rikthen atë që kishe ndezur para se t’i fikje të gjitha ($time). Ajo që ke ndezur aty tani do të fiket.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Rikthen atë që kishe ndezur para rikthimit tënd të fundit ($time). Ajo që ke ndezur aty tani do të fiket.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Tani';
+
+  @override
+  String get signalsRestoreAfter => 'Pas';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ edhe $count biseda',
+      one: '+ edhe $count bisedë',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Lënë jashtë, sepse nuk mund të shkruash më aty: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Rikthe';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'Nuk u ngarkua dot se çfarë do të ndryshonte “Rikthe”. Provo sërish.';
+
+  @override
+  String get signalsRestoreNothing => 'Nuk ka asgjë për t’u rikthyer.';
+
+  @override
+  String get signalsProfileMenu => 'Sinjalet';
 }
