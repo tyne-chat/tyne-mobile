@@ -1076,4 +1076,99 @@ class ForkLocalizationsAr extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'نسخة من $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count محادثة',
+      many: '$count محادثة',
+      few: '$count محادثات',
+      two: 'محادثتان',
+      one: 'محادثة واحدة',
+      zero: 'لا محادثات',
+    );
+    return 'إشاراتك في كل مكان · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count محادثة',
+      many: '$count محادثة',
+      few: '$count محادثات',
+      two: 'محادثتان',
+      one: 'محادثة واحدة',
+      zero: 'لا محادثات',
+    );
+    return 'تعيين في كل مكان ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'تعيين $label في كل مكان';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'إيقاف الكل';
+
+  @override
+  String get signalsEverywhereRestore => 'استعادة…';
+
+  @override
+  String get signalsEverywhereNone =>
+      'لا توجد أي إشارة من إشاراتك مفعّلة في أي مكان.';
+
+  @override
+  String get signalsRestoreTitle => 'استعادة إشاراتك؟';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'يعيد ما كان مفعّلًا لديك قبل تعيين $label في كل مكان في $time. سيتوقف ما هو مفعّل لديك هناك الآن.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'يعيد ما كان مفعّلًا لديك قبل أن توقف الكل في $time. سيتوقف ما هو مفعّل لديك هناك الآن.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'يعيد ما كان مفعّلًا لديك قبل آخر استعادة في $time. سيتوقف ما هو مفعّل لديك هناك الآن.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'الآن';
+
+  @override
+  String get signalsRestoreAfter => 'بعد';
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'لم تُشمل لأنك لم تعد تستطيع الكتابة فيها: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'استعادة';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'تعذّر تحميل ما ستغيّره الاستعادة. حاول مرة أخرى.';
+
+  @override
+  String get signalsRestoreNothing => 'لا يوجد ما يمكن استعادته.';
+
+  @override
+  String get signalsProfileMenu => 'الإشارات';
+
+  @override
+  String get signalsEverywhereTurnOffChat => 'إيقاف الإشارات';
+
+  @override
+  String signalsRestoreBeforeChange(String time) {
+    return 'يعيد ما كان مفعّلًا لديك قبل آخر تغيير أجريته في كل مكان في $time. سيتوقف ما هو مفعّل لديك هناك الآن.';
+  }
 }
