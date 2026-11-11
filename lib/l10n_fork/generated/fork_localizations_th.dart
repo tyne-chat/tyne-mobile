@@ -1032,4 +1032,90 @@ class ForkLocalizationsTh extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'สำเนาของ $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count แชต',
+    );
+    return 'สัญญาณของคุณทุกที่ · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count แชต',
+    );
+    return 'ตั้งทุกที่ ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'ตั้ง $label ทุกที่';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'ปิดทั้งหมด';
+
+  @override
+  String get signalsEverywhereRestore => 'กู้คืน…';
+
+  @override
+  String get signalsEverywhereNone => 'ไม่มีสัญญาณของคุณเปิดอยู่ที่ใดเลย';
+
+  @override
+  String get signalsRestoreTitle => 'กู้คืนสัญญาณของคุณหรือไม่';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'นำสิ่งที่คุณเปิดไว้ก่อนตั้ง $label ทุกที่เมื่อ $time กลับมา สิ่งที่เปิดอยู่ที่นั่นตอนนี้จะถูกปิด';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'นำสิ่งที่คุณเปิดไว้ก่อนปิดทั้งหมดเมื่อ $time กลับมา สิ่งที่เปิดอยู่ที่นั่นตอนนี้จะถูกปิด';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'นำสิ่งที่คุณเปิดไว้ก่อนการกู้คืนครั้งล่าสุดเมื่อ $time กลับมา สิ่งที่เปิดอยู่ที่นั่นตอนนี้จะถูกปิด';
+  }
+
+  @override
+  String get signalsRestoreNow => 'ตอนนี้';
+
+  @override
+  String get signalsRestoreAfter => 'หลังกู้คืน';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ อีก $count แชต',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'ข้ามไป เนื่องจากคุณโพสต์ที่นั่นไม่ได้แล้ว: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'กู้คืน';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'โหลดสิ่งที่การกู้คืนจะเปลี่ยนไม่ได้ ลองอีกครั้ง';
+
+  @override
+  String get signalsRestoreNothing => 'ไม่มีอะไรให้กู้คืน';
+
+  @override
+  String get signalsProfileMenu => 'สัญญาณ';
 }

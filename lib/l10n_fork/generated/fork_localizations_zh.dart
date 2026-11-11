@@ -1007,6 +1007,91 @@ class ForkLocalizationsZh extends ForkLocalizations {
   String personaCopyOf(String name) {
     return '$name 的副本';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个聊天',
+    );
+    return '你在所有地方的信号 · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个聊天',
+    );
+    return '在所有地方设置（$_temp0）';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return '在所有地方设置 $label';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => '全部关闭';
+
+  @override
+  String get signalsEverywhereRestore => '恢复…';
+
+  @override
+  String get signalsEverywhereNone => '你没有在任何地方开启信号。';
+
+  @override
+  String get signalsRestoreTitle => '要恢复你的信号吗？';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return '恢复你在 $time 将 $label 设置到所有地方之前开启的信号。你现在在那里开启的信号将被关闭。';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return '恢复你在 $time 全部关闭之前开启的信号。你现在在那里开启的信号将被关闭。';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return '恢复你在 $time 上次恢复之前开启的信号。你现在在那里开启的信号将被关闭。';
+  }
+
+  @override
+  String get signalsRestoreNow => '当前';
+
+  @override
+  String get signalsRestoreAfter => '恢复后';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ 另外 $count 个聊天',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return '已跳过，因为你无法再在这些聊天中发言：$chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => '恢复';
+
+  @override
+  String get signalsRestoreUnavailable => '无法加载“恢复”将更改的内容。请重试。';
+
+  @override
+  String get signalsRestoreNothing => '没有可恢复的内容。';
+
+  @override
+  String get signalsProfileMenu => '信号';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -2012,4 +2097,89 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
   String personaCopyOf(String name) {
     return '$name 的副本';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 個聊天',
+    );
+    return '你在所有地方的訊號 · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 個聊天',
+    );
+    return '在所有地方設定（$_temp0）';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return '在所有地方設定 $label';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => '全部關閉';
+
+  @override
+  String get signalsEverywhereRestore => '還原…';
+
+  @override
+  String get signalsEverywhereNone => '你沒有在任何地方開啟訊號。';
+
+  @override
+  String get signalsRestoreTitle => '要還原你的訊號嗎？';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return '還原你在 $time 將 $label 設定到所有地方之前開啟的訊號。你目前在那裡開啟的訊號將會關閉。';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return '還原你在 $time 全部關閉之前開啟的訊號。你目前在那裡開啟的訊號將會關閉。';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return '還原你在 $time 上次還原之前開啟的訊號。你目前在那裡開啟的訊號將會關閉。';
+  }
+
+  @override
+  String get signalsRestoreNow => '目前';
+
+  @override
+  String get signalsRestoreAfter => '還原後';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ 另外 $count 個聊天',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return '已略過，因為你無法再在這些聊天中發言：$chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => '還原';
+
+  @override
+  String get signalsRestoreUnavailable => '無法載入「還原」將變更的內容。請再試一次。';
+
+  @override
+  String get signalsRestoreNothing => '沒有可還原的內容。';
+
+  @override
+  String get signalsProfileMenu => '訊號';
 }

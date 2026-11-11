@@ -1061,4 +1061,97 @@ class ForkLocalizationsLv extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'Personas $name kopija';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sarunas',
+      one: '$count saruna',
+      zero: '$count sarunas',
+    );
+    return 'Jūsu signāli visur · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sarunas',
+      one: '$count saruna',
+      zero: '$count sarunas',
+    );
+    return 'Iestatīt visur ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'Iestatīt $label visur';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Izslēgt visus';
+
+  @override
+  String get signalsEverywhereRestore => 'Atjaunot…';
+
+  @override
+  String get signalsEverywhereNone =>
+      'Neviens no jūsu signāliem nekur nav ieslēgts.';
+
+  @override
+  String get signalsRestoreTitle => 'Atjaunot jūsu signālus?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Atjauno to, kas bija ieslēgts, pirms visur iestatījāt signālu $label ($time). Tas, kas tur ieslēgts tagad, tiks izslēgts.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Atjauno to, kas bija ieslēgts pirms visu signālu izslēgšanas ($time). Tas, kas tur ieslēgts tagad, tiks izslēgts.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Atjauno to, kas bija ieslēgts pirms jūsu pēdējās atjaunošanas ($time). Tas, kas tur ieslēgts tagad, tiks izslēgts.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Tagad';
+
+  @override
+  String get signalsRestoreAfter => 'Pēc';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ vēl $count sarunas',
+      one: '+ vēl $count saruna',
+      zero: '+ vēl $count sarunas',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Izlaistas, jo tur vairs nevarat rakstīt: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Atjaunot';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'Neizdevās ielādēt, ko mainītu „Atjaunot”. Mēģiniet vēlreiz.';
+
+  @override
+  String get signalsRestoreNothing => 'Nav ko atjaunot.';
+
+  @override
+  String get signalsProfileMenu => 'Signāli';
 }
