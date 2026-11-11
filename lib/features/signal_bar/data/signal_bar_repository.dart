@@ -3,8 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/features/signal_bar/domain/signal_bar_models.dart';
 
-/// REST access to the signal bar. The endpoints are not part of the generated
-/// SDK, so requests go through the shared authenticated [Dio] directly.
+/// REST access to the signal bar, through the shared authenticated [Dio]. The
+/// generated SDK has these routes too; this folder parses by hand, as it
+/// always has.
 class SignalBarRepository {
   const SignalBarRepository(this._dio);
 
@@ -60,6 +61,52 @@ class SignalBarRepository {
 
   Future<void> reset(String channelId, String signalId) async {
     await _dio.delete<void>('/channels/$channelId/signals/$signalId');
+  }
+
+  /// Every chat where the account has a signal on.
+  Future<UserSignalsSummary> fetchMySignals() async {
+    final Response<Map<String, dynamic>> response = await _dio
+        .get<Map<String, dynamic>>('/users/@me/signals');
+    return UserSignalsSummary.fromJson(
+      response.data ?? const <String, dynamic>{},
+    );
+  }
+
+  /// Sets [signalId] in every chat where the account has a signal on, and in
+  /// [channelId] as [personaId]; with [signalId] null, turns every signal off.
+  Future<UserSignalsSummary> setEverywhere({
+    required String? signalId,
+    String? channelId,
+    String? personaId,
+  }) async {
+    final Response<Map<String, dynamic>> response = await _dio
+        .put<Map<String, dynamic>>(
+          '/users/@me/signals',
+          data: <String, dynamic>{
+            'signal_id': signalId,
+            'channel_id': ?channelId,
+            'persona_id': ?personaId,
+          },
+        );
+    return UserSignalsSummary.fromJson(
+      response.data ?? const <String, dynamic>{},
+    );
+  }
+
+  Future<UserSignalsRestorePreview> fetchRestorePreview() async {
+    final Response<Map<String, dynamic>> response = await _dio
+        .get<Map<String, dynamic>>('/users/@me/signals/restore');
+    return UserSignalsRestorePreview.fromJson(
+      response.data ?? const <String, dynamic>{},
+    );
+  }
+
+  Future<UserSignalsSummary> restore() async {
+    final Response<Map<String, dynamic>> response = await _dio
+        .post<Map<String, dynamic>>('/users/@me/signals/restore');
+    return UserSignalsSummary.fromJson(
+      response.data ?? const <String, dynamic>{},
+    );
   }
 }
 
