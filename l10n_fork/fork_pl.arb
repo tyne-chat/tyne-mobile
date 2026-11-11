@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "Przywraca to, co było włączone przed twoim ostatnim przywróceniem ({time}). To, co jest tam teraz włączone, zostanie wyłączone.",
     "signalsRestoreNow": "Teraz",
     "signalsRestoreAfter": "Po",
-    "signalsRestoreMoreChats": "{count, plural, one{+ jeszcze {count} czat} few{+ jeszcze {count} czaty} many{+ jeszcze {count} czatów} other{+ jeszcze {count} czatu}}",
     "signalsRestoreLeftOut": "Pominięte, bo nie możesz już tam pisać: {chats}",
     "signalsRestoreConfirm": "Przywróć",
     "signalsRestoreUnavailable": "Nie udało się wczytać, co zmieniłoby „Przywróć”. Spróbuj ponownie.",
     "signalsRestoreNothing": "Nie ma czego przywracać.",
-    "signalsProfileMenu": "Sygnały"
+    "signalsProfileMenu": "Sygnały",
+    "signalsEverywhereTurnOffChat": "Wyłącz sygnały",
+    "signalsRestoreBeforeChange": "Przywraca to, co było włączone przed twoją ostatnią zmianą wszędzie ({time}). To, co jest tam teraz włączone, zostanie wyłączone."
 }

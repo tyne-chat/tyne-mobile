@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "يعيد ما كان مفعّلًا لديك قبل آخر استعادة في {time}. سيتوقف ما هو مفعّل لديك هناك الآن.",
     "signalsRestoreNow": "الآن",
     "signalsRestoreAfter": "بعد",
-    "signalsRestoreMoreChats": "{count, plural, zero{+ {count} محادثة أخرى} one{+ محادثة أخرى} two{+ محادثتان أخريان} few{+ {count} محادثات أخرى} many{+ {count} محادثة أخرى} other{+ {count} محادثة أخرى}}",
     "signalsRestoreLeftOut": "لم تُشمل لأنك لم تعد تستطيع الكتابة فيها: {chats}",
     "signalsRestoreConfirm": "استعادة",
     "signalsRestoreUnavailable": "تعذّر تحميل ما ستغيّره الاستعادة. حاول مرة أخرى.",
     "signalsRestoreNothing": "لا يوجد ما يمكن استعادته.",
-    "signalsProfileMenu": "الإشارات"
+    "signalsProfileMenu": "الإشارات",
+    "signalsEverywhereTurnOffChat": "إيقاف الإشارات",
+    "signalsRestoreBeforeChange": "يعيد ما كان مفعّلًا لديك قبل آخر تغيير أجريته في كل مكان في {time}. سيتوقف ما هو مفعّل لديك هناك الآن."
 }

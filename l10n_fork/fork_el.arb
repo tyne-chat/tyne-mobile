@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "Επαναφέρει ό,τι είχες ενεργό πριν από την τελευταία σου επαναφορά ({time}). Ό,τι έχεις ενεργό εκεί τώρα θα απενεργοποιηθεί.",
     "signalsRestoreNow": "Τώρα",
     "signalsRestoreAfter": "Μετά",
-    "signalsRestoreMoreChats": "{count, plural, one{+ {count} ακόμη συνομιλία} other{+ {count} ακόμη συνομιλίες}}",
     "signalsRestoreLeftOut": "Παραλείπονται, επειδή δεν μπορείς πια να γράψεις εκεί: {chats}",
     "signalsRestoreConfirm": "Επαναφορά",
     "signalsRestoreUnavailable": "Δεν ήταν δυνατή η φόρτωση όσων θα άλλαζε η «Επαναφορά». Δοκίμασε ξανά.",
     "signalsRestoreNothing": "Δεν υπάρχει τίποτα για επαναφορά.",
-    "signalsProfileMenu": "Σήματα"
+    "signalsProfileMenu": "Σήματα",
+    "signalsEverywhereTurnOffChat": "Απενεργοποίηση σημάτων",
+    "signalsRestoreBeforeChange": "Επαναφέρει ό,τι είχες ενεργό πριν από την τελευταία σου αλλαγή παντού ({time}). Ό,τι έχεις ενεργό εκεί τώρα θα απενεργοποιηθεί."
 }

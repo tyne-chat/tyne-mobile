@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "Palauttaa sen, mitä sinulla oli päällä ennen viimeisintä palautustasi ({time}). Se, mitä sinulla on siellä nyt päällä, kytkeytyy pois.",
     "signalsRestoreNow": "Nyt",
     "signalsRestoreAfter": "Jälkeen",
-    "signalsRestoreMoreChats": "{count, plural, one{+ {count} muu keskustelu} other{+ {count} muuta keskustelua}}",
     "signalsRestoreLeftOut": "Jätetty pois, koska et voi enää kirjoittaa niihin: {chats}",
     "signalsRestoreConfirm": "Palauta",
     "signalsRestoreUnavailable": "Palauta-toiminnon muutoksia ei voitu ladata. Yritä uudelleen.",
     "signalsRestoreNothing": "Palautettavaa ei ole.",
-    "signalsProfileMenu": "Signaalit"
+    "signalsProfileMenu": "Signaalit",
+    "signalsEverywhereTurnOffChat": "Kytke signaalit pois",
+    "signalsRestoreBeforeChange": "Palauttaa sen, mitä sinulla oli päällä ennen viimeisintä kaikkialle tekemääsi muutosta ({time}). Se, mitä sinulla on siellä nyt päällä, kytkeytyy pois."
 }

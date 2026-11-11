@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "{time} पर आपके पिछले रीस्टोर से पहले जो चालू था, उसे वापस लाता है। वहाँ अभी जो चालू है, वह बंद हो जाएगा।",
     "signalsRestoreNow": "अभी",
     "signalsRestoreAfter": "बाद में",
-    "signalsRestoreMoreChats": "{count, plural, one{+ {count} और चैट} other{+ {count} और चैट}}",
     "signalsRestoreLeftOut": "शामिल नहीं, क्योंकि अब आप वहाँ पोस्ट नहीं कर सकते: {chats}",
     "signalsRestoreConfirm": "रीस्टोर करें",
     "signalsRestoreUnavailable": "रीस्टोर से क्या बदलेगा, यह लोड नहीं हो सका। फिर से कोशिश करें।",
     "signalsRestoreNothing": "रीस्टोर करने के लिए कुछ नहीं है।",
-    "signalsProfileMenu": "सिग्नल"
+    "signalsProfileMenu": "सिग्नल",
+    "signalsEverywhereTurnOffChat": "सिग्नल बंद करें",
+    "signalsRestoreBeforeChange": "{time} पर हर जगह आपके पिछले बदलाव से पहले जो चालू था, उसे वापस लाता है। वहाँ अभी जो चालू है, वह बंद हो जाएगा।"
 }

@@ -1467,15 +1467,6 @@
     "@signalsRestoreAfter": {
         "description": "Signals everywhere (tyne-chat/tyne#223): from the globe at the end of the signal bar, set one signal in every chat where you have one on, turn all off, or restore the last such change. Same wording as the web app's. Column heading over the signals each chat will have after restoring. Keep it short."
     },
-    "signalsRestoreMoreChats": "{count, plural, one{+ {count} more chat} other{+ {count} more chats}}",
-    "@signalsRestoreMoreChats": {
-        "description": "Signals everywhere (tyne-chat/tyne#223): from the globe at the end of the signal bar, set one signal in every chat where you have one on, turn all off, or restore the last such change. Same wording as the web app's. Last line of the list in the restore confirmation when more chats change than are listed.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
     "signalsRestoreLeftOut": "Left out, since you can no longer post there: {chats}",
     "@signalsRestoreLeftOut": {
         "description": "Signals everywhere (tyne-chat/tyne#223): from the globe at the end of the signal bar, set one signal in every chat where you have one on, turn all off, or restore the last such change. Same wording as the web app's. Line in the restore confirmation naming chats the restore will skip. chats is a comma-separated list of chat names.",
@@ -1500,5 +1491,18 @@
     "signalsProfileMenu": "Signals",
     "@signalsProfileMenu": {
         "description": "Signals everywhere (tyne-chat/tyne#223): from the globe at the end of the signal bar, set one signal in every chat where you have one on, turn all off, or restore the last such change. Same wording as the web app's. Item in your profile menu, under your online status, that opens the sheet of every chat where you have a signal on. Signals are the icons above the message box."
+    },
+    "signalsEverywhereTurnOffChat": "Turn off signals",
+    "@signalsEverywhereTurnOffChat": {
+        "description": "Signals everywhere (tyne-chat/tyne#223). Long-press menu item on a chat in the signals-everywhere sheet: turns off every signal you have on in that one chat or direct message. Same wording as the web app's."
+    },
+    "signalsRestoreBeforeChange": "Puts back what you had on before your last change everywhere at {time}. What you have on there now goes off.",
+    "@signalsRestoreBeforeChange": {
+        "description": "Signals everywhere (tyne-chat/tyne#223). Body of the restore confirmation when the signal last set everywhere has since been taken off the bar. time is when, such as 11:58 PM. Same wording as the web app's.",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
     }
 }
