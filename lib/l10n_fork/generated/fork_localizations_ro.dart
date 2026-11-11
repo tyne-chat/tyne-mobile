@@ -1072,4 +1072,97 @@ class ForkLocalizationsRo extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'Copie a personei $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de conversații',
+      few: '$count conversații',
+      one: '$count conversație',
+    );
+    return 'Semnalele tale peste tot · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de conversații',
+      few: '$count conversații',
+      one: '$count conversație',
+    );
+    return 'Setează peste tot ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'Setează $label peste tot';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Dezactivează tot';
+
+  @override
+  String get signalsEverywhereRestore => 'Restaurează…';
+
+  @override
+  String get signalsEverywhereNone =>
+      'Niciunul dintre semnalele tale nu este activat nicăieri.';
+
+  @override
+  String get signalsRestoreTitle => 'Îți restaurezi semnalele?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Readuce ce aveai activat înainte să setezi $label peste tot ($time). Ce ai activat acolo acum se va dezactiva.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Readuce ce aveai activat înainte să dezactivezi tot ($time). Ce ai activat acolo acum se va dezactiva.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Readuce ce aveai activat înainte de ultima ta restaurare ($time). Ce ai activat acolo acum se va dezactiva.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Acum';
+
+  @override
+  String get signalsRestoreAfter => 'După';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ încă $count de conversații',
+      few: '+ încă $count conversații',
+      one: '+ încă $count conversație',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Omise, deoarece nu mai poți scrie acolo: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Restaurează';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'Nu s-a putut încărca ce ar schimba „Restaurează”. Încearcă din nou.';
+
+  @override
+  String get signalsRestoreNothing => 'Nu există nimic de restaurat.';
+
+  @override
+  String get signalsProfileMenu => 'Semnale';
 }

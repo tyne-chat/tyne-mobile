@@ -1046,4 +1046,96 @@ class ForkLocalizationsHe extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'עותק של $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count שיחות',
+      two: 'שתי שיחות',
+      one: 'שיחה אחת',
+    );
+    return 'האותות שלכם בכל מקום · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count שיחות',
+      two: 'שתי שיחות',
+      one: 'שיחה אחת',
+    );
+    return 'הפעלה בכל מקום ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'הפעלת $label בכל מקום';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'כיבוי הכול';
+
+  @override
+  String get signalsEverywhereRestore => 'שחזור…';
+
+  @override
+  String get signalsEverywhereNone => 'אף אחד מהאותות שלכם לא מופעל באף מקום.';
+
+  @override
+  String get signalsRestoreTitle => 'לשחזר את האותות שלכם?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'מחזיר את מה שהיה מופעל לפני הפעלת $label בכל מקום ב-$time. מה שמופעל שם עכשיו ייכבה.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'מחזיר את מה שהיה מופעל לפני כיבוי הכול ב-$time. מה שמופעל שם עכשיו ייכבה.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'מחזיר את מה שהיה מופעל לפני השחזור האחרון ב-$time. מה שמופעל שם עכשיו ייכבה.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'עכשיו';
+
+  @override
+  String get signalsRestoreAfter => 'אחרי';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ עוד $count שיחות',
+      two: '+ עוד שתי שיחות',
+      one: '+ עוד שיחה אחת',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'לא נכללו, כי כבר אין לכם אפשרות לכתוב שם: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'שחזור';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'לא ניתן היה לטעון מה השחזור ישנה. נסו שוב.';
+
+  @override
+  String get signalsRestoreNothing => 'אין מה לשחזר.';
+
+  @override
+  String get signalsProfileMenu => 'אותות';
 }
