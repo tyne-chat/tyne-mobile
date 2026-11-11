@@ -1076,4 +1076,96 @@ class ForkLocalizationsCa extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'Còpia de $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count xats',
+      many: '$count xats',
+      one: '$count xat',
+    );
+    return 'Els teus senyals a tot arreu · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count xats',
+      many: '$count xats',
+      one: '$count xat',
+    );
+    return 'Activa a tot arreu ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'Activa $label a tot arreu';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Desactiva-ho tot';
+
+  @override
+  String get signalsEverywhereRestore => 'Restaura…';
+
+  @override
+  String get signalsEverywhereNone => 'No tens cap senyal activat enlloc.';
+
+  @override
+  String get signalsRestoreTitle => 'Vols restaurar els teus senyals?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Torna a posar el que tenies activat abans d’activar $label a tot arreu ($time). El que hi tens activat ara es desactivarà.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Torna a posar el que tenies activat abans de desactivar-ho tot ($time). El que hi tens activat ara es desactivarà.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Torna a posar el que tenies activat abans de la teva darrera restauració ($time). El que hi tens activat ara es desactivarà.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Ara';
+
+  @override
+  String get signalsRestoreAfter => 'Després';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ $count xats més',
+      many: '+ $count xats més',
+      one: '+ $count xat més',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'S’han deixat fora perquè ja no hi pots escriure: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Restaura';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'No s’ha pogut carregar què canviaria «Restaura». Torna-ho a provar.';
+
+  @override
+  String get signalsRestoreNothing => 'No hi ha res per restaurar.';
+
+  @override
+  String get signalsProfileMenu => 'Senyals';
 }

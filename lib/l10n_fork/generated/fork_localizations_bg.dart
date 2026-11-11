@@ -1062,4 +1062,94 @@ class ForkLocalizationsBg extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'Копие на $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count чата',
+      one: '$count чат',
+    );
+    return 'Сигналите ти навсякъде · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count чата',
+      one: '$count чат',
+    );
+    return 'Включване навсякъде ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'Включване на $label навсякъде';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Изключване на всички';
+
+  @override
+  String get signalsEverywhereRestore => 'Възстанови…';
+
+  @override
+  String get signalsEverywhereNone =>
+      'Нито един от сигналите ти не е включен никъде.';
+
+  @override
+  String get signalsRestoreTitle => 'Да се възстановят ли сигналите ти?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Връща сигналите, които бяха включени, преди да включиш $label навсякъде ($time). Включените там сега ще се изключат.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Връща сигналите, които бяха включени, преди да изключиш всички ($time). Включените там сега ще се изключат.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Връща сигналите, които бяха включени преди последното ти възстановяване ($time). Включените там сега ще се изключат.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Сега';
+
+  @override
+  String get signalsRestoreAfter => 'След';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ още $count чата',
+      one: '+ още $count чат',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Пропуснати, защото вече не можеш да пишеш там: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Възстанови';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'Не можа да се зареди какво ще промени „Възстанови“. Опитай отново.';
+
+  @override
+  String get signalsRestoreNothing => 'Няма какво да се възстанови.';
+
+  @override
+  String get signalsProfileMenu => 'Сигнали';
 }

@@ -1070,4 +1070,99 @@ class ForkLocalizationsCs extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'Kopie persony $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count chatů',
+      many: '$count chatu',
+      few: '$count chaty',
+      one: '$count chat',
+    );
+    return 'Tvoje signály všude · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count chatů',
+      many: '$count chatu',
+      few: '$count chaty',
+      one: '$count chat',
+    );
+    return 'Nastavit všude ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'Nastavit $label všude';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Vypnout vše';
+
+  @override
+  String get signalsEverywhereRestore => 'Obnovit…';
+
+  @override
+  String get signalsEverywhereNone => 'Nikde nemáš zapnutý žádný signál.';
+
+  @override
+  String get signalsRestoreTitle => 'Obnovit tvoje signály?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Vrátí stav před nastavením signálu $label všude ($time). Co tam máš zapnuté teď, se vypne.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Vrátí stav před vypnutím všech signálů ($time). Co tam máš zapnuté teď, se vypne.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Vrátí stav před tvým posledním obnovením ($time). Co tam máš zapnuté teď, se vypne.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Teď';
+
+  @override
+  String get signalsRestoreAfter => 'Potom';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ $count dalších chatů',
+      many: '+ $count dalšího chatu',
+      few: '+ $count další chaty',
+      one: '+ $count další chat',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Vynecháno, protože tam už nemůžeš psát: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Obnovit';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'Nepodařilo se načíst, co by „Obnovit“ změnilo. Zkus to znovu.';
+
+  @override
+  String get signalsRestoreNothing => 'Není co obnovit.';
+
+  @override
+  String get signalsProfileMenu => 'Signály';
 }

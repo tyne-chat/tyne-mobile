@@ -1052,4 +1052,93 @@ class ForkLocalizationsNl extends ForkLocalizations {
   String personaCopyOf(String name) {
     return 'Kopie van $name';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count chats',
+      one: '$count chat',
+    );
+    return 'Je signalen overal · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count chats',
+      one: '$count chat',
+    );
+    return 'Overal instellen ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return '$label overal instellen';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'Alles uitzetten';
+
+  @override
+  String get signalsEverywhereRestore => 'Herstellen…';
+
+  @override
+  String get signalsEverywhereNone => 'Je hebt nergens een signaal aan staan.';
+
+  @override
+  String get signalsRestoreTitle => 'Je signalen herstellen?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return 'Zet terug wat je aan had staan voordat je $label overal instelde ($time). Wat je daar nu aan hebt staan, gaat uit.';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return 'Zet terug wat je aan had staan voordat je alles uitzette ($time). Wat je daar nu aan hebt staan, gaat uit.';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return 'Zet terug wat je aan had staan vóór je laatste herstel ($time). Wat je daar nu aan hebt staan, gaat uit.';
+  }
+
+  @override
+  String get signalsRestoreNow => 'Nu';
+
+  @override
+  String get signalsRestoreAfter => 'Daarna';
+
+  @override
+  String signalsRestoreMoreChats(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ nog $count chats',
+      one: '+ nog $count chat',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'Overgeslagen, omdat je daar niet meer kunt schrijven: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'Herstellen';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'Kon niet laden wat ‘Herstellen’ zou wijzigen. Probeer het opnieuw.';
+
+  @override
+  String get signalsRestoreNothing => 'Er is niets om te herstellen.';
+
+  @override
+  String get signalsProfileMenu => 'Signalen';
 }
