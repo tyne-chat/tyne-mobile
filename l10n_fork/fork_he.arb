@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "מחזיר את מה שהיה מופעל לפני השחזור האחרון ב-{time}. מה שמופעל שם עכשיו ייכבה.",
     "signalsRestoreNow": "עכשיו",
     "signalsRestoreAfter": "אחרי",
-    "signalsRestoreMoreChats": "{count, plural, one{+ עוד שיחה אחת} two{+ עוד שתי שיחות} other{+ עוד {count} שיחות}}",
     "signalsRestoreLeftOut": "לא נכללו, כי כבר אין לכם אפשרות לכתוב שם: {chats}",
     "signalsRestoreConfirm": "שחזור",
     "signalsRestoreUnavailable": "לא ניתן היה לטעון מה השחזור ישנה. נסו שוב.",
     "signalsRestoreNothing": "אין מה לשחזר.",
-    "signalsProfileMenu": "אותות"
+    "signalsProfileMenu": "אותות",
+    "signalsEverywhereTurnOffChat": "כיבוי האותות",
+    "signalsRestoreBeforeChange": "מחזיר את מה שהיה מופעל לפני השינוי האחרון בכל מקום ב-{time}. מה שמופעל שם עכשיו ייכבה."
 }

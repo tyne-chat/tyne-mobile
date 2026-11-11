@@ -1943,12 +1943,6 @@ abstract class ForkLocalizations {
   /// **'After'**
   String get signalsRestoreAfter;
 
-  /// Signals everywhere (tyne-chat/tyne#223): from the globe at the end of the signal bar, set one signal in every chat where you have one on, turn all off, or restore the last such change. Same wording as the web app's. Last line of the list in the restore confirmation when more chats change than are listed.
-  ///
-  /// In en, this message translates to:
-  /// **'{count, plural, one{+ {count} more chat} other{+ {count} more chats}}'**
-  String signalsRestoreMoreChats(int count);
-
   /// Signals everywhere (tyne-chat/tyne#223): from the globe at the end of the signal bar, set one signal in every chat where you have one on, turn all off, or restore the last such change. Same wording as the web app's. Line in the restore confirmation naming chats the restore will skip. chats is a comma-separated list of chat names.
   ///
   /// In en, this message translates to:
@@ -1978,6 +1972,18 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'Signals'**
   String get signalsProfileMenu;
+
+  /// Signals everywhere (tyne-chat/tyne#223). Long-press menu item on a chat in the signals-everywhere sheet: turns off every signal you have on in that one chat or direct message. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off signals'**
+  String get signalsEverywhereTurnOffChat;
+
+  /// Signals everywhere (tyne-chat/tyne#223). Body of the restore confirmation when the signal last set everywhere has since been taken off the bar. time is when, such as 11:58 PM. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Puts back what you had on before your last change everywhere at {time}. What you have on there now goes off.'**
+  String signalsRestoreBeforeChange(String time);
 }
 
 class _ForkLocalizationsDelegate

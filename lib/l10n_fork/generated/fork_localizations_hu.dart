@@ -1117,17 +1117,6 @@ class ForkLocalizationsHu extends ForkLocalizations {
   String get signalsRestoreAfter => 'Utána';
 
   @override
-  String signalsRestoreMoreChats(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '+ még $count beszélgetés',
-      one: '+ még $count beszélgetés',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String signalsRestoreLeftOut(String chats) {
     return 'Kimaradnak, mert ott már nem írhatsz: $chats';
   }
@@ -1144,4 +1133,12 @@ class ForkLocalizationsHu extends ForkLocalizations {
 
   @override
   String get signalsProfileMenu => 'Jelzések';
+
+  @override
+  String get signalsEverywhereTurnOffChat => 'Jelzések kikapcsolása';
+
+  @override
+  String signalsRestoreBeforeChange(String time) {
+    return 'Visszaállítja, ami a legutóbbi mindenhol végzett módosításod ($time) előtt be volt kapcsolva. Ami ott most be van kapcsolva, kikapcsol.';
+  }
 }

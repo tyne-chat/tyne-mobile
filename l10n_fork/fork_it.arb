@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "Rimette ciò che avevi attivo prima del tuo ultimo ripristino ({time}). Ciò che hai attivo lì ora verrà disattivato.",
     "signalsRestoreNow": "Ora",
     "signalsRestoreAfter": "Dopo",
-    "signalsRestoreMoreChats": "{count, plural, one{+ {count} altra chat} other{+ altre {count} chat}}",
     "signalsRestoreLeftOut": "Escluse perché non puoi più scrivere lì: {chats}",
     "signalsRestoreConfirm": "Ripristina",
     "signalsRestoreUnavailable": "Impossibile caricare cosa cambierebbe «Ripristina». Riprova.",
     "signalsRestoreNothing": "Non c'è nulla da ripristinare.",
-    "signalsProfileMenu": "Segnali"
+    "signalsProfileMenu": "Segnali",
+    "signalsEverywhereTurnOffChat": "Disattiva segnali",
+    "signalsRestoreBeforeChange": "Rimette ciò che avevi attivo prima della tua ultima modifica ovunque ({time}). Ciò che hai attivo lì ora verrà disattivato."
 }

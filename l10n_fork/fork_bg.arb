@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "Връща сигналите, които бяха включени преди последното ти възстановяване ({time}). Включените там сега ще се изключат.",
     "signalsRestoreNow": "Сега",
     "signalsRestoreAfter": "След",
-    "signalsRestoreMoreChats": "{count, plural, one{+ още {count} чат} other{+ още {count} чата}}",
     "signalsRestoreLeftOut": "Пропуснати, защото вече не можеш да пишеш там: {chats}",
     "signalsRestoreConfirm": "Възстанови",
     "signalsRestoreUnavailable": "Не можа да се зареди какво ще промени „Възстанови“. Опитай отново.",
     "signalsRestoreNothing": "Няма какво да се възстанови.",
-    "signalsProfileMenu": "Сигнали"
+    "signalsProfileMenu": "Сигнали",
+    "signalsEverywhereTurnOffChat": "Изключване на сигналите",
+    "signalsRestoreBeforeChange": "Връща сигналите, които бяха включени преди последната ти промяна навсякъде ({time}). Включените там сега ще се изключат."
 }

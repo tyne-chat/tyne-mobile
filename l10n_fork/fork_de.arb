@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "Stellt wieder her, was du vor deiner letzten Wiederherstellung ({time}) eingeschaltet hattest. Was du dort jetzt eingeschaltet hast, wird ausgeschaltet.",
     "signalsRestoreNow": "Jetzt",
     "signalsRestoreAfter": "Danach",
-    "signalsRestoreMoreChats": "{count, plural, one{+ {count} weiterer Chat} other{+ {count} weitere Chats}}",
     "signalsRestoreLeftOut": "Ausgelassen, weil du dort nicht mehr schreiben kannst: {chats}",
     "signalsRestoreConfirm": "Wiederherstellen",
     "signalsRestoreUnavailable": "Was „Wiederherstellen“ ändern würde, konnte nicht geladen werden. Versuch es noch einmal.",
     "signalsRestoreNothing": "Es gibt nichts wiederherzustellen.",
-    "signalsProfileMenu": "Signale"
+    "signalsProfileMenu": "Signale",
+    "signalsEverywhereTurnOffChat": "Signale ausschalten",
+    "signalsRestoreBeforeChange": "Stellt wieder her, was du eingeschaltet hattest, bevor du zuletzt überall etwas geändert hast ({time}). Was du dort jetzt eingeschaltet hast, wird ausgeschaltet."
 }

@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "Repõe o que tinhas ligado antes do teu último restauro ({time}). O que tens ligado lá agora será desligado.",
     "signalsRestoreNow": "Agora",
     "signalsRestoreAfter": "Depois",
-    "signalsRestoreMoreChats": "{count, plural, one{+ {count} outra conversa} many{+ {count} outras conversas} other{+ {count} outras conversas}}",
     "signalsRestoreLeftOut": "Ficam de fora porque já não podes publicar nelas: {chats}",
     "signalsRestoreConfirm": "Restaurar",
     "signalsRestoreUnavailable": "Não foi possível carregar o que «Restaurar» mudaria. Tenta novamente.",
     "signalsRestoreNothing": "Não há nada para restaurar.",
-    "signalsProfileMenu": "Sinais"
+    "signalsProfileMenu": "Sinais",
+    "signalsEverywhereTurnOffChat": "Desligar sinais",
+    "signalsRestoreBeforeChange": "Repõe o que tinhas ligado antes da tua última alteração em todo o lado ({time}). O que tens ligado lá agora será desligado."
 }

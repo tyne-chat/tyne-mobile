@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "Son geri yüklemenden önce ({time}) açık olan sinyallerini geri getirir. Şu anda orada açık olanlar kapanır.",
     "signalsRestoreNow": "Şimdi",
     "signalsRestoreAfter": "Sonra",
-    "signalsRestoreMoreChats": "{count, plural, one{+ {count} sohbet daha} other{+ {count} sohbet daha}}",
     "signalsRestoreLeftOut": "Artık oraya yazamadığın için atlandı: {chats}",
     "signalsRestoreConfirm": "Geri yükle",
     "signalsRestoreUnavailable": "“Geri yükle” işleminin neyi değiştireceği yüklenemedi. Tekrar dene.",
     "signalsRestoreNothing": "Geri yüklenecek bir şey yok.",
-    "signalsProfileMenu": "Sinyaller"
+    "signalsProfileMenu": "Sinyaller",
+    "signalsEverywhereTurnOffChat": "Sinyalleri kapat",
+    "signalsRestoreBeforeChange": "Her yerde yaptığın son değişiklikten önce ({time}) açık olan sinyallerini geri getirir. Şu anda orada açık olanlar kapanır."
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show ProviderListenable;
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -35,13 +36,21 @@ import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kRowIconSize = 28;
-const double _kRowEmojiSize = 20;
-const double _kRowColumnWidth = 24;
-const double _kTileSize = 44;
+
+/// As large as the chat's icon.
+const double _kRowEmojiSize = _kRowIconSize;
+const double _kRowColumnWidth = _kRowEmojiSize + 4;
+
+/// Larger than the chats' icons, about a desktop signal's size.
+const double _kTileSize = 52;
+const double _kTileEmojiSize = 40;
 const int _kSignalEmojiFetchSize = 64;
 
-/// Chats listed in the restore confirmation before "+ N more".
-const int _kMaxListedChats = 6;
+/// Past this many chats the restore list scrolls, under its headings.
+const int _kMaxUnscrolledChats = 10;
+const double _kRestoreRowHeight = 38;
+const double _kRestoreRefSize = 26;
+const double _kRestoreRefGap = 6;
 
 /// A chat as the sheet shows it: a direct message from the DM list, or a
 /// community channel from the local database with its community.
@@ -70,38 +79,76 @@ class SignalChatInfo {
   bool get isDm => guildId == null;
 }
 
-/// Looks a chat up in what the app already holds; null when it does not know
-/// it (a community left, a channel deleted). Sends no request.
+/// `ref.watch` of a widget or of a provider.
+typedef SignalWatch = T Function<T>(ProviderListenable<T> provider);
+
+/// A chat as the app holds it: a direct message from the DM list, or a
+/// community channel from the local database whose community the account is
+/// in. Null when the app does not know it (a community left, a channel
+/// deleted). Sends no request.
+({DmConversation? conversation, Channel? channel, Guild? guild})?
+_lookUpSignalChat(SignalWatch watch, String channelId) {
+  for (final DmConversation conversation in watch(
+    dmViewModelProvider,
+  ).conversations) {
+    if (conversation.id == channelId) {
+      return (conversation: conversation, channel: null, guild: null);
+    }
+  }
+  final Channel? channel = watch(channelByIdProvider(channelId)).value;
+  if (channel == null || channel.guildId.isEmpty) {
+    return null;
+  }
+  final Guild? guild = watch(
+    guildListViewModelProvider,
+  ).guilds.where((Guild guild) => guild.id == channel.guildId).firstOrNull;
+  if (guild == null) {
+    return null;
+  }
+  return (conversation: null, channel: channel, guild: guild);
+}
+
+/// The summary's chats the app can show, newest first; null until loaded. The
+/// strip's badge counts these, which also keeps their database lookups warm
+/// for the sheet's first frame.
+final Provider<List<String>?> knownSignalChatIdsProvider =
+    Provider<List<String>?>((Ref ref) {
+      final UserSignalsSummary? summary = ref.watch(
+        mySignalsProvider.select((MySignalsState state) => state.summary),
+      );
+      if (summary == null) {
+        return null;
+      }
+      return <String>[
+        for (final UserSignalChat chat in summary.newestFirst)
+          if (_lookUpSignalChat(ref.watch, chat.channelId) != null)
+            chat.channelId,
+      ];
+    });
+
+/// [_lookUpSignalChat], with the names the sheet shows.
 SignalChatInfo? resolveSignalChat(
   WidgetRef ref,
   String channelId,
   FluxerLocalizations l10n,
 ) {
-  for (final DmConversation conversation
-      in ref.watch(dmViewModelProvider).conversations) {
-    if (conversation.id == channelId) {
-      return SignalChatInfo(
-        channelId: channelId,
-        name: conversation.displayNameWith(null, l10n: l10n),
-        place: conversation.isGroup
-            ? l10n.guildNavbarGroupDm
-            : l10n.favoritesDirectMessageSubtitle,
-        conversation: conversation,
-      );
-    }
-  }
-  final Channel? channel = ref.watch(channelByIdProvider(channelId)).value;
-  if (channel == null || channel.guildId.isEmpty) {
+  final found = _lookUpSignalChat(ref.watch, channelId);
+  if (found == null) {
     return null;
   }
-  final Guild? guild = ref
-      .watch(guildListViewModelProvider)
-      .guilds
-      .where((Guild guild) => guild.id == channel.guildId)
-      .firstOrNull;
-  if (guild == null) {
-    return null;
+  final DmConversation? conversation = found.conversation;
+  if (conversation != null) {
+    return SignalChatInfo(
+      channelId: channelId,
+      name: conversation.displayNameWith(null, l10n: l10n),
+      place: conversation.isGroup
+          ? l10n.guildNavbarGroupDm
+          : l10n.favoritesDirectMessageSubtitle,
+      conversation: conversation,
+    );
   }
+  final Channel channel = found.channel!;
+  final Guild guild = found.guild!;
   return SignalChatInfo(
     channelId: channelId,
     name: channel.name,
@@ -134,29 +181,26 @@ class SignalsEverywhereSheet {
             openChannelId: openChannelId,
             openGuildId: openGuildId,
             onClose: close,
-            onOpenChat: (SignalChatInfo chat, WidgetRef ref) {
-              close();
-              if (!context.mounted) {
-                return;
-              }
-              if (chat.isDm) {
-                unawaited(
-                  navigateToDmChannelContent(
+            // Navigates while the sheet, and so [ref], is still there, then
+            // closes it: the navigation reads providers after its own waits.
+            onOpenChat: (SignalChatInfo chat, WidgetRef ref) async {
+              if (context.mounted) {
+                if (chat.isDm) {
+                  await navigateToDmChannelContent(
                     context: context,
                     ref: ref,
                     channelId: chat.channelId,
-                  ),
-                );
-              } else {
-                unawaited(
-                  navigateToChannelContent(
+                  );
+                } else {
+                  await navigateToChannelContent(
                     context: context,
                     ref: ref,
                     channelId: chat.channelId,
                     guildId: chat.guildId,
-                  ),
-                );
+                  );
+                }
               }
+              close();
             },
             onRestore: (WidgetRef ref) {
               close();
@@ -184,7 +228,7 @@ class SignalsEverywhereSheetBody extends ConsumerStatefulWidget {
   final String? openChannelId;
   final String? openGuildId;
   final VoidCallback onClose;
-  final void Function(SignalChatInfo chat, WidgetRef ref) onOpenChat;
+  final Future<void> Function(SignalChatInfo chat, WidgetRef ref) onOpenChat;
   final void Function(WidgetRef ref) onRestore;
 
   @override
@@ -248,6 +292,40 @@ class _SignalsEverywhereSheetBodyState
     );
   }
 
+  /// The long-press menu of a chat: turn off the account's signals there.
+  void _showChatMenu(SignalChatInfo info) {
+    FluxerHaptics.light();
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    unawaited(
+      FluxerBottomSheet.show<void>(
+        context,
+        useRootNavigator: true,
+        variant: FluxerBottomSheetVariant.menu,
+        title: info.name,
+        builder: (BuildContext sheetContext, VoidCallback close) {
+          return FluxerBottomSheetContent(
+            scrollable: false,
+            child: FluxerMenuGroup(
+              children: <Widget>[
+                FluxerBottomSheetMenuItem(
+                  key: const ValueKey<String>(
+                    'signals-everywhere-turn-off-chat',
+                  ),
+                  label: l10n.fork.signalsEverywhereTurnOffChat,
+                  icon: PhosphorIconsBold.prohibit,
+                  onTap: () {
+                    close();
+                    unawaited(_mySignals.turnOffChat(info.channelId));
+                  },
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
@@ -306,7 +384,10 @@ class _SignalsEverywhereSheetBodyState
                   label: l10n.fork.signalsEverywhereSet(signal.displayLabel),
                   onTap: busy || scope == 0
                       ? null
-                      : () => _setEverywhere(signal, setChannelId),
+                      : () {
+                          _setEverywhere(signal, setChannelId);
+                          widget.onClose();
+                        },
                 ),
             ],
           ),
@@ -319,11 +400,14 @@ class _SignalsEverywhereSheetBodyState
               child: FluxerButton.secondary(
                 key: const ValueKey<String>('signals-everywhere-turn-all-off'),
                 label: l10n.fork.signalsEverywhereTurnAllOff,
-                onPressed: busy || chats.isEmpty
+                // Every chat the server lists, those the app cannot show
+                // included, so they can be cleared.
+                onPressed: busy || (state.summary?.chats.isEmpty ?? true)
                     ? null
                     : () {
                         FluxerHaptics.light();
                         unawaited(_mySignals.setEverywhere(null));
+                        widget.onClose();
                       },
               ),
             ),
@@ -365,7 +449,8 @@ class _SignalsEverywhereSheetBodyState
                     signal,
               ],
               columns: columns,
-              onTap: () => widget.onOpenChat(c.info, ref),
+              onTap: () => unawaited(widget.onOpenChat(c.info, ref)),
+              onLongPress: () => _showChatMenu(c.info),
             ),
       ],
     );
@@ -373,11 +458,18 @@ class _SignalsEverywhereSheetBodyState
 }
 
 /// A signal's emoji at [size]: the custom emoji's image or the Unicode text.
+/// [animated] plays an animated custom emoji, as lit signals on the strip do.
 class SignalEmoji extends StatelessWidget {
-  const SignalEmoji({required this.signal, required this.size, super.key});
+  const SignalEmoji({
+    required this.signal,
+    required this.size,
+    this.animated = false,
+    super.key,
+  });
 
   final SignalBarSignal signal;
   final double size;
+  final bool animated;
 
   @override
   Widget build(BuildContext context) {
@@ -385,7 +477,7 @@ class SignalEmoji extends StatelessWidget {
     return emojiId != null
         ? CachedEmojiImage(
             emojiId: emojiId,
-            animated: false,
+            animated: animated && signal.animated,
             requestSize: _kSignalEmojiFetchSize,
             size: size,
           )
@@ -416,8 +508,10 @@ class _SignalTile extends StatelessWidget {
         child: ExcludeSemantics(
           child: Opacity(
             opacity: onTap == null ? 0.5 : 1,
+            // Nothing behind the emoji, as on the strip: a transparent
+            // background shows the sheet's own.
             child: Material(
-              color: context.colors.backgroundSecondary,
+              color: Colors.transparent,
               borderRadius: BorderRadius.circular(10),
               child: InkWell(
                 borderRadius: BorderRadius.circular(10),
@@ -425,7 +519,9 @@ class _SignalTile extends StatelessWidget {
                 child: SizedBox(
                   width: _kTileSize,
                   height: _kTileSize,
-                  child: Center(child: SignalEmoji(signal: signal, size: 28)),
+                  child: Center(
+                    child: SignalEmoji(signal: signal, size: _kTileEmojiSize),
+                  ),
                 ),
               ),
             ),
@@ -509,6 +605,7 @@ class _SignalChatRow extends StatelessWidget {
     required this.signals,
     required this.columns,
     required this.onTap,
+    required this.onLongPress,
     super.key,
   });
 
@@ -516,6 +613,7 @@ class _SignalChatRow extends StatelessWidget {
   final List<SignalBarSignal> signals;
   final int columns;
   final VoidCallback onTap;
+  final VoidCallback onLongPress;
 
   @override
   Widget build(BuildContext context) {
@@ -532,6 +630,7 @@ class _SignalChatRow extends StatelessWidget {
           color: Colors.transparent,
           child: InkWell(
             onTap: onTap,
+            onLongPress: onLongPress,
             borderRadius: context.layout.radiusMd,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
@@ -574,9 +673,11 @@ class _SignalChatRow extends StatelessWidget {
                           SizedBox(
                             width: _kRowColumnWidth,
                             child: Center(
+                              // Lit, so animated, as on the strip.
                               child: SignalEmoji(
                                 signal: signal,
                                 size: _kRowEmojiSize,
+                                animated: true,
                               ),
                             ),
                           ),
@@ -623,7 +724,11 @@ Future<void> showSignalsRestoreSheet(
   if (!context.mounted) {
     return;
   }
-  if (preview == null || !preview.available) {
+  if (preview == null ||
+      !preview.available ||
+      !preview.chats.any(
+        (UserSignalsRestoreChat chat) => chat.available && chat.changes,
+      )) {
     unawaited(notifier.refresh());
     await FluxerConfirmSheet.show(
       context,
@@ -636,13 +741,18 @@ Future<void> showSignalsRestoreSheet(
     );
     return;
   }
-  final String when = _formatWhen(context, preview.createdAt ?? 0);
+  final String when = _formatWhen(
+    context,
+    preview.createdAt ?? DateTime.now().millisecondsSinceEpoch,
+  );
   final SignalBarSignal? setSignal = signals
       .where((SignalBarSignal s) => s.id == preview.signalId)
       .firstOrNull;
   final String description = switch (preview.kind) {
     UserSignalsRestoreKind.set when setSignal != null =>
       l10n.fork.signalsRestoreBeforeSet(setSignal.displayLabel, when),
+    // The signal set everywhere has since left the bar.
+    UserSignalsRestoreKind.set => l10n.fork.signalsRestoreBeforeChange(when),
     UserSignalsRestoreKind.restore => l10n.fork.signalsRestoreBeforeRestore(
       when,
     ),
@@ -653,15 +763,21 @@ Future<void> showSignalsRestoreSheet(
     useRootNavigator: true,
     title: l10n.fork.signalsRestoreTitle,
     description: description,
-    body: _SignalsRestorePreview(preview: preview, signals: signals),
+    body: SignalsRestorePreview(preview: preview, signals: signals),
     confirmLabel: l10n.fork.signalsRestoreConfirm,
     cancelLabel: l10n.cancel,
     onConfirm: () => unawaited(notifier.restore()),
   );
 }
 
-class _SignalsRestorePreview extends ConsumerWidget {
-  const _SignalsRestorePreview({required this.preview, required this.signals});
+/// What Restore changes, chat by chat: every chat, scrolling past ten under
+/// headings that stay put, then the chats it leaves out.
+class SignalsRestorePreview extends ConsumerWidget {
+  const SignalsRestorePreview({
+    required this.preview,
+    required this.signals,
+    super.key,
+  });
 
   final UserSignalsRestorePreview preview;
   final List<SignalBarSignal> signals;
@@ -688,82 +804,105 @@ class _SignalsRestorePreview extends ConsumerWidget {
       fontWeight: FontWeight.w700,
       letterSpacing: 0.4,
     );
+    final String nowHeading = l10n.fork.signalsRestoreNow.toUpperCase();
+    final String afterHeading = l10n.fork.signalsRestoreAfter.toUpperCase();
+    // The headings and the rows are two tables, so the rows can scroll under
+    // them; fixed column widths keep the two in line.
+    final Map<int, TableColumnWidth> columns = <int, TableColumnWidth>{
+      0: const FlexColumnWidth(),
+      1: FixedColumnWidth(
+        _restoreColumnWidth(
+          context,
+          nowHeading,
+          heading,
+          rows.fold<int>(0, (int most, r) => math.max(most, r.chat.now.length)),
+        ),
+      ),
+      2: const FixedColumnWidth(28),
+      3: FixedColumnWidth(
+        _restoreColumnWidth(
+          context,
+          afterHeading,
+          heading,
+          rows.fold<int>(
+            0,
+            (int most, r) => math.max(most, r.chat.after.length),
+          ),
+        ),
+      ),
+    };
+    final Widget body = _restoreTable(
+      context,
+      columns: columns,
+      children: <TableRow>[
+        for (final row in rows)
+          TableRow(
+            children: <Widget>[
+              SizedBox(
+                key: ValueKey<String>(
+                  'signals-restore-row-${row.info.channelId}',
+                ),
+                height: _kRestoreRowHeight,
+                child: Row(
+                  children: <Widget>[
+                    SignalChatIcon(info: row.info, size: 20),
+                    const SizedBox(width: 8),
+                    Flexible(
+                      child: Text(
+                        row.info.name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: context.textStyles.bodySmall.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              _SignalRefs(refs: row.chat.now, signals: signals),
+              Center(
+                child: PhosphorIcon(
+                  PhosphorIconsBold.arrowRight,
+                  size: 14,
+                  color: context.colors.textTertiary,
+                ),
+              ),
+              _SignalRefs(refs: row.chat.after, signals: signals),
+            ],
+          ),
+      ],
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        if (rows.isNotEmpty)
-          Table(
-            columnWidths: const <int, TableColumnWidth>{
-              0: FlexColumnWidth(),
-              1: IntrinsicColumnWidth(),
-              2: FixedColumnWidth(28),
-              3: IntrinsicColumnWidth(),
-            },
-            defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+        if (rows.isNotEmpty) ...<Widget>[
+          _restoreTable(
+            context,
+            columns: columns,
             children: <TableRow>[
               TableRow(
                 children: <Widget>[
                   const SizedBox.shrink(),
-                  Text(
-                    l10n.fork.signalsRestoreNow.toUpperCase(),
-                    style: heading,
-                  ),
+                  Text(nowHeading, style: heading),
                   const SizedBox.shrink(),
-                  Text(
-                    l10n.fork.signalsRestoreAfter.toUpperCase(),
-                    style: heading,
-                  ),
+                  Text(afterHeading, style: heading),
                 ],
               ),
-              for (final row in rows.take(_kMaxListedChats))
-                TableRow(
-                  key: ValueKey<String>(
-                    'signals-restore-row-${row.info.channelId}',
-                  ),
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 6),
-                      child: Row(
-                        children: <Widget>[
-                          SignalChatIcon(info: row.info, size: 20),
-                          const SizedBox(width: 8),
-                          Flexible(
-                            child: Text(
-                              row.info.name,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: context.textStyles.bodySmall.copyWith(
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    _SignalRefs(refs: row.chat.now, signals: signals),
-                    Center(
-                      child: PhosphorIcon(
-                        PhosphorIconsBold.arrowRight,
-                        size: 14,
-                        color: context.colors.textTertiary,
-                      ),
-                    ),
-                    _SignalRefs(refs: row.chat.after, signals: signals),
-                  ],
-                ),
             ],
           ),
-        if (rows.length > _kMaxListedChats)
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: Text(
-              l10n.fork.signalsRestoreMoreChats(rows.length - _kMaxListedChats),
-              style: context.textStyles.bodySmall.copyWith(
-                color: context.colors.textSecondary,
+          if (rows.length > _kMaxUnscrolledChats)
+            ConstrainedBox(
+              key: const ValueKey<String>('signals-restore-scroll'),
+              constraints: const BoxConstraints(
+                maxHeight: _kMaxUnscrolledChats * _kRestoreRowHeight,
               ),
-            ),
-          ),
+              child: Scrollbar(child: SingleChildScrollView(child: body)),
+            )
+          else
+            body,
+        ],
         if (leftOut.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(top: 8),
@@ -791,14 +930,14 @@ class _SignalRefs extends ConsumerWidget {
     final String? userId = ref.watch(currentUserIdProvider);
     return Row(
       mainAxisSize: MainAxisSize.min,
-      spacing: 6,
+      spacing: _kRestoreRefGap,
       children: <Widget>[
         for (final UserSignalRef item in refs)
           if (signals.where((s) => s.id == item.signalId).firstOrNull
               case final SignalBarSignal signal)
             SizedBox(
-              width: 26,
-              height: 26,
+              width: _kRestoreRefSize,
+              height: _kRestoreRefSize,
               child: Stack(
                 clipBehavior: Clip.none,
                 children: <Widget>[
@@ -849,4 +988,35 @@ class _PersonaBadge extends ConsumerWidget {
       showStatus: false,
     );
   }
+}
+
+Table _restoreTable(
+  BuildContext context, {
+  required Map<int, TableColumnWidth> columns,
+  required List<TableRow> children,
+}) {
+  return Table(
+    columnWidths: columns,
+    defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+    children: children,
+  );
+}
+
+/// Wide enough for [count] signals and for the column's [title].
+double _restoreColumnWidth(
+  BuildContext context,
+  String title,
+  TextStyle style,
+  int count,
+) {
+  final TextPainter painter = TextPainter(
+    text: TextSpan(text: title, style: style),
+    textDirection: Directionality.of(context),
+    textScaler: MediaQuery.textScalerOf(context),
+    maxLines: 1,
+  )..layout();
+  final double refs = count == 0
+      ? 0
+      : count * _kRestoreRefSize + (count - 1) * _kRestoreRefGap;
+  return math.max(refs, painter.width) + 8;
 }

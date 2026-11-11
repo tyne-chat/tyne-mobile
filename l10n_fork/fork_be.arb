@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "Вяртае тое, што было ўключана да вашага апошняга аднаўлення ({time}). Тое, што ўключана там цяпер, выключыцца.",
     "signalsRestoreNow": "Цяпер",
     "signalsRestoreAfter": "Пасля",
-    "signalsRestoreMoreChats": "{count, plural, one{+ яшчэ {count} чат} few{+ яшчэ {count} чаты} many{+ яшчэ {count} чатаў} other{+ яшчэ {count} чата}}",
     "signalsRestoreLeftOut": "Прапушчаны, бо вы больш не можаце там пісаць: {chats}",
     "signalsRestoreConfirm": "Аднавіць",
     "signalsRestoreUnavailable": "Не ўдалося загрузіць, што зменіць «Аднавіць». Паспрабуйце яшчэ раз.",
     "signalsRestoreNothing": "Няма чаго аднаўляць.",
-    "signalsProfileMenu": "Сігналы"
+    "signalsProfileMenu": "Сігналы",
+    "signalsEverywhereTurnOffChat": "Выключыць сігналы",
+    "signalsRestoreBeforeChange": "Вяртае тое, што было ўключана да вашай апошняй змены ўсюды ({time}). Тое, што ўключана там цяпер, выключыцца."
 }

@@ -1122,17 +1122,6 @@ class ForkLocalizationsEs extends ForkLocalizations {
   String get signalsRestoreAfter => 'Después';
 
   @override
-  String signalsRestoreMoreChats(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '+ $count chats más',
-      one: '+ $count chat más',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String signalsRestoreLeftOut(String chats) {
     return 'Se omiten porque ya no puedes escribir en ellos: $chats';
   }
@@ -1149,6 +1138,14 @@ class ForkLocalizationsEs extends ForkLocalizations {
 
   @override
   String get signalsProfileMenu => 'Señales';
+
+  @override
+  String get signalsEverywhereTurnOffChat => 'Desactivar señales';
+
+  @override
+  String signalsRestoreBeforeChange(String time) {
+    return 'Recupera lo que tenías activado antes de tu último cambio en todas partes ($time). Lo que tienes activado ahí ahora se desactivará.';
+  }
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -2268,17 +2265,6 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
   String get signalsRestoreAfter => 'Después';
 
   @override
-  String signalsRestoreMoreChats(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '+ $count chats más',
-      one: '+ $count chat más',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String signalsRestoreLeftOut(String chats) {
     return 'Se omitieron porque ya no puedes escribir ahí: $chats';
   }
@@ -2295,4 +2281,12 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
 
   @override
   String get signalsProfileMenu => 'Señales';
+
+  @override
+  String get signalsEverywhereTurnOffChat => 'Desactivar señales';
+
+  @override
+  String signalsRestoreBeforeChange(String time) {
+    return 'Recupera lo que tenías activado antes de tu último cambio en todas partes ($time). Lo que tienes activado ahí ahora se desactivará.';
+  }
 }

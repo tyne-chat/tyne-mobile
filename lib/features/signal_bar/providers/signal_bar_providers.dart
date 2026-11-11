@@ -24,6 +24,11 @@ class SignalBarConfigNotifier extends Notifier<SignalBarConfig> {
     } on Exception catch (err) {
       debugPrint('[SignalBar] Failed to load the bar: $err');
     }
+    // As on the web: with a bar, the account's signals everywhere load with
+    // it (after READY too), so the profile menu knows them without a strip.
+    if (state.signals.isNotEmpty) {
+      ref.read(mySignalsProvider.notifier).ensureLoaded();
+    }
   }
 
   void ensureLoaded() {
@@ -161,6 +166,48 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
     }
   }
 
+  /// Turns off the account's [signalIds] in [channelId] at once, locally if the
+  /// channel is loaded, with one DELETE each. Returns whether every one went
+  /// through; a failure reloads a loaded channel once.
+  Future<bool> withdrawOwn(
+    String channelId,
+    List<String> signalIds, {
+    required String userId,
+  }) async {
+    final List<SignalEntry>? current = state[channelId];
+    if (current != null) {
+      _setChannel(
+        channelId,
+        applySignalUpdate(
+          current,
+          added: const <SignalEntry>[],
+          removed: <({String signalId, String userId})>[
+            for (final String signalId in signalIds)
+              (signalId: signalId, userId: userId),
+          ],
+        ),
+      );
+    }
+    final List<bool> results = await Future.wait(<Future<bool>>[
+      for (final String signalId in signalIds)
+        ref
+            .read(signalBarRepositoryProvider)
+            .deactivate(channelId, signalId)
+            .then(
+              (_) => true,
+              onError: (Object err) {
+                debugPrint('[SignalBar] Failed to withdraw signal: $err');
+                return false;
+              },
+            ),
+    ]);
+    final bool ok = results.every((bool done) => done);
+    if (!ok && state.containsKey(channelId)) {
+      unawaited(loadChannel(channelId));
+    }
+    return ok;
+  }
+
   /// Whether the bar is switched on in a loaded channel. Channels that are
   /// not loaded yet count as off.
   bool isEnabled(String channelId) => isEnabledIn(state, channelId);
@@ -183,6 +230,9 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
     } else {
       _disabledChannels.add(channelId);
       _setChannel(channelId, const <SignalEntry>[]);
+      // Switching off clears the channel's signals with no
+      // CHANNEL_SIGNAL_UPDATE, so the summary drops the chat here.
+      ref.read(mySignalsProvider.notifier).dropChat(channelId);
     }
   }
 
@@ -340,6 +390,25 @@ class MySignalsNotifier extends Notifier<MySignalsState> {
     unawaited(refresh());
   }
 
+  /// Forgets the account's signals in one chat, which the server has cleared.
+  void dropChat(String channelId) {
+    final UserSignalsSummary? summary = state.summary;
+    if (summary == null ||
+        !summary.chats.any((UserSignalChat c) => c.channelId == channelId)) {
+      return;
+    }
+    state = MySignalsState(
+      summary: UserSignalsSummary(
+        chats: <UserSignalChat>[
+          for (final UserSignalChat c in summary.chats)
+            if (c.channelId != channelId) c,
+        ],
+        restoreAvailable: summary.restoreAvailable,
+      ),
+      busy: state.busy,
+    );
+  }
+
   void applyChannelUpdate(
     String channelId, {
     required List<SignalEntry> added,
@@ -382,6 +451,38 @@ class MySignalsNotifier extends Notifier<MySignalsState> {
 
   Future<void> restore() {
     return _send(() => ref.read(signalBarRepositoryProvider).restore());
+  }
+
+  /// Turns off the account's signals in one chat, from the sheet: the chat
+  /// leaves the summary at once, one DELETE goes out per signal, and a failure
+  /// reloads the summary once.
+  Future<void> turnOffChat(String channelId) async {
+    final UserSignalsSummary? summary = state.summary;
+    final String? userId = ref.read(currentUserIdProvider);
+    final UserSignalChat? chat = summary?.chats
+        .where((UserSignalChat c) => c.channelId == channelId)
+        .firstOrNull;
+    if (summary == null || userId == null || chat == null) {
+      return;
+    }
+    state = MySignalsState(
+      summary: UserSignalsSummary(
+        chats: <UserSignalChat>[
+          for (final UserSignalChat c in summary.chats)
+            if (c.channelId != channelId) c,
+        ],
+        restoreAvailable: summary.restoreAvailable,
+      ),
+      busy: state.busy,
+    );
+    final bool ok = await ref.read(channelSignalsProvider.notifier).withdrawOwn(
+      channelId,
+      <String>[for (final UserSignalRef ref in chat.signals) ref.signalId],
+      userId: userId,
+    );
+    if (!ok) {
+      unawaited(refresh());
+    }
   }
 
   /// What Restore would change; null when it could not be loaded.

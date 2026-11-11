@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "還原你在 {time} 上次還原之前開啟的訊號。你目前在那裡開啟的訊號將會關閉。",
     "signalsRestoreNow": "目前",
     "signalsRestoreAfter": "還原後",
-    "signalsRestoreMoreChats": "{count, plural, other{+ 另外 {count} 個聊天}}",
     "signalsRestoreLeftOut": "已略過，因為你無法再在這些聊天中發言：{chats}",
     "signalsRestoreConfirm": "還原",
     "signalsRestoreUnavailable": "無法載入「還原」將變更的內容。請再試一次。",
     "signalsRestoreNothing": "沒有可還原的內容。",
-    "signalsProfileMenu": "訊號"
+    "signalsProfileMenu": "訊號",
+    "signalsEverywhereTurnOffChat": "關閉訊號",
+    "signalsRestoreBeforeChange": "還原你在 {time} 上次在所有地方變更之前開啟的訊號。你目前在那裡開啟的訊號將會關閉。"
 }

@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "{time}에 마지막으로 복원하기 전에 켜져 있던 시그널을 되돌려요. 지금 그곳에 켜져 있는 시그널은 꺼져요.",
     "signalsRestoreNow": "현재",
     "signalsRestoreAfter": "이후",
-    "signalsRestoreMoreChats": "{count, plural, other{+ 채팅 {count}개 더}}",
     "signalsRestoreLeftOut": "더 이상 글을 올릴 수 없어 제외됨: {chats}",
     "signalsRestoreConfirm": "복원",
     "signalsRestoreUnavailable": "복원으로 바뀔 내용을 불러오지 못했어요. 다시 시도해 주세요.",
     "signalsRestoreNothing": "복원할 내용이 없어요.",
-    "signalsProfileMenu": "시그널"
+    "signalsProfileMenu": "시그널",
+    "signalsEverywhereTurnOffChat": "시그널 끄기",
+    "signalsRestoreBeforeChange": "{time}에 모든 곳에서 마지막으로 변경하기 전에 켜져 있던 시그널을 되돌려요. 지금 그곳에 켜져 있는 시그널은 꺼져요."
 }

@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "นำสิ่งที่คุณเปิดไว้ก่อนการกู้คืนครั้งล่าสุดเมื่อ {time} กลับมา สิ่งที่เปิดอยู่ที่นั่นตอนนี้จะถูกปิด",
     "signalsRestoreNow": "ตอนนี้",
     "signalsRestoreAfter": "หลังกู้คืน",
-    "signalsRestoreMoreChats": "{count, plural, other{+ อีก {count} แชต}}",
     "signalsRestoreLeftOut": "ข้ามไป เนื่องจากคุณโพสต์ที่นั่นไม่ได้แล้ว: {chats}",
     "signalsRestoreConfirm": "กู้คืน",
     "signalsRestoreUnavailable": "โหลดสิ่งที่การกู้คืนจะเปลี่ยนไม่ได้ ลองอีกครั้ง",
     "signalsRestoreNothing": "ไม่มีอะไรให้กู้คืน",
-    "signalsProfileMenu": "สัญญาณ"
+    "signalsProfileMenu": "สัญญาณ",
+    "signalsEverywhereTurnOffChat": "ปิดสัญญาณ",
+    "signalsRestoreBeforeChange": "นำสิ่งที่คุณเปิดไว้ก่อนการเปลี่ยนแปลงทุกที่ครั้งล่าสุดเมื่อ {time} กลับมา สิ่งที่เปิดอยู่ที่นั่นตอนนี้จะถูกปิด"
 }

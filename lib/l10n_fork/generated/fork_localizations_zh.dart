@@ -1067,16 +1067,6 @@ class ForkLocalizationsZh extends ForkLocalizations {
   String get signalsRestoreAfter => '恢复后';
 
   @override
-  String signalsRestoreMoreChats(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '+ 另外 $count 个聊天',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String signalsRestoreLeftOut(String chats) {
     return '已跳过，因为你无法再在这些聊天中发言：$chats';
   }
@@ -1092,6 +1082,14 @@ class ForkLocalizationsZh extends ForkLocalizations {
 
   @override
   String get signalsProfileMenu => '信号';
+
+  @override
+  String get signalsEverywhereTurnOffChat => '关闭信号';
+
+  @override
+  String signalsRestoreBeforeChange(String time) {
+    return '恢复你在 $time 上次在所有地方更改之前开启的信号。你现在在那里开启的信号将被关闭。';
+  }
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -2157,16 +2155,6 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
   String get signalsRestoreAfter => '還原後';
 
   @override
-  String signalsRestoreMoreChats(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '+ 另外 $count 個聊天',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String signalsRestoreLeftOut(String chats) {
     return '已略過，因為你無法再在這些聊天中發言：$chats';
   }
@@ -2182,4 +2170,12 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get signalsProfileMenu => '訊號';
+
+  @override
+  String get signalsEverywhereTurnOffChat => '關閉訊號';
+
+  @override
+  String signalsRestoreBeforeChange(String time) {
+    return '還原你在 $time 上次在所有地方變更之前開啟的訊號。你目前在那裡開啟的訊號將會關閉。';
+  }
 }

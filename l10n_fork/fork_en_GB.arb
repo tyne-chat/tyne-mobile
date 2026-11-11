@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "Puts back what you had on before your last restore at {time}. What you have on there now goes off.",
     "signalsRestoreNow": "Now",
     "signalsRestoreAfter": "After",
-    "signalsRestoreMoreChats": "{count, plural, one{+ {count} more chat} other{+ {count} more chats}}",
     "signalsRestoreLeftOut": "Left out, since you can no longer post there: {chats}",
     "signalsRestoreConfirm": "Restore",
     "signalsRestoreUnavailable": "Could not load what Restore would change. Try again.",
     "signalsRestoreNothing": "There is nothing to restore.",
-    "signalsProfileMenu": "Signals"
+    "signalsProfileMenu": "Signals",
+    "signalsEverywhereTurnOffChat": "Turn off signals",
+    "signalsRestoreBeforeChange": "Puts back what you had on before your last change everywhere at {time}. What you have on there now goes off."
 }

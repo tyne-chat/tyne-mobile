@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "Atjauno to, kas bija ieslēgts pirms jūsu pēdējās atjaunošanas ({time}). Tas, kas tur ieslēgts tagad, tiks izslēgts.",
     "signalsRestoreNow": "Tagad",
     "signalsRestoreAfter": "Pēc",
-    "signalsRestoreMoreChats": "{count, plural, zero{+ vēl {count} sarunas} one{+ vēl {count} saruna} other{+ vēl {count} sarunas}}",
     "signalsRestoreLeftOut": "Izlaistas, jo tur vairs nevarat rakstīt: {chats}",
     "signalsRestoreConfirm": "Atjaunot",
     "signalsRestoreUnavailable": "Neizdevās ielādēt, ko mainītu „Atjaunot”. Mēģiniet vēlreiz.",
     "signalsRestoreNothing": "Nav ko atjaunot.",
-    "signalsProfileMenu": "Signāli"
+    "signalsProfileMenu": "Signāli",
+    "signalsEverywhereTurnOffChat": "Izslēgt signālus",
+    "signalsRestoreBeforeChange": "Atjauno to, kas bija ieslēgts pirms jūsu pēdējām izmaiņām visur ({time}). Tas, kas tur ieslēgts tagad, tiks izslēgts."
 }

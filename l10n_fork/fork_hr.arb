@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "Vraća ono što je bilo uključeno prije tvog posljednjeg vraćanja ({time}). Ono što je ondje sada uključeno, isključit će se.",
     "signalsRestoreNow": "Sada",
     "signalsRestoreAfter": "Poslije",
-    "signalsRestoreMoreChats": "{count, plural, one{+ još {count} razgovor} few{+ još {count} razgovora} other{+ još {count} razgovora}}",
     "signalsRestoreLeftOut": "Izostavljeno jer ondje više ne možeš pisati: {chats}",
     "signalsRestoreConfirm": "Vrati",
     "signalsRestoreUnavailable": "Nije moguće učitati što bi „Vrati“ promijenilo. Pokušaj ponovno.",
     "signalsRestoreNothing": "Nema ničega za vraćanje.",
-    "signalsProfileMenu": "Signali"
+    "signalsProfileMenu": "Signali",
+    "signalsEverywhereTurnOffChat": "Isključi signale",
+    "signalsRestoreBeforeChange": "Vraća ono što je bilo uključeno prije tvoje posljednje promjene svugdje ({time}). Ono što je ondje sada uključeno, isključit će se."
 }

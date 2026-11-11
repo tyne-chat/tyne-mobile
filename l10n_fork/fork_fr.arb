@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "Rétablit ce que tu avais activé avant ta dernière restauration ({time}). Ce que tu y as activé maintenant sera désactivé.",
     "signalsRestoreNow": "Maintenant",
     "signalsRestoreAfter": "Après",
-    "signalsRestoreMoreChats": "{count, plural, one{+ {count} autre discussion} other{+ {count} autres discussions}}",
     "signalsRestoreLeftOut": "Laissées de côté, car tu ne peux plus y écrire : {chats}",
     "signalsRestoreConfirm": "Restaurer",
     "signalsRestoreUnavailable": "Impossible de charger ce que « Restaurer » changerait. Réessaie.",
     "signalsRestoreNothing": "Il n’y a rien à restaurer.",
-    "signalsProfileMenu": "Signaux"
+    "signalsProfileMenu": "Signaux",
+    "signalsEverywhereTurnOffChat": "Désactiver les signaux",
+    "signalsRestoreBeforeChange": "Rétablit ce que tu avais activé avant ta dernière modification partout ({time}). Ce que tu y as activé maintenant sera désactivé."
 }

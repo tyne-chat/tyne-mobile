@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "Ibinabalik ang mga naka-on mo bago ang huli mong pagbabalik noong {time}. Mag-o-off ang mga naka-on mo roon ngayon.",
     "signalsRestoreNow": "Ngayon",
     "signalsRestoreAfter": "Pagkatapos",
-    "signalsRestoreMoreChats": "{count, plural, one{+ {count} pang chat} other{+ {count} pang chat}}",
     "signalsRestoreLeftOut": "Hindi isinama dahil hindi ka na makakapag-post doon: {chats}",
     "signalsRestoreConfirm": "Ibalik",
     "signalsRestoreUnavailable": "Hindi ma-load kung ano ang babaguhin ng Ibalik. Subukan ulit.",
     "signalsRestoreNothing": "Walang maibabalik.",
-    "signalsProfileMenu": "Mga signal"
+    "signalsProfileMenu": "Mga signal",
+    "signalsEverywhereTurnOffChat": "I-off ang mga signal",
+    "signalsRestoreBeforeChange": "Ibinabalik ang mga naka-on mo bago ang huli mong pagbabago kahit saan noong {time}. Mag-o-off ang mga naka-on mo roon ngayon."
 }
