@@ -14,6 +14,10 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/signal_bar/presentation/signals_profile_menu_item.dart';
+
 class ProfileTabMenuSheet {
   ProfileTabMenuSheet._();
 
@@ -76,6 +80,7 @@ class ProfileTabMenuSheetBody extends ConsumerWidget {
               ),
               onTap: onOpenStatus,
             ),
+            const SignalsProfileMenuItem(),
             FluxerBottomSheetSubmenuItem(
               label: l10n.profileTabMenuSwitchAccounts,
               icon: PhosphorIconsBold.users,
