@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "{time} の前回の復元より前の状態に戻します。現在そこでオンになっているシグナルはオフになります。",
     "signalsRestoreNow": "現在",
     "signalsRestoreAfter": "復元後",
-    "signalsRestoreMoreChats": "{count, plural, other{+ ほか {count} 件のチャット}}",
     "signalsRestoreLeftOut": "もう投稿できないため対象外：{chats}",
     "signalsRestoreConfirm": "復元",
     "signalsRestoreUnavailable": "「復元」で変わる内容を読み込めませんでした。もう一度お試しください。",
     "signalsRestoreNothing": "復元するものはありません。",
-    "signalsProfileMenu": "シグナル"
+    "signalsProfileMenu": "シグナル",
+    "signalsEverywhereTurnOffChat": "シグナルをオフにする",
+    "signalsRestoreBeforeChange": "{time} のすべての場所での前回の変更より前の状態に戻します。現在そこでオンになっているシグナルはオフになります。"
 }
