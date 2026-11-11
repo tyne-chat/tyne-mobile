@@ -90,16 +90,30 @@ has the same panel.
   and Restore…, then every chat the app knows (the DM list, or the local database with a community
   the account is in), newest first: icon (the person in a DM; the community with the channel type
   in the corner), bold name, community or Direct message / Group DM on a second line, and the
-  chat's signals in columns against the right edge. A tap closes the sheet and opens the chat. The
-  open chat counts only when the bar is on there and the account may post; its signal is lit as
-  `composerSignalPersona`, the others keep theirs.
+  chat's signals in columns against the right edge, as large as the icon and animated, as lit
+  signals on the strip are. The tiles are larger than the icons (52 dp) and still. A tap on a row
+  closes the sheet and opens the chat; a tile or Turn all off acts and closes the sheet (Chiara,
+  2026-11-11); a long press on a row offers "Turn off signals" for that chat
+  (`MySignalsNotifier.turnOffChat`, through `ChannelSignalsNotifier.withdrawOwn`) and the sheet stays
+  open. The open chat counts only when the bar is on there and the account may post; its signal is
+  lit as `composerSignalPersona`, the others keep theirs.
 - **Restore…** loads the preview (one GET), then a `FluxerConfirmSheet` with what the last change
-  was and when, chat by chat what is on now and after, "+ N more" and the chats left out.
+  was and when, every chat with what is on now and after (`SignalsRestorePreview`; past ten the
+  rows scroll under a separate heading table, with fixed column widths keeping the two in line),
+  and the chats left out.
 - **Profile menu:** `SignalsProfileMenuItem` after the status row of `ProfileTabMenuSheetBody`,
-  shown while the account has a signal on anywhere or Restore has something to put back. The
+  shown while the account has a signal on anywhere (every chat the server lists) or Restore has
+  something to put back. The summary loads with the bar (`SignalBarConfigNotifier`), after READY
+  too, so the item works before any strip has mounted. The
   wide layout's user popout (`shell/presentation/user_area_popout.dart`) has no such row yet.
 - **Events:** `handleChannelUpdate` passes every `CHANNEL_SIGNAL_UPDATE` to the summary before it
-  looks at loaded channels, so the summary follows chats the strip never loaded.
+  looks at loaded channels, so the summary follows chats the strip never loaded. A channel switched
+  off drops out of the summary (`dropChat`), since the server clears it without a signal event.
+- **Counting:** the badge counts `knownSignalChatIdsProvider`, the chats the sheet can show, which
+  also keeps their database lookups warm for its first frame; Turn all off goes by every chat the
+  server lists, so signals left in chats the app cannot show (tyne-chat/tyne#305) can be cleared.
+- **Opening a chat** from the sheet navigates while the sheet is still open and then closes it:
+  the navigation reads providers after its own waits, through the sheet's `ref`.
 - The bar editor is web only, and so is the `everywhere` tick.
 
 ## Signals and personas
@@ -152,6 +166,7 @@ Opening or loading a channel re-points nothing, and neither does a selection mad
 | Long press | none; "Turn off" or "Reset": 1 DELETE, and 1 channel GET if it fails |
 | READY, then the first strip | 1 `GET /users/@me/signals`; after a failure, none for a minute |
 | Opening the signals sheet | 1 summary GET; a tile or Turn all off: 1 PUT, Restore: 1 preview GET and, confirmed, 1 POST; 1 summary GET after a failed change. Nothing is sent while a change is on its way |
+| A row's "Turn off signals" | 1 DELETE per own signal in that chat, all at once; if any fails, 1 summary GET and 1 channel GET (when loaded) |
 | `SIGNAL_BAR_UPDATE` (one copy per community) | 1 bar GET when the version is newer; later copies share it or find it current |
 
 A failed bar GET is tried again by the next strip mounted, a failed channel GET at the next mount or
@@ -214,8 +229,7 @@ bar change. Neither has a cooldown, and neither repeats on rebuilds.
   (`SignalBarView`, `SignalDetailsSheet`, the size table).
 - `test/core/gateway/gateway_event_handler_missing_events_fork_test.dart`: the three events reach
   `onSignalBarEvent` unparsed.
-- **The folder is in neither the nightly gate nor the root list** (tyne-chat/tyne#132): run it by
-  name.
+- The nightly gate runs every test under `test/` since tyne-chat/tyne#132, this folder included.
 - Not covered: nothing mounts `SignalBarStrip` (loading, rights, the lighting persona); no request
   fails or is counted; what the hand-overs do to signals.
 - After a change: `flutter test test/features/signal_bar` and the gateway test above. If a hand-over

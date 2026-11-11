@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "Zet terug wat je aan had staan vóór je laatste herstel ({time}). Wat je daar nu aan hebt staan, gaat uit.",
     "signalsRestoreNow": "Nu",
     "signalsRestoreAfter": "Daarna",
-    "signalsRestoreMoreChats": "{count, plural, one{+ nog {count} chat} other{+ nog {count} chats}}",
     "signalsRestoreLeftOut": "Overgeslagen, omdat je daar niet meer kunt schrijven: {chats}",
     "signalsRestoreConfirm": "Herstellen",
     "signalsRestoreUnavailable": "Kon niet laden wat ‘Herstellen’ zou wijzigen. Probeer het opnieuw.",
     "signalsRestoreNothing": "Er is niets om te herstellen.",
-    "signalsProfileMenu": "Signalen"
+    "signalsProfileMenu": "Signalen",
+    "signalsEverywhereTurnOffChat": "Signalen uitzetten",
+    "signalsRestoreBeforeChange": "Zet terug wat je aan had staan vóór je laatste wijziging overal ({time}). Wat je daar nu aan hebt staan, gaat uit."
 }

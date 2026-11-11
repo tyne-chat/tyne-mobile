@@ -294,10 +294,11 @@
     "signalsRestoreBeforeRestore": "suno sina li kama sama tenpo pini: tenpo {time} la sina kama sin e suno. suno open sina lon ona lon tenpo ni li kama pini.",
     "signalsRestoreNow": "tenpo ni",
     "signalsRestoreAfter": "tenpo kama",
-    "signalsRestoreMoreChats": "{count, plural, one{+ tomo toki ante {count}} other{+ tomo toki ante {count}}}",
     "signalsRestoreLeftOut": "sina ken ala toki lon tomo toki ni la ona li weka: {chats}",
     "signalsRestoreConfirm": "o kama sin e ona",
     "signalsRestoreUnavailable": "ilo li ken ala lukin e ante pi kama sin. o lukin sin.",
     "signalsRestoreNothing": "ijo ala li ken kama sin.",
-    "signalsProfileMenu": "suno"
+    "signalsProfileMenu": "suno",
+    "signalsEverywhereTurnOffChat": "o pini e suno",
+    "signalsRestoreBeforeChange": "suno sina li kama sama tenpo pini: tenpo {time} la sina ante e suno lon ale. suno open sina lon ona lon tenpo ni li kama pini."
 }

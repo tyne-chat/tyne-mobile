@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "Sætter det tilbage, du havde slået til før din seneste gendannelse ({time}). Det, du har slået til der nu, bliver slået fra.",
     "signalsRestoreNow": "Nu",
     "signalsRestoreAfter": "Efter",
-    "signalsRestoreMoreChats": "{count, plural, one{+ {count} samtale mere} other{+ {count} samtaler mere}}",
     "signalsRestoreLeftOut": "Udeladt, da du ikke længere kan skrive der: {chats}",
     "signalsRestoreConfirm": "Gendan",
     "signalsRestoreUnavailable": "Kunne ikke indlæse, hvad »Gendan« ville ændre. Prøv igen.",
     "signalsRestoreNothing": "Der er intet at gendanne.",
-    "signalsProfileMenu": "Signaler"
+    "signalsProfileMenu": "Signaler",
+    "signalsEverywhereTurnOffChat": "Slå signaler fra",
+    "signalsRestoreBeforeChange": "Sætter det tilbage, du havde slået til før din seneste ændring overalt ({time}). Det, du har slået til der nu, bliver slået fra."
 }
