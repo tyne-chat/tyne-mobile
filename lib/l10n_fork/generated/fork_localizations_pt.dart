@@ -1123,18 +1123,6 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String get signalsRestoreAfter => 'Depois';
 
   @override
-  String signalsRestoreMoreChats(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '+ $count outras conversas',
-      many: '+ $count outras conversas',
-      one: '+ $count outra conversa',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String signalsRestoreLeftOut(String chats) {
     return 'Ficam de fora porque já não podes publicar nelas: $chats';
   }
@@ -1151,6 +1139,14 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get signalsProfileMenu => 'Sinais';
+
+  @override
+  String get signalsEverywhereTurnOffChat => 'Desligar sinais';
+
+  @override
+  String signalsRestoreBeforeChange(String time) {
+    return 'Repõe o que tinhas ligado antes da tua última alteração em todo o lado ($time). O que tens ligado lá agora será desligado.';
+  }
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -2276,17 +2272,6 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
   String get signalsRestoreAfter => 'Depois';
 
   @override
-  String signalsRestoreMoreChats(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '+ $count outras conversas',
-      one: '+ $count outra conversa',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String signalsRestoreLeftOut(String chats) {
     return 'Deixadas de fora porque você não pode mais postar nelas: $chats';
   }
@@ -2303,4 +2288,12 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
 
   @override
   String get signalsProfileMenu => 'Sinais';
+
+  @override
+  String get signalsEverywhereTurnOffChat => 'Desligar sinais';
+
+  @override
+  String signalsRestoreBeforeChange(String time) {
+    return 'Traz de volta o que você tinha ligado antes da sua última alteração em todo lugar ($time). O que você tem ligado lá agora será desligado.';
+  }
 }

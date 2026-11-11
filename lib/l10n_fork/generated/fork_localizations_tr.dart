@@ -1107,17 +1107,6 @@ class ForkLocalizationsTr extends ForkLocalizations {
   String get signalsRestoreAfter => 'Sonra';
 
   @override
-  String signalsRestoreMoreChats(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '+ $count sohbet daha',
-      one: '+ $count sohbet daha',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String signalsRestoreLeftOut(String chats) {
     return 'Artık oraya yazamadığın için atlandı: $chats';
   }
@@ -1134,4 +1123,12 @@ class ForkLocalizationsTr extends ForkLocalizations {
 
   @override
   String get signalsProfileMenu => 'Sinyaller';
+
+  @override
+  String get signalsEverywhereTurnOffChat => 'Sinyalleri kapat';
+
+  @override
+  String signalsRestoreBeforeChange(String time) {
+    return 'Her yerde yaptığın son değişiklikten önce ($time) açık olan sinyallerini geri getirir. Şu anda orada açık olanlar kapanır.';
+  }
 }

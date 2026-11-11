@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "Vrátí stav před tvým posledním obnovením ({time}). Co tam máš zapnuté teď, se vypne.",
     "signalsRestoreNow": "Teď",
     "signalsRestoreAfter": "Potom",
-    "signalsRestoreMoreChats": "{count, plural, one{+ {count} další chat} few{+ {count} další chaty} many{+ {count} dalšího chatu} other{+ {count} dalších chatů}}",
     "signalsRestoreLeftOut": "Vynecháno, protože tam už nemůžeš psát: {chats}",
     "signalsRestoreConfirm": "Obnovit",
     "signalsRestoreUnavailable": "Nepodařilo se načíst, co by „Obnovit“ změnilo. Zkus to znovu.",
     "signalsRestoreNothing": "Není co obnovit.",
-    "signalsProfileMenu": "Signály"
+    "signalsProfileMenu": "Signály",
+    "signalsEverywhereTurnOffChat": "Vypnout signály",
+    "signalsRestoreBeforeChange": "Vrátí stav před tvou poslední změnou všude ({time}). Co tam máš zapnuté teď, se vypne."
 }

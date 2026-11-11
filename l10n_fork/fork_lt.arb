@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "Grąžina tai, kas buvo įjungta prieš paskutinį tavo atkūrimą ({time}). Tai, kas ten įjungta dabar, bus išjungta.",
     "signalsRestoreNow": "Dabar",
     "signalsRestoreAfter": "Po",
-    "signalsRestoreMoreChats": "{count, plural, one{+ dar {count} pokalbis} few{+ dar {count} pokalbiai} many{+ dar {count} pokalbio} other{+ dar {count} pokalbių}}",
     "signalsRestoreLeftOut": "Praleista, nes ten nebegali rašyti: {chats}",
     "signalsRestoreConfirm": "Atkurti",
     "signalsRestoreUnavailable": "Nepavyko įkelti, ką pakeistų „Atkurti“. Bandyk dar kartą.",
     "signalsRestoreNothing": "Nėra ką atkurti.",
-    "signalsProfileMenu": "Signalai"
+    "signalsProfileMenu": "Signalai",
+    "signalsEverywhereTurnOffChat": "Išjungti signalus",
+    "signalsRestoreBeforeChange": "Grąžina tai, kas buvo įjungta prieš paskutinį tavo pakeitimą visur ({time}). Tai, kas ten įjungta dabar, bus išjungta."
 }
