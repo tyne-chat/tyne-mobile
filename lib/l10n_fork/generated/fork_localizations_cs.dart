@@ -1136,19 +1136,6 @@ class ForkLocalizationsCs extends ForkLocalizations {
   String get signalsRestoreAfter => 'Potom';
 
   @override
-  String signalsRestoreMoreChats(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '+ $count dalších chatů',
-      many: '+ $count dalšího chatu',
-      few: '+ $count další chaty',
-      one: '+ $count další chat',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String signalsRestoreLeftOut(String chats) {
     return 'Vynecháno, protože tam už nemůžeš psát: $chats';
   }
@@ -1165,4 +1152,12 @@ class ForkLocalizationsCs extends ForkLocalizations {
 
   @override
   String get signalsProfileMenu => 'Signály';
+
+  @override
+  String get signalsEverywhereTurnOffChat => 'Vypnout signály';
+
+  @override
+  String signalsRestoreBeforeChange(String time) {
+    return 'Vrátí stav před tvou poslední změnou všude ($time). Co tam máš zapnuté teď, se vypne.';
+  }
 }

@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "Setter tilbake det du hadde på før den siste gjenopprettingen din ({time}). Det du har på der nå, slås av.",
     "signalsRestoreNow": "Nå",
     "signalsRestoreAfter": "Etter",
-    "signalsRestoreMoreChats": "{count, plural, one{+ {count} samtale til} other{+ {count} samtaler til}}",
     "signalsRestoreLeftOut": "Utelatt fordi du ikke lenger kan skrive der: {chats}",
     "signalsRestoreConfirm": "Gjenopprett",
     "signalsRestoreUnavailable": "Kunne ikke laste inn hva «Gjenopprett» ville endre. Prøv igjen.",
     "signalsRestoreNothing": "Det er ingenting å gjenopprette.",
-    "signalsProfileMenu": "Signaler"
+    "signalsProfileMenu": "Signaler",
+    "signalsEverywhereTurnOffChat": "Slå av signaler",
+    "signalsRestoreBeforeChange": "Setter tilbake det du hadde på før den siste endringen din overalt ({time}). Det du har på der nå, slås av."
 }

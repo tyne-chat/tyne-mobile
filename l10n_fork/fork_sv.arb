@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "Återställer det du hade på före din senaste återställning ({time}). Det du har på där nu stängs av.",
     "signalsRestoreNow": "Nu",
     "signalsRestoreAfter": "Efter",
-    "signalsRestoreMoreChats": "{count, plural, one{+ {count} chatt till} other{+ {count} chattar till}}",
     "signalsRestoreLeftOut": "Utelämnade eftersom du inte längre kan skriva där: {chats}",
     "signalsRestoreConfirm": "Återställ",
     "signalsRestoreUnavailable": "Det gick inte att läsa in vad ”Återställ” skulle ändra. Försök igen.",
     "signalsRestoreNothing": "Det finns inget att återställa.",
-    "signalsProfileMenu": "Signaler"
+    "signalsProfileMenu": "Signaler",
+    "signalsEverywhereTurnOffChat": "Stäng av signaler",
+    "signalsRestoreBeforeChange": "Återställer det du hade på före din senaste ändring överallt ({time}). Det du har på där nu stängs av."
 }

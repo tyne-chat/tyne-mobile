@@ -287,11 +287,7 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
       onDetails: (SignalBarSignal signal, List<SignalEntry> entries) =>
           _showDetails(signal, entries, canManage: canReset),
       onToggleCollapsed: ref.read(signalBarCollapsedProvider.notifier).toggle,
-      myChatCount: ref.watch(
-        mySignalsProvider.select(
-          (MySignalsState state) => state.summary?.chats.length,
-        ),
-      ),
+      myChatCount: ref.watch(knownSignalChatIdsProvider)?.length,
       onOpenEverywhere: _openEverywhere,
     );
   }

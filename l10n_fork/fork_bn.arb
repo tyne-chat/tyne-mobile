@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "{time}-এ আপনার শেষ পুনরুদ্ধারের আগে যা চালু ছিল তা ফিরিয়ে আনে। সেখানে এখন যা চালু আছে তা বন্ধ হয়ে যাবে।",
     "signalsRestoreNow": "এখন",
     "signalsRestoreAfter": "পরে",
-    "signalsRestoreMoreChats": "{count, plural, one{+ আরও {count} টি চ্যাট} other{+ আরও {count} টি চ্যাট}}",
     "signalsRestoreLeftOut": "বাদ দেওয়া হয়েছে, কারণ আপনি আর সেখানে পোস্ট করতে পারেন না: {chats}",
     "signalsRestoreConfirm": "পুনরুদ্ধার করুন",
     "signalsRestoreUnavailable": "পুনরুদ্ধার করলে কী বদলাবে তা লোড করা যায়নি। আবার চেষ্টা করুন।",
     "signalsRestoreNothing": "পুনরুদ্ধার করার মতো কিছু নেই।",
-    "signalsProfileMenu": "সিগন্যাল"
+    "signalsProfileMenu": "সিগন্যাল",
+    "signalsEverywhereTurnOffChat": "সিগন্যাল বন্ধ করুন",
+    "signalsRestoreBeforeChange": "{time}-এ সবখানে আপনার শেষ পরিবর্তনের আগে যা চালু ছিল তা ফিরিয়ে আনে। সেখানে এখন যা চালু আছে তা বন্ধ হয়ে যাবে।"
 }

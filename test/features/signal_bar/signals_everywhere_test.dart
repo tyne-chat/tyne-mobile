@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
@@ -14,6 +15,7 @@ import 'package:fluxer_app/features/signal_bar/domain/signal_bar_models.dart';
 import 'package:fluxer_app/features/signal_bar/presentation/signal_bar_strip.dart';
 import 'package:fluxer_app/features/signal_bar/presentation/signals_everywhere_sheet.dart';
 import 'package:fluxer_app/features/signal_bar/providers/signal_bar_providers.dart';
+import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 import '../../helpers/pump_fluxer_app.dart';
@@ -119,7 +121,9 @@ class _RecordingRepository implements SignalBarRepository {
   }) async {}
 
   @override
-  Future<void> deactivate(String channelId, String signalId) async {}
+  Future<void> deactivate(String channelId, String signalId) async {
+    calls.add('DELETE $channelId $signalId');
+  }
 
   @override
   Future<void> removeUser(
@@ -370,6 +374,42 @@ void main() {
       },
     );
 
+    test(
+      'loads the summary with the bar, so menus know it without a strip',
+      () async {
+        await container.read(signalBarConfigProvider.notifier).refresh();
+        await Future<void>.value();
+
+        expect(repository.calls, <String>['GET summary']);
+        expect(container.read(mySignalsProvider).summary, isNotNull);
+      },
+    );
+
+    test('drops a chat whose bar is switched off', () async {
+      repository.summary = UserSignalsSummary(
+        chats: <UserSignalChat>[
+          _chat('a', <String>['reading'], 1),
+          _chat('b', <String>['reading'], 2),
+        ],
+        restoreAvailable: false,
+      );
+      await notifier().refresh();
+
+      container.read(channelSignalsProvider.notifier).handleEnabledUpdate(
+        <String, dynamic>{'channel_id': 'a', 'enabled': false},
+      );
+
+      expect(
+        container
+            .read(mySignalsProvider)
+            .summary!
+            .chats
+            .map((UserSignalChat c) => c.channelId),
+        <String>['b'],
+      );
+      expect(repository.calls, <String>['GET summary']);
+    });
+
     test('a new gateway session forgets the summary', () async {
       await notifier().refresh();
       expect(container.read(mySignalsProvider).summary, isNotNull);
@@ -538,43 +578,48 @@ void main() {
       lastMessageTime: DateTime(2026),
     );
 
+    List<Override> sheetOverrides(
+      _RecordingRepository repository,
+      List<String> dms,
+    ) => [
+      signalBarRepositoryProvider.overrideWithValue(repository),
+      currentUserIdProvider.overrideWithValue(_me),
+      dmViewModelProvider.overrideWithValue(
+        DmViewState(
+          conversations: <DmConversation>[
+            for (final String id in dms) dm(id, id),
+          ],
+          friendsList: const <Friend>[],
+          activeTab: FriendsTab.all,
+          searchQuery: '',
+        ),
+      ),
+      guildListViewModelProvider.overrideWithValue(
+        const GuildListViewState(guilds: []),
+      ),
+      channelByIdProvider(
+        'gone',
+      ).overrideWith((ref) => Stream<Channel?>.value(null)),
+    ];
+
     Future<_RecordingRepository> pumpSheet(
       WidgetTester tester, {
       required UserSignalsSummary summary,
       required List<String> opened,
+      List<String> dms = const <String>['alice', 'bob'],
     }) async {
       final _RecordingRepository repository = _RecordingRepository()
         ..summary = summary;
       await tester.pumpWidget(
         pumpFluxerApp(
-          overrides: [
-            signalBarRepositoryProvider.overrideWithValue(repository),
-            currentUserIdProvider.overrideWithValue(_me),
-            dmViewModelProvider.overrideWithValue(
-              DmViewState(
-                conversations: <DmConversation>[
-                  dm('alice', 'Alice'),
-                  dm('bob', 'Bob'),
-                ],
-                friendsList: const <Friend>[],
-                activeTab: FriendsTab.all,
-                searchQuery: '',
-              ),
-            ),
-            guildListViewModelProvider.overrideWithValue(
-              const GuildListViewState(guilds: []),
-            ),
-            channelByIdProvider(
-              'gone',
-            ).overrideWith((ref) => Stream<Channel?>.value(null)),
-          ],
+          overrides: sheetOverrides(repository, dms),
           child: Scaffold(
             body: SingleChildScrollView(
               child: SignalsEverywhereSheetBody(
                 openChannelId: null,
                 openGuildId: null,
-                onClose: () {},
-                onOpenChat: (SignalChatInfo chat, WidgetRef ref) =>
+                onClose: () => opened.add('closed'),
+                onOpenChat: (SignalChatInfo chat, WidgetRef ref) async =>
                     opened.add(chat.channelId),
                 onRestore: (WidgetRef ref) => opened.add('restore'),
               ),
@@ -658,7 +703,183 @@ void main() {
         );
         await pumpFluxerFramesQuick(tester);
         expect(repository.calls, <String>['GET summary', 'PUT sleeping - -']);
+        expect(opened, <String>['bob', 'closed']);
       },
     );
+
+    testWidgets('counts only the chats the app knows', (
+      WidgetTester tester,
+    ) async {
+      await pumpSheet(
+        tester,
+        opened: <String>[],
+        summary: UserSignalsSummary(
+          chats: <UserSignalChat>[
+            _chat('gone', <String>['reading'], 3),
+            _chat('alice', <String>['reading'], 1),
+          ],
+          restoreAvailable: false,
+        ),
+      );
+      final ProviderContainer container = ProviderScope.containerOf(
+        tester.element(find.byType(SignalsEverywhereSheetBody)),
+      );
+
+      expect(container.read(knownSignalChatIdsProvider), <String>['alice']);
+      expect(
+        find.byKey(const ValueKey<String>('signals-everywhere-row-gone')),
+        findsNothing,
+      );
+    });
+
+    testWidgets(
+      'lets Turn all off clear signals in chats the app cannot show',
+      (WidgetTester tester) async {
+        await pumpSheet(
+          tester,
+          opened: <String>[],
+          dms: const <String>[],
+          summary: UserSignalsSummary(
+            chats: <UserSignalChat>[
+              _chat('gone', <String>['reading'], 3),
+            ],
+            restoreAvailable: false,
+          ),
+        );
+
+        expect(
+          find.byKey(const ValueKey<String>('signals-everywhere-row-gone')),
+          findsNothing,
+        );
+        final FluxerButton turnAllOff = tester.widget<FluxerButton>(
+          find.byKey(const ValueKey<String>('signals-everywhere-turn-all-off')),
+        );
+        expect(turnAllOff.onPressed, isNotNull);
+      },
+    );
+
+    testWidgets('closes after Turn all off', (WidgetTester tester) async {
+      final List<String> opened = <String>[];
+      final _RecordingRepository repository = await pumpSheet(
+        tester,
+        opened: opened,
+        summary: UserSignalsSummary(
+          chats: <UserSignalChat>[
+            _chat('alice', <String>['reading'], 1),
+          ],
+          restoreAvailable: false,
+        ),
+      );
+
+      await tester.tap(
+        find.byKey(const ValueKey<String>('signals-everywhere-turn-all-off')),
+      );
+      await pumpFluxerFramesQuick(tester);
+
+      expect(repository.calls, <String>['GET summary', 'PUT - - -']);
+      expect(opened, <String>['closed']);
+    });
+
+    testWidgets(
+      "a long press turns off one chat's signals, one DELETE each, and stays open",
+      (WidgetTester tester) async {
+        final List<String> opened = <String>[];
+        final _RecordingRepository repository = await pumpSheet(
+          tester,
+          opened: opened,
+          summary: UserSignalsSummary(
+            chats: <UserSignalChat>[
+              _chat('alice', <String>['reading', 'sleeping'], 5),
+              _chat('bob', <String>['reading'], 1),
+            ],
+            restoreAvailable: false,
+          ),
+        );
+
+        await tester.longPress(
+          find.byKey(const ValueKey<String>('signals-everywhere-row-alice')),
+        );
+        await tester.pumpAndSettle();
+        await tester.tap(
+          find.byKey(
+            const ValueKey<String>('signals-everywhere-turn-off-chat'),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        expect(repository.calls, <String>[
+          'GET summary',
+          'DELETE alice reading',
+          'DELETE alice sleeping',
+        ]);
+        expect(
+          find.byKey(const ValueKey<String>('signals-everywhere-row-alice')),
+          findsNothing,
+        );
+        expect(
+          find.byKey(const ValueKey<String>('signals-everywhere-row-bob')),
+          findsOneWidget,
+        );
+        expect(opened, isEmpty);
+      },
+    );
+
+    testWidgets('the restore list shows every chat and scrolls past ten', (
+      WidgetTester tester,
+    ) async {
+      final List<String> ids = <String>[for (int i = 0; i < 12; i++) 'c$i'];
+      UserSignalsRestorePreview preview(List<String> chats) =>
+          UserSignalsRestorePreview(
+            available: true,
+            createdAt: 0,
+            kind: UserSignalsRestoreKind.off,
+            chats: <UserSignalsRestoreChat>[
+              for (final String id in chats)
+                UserSignalsRestoreChat(
+                  channelId: id,
+                  available: true,
+                  now: const <UserSignalRef>[],
+                  after: const <UserSignalRef>[
+                    UserSignalRef(signalId: 'reading'),
+                  ],
+                ),
+            ],
+          );
+      Future<void> show(List<String> chats) async {
+        await tester.pumpWidget(
+          pumpFluxerApp(
+            overrides: sheetOverrides(_RecordingRepository(), ids),
+            child: Scaffold(
+              body: SingleChildScrollView(
+                child: SignalsRestorePreview(
+                  preview: preview(chats),
+                  signals: const <SignalBarSignal>[_reading, _sleeping],
+                ),
+              ),
+            ),
+          ),
+        );
+        await pumpFluxerFramesQuick(tester);
+      }
+
+      await show(ids);
+      expect(tester.takeException(), isNull);
+      for (final String id in ids) {
+        expect(
+          find.byKey(ValueKey<String>('signals-restore-row-$id')),
+          findsOneWidget,
+        );
+      }
+      expect(
+        find.byKey(const ValueKey<String>('signals-restore-scroll')),
+        findsOneWidget,
+      );
+
+      await show(ids.take(10).toList());
+      expect(
+        find.byKey(const ValueKey<String>('signals-restore-scroll')),
+        findsNothing,
+      );
+    });
   });
 }

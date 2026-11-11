@@ -293,10 +293,11 @@
     "signalsRestoreBeforeRestore": "Rikthen atë që kishe ndezur para rikthimit tënd të fundit ({time}). Ajo që ke ndezur aty tani do të fiket.",
     "signalsRestoreNow": "Tani",
     "signalsRestoreAfter": "Pas",
-    "signalsRestoreMoreChats": "{count, plural, one{+ edhe {count} bisedë} other{+ edhe {count} biseda}}",
     "signalsRestoreLeftOut": "Lënë jashtë, sepse nuk mund të shkruash më aty: {chats}",
     "signalsRestoreConfirm": "Rikthe",
     "signalsRestoreUnavailable": "Nuk u ngarkua dot se çfarë do të ndryshonte “Rikthe”. Provo sërish.",
     "signalsRestoreNothing": "Nuk ka asgjë për t’u rikthyer.",
-    "signalsProfileMenu": "Sinjalet"
+    "signalsProfileMenu": "Sinjalet",
+    "signalsEverywhereTurnOffChat": "Fik sinjalet",
+    "signalsRestoreBeforeChange": "Rikthen atë që kishe ndezur para ndryshimit tënd të fundit kudo ({time}). Ajo që ke ndezur aty tani do të fiket."
 }
