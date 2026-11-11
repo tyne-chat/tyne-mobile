@@ -1050,4 +1050,91 @@ class ForkLocalizationsHi extends ForkLocalizations {
   String personaCopyOf(String name) {
     return '$name की कॉपी';
   }
+
+  @override
+  String signalsEverywhereTooltip(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count चैट',
+      one: '$count चैट',
+    );
+    return 'हर जगह आपके सिग्नल · $_temp0';
+  }
+
+  @override
+  String signalsEverywhereHeading(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count चैट',
+      one: '$count चैट',
+    );
+    return 'हर जगह सेट करें ($_temp0)';
+  }
+
+  @override
+  String signalsEverywhereSet(String label) {
+    return 'हर जगह $label सेट करें';
+  }
+
+  @override
+  String get signalsEverywhereTurnAllOff => 'सब बंद करें';
+
+  @override
+  String get signalsEverywhereRestore => 'रीस्टोर करें…';
+
+  @override
+  String get signalsEverywhereNone =>
+      'आपका कोई भी सिग्नल कहीं भी चालू नहीं है।';
+
+  @override
+  String get signalsRestoreTitle => 'अपने सिग्नल रीस्टोर करें?';
+
+  @override
+  String signalsRestoreBeforeSet(String label, String time) {
+    return '$time पर हर जगह $label सेट करने से पहले जो चालू था, उसे वापस लाता है। वहाँ अभी जो चालू है, वह बंद हो जाएगा।';
+  }
+
+  @override
+  String signalsRestoreBeforeOff(String time) {
+    return '$time पर सब बंद करने से पहले जो चालू था, उसे वापस लाता है। वहाँ अभी जो चालू है, वह बंद हो जाएगा।';
+  }
+
+  @override
+  String signalsRestoreBeforeRestore(String time) {
+    return '$time पर आपके पिछले रीस्टोर से पहले जो चालू था, उसे वापस लाता है। वहाँ अभी जो चालू है, वह बंद हो जाएगा।';
+  }
+
+  @override
+  String get signalsRestoreNow => 'अभी';
+
+  @override
+  String get signalsRestoreAfter => 'बाद में';
+
+  @override
+  String signalsRestoreLeftOut(String chats) {
+    return 'शामिल नहीं, क्योंकि अब आप वहाँ पोस्ट नहीं कर सकते: $chats';
+  }
+
+  @override
+  String get signalsRestoreConfirm => 'रीस्टोर करें';
+
+  @override
+  String get signalsRestoreUnavailable =>
+      'रीस्टोर से क्या बदलेगा, यह लोड नहीं हो सका। फिर से कोशिश करें।';
+
+  @override
+  String get signalsRestoreNothing => 'रीस्टोर करने के लिए कुछ नहीं है।';
+
+  @override
+  String get signalsProfileMenu => 'सिग्नल';
+
+  @override
+  String get signalsEverywhereTurnOffChat => 'सिग्नल बंद करें';
+
+  @override
+  String signalsRestoreBeforeChange(String time) {
+    return '$time पर हर जगह आपके पिछले बदलाव से पहले जो चालू था, उसे वापस लाता है। वहाँ अभी जो चालू है, वह बंद हो जाएगा।';
+  }
 }
