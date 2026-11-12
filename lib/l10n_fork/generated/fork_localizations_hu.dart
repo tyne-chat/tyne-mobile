@@ -1141,4 +1141,7 @@ class ForkLocalizationsHu extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return 'Visszaállítja, ami a legutóbbi mindenhol végzett módosításod ($time) előtt be volt kapcsolva. Ami ott most be van kapcsolva, kikapcsol.';
   }
+
+  @override
+  String get personaCopyBadge => 'Új persona';
 }
