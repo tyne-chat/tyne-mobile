@@ -230,7 +230,7 @@ class ForkLocalizationsCs extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Opravdu chcete smazat „$name“? Tuto akci nelze vrátit zpět.';
+    return 'Opravdu chcete smazat „$name“? Smazané persony můžete později obnovit v části Smazané persony (Nastavení › Persony).';
   }
 
   @override
@@ -970,7 +970,7 @@ class ForkLocalizationsCs extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'Jejich zprávy budou dál ukazovat jejich jména a avatary, ale už za ně nebudete moci psát a jejich značky a podpisové emoji se uvolní. Tuto akci nelze vrátit.';
+      'Smazané persony můžete později obnovit v části Smazané persony (Nastavení › Persony).';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1163,4 +1163,60 @@ class ForkLocalizationsCs extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'Nová persona';
+
+  @override
+  String get deletedPersonasTitle => 'Smazané persony';
+
+  @override
+  String get deletedPersonasDescription =>
+      'Smazané persony se dál zobrazují u svých starých zpráv, ale nikdo je nemůže vybrat a nezapočítávají se do vašeho limitu. Obnovením se vrátí stejná persona i s celou svou historií.';
+
+  @override
+  String get deletedPersonasShow => 'Zobrazit smazané persony';
+
+  @override
+  String get deletedPersonasLoadFailed =>
+      'Smazané persony se nepodařilo načíst.';
+
+  @override
+  String get deletedPersonasEmpty => 'Žádné smazané persony.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'Smazáno $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Použito ${count}krát',
+      many: 'Použito ${count}krát',
+      few: 'Použito ${count}krát',
+      one: 'Použito jednou',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'Obnovit';
+
+  @override
+  String personaRestored(String name) {
+    return '$name je zpět.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return 'Vrátila se bez $items: teď je má jiná persona.';
+  }
+
+  @override
+  String get personaRestoreFailed => 'Personu se nepodařilo obnovit.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return 'Obnovit $name';
+  }
 }
