@@ -229,7 +229,7 @@ class ForkLocalizationsPl extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Czy na pewno chcesz usunąć „$name”? Tej operacji nie można cofnąć.';
+    return 'Czy na pewno chcesz usunąć „$name”? Usunięte persony możesz później przywrócić w sekcji Usunięte persony (Ustawienia › Persony).';
   }
 
   @override
@@ -972,7 +972,7 @@ class ForkLocalizationsPl extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'Ich wiadomości nadal będą pokazywać ich nazwy i awatary, ale nie będziesz już mieć możliwości pisania jako one, a ich tagi i emoji podpisu się zwolnią. Tego nie można cofnąć.';
+      'Usunięte persony możesz później przywrócić w sekcji Usunięte persony (Ustawienia › Persony).';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1164,4 +1164,60 @@ class ForkLocalizationsPl extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'Nowa persona';
+
+  @override
+  String get deletedPersonasTitle => 'Usunięte persony';
+
+  @override
+  String get deletedPersonasDescription =>
+      'Usunięte persony nadal widać przy ich dawnych wiadomościach, ale nikt nie może ich wybrać i nie wliczają się do twojego limitu. Przywrócenie persony przywraca tę samą personę razem z jej historią.';
+
+  @override
+  String get deletedPersonasShow => 'Pokaż usunięte persony';
+
+  @override
+  String get deletedPersonasLoadFailed =>
+      'Nie udało się wczytać usuniętych person.';
+
+  @override
+  String get deletedPersonasEmpty => 'Brak usuniętych person.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'Usunięto $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Użyta $count razy',
+      many: 'Użyta $count razy',
+      few: 'Użyta $count razy',
+      one: 'Użyta raz',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'Przywróć';
+
+  @override
+  String personaRestored(String name) {
+    return 'Persona $name wróciła.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return 'Wróciła bez $items: ma je teraz inna persona.';
+  }
+
+  @override
+  String get personaRestoreFailed => 'Nie udało się przywrócić persony.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return 'Przywróć $name';
+  }
 }

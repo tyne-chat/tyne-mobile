@@ -23,6 +23,7 @@ reaches most of the app. The server side is tyne-chat/tyne `fluxer_api/src/api/p
 | Create, edit, duplicate, delete | `presentation/sheets/edit_persona_sheet.dart` (the copy's bar: `persona_copy_bar.dart`) |
 | The persona profile | `_buildPersonaProfile` in `presentation/widgets/user_profile_view.dart` |
 | Changing the visibility of, or deleting, many own personas at once (tyne-chat/tyne#542) | `providers/persona_bulk_actions.dart` (the settings page's select mode uses it) |
+| Own deleted personas and Restore (tyne-chat/tyne#610) | `providers/deleted_personas.dart` (the settings page's Deleted personas section uses it) |
 | An account's public personas: the "Personas (N)" pill, row and gallery (tyne-chat/tyne#189) | `providers/public_persona_list_provider.dart`, `domain/persona_gallery.dart`, `presentation/widgets/persona_gallery_entry.dart`, `presentation/sheets/persona_gallery_sheet.dart`, `presentation/sheets/persona_profile_pager.dart`, `providers/persona_gallery_view_provider.dart` |
 
 The persona settings page is in `lib/features/settings`; the composer's persona resolution, the picker
@@ -191,7 +192,7 @@ display tag and pill through one more element in its name `Wrap`.
   `domain/persona_image_urls_test.dart`, `domain/persona_gallery_test.dart`,
   `providers/public_persona_list_provider_test.dart`, `presentation/widgets/persona_gallery_entry_test.dart`;
   `test/fork_support/wait_until.dart` instead of sleeps.
-- Request counts: `providers/persona_bulk_actions_test.dart`, `data/persona_lookup_test.dart`, the "without naming one" group of
+- Request counts: `providers/persona_bulk_actions_test.dart`, `providers/deleted_personas_test.dart`, `data/persona_lookup_test.dart`, the "without naming one" group of
   `persona_gateway_events_test.dart`, and `providers/public_persona_list_provider_test.dart` (shared,
   kept, not repeated after a failure, a burst of change events).
 - Not covered: the persona pager (swiping, and dragging a page down to close the sheet).

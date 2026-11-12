@@ -229,7 +229,7 @@ class ForkLocalizationsLv extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Vai tiešām vēlaties dzēst „$name”? To nevar atsaukt.';
+    return 'Vai tiešām vēlaties dzēst „$name”? Dzēstās personas vēlāk varēsiet atjaunot sadaļā „Dzēstās personas” (Iestatījumi › Personas).';
   }
 
   @override
@@ -966,7 +966,7 @@ class ForkLocalizationsLv extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'Ziņās joprojām būs redzami to vārdi un avatāri, taču jūs vairs nevarēsiet rakstīt to vārdā, un to birkas un raksturīgās emocijzīmes kļūs brīvas. To nevar atsaukt.';
+      'Dzēstās personas vēlāk varēsiet atjaunot sadaļā „Dzēstās personas” (Iestatījumi › Personas).';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1153,4 +1153,58 @@ class ForkLocalizationsLv extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'Jauna persona';
+
+  @override
+  String get deletedPersonasTitle => 'Dzēstās personas';
+
+  @override
+  String get deletedPersonasDescription =>
+      'Dzēstās personas joprojām redzamas pie savām vecajām ziņām, taču neviens tās nevar izvēlēties, un tās netiek ieskaitītas jūsu limitā. Atjaunojot personu, atgriežas tā pati persona ar visu savu vēsturi.';
+
+  @override
+  String get deletedPersonasShow => 'Rādīt dzēstās personas';
+
+  @override
+  String get deletedPersonasLoadFailed => 'Neizdevās ielādēt dzēstās personas.';
+
+  @override
+  String get deletedPersonasEmpty => 'Nav dzēstu personu.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'Dzēsta $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Izmantota $count reizes',
+      one: 'Izmantota $count reizi',
+      zero: 'Izmantota $count reizes',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'Atjaunot';
+
+  @override
+  String personaRestored(String name) {
+    return 'Persona $name ir atjaunota.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return 'Atgriezta bez $items: tās tagad ir citai personai.';
+  }
+
+  @override
+  String get personaRestoreFailed => 'Neizdevās atjaunot personu.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return 'Atjaunot $name';
+  }
 }
