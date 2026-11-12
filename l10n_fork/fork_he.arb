@@ -299,5 +299,6 @@
     "signalsRestoreNothing": "אין מה לשחזר.",
     "signalsProfileMenu": "אותות",
     "signalsEverywhereTurnOffChat": "כיבוי האותות",
-    "signalsRestoreBeforeChange": "מחזיר את מה שהיה מופעל לפני השינוי האחרון בכל מקום ב-{time}. מה שמופעל שם עכשיו ייכבה."
+    "signalsRestoreBeforeChange": "מחזיר את מה שהיה מופעל לפני השינוי האחרון בכל מקום ב-{time}. מה שמופעל שם עכשיו ייכבה.",
+    "personaCopyBadge": "פרסונה חדשה"
 }
