@@ -228,7 +228,7 @@ class ForkLocalizationsVi extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Bạn có chắc chắn muốn xóa \"$name\" không? Hành động này không thể hoàn tác.';
+    return 'Bạn có chắc chắn muốn xóa \"$name\" không? Bạn có thể khôi phục persona đã xóa sau trong Cài đặt › Persona, ở mục Persona đã xóa.';
   }
 
   @override
@@ -955,7 +955,7 @@ class ForkLocalizationsVi extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'Tin nhắn của chúng vẫn hiện tên và ảnh đại diện, nhưng bạn sẽ không thể gửi dưới tên chúng nữa, và thẻ cùng biểu tượng cảm xúc đặc trưng của chúng sẽ được giải phóng. Không thể hoàn tác.';
+      'Bạn có thể khôi phục persona đã xóa sau trong Cài đặt › Persona, ở mục Persona đã xóa.';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1130,4 +1130,56 @@ class ForkLocalizationsVi extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'Persona mới';
+
+  @override
+  String get deletedPersonasTitle => 'Persona đã xóa';
+
+  @override
+  String get deletedPersonasDescription =>
+      'Persona đã xóa vẫn hiện trên các tin nhắn cũ của chúng, nhưng không ai chọn được và chúng không bị tính vào giới hạn của bạn. Khôi phục một persona sẽ đưa chính persona đó trở lại, cùng với lịch sử của nó.';
+
+  @override
+  String get deletedPersonasShow => 'Hiện persona đã xóa';
+
+  @override
+  String get deletedPersonasLoadFailed => 'Không tải được các persona đã xóa.';
+
+  @override
+  String get deletedPersonasEmpty => 'Không có persona nào đã xóa.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'Đã xóa ngày $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Đã dùng $count lần',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'Khôi phục';
+
+  @override
+  String personaRestored(String name) {
+    return '$name đã trở lại.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return 'Đã trở lại nhưng không có $items: một persona khác hiện đang dùng chúng.';
+  }
+
+  @override
+  String get personaRestoreFailed => 'Không khôi phục được persona.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return 'Khôi phục $name';
+  }
 }

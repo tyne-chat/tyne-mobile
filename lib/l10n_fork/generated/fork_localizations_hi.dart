@@ -228,7 +228,7 @@ class ForkLocalizationsHi extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'क्या आप वाकई \"$name\" को डिलीट करना चाहते हैं? इसे पहले जैसा नहीं किया जा सकता।';
+    return 'क्या आप वाकई \"$name\" को डिलीट करना चाहते हैं? डिलीट किए गए परसोना को आप बाद में सेटिंग्स › परसोना के “डिलीट किए गए परसोना” सेक्शन से रीस्टोर कर सकते हैं।';
   }
 
   @override
@@ -959,7 +959,7 @@ class ForkLocalizationsHi extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'उनके संदेशों में उनके नाम और अवतार दिखते रहेंगे, लेकिन आप अब उनके रूप में संदेश नहीं भेज पाएँगे, और उनके टैग और हस्ताक्षर इमोजी खाली हो जाएँगे। इसे पूर्ववत नहीं किया जा सकता।';
+      'डिलीट किए गए परसोना को आप बाद में सेटिंग्स › परसोना के “डिलीट किए गए परसोना” सेक्शन से रीस्टोर कर सकते हैं।';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1140,4 +1140,58 @@ class ForkLocalizationsHi extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'नया परसोना';
+
+  @override
+  String get deletedPersonasTitle => 'डिलीट किए गए परसोना';
+
+  @override
+  String get deletedPersonasDescription =>
+      'डिलीट किए गए परसोना अपने पुराने संदेशों पर अब भी दिखते हैं, लेकिन कोई उन्हें चुन नहीं सकता और वे आपकी सीमा में नहीं गिने जाते। किसी परसोना को रीस्टोर करने पर वही परसोना अपने इतिहास के साथ वापस आ जाता है।';
+
+  @override
+  String get deletedPersonasShow => 'डिलीट किए गए परसोना दिखाएँ';
+
+  @override
+  String get deletedPersonasLoadFailed =>
+      'डिलीट किए गए परसोना लोड नहीं हो सके।';
+
+  @override
+  String get deletedPersonasEmpty => 'कोई डिलीट किया गया परसोना नहीं है।';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return '$date को डिलीट किया गया';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count बार इस्तेमाल हुआ',
+      one: '$count बार इस्तेमाल हुआ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'रीस्टोर करें';
+
+  @override
+  String personaRestored(String name) {
+    return '$name वापस आ गया।';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return '$items के बिना वापस आया: अब ये किसी दूसरे परसोना के पास हैं।';
+  }
+
+  @override
+  String get personaRestoreFailed => 'परसोना रीस्टोर नहीं हो सका।';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return '$name को रीस्टोर करें';
+  }
 }
