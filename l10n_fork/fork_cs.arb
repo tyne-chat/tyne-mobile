@@ -299,5 +299,6 @@
     "signalsRestoreNothing": "Není co obnovit.",
     "signalsProfileMenu": "Signály",
     "signalsEverywhereTurnOffChat": "Vypnout signály",
-    "signalsRestoreBeforeChange": "Vrátí stav před tvou poslední změnou všude ({time}). Co tam máš zapnuté teď, se vypne."
+    "signalsRestoreBeforeChange": "Vrátí stav před tvou poslední změnou všude ({time}). Co tam máš zapnuté teď, se vypne.",
+    "personaCopyBadge": "Nová persona"
 }
