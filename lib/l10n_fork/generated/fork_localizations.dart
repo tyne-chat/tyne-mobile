@@ -560,7 +560,7 @@ abstract class ForkLocalizations {
   /// Confirmation message when deleting a persona.
   ///
   /// In en, this message translates to:
-  /// **'Are you sure you want to delete \"{name}\"? This cannot be undone.'**
+  /// **'Are you sure you want to delete \"{name}\"? You can restore deleted personas later in Settings › Personas, under Deleted personas.'**
   String personaDeleteMessage(String name);
 
   /// Confirmation button to delete a persona.
@@ -1757,10 +1757,10 @@ abstract class ForkLocalizations {
   /// **'Their profiles will be hidden from others. Their names and avatars still show on their messages and reactions.'**
   String get personaBulkConfirmPrivateBody;
 
-  /// Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. What deleting personas does; it cannot be undone.
+  /// Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Body of the confirmation before deleting personas, under its title "Delete N personas?": where deleted personas can be restored (tyne-chat/tyne#610).
   ///
   /// In en, this message translates to:
-  /// **'Their messages keep showing their names and avatars, but you can no longer send as them, and their tags and signature emojis become free. This can\'t be undone.'**
+  /// **'You can restore deleted personas later in Settings › Personas, under Deleted personas.'**
   String get personaBulkConfirmDeleteBody;
 
   /// Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Snack bar after the change, with Undo.
@@ -1990,6 +1990,78 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'New Persona'**
   String get personaCopyBadge;
+
+  /// Deleted personas, the last section of the Personas settings, where deleted personas can be restored (tyne-chat/tyne#610). Same wording as the web app's. Section title.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted personas'**
+  String get deletedPersonasTitle;
+
+  /// Deleted personas, the last section of the Personas settings, where deleted personas can be restored (tyne-chat/tyne#610). Same wording as the web app's. Explanation under the section title.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted personas still show on their old messages, but nobody can pick them and they don\'t count towards your limit. Restoring one brings the same persona back, with its history.'**
+  String get deletedPersonasDescription;
+
+  /// Deleted personas, the last section of the Personas settings, where deleted personas can be restored (tyne-chat/tyne#610). Same wording as the web app's. Button that loads the list of deleted personas.
+  ///
+  /// In en, this message translates to:
+  /// **'Show deleted personas'**
+  String get deletedPersonasShow;
+
+  /// Deleted personas, the last section of the Personas settings, where deleted personas can be restored (tyne-chat/tyne#610). Same wording as the web app's. Shown when the list fails to load, next to a Retry button.
+  ///
+  /// In en, this message translates to:
+  /// **'The deleted personas could not be loaded.'**
+  String get deletedPersonasLoadFailed;
+
+  /// Deleted personas, the last section of the Personas settings, where deleted personas can be restored (tyne-chat/tyne#610). Same wording as the web app's. Shown when there are no deleted personas.
+  ///
+  /// In en, this message translates to:
+  /// **'No deleted personas.'**
+  String get deletedPersonasEmpty;
+
+  /// Deleted personas, the last section of the Personas settings, where deleted personas can be restored (tyne-chat/tyne#610). Same wording as the web app's. When a persona was deleted; date is a date such as Nov 11, 2026.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted {date}'**
+  String deletedPersonaDeletedAt(String date);
+
+  /// Deleted personas, the last section of the Personas settings, where deleted personas can be restored (tyne-chat/tyne#610). Same wording as the web app's. How often a deleted persona was used.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{Used once} other{Used {count} times}}'**
+  String deletedPersonaUseCount(int count);
+
+  /// Deleted personas, the last section of the Personas settings, where deleted personas can be restored (tyne-chat/tyne#610). Same wording as the web app's. Button on a deleted persona that brings it back.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get deletedPersonaRestore;
+
+  /// Deleted personas, the last section of the Personas settings, where deleted personas can be restored (tyne-chat/tyne#610). Same wording as the web app's. Snack bar after a deleted persona was restored.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is back.'**
+  String personaRestored(String name);
+
+  /// Deleted personas, the last section of the Personas settings, where deleted personas can be restored (tyne-chat/tyne#610). Same wording as the web app's. Added after the restored snack bar when another persona took some of its proxy tags or signature emojis meanwhile; items lists them.
+  ///
+  /// In en, this message translates to:
+  /// **'Came back without {items}: another persona has them now.'**
+  String personaRestoredWithout(String items);
+
+  /// Deleted personas, the last section of the Personas settings, where deleted personas can be restored (tyne-chat/tyne#610). Same wording as the web app's. Snack bar when a restore fails and the server gave no reason.
+  ///
+  /// In en, this message translates to:
+  /// **'The persona could not be restored.'**
+  String get personaRestoreFailed;
+
+  /// Deleted personas, the last section of the Personas settings (tyne-chat/tyne#610). Screen reader label of a deleted persona's Restore button; name is the persona's name.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore {name}'**
+  String deletedPersonaRestoreLabel(String name);
 }
 
 class _ForkLocalizationsDelegate

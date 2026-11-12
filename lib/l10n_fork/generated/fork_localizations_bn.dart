@@ -227,7 +227,7 @@ class ForkLocalizationsBn extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'আপনি কি নিশ্চিত যে “$name” মুছে ফেলতে চান? এটি পূর্বাবস্থায় ফেরানো যাবে না।';
+    return 'আপনি কি নিশ্চিত যে “$name” মুছে ফেলতে চান? মুছে ফেলা পারসোনা পরে সেটিংস › পারসোনা-র “মুছে ফেলা পারসোনা” অংশ থেকে পুনরুদ্ধার করতে পারবেন।';
   }
 
   @override
@@ -960,7 +960,7 @@ class ForkLocalizationsBn extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'তাদের মেসেজে নাম ও অ্যাভাটার দেখা যেতেই থাকবে, কিন্তু আপনি আর তাদের হয়ে পাঠাতে পারবেন না, এবং তাদের ট্যাগ ও সিগনেচার ইমোজি মুক্ত হয়ে যাবে। এটি পূর্বাবস্থায় ফেরানো যাবে না।';
+      'মুছে ফেলা পারসোনা পরে সেটিংস › পারসোনা-র “মুছে ফেলা পারসোনা” অংশ থেকে পুনরুদ্ধার করতে পারবেন।';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1142,4 +1142,58 @@ class ForkLocalizationsBn extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'নতুন পারসোনা';
+
+  @override
+  String get deletedPersonasTitle => 'মুছে ফেলা পারসোনা';
+
+  @override
+  String get deletedPersonasDescription =>
+      'মুছে ফেলা পারসোনা তাদের পুরোনো মেসেজে এখনও দেখা যায়, কিন্তু কেউ তাদের বেছে নিতে পারে না এবং আপনার সীমার মধ্যে তাদের গোনা হয় না। পুনরুদ্ধার করলে একই পারসোনা তার ইতিহাসসহ ফিরে আসে।';
+
+  @override
+  String get deletedPersonasShow => 'মুছে ফেলা পারসোনা দেখান';
+
+  @override
+  String get deletedPersonasLoadFailed =>
+      'মুছে ফেলা পারসোনাগুলো লোড করা যায়নি।';
+
+  @override
+  String get deletedPersonasEmpty => 'মুছে ফেলা কোনো পারসোনা নেই।';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'মুছে ফেলা হয়েছে: $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count বার ব্যবহৃত',
+      one: '$count বার ব্যবহৃত',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'পুনরুদ্ধার করুন';
+
+  @override
+  String personaRestored(String name) {
+    return '$name ফিরে এসেছে।';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return '$items ছাড়াই ফিরে এসেছে: এগুলো এখন অন্য একটি পারসোনার।';
+  }
+
+  @override
+  String get personaRestoreFailed => 'পারসোনাটি পুনরুদ্ধার করা যায়নি।';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return '$name পুনরুদ্ধার করুন';
+  }
 }

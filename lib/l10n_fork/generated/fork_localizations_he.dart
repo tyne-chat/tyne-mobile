@@ -227,7 +227,7 @@ class ForkLocalizationsHe extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'האם אתה בטוח שברצונך למחוק את \"$name\"? לא ניתן לבטל פעולה זו.';
+    return 'האם אתה בטוח שברצונך למחוק את \"$name\"? אפשר לשחזר פרסונות שנמחקו בהמשך דרך הגדרות › פרסונות, תחת \"פרסונות שנמחקו\".';
   }
 
   @override
@@ -953,7 +953,7 @@ class ForkLocalizationsHe extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'ההודעות שלהן ימשיכו להציג את השמות והאווטרים שלהן, אבל לא תוכלו עוד לשלוח בשמן, והתגיות ואימוג׳י החתימה שלהן יתפנו. אי אפשר לבטל פעולה זו.';
+      'אפשר לשחזר פרסונות שנמחקו בהמשך דרך הגדרות › פרסונות, תחת \"פרסונות שנמחקו\".';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1137,4 +1137,59 @@ class ForkLocalizationsHe extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'פרסונה חדשה';
+
+  @override
+  String get deletedPersonasTitle => 'פרסונות שנמחקו';
+
+  @override
+  String get deletedPersonasDescription =>
+      'פרסונות שנמחקו עדיין מוצגות בהודעות הישנות שלהן, אבל אי אפשר לבחור בהן והן לא נספרות במגבלה שלכם. שחזור של פרסונה מחזיר את אותה פרסונה, עם ההיסטוריה שלה.';
+
+  @override
+  String get deletedPersonasShow => 'הצגת פרסונות שנמחקו';
+
+  @override
+  String get deletedPersonasLoadFailed =>
+      'לא ניתן היה לטעון את הפרסונות שנמחקו.';
+
+  @override
+  String get deletedPersonasEmpty => 'אין פרסונות שנמחקו.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'נמחקה בתאריך $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count שימושים',
+      two: 'שני שימושים',
+      one: 'שימוש אחד',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'שחזור';
+
+  @override
+  String personaRestored(String name) {
+    return '$name שוב כאן.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return 'חזרה בלי $items: הם שייכים עכשיו לפרסונה אחרת.';
+  }
+
+  @override
+  String get personaRestoreFailed => 'לא ניתן היה לשחזר את הפרסונה.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return 'שחזור $name';
+  }
 }
