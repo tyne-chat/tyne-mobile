@@ -1151,4 +1151,7 @@ class ForkLocalizationsIt extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return 'Rimette ciò che avevi attivo prima della tua ultima modifica ovunque ($time). Ciò che hai attivo lì ora verrà disattivato.';
   }
+
+  @override
+  String get personaCopyBadge => 'Nuova persona';
 }
