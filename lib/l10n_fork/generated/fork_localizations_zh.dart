@@ -221,7 +221,7 @@ class ForkLocalizationsZh extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return '确定要删除“$name”吗？此操作无法撤销。';
+    return '确定要删除“$name”吗？已删除的人格之后可以在“设置 › 人格”的“已删除的人格”中恢复。';
   }
 
   @override
@@ -922,7 +922,7 @@ class ForkLocalizationsZh extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      '它们的消息仍会显示名称和头像，但你将无法再以它们的身份发送，它们的标签和专属表情符号也会释放出来。此操作无法撤销。';
+      '已删除的人格之后可以在“设置 › 人格”的“已删除的人格”中恢复。';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1093,6 +1093,58 @@ class ForkLocalizationsZh extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => '新建人格';
+
+  @override
+  String get deletedPersonasTitle => '已删除的人格';
+
+  @override
+  String get deletedPersonasDescription =>
+      '已删除的人格仍会显示在其旧消息上，但没有人能选择它们，也不计入你的数量上限。恢复某个人格会带回同一个人格及其历史记录。';
+
+  @override
+  String get deletedPersonasShow => '显示已删除的人格';
+
+  @override
+  String get deletedPersonasLoadFailed => '无法加载已删除的人格。';
+
+  @override
+  String get deletedPersonasEmpty => '没有已删除的人格。';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return '删除于 $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '已使用 $count 次',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => '恢复';
+
+  @override
+  String personaRestored(String name) {
+    return '$name 回来了。';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return '恢复时缺少 $items：它们现在属于另一个人格。';
+  }
+
+  @override
+  String get personaRestoreFailed => '无法恢复该人格。';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return '恢复$name';
+  }
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -1312,7 +1364,7 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String personaDeleteMessage(String name) {
-    return '確定要刪除「$name」嗎？此動作無法復原。';
+    return '確定要刪除「$name」嗎？已刪除的人格之後可以在「設定 › 人格」的「已刪除的人格」中還原。';
   }
 
   @override
@@ -2013,7 +2065,7 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      '它們的訊息仍會顯示名稱和頭像，但你將無法再以它們的身分傳送，它們的標籤和專屬表情符號也會釋出。此操作無法復原。';
+      '已刪除的人格之後可以在「設定 › 人格」的「已刪除的人格」中還原。';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -2184,4 +2236,56 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get personaCopyBadge => '新增人格';
+
+  @override
+  String get deletedPersonasTitle => '已刪除的人格';
+
+  @override
+  String get deletedPersonasDescription =>
+      '已刪除的人格仍會顯示在其舊訊息上，但沒有人能選擇它們，也不計入你的數量上限。還原某個人格會帶回同一個人格及其歷史紀錄。';
+
+  @override
+  String get deletedPersonasShow => '顯示已刪除的人格';
+
+  @override
+  String get deletedPersonasLoadFailed => '無法載入已刪除的人格。';
+
+  @override
+  String get deletedPersonasEmpty => '沒有已刪除的人格。';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return '刪除於 $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '已使用 $count 次',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => '還原';
+
+  @override
+  String personaRestored(String name) {
+    return '$name 回來了。';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return '還原時缺少 $items：它們現在屬於另一個人格。';
+  }
+
+  @override
+  String get personaRestoreFailed => '無法還原該人格。';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return '還原$name';
+  }
 }

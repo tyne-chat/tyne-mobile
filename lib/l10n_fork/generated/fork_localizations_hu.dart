@@ -228,7 +228,7 @@ class ForkLocalizationsHu extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Biztosan törölni szeretnéd a(z) „$name” personát? Ezt a műveletet nem lehet visszavonni.';
+    return 'Biztosan törölni szeretnéd a(z) „$name” personát? A törölt personákat később visszaállíthatod a Beállítások › Personák oldalon, a Törölt personák részben.';
   }
 
   @override
@@ -964,7 +964,7 @@ class ForkLocalizationsHu extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'Az üzeneteik továbbra is a nevüket és avatarjukat mutatják, de már nem küldhetsz a nevükben, és a címkéik és aláírási hangulatjeleik felszabadulnak. Ez nem vonható vissza.';
+      'A törölt personákat később visszaállíthatod a Beállítások › Personák oldalon, a Törölt personák részben.';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1144,4 +1144,58 @@ class ForkLocalizationsHu extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'Új persona';
+
+  @override
+  String get deletedPersonasTitle => 'Törölt personák';
+
+  @override
+  String get deletedPersonasDescription =>
+      'A törölt personák továbbra is látszanak a régi üzeneteiken, de senki sem választhatja őket, és nem számítanak bele a korlátodba. Ha visszaállítasz egyet, ugyanaz a persona tér vissza, az előzményeivel együtt.';
+
+  @override
+  String get deletedPersonasShow => 'Törölt personák megjelenítése';
+
+  @override
+  String get deletedPersonasLoadFailed =>
+      'A törölt personákat nem sikerült betölteni.';
+
+  @override
+  String get deletedPersonasEmpty => 'Nincsenek törölt personák.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'Törölve: $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count alkalommal használva',
+      one: 'Egyszer használva',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'Visszaállítás';
+
+  @override
+  String personaRestored(String name) {
+    return '$name visszatért.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return '$items nélkül tért vissza: ezek most egy másik personáé.';
+  }
+
+  @override
+  String get personaRestoreFailed => 'A personát nem sikerült visszaállítani.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return '$name visszaállítása';
+  }
 }
