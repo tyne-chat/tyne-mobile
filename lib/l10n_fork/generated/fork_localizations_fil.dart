@@ -229,7 +229,7 @@ class ForkLocalizationsFil extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Sigurado ka bang gusto mong i-delete ang “$name”? Hindi na ito mababawi.';
+    return 'Sigurado ka bang gusto mong i-delete ang “$name”? Maibabalik mo ang mga na-delete na persona sa ibang pagkakataon sa Mga Setting › Mga Persona, sa ilalim ng Mga na-delete na persona.';
   }
 
   @override
@@ -972,7 +972,7 @@ class ForkLocalizationsFil extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'Patuloy na ipapakita ng kanilang mga mensahe ang kanilang pangalan at avatar, pero hindi ka na makakapagpadala bilang sila, at magagamit na ng iba ang kanilang mga tag at natatanging emoji. Hindi na ito mababawi.';
+      'Maibabalik mo ang mga na-delete na persona sa ibang pagkakataon sa Mga Setting › Mga Persona, sa ilalim ng Mga na-delete na persona.';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1153,4 +1153,58 @@ class ForkLocalizationsFil extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'Bagong Persona';
+
+  @override
+  String get deletedPersonasTitle => 'Mga na-delete na persona';
+
+  @override
+  String get deletedPersonasDescription =>
+      'Makikita pa rin ang mga na-delete na persona sa kanilang mga lumang mensahe, pero walang makakapili sa kanila at hindi sila binibilang sa iyong limitasyon. Kapag ibinalik mo ang isa, babalik ang parehong persona, kasama ang kasaysayan nito.';
+
+  @override
+  String get deletedPersonasShow => 'Ipakita ang mga na-delete na persona';
+
+  @override
+  String get deletedPersonasLoadFailed =>
+      'Hindi ma-load ang mga na-delete na persona.';
+
+  @override
+  String get deletedPersonasEmpty => 'Walang na-delete na persona.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'Na-delete noong $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Nagamit nang $count beses',
+      one: 'Nagamit nang $count beses',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'Ibalik';
+
+  @override
+  String personaRestored(String name) {
+    return 'Bumalik na si $name.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return 'Bumalik nang wala ang $items: nasa ibang persona na ang mga ito.';
+  }
+
+  @override
+  String get personaRestoreFailed => 'Hindi naibalik ang persona.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return 'Ibalik si $name';
+  }
 }
