@@ -223,7 +223,7 @@ class ForkLocalizationsJa extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return '「$name」を削除してもよろしいですか？この操作は元に戻せません。';
+    return '「$name」を削除してもよろしいですか？削除したペルソナは、あとで「設定 › ペルソナ」の「削除したペルソナ」から復元できます。';
   }
 
   @override
@@ -932,7 +932,7 @@ class ForkLocalizationsJa extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'メッセージには名前とアバターが引き続き表示されますが、そのペルソナとして送信できなくなり、タグとシグネチャー絵文字は解放されます。この操作は取り消せません。';
+      '削除したペルソナは、あとで「設定 › ペルソナ」の「削除したペルソナ」から復元できます。';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1103,4 +1103,56 @@ class ForkLocalizationsJa extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => '新しいペルソナ';
+
+  @override
+  String get deletedPersonasTitle => '削除したペルソナ';
+
+  @override
+  String get deletedPersonasDescription =>
+      '削除したペルソナは過去のメッセージには引き続き表示されますが、誰も選択できず、上限にも含まれません。復元すると、同じペルソナが履歴ごと戻ります。';
+
+  @override
+  String get deletedPersonasShow => '削除したペルソナを表示';
+
+  @override
+  String get deletedPersonasLoadFailed => '削除したペルソナを読み込めませんでした。';
+
+  @override
+  String get deletedPersonasEmpty => '削除したペルソナはありません。';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return '$date に削除';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 回使用',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => '復元';
+
+  @override
+  String personaRestored(String name) {
+    return '$name が戻りました。';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return '$items なしで戻りました: 現在は別のペルソナが使用しています。';
+  }
+
+  @override
+  String get personaRestoreFailed => 'ペルソナを復元できませんでした。';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return '$nameを復元';
+  }
 }
