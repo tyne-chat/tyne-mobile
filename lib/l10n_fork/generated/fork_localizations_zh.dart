@@ -1090,6 +1090,9 @@ class ForkLocalizationsZh extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return '恢复你在 $time 上次在所有地方更改之前开启的信号。你现在在那里开启的信号将被关闭。';
   }
+
+  @override
+  String get personaCopyBadge => '新建人格';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -2178,4 +2181,7 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
   String signalsRestoreBeforeChange(String time) {
     return '還原你在 $time 上次在所有地方變更之前開啟的訊號。你目前在那裡開啟的訊號將會關閉。';
   }
+
+  @override
+  String get personaCopyBadge => '新增人格';
 }

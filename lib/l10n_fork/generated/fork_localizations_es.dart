@@ -1146,6 +1146,9 @@ class ForkLocalizationsEs extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return 'Recupera lo que tenías activado antes de tu último cambio en todas partes ($time). Lo que tienes activado ahí ahora se desactivará.';
   }
+
+  @override
+  String get personaCopyBadge => 'Nueva persona';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -2289,4 +2292,7 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
   String signalsRestoreBeforeChange(String time) {
     return 'Recupera lo que tenías activado antes de tu último cambio en todas partes ($time). Lo que tienes activado ahí ahora se desactivará.';
   }
+
+  @override
+  String get personaCopyBadge => 'Nueva persona';
 }

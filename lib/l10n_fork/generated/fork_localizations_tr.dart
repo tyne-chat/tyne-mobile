@@ -1131,4 +1131,7 @@ class ForkLocalizationsTr extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return 'Her yerde yaptığın son değişiklikten önce ($time) açık olan sinyallerini geri getirir. Şu anda orada açık olanlar kapanır.';
   }
+
+  @override
+  String get personaCopyBadge => 'Yeni Persona';
 }

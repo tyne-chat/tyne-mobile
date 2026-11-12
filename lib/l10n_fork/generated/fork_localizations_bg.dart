@@ -1149,4 +1149,7 @@ class ForkLocalizationsBg extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return 'Връща сигналите, които бяха включени преди последната ти промяна навсякъде ($time). Включените там сега ще се изключат.';
   }
+
+  @override
+  String get personaCopyBadge => 'Нова персона';
 }
