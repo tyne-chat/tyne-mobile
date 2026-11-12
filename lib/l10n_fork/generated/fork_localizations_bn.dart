@@ -1139,4 +1139,7 @@ class ForkLocalizationsBn extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return '$time-এ সবখানে আপনার শেষ পরিবর্তনের আগে যা চালু ছিল তা ফিরিয়ে আনে। সেখানে এখন যা চালু আছে তা বন্ধ হয়ে যাবে।';
   }
+
+  @override
+  String get personaCopyBadge => 'নতুন পারসোনা';
 }

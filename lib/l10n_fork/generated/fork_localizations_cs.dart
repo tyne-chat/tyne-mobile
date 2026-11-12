@@ -1160,4 +1160,7 @@ class ForkLocalizationsCs extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return 'Vrátí stav před tvou poslední změnou všude ($time). Co tam máš zapnuté teď, se vypne.';
   }
+
+  @override
+  String get personaCopyBadge => 'Nová persona';
 }

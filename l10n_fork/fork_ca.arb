@@ -299,5 +299,6 @@
     "signalsRestoreNothing": "No hi ha res per restaurar.",
     "signalsProfileMenu": "Senyals",
     "signalsEverywhereTurnOffChat": "Desactiva els senyals",
-    "signalsRestoreBeforeChange": "Torna a posar el que tenies activat abans del teu darrer canvi a tot arreu ({time}). El que hi tens activat ara es desactivarà."
+    "signalsRestoreBeforeChange": "Torna a posar el que tenies activat abans del teu darrer canvi a tot arreu ({time}). El que hi tens activat ara es desactivarà.",
+    "personaCopyBadge": "Persona nova"
 }

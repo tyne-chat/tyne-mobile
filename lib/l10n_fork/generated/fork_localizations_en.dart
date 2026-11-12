@@ -1129,6 +1129,9 @@ class ForkLocalizationsEn extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return 'Puts back what you had on before your last change everywhere at $time. What you have on there now goes off.';
   }
+
+  @override
+  String get personaCopyBadge => 'New Persona';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -2256,6 +2259,9 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   String signalsRestoreBeforeChange(String time) {
     return 'Puts back what you had on before your last change everywhere at $time. What you have on there now goes off.';
   }
+
+  @override
+  String get personaCopyBadge => 'New Persona';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -3383,4 +3389,7 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
   String signalsRestoreBeforeChange(String time) {
     return 'Puts back what you had on before your last change everywhere at $time. What you have on there now goes off.';
   }
+
+  @override
+  String get personaCopyBadge => 'New Persona';
 }

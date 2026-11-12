@@ -299,5 +299,6 @@
     "signalsRestoreNothing": "Palautettavaa ei ole.",
     "signalsProfileMenu": "Signaalit",
     "signalsEverywhereTurnOffChat": "Kytke signaalit pois",
-    "signalsRestoreBeforeChange": "Palauttaa sen, mitä sinulla oli päällä ennen viimeisintä kaikkialle tekemääsi muutosta ({time}). Se, mitä sinulla on siellä nyt päällä, kytkeytyy pois."
+    "signalsRestoreBeforeChange": "Palauttaa sen, mitä sinulla oli päällä ennen viimeisintä kaikkialle tekemääsi muutosta ({time}). Se, mitä sinulla on siellä nyt päällä, kytkeytyy pois.",
+    "personaCopyBadge": "Uusi persoona"
 }

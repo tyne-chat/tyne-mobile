@@ -1224,6 +1224,16 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
                         ),
                       ),
                     ),
+                    // A copy looks like the persona it came from: this badge,
+                    // over the banner's corner, says which one is being edited.
+                    if (widget.copyOf != null)
+                      PositionedDirectional(
+                        top: layout.s2,
+                        start: layout.s2,
+                        child: PersonaCopyBadge(
+                          label: l10n.fork.personaCopyBadge,
+                        ),
+                      ),
                   ],
                 ),
               );
