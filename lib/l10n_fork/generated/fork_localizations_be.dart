@@ -1163,4 +1163,7 @@ class ForkLocalizationsBe extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return 'Вяртае тое, што было ўключана да вашай апошняй змены ўсюды ($time). Тое, што ўключана там цяпер, выключыцца.';
   }
+
+  @override
+  String get personaCopyBadge => 'Новая персона';
 }

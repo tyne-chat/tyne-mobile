@@ -299,5 +299,6 @@
     "signalsRestoreNothing": "Няма какво да се възстанови.",
     "signalsProfileMenu": "Сигнали",
     "signalsEverywhereTurnOffChat": "Изключване на сигналите",
-    "signalsRestoreBeforeChange": "Връща сигналите, които бяха включени преди последната ти промяна навсякъде ({time}). Включените там сега ще се изключат."
+    "signalsRestoreBeforeChange": "Връща сигналите, които бяха включени преди последната ти промяна навсякъде ({time}). Включените там сега ще се изключат.",
+    "personaCopyBadge": "Нова персона"
 }

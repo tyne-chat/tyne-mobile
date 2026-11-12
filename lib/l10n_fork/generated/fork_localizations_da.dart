@@ -1135,4 +1135,7 @@ class ForkLocalizationsDa extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return 'Sætter det tilbage, du havde slået til før din seneste ændring overalt ($time). Det, du har slået til der nu, bliver slået fra.';
   }
+
+  @override
+  String get personaCopyBadge => 'Ny persona';
 }

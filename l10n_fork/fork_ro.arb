@@ -299,5 +299,6 @@
     "signalsRestoreNothing": "Nu există nimic de restaurat.",
     "signalsProfileMenu": "Semnale",
     "signalsEverywhereTurnOffChat": "Dezactivează semnalele",
-    "signalsRestoreBeforeChange": "Readuce ce aveai activat înainte de ultima ta modificare peste tot ({time}). Ce ai activat acolo acum se va dezactiva."
+    "signalsRestoreBeforeChange": "Readuce ce aveai activat înainte de ultima ta modificare peste tot ({time}). Ce ai activat acolo acum se va dezactiva.",
+    "personaCopyBadge": "Persona nouă"
 }

@@ -1984,6 +1984,12 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'Puts back what you had on before your last change everywhere at {time}. What you have on there now goes off.'**
   String signalsRestoreBeforeChange(String time);
+
+  /// Badge on the banner of a copy's profile preview, telling the new persona from the one it was copied from (it looks the same otherwise). The same words as the web app's "New Persona".
+  ///
+  /// In en, this message translates to:
+  /// **'New Persona'**
+  String get personaCopyBadge;
 }
 
 class _ForkLocalizationsDelegate

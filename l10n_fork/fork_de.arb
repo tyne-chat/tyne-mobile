@@ -299,5 +299,6 @@
     "signalsRestoreNothing": "Es gibt nichts wiederherzustellen.",
     "signalsProfileMenu": "Signale",
     "signalsEverywhereTurnOffChat": "Signale ausschalten",
-    "signalsRestoreBeforeChange": "Stellt wieder her, was du eingeschaltet hattest, bevor du zuletzt überall etwas geändert hast ({time}). Was du dort jetzt eingeschaltet hast, wird ausgeschaltet."
+    "signalsRestoreBeforeChange": "Stellt wieder her, was du eingeschaltet hattest, bevor du zuletzt überall etwas geändert hast ({time}). Was du dort jetzt eingeschaltet hast, wird ausgeschaltet.",
+    "personaCopyBadge": "Neue Persona"
 }

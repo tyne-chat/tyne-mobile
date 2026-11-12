@@ -1138,4 +1138,7 @@ class ForkLocalizationsArt extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return 'suno sina li kama sama tenpo pini: tenpo $time la sina ante e suno lon ale. suno open sina lon ona lon tenpo ni li kama pini.';
   }
+
+  @override
+  String get personaCopyBadge => 'jan insa sin';
 }

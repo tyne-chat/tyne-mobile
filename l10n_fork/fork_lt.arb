@@ -299,5 +299,6 @@
     "signalsRestoreNothing": "Nėra ką atkurti.",
     "signalsProfileMenu": "Signalai",
     "signalsEverywhereTurnOffChat": "Išjungti signalus",
-    "signalsRestoreBeforeChange": "Grąžina tai, kas buvo įjungta prieš paskutinį tavo pakeitimą visur ({time}). Tai, kas ten įjungta dabar, bus išjungta."
+    "signalsRestoreBeforeChange": "Grąžina tai, kas buvo įjungta prieš paskutinį tavo pakeitimą visur ({time}). Tai, kas ten įjungta dabar, bus išjungta.",
+    "personaCopyBadge": "Nauja persona"
 }

@@ -1147,4 +1147,7 @@ class ForkLocalizationsHr extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return 'Vraća ono što je bilo uključeno prije tvoje posljednje promjene svugdje ($time). Ono što je ondje sada uključeno, isključit će se.';
   }
+
+  @override
+  String get personaCopyBadge => 'Nova persona';
 }

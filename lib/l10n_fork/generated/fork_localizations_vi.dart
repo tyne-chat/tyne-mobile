@@ -1127,4 +1127,7 @@ class ForkLocalizationsVi extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return 'Đưa lại những gì bạn đã bật trước lần thay đổi ở mọi nơi gần nhất vào $time. Những gì đang bật ở đó lúc này sẽ tắt.';
   }
+
+  @override
+  String get personaCopyBadge => 'Persona mới';
 }

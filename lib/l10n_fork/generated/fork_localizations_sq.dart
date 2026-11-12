@@ -1142,4 +1142,7 @@ class ForkLocalizationsSq extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return 'Rikthen atë që kishe ndezur para ndryshimit tënd të fundit kudo ($time). Ajo që ke ndezur aty tani do të fiket.';
   }
+
+  @override
+  String get personaCopyBadge => 'Personë e re';
 }
