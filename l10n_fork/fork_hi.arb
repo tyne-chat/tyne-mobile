@@ -299,5 +299,6 @@
     "signalsRestoreNothing": "रीस्टोर करने के लिए कुछ नहीं है।",
     "signalsProfileMenu": "सिग्नल",
     "signalsEverywhereTurnOffChat": "सिग्नल बंद करें",
-    "signalsRestoreBeforeChange": "{time} पर हर जगह आपके पिछले बदलाव से पहले जो चालू था, उसे वापस लाता है। वहाँ अभी जो चालू है, वह बंद हो जाएगा।"
+    "signalsRestoreBeforeChange": "{time} पर हर जगह आपके पिछले बदलाव से पहले जो चालू था, उसे वापस लाता है। वहाँ अभी जो चालू है, वह बंद हो जाएगा।",
+    "personaCopyBadge": "नया परसोना"
 }

@@ -299,5 +299,6 @@
     "signalsRestoreNothing": "Geri yüklenecek bir şey yok.",
     "signalsProfileMenu": "Sinyaller",
     "signalsEverywhereTurnOffChat": "Sinyalleri kapat",
-    "signalsRestoreBeforeChange": "Her yerde yaptığın son değişiklikten önce ({time}) açık olan sinyallerini geri getirir. Şu anda orada açık olanlar kapanır."
+    "signalsRestoreBeforeChange": "Her yerde yaptığın son değişiklikten önce ({time}) açık olan sinyallerini geri getirir. Şu anda orada açık olanlar kapanır.",
+    "personaCopyBadge": "Yeni Persona"
 }

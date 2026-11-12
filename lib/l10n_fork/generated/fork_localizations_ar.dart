@@ -1171,4 +1171,7 @@ class ForkLocalizationsAr extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return 'يعيد ما كان مفعّلًا لديك قبل آخر تغيير أجريته في كل مكان في $time. سيتوقف ما هو مفعّل لديك هناك الآن.';
   }
+
+  @override
+  String get personaCopyBadge => 'شخصية جديدة';
 }

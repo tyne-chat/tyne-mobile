@@ -299,5 +299,6 @@
     "signalsRestoreNothing": "没有可恢复的内容。",
     "signalsProfileMenu": "信号",
     "signalsEverywhereTurnOffChat": "关闭信号",
-    "signalsRestoreBeforeChange": "恢复你在 {time} 上次在所有地方更改之前开启的信号。你现在在那里开启的信号将被关闭。"
+    "signalsRestoreBeforeChange": "恢复你在 {time} 上次在所有地方更改之前开启的信号。你现在在那里开启的信号将被关闭。",
+    "personaCopyBadge": "新建人格"
 }

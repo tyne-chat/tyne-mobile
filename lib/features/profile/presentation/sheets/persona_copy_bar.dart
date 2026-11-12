@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 /// The bar at the bottom of a new persona that starts as a copy of another
 /// (tyne-chat/tyne#599): the copy is unsaved from the start, so unlike
@@ -75,6 +76,58 @@ class PersonaCopyBar extends StatelessWidget {
               fitContent: true,
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// The badge on a copy's preview banner: the copy looks like the persona it
+/// came from, so this says which one is being edited, where people look
+/// (tyne-chat/tyne#599, after someone edited the original thinking it was the
+/// copy). Taps go through to the banner below it.
+class PersonaCopyBadge extends StatelessWidget {
+  const PersonaCopyBadge({required this.label, super.key});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    return IgnorePointer(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: colors.brandPrimary,
+          borderRadius: BorderRadius.circular(999),
+          boxShadow: const <BoxShadow>[
+            BoxShadow(
+              color: Color(0x73000000),
+              blurRadius: 8,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const PhosphorIcon(
+                PhosphorIconsBold.plus,
+                size: 12,
+                color: Colors.white,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                label,
+                style: context.textStyles.bodySmall.copyWith(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

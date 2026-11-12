@@ -1137,4 +1137,7 @@ class ForkLocalizationsNb extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return 'Setter tilbake det du hadde på før den siste endringen din overalt ($time). Det du har på der nå, slås av.';
   }
+
+  @override
+  String get personaCopyBadge => 'Ny persona';
 }
