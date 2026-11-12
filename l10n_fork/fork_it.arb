@@ -299,5 +299,6 @@
     "signalsRestoreNothing": "Non c'è nulla da ripristinare.",
     "signalsProfileMenu": "Segnali",
     "signalsEverywhereTurnOffChat": "Disattiva segnali",
-    "signalsRestoreBeforeChange": "Rimette ciò che avevi attivo prima della tua ultima modifica ovunque ({time}). Ciò che hai attivo lì ora verrà disattivato."
+    "signalsRestoreBeforeChange": "Rimette ciò che avevi attivo prima della tua ultima modifica ovunque ({time}). Ciò che hai attivo lì ora verrà disattivato.",
+    "personaCopyBadge": "Nuova persona"
 }

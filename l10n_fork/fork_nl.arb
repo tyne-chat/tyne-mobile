@@ -299,5 +299,6 @@
     "signalsRestoreNothing": "Er is niets om te herstellen.",
     "signalsProfileMenu": "Signalen",
     "signalsEverywhereTurnOffChat": "Signalen uitzetten",
-    "signalsRestoreBeforeChange": "Zet terug wat je aan had staan vóór je laatste wijziging overal ({time}). Wat je daar nu aan hebt staan, gaat uit."
+    "signalsRestoreBeforeChange": "Zet terug wat je aan had staan vóór je laatste wijziging overal ({time}). Wat je daar nu aan hebt staan, gaat uit.",
+    "personaCopyBadge": "Nieuwe persona"
 }
