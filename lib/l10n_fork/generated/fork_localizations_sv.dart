@@ -1139,4 +1139,7 @@ class ForkLocalizationsSv extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return 'Återställer det du hade på före din senaste ändring överallt ($time). Det du har på där nu stängs av.';
   }
+
+  @override
+  String get personaCopyBadge => 'Ny persona';
 }

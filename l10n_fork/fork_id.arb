@@ -299,5 +299,6 @@
     "signalsRestoreNothing": "Tidak ada yang bisa dipulihkan.",
     "signalsProfileMenu": "Sinyal",
     "signalsEverywhereTurnOffChat": "Matikan sinyal",
-    "signalsRestoreBeforeChange": "Mengembalikan yang menyala sebelum perubahan terakhirmu di mana saja pada {time}. Yang menyala di sana sekarang akan dimatikan."
+    "signalsRestoreBeforeChange": "Mengembalikan yang menyala sebelum perubahan terakhirmu di mana saja pada {time}. Yang menyala di sana sekarang akan dimatikan.",
+    "personaCopyBadge": "Persona Baru"
 }
