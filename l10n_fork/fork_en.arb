@@ -296,7 +296,7 @@
     "@personaDeleteTitle": {
         "description": "Title of confirmation dialog when deleting a persona."
     },
-    "personaDeleteMessage": "Are you sure you want to delete \"{name}\"? This cannot be undone.",
+    "personaDeleteMessage": "Are you sure you want to delete \"{name}\"? You can restore deleted personas later in Settings › Personas, under Deleted personas.",
     "@personaDeleteMessage": {
         "description": "Confirmation message when deleting a persona.",
         "placeholders": {
@@ -1285,9 +1285,9 @@
     "@personaBulkConfirmPrivateBody": {
         "description": "Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. What making personas private does."
     },
-    "personaBulkConfirmDeleteBody": "Their messages keep showing their names and avatars, but you can no longer send as them, and their tags and signature emojis become free. This can't be undone.",
+    "personaBulkConfirmDeleteBody": "You can restore deleted personas later in Settings › Personas, under Deleted personas.",
     "@personaBulkConfirmDeleteBody": {
-        "description": "Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. What deleting personas does; it cannot be undone."
+        "description": "Selecting many personas in the Personas settings (tyne-chat/tyne#542). Same wording as the web app's. Body of the confirmation before deleting personas, under its title \"Delete N personas?\": where deleted personas can be restored (tyne-chat/tyne#610)."
     },
     "personaBulkNowPublic": "{count, plural, one{{count} persona is} other{{count} personas are}} now public",
     "@personaBulkNowPublic": {
@@ -1508,5 +1508,78 @@
     "personaCopyBadge": "New Persona",
     "@personaCopyBadge": {
         "description": "Badge on the banner of a copy's profile preview, telling the new persona from the one it was copied from (it looks the same otherwise). The same words as the web app's \"New Persona\"."
+    },
+    "deletedPersonasTitle": "Deleted personas",
+    "@deletedPersonasTitle": {
+        "description": "Deleted personas, the last section of the Personas settings, where deleted personas can be restored (tyne-chat/tyne#610). Same wording as the web app's. Section title."
+    },
+    "deletedPersonasDescription": "Deleted personas still show on their old messages, but nobody can pick them and they don't count towards your limit. Restoring one brings the same persona back, with its history.",
+    "@deletedPersonasDescription": {
+        "description": "Deleted personas, the last section of the Personas settings, where deleted personas can be restored (tyne-chat/tyne#610). Same wording as the web app's. Explanation under the section title."
+    },
+    "deletedPersonasShow": "Show deleted personas",
+    "@deletedPersonasShow": {
+        "description": "Deleted personas, the last section of the Personas settings, where deleted personas can be restored (tyne-chat/tyne#610). Same wording as the web app's. Button that loads the list of deleted personas."
+    },
+    "deletedPersonasLoadFailed": "The deleted personas could not be loaded.",
+    "@deletedPersonasLoadFailed": {
+        "description": "Deleted personas, the last section of the Personas settings, where deleted personas can be restored (tyne-chat/tyne#610). Same wording as the web app's. Shown when the list fails to load, next to a Retry button."
+    },
+    "deletedPersonasEmpty": "No deleted personas.",
+    "@deletedPersonasEmpty": {
+        "description": "Deleted personas, the last section of the Personas settings, where deleted personas can be restored (tyne-chat/tyne#610). Same wording as the web app's. Shown when there are no deleted personas."
+    },
+    "deletedPersonaDeletedAt": "Deleted {date}",
+    "@deletedPersonaDeletedAt": {
+        "description": "Deleted personas, the last section of the Personas settings, where deleted personas can be restored (tyne-chat/tyne#610). Same wording as the web app's. When a persona was deleted; date is a date such as Nov 11, 2026.",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "deletedPersonaUseCount": "{count, plural, one{Used once} other{Used {count} times}}",
+    "@deletedPersonaUseCount": {
+        "description": "Deleted personas, the last section of the Personas settings, where deleted personas can be restored (tyne-chat/tyne#610). Same wording as the web app's. How often a deleted persona was used.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "deletedPersonaRestore": "Restore",
+    "@deletedPersonaRestore": {
+        "description": "Deleted personas, the last section of the Personas settings, where deleted personas can be restored (tyne-chat/tyne#610). Same wording as the web app's. Button on a deleted persona that brings it back."
+    },
+    "personaRestored": "{name} is back.",
+    "@personaRestored": {
+        "description": "Deleted personas, the last section of the Personas settings, where deleted personas can be restored (tyne-chat/tyne#610). Same wording as the web app's. Snack bar after a deleted persona was restored.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "personaRestoredWithout": "Came back without {items}: another persona has them now.",
+    "@personaRestoredWithout": {
+        "description": "Deleted personas, the last section of the Personas settings, where deleted personas can be restored (tyne-chat/tyne#610). Same wording as the web app's. Added after the restored snack bar when another persona took some of its proxy tags or signature emojis meanwhile; items lists them.",
+        "placeholders": {
+            "items": {
+                "type": "String"
+            }
+        }
+    },
+    "personaRestoreFailed": "The persona could not be restored.",
+    "@personaRestoreFailed": {
+        "description": "Deleted personas, the last section of the Personas settings, where deleted personas can be restored (tyne-chat/tyne#610). Same wording as the web app's. Snack bar when a restore fails and the server gave no reason."
+    },
+    "deletedPersonaRestoreLabel": "Restore {name}",
+    "@deletedPersonaRestoreLabel": {
+        "description": "Deleted personas, the last section of the Personas settings (tyne-chat/tyne#610). Screen reader label of a deleted persona's Restore button; name is the persona's name.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     }
 }

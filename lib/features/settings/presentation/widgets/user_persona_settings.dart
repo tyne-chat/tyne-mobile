@@ -13,9 +13,11 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/edit_persona_sheet.dart';
+import 'package:fluxer_app/features/profile/providers/deleted_personas.dart';
 import 'package:fluxer_app/features/profile/providers/multi_persona_reactions_provider.dart';
 import 'package:fluxer_app/features/profile/providers/persona_bulk_actions.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/deleted_personas_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/persona_bulk_edit.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/persona_settings_launch_provider.dart';
@@ -233,6 +235,11 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
       final Dio dio = ref.read(fluxerDioProvider);
       await dio.delete<dynamic>('/users/@me/personas/${persona.id}');
       ref.read(myPersonasProvider.notifier).removePersona(persona.id);
+      if (mounted) {
+        ref.read(deletedPersonasProvider.notifier).personasDeleted(<Persona>[
+          persona,
+        ]);
+      }
 
       final active = ref.read(activePersonaProvider);
       if (active.activePersonaId == persona.id) {
@@ -405,6 +412,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
         for (final Persona p in selected) p.id,
       ]);
       if (mounted) {
+        ref.read(deletedPersonasProvider.notifier).personasDeleted(selected);
         _stopSelecting();
       }
       if (deleted > 0) {
@@ -950,6 +958,13 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                   ),
                 ),
             ],
+          ),
+          // Hidden, not removed, while selecting: deleted personas cannot be
+          // selected, and a list already shown stays loaded.
+          Visibility(
+            visible: !_selecting,
+            maintainState: true,
+            child: DeletedPersonasSection(userId: currentUser?.id),
           ),
         ],
       ),

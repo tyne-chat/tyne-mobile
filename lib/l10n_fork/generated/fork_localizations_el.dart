@@ -229,7 +229,7 @@ class ForkLocalizationsEl extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Είστε σίγουροι ότι θέλετε να διαγράψετε το \"$name\"; Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.';
+    return 'Είστε σίγουροι ότι θέλετε να διαγράψετε το \"$name\"; Μπορείτε αργότερα να επαναφέρετε διαγραμμένες persona από τις Ρυθμίσεις › Persona, στις «Διαγραμμένες persona».';
   }
 
   @override
@@ -970,7 +970,7 @@ class ForkLocalizationsEl extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'Τα μηνύματά τους θα συνεχίσουν να δείχνουν τα ονόματα και τα avatar τους, αλλά δεν θα μπορείτε πια να στέλνετε ως αυτές, και οι ετικέτες και τα χαρακτηριστικά emoji τους θα ελευθερωθούν. Αυτό δεν αναιρείται.';
+      'Μπορείτε αργότερα να επαναφέρετε διαγραμμένες persona από τις Ρυθμίσεις › Persona, στις «Διαγραμμένες persona».';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1151,4 +1151,58 @@ class ForkLocalizationsEl extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'Νέα persona';
+
+  @override
+  String get deletedPersonasTitle => 'Διαγραμμένες persona';
+
+  @override
+  String get deletedPersonasDescription =>
+      'Οι διαγραμμένες persona εξακολουθούν να εμφανίζονται στα παλιά τους μηνύματα, αλλά κανείς δεν μπορεί να τις επιλέξει και δεν μετρούν στο όριό σας. Η επαναφορά μιας persona τη φέρνει πίσω ίδια, με το ιστορικό της.';
+
+  @override
+  String get deletedPersonasShow => 'Εμφάνιση διαγραμμένων persona';
+
+  @override
+  String get deletedPersonasLoadFailed =>
+      'Δεν ήταν δυνατή η φόρτωση των διαγραμμένων persona.';
+
+  @override
+  String get deletedPersonasEmpty => 'Δεν υπάρχουν διαγραμμένες persona.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'Διαγράφηκε στις $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Χρησιμοποιήθηκε $count φορές',
+      one: 'Χρησιμοποιήθηκε μία φορά',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'Επαναφορά';
+
+  @override
+  String personaRestored(String name) {
+    return 'Η persona $name επέστρεψε.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return 'Επέστρεψε χωρίς $items: τα έχει πλέον άλλη persona.';
+  }
+
+  @override
+  String get personaRestoreFailed => 'Δεν ήταν δυνατή η επαναφορά της persona.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return 'Επαναφορά $name';
+  }
 }

@@ -230,7 +230,7 @@ class ForkLocalizationsFr extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Voulez-vous vraiment supprimer « $name » ? Cette action est irréversible.';
+    return 'Voulez-vous vraiment supprimer « $name » ? Vous pourrez restaurer les personas supprimées plus tard dans Réglages › Personas, sous « Personas supprimées ».';
   }
 
   @override
@@ -979,7 +979,7 @@ class ForkLocalizationsFr extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'Leurs messages continueront d’afficher leurs noms et avatars, mais vous ne pourrez plus écrire en leur nom, et leurs badges et emojis signature seront libérés. Cette action est irréversible.';
+      'Vous pourrez restaurer les personas supprimées plus tard dans Réglages › Personas, sous « Personas supprimées ».';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1162,4 +1162,58 @@ class ForkLocalizationsFr extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'Nouveau persona';
+
+  @override
+  String get deletedPersonasTitle => 'Personas supprimées';
+
+  @override
+  String get deletedPersonasDescription =>
+      'Les personas supprimées apparaissent toujours sur leurs anciens messages, mais personne ne peut les choisir et elles ne comptent pas dans votre limite. Restaurer une persona la fait revenir telle quelle, avec son historique.';
+
+  @override
+  String get deletedPersonasShow => 'Afficher les personas supprimées';
+
+  @override
+  String get deletedPersonasLoadFailed =>
+      'Les personas supprimées n\'ont pas pu être chargées.';
+
+  @override
+  String get deletedPersonasEmpty => 'Aucune persona supprimée.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'Supprimée le $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Utilisée $count fois',
+      one: 'Utilisée une fois',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'Restaurer';
+
+  @override
+  String personaRestored(String name) {
+    return '$name est de retour.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return 'Revenue sans $items : une autre persona les utilise maintenant.';
+  }
+
+  @override
+  String get personaRestoreFailed => 'La persona n\'a pas pu être restaurée.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return 'Restaurer $name';
+  }
 }

@@ -229,7 +229,7 @@ class ForkLocalizationsId extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Apakah Anda yakin ingin menghapus \"$name\"? Tindakan ini tidak dapat dibatalkan.';
+    return 'Apakah Anda yakin ingin menghapus \"$name\"? Persona yang dihapus dapat Anda pulihkan nanti di Pengaturan › Persona, pada bagian Persona yang dihapus.';
   }
 
   @override
@@ -955,7 +955,7 @@ class ForkLocalizationsId extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'Pesannya tetap menampilkan nama dan avatarnya, tetapi kamu tidak bisa lagi mengirim sebagai persona tersebut, dan tag serta emoji tanda tangannya menjadi bebas. Ini tidak dapat dibatalkan.';
+      'Persona yang dihapus dapat Anda pulihkan nanti di Pengaturan › Persona, pada bagian Persona yang dihapus.';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1129,4 +1129,57 @@ class ForkLocalizationsId extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'Persona Baru';
+
+  @override
+  String get deletedPersonasTitle => 'Persona yang dihapus';
+
+  @override
+  String get deletedPersonasDescription =>
+      'Persona yang dihapus tetap tampil di pesan-pesan lamanya, tetapi tidak ada yang bisa memilihnya dan tidak dihitung dalam batasmu. Memulihkan salah satunya akan mengembalikan persona yang sama, beserta riwayatnya.';
+
+  @override
+  String get deletedPersonasShow => 'Tampilkan persona yang dihapus';
+
+  @override
+  String get deletedPersonasLoadFailed =>
+      'Persona yang dihapus tidak dapat dimuat.';
+
+  @override
+  String get deletedPersonasEmpty => 'Tidak ada persona yang dihapus.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'Dihapus $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Dipakai $count kali',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'Pulihkan';
+
+  @override
+  String personaRestored(String name) {
+    return '$name sudah kembali.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return 'Kembali tanpa $items: sekarang dimiliki persona lain.';
+  }
+
+  @override
+  String get personaRestoreFailed => 'Persona tidak dapat dipulihkan.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return 'Pulihkan $name';
+  }
 }
