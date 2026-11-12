@@ -1164,4 +1164,7 @@ class ForkLocalizationsCa extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return 'Torna a posar el que tenies activat abans del teu darrer canvi a tot arreu ($time). El que hi tens activat ara es desactivarà.';
   }
+
+  @override
+  String get personaCopyBadge => 'Persona nova';
 }

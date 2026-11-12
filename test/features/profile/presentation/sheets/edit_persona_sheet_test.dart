@@ -770,6 +770,7 @@ void main() {
       "Duplicate closes the persona's editor and opens a copy under the next free number",
       (tester) async {
         final adapter = await openWithApi(tester, persona: lyra);
+        expect(find.text('New Persona'), findsNothing);
         await scrollTo(tester, find.text('Duplicate Persona'));
 
         await tapText(tester, 'Duplicate Persona');
@@ -777,6 +778,8 @@ void main() {
         expect(find.text('Edit Persona'), findsNothing);
         expect(find.text('Create Persona'), findsOneWidget);
         expect(find.text('Copy of Lyra'), findsOneWidget);
+        // The badge on the preview's banner tells the copy from the original.
+        expect(find.text('New Persona'), findsOneWidget);
         expect(find.byType(FluxerSaveBar), findsNothing);
         final TextField name = nameField(tester);
         expect(name.controller?.text, 'Lyra (3)');

@@ -299,5 +299,6 @@
     "signalsRestoreNothing": "復元するものはありません。",
     "signalsProfileMenu": "シグナル",
     "signalsEverywhereTurnOffChat": "シグナルをオフにする",
-    "signalsRestoreBeforeChange": "{time} のすべての場所での前回の変更より前の状態に戻します。現在そこでオンになっているシグナルはオフになります。"
+    "signalsRestoreBeforeChange": "{time} のすべての場所での前回の変更より前の状態に戻します。現在そこでオンになっているシグナルはオフになります。",
+    "personaCopyBadge": "新しいペルソナ"
 }
