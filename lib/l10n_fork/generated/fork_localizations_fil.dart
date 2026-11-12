@@ -1150,4 +1150,7 @@ class ForkLocalizationsFil extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return 'Ibinabalik ang mga naka-on mo bago ang huli mong pagbabago kahit saan noong $time. Mag-o-off ang mga naka-on mo roon ngayon.';
   }
+
+  @override
+  String get personaCopyBadge => 'Bagong Persona';
 }
