@@ -299,5 +299,6 @@
     "signalsRestoreNothing": "Nav ko atjaunot.",
     "signalsProfileMenu": "Signāli",
     "signalsEverywhereTurnOffChat": "Izslēgt signālus",
-    "signalsRestoreBeforeChange": "Atjauno to, kas bija ieslēgts pirms jūsu pēdējām izmaiņām visur ({time}). Tas, kas tur ieslēgts tagad, tiks izslēgts."
+    "signalsRestoreBeforeChange": "Atjauno to, kas bija ieslēgts pirms jūsu pēdējām izmaiņām visur ({time}). Tas, kas tur ieslēgts tagad, tiks izslēgts.",
+    "personaCopyBadge": "Jauna persona"
 }

@@ -299,5 +299,6 @@
     "signalsRestoreNothing": "Nuk ka asgjë për t’u rikthyer.",
     "signalsProfileMenu": "Sinjalet",
     "signalsEverywhereTurnOffChat": "Fik sinjalet",
-    "signalsRestoreBeforeChange": "Rikthen atë që kishe ndezur para ndryshimit tënd të fundit kudo ({time}). Ajo që ke ndezur aty tani do të fiket."
+    "signalsRestoreBeforeChange": "Rikthen atë që kishe ndezur para ndryshimit tënd të fundit kudo ({time}). Ajo që ke ndezur aty tani do të fiket.",
+    "personaCopyBadge": "Personë e re"
 }
