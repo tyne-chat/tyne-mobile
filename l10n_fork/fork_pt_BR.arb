@@ -299,5 +299,6 @@
     "signalsRestoreNothing": "Não há nada para restaurar.",
     "signalsProfileMenu": "Sinais",
     "signalsEverywhereTurnOffChat": "Desligar sinais",
-    "signalsRestoreBeforeChange": "Traz de volta o que você tinha ligado antes da sua última alteração em todo lugar ({time}). O que você tem ligado lá agora será desligado."
+    "signalsRestoreBeforeChange": "Traz de volta o que você tinha ligado antes da sua última alteração em todo lugar ({time}). O que você tem ligado lá agora será desligado.",
+    "personaCopyBadge": "Nova persona"
 }

@@ -299,5 +299,6 @@
     "signalsRestoreNothing": "Der er intet at gendanne.",
     "signalsProfileMenu": "Signaler",
     "signalsEverywhereTurnOffChat": "Slå signaler fra",
-    "signalsRestoreBeforeChange": "Sætter det tilbage, du havde slået til før din seneste ændring overalt ({time}). Det, du har slået til der nu, bliver slået fra."
+    "signalsRestoreBeforeChange": "Sætter det tilbage, du havde slået til før din seneste ændring overalt ({time}). Det, du har slået til der nu, bliver slået fra.",
+    "personaCopyBadge": "Ny persona"
 }

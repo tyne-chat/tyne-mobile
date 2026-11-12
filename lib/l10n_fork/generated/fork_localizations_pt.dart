@@ -1147,6 +1147,9 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return 'Repõe o que tinhas ligado antes da tua última alteração em todo o lado ($time). O que tens ligado lá agora será desligado.';
   }
+
+  @override
+  String get personaCopyBadge => 'Nova persona';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -2296,4 +2299,7 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
   String signalsRestoreBeforeChange(String time) {
     return 'Traz de volta o que você tinha ligado antes da sua última alteração em todo lugar ($time). O que você tem ligado lá agora será desligado.';
   }
+
+  @override
+  String get personaCopyBadge => 'Nova persona';
 }

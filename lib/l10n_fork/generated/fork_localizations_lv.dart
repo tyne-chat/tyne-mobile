@@ -1150,4 +1150,7 @@ class ForkLocalizationsLv extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return 'Atjauno to, kas bija ieslēgts pirms jūsu pēdējām izmaiņām visur ($time). Tas, kas tur ieslēgts tagad, tiks izslēgts.';
   }
+
+  @override
+  String get personaCopyBadge => 'Jauna persona';
 }

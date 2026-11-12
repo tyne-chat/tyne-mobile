@@ -1116,4 +1116,7 @@ class ForkLocalizationsTh extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return 'นำสิ่งที่คุณเปิดไว้ก่อนการเปลี่ยนแปลงทุกที่ครั้งล่าสุดเมื่อ $time กลับมา สิ่งที่เปิดอยู่ที่นั่นตอนนี้จะถูกปิด';
   }
+
+  @override
+  String get personaCopyBadge => 'Persona ใหม่';
 }

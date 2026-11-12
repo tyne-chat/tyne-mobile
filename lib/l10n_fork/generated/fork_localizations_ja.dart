@@ -1100,4 +1100,7 @@ class ForkLocalizationsJa extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return '$time のすべての場所での前回の変更より前の状態に戻します。現在そこでオンになっているシグナルはオフになります。';
   }
+
+  @override
+  String get personaCopyBadge => '新しいペルソナ';
 }

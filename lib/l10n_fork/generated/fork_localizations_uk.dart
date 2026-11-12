@@ -1164,4 +1164,7 @@ class ForkLocalizationsUk extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return 'Повертає те, що було ввімкнено до твоєї останньої зміни всюди ($time). Те, що ввімкнено там зараз, вимкнеться.';
   }
+
+  @override
+  String get personaCopyBadge => 'Нова персона';
 }

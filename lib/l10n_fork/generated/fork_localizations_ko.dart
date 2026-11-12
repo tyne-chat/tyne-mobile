@@ -1098,4 +1098,7 @@ class ForkLocalizationsKo extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return '$time에 모든 곳에서 마지막으로 변경하기 전에 켜져 있던 시그널을 되돌려요. 지금 그곳에 켜져 있는 시그널은 꺼져요.';
   }
+
+  @override
+  String get personaCopyBadge => '새 페르소나';
 }

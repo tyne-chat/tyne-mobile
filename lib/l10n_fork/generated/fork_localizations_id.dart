@@ -1126,4 +1126,7 @@ class ForkLocalizationsId extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return 'Mengembalikan yang menyala sebelum perubahan terakhirmu di mana saja pada $time. Yang menyala di sana sekarang akan dimatikan.';
   }
+
+  @override
+  String get personaCopyBadge => 'Persona Baru';
 }

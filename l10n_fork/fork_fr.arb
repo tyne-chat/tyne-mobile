@@ -299,5 +299,6 @@
     "signalsRestoreNothing": "Il n’y a rien à restaurer.",
     "signalsProfileMenu": "Signaux",
     "signalsEverywhereTurnOffChat": "Désactiver les signaux",
-    "signalsRestoreBeforeChange": "Rétablit ce que tu avais activé avant ta dernière modification partout ({time}). Ce que tu y as activé maintenant sera désactivé."
+    "signalsRestoreBeforeChange": "Rétablit ce que tu avais activé avant ta dernière modification partout ({time}). Ce que tu y as activé maintenant sera désactivé.",
+    "personaCopyBadge": "Nouveau persona"
 }

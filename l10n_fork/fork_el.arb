@@ -299,5 +299,6 @@
     "signalsRestoreNothing": "Δεν υπάρχει τίποτα για επαναφορά.",
     "signalsProfileMenu": "Σήματα",
     "signalsEverywhereTurnOffChat": "Απενεργοποίηση σημάτων",
-    "signalsRestoreBeforeChange": "Επαναφέρει ό,τι είχες ενεργό πριν από την τελευταία σου αλλαγή παντού ({time}). Ό,τι έχεις ενεργό εκεί τώρα θα απενεργοποιηθεί."
+    "signalsRestoreBeforeChange": "Επαναφέρει ό,τι είχες ενεργό πριν από την τελευταία σου αλλαγή παντού ({time}). Ό,τι έχεις ενεργό εκεί τώρα θα απενεργοποιηθεί.",
+    "personaCopyBadge": "Νέα persona"
 }
