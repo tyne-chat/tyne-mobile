@@ -1162,4 +1162,7 @@ class ForkLocalizationsRu extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return 'Возвращает то, что было включено до твоего последнего изменения везде ($time). То, что включено там сейчас, выключится.';
   }
+
+  @override
+  String get personaCopyBadge => 'Новая персона';
 }
