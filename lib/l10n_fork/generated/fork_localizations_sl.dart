@@ -229,7 +229,7 @@ class ForkLocalizationsSl extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Ali ste prepričani, da želite izbrisati „$name“? Tega ni mogoče razveljaviti.';
+    return 'Ali ste prepričani, da želite izbrisati „$name“? Izbrisane persone lahko pozneje obnovite pod Izbrisane persone (Nastavitve › Persone).';
   }
 
   @override
@@ -968,7 +968,7 @@ class ForkLocalizationsSl extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'Njihova sporočila bodo še naprej prikazovala njihova imena in avatarje, vendar v njihovem imenu ne boste mogli več pošiljati, njihove oznake in prepoznavni emojiji pa se sprostijo. Tega ni mogoče razveljaviti.';
+      'Izbrisane persone lahko pozneje obnovite pod Izbrisane persone (Nastavitve › Persone).';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1161,4 +1161,60 @@ class ForkLocalizationsSl extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'Nova persona';
+
+  @override
+  String get deletedPersonasTitle => 'Izbrisane persone';
+
+  @override
+  String get deletedPersonasDescription =>
+      'Izbrisane persone so še vedno prikazane pri svojih starih sporočilih, vendar jih nihče ne more izbrati in se ne štejejo v vašo omejitev. Če persono obnovite, se vrne ista persona z vso svojo zgodovino.';
+
+  @override
+  String get deletedPersonasShow => 'Pokaži izbrisane persone';
+
+  @override
+  String get deletedPersonasLoadFailed =>
+      'Izbrisanih person ni bilo mogoče naložiti.';
+
+  @override
+  String get deletedPersonasEmpty => 'Ni izbrisanih person.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'Izbrisana $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Uporabljena $count-krat',
+      few: 'Uporabljena $count-krat',
+      two: 'Uporabljena $count-krat',
+      one: 'Uporabljena $count-krat',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'Obnovi';
+
+  @override
+  String personaRestored(String name) {
+    return '$name je spet tu.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return 'Vrnjena brez $items: zdaj jih ima druga persona.';
+  }
+
+  @override
+  String get personaRestoreFailed => 'Persone ni bilo mogoče obnoviti.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return 'Obnovi $name';
+  }
 }

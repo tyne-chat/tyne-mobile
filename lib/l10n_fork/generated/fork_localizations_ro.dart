@@ -228,7 +228,7 @@ class ForkLocalizationsRo extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Sigur dorești să ștergi „$name”? Această acțiune nu poate fi anulată.';
+    return 'Sigur dorești să ștergi „$name”? Poți restaura ulterior personas șterse din Setări › Personas, la Personas șterse.';
   }
 
   @override
@@ -976,7 +976,7 @@ class ForkLocalizationsRo extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'Mesajele lor vor arăta în continuare numele și avatarurile lor, dar nu vei mai putea trimite ca ele, iar etichetele și emoji-urile lor semnătură devin libere. Acțiunea nu poate fi anulată.';
+      'Poți restaura ulterior personas șterse din Setări › Personas, la Personas șterse.';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1164,4 +1164,59 @@ class ForkLocalizationsRo extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'Persona nouă';
+
+  @override
+  String get deletedPersonasTitle => 'Personas șterse';
+
+  @override
+  String get deletedPersonasDescription =>
+      'Personas șterse apar în continuare la mesajele lor vechi, dar nimeni nu le poate alege și nu se socotesc în limita ta. Restaurarea uneia aduce înapoi aceeași persona, cu istoricul ei.';
+
+  @override
+  String get deletedPersonasShow => 'Arată personas șterse';
+
+  @override
+  String get deletedPersonasLoadFailed =>
+      'Personas șterse nu au putut fi încărcate.';
+
+  @override
+  String get deletedPersonasEmpty => 'Nicio persona ștearsă.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'Ștearsă pe $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Folosită de $count de ori',
+      few: 'Folosită de $count ori',
+      one: 'Folosită o dată',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'Restaurează';
+
+  @override
+  String personaRestored(String name) {
+    return '$name a revenit.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return 'A revenit fără $items: acum le are altă persona.';
+  }
+
+  @override
+  String get personaRestoreFailed => 'Persona nu a putut fi restaurată.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return 'Restaurează $name';
+  }
 }

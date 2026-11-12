@@ -227,7 +227,7 @@ class ForkLocalizationsTh extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'คุณแน่ใจหรือไม่ว่าต้องการลบ \"$name\"? การดำเนินการนี้ไม่สามารถย้อนกลับได้';
+    return 'คุณแน่ใจหรือไม่ว่าต้องการลบ \"$name\"? คุณกู้คืน Persona ที่ถูกลบได้ภายหลังที่ การตั้งค่า › Persona ในส่วน Persona ที่ถูกลบ';
   }
 
   @override
@@ -946,7 +946,7 @@ class ForkLocalizationsTh extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'ข้อความของ Persona เหล่านี้จะยังแสดงชื่อและอวตาร แต่คุณจะส่งข้อความในฐานะ Persona เหล่านี้ไม่ได้อีก และแท็กกับอีโมจิประจำตัวจะว่างให้ใช้ใหม่ เลิกทำไม่ได้';
+      'คุณกู้คืน Persona ที่ถูกลบได้ภายหลังที่ การตั้งค่า › Persona ในส่วน Persona ที่ถูกลบ';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1119,4 +1119,56 @@ class ForkLocalizationsTh extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'Persona ใหม่';
+
+  @override
+  String get deletedPersonasTitle => 'Persona ที่ถูกลบ';
+
+  @override
+  String get deletedPersonasDescription =>
+      'Persona ที่ถูกลบยังคงแสดงในข้อความเก่า แต่ไม่มีใครเลือกได้และไม่นับรวมในขีดจำกัดของคุณ การกู้คืนจะนำ Persona เดิมกลับมาพร้อมประวัติ';
+
+  @override
+  String get deletedPersonasShow => 'แสดง Persona ที่ถูกลบ';
+
+  @override
+  String get deletedPersonasLoadFailed => 'โหลด Persona ที่ถูกลบไม่สำเร็จ';
+
+  @override
+  String get deletedPersonasEmpty => 'ไม่มี Persona ที่ถูกลบ';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'ลบเมื่อ $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ใช้แล้ว $count ครั้ง',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'กู้คืน';
+
+  @override
+  String personaRestored(String name) {
+    return '$name กลับมาแล้ว';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return 'กลับมาโดยไม่มี $items: ตอนนี้ Persona อื่นใช้อยู่';
+  }
+
+  @override
+  String get personaRestoreFailed => 'กู้คืน Persona ไม่สำเร็จ';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return 'กู้คืน $name';
+  }
 }

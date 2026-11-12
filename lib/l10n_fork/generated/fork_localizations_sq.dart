@@ -230,7 +230,7 @@ class ForkLocalizationsSq extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Do ta fshish vërtet “$name”? Kjo nuk mund të zhbëhet.';
+    return 'Do ta fshish vërtet “$name”? Personat e fshira mund t’i rikthesh më vonë te Cilësimet › Personat, te “Personat e fshira”.';
   }
 
   @override
@@ -966,7 +966,7 @@ class ForkLocalizationsSq extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'Mesazhet e tyre vazhdojnë të shfaqin emrat dhe avatarët e tyre, por nuk mund të dërgosh më si ato, dhe etiketat dhe emoji-t e tyre dallues lirohen. Kjo nuk mund të zhbëhet.';
+      'Personat e fshira mund t’i rikthesh më vonë te Cilësimet › Personat, te “Personat e fshira”.';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1145,4 +1145,57 @@ class ForkLocalizationsSq extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'Personë e re';
+
+  @override
+  String get deletedPersonasTitle => 'Personat e fshira';
+
+  @override
+  String get deletedPersonasDescription =>
+      'Personat e fshira shfaqen ende në mesazhet e tyre të vjetra, por askush nuk mund t’i zgjedhë dhe nuk llogariten në kufirin tënd. Rikthimi i njërës sjell sërish të njëjtën personë, me historikun e saj.';
+
+  @override
+  String get deletedPersonasShow => 'Shfaq personat e fshira';
+
+  @override
+  String get deletedPersonasLoadFailed => 'Personat e fshira nuk u ngarkuan.';
+
+  @override
+  String get deletedPersonasEmpty => 'Nuk ka persona të fshira.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'Fshirë më $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Përdorur $count herë',
+      one: 'Përdorur një herë',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'Rikthe';
+
+  @override
+  String personaRestored(String name) {
+    return '$name u rikthye.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return 'U rikthye pa $items: tani i ka një personë tjetër.';
+  }
+
+  @override
+  String get personaRestoreFailed => 'Persona nuk u rikthye.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return 'Rikthe $name';
+  }
 }

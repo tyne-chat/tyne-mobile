@@ -431,7 +431,9 @@ void main() {
 
       expect(
         find.text(
-          'Are you sure you want to delete "Test Persona"? This cannot be undone.',
+          'Are you sure you want to delete "Test Persona"? You can restore '
+          'deleted personas later in Settings › Personas, under Deleted '
+          'personas.',
         ),
         findsOneWidget,
       );
