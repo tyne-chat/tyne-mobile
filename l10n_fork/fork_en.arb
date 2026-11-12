@@ -1504,5 +1504,9 @@
                 "type": "String"
             }
         }
+    },
+    "personaCopyBadge": "New Persona",
+    "@personaCopyBadge": {
+        "description": "Badge on the banner of a copy's profile preview, telling the new persona from the one it was copied from (it looks the same otherwise). The same words as the web app's \"New Persona\"."
     }
 }

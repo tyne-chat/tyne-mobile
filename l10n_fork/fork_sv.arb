@@ -299,5 +299,6 @@
     "signalsRestoreNothing": "Det finns inget att återställa.",
     "signalsProfileMenu": "Signaler",
     "signalsEverywhereTurnOffChat": "Stäng av signaler",
-    "signalsRestoreBeforeChange": "Återställer det du hade på före din senaste ändring överallt ({time}). Det du har på där nu stängs av."
+    "signalsRestoreBeforeChange": "Återställer det du hade på före din senaste ändring överallt ({time}). Det du har på där nu stängs av.",
+    "personaCopyBadge": "Ny persona"
 }
