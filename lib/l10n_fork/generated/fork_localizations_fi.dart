@@ -1139,4 +1139,7 @@ class ForkLocalizationsFi extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return 'Palauttaa sen, mitä sinulla oli päällä ennen viimeisintä kaikkialle tekemääsi muutosta ($time). Se, mitä sinulla on siellä nyt päällä, kytkeytyy pois.';
   }
+
+  @override
+  String get personaCopyBadge => 'Uusi persoona';
 }

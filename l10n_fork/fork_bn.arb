@@ -299,5 +299,6 @@
     "signalsRestoreNothing": "পুনরুদ্ধার করার মতো কিছু নেই।",
     "signalsProfileMenu": "সিগন্যাল",
     "signalsEverywhereTurnOffChat": "সিগন্যাল বন্ধ করুন",
-    "signalsRestoreBeforeChange": "{time}-এ সবখানে আপনার শেষ পরিবর্তনের আগে যা চালু ছিল তা ফিরিয়ে আনে। সেখানে এখন যা চালু আছে তা বন্ধ হয়ে যাবে।"
+    "signalsRestoreBeforeChange": "{time}-এ সবখানে আপনার শেষ পরিবর্তনের আগে যা চালু ছিল তা ফিরিয়ে আনে। সেখানে এখন যা চালু আছে তা বন্ধ হয়ে যাবে।",
+    "personaCopyBadge": "নতুন পারসোনা"
 }

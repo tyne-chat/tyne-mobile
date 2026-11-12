@@ -299,5 +299,6 @@
     "signalsRestoreNothing": "Nincs mit visszaállítani.",
     "signalsProfileMenu": "Jelzések",
     "signalsEverywhereTurnOffChat": "Jelzések kikapcsolása",
-    "signalsRestoreBeforeChange": "Visszaállítja, ami a legutóbbi mindenhol végzett módosításod ({time}) előtt be volt kapcsolva. Ami ott most be van kapcsolva, kikapcsol."
+    "signalsRestoreBeforeChange": "Visszaállítja, ami a legutóbbi mindenhol végzett módosításod ({time}) előtt be volt kapcsolva. Ami ott most be van kapcsolva, kikapcsol.",
+    "personaCopyBadge": "Új persona"
 }

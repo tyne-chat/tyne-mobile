@@ -299,5 +299,6 @@
     "signalsRestoreNothing": "Nie ma czego przywracać.",
     "signalsProfileMenu": "Sygnały",
     "signalsEverywhereTurnOffChat": "Wyłącz sygnały",
-    "signalsRestoreBeforeChange": "Przywraca to, co było włączone przed twoją ostatnią zmianą wszędzie ({time}). To, co jest tam teraz włączone, zostanie wyłączone."
+    "signalsRestoreBeforeChange": "Przywraca to, co było włączone przed twoją ostatnią zmianą wszędzie ({time}). To, co jest tam teraz włączone, zostanie wyłączone.",
+    "personaCopyBadge": "Nowa persona"
 }

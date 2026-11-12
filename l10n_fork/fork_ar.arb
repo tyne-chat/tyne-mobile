@@ -299,5 +299,6 @@
     "signalsRestoreNothing": "لا يوجد ما يمكن استعادته.",
     "signalsProfileMenu": "الإشارات",
     "signalsEverywhereTurnOffChat": "إيقاف الإشارات",
-    "signalsRestoreBeforeChange": "يعيد ما كان مفعّلًا لديك قبل آخر تغيير أجريته في كل مكان في {time}. سيتوقف ما هو مفعّل لديك هناك الآن."
+    "signalsRestoreBeforeChange": "يعيد ما كان مفعّلًا لديك قبل آخر تغيير أجريته في كل مكان في {time}. سيتوقف ما هو مفعّل لديك هناك الآن.",
+    "personaCopyBadge": "شخصية جديدة"
 }

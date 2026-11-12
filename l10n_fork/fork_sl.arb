@@ -299,5 +299,6 @@
     "signalsRestoreNothing": "Ničesar ni za obnovitev.",
     "signalsProfileMenu": "Signali",
     "signalsEverywhereTurnOffChat": "Izklopi signale",
-    "signalsRestoreBeforeChange": "Povrne stanje pred vašo zadnjo spremembo povsod ({time}). Kar je tam vklopljeno zdaj, se izklopi."
+    "signalsRestoreBeforeChange": "Povrne stanje pred vašo zadnjo spremembo povsod ({time}). Kar je tam vklopljeno zdaj, se izklopi.",
+    "personaCopyBadge": "Nova persona"
 }

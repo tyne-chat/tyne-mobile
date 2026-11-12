@@ -1138,4 +1138,7 @@ class ForkLocalizationsNl extends ForkLocalizations {
   String signalsRestoreBeforeChange(String time) {
     return 'Zet terug wat je aan had staan vóór je laatste wijziging overal ($time). Wat je daar nu aan hebt staan, gaat uit.';
   }
+
+  @override
+  String get personaCopyBadge => 'Nieuwe persona';
 }
