@@ -22,6 +22,7 @@ and pushed is in `lib/core/synced_preferences/AGENTS.md`.
 | Community settings | `presentation/guild_settings_modal.dart`, `domain/guild/guild_settings_tab.dart`, `presentation/pages/guild/`, `providers/guild/`, `data/` |
 | Personas page; quick-switcher switch (fork) | `presentation/widgets/user_persona_settings.dart`; `providers/quick_switcher_button_preferences_provider.dart` |
 | The Personas page's filter chips and select mode (fork, tyne-chat/tyne#542) | `presentation/widgets/persona_bulk_edit.dart`, `providers/persona_settings_launch_provider.dart`; the requests in the profile folder's `providers/persona_bulk_actions.dart` |
+| The Personas page's Deleted personas section and Restore (fork, tyne-chat/tyne#610) | `presentation/widgets/deleted_personas_section.dart`; the requests in the profile folder's `providers/deleted_personas.dart` |
 | Widget kit (`FluxerSettingsSheet`, `FluxerSettingsSection`) | `lib/features/ui/settings/` |
 
 ## Reaching a section
@@ -116,6 +117,13 @@ whose values are a server resource mirrored in SharedPreferences.
   persona has it) or deletes. Public, Private and Delete ask first; Unlisted applies at once. The
   work is the profile folder's `PersonaBulkActions`; a visibility change ends with a toast with Undo,
   a failure with a toast that keeps the selection. The save bar hides while selecting.
+- **Deleted personas** (tyne-chat/tyne#610), the last section, as on the web: Show loads the list
+  (most recently deleted first; a long list scrolls in a box of its own, `kDeletedPersonasListMaxHeight`),
+  a failure waits for Retry, and Restore brings a persona back at once, one at a time, with a toast
+  naming any tag or signature emoji another persona took meanwhile. It is hidden, not removed, while
+  selecting, so a list already shown stays loaded; personas deleted on this page or in their editor
+  join a list that is showing without a request. The state (`deletedPersonasProvider`) is
+  auto-disposed, so the page asks again each time it opens. The delete confirmations point here.
 - **Opened from your Personas gallery** when none of your personas is public ("Choose personas to
   feature"): `personaSettingsLaunchProvider` holds the Unlisted chip and select mode for the next
   open; `initState` reads it and clears it after the first frame.
@@ -181,6 +189,8 @@ empty state, with no error or retry (tyne-chat/tyne#350). Every card is built (a
 | Delete persona | 1 `DELETE`, +1 `PATCH` if it was the selection; the delete event then reloads the list once per mobile session | logged; the persona stays |
 | Select mode: Public, Unlisted, Private | 1 `PATCH /users/@me/personas/visibility` per 250 personas, none when nothing changes; Undo is 1 more; the event then reloads the list once per mobile session | toast; the selection stays |
 | Select mode: Delete | 1 `POST /users/@me/personas/bulk-delete` per 250; the server clears the selections itself, so no `PATCH`; the events then reload the list once per mobile session | toast; the selection stays |
+| Show deleted personas, Retry | 1 `GET /users/@me/personas/deleted`, shared while it runs | Retry button; nothing asks again by itself |
+| Restore | 1 `POST /users/@me/personas/deleted/<id>/restore`, one at a time; the event then reloads the list once per mobile session | toast with the server's reason; the persona stays in the list |
 | Profile Save | `PATCH /users/@me`, then `GET /users/@me` | error shown; edits kept |
 | A user-settings toggle | 1 `PATCH /users/@me/settings` | reverted, rethrown |
 | A synced preference | none here; the store sends a debounced `PATCH` | |
@@ -197,7 +207,9 @@ Each request answers a tap; nothing runs per item or per build, and the pages re
   group: chips, long press, select all, disabled actions, which actions ask, Undo, delete, a failure,
   opening from the gallery). Its Dio answers `{}` and records each request; the select mode tests
   count them and make them fail. The request rules themselves are in the profile folder's
-  `providers/persona_bulk_actions_test.dart`. Also
+  `providers/persona_bulk_actions_test.dart`. `presentation/widgets/deleted_personas_section_test.dart`
+  (no request until Show, Retry, Restore, a long list in its box), with the request rules in the
+  profile folder's `providers/deleted_personas_test.dart`. Also
   `test/core/deep_links/user_settings_deep_link_fork_test.dart`, through `test/core`.
 - Fork, not in the list: `providers/quick_switcher_button_preferences_provider_test.dart`,
   `test/shared/utils/fork_image_upload_limit_test.dart` (tyne-chat/tyne#132). Upstream's

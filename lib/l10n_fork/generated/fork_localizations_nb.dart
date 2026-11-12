@@ -230,7 +230,7 @@ class ForkLocalizationsNb extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Er du sikker på at du vil slette «$name»? Dette kan ikke angres.';
+    return 'Er du sikker på at du vil slette «$name»? Du kan senere gjenopprette slettede personaer under Slettede personaer i Innstillinger › Personaer.';
   }
 
   @override
@@ -961,7 +961,7 @@ class ForkLocalizationsNb extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'Meldingene deres viser fortsatt navnene og avatarene deres, men du kan ikke lenger sende som dem, og taggene og signaturemojiene deres blir ledige. Dette kan ikke angres.';
+      'Du kan senere gjenopprette slettede personaer under Slettede personaer i Innstillinger › Personaer.';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1140,4 +1140,58 @@ class ForkLocalizationsNb extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'Ny persona';
+
+  @override
+  String get deletedPersonasTitle => 'Slettede personaer';
+
+  @override
+  String get deletedPersonasDescription =>
+      'Slettede personaer vises fortsatt på de gamle meldingene sine, men ingen kan velge dem, og de teller ikke mot grensen din. Gjenoppretter du en, kommer den samme personaen tilbake, med historikken sin.';
+
+  @override
+  String get deletedPersonasShow => 'Vis slettede personaer';
+
+  @override
+  String get deletedPersonasLoadFailed =>
+      'Kunne ikke laste inn de slettede personaene.';
+
+  @override
+  String get deletedPersonasEmpty => 'Ingen slettede personaer.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'Slettet $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Brukt $count ganger',
+      one: 'Brukt én gang',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'Gjenopprett';
+
+  @override
+  String personaRestored(String name) {
+    return '$name er tilbake.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return 'Kom tilbake uten $items: en annen persona har dem nå.';
+  }
+
+  @override
+  String get personaRestoreFailed => 'Kunne ikke gjenopprette personaen.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return 'Gjenopprett $name';
+  }
 }

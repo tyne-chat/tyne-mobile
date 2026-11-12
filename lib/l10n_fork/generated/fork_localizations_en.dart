@@ -227,7 +227,7 @@ class ForkLocalizationsEn extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Are you sure you want to delete \"$name\"? This cannot be undone.';
+    return 'Are you sure you want to delete \"$name\"? You can restore deleted personas later in Settings › Personas, under Deleted personas.';
   }
 
   @override
@@ -953,7 +953,7 @@ class ForkLocalizationsEn extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'Their messages keep showing their names and avatars, but you can no longer send as them, and their tags and signature emojis become free. This can\'t be undone.';
+      'You can restore deleted personas later in Settings › Personas, under Deleted personas.';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1132,6 +1132,60 @@ class ForkLocalizationsEn extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'New Persona';
+
+  @override
+  String get deletedPersonasTitle => 'Deleted personas';
+
+  @override
+  String get deletedPersonasDescription =>
+      'Deleted personas still show on their old messages, but nobody can pick them and they don\'t count towards your limit. Restoring one brings the same persona back, with its history.';
+
+  @override
+  String get deletedPersonasShow => 'Show deleted personas';
+
+  @override
+  String get deletedPersonasLoadFailed =>
+      'The deleted personas could not be loaded.';
+
+  @override
+  String get deletedPersonasEmpty => 'No deleted personas.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'Deleted $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Used $count times',
+      one: 'Used once',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'Restore';
+
+  @override
+  String personaRestored(String name) {
+    return '$name is back.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return 'Came back without $items: another persona has them now.';
+  }
+
+  @override
+  String get personaRestoreFailed => 'The persona could not be restored.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return 'Restore $name';
+  }
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -1357,7 +1411,7 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Are you sure you want to delete \"$name\"? This cannot be undone.';
+    return 'Are you sure you want to delete \"$name\"? You can restore deleted personas later in Settings › Personas, under Deleted personas.';
   }
 
   @override
@@ -2083,7 +2137,7 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'Their messages keep showing their names and avatars, but you can no longer send as them, and their tags and signature emojis become free. This can\'t be undone.';
+      'You can restore deleted personas later in Settings › Personas, under Deleted personas.';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -2262,6 +2316,60 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
 
   @override
   String get personaCopyBadge => 'New Persona';
+
+  @override
+  String get deletedPersonasTitle => 'Deleted personas';
+
+  @override
+  String get deletedPersonasDescription =>
+      'Deleted personas still show on their old messages, but nobody can pick them and they don\'t count towards your limit. Restoring one brings the same persona back, with its history.';
+
+  @override
+  String get deletedPersonasShow => 'Show deleted personas';
+
+  @override
+  String get deletedPersonasLoadFailed =>
+      'The deleted personas could not be loaded.';
+
+  @override
+  String get deletedPersonasEmpty => 'No deleted personas.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'Deleted $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Used $count times',
+      one: 'Used once',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'Restore';
+
+  @override
+  String personaRestored(String name) {
+    return '$name is back.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return 'Came back without $items: another persona has them now.';
+  }
+
+  @override
+  String get personaRestoreFailed => 'The persona could not be restored.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return 'Restore $name';
+  }
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -2487,7 +2595,7 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Are you sure you want to delete \"$name\"? This cannot be undone.';
+    return 'Are you sure you want to delete \"$name\"? You can restore deleted personas later in Settings › Personas, under Deleted personas.';
   }
 
   @override
@@ -3213,7 +3321,7 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'Their messages keep showing their names and avatars, but you can no longer send as them, and their tags and signature emojis become free. This can\'t be undone.';
+      'You can restore deleted personas later in Settings › Personas, under Deleted personas.';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -3392,4 +3500,58 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
 
   @override
   String get personaCopyBadge => 'New Persona';
+
+  @override
+  String get deletedPersonasTitle => 'Deleted personas';
+
+  @override
+  String get deletedPersonasDescription =>
+      'Deleted personas still show on their old messages, but nobody can pick them and they don\'t count towards your limit. Restoring one brings the same persona back, with its history.';
+
+  @override
+  String get deletedPersonasShow => 'Show deleted personas';
+
+  @override
+  String get deletedPersonasLoadFailed =>
+      'The deleted personas could not be loaded.';
+
+  @override
+  String get deletedPersonasEmpty => 'No deleted personas.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'Deleted $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Used $count times',
+      one: 'Used once',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'Restore';
+
+  @override
+  String personaRestored(String name) {
+    return '$name is back.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return 'Came back without $items: another persona has them now.';
+  }
+
+  @override
+  String get personaRestoreFailed => 'The persona could not be restored.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return 'Restore $name';
+  }
 }
