@@ -227,7 +227,7 @@ class ForkLocalizationsAr extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'هل أنت متأكد أنك تريد حذف \"$name\"؟ لا يمكن التراجع عن هذا الإجراء.';
+    return 'هل أنت متأكد أنك تريد حذف \"$name\"؟ يمكنك استعادة الشخصيات المحذوفة لاحقًا من الإعدادات › الشخصيات، ضمن «الشخصيات المحذوفة».';
   }
 
   @override
@@ -970,7 +970,7 @@ class ForkLocalizationsAr extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'ستظل رسائلها تعرض أسماءها وصورها الرمزية، لكن لن يعود بإمكانك الإرسال باسمها، وتصبح علاماتها ورموزها التعبيرية المميزة متاحة. لا يمكن التراجع عن ذلك.';
+      'يمكنك استعادة الشخصيات المحذوفة لاحقًا من الإعدادات › الشخصيات، ضمن «الشخصيات المحذوفة».';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1174,4 +1174,61 @@ class ForkLocalizationsAr extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'شخصية جديدة';
+
+  @override
+  String get deletedPersonasTitle => 'الشخصيات المحذوفة';
+
+  @override
+  String get deletedPersonasDescription =>
+      'تظل الشخصيات المحذوفة ظاهرة على رسائلها القديمة، لكن لا يمكن لأحد اختيارها ولا تُحتسب ضمن حدّك. استعادة إحداها تعيد الشخصية نفسها، مع سجلها.';
+
+  @override
+  String get deletedPersonasShow => 'عرض الشخصيات المحذوفة';
+
+  @override
+  String get deletedPersonasLoadFailed => 'تعذّر تحميل الشخصيات المحذوفة.';
+
+  @override
+  String get deletedPersonasEmpty => 'لا توجد شخصيات محذوفة.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'حُذفت في $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'استُخدمت $count مرة',
+      many: 'استُخدمت $count مرة',
+      few: 'استُخدمت $count مرات',
+      two: 'استُخدمت مرتين',
+      one: 'استُخدمت مرة واحدة',
+      zero: 'لم تُستخدم بعد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'استعادة';
+
+  @override
+  String personaRestored(String name) {
+    return 'عادت $name.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return 'عادت بدون $items: أصبحت الآن لدى شخصية أخرى.';
+  }
+
+  @override
+  String get personaRestoreFailed => 'تعذّرت استعادة الشخصية.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return 'استعادة $name';
+  }
 }

@@ -229,7 +229,7 @@ class ForkLocalizationsBe extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Сапраўды выдаліць «$name»? Гэта нельга адрабіць.';
+    return 'Сапраўды выдаліць «$name»? Выдаленыя персоны можна потым аднавіць у раздзеле «Выдаленыя персоны» (Налады › Персоны).';
   }
 
   @override
@@ -972,7 +972,7 @@ class ForkLocalizationsBe extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'Іх паведамленні па-ранейшаму будуць паказваць іх імёны і аватары, але вы больш не зможаце пісаць ад іх імя, а іх тэгі і адметныя эмодзі вызваляцца. Гэта нельга адрабіць.';
+      'Выдаленыя персоны можна потым аднавіць у раздзеле «Выдаленыя персоны» (Налады › Персоны).';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1166,4 +1166,60 @@ class ForkLocalizationsBe extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'Новая персона';
+
+  @override
+  String get deletedPersonasTitle => 'Выдаленыя персоны';
+
+  @override
+  String get deletedPersonasDescription =>
+      'Выдаленыя персоны па-ранейшаму паказваюцца ў сваіх старых паведамленнях, але выбраць іх ніхто не можа, і яны не ўлічваюцца ў ваш ліміт. Калі аднавіць персону, вернецца тая самая персона разам з яе гісторыяй.';
+
+  @override
+  String get deletedPersonasShow => 'Паказаць выдаленыя персоны';
+
+  @override
+  String get deletedPersonasLoadFailed =>
+      'Не ўдалося загрузіць выдаленыя персоны.';
+
+  @override
+  String get deletedPersonasEmpty => 'Выдаленых персон няма.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'Выдалена $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Выкарыстана $count раза',
+      many: 'Выкарыстана $count разоў',
+      few: 'Выкарыстана $count разы',
+      one: 'Выкарыстана $count раз',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'Аднавіць';
+
+  @override
+  String personaRestored(String name) {
+    return 'Персона $name адноўлена.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return 'Вярнулася без $items: цяпер яны ў іншай персоны.';
+  }
+
+  @override
+  String get personaRestoreFailed => 'Не ўдалося аднавіць персону.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return 'Аднавіць $name';
+  }
 }

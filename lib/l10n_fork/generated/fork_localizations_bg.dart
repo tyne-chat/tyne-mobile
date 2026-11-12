@@ -230,7 +230,7 @@ class ForkLocalizationsBg extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Наистина ли искате да изтриете „$name“? Това действие е необратимо.';
+    return 'Наистина ли искате да изтриете „$name“? По-късно можете да възстановите изтритите персони от „Изтрити персони“ в Настройки › Персони.';
   }
 
   @override
@@ -970,7 +970,7 @@ class ForkLocalizationsBg extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'Съобщенията им ще продължат да показват имената и аватарите им, но вече няма да можете да пишете от тяхно име, а таговете и подписните им емоджита ще се освободят. Това не може да бъде отменено.';
+      'По-късно можете да възстановите изтритите персони от „Изтрити персони“ в Настройки › Персони.';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1152,4 +1152,58 @@ class ForkLocalizationsBg extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'Нова персона';
+
+  @override
+  String get deletedPersonasTitle => 'Изтрити персони';
+
+  @override
+  String get deletedPersonasDescription =>
+      'Изтритите персони продължават да се показват на старите си съобщения, но никой не може да ги избере и те не се броят към лимита ви. Възстановяването връща същата персона, с цялата ѝ история.';
+
+  @override
+  String get deletedPersonasShow => 'Покажи изтритите персони';
+
+  @override
+  String get deletedPersonasLoadFailed =>
+      'Изтритите персони не можаха да бъдат заредени.';
+
+  @override
+  String get deletedPersonasEmpty => 'Няма изтрити персони.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'Изтрита на $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Използвана $count пъти',
+      one: 'Използвана веднъж',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'Възстанови';
+
+  @override
+  String personaRestored(String name) {
+    return '$name се върна.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return 'Върна се без $items: сега те са на друга персона.';
+  }
+
+  @override
+  String get personaRestoreFailed => 'Персоната не можа да бъде възстановена.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return 'Възстанови $name';
+  }
 }

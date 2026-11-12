@@ -230,7 +230,7 @@ class ForkLocalizationsTr extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return '\"$name\" adlı personayı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.';
+    return '\"$name\" adlı personayı silmek istediğinizden emin misiniz? Silinen personaları daha sonra Ayarlar › Personalar\'daki Silinen personalar bölümünden geri yükleyebilirsiniz.';
   }
 
   @override
@@ -954,7 +954,7 @@ class ForkLocalizationsTr extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'Mesajları adlarını ve avatarlarını göstermeye devam eder, ancak artık onlar olarak gönderemezsin ve etiketleri ile imza emojileri boşa çıkar. Bu geri alınamaz.';
+      'Silinen personaları daha sonra Ayarlar › Personalar\'daki Silinen personalar bölümünden geri yükleyebilirsiniz.';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1134,4 +1134,57 @@ class ForkLocalizationsTr extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'Yeni Persona';
+
+  @override
+  String get deletedPersonasTitle => 'Silinen personalar';
+
+  @override
+  String get deletedPersonasDescription =>
+      'Silinen personalar eski mesajlarında görünmeye devam eder, ancak kimse onları seçemez ve sınırına dahil edilmezler. Birini geri yüklemek aynı personayı geçmişiyle birlikte geri getirir.';
+
+  @override
+  String get deletedPersonasShow => 'Silinen personaları göster';
+
+  @override
+  String get deletedPersonasLoadFailed => 'Silinen personalar yüklenemedi.';
+
+  @override
+  String get deletedPersonasEmpty => 'Silinmiş persona yok.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return '$date tarihinde silindi';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count kez kullanıldı',
+      one: 'Bir kez kullanıldı',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'Geri yükle';
+
+  @override
+  String personaRestored(String name) {
+    return '$name geri döndü.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return '$items olmadan geri döndü: bunlar artık başka bir personada.';
+  }
+
+  @override
+  String get personaRestoreFailed => 'Persona geri yüklenemedi.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return '$name adlı personayı geri yükle';
+  }
 }

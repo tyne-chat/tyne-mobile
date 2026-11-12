@@ -229,7 +229,7 @@ class ForkLocalizationsArt extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'sina wile ala wile weka e \"$name\"? sina ken ala weka e ante ni.';
+    return 'sina wile ala wile weka e \"$name\"? sina ken kama sin e jan insa weka lon tenpo kama. o lukin e \"jan insa weka\" lon nasin › jan insa.';
   }
 
   @override
@@ -961,7 +961,7 @@ class ForkLocalizationsArt extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'toki ona li awen jo e nimi ona e sitelen jan ona. taso sina ken ala toki kepeken nimi ona. nimi lili ona en sitelen pilin nimi ona li kama ken tawa jan insa ante. sina ken ala weka e ante ni.';
+      'sina ken kama sin e jan insa weka lon tenpo kama. o lukin e \"jan insa weka\" lon nasin › jan insa.';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1141,4 +1141,57 @@ class ForkLocalizationsArt extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'jan insa sin';
+
+  @override
+  String get deletedPersonasTitle => 'jan insa weka';
+
+  @override
+  String get deletedPersonasDescription =>
+      'jan insa weka li awen lon toki ona pi tenpo pini, taso jan ala li ken wile e ona. ona li lon ala nanpa pi jan insa sina. sina kama sin e ona la ona li kama sin sama, li jo e toki ona ale.';
+
+  @override
+  String get deletedPersonasShow => 'o lukin e jan insa weka';
+
+  @override
+  String get deletedPersonasLoadFailed => 'jan insa weka li ken ala kama.';
+
+  @override
+  String get deletedPersonasEmpty => 'jan insa weka li lon ala.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'weka lon $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'kepeken lon tenpo $count',
+      one: 'kepeken lon tenpo $count',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'o kama sin e ona';
+
+  @override
+  String personaRestored(String name) {
+    return '$name li kama sin.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return 'ona li kama sin, taso $items li lon ala: jan insa ante li jo e ona.';
+  }
+
+  @override
+  String get personaRestoreFailed => 'jan insa li ken ala kama sin.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return 'o kama sin e $name';
+  }
 }

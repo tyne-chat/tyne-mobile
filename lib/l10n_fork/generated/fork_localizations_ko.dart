@@ -223,7 +223,7 @@ class ForkLocalizationsKo extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return '\"$name\"을(를) 삭제하시겠어요? 이 작업은 되돌릴 수 없습니다.';
+    return '\"$name\"을(를) 삭제하시겠어요? 삭제된 페르소나는 나중에 설정 › 페르소나의 삭제된 페르소나에서 복원할 수 있습니다.';
   }
 
   @override
@@ -930,7 +930,7 @@ class ForkLocalizationsKo extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      '메시지에는 이름과 아바타가 계속 표시되지만, 이제 해당 페르소나로 보낼 수 없으며 태그와 시그니처 이모지는 다시 쓸 수 있게 됩니다. 되돌릴 수 없습니다.';
+      '삭제된 페르소나는 나중에 설정 › 페르소나의 삭제된 페르소나에서 복원할 수 있습니다.';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1101,4 +1101,56 @@ class ForkLocalizationsKo extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => '새 페르소나';
+
+  @override
+  String get deletedPersonasTitle => '삭제된 페르소나';
+
+  @override
+  String get deletedPersonasDescription =>
+      '삭제된 페르소나는 예전 메시지에 계속 표시되지만, 아무도 선택할 수 없고 한도에도 포함되지 않아요. 복원하면 같은 페르소나가 기록과 함께 돌아와요.';
+
+  @override
+  String get deletedPersonasShow => '삭제된 페르소나 보기';
+
+  @override
+  String get deletedPersonasLoadFailed => '삭제된 페르소나를 불러오지 못했어요.';
+
+  @override
+  String get deletedPersonasEmpty => '삭제된 페르소나가 없어요.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return '$date에 삭제됨';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count회 사용됨',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => '복원';
+
+  @override
+  String personaRestored(String name) {
+    return '$name이(가) 돌아왔어요.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return '$items 없이 돌아왔어요: 이제 다른 페르소나가 사용하고 있어요.';
+  }
+
+  @override
+  String get personaRestoreFailed => '페르소나를 복원하지 못했어요.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return '$name 복원';
+  }
 }

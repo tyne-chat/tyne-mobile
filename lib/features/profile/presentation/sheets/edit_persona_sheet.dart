@@ -19,6 +19,7 @@ import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/persona_copy_bar.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_banner.dart';
+import 'package:fluxer_app/features/profile/providers/deleted_personas.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/image_crop_sheet.dart';
@@ -988,7 +989,20 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     try {
       final Dio dio = ref.read(fluxerDioProvider);
       await dio.delete<dynamic>('/users/@me/personas/${persona.id}');
+      final Persona? deleted = ref
+          .read(myPersonasProvider)
+          .asData
+          ?.value
+          .where((Persona p) => p.id == persona.id)
+          .firstOrNull;
       ref.read(myPersonasProvider.notifier).removePersona(persona.id);
+      // Into the settings page's deleted list, if it is showing under this
+      // sheet.
+      if (deleted != null) {
+        ref.read(deletedPersonasProvider.notifier).personasDeleted(<Persona>[
+          deleted,
+        ]);
+      }
 
       final active = ref.read(activePersonaProvider);
       if (active.activePersonaId == persona.id) {

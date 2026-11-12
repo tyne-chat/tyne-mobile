@@ -229,7 +229,7 @@ class ForkLocalizationsFi extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Haluatko varmasti poistaa kohteen \"$name\"? Tätä ei voi perua.';
+    return 'Haluatko varmasti poistaa kohteen \"$name\"? Voit palauttaa poistetut persoonat myöhemmin kohdassa Asetukset › Persoonat, osiossa Poistetut persoonat.';
   }
 
   @override
@@ -961,7 +961,7 @@ class ForkLocalizationsFi extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'Niiden viestit näyttävät edelleen niiden nimet ja avatarit, mutta et voi enää lähettää niinä, ja niiden tunnisteet ja nimikkoemojit vapautuvat. Tätä ei voi perua.';
+      'Voit palauttaa poistetut persoonat myöhemmin kohdassa Asetukset › Persoonat, osiossa Poistetut persoonat.';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1142,4 +1142,58 @@ class ForkLocalizationsFi extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'Uusi persoona';
+
+  @override
+  String get deletedPersonasTitle => 'Poistetut persoonat';
+
+  @override
+  String get deletedPersonasDescription =>
+      'Poistetut persoonat näkyvät yhä vanhoissa viesteissään, mutta kukaan ei voi valita niitä, eivätkä ne kuluta rajaasi. Palauttaminen tuo saman persoonan takaisin historioineen.';
+
+  @override
+  String get deletedPersonasShow => 'Näytä poistetut persoonat';
+
+  @override
+  String get deletedPersonasLoadFailed =>
+      'Poistettuja persoonia ei voitu ladata.';
+
+  @override
+  String get deletedPersonasEmpty => 'Ei poistettuja persoonia.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'Poistettu $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Käytetty $count kertaa',
+      one: 'Käytetty kerran',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'Palauta';
+
+  @override
+  String personaRestored(String name) {
+    return '$name on palannut.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return 'Palasi ilman $items: ne ovat nyt toisen persoonan käytössä.';
+  }
+
+  @override
+  String get personaRestoreFailed => 'Persoonaa ei voitu palauttaa.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return 'Palauta $name';
+  }
 }
