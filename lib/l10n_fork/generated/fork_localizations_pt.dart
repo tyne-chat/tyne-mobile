@@ -230,7 +230,7 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Tens a certeza de que desejas eliminar \"$name\"? Esta ação não pode ser desfeita.';
+    return 'Tens a certeza de que desejas eliminar \"$name\"? Podes restaurar personas eliminadas mais tarde em Configurações › Personas, em Personas eliminadas.';
   }
 
   @override
@@ -967,7 +967,7 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'As mensagens delas continuam a mostrar os nomes e avatares, mas deixas de poder enviar como elas, e as tags e emojis de assinatura delas ficam livres. Esta ação não pode ser anulada.';
+      'Podes restaurar personas eliminadas mais tarde em Configurações › Personas, em Personas eliminadas.';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1150,6 +1150,61 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'Nova persona';
+
+  @override
+  String get deletedPersonasTitle => 'Personas eliminadas';
+
+  @override
+  String get deletedPersonasDescription =>
+      'As personas eliminadas continuam a aparecer nas mensagens antigas, mas ninguém as pode escolher e não contam para o teu limite. Restaurar uma traz de volta a mesma persona, com o respetivo histórico.';
+
+  @override
+  String get deletedPersonasShow => 'Mostrar personas eliminadas';
+
+  @override
+  String get deletedPersonasLoadFailed =>
+      'Não foi possível carregar as personas eliminadas.';
+
+  @override
+  String get deletedPersonasEmpty => 'Nenhuma persona eliminada.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'Eliminada em $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Usada $count vezes',
+      many: 'Usada $count vezes',
+      one: 'Usada uma vez',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'Restaurar';
+
+  @override
+  String personaRestored(String name) {
+    return '$name está de volta.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return 'Voltou sem $items: agora pertencem a outra persona.';
+  }
+
+  @override
+  String get personaRestoreFailed => 'Não foi possível restaurar a persona.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return 'Restaurar $name';
+  }
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -1378,7 +1433,7 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Tem certeza de que deseja excluir \"$name\"? Esta ação não poderá ser desfeita.';
+    return 'Tem certeza de que deseja excluir \"$name\"? Você pode restaurar personas excluídas depois em Configurações › Personas, em Personas excluídas.';
   }
 
   @override
@@ -2121,7 +2176,7 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'As mensagens delas continuam mostrando os nomes e avatares, mas você não poderá mais enviar como elas, e as tags e emojis de assinatura delas ficarão livres. Isso não pode ser desfeito.';
+      'Você pode restaurar personas excluídas depois em Configurações › Personas, em Personas excluídas.';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -2302,4 +2357,59 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
 
   @override
   String get personaCopyBadge => 'Nova persona';
+
+  @override
+  String get deletedPersonasTitle => 'Personas excluídas';
+
+  @override
+  String get deletedPersonasDescription =>
+      'Personas excluídas continuam aparecendo nas mensagens antigas, mas ninguém pode escolhê-las e elas não contam para o seu limite. Restaurar uma traz de volta a mesma persona, com o histórico dela.';
+
+  @override
+  String get deletedPersonasShow => 'Mostrar personas excluídas';
+
+  @override
+  String get deletedPersonasLoadFailed =>
+      'Não foi possível carregar as personas excluídas.';
+
+  @override
+  String get deletedPersonasEmpty => 'Nenhuma persona excluída.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'Excluída em $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Usada $count vezes',
+      one: 'Usada uma vez',
+      zero: 'Nunca usada',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'Restaurar';
+
+  @override
+  String personaRestored(String name) {
+    return '$name está de volta.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return 'Voltou sem $items: agora pertencem a outra persona.';
+  }
+
+  @override
+  String get personaRestoreFailed => 'Não foi possível restaurar a persona.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return 'Restaurar $name';
+  }
 }

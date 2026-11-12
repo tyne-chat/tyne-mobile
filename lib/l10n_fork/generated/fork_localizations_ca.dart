@@ -231,7 +231,7 @@ class ForkLocalizationsCa extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Segur que vols suprimir «$name»? No es pot desfer.';
+    return 'Segur que vols suprimir «$name»? Més endavant pots restaurar les persones suprimides a Configuració › Persones, a l’apartat Persones suprimides.';
   }
 
   @override
@@ -980,7 +980,7 @@ class ForkLocalizationsCa extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'Els seus missatges continuaran mostrant els noms i els avatars, però ja no podràs enviar com a aquestes persones, i les seves etiquetes i emojis distintius quedaran lliures. No es pot desfer.';
+      'Més endavant pots restaurar les persones suprimides a Configuració › Persones, a l’apartat Persones suprimides.';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1167,4 +1167,59 @@ class ForkLocalizationsCa extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'Persona nova';
+
+  @override
+  String get deletedPersonasTitle => 'Persones suprimides';
+
+  @override
+  String get deletedPersonasDescription =>
+      'Les persones suprimides continuen apareixent als seus missatges antics, però ningú no les pot triar i no compten per al teu límit. Si en restaures una, torna la mateixa persona, amb el seu historial.';
+
+  @override
+  String get deletedPersonasShow => 'Mostra les persones suprimides';
+
+  @override
+  String get deletedPersonasLoadFailed =>
+      'No s’han pogut carregar les persones suprimides.';
+
+  @override
+  String get deletedPersonasEmpty => 'No hi ha persones suprimides.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'Suprimida el $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Usada $count vegades',
+      many: 'Usada $count vegades',
+      one: 'Usada una vegada',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'Restaura';
+
+  @override
+  String personaRestored(String name) {
+    return '$name ha tornat.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return 'Ha tornat sense $items: ara són d’una altra persona.';
+  }
+
+  @override
+  String get personaRestoreFailed => 'No s’ha pogut restaurar la persona.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return 'Restaura $name';
+  }
 }

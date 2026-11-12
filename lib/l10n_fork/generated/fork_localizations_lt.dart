@@ -229,7 +229,7 @@ class ForkLocalizationsLt extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Ar tikrai norite ištrinti „$name“? Šio veiksmo anuliuoti negalima.';
+    return 'Ar tikrai norite ištrinti „$name“? Ištrintas personas vėliau galėsite atkurti skyriuje „Ištrintos personos“ (Nustatymai › Personos).';
   }
 
   @override
@@ -970,7 +970,7 @@ class ForkLocalizationsLt extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'Jų žinutėse ir toliau bus rodomi jų vardai ir avatarai, bet nebegalėsite rašyti jų vardu, o jų žymos ir parašo jaustukai atsilaisvins. To atšaukti negalima.';
+      'Ištrintas personas vėliau galėsite atkurti skyriuje „Ištrintos personos“ (Nustatymai › Personos).';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1163,4 +1163,59 @@ class ForkLocalizationsLt extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'Nauja persona';
+
+  @override
+  String get deletedPersonasTitle => 'Ištrintos personos';
+
+  @override
+  String get deletedPersonasDescription =>
+      'Ištrintos personos vis dar rodomos prie savo senų žinučių, bet niekas negali jų pasirinkti ir jos neįskaičiuojamos į jūsų limitą. Atkūrus vieną, grįžta ta pati persona su savo istorija.';
+
+  @override
+  String get deletedPersonasShow => 'Rodyti ištrintas personas';
+
+  @override
+  String get deletedPersonasLoadFailed => 'Nepavyko įkelti ištrintų personų.';
+
+  @override
+  String get deletedPersonasEmpty => 'Ištrintų personų nėra.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'Ištrinta $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Naudota $count kartų',
+      many: 'Naudota $count karto',
+      few: 'Naudota $count kartus',
+      one: 'Naudota $count kartą',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'Atkurti';
+
+  @override
+  String personaRestored(String name) {
+    return '$name vėl čia.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return 'Grąžinta be $items: juos dabar turi kita persona.';
+  }
+
+  @override
+  String get personaRestoreFailed => 'Nepavyko atkurti personos.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return 'Atkurti $name';
+  }
 }

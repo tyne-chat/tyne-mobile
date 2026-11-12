@@ -229,7 +229,7 @@ class ForkLocalizationsDe extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Möchtest du „$name“ wirklich löschen? Dies kann nicht rückgängig gemacht werden.';
+    return 'Möchtest du „$name“ wirklich löschen? Gelöschte Personas kannst du später unter Einstellungen › Personas im Bereich „Gelöschte Personas“ wiederherstellen.';
   }
 
   @override
@@ -968,7 +968,7 @@ class ForkLocalizationsDe extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'Ihre Nachrichten zeigen weiter ihre Namen und Avatare, aber du kannst nicht mehr als sie schreiben, und ihre Tags und Signatur-Emojis werden frei. Das kann nicht rückgängig gemacht werden.';
+      'Gelöschte Personas kannst du später unter Einstellungen › Personas im Bereich „Gelöschte Personas“ wiederherstellen.';
 
   @override
   String personaBulkNowPublic(int count) {
@@ -1149,4 +1149,59 @@ class ForkLocalizationsDe extends ForkLocalizations {
 
   @override
   String get personaCopyBadge => 'Neue Persona';
+
+  @override
+  String get deletedPersonasTitle => 'Gelöschte Personas';
+
+  @override
+  String get deletedPersonasDescription =>
+      'Gelöschte Personas erscheinen weiterhin bei ihren alten Nachrichten, aber niemand kann sie auswählen, und sie zählen nicht zu deinem Limit. Wenn du eine wiederherstellst, kommt dieselbe Persona mit ihrem Verlauf zurück.';
+
+  @override
+  String get deletedPersonasShow => 'Gelöschte Personas anzeigen';
+
+  @override
+  String get deletedPersonasLoadFailed =>
+      'Die gelöschten Personas konnten nicht geladen werden.';
+
+  @override
+  String get deletedPersonasEmpty => 'Keine gelöschten Personas.';
+
+  @override
+  String deletedPersonaDeletedAt(String date) {
+    return 'Gelöscht am $date';
+  }
+
+  @override
+  String deletedPersonaUseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Mal verwendet',
+      one: 'Einmal verwendet',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deletedPersonaRestore => 'Wiederherstellen';
+
+  @override
+  String personaRestored(String name) {
+    return '$name ist zurück.';
+  }
+
+  @override
+  String personaRestoredWithout(String items) {
+    return 'Ohne $items wiederhergestellt: Eine andere Persona hat sie jetzt.';
+  }
+
+  @override
+  String get personaRestoreFailed =>
+      'Die Persona konnte nicht wiederhergestellt werden.';
+
+  @override
+  String deletedPersonaRestoreLabel(String name) {
+    return '$name wiederherstellen';
+  }
 }
