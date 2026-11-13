@@ -66,7 +66,8 @@ jobs:
   nightly-rebase:
     if: ${{ !inputs.test_issue }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 135
+    # Chain worst case: see the monorepo's workflow (Flutter 145 since 2026-11-13).
+    timeout-minutes: 145
 
     # The agent this run uses (tyne-tools rebase/pipeline_issues.py); the publish job needs it too, for
     # the model its issues name and for starting the next repository with the same agent.
@@ -186,7 +187,7 @@ jobs:
           if [ "${{ inputs.skip_baseline }}" = "true" ]; then
             FLAGS="$FLAGS --skip-baseline"
           fi
-          echo "REBASE_ARGS=--profile flutter --time-budget-minutes 125 --result-dir /tmp/rebase_result $FLAGS" >> "$GITHUB_ENV"
+          echo "REBASE_ARGS=--profile flutter --time-budget-minutes 135 --result-dir /tmp/rebase_result $FLAGS" >> "$GITHUB_ENV"
 
       # Only the agent steps (3a, 4a, ...) get the model credentials: the other steps run upstream's
       # installs, builds and tests. Within an agent step, the orchestrator keeps them from every command
