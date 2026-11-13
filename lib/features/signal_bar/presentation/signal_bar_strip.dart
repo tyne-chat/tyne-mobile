@@ -71,6 +71,14 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
   late final SignalBarConfigNotifier _config;
   String? _loadingChannelId;
 
+  // The composer around the strip rebuilds on every frame of the keyboard
+  // animation (tyne-chat/tyne#623). Handing back the same view while nothing it
+  // shows has changed lets Flutter skip the bar, its layout builder and its
+  // tiles. The callbacks are methods, so they stay equal between builds.
+  SignalBarView? _view;
+  Object? _viewInputs;
+  bool _canReset = false;
+
   @override
   void initState() {
     super.initState();
@@ -276,21 +284,46 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
                     0) &
                 Permission.manageGuild.value) !=
             0;
-    return SignalBarView(
+    _canReset = canReset;
+    final String? currentUserId = ref.watch(currentUserIdProvider);
+    final VoidCallback onToggleCollapsed = ref
+        .read(signalBarCollapsedProvider.notifier)
+        .toggle;
+    final int? myChatCount = ref.watch(knownSignalChatIdsProvider)?.length;
+    // Lists compare by identity: the providers hand out a new list on change.
+    final Object inputs = (
+      config.signals,
+      entries,
+      currentUserId,
+      collapsed,
+      widget.backgroundColor,
+      widget.dividerColor,
+      canToggle,
+      onToggleCollapsed,
+      myChatCount,
+    );
+    final SignalBarView? previous = _view;
+    if (previous != null && inputs == _viewInputs) {
+      return previous;
+    }
+    _viewInputs = inputs;
+    return _view = SignalBarView(
       signals: config.signals,
       entries: entries,
-      currentUserId: ref.watch(currentUserIdProvider),
+      currentUserId: currentUserId,
       collapsed: collapsed,
       backgroundColor: widget.backgroundColor,
       dividerColor: widget.dividerColor,
       onToggle: canToggle ? _toggle : null,
-      onDetails: (SignalBarSignal signal, List<SignalEntry> entries) =>
-          _showDetails(signal, entries, canManage: canReset),
-      onToggleCollapsed: ref.read(signalBarCollapsedProvider.notifier).toggle,
-      myChatCount: ref.watch(knownSignalChatIdsProvider)?.length,
+      onDetails: _onDetails,
+      onToggleCollapsed: onToggleCollapsed,
+      myChatCount: myChatCount,
       onOpenEverywhere: _openEverywhere,
     );
   }
+
+  void _onDetails(SignalBarSignal signal, List<SignalEntry> entries) =>
+      _showDetails(signal, entries, canManage: _canReset);
 }
 
 /// How many signals of [size] fit on one row of [width].
