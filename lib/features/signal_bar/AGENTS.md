@@ -17,7 +17,7 @@ tyne-chat/tyne `fluxer_app/src/features/signal_bar/`.
 | Models, hand-written parsers, `applySignalUpdate`, the summary's `withChannelUpdate` | `domain/signal_bar_models.dart` |
 | The bar, each channel's entries, event routing, `affirmPersona`; the account's signals everywhere (`mySignalsProvider`) | `providers/signal_bar_providers.dart` |
 | Signals everywhere: the sheet, its rows, the restore confirmation | `presentation/signals_everywhere_sheet.dart` |
-| "Signals" in the profile menu | `presentation/signals_profile_menu_item.dart`, in upstream's `profile_tab_menu_sheet.dart` |
+| "Signals" in the profile menu and on your own profile | `presentation/signals_profile_menu_item.dart` (in upstream's `profile_tab_menu_sheet.dart`; `watchSignalsProfileEntryShown`), `presentation/signals_profile_row.dart` (under "Personas (N)" in the fork's `profile/presentation/widgets/persona_gallery_entry.dart`) |
 | Hand-overs from the composer, the picker and sends | `providers/signal_persona_affirmation.dart` |
 | The strip, rights, loading on entry, the details sheet, sizing | `presentation/signal_bar_strip.dart` |
 | Event routing by name | the `UnknownGatewayEvent` case of `core/gateway/gateway_event_handler.dart`, then `onSignalBarEvent` in `core/providers/gateway_provider.dart` |
@@ -101,6 +101,8 @@ has the same panel.
   was and when, every chat with what is on now and after (`SignalsRestorePreview`; past ten the
   rows scroll under a separate heading table, with fixed column widths keeping the two in line),
   and the chats left out.
+- **Your profile:** `SignalsProfileRow` under "Personas (N)", in the same section, with how many
+  chats have your signals on; shown by the same rule as the menu item.
 - **Profile menu:** `SignalsProfileMenuItem` after the status row of `ProfileTabMenuSheetBody`,
   shown while the account has a signal on anywhere (every chat the server lists) or Restore has
   something to put back. The summary loads with the bar (`SignalBarConfigNotifier`), after READY
