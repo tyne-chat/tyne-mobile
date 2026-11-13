@@ -16,6 +16,8 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/persona_gallery_sheet.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_list_provider.dart';
+import 'package:fluxer_app/features/signal_bar/presentation/signals_profile_menu_item.dart';
+import 'package:fluxer_app/features/signal_bar/presentation/signals_profile_row.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
@@ -279,7 +281,8 @@ List<Widget> personaGalleryLeadingRows(
 }
 
 /// Your own profile has no mutuals section: the "Personas (N)" row stands in
-/// a section of its own at that place, followed by [gap].
+/// a section of its own at that place, with "Signals" under it while you have
+/// signals on anywhere or something to restore, followed by [gap].
 List<Widget> ownPersonaGallerySection(
   PersonaGalleryOwner? owner, {
   required double gap,
@@ -293,16 +296,21 @@ List<Widget> ownPersonaGallerySection(
   ];
 }
 
-class _OwnPersonaGallerySection extends StatelessWidget {
+class _OwnPersonaGallerySection extends ConsumerWidget {
   const _OwnPersonaGallerySection({required this.owner});
 
   final PersonaGalleryOwner owner;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return FluxerListSection(
       backgroundColor: context.colors.backgroundSecondary,
-      children: <Widget>[PersonaGalleryRow(owner: owner)],
+      children: <Widget>[
+        PersonaGalleryRow(owner: owner),
+        // The signals-everywhere sheet (tyne-chat/tyne#223); left out rather
+        // than drawn empty, since the section draws a divider between rows.
+        if (watchSignalsProfileEntryShown(ref)) const SignalsProfileRow(),
+      ],
     );
   }
 }

@@ -93,8 +93,9 @@ way it acts like any other persona, also when selected.
   personas, the most used first, with its display tag (`publicPersonaListProvider`; a 403 means the
   viewer may not see the profile). The account's profile header shows that display tag after the
   name; wherever a profile shows the display tag (the header, a persona's profile) the "Personas (N)"
-  pill follows, and the same count is the first row of the mutuals section (alone in a section on
-  your own profile). For others both show once they have a public persona; on your own profile
+  pill follows, and the same count is the first row of the mutuals section (on your own profile in
+  a section of its own, with "Signals" under it while you have signals on anywhere or something to
+  restore: the signal bar's `SignalsProfileRow`, tyne-chat/tyne#223). For others both show once they have a public persona; on your own profile
   always, from `myPersonasProvider` and `systemDisplayTagProvider`, with no request
   (`personaGallerySummaryProvider`). The gallery (cards, list or avatars, remembered per device)
   searches and sorts on the device. It never shows use counts or times: "Most used" is the server's
