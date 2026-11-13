@@ -223,15 +223,7 @@ class GuildSidebarHeaderBody extends StatelessWidget {
             Positioned.fill(
               child: Opacity(
                 opacity: bannerForeground,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: CachedNetworkImageProvider(guild!.bannerUrl!),
-                      fit: BoxFit.cover,
-                      alignment: Alignment.topCenter,
-                    ),
-                  ),
-                ),
+                child: _forkGuildBanner(guild!.bannerUrl!),
               ),
             ),
           if (showBannerImage && bannerForeground > 0)
