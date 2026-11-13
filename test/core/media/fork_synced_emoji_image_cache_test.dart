@@ -13,6 +13,7 @@ import 'package:file/memory.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/core/media/fork_gif_first_frame_alpha.dart';
 import 'package:fluxer_app/core/media/fork_synced_emoji_clock.dart';
 import 'package:fluxer_app/core/media/fork_synced_emoji_completer.dart';
 import 'package:fluxer_app/core/media/fork_synced_emoji_image_cache.dart';
@@ -24,6 +25,7 @@ import 'package:fluxer_app/shared/utils/emoji/emoji_image_cache.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
 import '../../helpers/open_test_database.dart';
+import 'fork_gif_test_support.dart';
 import 'fork_synced_emoji_test_support.dart';
 
 const String _wingsL = '1553996962712256513';
@@ -43,9 +45,11 @@ class _SyncedEmojiTestBinding extends AutomatedTestWidgetsFlutterBinding {
 }
 
 class _FakeCacheManager implements BaseCacheManager {
-  _FakeCacheManager({this.fail = false});
+  _FakeCacheManager({this.fail = false, Uint8List? bytes})
+    : _bytes = bytes ?? _gifBytes;
 
   final bool fail;
+  final Uint8List _bytes;
   final MemoryFileSystem _fs = MemoryFileSystem();
   final List<String> requests = <String>[];
 
@@ -64,7 +68,7 @@ class _FakeCacheManager implements BaseCacheManager {
       throw HttpExceptionWithStatus(502, 'Bad Gateway', uri: Uri.parse(url));
     }
     final File file = _fs.file('/file_${requests.length}')
-      ..writeAsBytesSync(_gifBytes);
+      ..writeAsBytesSync(_bytes);
     yield FileInfo(
       file,
       FileSource.Online,
@@ -287,6 +291,45 @@ void main() {
 
       expect(manager.requestsFor(url), 1);
     });
+  });
+
+  testWidgets('a GIF whose frame 0 is opaque reaches the decoder with frame 0 '
+      'marked transparent (tyne-chat/tyne#615)', (WidgetTester tester) async {
+    final Uint8List gif = forkTestGif(
+      width: 2,
+      height: 2,
+      palette: const <List<int>>[
+        <int>[0, 0, 0],
+        <int>[255, 255, 255],
+      ],
+      frames: const <ForkTestGifFrame>[
+        ForkTestGifFrame(<int>[0, 0, 0, 0], disposal: 2),
+        ForkTestGifFrame(<int>[0, 1, 1, 0], transparentIndex: 1),
+      ],
+    );
+    final List<Uint8List> decoded = <Uint8List>[];
+    final ForkSyncedEmojiImageCache cache = ForkSyncedEmojiImageCache(
+      decode: (Uint8List bytes) async {
+        decoded.add(bytes);
+        return FakeSyncedEmojiCodec(const <int>[30, 20]);
+      },
+    );
+    final ImageStreamCompleter completer = cache.putIfAbsent(
+      CachedNetworkImageProvider(
+        _animatedUrl(_wingsL, 96),
+        cacheManager: _FakeCacheManager(bytes: gif),
+      ),
+      () => throw StateError('The fork loads animated emoji itself.'),
+    )!;
+    final ImageStreamListener listener = ImageStreamListener((_, _) {});
+    completer.addListener(listener);
+    await tester.pump();
+    await tester.pump();
+    completer.removeListener(listener);
+
+    expect(decoded, <Uint8List>[forkGifWithTransparentFirstFrame(gif)]);
+    expect(decoded.single, isNot(gif));
+    cache.clear();
   });
 
   group("upstream's emoji widgets go through the fork's cache", () {
