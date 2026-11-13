@@ -10,7 +10,6 @@
 
 import 'dart:async';
 
-import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
@@ -23,6 +22,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/widgets/fork_repaint_only_image.dart';
 
 /// Whose personas a profile leads to, or null where it leads to none
 /// (webhooks, bots, system accounts).
@@ -152,15 +152,7 @@ class PersonaDisplayTag extends StatelessWidget {
     if (label != null) {
       return FluxerUserTag(label: label, iconUrl: iconUrl);
     }
-    return ClipOval(
-      child: CachedNetworkImage(
-        imageUrl: iconUrl!,
-        width: 16,
-        height: 16,
-        fit: BoxFit.cover,
-        errorBuilder: (_, _, _) => const SizedBox(width: 16, height: 16),
-      ),
-    );
+    return ClipOval(child: forkPersonaTagIcon(url: iconUrl!, size: 16));
   }
 }
 
