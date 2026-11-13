@@ -95,12 +95,12 @@ import 'package:fluxer_markdown/fluxer_markdown.dart';
 
 // Fork imports.
 // ignore: directives_ordering
-import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/features/guild_commands/presentation/guild_command_chip.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 import 'package:fluxer_app/features/threads/domain/fork_original_poster.dart';
 import 'package:fluxer_app/features/threads/providers/thread_owner_persona_provider.dart';
+import 'package:fluxer_app/shared/widgets/fork_repaint_only_image.dart';
 
 const _kMentionColor = Color.from(
   alpha: 1,
@@ -563,13 +563,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         child: SizedBox(
           width: 16,
           height: 16,
-          child: CachedNetworkImage(
-            imageUrl: tagIcon,
-            width: 16,
-            height: 16,
-            fit: BoxFit.cover,
-            errorBuilder: (_, _, _) => const SizedBox(width: 16, height: 16),
-          ),
+          child: forkPersonaTagIcon(url: tagIcon, size: 16),
         ),
       );
     } else {
