@@ -463,5 +463,61 @@ void main() {
         findsOneWidget,
       );
     });
+
+    // tyne-chat/tyne#629: a scroll no longer rebuilds the tiles and rows on
+    // screen. A SliverLayoutBuilder around them rebuilt all of them on every
+    // frame, since sliver constraints change with every scrolled pixel.
+    testWidgets('scrolling keeps the tiles and rows already built', (
+      tester,
+    ) async {
+      await _pump(
+        tester,
+        owner: _owner(isSelf: true),
+        myPersonas: <Persona>[
+          for (int i = 0; i < 40; i++)
+            Persona(
+              id: '$i',
+              name: 'P${i.toString().padLeft(2, '0')}',
+              visibility: 'public',
+            ),
+        ],
+      );
+      await openGallery(tester);
+
+      Finder item(String type) => find.ancestor(
+        of: find.text('P00'),
+        matching: find.byWidgetPredicate(
+          (Widget widget) => widget.runtimeType.toString() == type,
+        ),
+      );
+      Future<void> scrollBy(double pixels) async {
+        final ScrollableState scrollable = tester.state<ScrollableState>(
+          find
+              .ancestor(of: find.text('P00'), matching: find.byType(Scrollable))
+              .first,
+        );
+        scrollable.position.jumpTo(scrollable.position.pixels + pixels);
+        await tester.pump();
+      }
+
+      for (final (String view, String type) in <(String, String)>[
+        ('avatars', '_AvatarTile'),
+        ('list', '_PersonaRow'),
+      ]) {
+        await tester.tap(
+          find.byKey(ValueKey<String>('persona-gallery-view-$view')),
+        );
+        await tester.pumpAndSettle();
+        final Widget before = tester.widget(item(type));
+
+        await scrollBy(4);
+        expect(
+          identical(tester.widget(item(type)), before),
+          isTrue,
+          reason: view,
+        );
+        await scrollBy(-4);
+      }
+    });
   });
 }
