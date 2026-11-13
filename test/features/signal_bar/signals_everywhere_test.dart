@@ -14,6 +14,8 @@ import 'package:fluxer_app/features/signal_bar/data/signal_bar_repository.dart';
 import 'package:fluxer_app/features/signal_bar/domain/signal_bar_models.dart';
 import 'package:fluxer_app/features/signal_bar/presentation/signal_bar_strip.dart';
 import 'package:fluxer_app/features/signal_bar/presentation/signals_everywhere_sheet.dart';
+import 'package:fluxer_app/features/signal_bar/presentation/signals_profile_menu_item.dart';
+import 'package:fluxer_app/features/signal_bar/presentation/signals_profile_row.dart';
 import 'package:fluxer_app/features/signal_bar/providers/signal_bar_providers.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -878,6 +880,91 @@ void main() {
       await show(ids.take(10).toList());
       expect(
         find.byKey(const ValueKey<String>('signals-restore-scroll')),
+        findsNothing,
+      );
+    });
+  });
+
+  group('the profile', () {
+    Future<void> pumpProfile(
+      WidgetTester tester, {
+      required UserSignalsSummary? summary,
+    }) async {
+      final _RecordingRepository repository = _RecordingRepository();
+      if (summary != null) {
+        repository.summary = summary;
+      }
+      await tester.pumpWidget(
+        pumpFluxerApp(
+          overrides: [
+            signalBarRepositoryProvider.overrideWithValue(repository),
+            currentUserIdProvider.overrideWithValue(_me),
+            dmViewModelProvider.overrideWithValue(
+              DmViewState(
+                conversations: <DmConversation>[
+                  DmConversation(
+                    id: 'alice',
+                    type: 1,
+                    recipientId: 'ualice',
+                    recipientName: 'alice',
+                    lastMessage: '',
+                    lastMessageTime: DateTime(2026),
+                  ),
+                ],
+                friendsList: const <Friend>[],
+                activeTab: FriendsTab.all,
+                searchQuery: '',
+              ),
+            ),
+            guildListViewModelProvider.overrideWithValue(
+              const GuildListViewState(guilds: []),
+            ),
+          ],
+          child: Scaffold(
+            body: Consumer(
+              builder: (BuildContext context, WidgetRef ref, Widget? child) =>
+                  watchSignalsProfileEntryShown(ref)
+                  ? const SignalsProfileRow()
+                  : const SizedBox.shrink(),
+            ),
+          ),
+        ),
+      );
+      final ProviderContainer container = ProviderScope.containerOf(
+        tester.element(find.byType(Scaffold)),
+      );
+      await container.read(signalBarConfigProvider.notifier).refresh();
+      await pumpFluxerFramesQuick(tester);
+    }
+
+    testWidgets('shows Signals with how many chats have yours on', (
+      WidgetTester tester,
+    ) async {
+      await pumpProfile(
+        tester,
+        summary: UserSignalsSummary(
+          chats: <UserSignalChat>[
+            _chat('alice', <String>['reading'], 1),
+          ],
+          restoreAvailable: false,
+        ),
+      );
+
+      expect(
+        find.byKey(const ValueKey<String>('signals-profile-row')),
+        findsOneWidget,
+      );
+      expect(find.text('Signals'), findsOneWidget);
+      expect(find.text('Your signals everywhere · 1 chat'), findsOneWidget);
+    });
+
+    testWidgets('hides Signals with nothing on and nothing to restore', (
+      WidgetTester tester,
+    ) async {
+      await pumpProfile(tester, summary: null);
+
+      expect(
+        find.byKey(const ValueKey<String>('signals-profile-row')),
         findsNothing,
       );
     });
