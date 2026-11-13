@@ -108,7 +108,7 @@ import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/features/chat/presentation/sheets/timestamp_picker_sheet.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/composer/persona_composer_pill.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/persona_composer_pill_slot.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/timestamp_insert_provider.dart';
 import 'package:fluxer_app/features/chat/services/timestamp_inline_token.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
@@ -1825,30 +1825,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                           ),
                         ),
                       ),
-                      ListenableBuilder(
-                        listenable: _controller,
-                        builder: (BuildContext context, Widget? _) {
-                          if (!watchPersonaPillVisible(ref)) {
-                            return const SizedBox.shrink();
-                          }
-                          final bool hasAttachments = ref.watch(
-                            cloudUploadControllerProvider(
-                              watchAccountUserId(ref),
-                              channelId,
-                            ).select(
-                              (CloudComposerAttachments a) =>
-                                  a.items.isNotEmpty,
-                            ),
-                          );
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 2, right: 6),
-                            child: PersonaComposerPill(
-                              text: _sendableWireText(),
-                              hasAttachments: hasAttachments,
-                              channelId: channelId,
-                            ),
-                          );
-                        },
+                      PersonaComposerPillSlot(
+                        controller: _controller,
+                        wireText: _sendableWireText,
+                        channelId: channelId,
                       ),
                       Expanded(
                         child: MobileComposerTextGrowth(
