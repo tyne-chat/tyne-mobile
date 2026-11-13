@@ -14,9 +14,16 @@
 // to the owner only.
 
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
-import 'package:flutter/rendering.dart' show SliverConstraints;
+import 'package:flutter/rendering.dart'
+    show
+        SliverConstraints,
+        SliverGridDelegate,
+        SliverGridLayout,
+        SliverGridRegularTileLayout,
+        axisDirectionIsReversed;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/constants/media_proxy_sizes.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
@@ -639,9 +646,23 @@ class _GalleryMessage extends StatelessWidget {
   }
 }
 
+// Each persona's look, worked out once per persona object and owner rather
+// than on every build of its tile (tyne-chat/tyne#629).
+final Expando<_PersonaLook> _looks = Expando<_PersonaLook>(
+  'persona gallery looks',
+);
+
+_PersonaLook _lookFor(Persona persona, PersonaGalleryOwner owner) {
+  final _PersonaLook? cached = _looks[persona];
+  if (cached != null && cached.owner == owner) {
+    return cached;
+  }
+  return _looks[persona] = _PersonaLook(persona, owner);
+}
+
 /// What the gallery draws of one persona, worked out once per item.
 class _PersonaLook {
-  _PersonaLook(this.persona, PersonaGalleryOwner owner)
+  _PersonaLook(this.persona, this.owner)
     : ownerUserId = owner.userId,
       hasOwnAvatar = personaImageHash(persona.avatarHash) != null,
       color = resolvePersonaColor(
@@ -676,6 +697,7 @@ class _PersonaLook {
   }
 
   final Persona persona;
+  final PersonaGalleryOwner owner;
   final String ownerUserId;
   final bool hasOwnAvatar;
 
@@ -722,7 +744,7 @@ class _PersonaGalleryItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final layout = context.layout;
-    _PersonaLook look(int index) => _PersonaLook(personas[index], owner);
+    _PersonaLook look(int index) => _lookFor(personas[index], owner);
     switch (view) {
       case PersonaGalleryView.gallery:
         final int rows = (personas.length + 1) ~/ 2;
@@ -761,49 +783,73 @@ class _PersonaGalleryItems extends StatelessWidget {
           },
         );
       case PersonaGalleryView.list:
-        return SliverLayoutBuilder(
-          builder: (BuildContext context, SliverConstraints constraints) {
-            final bool roomForDate = constraints.crossAxisExtent >= 400;
-            return SliverList.separated(
-              itemCount: personas.length,
-              separatorBuilder: (BuildContext context, int index) => Divider(
-                height: 1,
-                thickness: 1,
-                color: context.colors.backgroundHeaderSecondary.withValues(
-                  alpha: 0.3,
+        // Each row decides from its own width whether the date fits. A
+        // SliverLayoutBuilder around the list did that before, but sliver
+        // constraints change with every scrolled pixel, so it rebuilt every
+        // row on each frame of a scroll (tyne-chat/tyne#629).
+        return SliverList.separated(
+          itemCount: personas.length,
+          separatorBuilder: (BuildContext context, int index) => Divider(
+            height: 1,
+            thickness: 1,
+            color: context.colors.backgroundHeaderSecondary.withValues(
+              alpha: 0.3,
+            ),
+          ),
+          itemBuilder: (BuildContext context, int index) => LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) =>
+                _PersonaRow(
+                  look: look(index),
+                  isOwner: owner.isSelf,
+                  showCreated: constraints.maxWidth >= 400,
+                  onTap: () => onOpen(index),
                 ),
-              ),
-              itemBuilder: (BuildContext context, int index) => _PersonaRow(
-                look: look(index),
-                isOwner: owner.isSelf,
-                showCreated: roomForDate,
-                onTap: () => onOpen(index),
-              ),
-            );
-          },
+          ),
         );
       case PersonaGalleryView.avatars:
-        return SliverLayoutBuilder(
-          builder: (BuildContext context, SliverConstraints constraints) {
-            final double gap = layout.s3;
-            final double tile = (constraints.crossAxisExtent - gap * 2) / 3;
-            final double nameHeight =
-                MediaQuery.textScalerOf(context).scale(13) * 1.4;
-            return SliverGrid.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                mainAxisSpacing: gap,
-                crossAxisSpacing: gap,
-                mainAxisExtent: tile + layout.s1_5 + nameHeight + 2,
-              ),
-              itemCount: personas.length,
-              itemBuilder: (BuildContext context, int index) =>
-                  _AvatarTile(look: look(index), onTap: () => onOpen(index)),
-            );
-          },
+        final double nameHeight =
+            MediaQuery.textScalerOf(context).scale(13) * 1.4;
+        return SliverGrid.builder(
+          gridDelegate: _AvatarGridDelegate(
+            gap: layout.s3,
+            belowTile: layout.s1_5 + nameHeight + 2,
+          ),
+          itemCount: personas.length,
+          itemBuilder: (BuildContext context, int index) =>
+              _AvatarTile(look: look(index), onTap: () => onOpen(index)),
         );
     }
   }
+}
+
+/// Three columns of square avatars with the name below, sized from the width
+/// at layout time. A SliverLayoutBuilder did this before, but sliver
+/// constraints change with every scrolled pixel, so it rebuilt the grid and
+/// every tile on each frame of a scroll (tyne-chat/tyne#629).
+class _AvatarGridDelegate extends SliverGridDelegate {
+  const _AvatarGridDelegate({required this.gap, required this.belowTile});
+
+  final double gap;
+
+  /// The height under each square: the gap above the name and the name.
+  final double belowTile;
+
+  @override
+  SliverGridLayout getLayout(SliverConstraints constraints) {
+    final double tile = math.max(0, constraints.crossAxisExtent - gap * 2) / 3;
+    return SliverGridRegularTileLayout(
+      crossAxisCount: 3,
+      mainAxisStride: tile + belowTile + gap,
+      crossAxisStride: tile + gap,
+      childMainAxisExtent: tile + belowTile,
+      childCrossAxisExtent: tile,
+      reverseCrossAxis: axisDirectionIsReversed(constraints.crossAxisDirection),
+    );
+  }
+
+  @override
+  bool shouldRelayout(_AvatarGridDelegate oldDelegate) =>
+      oldDelegate.gap != gap || oldDelegate.belowTile != belowTile;
 }
 
 /// "Unlisted" or "Private", on a persona only its owner sees.
