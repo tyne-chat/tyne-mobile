@@ -539,434 +539,444 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
     );
     final bool isDirty = _computeIsDirty(systemDisplayTag);
 
+    // The whole page, every persona card included, is one scrolled column. A
+    // scroll view repaints its child whenever the offset changes, so without
+    // this boundary each frame of a scroll painted every card again
+    // (tyne-chat/tyne#631); with it, a scroll only moves the layer.
     final Widget content = SingleChildScrollView(
       controller: widget.scrollController,
       padding: isDirty
           ? settingsScrollPaddingWithSaveBar(context)
           : settingsScrollPadding(context),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Section 1: Active Persona Mode
-          FluxerSettingsSection(
-            sectionId: 'persona-settings-mode',
-            title: l10n.fork.personaSectionTitle,
-            description: l10n.fork.personaSettingsDescription,
-            isFirst: true,
-            children: [
-              FluxerRadioGroup<PersonaMode>(
-                value: activeState.mode,
-                items: [
-                  FluxerRadioItem(
-                    value: PersonaMode.manual,
-                    label: l10n.fork.personaModeManual,
-                    description: l10n.fork.personaModeManualDescription,
-                  ),
-                  FluxerRadioItem(
-                    value: PersonaMode.last,
-                    label: l10n.fork.personaModeLast,
-                    description: l10n.fork.personaModeLastDescription,
-                  ),
-                ],
-                onChanged: (mode) {
-                  unawaited(
-                    ref.read(activePersonaProvider.notifier).setMode(mode),
-                  );
-                },
-              ),
-            ],
-          ),
-
-          // Where the selected persona applies
-          FluxerSettingsSection(
-            sectionId: 'persona-settings-scope',
-            title: l10n.fork.personaScopeTitle,
-            children: [
-              FluxerRadioGroup<PersonaScope>(
-                value: activeState.scope,
-                items: [
-                  FluxerRadioItem(
-                    value: PersonaScope.global,
-                    label: l10n.fork.personaScopeGlobal,
-                    description: l10n.fork.personaScopeGlobalDescription,
-                  ),
-                  FluxerRadioItem(
-                    value: PersonaScope.channel,
-                    label: l10n.fork.personaScopeChannel,
-                    description: l10n.fork.personaScopeChannelDescription,
-                  ),
-                ],
-                onChanged: (scope) {
-                  unawaited(
-                    ref.read(activePersonaProvider.notifier).setScope(scope),
-                  );
-                },
-              ),
-            ],
-          ),
-
-          // Reacting as several personas at once (tyne-chat/tyne#86)
-          FluxerSettingsSection(
-            sectionId: 'persona-settings-reactions',
-            title: l10n.fork.personaSettingsReactionsHeader,
-            children: [
-              FluxerSettingsSwitchItem(
-                label: l10n.fork.personaSettingsMultiReactions,
-                value: ref.watch(multiPersonaReactionsProvider),
-                onChanged: (bool value) {
-                  unawaited(
-                    ref
-                        .read(personaSettingsProvider.notifier)
-                        .setMultiPersonaReactions(enabled: value),
-                  );
-                },
-              ),
-            ],
-          ),
-
-          // Section 2: System Display Tag
-          FluxerSettingsSection(
-            sectionId: 'persona-settings-display-tag',
-            title: l10n.fork.personaDisplayTagSection,
-            description: l10n.fork.personaDisplayTagDescription,
-            children: [
-              FluxerInput(
-                controller: _tagTextController,
-                label: l10n.fork.personaDisplayTagLabel,
-                hint: l10n.fork.personaDisplayTagHint,
-                maxLength: 32,
-              ),
-              // Display Tag Icon
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    l10n.fork.personaDisplayTagIconLabel,
-                    style: textStyles.label.copyWith(
-                      color: colors.textSecondary,
-                      fontWeight: FontWeight.bold,
+      child: RepaintBoundary(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Section 1: Active Persona Mode
+            FluxerSettingsSection(
+              sectionId: 'persona-settings-mode',
+              title: l10n.fork.personaSectionTitle,
+              description: l10n.fork.personaSettingsDescription,
+              isFirst: true,
+              children: [
+                FluxerRadioGroup<PersonaMode>(
+                  value: activeState.mode,
+                  items: [
+                    FluxerRadioItem(
+                      value: PersonaMode.manual,
+                      label: l10n.fork.personaModeManual,
+                      description: l10n.fork.personaModeManualDescription,
                     ),
-                  ),
-                  SizedBox(height: layout.s1_5),
-                  Wrap(
-                    spacing: layout.s2,
-                    runSpacing: layout.s2,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      // Change and Remove show for any icon, so one that cannot
-                      // be shown can still be replaced or removed.
-                      if (tagIcon != null && tagIcon.isNotEmpty) ...[
-                        if (resolvedTagIcon != null)
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(layout.s1),
-                            child: Image.network(
-                              resolvedTagIcon,
-                              width: 36,
-                              height: 36,
-                              fit: BoxFit.cover,
-                              errorBuilder: (_, _, _) => Container(
-                                width: 36,
-                                height: 36,
-                                color: colors.backgroundSecondary,
-                                child: Icon(
-                                  PhosphorIconsBold.imageBroken,
-                                  size: 18,
-                                  color: colors.textPrimaryMuted,
-                                ),
-                              ),
-                            ),
-                          ),
-                        FluxerButton.secondary(
-                          size: FluxerButtonSize.small,
-                          fitContent: true,
-                          label: l10n.fork.personaChangeTagIcon,
-                          icon: PhosphorIconsBold.image,
-                          isLoading: _isUploadingTagIcon,
-                          onPressed: _isUploadingTagIcon ? null : _pickTagIcon,
-                        ),
-                        FluxerButton.ghost(
-                          size: FluxerButtonSize.small,
-                          fitContent: true,
-                          label: l10n.fork.personaRemoveTagIcon,
-                          icon: PhosphorIconsBold.trash,
-                          onPressed: _isUploadingTagIcon
-                              ? null
-                              : _removeTagIcon,
-                        ),
-                      ] else ...[
-                        FluxerButton.primary(
-                          size: FluxerButtonSize.small,
-                          fitContent: true,
-                          label: l10n.fork.personaUploadTagIcon,
-                          icon: PhosphorIconsBold.uploadSimple,
-                          isLoading: _isUploadingTagIcon,
-                          onPressed: _isUploadingTagIcon ? null : _pickTagIcon,
-                        ),
-                      ],
-                    ],
-                  ),
-                ],
-              ),
-
-              // Chat Preview Card
-              Container(
-                decoration: BoxDecoration(
-                  color: colors.backgroundSecondary,
-                  borderRadius: BorderRadius.circular(layout.s2),
-                  border: Border.all(color: colors.borderColor),
+                    FluxerRadioItem(
+                      value: PersonaMode.last,
+                      label: l10n.fork.personaModeLast,
+                      description: l10n.fork.personaModeLastDescription,
+                    ),
+                  ],
+                  onChanged: (mode) {
+                    unawaited(
+                      ref.read(activePersonaProvider.notifier).setMode(mode),
+                    );
+                  },
                 ),
-                padding: EdgeInsets.all(layout.s3),
-                child: Column(
+              ],
+            ),
+
+            // Where the selected persona applies
+            FluxerSettingsSection(
+              sectionId: 'persona-settings-scope',
+              title: l10n.fork.personaScopeTitle,
+              children: [
+                FluxerRadioGroup<PersonaScope>(
+                  value: activeState.scope,
+                  items: [
+                    FluxerRadioItem(
+                      value: PersonaScope.global,
+                      label: l10n.fork.personaScopeGlobal,
+                      description: l10n.fork.personaScopeGlobalDescription,
+                    ),
+                    FluxerRadioItem(
+                      value: PersonaScope.channel,
+                      label: l10n.fork.personaScopeChannel,
+                      description: l10n.fork.personaScopeChannelDescription,
+                    ),
+                  ],
+                  onChanged: (scope) {
+                    unawaited(
+                      ref.read(activePersonaProvider.notifier).setScope(scope),
+                    );
+                  },
+                ),
+              ],
+            ),
+
+            // Reacting as several personas at once (tyne-chat/tyne#86)
+            FluxerSettingsSection(
+              sectionId: 'persona-settings-reactions',
+              title: l10n.fork.personaSettingsReactionsHeader,
+              children: [
+                FluxerSettingsSwitchItem(
+                  label: l10n.fork.personaSettingsMultiReactions,
+                  value: ref.watch(multiPersonaReactionsProvider),
+                  onChanged: (bool value) {
+                    unawaited(
+                      ref
+                          .read(personaSettingsProvider.notifier)
+                          .setMultiPersonaReactions(enabled: value),
+                    );
+                  },
+                ),
+              ],
+            ),
+
+            // Section 2: System Display Tag
+            FluxerSettingsSection(
+              sectionId: 'persona-settings-display-tag',
+              title: l10n.fork.personaDisplayTagSection,
+              description: l10n.fork.personaDisplayTagDescription,
+              children: [
+                FluxerInput(
+                  controller: _tagTextController,
+                  label: l10n.fork.personaDisplayTagLabel,
+                  hint: l10n.fork.personaDisplayTagHint,
+                  maxLength: 32,
+                ),
+                // Display Tag Icon
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      l10n.fork.personaChatPreviewTitle.toUpperCase(),
-                      style: textStyles.smallText.copyWith(
-                        color: colors.textPrimaryMuted,
+                      l10n.fork.personaDisplayTagIconLabel,
+                      style: textStyles.label.copyWith(
+                        color: colors.textSecondary,
                         fontWeight: FontWeight.bold,
-                        letterSpacing: 0.5,
-                        fontSize: 11,
                       ),
                     ),
-                    SizedBox(height: layout.s2),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    SizedBox(height: layout.s1_5),
+                    Wrap(
+                      spacing: layout.s2,
+                      runSpacing: layout.s2,
+                      crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        FluxerAvatar.user(
-                          userId: currentUser?.id,
-                          imageUrl: previewAvatar,
-                          fallbackText: previewName,
-                          size: 38,
-                          showStatus: false,
-                        ),
-                        SizedBox(width: layout.s3),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Flexible(
-                                    child: Text(
-                                      previewName,
-                                      style: textStyles.bodyMedium.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        color: colors.textPrimary,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
+                        // Change and Remove show for any icon, so one that cannot
+                        // be shown can still be replaced or removed.
+                        if (tagIcon != null && tagIcon.isNotEmpty) ...[
+                          if (resolvedTagIcon != null)
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(layout.s1),
+                              child: Image.network(
+                                resolvedTagIcon,
+                                width: 36,
+                                height: 36,
+                                fit: BoxFit.cover,
+                                errorBuilder: (_, _, _) => Container(
+                                  width: 36,
+                                  height: 36,
+                                  color: colors.backgroundSecondary,
+                                  child: Icon(
+                                    PhosphorIconsBold.imageBroken,
+                                    size: 18,
+                                    color: colors.textPrimaryMuted,
                                   ),
-                                  if (tagText.isNotEmpty ||
-                                      (resolvedTagIcon != null &&
-                                          resolvedTagIcon.isNotEmpty)) ...[
-                                    SizedBox(width: layout.s1_5),
-                                    FluxerUserTag(
-                                      label: tagText.isNotEmpty
-                                          ? tagText
-                                          : null,
-                                      iconUrl: resolvedTagIcon,
-                                    ),
-                                  ],
-                                  SizedBox(width: layout.s2),
-                                  Text(
-                                    MaterialLocalizations.of(
-                                      context,
-                                    ).formatTimeOfDay(
-                                      const TimeOfDay(hour: 12, minute: 0),
-                                    ),
-                                    style: textStyles.smallText.copyWith(
-                                      color: colors.textPrimaryMuted,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: layout.s1),
-                              Text(
-                                l10n.fork.personaChatPreviewSampleMessage,
-                                style: textStyles.bodySmall.copyWith(
-                                  color: colors.textSecondary,
                                 ),
                               ),
-                            ],
+                            ),
+                          FluxerButton.secondary(
+                            size: FluxerButtonSize.small,
+                            fitContent: true,
+                            label: l10n.fork.personaChangeTagIcon,
+                            icon: PhosphorIconsBold.image,
+                            isLoading: _isUploadingTagIcon,
+                            onPressed: _isUploadingTagIcon
+                                ? null
+                                : _pickTagIcon,
                           ),
-                        ),
+                          FluxerButton.ghost(
+                            size: FluxerButtonSize.small,
+                            fitContent: true,
+                            label: l10n.fork.personaRemoveTagIcon,
+                            icon: PhosphorIconsBold.trash,
+                            onPressed: _isUploadingTagIcon
+                                ? null
+                                : _removeTagIcon,
+                          ),
+                        ] else ...[
+                          FluxerButton.primary(
+                            size: FluxerButtonSize.small,
+                            fitContent: true,
+                            label: l10n.fork.personaUploadTagIcon,
+                            icon: PhosphorIconsBold.uploadSimple,
+                            isLoading: _isUploadingTagIcon,
+                            onPressed: _isUploadingTagIcon
+                                ? null
+                                : _pickTagIcon,
+                          ),
+                        ],
                       ],
                     ),
                   ],
                 ),
-              ),
-            ],
-          ),
 
-          // Section 3: Configured Personas List
-          FluxerSettingsSection(
-            sectionId: 'persona-settings-list',
-            density: FluxerSettingsSectionDensity.compact,
-            title: _searchQuery.isNotEmpty
-                ? '${l10n.fork.personaListTitle} (${filteredPersonas.length})'
-                : '${l10n.fork.personaListTitle} (${personas.length})',
-            titleTrailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (personas.isNotEmpty && !_selecting) ...[
-                  FluxerButton.ghost(
-                    key: const ValueKey<String>('persona-select-mode'),
-                    size: FluxerButtonSize.small,
-                    fitContent: true,
-                    label: l10n.fork.personaBulkSelect,
-                    onPressed: _startSelecting,
+                // Chat Preview Card
+                Container(
+                  decoration: BoxDecoration(
+                    color: colors.backgroundSecondary,
+                    borderRadius: BorderRadius.circular(layout.s2),
+                    border: Border.all(color: colors.borderColor),
                   ),
-                  SizedBox(width: layout.s1),
-                ],
-                FluxerButton.primary(
-                  size: FluxerButtonSize.small,
-                  fitContent: true,
-                  label: l10n.fork.personaAddButton,
-                  icon: PhosphorIconsBold.plus,
-                  onPressed: () => EditPersonaSheet.show(context),
+                  padding: EdgeInsets.all(layout.s3),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.fork.personaChatPreviewTitle.toUpperCase(),
+                        style: textStyles.smallText.copyWith(
+                          color: colors.textPrimaryMuted,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.5,
+                          fontSize: 11,
+                        ),
+                      ),
+                      SizedBox(height: layout.s2),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          FluxerAvatar.user(
+                            userId: currentUser?.id,
+                            imageUrl: previewAvatar,
+                            fallbackText: previewName,
+                            size: 38,
+                            showStatus: false,
+                          ),
+                          SizedBox(width: layout.s3),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        previewName,
+                                        style: textStyles.bodyMedium.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: colors.textPrimary,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    if (tagText.isNotEmpty ||
+                                        (resolvedTagIcon != null &&
+                                            resolvedTagIcon.isNotEmpty)) ...[
+                                      SizedBox(width: layout.s1_5),
+                                      FluxerUserTag(
+                                        label: tagText.isNotEmpty
+                                            ? tagText
+                                            : null,
+                                        iconUrl: resolvedTagIcon,
+                                      ),
+                                    ],
+                                    SizedBox(width: layout.s2),
+                                    Text(
+                                      MaterialLocalizations.of(
+                                        context,
+                                      ).formatTimeOfDay(
+                                        const TimeOfDay(hour: 12, minute: 0),
+                                      ),
+                                      style: textStyles.smallText.copyWith(
+                                        color: colors.textPrimaryMuted,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: layout.s1),
+                                Text(
+                                  l10n.fork.personaChatPreviewSampleMessage,
+                                  style: textStyles.bodySmall.copyWith(
+                                    color: colors.textSecondary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-            children: [
-              if (personas.isNotEmpty)
-                Padding(
-                  padding: EdgeInsets.only(bottom: layout.s1_5),
-                  child: FluxerInput(
-                    controller: _searchController,
-                    hint: l10n.fork.personaSearchPlaceholder,
-                    prefixIcon: const Icon(
-                      PhosphorIconsBold.magnifyingGlass,
-                      size: 16,
+
+            // Section 3: Configured Personas List
+            FluxerSettingsSection(
+              sectionId: 'persona-settings-list',
+              density: FluxerSettingsSectionDensity.compact,
+              title: _searchQuery.isNotEmpty
+                  ? '${l10n.fork.personaListTitle} (${filteredPersonas.length})'
+                  : '${l10n.fork.personaListTitle} (${personas.length})',
+              titleTrailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (personas.isNotEmpty && !_selecting) ...[
+                    FluxerButton.ghost(
+                      key: const ValueKey<String>('persona-select-mode'),
+                      size: FluxerButtonSize.small,
+                      fitContent: true,
+                      label: l10n.fork.personaBulkSelect,
+                      onPressed: _startSelecting,
                     ),
-                    suffixIcon: _searchQuery.isNotEmpty
-                        ? const Icon(PhosphorIconsBold.x, size: 16)
-                        : null,
-                    onSuffixTap: _searchQuery.isNotEmpty
-                        ? () => _searchController.clear()
-                        : null,
+                    SizedBox(width: layout.s1),
+                  ],
+                  FluxerButton.primary(
+                    size: FluxerButtonSize.small,
+                    fitContent: true,
+                    label: l10n.fork.personaAddButton,
+                    icon: PhosphorIconsBold.plus,
+                    onPressed: () => EditPersonaSheet.show(context),
                   ),
-                ),
-              if (personas.isNotEmpty)
-                Padding(
-                  padding: EdgeInsets.only(bottom: layout.s1_5),
-                  child: PersonaVisibilityChips(
-                    counts: filterCounts,
-                    selected: _filter,
-                    onSelected: (filter) => setState(() => _filter = filter),
-                  ),
-                ),
-              if (personasAsync.isLoading && personas.isEmpty)
-                const Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(24),
-                    child: FluxerLoadingSpinner(),
-                  ),
-                )
-              else if (personas.isEmpty)
-                Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.all(layout.s4),
-                  decoration: BoxDecoration(
-                    color: colors.backgroundSecondary,
-                    borderRadius: BorderRadius.circular(layout.s2),
-                    border: Border.all(color: colors.borderColor),
-                  ),
-                  child: Column(
-                    children: [
-                      PhosphorIcon(
-                        PhosphorIconsFill.usersThree,
-                        size: 44,
-                        color: colors.textPrimaryMuted,
-                      ),
-                      SizedBox(height: layout.s2),
-                      Text(
-                        l10n.fork.personaEmptyState,
-                        style: textStyles.bodySmall.copyWith(
-                          color: colors.textPrimaryMuted,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: layout.s3),
-                      FluxerButton.primary(
-                        size: FluxerButtonSize.small,
-                        fitContent: true,
-                        label: l10n.fork.personaAddButton,
-                        icon: PhosphorIconsBold.plus,
-                        onPressed: () => EditPersonaSheet.show(context),
-                      ),
-                    ],
-                  ),
-                )
-              else if (filteredPersonas.isEmpty)
-                Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.all(layout.s4),
-                  decoration: BoxDecoration(
-                    color: colors.backgroundSecondary,
-                    borderRadius: BorderRadius.circular(layout.s2),
-                    border: Border.all(color: colors.borderColor),
-                  ),
-                  child: Column(
-                    children: [
-                      PhosphorIcon(
+                ],
+              ),
+              children: [
+                if (personas.isNotEmpty)
+                  Padding(
+                    padding: EdgeInsets.only(bottom: layout.s1_5),
+                    child: FluxerInput(
+                      controller: _searchController,
+                      hint: l10n.fork.personaSearchPlaceholder,
+                      prefixIcon: const Icon(
                         PhosphorIconsBold.magnifyingGlass,
-                        size: 36,
-                        color: colors.textPrimaryMuted,
+                        size: 16,
                       ),
-                      SizedBox(height: layout.s2),
-                      Text(
-                        l10n.fork.personaEmptySearch,
-                        style: textStyles.bodySmall.copyWith(
+                      suffixIcon: _searchQuery.isNotEmpty
+                          ? const Icon(PhosphorIconsBold.x, size: 16)
+                          : null,
+                      onSuffixTap: _searchQuery.isNotEmpty
+                          ? () => _searchController.clear()
+                          : null,
+                    ),
+                  ),
+                if (personas.isNotEmpty)
+                  Padding(
+                    padding: EdgeInsets.only(bottom: layout.s1_5),
+                    child: PersonaVisibilityChips(
+                      counts: filterCounts,
+                      selected: _filter,
+                      onSelected: (filter) => setState(() => _filter = filter),
+                    ),
+                  ),
+                if (personasAsync.isLoading && personas.isEmpty)
+                  const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(24),
+                      child: FluxerLoadingSpinner(),
+                    ),
+                  )
+                else if (personas.isEmpty)
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(layout.s4),
+                    decoration: BoxDecoration(
+                      color: colors.backgroundSecondary,
+                      borderRadius: BorderRadius.circular(layout.s2),
+                      border: Border.all(color: colors.borderColor),
+                    ),
+                    child: Column(
+                      children: [
+                        PhosphorIcon(
+                          PhosphorIconsFill.usersThree,
+                          size: 44,
                           color: colors.textPrimaryMuted,
                         ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                )
-              else if (shownPersonas.isEmpty)
-                Container(
-                  key: const ValueKey<String>('persona-filter-empty'),
-                  width: double.infinity,
-                  padding: EdgeInsets.all(layout.s4),
-                  decoration: BoxDecoration(
-                    color: colors.backgroundSecondary,
-                    borderRadius: BorderRadius.circular(layout.s2),
-                    border: Border.all(color: colors.borderColor),
-                  ),
-                  child: Text(
-                    l10n.fork.personaFilterEmpty,
-                    style: textStyles.bodySmall.copyWith(
-                      color: colors.textPrimaryMuted,
+                        SizedBox(height: layout.s2),
+                        Text(
+                          l10n.fork.personaEmptyState,
+                          style: textStyles.bodySmall.copyWith(
+                            color: colors.textPrimaryMuted,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: layout.s3),
+                        FluxerButton.primary(
+                          size: FluxerButtonSize.small,
+                          fitContent: true,
+                          label: l10n.fork.personaAddButton,
+                          icon: PhosphorIconsBold.plus,
+                          onPressed: () => EditPersonaSheet.show(context),
+                        ),
+                      ],
                     ),
-                    textAlign: TextAlign.center,
+                  )
+                else if (filteredPersonas.isEmpty)
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(layout.s4),
+                    decoration: BoxDecoration(
+                      color: colors.backgroundSecondary,
+                      borderRadius: BorderRadius.circular(layout.s2),
+                      border: Border.all(color: colors.borderColor),
+                    ),
+                    child: Column(
+                      children: [
+                        PhosphorIcon(
+                          PhosphorIconsBold.magnifyingGlass,
+                          size: 36,
+                          color: colors.textPrimaryMuted,
+                        ),
+                        SizedBox(height: layout.s2),
+                        Text(
+                          l10n.fork.personaEmptySearch,
+                          style: textStyles.bodySmall.copyWith(
+                            color: colors.textPrimaryMuted,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  )
+                else if (shownPersonas.isEmpty)
+                  Container(
+                    key: const ValueKey<String>('persona-filter-empty'),
+                    width: double.infinity,
+                    padding: EdgeInsets.all(layout.s4),
+                    decoration: BoxDecoration(
+                      color: colors.backgroundSecondary,
+                      borderRadius: BorderRadius.circular(layout.s2),
+                      border: Border.all(color: colors.borderColor),
+                    ),
+                    child: Text(
+                      l10n.fork.personaFilterEmpty,
+                      style: textStyles.bodySmall.copyWith(
+                        color: colors.textPrimaryMuted,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                else
+                  ...shownPersonas.map(
+                    (persona) => _buildPersonaCard(
+                      context,
+                      persona,
+                      userId: currentUser?.id,
+                      // With a persona per channel there is no single active
+                      // one to show or set from here.
+                      canSetActive: activeState.scope == PersonaScope.global,
+                      isThisActive:
+                          activeState.scope == PersonaScope.global &&
+                          activeState.isLatched &&
+                          activeState.activePersonaId == persona.id,
+                    ),
                   ),
-                )
-              else
-                ...shownPersonas.map(
-                  (persona) => _buildPersonaCard(
-                    context,
-                    persona,
-                    userId: currentUser?.id,
-                    // With a persona per channel there is no single active
-                    // one to show or set from here.
-                    canSetActive: activeState.scope == PersonaScope.global,
-                    isThisActive:
-                        activeState.scope == PersonaScope.global &&
-                        activeState.isLatched &&
-                        activeState.activePersonaId == persona.id,
-                  ),
-                ),
-            ],
-          ),
-          // Hidden, not removed, while selecting: deleted personas cannot be
-          // selected, and a list already shown stays loaded.
-          Visibility(
-            visible: !_selecting,
-            maintainState: true,
-            child: DeletedPersonasSection(userId: currentUser?.id),
-          ),
-        ],
+              ],
+            ),
+            // Hidden, not removed, while selecting: deleted personas cannot be
+            // selected, and a list already shown stays loaded.
+            Visibility(
+              visible: !_selecting,
+              maintainState: true,
+              child: DeletedPersonasSection(userId: currentUser?.id),
+            ),
+          ],
+        ),
       ),
     );
 
@@ -1221,7 +1231,9 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
         behavior: HitTestBehavior.opaque,
         onTap: _selecting ? () => _toggleSelected(persona.id) : null,
         onLongPress: _selecting ? null : () => _startSelecting(persona.id),
-        child: card,
+        // Its own layer, so that an animated avatar repaints this card and not
+        // the whole list (tyne-chat/tyne#631).
+        child: RepaintBoundary(child: card),
       ),
     );
   }
