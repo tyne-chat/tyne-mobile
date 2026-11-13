@@ -118,6 +118,7 @@ part 'guild_sidebar_header.dart';
 part 'guild_sidebar_helpers.dart';
 part 'guild_sidebar_members_tile.dart';
 // Fork parts.
+part 'guild_sidebar_banner_fork.dart';
 part 'guild_sidebar_quick_switcher_fork.dart';
 
 class GuildSidebar extends ConsumerStatefulWidget {
