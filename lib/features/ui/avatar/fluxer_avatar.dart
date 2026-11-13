@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
+// ignore: unused_import // Fork: upstream's import, unused since the fork's changes.
 import 'package:fluxer_app/features/accessibility/presentation/allow_image_frame_animation.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
@@ -14,6 +15,7 @@ import 'package:fluxer_app/material_ui.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/core/constants/media_proxy_sizes.dart';
+import 'package:fluxer_app/shared/widgets/fork_pause_when_out_of_view.dart';
 
 const _kFallbackColors = [
   Color(0xFF5865F2),
@@ -340,7 +342,7 @@ class FluxerNetworkAvatarImage extends StatelessWidget {
         placeholder: (_, _) => placeholder(),
         errorBuilder: (_, _, _) => onError(),
       );
-      return animated ? AllowImageFrameAnimation(child: image) : image;
+      return animated ? ForkPauseWhenOutOfView(child: image) : image;
     }
 
     final String? url = imageUrl;
