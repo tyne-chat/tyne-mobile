@@ -11,6 +11,13 @@
 // changes how it builds those images, the guard tests in
 // `test/core/media/fork_synced_emoji_image_cache_test.dart` fail; at runtime
 // the emoji fall back to upstream's behaviour.
+//
+// It also loads animated avatars, server icons and banners with that completer
+// (tyne-chat/tyne#619), on a clock of their own. Upstream's completer asks for
+// two app frames per image frame: one as soon as the next frame is decoded,
+// only to read the frame's timestamp, and one when the frame is due. This one
+// decodes ahead and wakes when the frame is due, so a 50-frames-a-second
+// banner costs 50 app frames a second rather than 100.
 
 import 'dart:ui' as ui;
 
@@ -46,6 +53,33 @@ bool isForkSyncedEmojiProvider(CachedNetworkImageProvider provider) =>
     provider.maxHeight == null &&
     isForkSyncedEmojiUrl(provider.url);
 
+/// Whether [url] is an animated avatar, server icon or banner from the media
+/// proxy: `.../avatars|icons|banners/<id>/<file>?animated=true...`, as
+/// `FluxerMediaUrl` builds them. Persona avatars and tag icons use the avatar
+/// form (tyne-chat/tyne#619).
+bool isForkAnimatedProfileMediaUrl(String url) {
+  final Uri? uri = Uri.tryParse(url);
+  if (uri == null) {
+    return false;
+  }
+  final List<String> segments = uri.pathSegments;
+  return segments.length >= 3 &&
+      const <String>{
+        'avatars',
+        'icons',
+        'banners',
+      }.contains(segments[segments.length - 3]) &&
+      uri.queryParameters['animated'] == 'true';
+}
+
+/// Whether the cache loads [provider] with the fork's completer on the
+/// profile-media clock: as for emoji, only full-size images meant to animate.
+bool isForkAnimatedProfileMediaProvider(CachedNetworkImageProvider provider) =>
+    provider.animate &&
+    provider.maxWidth == null &&
+    provider.maxHeight == null &&
+    isForkAnimatedProfileMediaUrl(provider.url);
+
 class ForkSyncedEmojiImageCache extends ImageCache {
   ForkSyncedEmojiImageCache({
     ForkSyncedEmojiClock? clock,
@@ -56,24 +90,44 @@ class ForkSyncedEmojiImageCache extends ImageCache {
   final ForkSyncedEmojiClock _clock;
   final ForkSyncedEmojiDecoder _decode;
 
+  // Avatars, icons and banners keep their own clock: in step with each other
+  // where their loops match, not with the emoji.
+  final ForkSyncedEmojiClock _profileMediaClock = ForkSyncedEmojiClock();
+
   @override
   ImageStreamCompleter? putIfAbsent(
     Object key,
     ImageStreamCompleter Function() loader, {
     ImageErrorListener? onError,
   }) {
-    if (key is! CachedNetworkImageProvider || !isForkSyncedEmojiProvider(key)) {
-      return super.putIfAbsent(key, loader, onError: onError);
+    if (key is CachedNetworkImageProvider) {
+      if (isForkSyncedEmojiProvider(key)) {
+        return super.putIfAbsent(
+          key,
+          () => _load(key, _clock),
+          onError: onError,
+        );
+      }
+      if (isForkAnimatedProfileMediaProvider(key)) {
+        return super.putIfAbsent(
+          key,
+          () => _load(key, _profileMediaClock),
+          onError: onError,
+        );
+      }
     }
-    return super.putIfAbsent(key, () => _load(key), onError: onError);
+    return super.putIfAbsent(key, loader, onError: onError);
   }
 
-  ImageStreamCompleter _load(CachedNetworkImageProvider key) {
+  ImageStreamCompleter _load(
+    CachedNetworkImageProvider key,
+    ForkSyncedEmojiClock clock,
+  ) {
     final ForkSyncedEmojiCompleter completer = ForkSyncedEmojiCompleter(
       codecs: _loadCodecs(key),
       scale: key.scale,
       minimumFrameDuration: key.minimumGifFrameDuration,
-      clock: _clock,
+      clock: clock,
       informationCollector: () => <DiagnosticsNode>[
         DiagnosticsProperty<ImageProvider>('Image provider', key),
       ],
