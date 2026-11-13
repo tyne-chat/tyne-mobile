@@ -17,6 +17,7 @@ import 'package:fluxer_app/core/media/fork_gif_first_frame_alpha.dart';
 import 'package:fluxer_app/core/media/fork_synced_emoji_clock.dart';
 import 'package:fluxer_app/core/media/fork_synced_emoji_completer.dart';
 import 'package:fluxer_app/core/media/fork_synced_emoji_image_cache.dart';
+import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 import 'package:fluxer_app/features/ui/input/emoji_inline_token.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/markdown/fluxer_markdown_adapter.dart';
@@ -231,6 +232,75 @@ void main() {
 
       expect(emoji, isA<ForkSyncedEmojiCompleter>());
       expect(sticker, isNot(isA<ForkSyncedEmojiCompleter>()));
+      expect(upstreamLoads, 1);
+      await tester.pump();
+    });
+
+    // tyne-chat/tyne#619: animated avatars, icons and banners get the fork's
+    // completer too, which asks for one app frame per image frame.
+    test('animated avatars, server icons and banners', () {
+      for (final String? url in <String?>[
+        FluxerMediaUrl.userAvatar(
+          userId: '1',
+          hash: 'a_59f0515b',
+          animated: true,
+        ),
+        personaTagIconUrl(ownerUserId: '1', icon: 'a_3902ddc2'),
+        FluxerMediaUrl.guildIcon(guildId: '2', hash: 'a_1234', animated: true),
+        FluxerMediaUrl.guildBanner(
+          guildId: '2',
+          hash: 'a_0a13',
+          animated: true,
+        ),
+      ]) {
+        expect(isForkAnimatedProfileMediaUrl(url!), isTrue, reason: url);
+      }
+      for (final String? url in <String?>[
+        FluxerMediaUrl.userAvatar(userId: '1', hash: 'a_59f0515b'),
+        FluxerMediaUrl.userAvatar(
+          userId: '1',
+          hash: '59f0515b',
+          animated: true,
+        ),
+        FluxerMediaUrl.guildBanner(guildId: '2', hash: 'a_0a13'),
+        _animatedUrl(_wingsL, 96),
+        FluxerMediaUrl.sticker(id: '1', animated: true),
+      ]) {
+        expect(isForkAnimatedProfileMediaUrl(url!), isFalse, reason: url);
+      }
+      expect(isForkAnimatedProfileMediaUrl('not a url ::'), isFalse);
+    });
+
+    testWidgets('the cache loads an animated avatar itself, not a still one', (
+      WidgetTester tester,
+    ) async {
+      CachedNetworkImageProvider.defaultCacheManager = _FakeCacheManager();
+      final ImageCache cache = PaintingBinding.instance.imageCache;
+      int upstreamLoads = 0;
+      ImageStreamCompleter upstream() {
+        upstreamLoads += 1;
+        return OneFrameImageStreamCompleter(Completer<ImageInfo>().future);
+      }
+
+      final ImageStreamCompleter? animated = cache.putIfAbsent(
+        CachedNetworkImageProvider(
+          FluxerMediaUrl.userAvatar(
+            userId: '1',
+            hash: 'a_59f0515b',
+            animated: true,
+          )!,
+        ),
+        upstream,
+      );
+      final ImageStreamCompleter? still = cache.putIfAbsent(
+        CachedNetworkImageProvider(
+          FluxerMediaUrl.userAvatar(userId: '1', hash: 'a_59f0515b')!,
+        ),
+        upstream,
+      );
+
+      expect(animated, isA<ForkSyncedEmojiCompleter>());
+      expect(still, isNot(isA<ForkSyncedEmojiCompleter>()));
       expect(upstreamLoads, 1);
       await tester.pump();
     });
