@@ -81,6 +81,22 @@ class _FakePersonaSettingsNotifier extends PersonaSettingsNotifier {
   Future<void> reloadSilently() async {}
 }
 
+/// The colour of the ring around the pill's avatar (tyne-chat/tyne#626).
+Color _ringColor(WidgetTester tester) {
+  final Container ring = tester.widget<Container>(
+    find
+        .byWidgetPredicate(
+          (Widget widget) =>
+              widget is Container &&
+              widget.decoration is BoxDecoration &&
+              (widget.decoration! as BoxDecoration).shape == BoxShape.circle &&
+              (widget.decoration! as BoxDecoration).border != null,
+        )
+        .first,
+  );
+  return ((ring.decoration! as BoxDecoration).border! as Border).top.color;
+}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -166,15 +182,15 @@ void main() {
         final tooltip = tester.widget<Tooltip>(find.byType(Tooltip));
         expect(tooltip.message, 'Sending as @tester');
 
-        // No lock badge, no tag badge
+        // No lock badge, no tag badge, no ring
         expect(find.byIcon(PhosphorIconsBold.lockSimple), findsNothing);
         expect(find.byIcon(PhosphorIconsBold.tag), findsNothing);
+        expect(_ringColor(tester), Colors.transparent);
       },
     );
 
-    testWidgets('renders latched persona with lock badge and latched tooltip', (
-      tester,
-    ) async {
+    testWidgets('renders latched persona without a badge, with the latched '
+        'tooltip', (tester) async {
       await tester.pumpWidget(
         buildTestBed(
           personas: allPersonas,
@@ -187,14 +203,14 @@ void main() {
       final tooltip = tester.widget<Tooltip>(find.byType(Tooltip));
       expect(tooltip.message, 'Sending as Alpha Alter (Latched)');
 
-      // Lock badge is present, tag badge is absent
-      expect(find.byIcon(PhosphorIconsBold.lockSimple), findsOneWidget);
+      // No lock badge or ring (tyne-chat/tyne#626), and no tag badge
+      expect(find.byIcon(PhosphorIconsBold.lockSimple), findsNothing);
       expect(find.byIcon(PhosphorIconsBold.tag), findsNothing);
+      expect(_ringColor(tester), Colors.transparent);
     });
 
-    testWidgets('renders tag matched persona with tag badge and tag tooltip', (
-      tester,
-    ) async {
+    testWidgets('renders tag matched persona without a badge, with the tag '
+        'tooltip', (tester) async {
       await tester.pumpWidget(
         buildTestBed(personas: allPersonas, text: 'a: Hello world'),
       );
@@ -203,9 +219,10 @@ void main() {
       final tooltip = tester.widget<Tooltip>(find.byType(Tooltip));
       expect(tooltip.message, 'Sending as Alpha Alter (Matched by tag)');
 
-      // Tag badge is present, lock badge is absent
-      expect(find.byIcon(PhosphorIconsBold.tag), findsOneWidget);
+      // No tag badge, lock badge or ring (tyne-chat/tyne#626)
+      expect(find.byIcon(PhosphorIconsBold.tag), findsNothing);
       expect(find.byIcon(PhosphorIconsBold.lockSimple), findsNothing);
+      expect(_ringColor(tester), Colors.transparent);
     });
 
     testWidgets('tag match overrides latched persona indicator', (
@@ -224,12 +241,12 @@ void main() {
       final tooltip = tester.widget<Tooltip>(find.byType(Tooltip));
       expect(tooltip.message, 'Sending as Beta Alter (Matched by tag)');
 
-      expect(find.byIcon(PhosphorIconsBold.tag), findsOneWidget);
+      expect(find.byIcon(PhosphorIconsBold.tag), findsNothing);
       expect(find.byIcon(PhosphorIconsBold.lockSimple), findsNothing);
     });
 
     testWidgets(
-      'renders tag matched persona with tag badge for emoji prefix tag',
+      'renders tag matched persona for emoji prefix tag, without a badge',
       (tester) async {
         const emojiPersona = Persona(
           id: 'p_dragon',
@@ -248,7 +265,7 @@ void main() {
 
         final tooltip = tester.widget<Tooltip>(find.byType(Tooltip));
         expect(tooltip.message, 'Sending as Knightmoon (Matched by tag)');
-        expect(find.byIcon(PhosphorIconsBold.tag), findsOneWidget);
+        expect(find.byIcon(PhosphorIconsBold.tag), findsNothing);
         expect(find.byIcon(PhosphorIconsBold.lockSimple), findsNothing);
       },
     );
@@ -297,7 +314,7 @@ void main() {
 
         final tooltip = tester.widget<Tooltip>(find.byType(Tooltip));
         expect(tooltip.message, 'Sending as Alpha Alter (Latched)');
-        expect(find.byIcon(PhosphorIconsBold.lockSimple), findsOneWidget);
+        expect(find.byIcon(PhosphorIconsBold.lockSimple), findsNothing);
       },
     );
 
