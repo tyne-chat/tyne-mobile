@@ -3,8 +3,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 // Fork imports.
-// ignore: directives_ordering
-import 'package:cached_network_image_ce/cached_network_image.dart';
+import 'package:fluxer_app/shared/widgets/fork_repaint_only_image.dart';
 
 class FluxerUserTag extends StatelessWidget {
   const FluxerUserTag({
@@ -45,12 +44,10 @@ class FluxerUserTag extends StatelessWidget {
           if (hasIcon) ...[
             ClipRRect(
               borderRadius: BorderRadius.circular(2),
-              child: CachedNetworkImage(
-                imageUrl: iconUrl!.trim(),
-                width: 11,
-                height: 11,
-                fit: BoxFit.cover,
-                errorBuilder: (_, _, _) => const SizedBox.shrink(),
+              child: forkPersonaTagIcon(
+                url: iconUrl!.trim(),
+                size: 11,
+                errorBuilder: (_) => const SizedBox.shrink(),
               ),
             ),
             if (!iconOnly) const SizedBox(width: 3.5),
