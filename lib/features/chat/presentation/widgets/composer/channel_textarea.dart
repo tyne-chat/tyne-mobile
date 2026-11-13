@@ -112,8 +112,10 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/persona_c
 import 'package:fluxer_app/features/chat/providers/pickers/timestamp_insert_provider.dart';
 import 'package:fluxer_app/features/chat/services/timestamp_inline_token.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
+import 'package:fluxer_app/features/chat/utils/composer/fork_persona_tag_selection.dart';
 import 'package:fluxer_app/features/guild_commands/providers/guild_command_editing.dart';
 import 'package:fluxer_app/features/guild_commands/providers/guild_command_runner.dart';
+import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/providers/quick_switcher_button_preferences_provider.dart';
 import 'package:fluxer_app/features/signal_bar/presentation/signal_bar_strip.dart';
@@ -506,6 +508,40 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       return _slashSession.toWireText();
     }
     return stripPrivateUseCharacters(_controller.toAcceptedWireText());
+  }
+
+  // Fork: tyne-chat/tyne#628. True when [text] was only a persona's tags and
+  // selected that persona, so nothing is sent. No toast: the pill shows who
+  // the composer now sends as.
+  Future<bool> _forkSelectPersonaByTagsOnly(
+    String channelId,
+    String text,
+  ) async {
+    final bool hasAttachments = ref.read(
+      cloudUploadControllerProvider(
+        readAccountUserId(ref),
+        channelId,
+      ).select((CloudComposerAttachments a) => a.items.isNotEmpty),
+    );
+    if (hasAttachments) {
+      return false;
+    }
+    final Persona? persona = forkPersonaSelectedByTags(
+      text,
+      ref.read(myPersonasProvider).asData?.value ?? const <Persona>[],
+    );
+    if (persona == null) {
+      return false;
+    }
+    await forkSelectPersonaByTags(ref, persona, channelId: channelId);
+    if (!mounted) {
+      return true;
+    }
+    _clearSlashSession();
+    _controller.clear();
+    ref.read(chatViewModelProvider.notifier).updateMessageText('');
+    FluxerHaptics.light();
+    return true;
   }
 
   Duration? _activeSlowmodeRemainingForSend(String channelId) {
@@ -2347,6 +2383,12 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             .show(FluxerToast(message: clearedMessage));
         return;
       }
+    }
+
+    // Fork: a message of only a persona's tags selects that persona instead
+    // of being sent (tyne-chat/tyne#628).
+    if (await _forkSelectPersonaByTagsOnly(channelId, baseContent)) {
+      return;
     }
 
     // Match persona tags or active latched persona
