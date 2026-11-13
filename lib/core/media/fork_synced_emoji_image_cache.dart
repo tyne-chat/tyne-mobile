@@ -17,6 +17,7 @@ import 'dart:ui' as ui;
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/painting.dart';
+import 'package:fluxer_app/core/media/fork_gif_first_frame_alpha.dart';
 import 'package:fluxer_app/core/media/fork_synced_emoji_clock.dart';
 import 'package:fluxer_app/core/media/fork_synced_emoji_completer.dart';
 
@@ -115,7 +116,8 @@ class ForkSyncedEmojiImageCache extends ImageCache {
           detectedFormat: unsupported,
         );
       }
-      yield await _decode(bytes);
+      // An opaque frame 0 stops Flutter before 3.50 (tyne-chat/tyne#615).
+      yield await _decode(forkGifWithTransparentFirstFrame(bytes));
     }
   }
 }
