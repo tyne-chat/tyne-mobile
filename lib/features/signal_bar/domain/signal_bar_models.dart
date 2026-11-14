@@ -34,6 +34,16 @@ class SignalBarSignal {
 
   String get displayLabel =>
       (label != null && label!.isNotEmpty) ? label! : emojiName;
+
+  /// The shape [SignalBarSignal.fromJson] reads, for the device's copy.
+  Map<String, Object?> toJson() => <String, Object?>{
+    'id': id,
+    'emoji_id': emojiId,
+    'emoji_name': emojiName,
+    'animated': animated,
+    'label': label,
+    'everywhere': everywhere,
+  };
 }
 
 /// The bar as configured by the home community's managers.
@@ -68,6 +78,16 @@ class SignalBarConfig {
   final List<SignalBarSignal> signals;
   final String? guildId;
   final bool canManage;
+
+  /// The shape [SignalBarConfig.fromJson] reads, for the device's copy.
+  Map<String, Object?> toJson() => <String, Object?>{
+    'version': version,
+    'signals': <Map<String, Object?>>[
+      for (final SignalBarSignal signal in signals) signal.toJson(),
+    ],
+    'guild_id': guildId,
+    'can_manage': canManage,
+  };
 }
 
 /// One account currently giving a signal in a channel. An account holds at
@@ -142,6 +162,22 @@ class SignalEntry {
       activatedAt: activatedAt,
     );
   }
+
+  /// The shape [SignalEntry.fromJson] reads, for the device's copy.
+  Map<String, Object?> toJson() => <String, Object?>{
+    'signal_id': signalId,
+    'user': <String, Object?>{
+      'id': userId,
+      'username': username,
+      'global_name': globalName,
+      'avatar': userAvatar,
+    },
+    'persona_id': personaId,
+    'subprofile': personaName == null && personaAvatar == null
+        ? null
+        : <String, Object?>{'name': personaName, 'avatar': personaAvatar},
+    'activated_at': activatedAt,
+  };
 }
 
 /// The persona an account is acting as right now, as resolved by the composer.
@@ -198,6 +234,11 @@ class UserSignalRef {
   final String signalId;
   final String? personaId;
 
+  Map<String, Object?> toJson() => <String, Object?>{
+    'signal_id': signalId,
+    'persona_id': personaId,
+  };
+
   @override
   bool operator ==(Object other) =>
       other is UserSignalRef &&
@@ -234,6 +275,14 @@ class UserSignalChat {
   final String channelId;
   final List<UserSignalRef> signals;
   final int updatedAt;
+
+  Map<String, Object?> toJson() => <String, Object?>{
+    'channel_id': channelId,
+    'signals': <Map<String, Object?>>[
+      for (final UserSignalRef ref in signals) ref.toJson(),
+    ],
+    'updated_at': updatedAt,
+  };
 }
 
 /// `GET /users/@me/signals`: every chat where the account has a signal on, and
@@ -257,6 +306,14 @@ class UserSignalsSummary {
 
   final List<UserSignalChat> chats;
   final bool restoreAvailable;
+
+  /// The shape [UserSignalsSummary.fromJson] reads, for the device's copy.
+  Map<String, Object?> toJson() => <String, Object?>{
+    'chats': <Map<String, Object?>>[
+      for (final UserSignalChat chat in chats) chat.toJson(),
+    ],
+    'restore_available': restoreAvailable,
+  };
 
   /// The chats newest first.
   List<UserSignalChat> get newestFirst => <UserSignalChat>[...chats]
