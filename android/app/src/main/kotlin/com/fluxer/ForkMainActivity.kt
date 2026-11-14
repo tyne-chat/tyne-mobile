@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.WindowInsets
-import com.ryanheise.audioservice.AudioServiceFragmentActivity
 import io.flutter.embedding.android.FlutterFragment
 import io.flutter.embedding.engine.FlutterEngine
 
@@ -19,7 +18,7 @@ import io.flutter.embedding.engine.FlutterEngine
  * Each hook runs where it ran inside [MainActivity]: `onCreate` calls `super` straight after its own
  * checks, and `configureFlutterEngine` calls it first.
  */
-open class ForkMainActivity : AudioServiceFragmentActivity() {
+open class ForkMainActivity : ForkFreshStartActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         // An idle push engine goes before this activity's engine registers plugins (tyne-chat/tyne#474).
         FluxerUnifiedPushService.forkBeforeAppEngine()
