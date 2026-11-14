@@ -131,6 +131,7 @@ reply path for iOS sends the same).
 | APK installer | fork-owned `AppInstallBridge.kt` and `file_paths.xml`; a `REQUEST_INSTALL_PACKAGES` line; the `FileProvider` appended to `<application>` (no fork comment); registered first in `configureFlutterEngine` |
 | Push engine without audio_service (tyne-chat/tyne#210) | fork-owned `ForkPushEngine.kt`, created by one line in `FluxerUnifiedPushService.createBackgroundEngine` (below) |
 | Push engine kept while the app's engine exists (tyne-chat/tyne#474) | a fork block at the end of `FluxerUnifiedPushService.kt`'s companion, reached by one `// Fork:` line in `closeBackgroundSession`; one line in `MainActivity.onCreate`; `ForkPushEngine`'s replay reset |
+| No restore of the Flutter fragment (tyne-chat/tyne#634) | fork-owned `ForkFreshStartActivity.kt`, which `MainActivity` extends in place of `AudioServiceFragmentActivity` (one `// Fork:` line above the class). Flutter takes its view ids from `View.generateViewId()`, in an order that differs between a process started from the launcher and one started by a push, so a fragment restored across the two found no container and Tyne opened black. Keep the base class when upstream changes `MainActivity`'s |
 | Keyboard inset fix | in `MainActivity.kt`, unmarked: `onWindowFocusChanged`, `insetResync`, `scheduleInsetResync`, `resyncFlutterInsets`, two companion constants, a line in `onDestroy`, five imports in upstream's list |
 | Push library | `embedded-fcm-distributor` for every flavour, its keep rule last in `app/proguard-rules.pro`, and the google-services plugin applied whenever `app/google-services.json` exists (upstream: `fcm` tasks only) |
 | SDK level | `compileSdk = 37` in place of Flutter's value, with null-safe `taskInfo` in `InAppBrowserTasks` and `SsoAuthSessionTasks`; nothing records why |
@@ -223,8 +224,9 @@ if the user opted in and the build has a Measure key and URL.
 
 ## Tests
 
-- **Kotlin:** fourteen JUnit files in `app/src/test/kotlin/com/fluxer/`. Ten are upstream's; four are
+- **Kotlin:** fifteen JUnit files in `app/src/test/kotlin/com/fluxer/`. Ten are upstream's; five are
   the fork's: `AppInstallBridgeTest.kt` (the installer's package, signer and path checks),
+  `ForkFreshStartActivityTest.kt` (that `MainActivity` still extends the fresh-start base class),
   `ForkPushEngineTest.kt` (the plugins the push engine leaves out),
   `FluxerUnifiedPushServiceForkTest.kt` (when the service destroys the push engine, with a stand-in
   engine, since a real one needs Flutter's native library) and `NotificationReplyForkTest.kt` (a reply
@@ -244,5 +246,8 @@ if the user opted in and the build has a Measure key and URL.
   run `test/build/oss_configure_build_test.dart`, which is not in that list.
 - **Off a device:** build the `canaryUnifiedpush` release APK and check its merged manifest, package
   name, version code and signer.
+- **Opening after Android ended the process** (tyne-chat/tyne#634): open Tyne, go home,
+  `adb shell am kill chat.tyne.app`, let a push arrive, tap the icon. Tyne must show, not a black
+  window; `adb shell dumpsys activity top` then lists the `FlutterView` inside the activity's container.
 - **Only a device shows** the inset fix, links opening the app, passkeys, updates, notification replies
   and launcher icons: describe such changes as untested on device until a maintainer has tried them.
