@@ -33,22 +33,23 @@ String gapHistoryId(int index) => paginationSnowflakeForIndex(index);
 /// The server. Requests for the channel's messages are recorded as `latest`,
 /// `send`, or the cursor and the message it names, such as `after #100`.
 class GapServer extends PaginatingAdapter {
-  GapServer()
-    : super(
+  GapServer({int historyLength = kGapHistoryLength})
+    : _nextIndex = historyLength,
+      super(
         messagesByChannel: <String, List<Map<String, Object?>>>{
           kGapChannelId: paginationChannelMessages(
             kGapChannelId,
-            kGapHistoryLength,
+            historyLength,
           ),
           kGapOtherChannelId: paginationChannelMessages(
             kGapOtherChannelId,
             3,
-            baseIndex: 1000,
+            baseIndex: 100000,
           ),
         },
       );
 
-  int _nextIndex = kGapHistoryLength;
+  int _nextIndex;
 
   final List<String> requests = <String>[];
 
@@ -131,6 +132,9 @@ class GapServer extends PaginatingAdapter {
             ? 'latest'
             : '$cursor #${historyIds.indexOf(query[cursor]!)}',
       );
+      if (cursor == 'around') {
+        return _json(_aroundPage(query['around']!, query['limit']));
+      }
     }
     if (options.method == 'POST' && path.endsWith('/read-states/ack')) {
       return _json(<String, Object?>{
@@ -142,6 +146,27 @@ class GapServer extends PaginatingAdapter {
       return ResponseBody.fromString('', 204);
     }
     return super.fetch(options, requestStream, cancelFuture);
+  }
+
+  /// A page around a message as the server builds it (`visible_around` and
+  /// `around_window_limits` in the server's fluxer_messages): up to half the
+  /// limit of newer messages, the message, and older ones up to the limit,
+  /// newest first. A side with fewer messages is not made up for on the other,
+  /// so near the newest message the page is shorter than the limit. The
+  /// adapter this extends fills such a page up to the limit instead.
+  List<Map<String, Object?>> _aroundPage(String aroundId, String? limitText) {
+    final int limit = int.tryParse(limitText ?? '') ?? pageLimit;
+    final int newerLimit = limit ~/ 2;
+    final int olderLimit = limit - 1 - newerLimit;
+    final int index = historyIds.indexOf(aroundId);
+    if (index == -1) {
+      return const <Map<String, Object?>>[];
+    }
+    final int start = index - olderLimit < 0 ? 0 : index - olderLimit;
+    final int end = index + newerLimit + 1 > history.length
+        ? history.length
+        : index + newerLimit + 1;
+    return history.sublist(start, end).reversed.toList();
   }
 
   ResponseBody _json(Object data) => ResponseBody.fromString(
@@ -205,8 +230,12 @@ Matcher gapHonestShape(GapServer server) =>
     anyOf(startsWith('claims newest: false;'), gapCompleteShape(server));
 
 /// The server's guild, the user's membership and both channels. READY has
-/// stored #99 as the channel's last message.
-Future<void> seedGapChannels(FluxerDatabase db) async {
+/// stored the newest message (#99 unless [historyLength] says otherwise) as
+/// the channel's last message.
+Future<void> seedGapChannels(
+  FluxerDatabase db, {
+  int historyLength = kGapHistoryLength,
+}) async {
   await db.guildDao.upsertServer(
     ServersCompanion.insert(id: 'guild-1', name: 'Guild'),
   );
@@ -218,7 +247,7 @@ Future<void> seedGapChannels(FluxerDatabase db) async {
       id: kGapChannelId,
       guildId: 'guild-1',
       name: 'lounge',
-      lastMessageId: Value(gapHistoryId(kGapHistoryLength - 1)),
+      lastMessageId: Value(gapHistoryId(historyLength - 1)),
     ),
   );
   await db.channelDao.upsertChannel(
@@ -226,7 +255,7 @@ Future<void> seedGapChannels(FluxerDatabase db) async {
       id: kGapOtherChannelId,
       guildId: 'guild-1',
       name: 'other',
-      lastMessageId: Value(gapHistoryId(1002)),
+      lastMessageId: Value(gapHistoryId(100002)),
     ),
   );
 }
