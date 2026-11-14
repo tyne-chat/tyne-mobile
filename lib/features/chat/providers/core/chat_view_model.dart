@@ -114,6 +114,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart'
 import 'package:fluxer_app/features/chat/data/persona_emoji_usage_store.dart';
 import 'package:fluxer_app/features/chat/data/prepared_attachments.dart';
 import 'package:fluxer_app/features/chat/domain/cloud_composer_attachments.dart';
+import 'package:fluxer_app/features/chat/providers/core/fork_around_page.dart';
 import 'package:fluxer_app/features/chat/providers/core/fork_detached_send.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
@@ -7140,6 +7141,14 @@ class ChatViewModel extends _$ChatViewModel {
           'pageSize=${page.messages.length}',
         );
       }
+      // Fork: only the page's older side says whether older messages remain;
+      // near the newest message the page is short for lack of newer ones
+      // (tyne-chat/tyne#199, fork_around_page.dart).
+      final bool forkPageHasOlder = forkAroundPageHasOlder(
+        page.messages,
+        targetId: messageId,
+        limit: aroundLimit,
+      );
       final ({bool hasMoreNewer, bool needsTailProbe}) newerConsult =
           await _hasNewerMessagesThanChannel(
             page.messages.last.id,
@@ -7176,8 +7185,7 @@ class ChatViewModel extends _$ChatViewModel {
               ),
               origin: MessagesOrigin.windowSwap,
             ),
-            hasMoreMessages:
-                aroundTargetMissing || page.messages.length >= _kPageSize,
+            hasMoreMessages: aroundTargetMissing || forkPageHasOlder,
             hasMoreNewerMessages: hasMoreNewer,
             windowEpoch: state.windowEpoch + 1,
             isLoading: false,

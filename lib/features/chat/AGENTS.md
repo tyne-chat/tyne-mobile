@@ -35,6 +35,11 @@ inside upstream's files, so read "Where the fork's code sits" before editing.
 - **Paging** (`MessagePaginationCoordinator`): at most `PumpBudget.maxRequestsPerPump` requests per
   pump, then a pause; a failed page parks that edge until the next scroll gesture. Identical page
   requests share one future.
+- **A jump inside the open channel** (`goToRepliedMessage`: a notification or link for the open
+  channel, the jump to the first unread message, a reply preview) loads the page around its target.
+  The server sends up to 25 newer messages, the target and up to 24 older ones, and does not make up
+  for a short side, so only the older side says whether older messages remain:
+  `forkAroundPageHasOlder` (`providers/core/fork_around_page.dart`, tyne-chat/tyne#199).
 - **Opening at NEW** (upstream): `MessageList` anchors the first unread message at the middle and
   lowers it in a few settle passes, then never again. The fork's
   `presentation/widgets/messages/message_list_unread_open_fill_fork.dart`, a `part` of
@@ -181,6 +186,10 @@ upstream file above, move fork code out of upstream's lines where you can.
 
 - `flutter test test/features/chat` covers this folder and is in the nightly gate. For layout changes
   add `test/shared/widgets/rebuild_safe_layout_builder_test.dart`.
+- Paging and jump scenarios: `presentation/widgets/messages/fork_message_list_scenario.dart` runs the
+  real list on the real chat against `GapServer` (`test/helpers/fork_message_gap_harness.dart`), whose
+  pages arrive when the test lets them and whose `around` page is built as the server builds it.
+  Upstream's `PaginatingAdapter` fills an `around` page up to the limit, which the server does not.
 - Helpers: `test/helpers/composer_channel_textarea_harness.dart` (`pumpComposerChannelTextareaHarness`),
   `pump_fluxer_app.dart`, `open_test_database.dart`; the list has `message_list_test_harness.dart`.
 - Persona tests live in `*_fork_test.dart` and `*persona*_test.dart` files next to upstream's.
