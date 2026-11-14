@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/signal_bar/domain/signal_bar_models.dart';
 import 'package:fluxer_app/features/signal_bar/presentation/signals_everywhere_sheet.dart';
 import 'package:fluxer_app/features/signal_bar/providers/signal_bar_collapsed_provider.dart';
 import 'package:fluxer_app/features/signal_bar/providers/signal_bar_providers.dart';
+import 'package:fluxer_app/features/signal_bar/providers/signal_bar_snapshot_writer.dart';
 import 'package:fluxer_app/features/signal_bar/providers/signal_persona_affirmation.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -69,7 +70,6 @@ class SignalBarStrip extends ConsumerStatefulWidget {
 class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
   late final ChannelSignalsNotifier _signals;
   late final SignalBarConfigNotifier _config;
-  String? _loadingChannelId;
 
   // The composer around the strip rebuilds on every frame of the keyboard
   // animation (tyne-chat/tyne#623). Handing back the same view while nothing it
@@ -84,6 +84,8 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
     super.initState();
     _signals = ref.read(channelSignalsProvider.notifier);
     _config = ref.read(signalBarConfigProvider.notifier);
+    // Keeps the device's copy from now on (tyne-chat/tyne#645).
+    ref.read(signalBarSnapshotWriterProvider);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) {
         return;
@@ -123,20 +125,21 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
     }
   }
 
+  /// Asks for the channel until the server has answered for it since the
+  /// last READY; what the device kept is shown meanwhile.
   void _loadChannelIfNeeded() {
     final String channelId = widget.channelId;
-    if (channelId.isEmpty || _loadingChannelId == channelId) {
+    if (channelId.isEmpty ||
+        ref.read(signalBarConfigProvider).signals.isEmpty ||
+        _signals.isConfirmed(channelId) ||
+        _signals.isLoading(channelId)) {
       return;
     }
-    if (ref.read(signalBarConfigProvider).signals.isEmpty ||
-        ref.read(channelSignalsProvider).containsKey(channelId)) {
-      return;
-    }
-    _loadingChannelId = channelId;
     unawaited(
-      _signals.loadChannel(channelId).whenComplete(() {
-        if (_loadingChannelId == channelId) {
-          _loadingChannelId = null;
+      _signals.loadChannel(channelId).then((SignalChannelLoad load) {
+        // Sent before a READY that came meanwhile.
+        if (load == SignalChannelLoad.outdated && mounted) {
+          _loadChannelIfNeeded();
         }
       }),
     );
@@ -148,6 +151,27 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
       return;
     }
     FluxerHaptics.light();
+    if (!_signals.isConfirmed(widget.channelId)) {
+      // What is shown may be out of date: the tap is remembered and sent once
+      // the channel's answer is in (tyne-chat/tyne#645).
+      _signals.want(
+        widget.channelId,
+        signal.id,
+        on: !mine,
+        userId: userId,
+        personaId: mine
+            ? null
+            : composerSignalPersona(
+                ref.read,
+                widget.channelId,
+                latchedPersonaId: latchedSignalPersonaId(
+                  ref.read,
+                  widget.channelId,
+                ),
+              )?.id,
+      );
+      return;
+    }
     if (mine) {
       unawaited(
         _signals.deactivate(widget.channelId, signal.id, userId: userId),
@@ -243,10 +267,10 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
       ..listen<bool>(
         channelSignalsProvider.select(
           (Map<String, List<SignalEntry>> map) =>
-              map.containsKey(widget.channelId),
+              _signals.isConfirmedIn(map, widget.channelId),
         ),
-        (_, bool loaded) {
-          if (!loaded) {
+        (_, bool confirmed) {
+          if (!confirmed) {
             _loadChannelIfNeeded();
           }
         },
