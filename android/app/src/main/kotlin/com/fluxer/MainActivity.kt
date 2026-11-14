@@ -17,7 +17,8 @@ import io.flutter.embedding.android.RenderMode
 import io.flutter.embedding.android.TransparencyMode
 import io.flutter.embedding.engine.FlutterEngine
 
-class MainActivity : AudioServiceFragmentActivity() {
+// Fork: ForkFreshStartActivity is AudioServiceFragmentActivity that starts its Flutter fragment fresh (tyne-chat/tyne#634).
+class MainActivity : ForkFreshStartActivity() {
     private val imeEditingShortcutBridge = ImeEditingShortcutBridge()
     private val appLockBridge = AppLockBridge(this)
 
