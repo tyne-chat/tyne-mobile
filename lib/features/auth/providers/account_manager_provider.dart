@@ -22,6 +22,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/features/profile/providers/persona_account_reset.dart';
+import 'package:fluxer_app/features/signal_bar/data/signal_bar_snapshot.dart';
 
 part 'account_manager_provider.g.dart';
 
@@ -185,6 +186,8 @@ class AccountManager extends _$AccountManager {
     ref.read(syncedPreferencesStoreProvider).reset();
     ref.read(slowmodeTrackerProvider.notifier).reset();
     resetPersonaStateForAccountChange(ref);
+    // Fork: the signal bar's device copy goes with the account (tyne-chat/tyne#645).
+    unawaited(ref.read(signalBarSnapshotStoreProvider).forget(userId));
     await loadAccounts();
 
     if (state.accounts.isEmpty) {

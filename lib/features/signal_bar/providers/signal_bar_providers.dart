@@ -4,15 +4,37 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/signal_bar/data/signal_bar_repository.dart';
+import 'package:fluxer_app/features/signal_bar/data/signal_bar_snapshot.dart';
 import 'package:fluxer_app/features/signal_bar/domain/signal_bar_models.dart';
 
-/// The configured bar. Loaded lazily, refetched when the gateway or a channel
-/// snapshot reports a newer version, and after a new gateway session.
+/// The device's copy of [userId]'s signal bar, if it has one (tyne-chat/tyne#645).
+SignalBarSnapshot? _snapshotOf(Ref ref, String? userId) => userId == null
+    ? null
+    : ref.read(signalBarSnapshotStoreProvider).read(userId);
+
+/// The configured bar. Starts from the device's copy, loaded lazily, refetched
+/// when the gateway or a channel snapshot reports a newer version, and after a
+/// new gateway session.
 class SignalBarConfigNotifier extends Notifier<SignalBarConfig> {
   Future<void>? _request;
 
+  /// Whether the bar came from the server since the app started; the device's
+  /// copy does not count.
+  bool _loaded = false;
+
   @override
-  SignalBarConfig build() => SignalBarConfig.empty;
+  SignalBarConfig build() {
+    _request = null;
+    _loaded = false;
+    ref.listen<String?>(currentUserIdProvider, (String? before, String? now) {
+      if (before != now) {
+        _loaded = false;
+        state = _snapshotOf(ref, now)?.config ?? SignalBarConfig.empty;
+      }
+    });
+    return _snapshotOf(ref, ref.read(currentUserIdProvider))?.config ??
+        SignalBarConfig.empty;
+  }
 
   Future<void> refresh() {
     return _request ??= _fetch().whenComplete(() => _request = null);
@@ -21,6 +43,7 @@ class SignalBarConfigNotifier extends Notifier<SignalBarConfig> {
   Future<void> _fetch() async {
     try {
       state = await ref.read(signalBarRepositoryProvider).fetchBar();
+      _loaded = true;
     } on Exception catch (err) {
       debugPrint('[SignalBar] Failed to load the bar: $err');
     }
@@ -32,7 +55,7 @@ class SignalBarConfigNotifier extends Notifier<SignalBarConfig> {
   }
 
   void ensureLoaded() {
-    if (state.version < 0) {
+    if (!_loaded) {
       unawaited(refresh());
     }
   }
@@ -50,41 +73,263 @@ signalBarConfigProvider =
       SignalBarConfigNotifier.new,
     );
 
-/// Active signal entries for every channel loaded this session.
+/// How a channel's load ended.
+enum SignalChannelLoad {
+  /// The answer is current: the channel is confirmed.
+  current,
+
+  /// A new gateway session began while the request was on its way: the answer
+  /// is shown but not confirmed, and the strip asks again.
+  outdated,
+
+  /// The request failed; what was shown stays.
+  failed,
+}
+
+/// The state a tap on a signal in an unconfirmed channel asked for, and the
+/// persona to light it as.
+typedef _WantedSignal = ({bool on, String? personaId});
+
+/// Active signal entries for every channel loaded this session, and the
+/// device's copy of the chats loaded last (tyne-chat/tyne#645).
+///
+/// A channel is *confirmed* once the server has answered for it since the
+/// last READY. Until then it shows what the device kept, or what was loaded
+/// before READY: nothing is dropped on a new gateway session
+/// (tyne-chat/tyne#644), and a tap there is remembered ([want]) instead of
+/// being sent against a copy that may be out of date.
 class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
   final Set<String> _disabledChannels = <String>{};
+  final Set<String> _confirmed = <String>{};
+  final Set<String> _loading = <String>{};
+
+  /// Loaded channels, the one loaded last at the end.
+  final Set<String> _recent = <String>{};
+  final Map<String, Map<String, _WantedSignal>> _wanted =
+      <String, Map<String, _WantedSignal>>{};
+
+  /// Bumped by every READY and account change: an answer to a request sent
+  /// before is not current.
+  int _session = 0;
+
+  /// Bumped by every account change: an answer to a request sent before
+  /// belongs to the previous account and is dropped.
+  int _account = 0;
 
   @override
-  Map<String, List<SignalEntry>> build() => const <String, List<SignalEntry>>{};
+  Map<String, List<SignalEntry>> build() {
+    ref.listen<String?>(currentUserIdProvider, (String? before, String? now) {
+      if (before != now) {
+        _clear();
+        state = _seed(now);
+      }
+    });
+    _clear();
+    return _seed(ref.read(currentUserIdProvider));
+  }
+
+  void _clear() {
+    _disabledChannels.clear();
+    _confirmed.clear();
+    _loading.clear();
+    _recent.clear();
+    _wanted.clear();
+    _session++;
+    _account++;
+  }
+
+  Map<String, List<SignalEntry>> _seed(String? userId) {
+    final SignalBarSnapshot? snapshot = _snapshotOf(ref, userId);
+    if (snapshot == null) {
+      return const <String, List<SignalEntry>>{};
+    }
+    for (final SignalBarSnapshotChat chat in snapshot.chats) {
+      if (!chat.enabled) {
+        _disabledChannels.add(chat.channelId);
+      }
+      _recent.add(chat.channelId);
+    }
+    return <String, List<SignalEntry>>{
+      for (final SignalBarSnapshotChat chat in snapshot.chats)
+        chat.channelId: chat.entries,
+    };
+  }
 
   void _setChannel(String channelId, List<SignalEntry> entries) {
     state = <String, List<SignalEntry>>{...state, channelId: entries};
   }
 
-  Future<void> loadChannel(String channelId) async {
+  /// What the device keeps: the [kSignalBarSnapshotChats] channels loaded
+  /// last, the oldest first.
+  List<SignalBarSnapshotChat> snapshotChats() {
+    final List<String> ids = <String>[
+      for (final String id in _recent)
+        if (state.containsKey(id)) id,
+    ];
+    return <SignalBarSnapshotChat>[
+      for (final String id in ids.skip(
+        ids.length > kSignalBarSnapshotChats
+            ? ids.length - kSignalBarSnapshotChats
+            : 0,
+      ))
+        SignalBarSnapshotChat(
+          channelId: id,
+          enabled: !_disabledChannels.contains(id),
+          entries: state[id]!,
+        ),
+    ];
+  }
+
+  Future<SignalChannelLoad> loadChannel(String channelId) async {
+    final int session = _session;
+    final int account = _account;
+    _loading.add(channelId);
     try {
       final result = await ref
           .read(signalBarRepositoryProvider)
           .fetchChannel(channelId);
+      if (!ref.mounted || account != _account) {
+        return SignalChannelLoad.failed;
+      }
+      final bool current = session == _session;
+      if (!current && _confirmed.contains(channelId)) {
+        // A newer answer is already shown.
+        return SignalChannelLoad.outdated;
+      }
+      if (current) {
+        _loading.remove(channelId);
+      }
+      final Map<String, _WantedSignal>? wanted = current
+          ? _wanted.remove(channelId)
+          : null;
+      final String? userId = ref.read(currentUserIdProvider);
       if (result.enabled) {
         _disabledChannels.remove(channelId);
       } else {
         _disabledChannels.add(channelId);
       }
-      _setChannel(channelId, result.entries);
+      if (current) {
+        _confirmed.add(channelId);
+      }
+      _recent
+        ..remove(channelId)
+        ..add(channelId);
+      // A turned-off signal stays off on screen while its DELETE goes out.
+      _setChannel(
+        channelId,
+        wanted == null || userId == null
+            ? result.entries
+            : applySignalUpdate(
+                result.entries,
+                added: const <SignalEntry>[],
+                removed: <({String signalId, String userId})>[
+                  for (final MapEntry<String, _WantedSignal> want
+                      in wanted.entries)
+                    if (!want.value.on) (signalId: want.key, userId: userId),
+                ],
+              ),
+      );
       ref
           .read(signalBarConfigProvider.notifier)
           .ensureVersion(result.barVersion);
+      if (wanted != null && userId != null) {
+        _sendWanted(channelId, wanted, userId: userId, answer: result.entries);
+      }
+      return current ? SignalChannelLoad.current : SignalChannelLoad.outdated;
     } on Exception catch (err) {
       debugPrint('[SignalBar] Failed to load signals for $channelId: $err');
+      if (ref.mounted && session == _session) {
+        _loading.remove(channelId);
+        final Map<String, _WantedSignal>? wanted = _wanted.remove(channelId);
+        final String? userId = ref.read(currentUserIdProvider);
+        if (wanted != null && userId != null) {
+          // The routes are idempotent: what was asked for goes out as it is.
+          _sendWanted(channelId, wanted, userId: userId);
+        }
+      }
+      return SignalChannelLoad.failed;
     }
   }
 
-  /// Drops everything after a new gateway session; mounted bars reload.
+  /// Sends what taps in an unconfirmed channel asked for: with the server's
+  /// [answer], only what differs from it; without one, all of it.
+  void _sendWanted(
+    String channelId,
+    Map<String, _WantedSignal> wanted, {
+    required String userId,
+    List<SignalEntry>? answer,
+  }) {
+    for (final MapEntry<String, _WantedSignal> want in wanted.entries) {
+      final bool lit =
+          answer?.any(
+            (SignalEntry e) => e.signalId == want.key && e.userId == userId,
+          ) ??
+          !want.value.on;
+      if (want.value.on && !lit) {
+        unawaited(
+          activate(channelId, want.key, personaId: want.value.personaId),
+        );
+      } else if (!want.value.on && lit) {
+        unawaited(deactivate(channelId, want.key, userId: userId));
+      }
+    }
+  }
+
+  /// A tap on [signalId] in a channel that is not confirmed: remembered as
+  /// the state wanted, the last tap winning, and sent once the channel's
+  /// answer arrives, if that differs. Turning off shows at once; lighting
+  /// waits for the event, as always. A channel not being loaded is asked for.
+  void want(
+    String channelId,
+    String signalId, {
+    required bool on,
+    required String userId,
+    String? personaId,
+  }) {
+    (_wanted[channelId] ??= <String, _WantedSignal>{})[signalId] = (
+      on: on,
+      personaId: personaId,
+    );
+    final List<SignalEntry>? current = state[channelId];
+    if (!on && current != null) {
+      _setChannel(
+        channelId,
+        applySignalUpdate(
+          current,
+          added: const <SignalEntry>[],
+          removed: <({String signalId, String userId})>[
+            (signalId: signalId, userId: userId),
+          ],
+        ),
+      );
+    }
+    if (!_loading.contains(channelId)) {
+      unawaited(loadChannel(channelId));
+    }
+  }
+
+  /// Whether the server has answered for [channelId] since the last READY.
+  bool isConfirmed(String channelId) => _confirmed.contains(channelId);
+
+  /// Whether a request for [channelId] sent since the last READY is on its way.
+  bool isLoading(String channelId) => _loading.contains(channelId);
+
+  /// [isConfirmed] for selectors, which must not read `state`; a change of
+  /// what is confirmed always comes with a new state.
+  bool isConfirmedIn(
+    Map<String, List<SignalEntry>> channels,
+    String channelId,
+  ) => _confirmed.contains(channelId);
+
+  /// A new gateway session (READY): what is loaded stays on screen, no longer
+  /// confirmed, and every mounted strip asks for its channel again
+  /// (tyne-chat/tyne#644). The account's signals everywhere do the same.
   void invalidate() {
-    _disabledChannels.clear();
-    state = const <String, List<SignalEntry>>{};
-    ref.read(mySignalsProvider.notifier).forget();
+    _confirmed.clear();
+    _loading.clear();
+    _session++;
+    state = <String, List<SignalEntry>>{...state};
+    ref.read(mySignalsProvider.notifier).markStale();
   }
 
   void handleChannelUpdate(Map<String, dynamic> data) {
@@ -224,6 +469,11 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
       return;
     }
     final bool enabled = data['enabled'] as bool? ?? false;
+    if (!state.containsKey(channelId)) {
+      // Switched on or off just now, with nothing lit: current as it is.
+      _confirmed.add(channelId);
+      _recent.add(channelId);
+    }
     if (enabled) {
       _disabledChannels.remove(channelId);
       _setChannel(channelId, state[channelId] ?? const <SignalEntry>[]);
@@ -289,7 +539,9 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
     required SignalPersona? persona,
   }) {
     final List<SignalEntry>? current = state[channelId];
-    if (current == null) {
+    // A copy that may be out of date is not re-pointed: the next change of
+    // text after the channel's answer does it.
+    if (current == null || !_confirmed.contains(channelId)) {
       return;
     }
     final List<SignalEntry> stale = <SignalEntry>[
@@ -341,22 +593,39 @@ class MySignalsNotifier extends Notifier<MySignalsState> {
   Future<void>? _request;
   DateTime? _failedAt;
 
+  /// Whether the summary shown is the device's copy or one from before the
+  /// last READY, to be loaded again (tyne-chat/tyne#644, #645).
+  bool _stale = false;
+
   /// The clock, for tests.
   @visibleForTesting
   DateTime Function() now = DateTime.now;
 
   @override
   MySignalsState build() {
+    ref.listen<String?>(currentUserIdProvider, (String? before, String? now) {
+      if (before != now) {
+        _request = null;
+        _failedAt = null;
+        state = _seed(now);
+      }
+    });
     _request = null;
     _failedAt = null;
-    return const MySignalsState();
+    return _seed(ref.read(currentUserIdProvider));
   }
 
-  /// Drops the summary after a new gateway session; the next strip or sheet
-  /// loads it again.
-  void forget() {
+  MySignalsState _seed(String? userId) {
+    final UserSignalsSummary? summary = _snapshotOf(ref, userId)?.summary;
+    _stale = summary != null;
+    return MySignalsState(summary: summary);
+  }
+
+  /// After a new gateway session the summary stays on screen, and the next
+  /// strip, sheet or bar load asks for it again.
+  void markStale() {
     _failedAt = null;
-    state = MySignalsState(busy: state.busy);
+    _stale = true;
   }
 
   /// Loads the summary, sharing a request in flight. A failure is logged.
@@ -370,6 +639,7 @@ class MySignalsNotifier extends Notifier<MySignalsState> {
           .read(signalBarRepositoryProvider)
           .fetchMySignals();
       _failedAt = null;
+      _stale = false;
       state = MySignalsState(summary: summary, busy: state.busy);
     } on Exception catch (err) {
       _failedAt = now();
@@ -380,7 +650,7 @@ class MySignalsNotifier extends Notifier<MySignalsState> {
   /// For a mounting strip: loads the summary once, and after a failure not
   /// again for [kMySignalsRetryDelay].
   void ensureLoaded() {
-    if (state.summary != null || _request != null) {
+    if ((state.summary != null && !_stale) || _request != null) {
       return;
     }
     final DateTime? failedAt = _failedAt;
@@ -502,6 +772,7 @@ class MySignalsNotifier extends Notifier<MySignalsState> {
     state = MySignalsState(summary: state.summary, busy: true);
     try {
       final UserSignalsSummary summary = await send();
+      _stale = false;
       state = MySignalsState(summary: summary);
       return;
     } on Exception catch (err) {
