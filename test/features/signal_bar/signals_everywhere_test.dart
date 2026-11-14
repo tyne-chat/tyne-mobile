@@ -412,14 +412,27 @@ void main() {
       expect(repository.calls, <String>['GET summary']);
     });
 
-    test('a new gateway session forgets the summary', () async {
-      await notifier().refresh();
-      expect(container.read(mySignalsProvider).summary, isNotNull);
+    test(
+      'a new gateway session keeps the summary and asks for it once more',
+      () async {
+        await notifier().refresh();
+        final UserSignalsSummary? before = container
+            .read(mySignalsProvider)
+            .summary;
+        expect(before, isNotNull);
 
-      container.read(channelSignalsProvider.notifier).invalidate();
+        container.read(channelSignalsProvider.notifier).invalidate();
 
-      expect(container.read(mySignalsProvider).summary, isNull);
-    });
+        // Still shown (tyne-chat/tyne#644), and asked for again once.
+        expect(container.read(mySignalsProvider).summary, same(before));
+        notifier()
+          ..ensureLoaded()
+          ..ensureLoaded();
+        await notifier().refresh();
+        notifier().ensureLoaded();
+        expect(repository.calls, <String>['GET summary', 'GET summary']);
+      },
+    );
   });
 
   group('where the globe and caret go', () {
