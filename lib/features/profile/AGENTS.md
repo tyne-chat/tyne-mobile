@@ -101,9 +101,11 @@ way it acts like any other persona, also when selected.
   searches and sorts on the device. It never shows use counts or times: "Most used" is the server's
   order for someone else's personas, "Recently used" and the proxy tags are the owner's only. A
   persona opens in `PersonaProfilePager`, a `PageView` of persona profiles sharing the sheet's scroll
-  controller, in the gallery's order. In your own gallery with no public persona, "Choose personas to
-  feature" opens the Personas settings on the Unlisted chip in select mode
-  (`personaSettingsLaunchProvider`, tyne-chat/tyne#542).
+  controller, in the gallery's order. For someone else's personas each page hands the list's copy, with
+  the account's display tag, to `UserProfileView` (`personaProfile`), which then fetches nothing; only
+  a persona no longer in the list is fetched (tyne-chat/tyne#640). In your own gallery with no public
+  persona, "Choose personas to feature" opens the Personas settings on the Unlisted chip in select
+  mode (`personaSettingsLaunchProvider`, tyne-chat/tyne#542).
 - **Many at once** (tyne-chat/tyne#542): `PersonaBulkActions` sends only the personas that change, in
   one request per 250 (the server's limit, each all or nothing), applies the answer to the list in
   one change (`replacePersonas`), and keeps each persona's previous visibility for Undo. A bulk
@@ -162,7 +164,8 @@ name counts the API's limit in UTF-16 code units and is cut only between whole c
   itself: the row offers Retry, and a failed answer is dropped with its last listener, so the next
   profile opened asks again. A `GUILD_PERSONAS_DIRTY` for the account drops it one
   `personaRefreshDelayProvider` after the last copy, and only a list on screen is fetched again.
-  Opening a persona from the gallery fetches its profile once per session, one per persona swiped to.
+  Opening a persona from the gallery, or swiping to one, asks nothing: the page shows the list's copy.
+  Only a persona no longer in the list is fetched, once per session (tyne-chat/tyne#640).
 - **Many at once**: one `PATCH /users/@me/personas/visibility` or `POST /users/@me/personas/bulk-delete`
   per 250 personas, nothing when none would change, never retried; Undo is one more `PATCH`. The
   server's `USER_PERSONAS_UPDATE` then reloads the own list once per mobile session, as one change
@@ -171,7 +174,8 @@ name counts the API's limit in UTF-16 code units and is cut only between whole c
 ## Where the fork's code sits in upstream files
 
 `_buildPersonaProfile` (about 440 lines) sits mid-class in `user_profile_view.dart`, upstream's most-changed
-file here, using the state's private helpers; a fork-owned widget given the close and message callbacks
+file here, using the state's private helpers (the fork's constructor parameters, `personaId` and
+`personaProfile`, sit together); a fork-owned widget given the close and message callbacks
 would leave one line in `build`. `UserProfileBanner` gained a hash branch no caller uses. After a rebase
 that touches `UserProfileView`'s `build`, constructor or private constants, check the persona profile.
 
@@ -193,10 +197,12 @@ display tag and pill through one more element in its name `Wrap`.
   `domain/persona_image_urls_test.dart`, `domain/persona_gallery_test.dart`,
   `providers/public_persona_list_provider_test.dart`, `presentation/widgets/persona_gallery_entry_test.dart`;
   `test/fork_support/wait_until.dart` instead of sleeps.
-- Request counts: `providers/persona_bulk_actions_test.dart`, `providers/deleted_personas_test.dart`, `data/persona_lookup_test.dart`, the "without naming one" group of
+- Request counts: `presentation/sheets/persona_profile_pager_test.dart`, `providers/persona_bulk_actions_test.dart`, `providers/deleted_personas_test.dart`, `data/persona_lookup_test.dart`, the "without naming one" group of
   `persona_gateway_events_test.dart`, and `providers/public_persona_list_provider_test.dart` (shared,
   kept, not repeated after a failure, a burst of change events).
-- Not covered: the persona pager (swiping, and dragging a page down to close the sheet).
+- The persona pager: `presentation/sheets/persona_profile_pager_test.dart` (the list's copy, opening and
+  swiping without a request, a persona no longer listed, your own gallery). Not covered: dragging a page
+  down to close the sheet.
 - Not covered: request counts for profile lookups; a private or unreachable persona profile.
 - After a change: `flutter test test/features/profile` (in the nightly gate) and the chat persona tests
   (`composer_persona_resolution_test`, `typing_sender_persona_test`, `voice_message_persona_test`,
