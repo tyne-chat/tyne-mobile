@@ -1,7 +1,6 @@
 package com.fluxer
 
 import android.os.Bundle
-import com.ryanheise.audioservice.AudioServiceFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -19,8 +18,8 @@ class ForkMainActivityTest {
     }
 
     @Test
-    fun itIsAudioServicesActivity() {
-        assertSame(AudioServiceFragmentActivity::class.java, ForkMainActivity::class.java.superclass)
+    fun itStartsFresh() {
+        assertSame(ForkFreshStartActivity::class.java, ForkMainActivity::class.java.superclass)
     }
 
     @Test
