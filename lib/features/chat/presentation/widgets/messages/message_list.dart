@@ -119,6 +119,8 @@ import 'package:fluxer_dart/export.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 part 'message_list_settings_layer.dart';
+// Fork: tyne-chat/tyne#633.
+part 'message_list_skeleton_trim_fork.dart';
 // Fork: tyne-chat/tyne#495.
 part 'message_list_unread_open_fill_fork.dart';
 
@@ -2625,6 +2627,9 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
     final _AttachedRows? rows = _measureAttachedRows(state);
     if (rows == null) {
+      // Fork: on the skeleton past the loaded messages no row is laid out,
+      // and room still has to be made (tyne-chat/tyne#633).
+      _forkTrimPastLoadedRows(state);
       return;
     }
     final List<Message> messages = state.messages;
