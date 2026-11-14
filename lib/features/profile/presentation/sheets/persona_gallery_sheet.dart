@@ -197,6 +197,7 @@ class _PersonaGalleryBodyState extends ConsumerState<PersonaGalleryBody> {
       PersonaProfilePager.show(
         context,
         ownerUserId: widget.owner.userId,
+        ownerIsSelf: widget.owner.isSelf,
         personaIds: <String>[for (final Persona p in shown) p.id],
         initialIndex: index,
         guildId: widget.owner.guildId,
