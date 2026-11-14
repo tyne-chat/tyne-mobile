@@ -57,6 +57,7 @@ import 'package:fluxer_app/core/instance/fork_discovery_failure_report.dart';
 import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/observability/fork_measure_start_on_resume.dart';
 import 'package:fluxer_app/features/settings/providers/quick_switcher_button_preferences_provider.dart';
+import 'package:fluxer_app/features/signal_bar/data/signal_bar_snapshot.dart';
 import 'package:window_manager/window_manager.dart';
 
 void _configureImagePicker() {
@@ -202,6 +203,8 @@ Future<void> _bootstrapFluxer(List<String> args) async {
         await loadObservabilityReportingPrompt(container);
         // Fork: start Measure at the first resume if this start had no screen (tyne-chat/tyne#210).
         installForkMeasureStartOnResume(container);
+        // Fork: the signal bar's device copy, read before the first strip (tyne-chat/tyne#645).
+        await preloadSignalBarSnapshots();
       });
       await _bootstrapStep('app.bootstrap.fcm', bootstrapFcmIfNeeded);
     }(),
