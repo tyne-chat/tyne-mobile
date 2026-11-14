@@ -14,6 +14,7 @@ tyne-chat/tyne `fluxer_app/src/features/signal_bar/`.
 | Concern | File |
 |---|---|
 | REST: ten raw Dio calls | `data/signal_bar_repository.dart` |
+| The device's copy: what is kept, the store, the start-up read (tyne-chat/tyne#645) | `data/signal_bar_snapshot.dart`; written by `providers/signal_bar_snapshot_writer.dart` |
 | Models, hand-written parsers, `applySignalUpdate`, the summary's `withChannelUpdate` | `domain/signal_bar_models.dart` |
 | The bar, each channel's entries, event routing, `affirmPersona`; the account's signals everywhere (`mySignalsProvider`) | `providers/signal_bar_providers.dart` |
 | Signals everywhere: the sheet, its rows, the restore confirmation | `presentation/signals_everywhere_sheet.dart` |
@@ -42,16 +43,26 @@ use them and parses every shape by hand.
 
 | Provider | Holds |
 |---|---|
-| `signalBarConfigProvider` (`SignalBarConfigNotifier`) | `SignalBarConfig`: `version` (-1 until loaded), `signals`, and the unused `guildId` and `canManage`. `refresh()` shares the request in flight; `ensureLoaded()` and `ensureVersion(v)` call it; a failure keeps the old state |
-| `channelSignalsProvider` (`ChannelSignalsNotifier`) | every channel loaded this session, id to entries; and `_disabledChannels`, an instance field outside `state` |
-| `mySignalsProvider` (`MySignalsNotifier`) | `MySignalsState`: the summary from `GET /users/@me/signals` (null until loaded) and `busy`. `ensureLoaded()` loads once, and after a failure not again for a minute (`kMySignalsRetryDelay`); `refresh()` shares the request in flight; `forget()` drops it (`ChannelSignalsNotifier.invalidate()` calls it on READY) |
+| `signalBarConfigProvider` (`SignalBarConfigNotifier`) | `SignalBarConfig`: `version` (-1 until known), `signals`, and the unused `guildId` and `canManage`; starts from the device's copy. `refresh()` shares the request in flight; `ensureLoaded()` (until the server has answered once since start) and `ensureVersion(v)` call it; a failure keeps the old state |
+| `channelSignalsProvider` (`ChannelSignalsNotifier`) | every channel loaded this session or kept on the device, id to entries; instance fields outside `state`: `_disabledChannels`, `_confirmed` (answered since the last READY), `_loading` (requests sent since then), `_recent` (load order, for the copy), `_wanted` (taps waiting for an answer) |
+| `mySignalsProvider` (`MySignalsNotifier`) | `MySignalsState`: the summary from `GET /users/@me/signals` (from the device's copy, or null, until loaded) and `busy`. `ensureLoaded()` loads once, again after READY (`markStale()`, which `ChannelSignalsNotifier.invalidate()` calls), and after a failure not again for a minute (`kMySignalsRetryDelay`); `refresh()` shares the request in flight |
 | `signalBarCollapsedProvider` (`signal_bar_collapsed_provider.dart`) | the caret: one value per account on this device, for every channel, in `SharedPreferences`, not synced. It watches the account, and the strip watches it before it has anything to show, so the value is in before a collapsed bar could appear open |
 
 - A channel is on when it is in the map and not in `_disabledChannels`. An unknown channel is off,
-  so the strip stays hidden until its GET returns.
-- The config and channel providers are not `autoDispose` and do not watch the account: an account
-  switch or sign-out leaves them as they are. Only READY resets them (`invalidate()` and `refresh()` in `onReady`), and
-  nothing calls `ref.invalidate` on them.
+  so the strip stays hidden until its GET returns, unless the device kept it.
+- **Confirmed** means the server answered for the channel since the last READY. Until then the strip
+  shows the device's copy, or what was loaded before READY, as it is (tyne-chat/tyne#644, #645).
+- The three providers are not `autoDispose` and do not watch the account; each listens to
+  `currentUserIdProvider` and, on a change, starts again from the new account's copy. READY drops
+  nothing (`invalidate()` and `refresh()` in `onReady`), and nothing calls `ref.invalidate` on them.
+- **The device's copy** (`data/signal_bar_snapshot.dart`): per account under
+  `signal_bar_snapshot_v1_<user>` in SharedPreferences, not synced: the bar, the enabled flag and
+  entries of the 50 channels loaded last (`snapshotChats`), and the summary. `main.dart` loads the
+  preferences at start (`preloadSignalBarSnapshots`), so the providers read the copy synchronously as
+  they are built and a strip draws it on its first frame. `signalBarSnapshotWriterProvider` (started
+  by the first strip) writes it a second after a change, once per burst. Sign-out drops it
+  (`AccountManager.signOut`); an account switch keeps each account's own. An unreadable copy is
+  ignored.
 - `SignalEntry` keeps the user's id, `username`, `global_name` and avatar hash, and the persona's id,
   name and avatar hash, parsed by hand with hard casts. `applySignalUpdate` replaces an account's
   entry in place or appends it, so the server's order holds.
@@ -59,10 +70,13 @@ use them and parses every shape by hand.
 ## Flows
 
 - **Loading.** `_loadChannelIfNeeded` runs after the first frame, on a channel change, on any change
-  of the bar, and when the channel leaves the map (READY). It sends nothing while the bar has no
-  signals, while that channel's GET is in flight, or once the channel is in the map: each channel is
-  fetched once per session. `loadChannel` replaces the entries and the flag and calls
-  `ensureVersion(bar_version)`; a failure stores nothing.
+  of the bar, and when the channel stops being confirmed (READY). It sends nothing while the bar has
+  no signals, while a GET for that channel sent since the last READY is in flight, or once the
+  channel is confirmed: each channel is fetched once per session, and once more after each READY.
+  `loadChannel` replaces the entries and the flag and calls `ensureVersion(bar_version)`, and answers
+  `current`, `outdated` or `failed`. An answer to a request sent before the last READY updates the
+  copy without confirming it (the strip asks again), and is dropped if a newer answer already
+  confirmed the channel; one sent before an account change is dropped. A failure stores nothing.
 - **Events.** `handleSignalBarGatewayEvent` routes the three events. `CHANNEL_SIGNAL_UPDATE`:
   `ensureVersion`, then the change for a loaded channel. `CHANNEL_SIGNAL_BAR_UPDATE` off marks the
   channel off and empties it; on marks it on and stores an empty list for a channel never loaded,
@@ -72,6 +86,10 @@ use them and parses every shape by hand.
 - **Lighting.** A tap on an unlit signal lights it as `composerSignalPersona`: `previewPersona` over
   the open composer's text and attachments, with the channel's selected persona (`latchedIdFor`).
   Before personas load, that is the account.
+- **Taps on an unconfirmed channel** (`want`): remembered as the state wanted per signal, with the
+  persona taken at the tap, the last tap winning. Turning off still shows at once; lighting waits
+  for the event. With the channel's answer, only what differs from it is sent; after a failed answer,
+  everything as it is. A tap with no GET for the channel on its way sends one.
 
 ## Signals everywhere
 
@@ -161,7 +179,9 @@ Opening or loading a channel re-points nothing, and neither does a selection mad
 
 | Action | Requests |
 |---|---|
-| READY | 1 bar GET and 1 `GET /channels/:id/signals` for the open channel; others are fetched when next opened |
+| READY | 1 bar GET and 1 `GET /channels/:id/signals` for the open channel; others are fetched when next opened. The strip keeps showing what it had meanwhile |
+| Start | none for the device's copy (read from the preferences start-up loads); the strip then asks as on a first mount |
+| A tap on an unconfirmed channel | nothing until the channel's answer, and 1 channel GET if none is on its way; then 1 PUT or DELETE per signal only if the answer differs (as it is after a failed answer) |
 | Opening a channel | 1 GET the first time this session, bar on or off; none after (A → B → A is 2). A thread or forum post: 1 failing GET every time |
 | Typing, a pick, a send, a voice message | none, unless own lit signals in that channel name another persona: 1 PUT each, all at once |
 | Tapping a signal | 1 PUT or DELETE, and 1 channel GET if it fails |
@@ -178,10 +198,12 @@ bar change. Neither has a cooldown, and neither repeats on rebuilds.
 
 - Re-point only through `affirmPersona`, and only for something done in that channel. Never from
   `build` or a listener: a selection made on another device would move the open channel's signals.
+  It does nothing in an unconfirmed channel.
 - Keep `SignalBarStrip.build` free of composer state: read the composer at the tap.
 - Selectors use `isEnabledIn(snapshot, id)`; reading `state` inside a selector trips a Riverpod
   assertion.
-- Follow every change to `_disabledChannels` with a `_setChannel`, or the selector does not re-run.
+- Follow every change to `_disabledChannels` or `_confirmed` with a new `state`, or the selectors
+  (`isEnabledIn`, `isConfirmedIn`) do not re-run.
   Before anything calls `ref.invalidate(channelSignalsProvider)`, clear `_disabledChannels` in
   `build()` (root `AGENTS.md`, "Reset instance fields in kept-alive notifiers").
 - `composerSignalPersona` reads the open composer's text, whatever `channelId` it is given.
@@ -206,6 +228,10 @@ bar change. Neither has a cooldown, and neither repeats on rebuilds.
 
 - `core/providers/gateway_provider.dart`: the import, two lines at the top of upstream's `onReady`
   (no `// Fork:` comment), the `onSignalBarEvent:` argument.
+- `main.dart`: the import and `preloadSignalBarSnapshots()` after the fork's Measure line in the
+  settings step.
+- `features/auth/providers/account_manager_provider.dart`: the import and one line in `signOut` that
+  drops the account's copy.
 - `core/gateway/gateway_event_handler.dart`: the `onSignalBarEvent` parameter and field, and the
   routing branch in the `UnknownGatewayEvent` case, shared with personas.
 - `channel_textarea.dart`: the import; `_forkSignalBarStrip` and `_forkHeaderAlwaysOnMobile` at the
@@ -220,6 +246,11 @@ bar change. Neither has a cooldown, and neither repeats on rebuilds.
 
 ## Tests
 
+- `test/features/signal_bar/signal_bar_snapshot_test.dart` (tyne-chat/tyne#644, #645): READY keeping
+  channels unconfirmed, older answers, no re-pointing while unconfirmed, the device's copy (seeding,
+  50 chats, one write a second after a burst, account switch, sign-out), remembered taps with
+  request counts, and the first tests that mount `SignalBarStrip` (the copy on its first frame,
+  staying on screen across READY).
 - `test/features/signal_bar/signals_everywhere_test.dart`: the summary's parsing and events, one
   request per action, the busy guard, the minute's wait, READY, where the globe goes, the badge, the
   collapsed strip, the sheet's tiles, rows, columns and taps.
@@ -232,8 +263,7 @@ bar change. Neither has a cooldown, and neither repeats on rebuilds.
 - `test/core/gateway/gateway_event_handler_missing_events_fork_test.dart`: the three events reach
   `onSignalBarEvent` unparsed.
 - The nightly gate runs every test under `test/` since tyne-chat/tyne#132, this folder included.
-- Not covered: nothing mounts `SignalBarStrip` (loading, rights, the lighting persona); no request
-  fails or is counted; what the hand-overs do to signals.
+- Not covered: the strip's rights and the lighting persona; what the hand-overs do to signals.
 - After a change: `flutter test test/features/signal_bar` and the gateway test above. If a hand-over
   moved, also `test/features/chat/composer_persona_resolution_test.dart`,
   `voice_message_persona_test.dart`, `presentation/sheets/persona_picker_sheet_test.dart` and
