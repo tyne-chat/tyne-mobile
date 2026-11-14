@@ -662,8 +662,8 @@ void main() {
   );
 }
 
-// Fork: upstream's helpers that user_profile_view_fork_test.dart uses, named here so they stay private
-// and are not copied.
+// Fork: upstream's helpers that user_profile_view_fork_test.dart and
+// sheets/persona_profile_pager_test.dart use, named here so they stay private and are not copied.
 // ignore: unreachable_from_main // Fork: used by user_profile_view_fork_test.dart.
 const String forkKUserId = _kUserId;
 // ignore: unreachable_from_main // Fork: used by user_profile_view_fork_test.dart.

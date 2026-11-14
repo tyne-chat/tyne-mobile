@@ -98,6 +98,7 @@ class UserProfileView extends ConsumerStatefulWidget {
     this.showTopHandle = false,
     this.isWebhook = false,
     this.personaId,
+    this.personaProfile,
     this.message,
     this.popout = false,
     this.onOpenFullProfile,
@@ -106,6 +107,11 @@ class UserProfileView extends ConsumerStatefulWidget {
 
   final String userId;
   final String? personaId;
+
+  /// Fork: the persona's profile card, when the caller already holds it (the
+  /// "Personas (N)" gallery's list), so that none is fetched
+  /// (tyne-chat/tyne#640). Ignored for your own personas.
+  final PublicPersona? personaProfile;
   final String? guildId;
   final bool autoFocusNote;
   final ScrollController scrollController;
@@ -1003,8 +1009,15 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
 
     final bool personasLoading = myPersonasAsync?.isLoading ?? false;
 
-    final AsyncValue<PublicPersona?> publicPersonaAsync =
-        (!isCurrentUser && effectivePersonaId.isNotEmpty)
+    // A profile card the caller already holds needs no request, and neither
+    // does the private check, which waits for that request
+    // (tyne-chat/tyne#640).
+    final PublicPersona? givenPersona = isCurrentUser
+        ? null
+        : widget.personaProfile;
+    final bool fetchesProfile =
+        !isCurrentUser && effectivePersonaId.isNotEmpty && givenPersona == null;
+    final AsyncValue<PublicPersona?> publicPersonaAsync = fetchesProfile
         ? ref.watch(
             publicPersonaProvider((
               userId: effectiveUserId,
@@ -1013,10 +1026,12 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
           )
         : const AsyncValue<PublicPersona?>.data(null);
     final PublicPersona? publicPersona =
-        ownPersona?.toPublicPersona() ?? publicPersonaAsync.value;
+        ownPersona?.toPublicPersona() ??
+        givenPersona ??
+        publicPersonaAsync.value;
     // Fork: the owner keeps this persona's profile to themselves.
     final bool personaProfileIsPrivate =
-        (!isCurrentUser && effectivePersonaId.isNotEmpty) &&
+        fetchesProfile &&
         (ref
                 .watch(
                   personaProfilePrivateProvider((
