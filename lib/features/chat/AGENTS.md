@@ -35,6 +35,12 @@ inside upstream's files, so read "Where the fork's code sits" before editing.
 - **Paging** (`MessagePaginationCoordinator`): at most `PumpBudget.maxRequestsPerPump` requests per
   pump, then a pause; a failed page parks that edge until the next scroll gesture. Identical page
   requests share one future.
+- **The 400-message limit** (`kMaxLoadedMessagesHard`): a full list loads no further page until it
+  trims, and upstream trims around the rows that are laid out, when a scroll comes to rest or after
+  2 s without one. On the skeleton past the loaded messages no row is laid out, so the fork's
+  `presentation/widgets/messages/message_list_skeleton_trim_fork.dart` (a `part`, called from
+  `_maybeTrimDetachedWindow`) keeps the 120 messages at that end and restarts paging
+  (tyne-chat/tyne#633). Drop it once upstream trims there itself.
 - **A jump inside the open channel** (`goToRepliedMessage`: a notification or link for the open
   channel, the jump to the first unread message, a reply preview) loads the page around its target.
   The server sends up to 25 newer messages, the target and up to 24 older ones, and does not make up
