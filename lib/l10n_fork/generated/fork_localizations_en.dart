@@ -1186,6 +1186,11 @@ class ForkLocalizationsEn extends ForkLocalizations {
   String deletedPersonaRestoreLabel(String name) {
     return 'Restore $name';
   }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return 'Stickers keep their own size, up to 2048 pixels on each side, and must be under $maxSize. Larger static images are shrunk and compressed automatically. Animated stickers and SVGs must already fit the limit.';
+  }
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -2370,6 +2375,11 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   String deletedPersonaRestoreLabel(String name) {
     return 'Restore $name';
   }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return 'Stickers keep their own size, up to 2048 pixels on each side, and must be under $maxSize. Larger static images are shrunk and compressed automatically. Animated stickers and SVGs must already fit the limit.';
+  }
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -3553,5 +3563,10 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
   @override
   String deletedPersonaRestoreLabel(String name) {
     return 'Restore $name';
+  }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return 'Stickers keep their own size, up to 2048 pixels on each side, and must be under $maxSize. Larger static images are shrunk and compressed automatically. Animated stickers and SVGs must already fit the limit.';
   }
 }
