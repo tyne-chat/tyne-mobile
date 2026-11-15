@@ -15,6 +15,7 @@ import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
 
 // Fork imports.
 // ignore: directives_ordering
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/fork_autocomplete_media_preview_fit.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_user_tag.dart';
 
 const double kComposerAutocompletePanelMaxHeight = 490;
@@ -519,7 +520,9 @@ class ComposerAutocompletePanelListTile extends StatelessWidget {
                         cacheKey: mediaPreviewCacheKey,
                         width: _kAutocompleteMediaPreviewSize,
                         height: _kAutocompleteMediaPreviewSize,
-                        fit: BoxFit.cover,
+                        fit: forkAutocompleteMediaPreviewFit(
+                          mediaPreviewCacheKey,
+                        ),
                       ),
                     ),
                   ),

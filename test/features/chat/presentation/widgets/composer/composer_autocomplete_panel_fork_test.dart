@@ -1,4 +1,6 @@
-// Fork: a persona row in the composer's autocomplete shows the persona's name
+// Fork: a sticker row's preview in the composer's autocomplete shows the whole
+// sticker, while a meme's keeps upstream's crop (tyne-chat/tyne#659). And a
+// persona row in the composer's autocomplete shows the persona's name
 // with its account's display tag, or the owner's avatar, beside it. The badge
 // gives way before the name does: the full tag when there is room, the tag's
 // icon alone when there is less, nothing when even that would shorten the
@@ -149,5 +151,36 @@ void main() {
       ),
       findsNothing,
     );
+  });
+
+  testWidgets("a sticker's preview shows the whole sticker; a meme's is "
+      'cropped to the square', (WidgetTester tester) async {
+    Future<BoxFit?> previewFit({String? cacheKey}) async {
+      await tester.pumpWidget(
+        pumpFluxerApp(
+          child: Scaffold(
+            body: Center(
+              child: SizedBox(
+                width: 300,
+                child: ComposerAutocompletePanelListTile(
+                  title: 'Wide',
+                  isSelected: false,
+                  onTap: () {},
+                  mediaPreviewUrl: 'https://cdn.test/stickers/1.webp?size=64',
+                  mediaPreviewCacheKey: cacheKey,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+      return tester
+          .widget<CachedNetworkImage>(find.byType(CachedNetworkImage))
+          .fit;
+    }
+
+    expect(await previewFit(cacheKey: 'sticker:1:64'), BoxFit.contain);
+    expect(await previewFit(), BoxFit.cover);
   });
 }
