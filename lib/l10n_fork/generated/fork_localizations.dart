@@ -2062,6 +2062,12 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'Restore {name}'**
   String deletedPersonaRestoreLabel(String name);
+
+  /// Community sticker settings, under the sticker slots (tyne-chat/tyne#658): what happens to an uploaded sticker. Replaces upstream's guildSettingsStickerUploadRequirements, which says stickers are saved at 320x320. Same wording as the web app's. 2048 is the largest side a sticker keeps; maxSize is the formatted byte limit.
+  ///
+  /// In en, this message translates to:
+  /// **'Stickers keep their own size, up to 2048 pixels on each side, and must be under {maxSize}. Larger static images are shrunk and compressed automatically. Animated stickers and SVGs must already fit the limit.'**
+  String stickerUploadRequirements(String maxSize);
 }
 
 class _ForkLocalizationsDelegate

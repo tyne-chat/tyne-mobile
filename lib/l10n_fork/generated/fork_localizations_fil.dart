@@ -1207,4 +1207,9 @@ class ForkLocalizationsFil extends ForkLocalizations {
   String deletedPersonaRestoreLabel(String name) {
     return 'Ibalik si $name';
   }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return 'Pinapanatili ng mga sticker ang sarili nilang laki, hanggang 2048 pixel sa bawat gilid, at dapat ay mas maliit sa $maxSize. Awtomatikong pinapaliit at kino-compress ang mas malalaking static na larawan. Dapat ay pasok na sa limitasyon ang mga animated na sticker at SVG.';
+  }
 }

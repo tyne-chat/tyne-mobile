@@ -1194,4 +1194,9 @@ class ForkLocalizationsNb extends ForkLocalizations {
   String deletedPersonaRestoreLabel(String name) {
     return 'Gjenopprett $name';
   }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return 'Klistremerker beholder sin egen størrelse, opptil 2048 piksler på hver side, og må være mindre enn $maxSize. Større statiske bilder skaleres ned og komprimeres automatisk. Animerte klistremerker og SVG-er må allerede være innenfor grensen.';
+  }
 }

@@ -312,5 +312,6 @@
     "personaRestored": "{name} est de retour.",
     "personaRestoredWithout": "Revenue sans {items} : une autre persona les utilise maintenant.",
     "personaRestoreFailed": "La persona n'a pas pu être restaurée.",
-    "deletedPersonaRestoreLabel": "Restaurer {name}"
+    "deletedPersonaRestoreLabel": "Restaurer {name}",
+    "stickerUploadRequirements": "Les stickers conservent leur propre taille, jusqu’à 2048 pixels de côté, et doivent peser moins de {maxSize}. Les images statiques plus grandes sont réduites et compressées automatiquement. Les stickers animés et les SVG doivent déjà respecter cette limite."
 }
