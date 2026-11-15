@@ -1219,4 +1219,9 @@ class ForkLocalizationsRo extends ForkLocalizations {
   String deletedPersonaRestoreLabel(String name) {
     return 'Restaurează $name';
   }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return 'Stickerele își păstrează propria dimensiune, până la 2048 pixeli pe fiecare latură, și trebuie să aibă mai puțin de $maxSize. Imaginile statice mai mari sunt micșorate și comprimate automat. Stickerele animate și SVG-urile trebuie să respecte deja limita.';
+  }
 }

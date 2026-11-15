@@ -312,5 +312,6 @@
     "personaRestored": "{name} ist zurück.",
     "personaRestoredWithout": "Ohne {items} wiederhergestellt: Eine andere Persona hat sie jetzt.",
     "personaRestoreFailed": "Die Persona konnte nicht wiederhergestellt werden.",
-    "deletedPersonaRestoreLabel": "{name} wiederherstellen"
+    "deletedPersonaRestoreLabel": "{name} wiederherstellen",
+    "stickerUploadRequirements": "Sticker behalten ihre eigene Größe, bis zu 2048 Pixel pro Seite, und dürfen {maxSize} nicht überschreiten. Größere statische Bilder werden automatisch verkleinert und komprimiert. Animierte Sticker und SVGs müssen bereits die Größenbeschränkung einhalten."
 }
