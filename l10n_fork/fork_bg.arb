@@ -312,5 +312,6 @@
     "personaRestored": "{name} се върна.",
     "personaRestoredWithout": "Върна се без {items}: сега те са на друга персона.",
     "personaRestoreFailed": "Персоната не можа да бъде възстановена.",
-    "deletedPersonaRestoreLabel": "Възстанови {name}"
+    "deletedPersonaRestoreLabel": "Възстанови {name}",
+    "stickerUploadRequirements": "Стикерите запазват своя размер, до 2048 пиксела от всяка страна, и трябва да са под {maxSize}. По-големите статични изображения се смаляват и компресират автоматично. Анимираните стикери и SVG файловете трябва да се вместват в ограничението още при качването."
 }
