@@ -1220,4 +1220,9 @@ class ForkLocalizationsPl extends ForkLocalizations {
   String deletedPersonaRestoreLabel(String name) {
     return 'Przywróć $name';
   }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return 'Naklejki zachowują swój rozmiar, do 2048 pikseli na każdym boku, i muszą mieć rozmiar mniejszy niż $maxSize. Większe statyczne obrazy są automatycznie zmniejszane i kompresowane. Animowane naklejki i pliki SVG muszą już spełniać ten limit.';
+  }
 }
