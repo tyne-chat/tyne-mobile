@@ -312,5 +312,6 @@
     "personaRestored": "{name} er tilbage.",
     "personaRestoredWithout": "Kom tilbage uden {items}: en anden persona har dem nu.",
     "personaRestoreFailed": "Personaen kunne ikke gendannes.",
-    "deletedPersonaRestoreLabel": "Gendan {name}"
+    "deletedPersonaRestoreLabel": "Gendan {name}",
+    "stickerUploadRequirements": "Klistermærker beholder deres egen størrelse, op til 2048 pixels på hver side, og skal være under {maxSize}. Større statiske billeder skaleres ned og komprimeres automatisk. Animerede klistermærker og SVG’er skal allerede overholde grænsen."
 }

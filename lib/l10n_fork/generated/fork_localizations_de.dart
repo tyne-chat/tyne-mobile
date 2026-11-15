@@ -1204,4 +1204,9 @@ class ForkLocalizationsDe extends ForkLocalizations {
   String deletedPersonaRestoreLabel(String name) {
     return '$name wiederherstellen';
   }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return 'Sticker behalten ihre eigene Größe, bis zu 2048 Pixel pro Seite, und dürfen $maxSize nicht überschreiten. Größere statische Bilder werden automatisch verkleinert und komprimiert. Animierte Sticker und SVGs müssen bereits die Größenbeschränkung einhalten.';
+  }
 }

@@ -1192,4 +1192,9 @@ class ForkLocalizationsDa extends ForkLocalizations {
   String deletedPersonaRestoreLabel(String name) {
     return 'Gendan $name';
   }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return 'Klistermærker beholder deres egen størrelse, op til 2048 pixels på hver side, og skal være under $maxSize. Større statiske billeder skaleres ned og komprimeres automatisk. Animerede klistermærker og SVG’er skal allerede overholde grænsen.';
+  }
 }
