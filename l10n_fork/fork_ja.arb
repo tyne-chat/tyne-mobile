@@ -312,5 +312,6 @@
     "personaRestored": "{name} が戻りました。",
     "personaRestoredWithout": "{items} なしで戻りました: 現在は別のペルソナが使用しています。",
     "personaRestoreFailed": "ペルソナを復元できませんでした。",
-    "deletedPersonaRestoreLabel": "{name}を復元"
+    "deletedPersonaRestoreLabel": "{name}を復元",
+    "stickerUploadRequirements": "スタンプは元のサイズのまま保存されます（各辺最大2048ピクセル）。ファイルサイズは{maxSize}未満である必要があります。これより大きい静止画像は自動的に縮小・圧縮されます。アニメーションスタンプとSVGは、あらかじめ制限内に収まっている必要があります。"
 }

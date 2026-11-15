@@ -1198,4 +1198,9 @@ class ForkLocalizationsHu extends ForkLocalizations {
   String deletedPersonaRestoreLabel(String name) {
     return '$name visszaállítása';
   }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return 'A matricák megtartják a saját méretüket, oldalanként legfeljebb 2048 képpontig, és a méretüknek $maxSize alatt kell lennie. A nagyobb statikus képeket automatikusan lekicsinyítjük és tömörítjük. Az animált matricáknak és SVG-knek már feltöltéskor bele kell férniük a korlátba.';
+  }
 }

@@ -313,5 +313,6 @@
     "personaRestored": "{name} li kama sin.",
     "personaRestoredWithout": "ona li kama sin, taso {items} li lon ala: jan insa ante li jo e ona.",
     "personaRestoreFailed": "jan insa li ken ala kama sin.",
-    "deletedPersonaRestoreLabel": "o kama sin e {name}"
+    "deletedPersonaRestoreLabel": "o kama sin e {name}",
+    "stickerUploadRequirements": "sitelen lipu li awen e suli ona, li ken suli tawa nanpa 2048 lon poka ale, li wile lili tawa {maxSize}. sitelen pi tawa ala li suli mute la ilo li lili e ona, li lili e lipu ona. sitelen lipu tawa en SVG li wile lili tawa ni lon open."
 }
