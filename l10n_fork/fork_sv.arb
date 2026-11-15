@@ -312,5 +312,6 @@
     "personaRestored": "{name} är tillbaka.",
     "personaRestoredWithout": "Kom tillbaka utan {items}: en annan persona har dem nu.",
     "personaRestoreFailed": "Det gick inte att återställa personan.",
-    "deletedPersonaRestoreLabel": "Återställ {name}"
+    "deletedPersonaRestoreLabel": "Återställ {name}",
+    "stickerUploadRequirements": "Klistermärken behåller sin egen storlek, upp till 2048 pixlar per sida, och måste vara mindre än {maxSize}. Större statiska bilder skalas ned och komprimeras automatiskt. Animerade klistermärken och SVG-filer måste redan vara inom gränsen."
 }
