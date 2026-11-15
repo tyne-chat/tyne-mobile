@@ -1171,4 +1171,9 @@ class ForkLocalizationsTh extends ForkLocalizations {
   String deletedPersonaRestoreLabel(String name) {
     return 'กู้คืน $name';
   }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return 'สติกเกอร์จะคงขนาดเดิมไว้ สูงสุด 2048 พิกเซลต่อด้าน และต้องมีขนาดไม่เกิน $maxSize ภาพนิ่งที่ใหญ่กว่านั้นจะถูกย่อขนาดและบีบอัดโดยอัตโนมัติ สติกเกอร์เคลื่อนไหวและ SVG ต้องมีขนาดไม่เกินที่กำหนดอยู่แล้ว';
+  }
 }

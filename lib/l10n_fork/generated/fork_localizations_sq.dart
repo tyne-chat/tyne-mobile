@@ -1198,4 +1198,9 @@ class ForkLocalizationsSq extends ForkLocalizations {
   String deletedPersonaRestoreLabel(String name) {
     return 'Rikthe $name';
   }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return 'Ngjitëset ruajnë madhësinë e tyre, deri në 2048 piksel për çdo anë, dhe duhet të jenë më pak se $maxSize. Imazhet statike më të mëdha zvogëlohen dhe ngjeshen automatikisht. Ngjitëset e animuara dhe SVG-të duhet ta respektojnë tashmë kufirin.';
+  }
 }

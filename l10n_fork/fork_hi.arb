@@ -312,5 +312,6 @@
     "personaRestored": "{name} वापस आ गया।",
     "personaRestoredWithout": "{items} के बिना वापस आया: अब ये किसी दूसरे परसोना के पास हैं।",
     "personaRestoreFailed": "परसोना रीस्टोर नहीं हो सका।",
-    "deletedPersonaRestoreLabel": "{name} को रीस्टोर करें"
+    "deletedPersonaRestoreLabel": "{name} को रीस्टोर करें",
+    "stickerUploadRequirements": "स्टिकर अपने मूल आकार में ही रहते हैं, हर तरफ़ अधिकतम 2048 पिक्सल तक, और {maxSize} से कम के होने चाहिए। इससे बड़ी स्टैटिक इमेज अपने आप छोटी और कंप्रेस की जाती हैं। एनिमेटेड स्टिकर और SVG पहले से ही सीमा के भीतर होने चाहिए।"
 }

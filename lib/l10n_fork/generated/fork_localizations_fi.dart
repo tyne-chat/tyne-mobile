@@ -1196,4 +1196,9 @@ class ForkLocalizationsFi extends ForkLocalizations {
   String deletedPersonaRestoreLabel(String name) {
     return 'Palauta $name';
   }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return 'Tarrat säilyttävät oman kokonsa, enintään 2048 pikseliä kummallakin sivulla, ja niiden koon on oltava alle $maxSize. Suuremmat staattiset kuvat pienennetään ja pakataan automaattisesti. Animoitujen tarrojen ja SVG-kuvien on mahduttava kokorajaan sellaisenaan.';
+  }
 }

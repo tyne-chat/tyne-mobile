@@ -312,5 +312,6 @@
     "personaRestored": "{name} je zpět.",
     "personaRestoredWithout": "Vrátila se bez {items}: teď je má jiná persona.",
     "personaRestoreFailed": "Personu se nepodařilo obnovit.",
-    "deletedPersonaRestoreLabel": "Obnovit {name}"
+    "deletedPersonaRestoreLabel": "Obnovit {name}",
+    "stickerUploadRequirements": "Samolepky si zachovávají svou velikost, až 2048 pixelů na každé straně, a musí být menší než {maxSize}. Větší statické obrázky se automaticky zmenší a zkomprimují. Animované samolepky a SVG soubory musí již odpovídat limitu."
 }

@@ -312,5 +312,6 @@
     "personaRestored": "{name} is back.",
     "personaRestoredWithout": "Came back without {items}: another persona has them now.",
     "personaRestoreFailed": "The persona could not be restored.",
-    "deletedPersonaRestoreLabel": "Restore {name}"
+    "deletedPersonaRestoreLabel": "Restore {name}",
+    "stickerUploadRequirements": "Stickers keep their own size, up to 2048 pixels on each side, and must be under {maxSize}. Larger static images are shrunk and compressed automatically. Animated stickers and SVGs must already fit the limit."
 }

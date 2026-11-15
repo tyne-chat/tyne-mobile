@@ -312,5 +312,6 @@
     "personaRestored": "Persona {name} ir atjaunota.",
     "personaRestoredWithout": "Atgriezta bez {items}: tās tagad ir citai personai.",
     "personaRestoreFailed": "Neizdevās atjaunot personu.",
-    "deletedPersonaRestoreLabel": "Atjaunot {name}"
+    "deletedPersonaRestoreLabel": "Atjaunot {name}",
+    "stickerUploadRequirements": "Uzlīmes saglabā savu izmēru, līdz 2048 pikseļiem katrā malā, un to izmēram jābūt mazākam par {maxSize}. Lielāki statiski attēli tiek automātiski samazināti un saspiesti. Animētajām uzlīmēm un SVG failiem jau jāiekļaujas ierobežojumā."
 }

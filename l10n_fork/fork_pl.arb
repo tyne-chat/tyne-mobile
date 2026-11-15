@@ -312,5 +312,6 @@
     "personaRestored": "Persona {name} wróciła.",
     "personaRestoredWithout": "Wróciła bez {items}: ma je teraz inna persona.",
     "personaRestoreFailed": "Nie udało się przywrócić persony.",
-    "deletedPersonaRestoreLabel": "Przywróć {name}"
+    "deletedPersonaRestoreLabel": "Przywróć {name}",
+    "stickerUploadRequirements": "Naklejki zachowują swój rozmiar, do 2048 pikseli na każdym boku, i muszą mieć rozmiar mniejszy niż {maxSize}. Większe statyczne obrazy są automatycznie zmniejszane i kompresowane. Animowane naklejki i pliki SVG muszą już spełniać ten limit."
 }

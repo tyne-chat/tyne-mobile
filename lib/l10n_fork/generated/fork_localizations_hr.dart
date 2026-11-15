@@ -1205,4 +1205,9 @@ class ForkLocalizationsHr extends ForkLocalizations {
   String deletedPersonaRestoreLabel(String name) {
     return 'Vrati $name';
   }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return 'Naljepnice zadržavaju vlastitu veličinu, do 2048 piksela po stranici, i moraju biti manje od $maxSize. Veće statične slike automatski se smanjuju i komprimiraju. Animirane naljepnice i SVG-ovi već moraju biti unutar ograničenja.';
+  }
 }

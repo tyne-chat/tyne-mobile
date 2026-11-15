@@ -40,6 +40,10 @@ import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+
 class GuildStickerSettingsWidget extends ConsumerStatefulWidget {
   const GuildStickerSettingsWidget({
     required this.guildId,
@@ -195,9 +199,7 @@ class _GuildStickerSettingsWidgetState
             child: GuildUploadSlotInfo(
               title: l10n.guildSettingsStickerSlotsTitle,
               slotLabel: slotLabel,
-              description: l10n.guildSettingsStickerUploadRequirements(
-                maxSizeLabel,
-              ),
+              description: l10n.fork.stickerUploadRequirements(maxSizeLabel),
               uploadLabel: l10n.guildSettingsStickerUploadTitle,
               onUpload: () => unawaited(_pickAndUpload(limits)),
             ),
@@ -364,7 +366,7 @@ class _GuildStickerSettingsWidgetState
                 state.stickers.length,
                 limits.maxStickers,
               ),
-              description: l10n.guildSettingsStickerUploadRequirements(
+              description: l10n.fork.stickerUploadRequirements(
                 formatExpressionFileSize(limits.stickerMaxSizeBytes),
               ),
               uploadLabel: l10n.guildSettingsStickerUploadTitle,

@@ -1205,6 +1205,11 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String deletedPersonaRestoreLabel(String name) {
     return 'Restaurar $name';
   }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return 'Os autocolantes mantêm o seu próprio tamanho, até 2048 píxeis em cada lado, e têm de ter menos de $maxSize. As imagens estáticas maiores são reduzidas e comprimidas automaticamente. Os autocolantes animados e os SVG já têm de cumprir o limite.';
+  }
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -2411,5 +2416,10 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
   @override
   String deletedPersonaRestoreLabel(String name) {
     return 'Restaurar $name';
+  }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return 'As figurinhas mantêm o próprio tamanho, até 2048 pixels em cada lado, e devem ter menos de $maxSize. Imagens estáticas maiores são reduzidas e compactadas automaticamente. Figurinhas animadas e SVGs já devem estar dentro do limite.';
   }
 }

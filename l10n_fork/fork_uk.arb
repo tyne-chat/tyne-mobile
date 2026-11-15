@@ -312,5 +312,6 @@
     "personaRestored": "Персону {name} відновлено.",
     "personaRestoredWithout": "Повернулася без {items}: тепер вони в іншої персони.",
     "personaRestoreFailed": "Не вдалося відновити персону.",
-    "deletedPersonaRestoreLabel": "Відновити {name}"
+    "deletedPersonaRestoreLabel": "Відновити {name}",
+    "stickerUploadRequirements": "Стікери зберігають свій розмір, до 2048 пікселів з кожного боку, і повинні бути меншими за {maxSize}. Більші статичні зображення автоматично зменшуються та стискаються. Анімовані стікери та SVG мають одразу відповідати обмеженню."
 }

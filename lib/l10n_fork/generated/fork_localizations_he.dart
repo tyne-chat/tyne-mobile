@@ -1192,4 +1192,9 @@ class ForkLocalizationsHe extends ForkLocalizations {
   String deletedPersonaRestoreLabel(String name) {
     return 'שחזור $name';
   }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return 'מדבקות שומרות על הגודל המקורי שלהן, עד 2048 פיקסלים בכל צד, וצריכות להיות קטנות מ-$maxSize. תמונות סטטיות גדולות יותר יוקטנו ויידחסו באופן אוטומטי. מדבקות מונפשות וקבצי SVG צריכים לעמוד במגבלה כבר מראש.';
+  }
 }

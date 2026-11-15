@@ -1219,4 +1219,9 @@ class ForkLocalizationsCs extends ForkLocalizations {
   String deletedPersonaRestoreLabel(String name) {
     return 'Obnovit $name';
   }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return 'Samolepky si zachovávají svou velikost, až 2048 pixelů na každé straně, a musí být menší než $maxSize. Větší statické obrázky se automaticky zmenší a zkomprimují. Animované samolepky a SVG soubory musí již odpovídat limitu.';
+  }
 }

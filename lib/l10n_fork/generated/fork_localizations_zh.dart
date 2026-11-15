@@ -1145,6 +1145,11 @@ class ForkLocalizationsZh extends ForkLocalizations {
   String deletedPersonaRestoreLabel(String name) {
     return '恢复$name';
   }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return '贴纸会保留原始尺寸（每边最多 2048 像素），并且大小必须小于 $maxSize。更大的静态图像将自动缩小并压缩。动画贴纸和 SVG 必须已经符合大小限制。';
+  }
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -2287,5 +2292,10 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
   @override
   String deletedPersonaRestoreLabel(String name) {
     return '還原$name';
+  }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return '貼圖會保留原始尺寸（每邊最多 2048 像素），且大小必須小於 $maxSize。更大的靜態圖片會自動縮小並進行壓縮。動畫貼圖和 SVG 檔案必須已符合限制。';
   }
 }

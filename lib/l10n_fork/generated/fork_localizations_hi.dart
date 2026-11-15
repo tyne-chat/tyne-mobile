@@ -1194,4 +1194,9 @@ class ForkLocalizationsHi extends ForkLocalizations {
   String deletedPersonaRestoreLabel(String name) {
     return '$name को रीस्टोर करें';
   }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return 'स्टिकर अपने मूल आकार में ही रहते हैं, हर तरफ़ अधिकतम 2048 पिक्सल तक, और $maxSize से कम के होने चाहिए। इससे बड़ी स्टैटिक इमेज अपने आप छोटी और कंप्रेस की जाती हैं। एनिमेटेड स्टिकर और SVG पहले से ही सीमा के भीतर होने चाहिए।';
+  }
 }

@@ -1205,4 +1205,9 @@ class ForkLocalizationsEl extends ForkLocalizations {
   String deletedPersonaRestoreLabel(String name) {
     return 'Επαναφορά $name';
   }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return 'Τα αυτοκόλλητα διατηρούν το δικό τους μέγεθος, έως 2048 εικονοστοιχεία σε κάθε πλευρά, και πρέπει να είναι μικρότερα από $maxSize. Οι μεγαλύτερες στατικές εικόνες σμικρύνονται και συμπιέζονται αυτόματα. Τα κινούμενα αυτοκόλλητα και τα SVG πρέπει να είναι ήδη εντός του ορίου.';
+  }
 }

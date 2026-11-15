@@ -1223,4 +1223,9 @@ class ForkLocalizationsUk extends ForkLocalizations {
   String deletedPersonaRestoreLabel(String name) {
     return 'Відновити $name';
   }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return 'Стікери зберігають свій розмір, до 2048 пікселів з кожного боку, і повинні бути меншими за $maxSize. Більші статичні зображення автоматично зменшуються та стискаються. Анімовані стікери та SVG мають одразу відповідати обмеженню.';
+  }
 }

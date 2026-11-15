@@ -1194,4 +1194,9 @@ class ForkLocalizationsArt extends ForkLocalizations {
   String deletedPersonaRestoreLabel(String name) {
     return 'o kama sin e $name';
   }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return 'sitelen lipu li awen e suli ona, li ken suli tawa nanpa 2048 lon poka ale, li wile lili tawa $maxSize. sitelen pi tawa ala li suli mute la ilo li lili e ona, li lili e lipu ona. sitelen lipu tawa en SVG li wile lili tawa ni lon open.';
+  }
 }

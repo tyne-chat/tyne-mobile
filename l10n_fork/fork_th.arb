@@ -312,5 +312,6 @@
     "personaRestored": "{name} กลับมาแล้ว",
     "personaRestoredWithout": "กลับมาโดยไม่มี {items}: ตอนนี้ Persona อื่นใช้อยู่",
     "personaRestoreFailed": "กู้คืน Persona ไม่สำเร็จ",
-    "deletedPersonaRestoreLabel": "กู้คืน {name}"
+    "deletedPersonaRestoreLabel": "กู้คืน {name}",
+    "stickerUploadRequirements": "สติกเกอร์จะคงขนาดเดิมไว้ สูงสุด 2048 พิกเซลต่อด้าน และต้องมีขนาดไม่เกิน {maxSize} ภาพนิ่งที่ใหญ่กว่านั้นจะถูกย่อขนาดและบีบอัดโดยอัตโนมัติ สติกเกอร์เคลื่อนไหวและ SVG ต้องมีขนาดไม่เกินที่กำหนดอยู่แล้ว"
 }
