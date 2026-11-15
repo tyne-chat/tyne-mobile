@@ -1187,4 +1187,9 @@ class ForkLocalizationsTr extends ForkLocalizations {
   String deletedPersonaRestoreLabel(String name) {
     return '$name adlı personayı geri yükle';
   }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return 'Çıkartmalar kendi boyutlarını korur, her kenarda en fazla 2048 piksel olabilir ve $maxSize boyutundan küçük olmalıdır. Daha büyük statik görseller otomatik olarak küçültülür ve sıkıştırılır. Animasyonlu çıkartmaların ve SVG’lerin zaten bu sınıra uyması gerekir.';
+  }
 }

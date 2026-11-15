@@ -1207,4 +1207,9 @@ class ForkLocalizationsLv extends ForkLocalizations {
   String deletedPersonaRestoreLabel(String name) {
     return 'Atjaunot $name';
   }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return 'Uzlīmes saglabā savu izmēru, līdz 2048 pikseļiem katrā malā, un to izmēram jābūt mazākam par $maxSize. Lielāki statiski attēli tiek automātiski samazināti un saspiesti. Animētajām uzlīmēm un SVG failiem jau jāiekļaujas ierobežojumā.';
+  }
 }

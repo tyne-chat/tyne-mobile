@@ -1153,4 +1153,9 @@ class ForkLocalizationsKo extends ForkLocalizations {
   String deletedPersonaRestoreLabel(String name) {
     return '$name 복원';
   }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return '스티커는 원래 크기를 유지하며(각 변 최대 2048픽셀) $maxSize 이하여야 합니다. 이보다 큰 정지된 이미지는 자동으로 축소되고 압축됩니다. 애니메이션 스티커와 SVG는 이미 제한 내에 있어야 합니다.';
+  }
 }
