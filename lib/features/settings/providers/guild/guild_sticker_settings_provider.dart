@@ -7,10 +7,15 @@ import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_stic
 import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_sticker_settings_state.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_expressions_repository_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_repository_provider.dart';
+// ignore: unused_import // Fork: upstream's import, unused since the fork's changes.
 import 'package:fluxer_app/features/settings/utils/expressions/expression_image_optimizer.dart';
 import 'package:fluxer_app/features/settings/utils/guild/guild_expression_search_utils.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/settings/utils/expressions/fork_sticker_image.dart';
 
 part 'guild_sticker_settings_provider.g.dart';
 
@@ -80,7 +85,7 @@ class GuildStickerSettings extends _$GuildStickerSettings {
       current.copyWith(isSavingSticker: true),
     );
     try {
-      final String image = await optimizeGuildStickerImage(
+      final String image = await forkPrepareGuildStickerImage(
         bytes: imageBytes,
         maxSizeBytes: maxSizeBytes,
       );

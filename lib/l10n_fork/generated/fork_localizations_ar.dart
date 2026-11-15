@@ -1231,4 +1231,9 @@ class ForkLocalizationsAr extends ForkLocalizations {
   String deletedPersonaRestoreLabel(String name) {
     return 'استعادة $name';
   }
+
+  @override
+  String stickerUploadRequirements(String maxSize) {
+    return 'تحتفظ الملصقات بحجمها الأصلي، حتى 2048 بكسل لكل جانب، ويجب أن يكون حجمها أقل من $maxSize. تُصغَّر الصور الثابتة الأكبر وتُضغط تلقائيًا. أما الملصقات المتحركة وملفات SVG فيجب أن تكون ضمن الحد مسبقًا.';
+  }
 }
