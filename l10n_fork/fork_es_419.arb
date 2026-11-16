@@ -313,5 +313,7 @@
     "personaRestoredWithout": "Volvió sin {items}: ahora los tiene otra persona.",
     "personaRestoreFailed": "No se pudo restaurar la persona.",
     "deletedPersonaRestoreLabel": "Restaurar {name}",
-    "stickerUploadRequirements": "Los stickers conservan su propio tamaño, hasta 2048 píxeles por lado, y deben ocupar menos de {maxSize}. Las imágenes estáticas más grandes se reducen y comprimen automáticamente. Los stickers animados y los archivos SVG ya deben cumplir el límite."
+    "stickerUploadRequirements": "Los stickers conservan su propio tamaño, hasta 2048 píxeles por lado, y deben ocupar menos de {maxSize}. Las imágenes estáticas más grandes se reducen y comprimen automáticamente. Los stickers animados y los archivos SVG ya deben cumplir el límite.",
+    "importedUserTag": "Importado",
+    "importedUserTooltip": "Marcador para alguien que no está en Tyne: estos mensajes se importaron de Discord."
 }
