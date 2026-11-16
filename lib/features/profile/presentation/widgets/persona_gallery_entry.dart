@@ -14,6 +14,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/persona_gallery_sheet.dart';
+import 'package:fluxer_app/features/profile/presentation/widgets/imported_user_tag.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_list_provider.dart';
 import 'package:fluxer_app/features/signal_bar/presentation/signals_profile_menu_item.dart';
 import 'package:fluxer_app/features/signal_bar/presentation/signals_profile_row.dart';
@@ -70,24 +71,48 @@ void _openGallery(
 /// the "Personas (N)" pill. Null when the profile leads to no personas.
 ///
 /// [topGap] puts space above them, only when there is something to show: the
-/// profile popout gives them a line of their own under the name.
+/// profile popout gives them a line of their own under the name. [imported]
+/// puts the "Imported" tag of a placeholder account first (tyne-chat/tyne#682);
+/// a bot the import made, which leads to no personas, shows that tag alone.
 Widget? accountPersonaNameTrailing(
   PersonaGalleryOwner? owner, {
   double topGap = 0,
-}) => owner == null
-    ? null
-    : AccountPersonaNameTrailing(owner: owner, topGap: topGap);
+  bool imported = false,
+}) {
+  if (owner != null) {
+    return AccountPersonaNameTrailing(
+      owner: owner,
+      topGap: topGap,
+      imported: imported,
+    );
+  }
+  if (!imported) {
+    return null;
+  }
+  // A Wrap, as AccountPersonaNameTrailing: it keeps the tag its own size both
+  // in the header's Wrap and in the popout's full-width list.
+  const Widget tag = Wrap(children: <Widget>[ImportedUserTag()]);
+  return topGap > 0
+      ? Padding(
+          padding: EdgeInsets.only(top: topGap),
+          child: tag,
+        )
+      : tag;
+}
 
-/// The account's display tag, then the "Personas (N)" pill.
+/// The account's display tag, then the "Personas (N)" pill; first the
+/// "Imported" tag when the account is an imported placeholder.
 class AccountPersonaNameTrailing extends ConsumerWidget {
   const AccountPersonaNameTrailing({
     required this.owner,
     this.topGap = 0,
+    this.imported = false,
     super.key,
   });
 
   final PersonaGalleryOwner owner;
   final double topGap;
+  final bool imported;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -97,7 +122,7 @@ class AccountPersonaNameTrailing extends ConsumerWidget {
       text: summary.displayTagText,
       icon: summary.displayTagIcon,
     );
-    if (tag == null && !summary.visible) {
+    if (!imported && tag == null && !summary.visible) {
       return const SizedBox.shrink();
     }
     final Widget trailing = Wrap(
@@ -105,6 +130,7 @@ class AccountPersonaNameTrailing extends ConsumerWidget {
       spacing: 6,
       runSpacing: 4,
       children: <Widget>[
+        if (imported) const ImportedUserTag(),
         ?tag,
         if (summary.visible) PersonaGalleryPill(owner: owner),
       ],
