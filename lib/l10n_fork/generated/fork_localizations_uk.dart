@@ -1228,4 +1228,11 @@ class ForkLocalizationsUk extends ForkLocalizations {
   String stickerUploadRequirements(String maxSize) {
     return 'Стікери зберігають свій розмір, до 2048 пікселів з кожного боку, і повинні бути меншими за $maxSize. Більші статичні зображення автоматично зменшуються та стискаються. Анімовані стікери та SVG мають одразу відповідати обмеженню.';
   }
+
+  @override
+  String get importedUserTag => 'Імпортовано';
+
+  @override
+  String get importedUserTooltip =>
+      'Заповнювач для людини, якої немає в Tyne: ці повідомлення імпортовано з Discord.';
 }
