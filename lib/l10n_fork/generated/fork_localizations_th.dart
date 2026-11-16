@@ -1176,4 +1176,11 @@ class ForkLocalizationsTh extends ForkLocalizations {
   String stickerUploadRequirements(String maxSize) {
     return 'สติกเกอร์จะคงขนาดเดิมไว้ สูงสุด 2048 พิกเซลต่อด้าน และต้องมีขนาดไม่เกิน $maxSize ภาพนิ่งที่ใหญ่กว่านั้นจะถูกย่อขนาดและบีบอัดโดยอัตโนมัติ สติกเกอร์เคลื่อนไหวและ SVG ต้องมีขนาดไม่เกินที่กำหนดอยู่แล้ว';
   }
+
+  @override
+  String get importedUserTag => 'นำเข้า';
+
+  @override
+  String get importedUserTooltip =>
+      'บัญชีแทนของคนที่ไม่ได้อยู่ใน Tyne: ข้อความเหล่านี้นำเข้ามาจาก Discord';
 }

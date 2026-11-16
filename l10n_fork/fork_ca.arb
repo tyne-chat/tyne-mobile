@@ -313,5 +313,7 @@
     "personaRestoredWithout": "Ha tornat sense {items}: ara són d’una altra persona.",
     "personaRestoreFailed": "No s’ha pogut restaurar la persona.",
     "deletedPersonaRestoreLabel": "Restaura {name}",
-    "stickerUploadRequirements": "Els adhesius conserven la seva mida, fins a 2048 píxels per costat, i han d’ocupar menys de {maxSize}. Les imatges estàtiques més grans es redueixen i es comprimeixen automàticament. Els adhesius animats i els SVG ja han de complir el límit."
+    "stickerUploadRequirements": "Els adhesius conserven la seva mida, fins a 2048 píxels per costat, i han d’ocupar menys de {maxSize}. Les imatges estàtiques més grans es redueixen i es comprimeixen automàticament. Els adhesius animats i els SVG ja han de complir el límit.",
+    "importedUserTag": "Importat",
+    "importedUserTooltip": "Compte provisional d'algú que no és a Tyne: aquests missatges s'han importat de Discord."
 }
