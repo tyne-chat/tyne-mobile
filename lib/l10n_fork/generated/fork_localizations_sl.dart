@@ -1222,4 +1222,11 @@ class ForkLocalizationsSl extends ForkLocalizations {
   String stickerUploadRequirements(String maxSize) {
     return 'Nalepke ohranijo svojo velikost, do 2048 slikovnih pik na vsaki stranici, in morajo biti manjše od $maxSize. Večje statične slike se samodejno pomanjšajo in stisnejo. Animirane nalepke in datoteke SVG morajo že ustrezati omejitvi.';
   }
+
+  @override
+  String get importedUserTag => 'Uvoženo';
+
+  @override
+  String get importedUserTooltip =>
+      'Nadomestni račun za nekoga, ki ni na Tyne: ta sporočila so bila uvožena iz Discorda.';
 }

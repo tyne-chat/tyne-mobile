@@ -9,14 +9,19 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/features/profile/domain/imported_placeholder.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/presentation/widgets/imported_user_tag.dart';
+import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_relationship_button.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_view.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast_overlay.dart';
 import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
+import 'package:fluxer_dart/export.dart';
 
 import '../../../../helpers/open_test_database.dart';
 import '../../../../helpers/test_l10n.dart';
@@ -179,5 +184,122 @@ void main() {
     expect(find.byType(TextField), findsNothing);
     expect(_UnloadedPersonas.loads, loads + 1);
     await releaseTestWidgetTree(tester);
+  });
+
+  group('imported placeholder accounts (tyne-chat/tyne#682)', () {
+    UserProfileFullResponse profile({required int flags}) =>
+        UserProfileFullResponse(
+          user: UserPartialResponse(
+            id: forkKOtherUserId,
+            username: 'generalstrax',
+            discriminator: '4821',
+            globalName: 'generalstrax',
+            avatar: null,
+            avatarColor: null,
+            flags: flags,
+          ),
+          userProfile: const UserProfileFullResponseUserProfile(
+            bio: null,
+            pronouns: null,
+            banner: null,
+            accentColor: null,
+          ),
+          timezoneOffset: null,
+        );
+
+    Future<void> pumpProfile(
+      WidgetTester tester, {
+      required int flags,
+      bool popout = false,
+    }) async {
+      final ScrollController scrollController = ScrollController();
+      addTearDown(scrollController.dispose);
+      final colorTheme = buildDarkColorTheme();
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: forkUpstream.otherUserOverrides(
+            Future<UserProfileFullResponse?>.value(profile(flags: flags)),
+            null,
+          ),
+          child: MaterialApp(
+            locale: kTestLocale,
+            localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+            supportedLocales: FluxerLocalizations.supportedLocales,
+            theme: buildFluxerTheme(
+              colorTheme: colorTheme,
+              textTheme: FluxerTextTheme.fromColors(colorTheme),
+              layoutTheme: FluxerLayoutTheme.scaled(),
+            ),
+            home: FluxerToastOverlay(
+              child: Scaffold(
+                body: UserProfileView(
+                  userId: forkKOtherUserId,
+                  autoFocusNote: false,
+                  popout: popout,
+                  scrollController: scrollController,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+    }
+
+    final Finder addFriend = find.descendant(
+      of: find.byType(UserProfileRelationshipButton),
+      matching: find.byType(PhosphorIcon),
+    );
+
+    test("the flag is the server's IMPORTED bit", () {
+      expect(kForkUserFlagImported, 1073741824);
+      expect(isImportedPlaceholder(kForkUserFlagImported | 1), isTrue);
+      expect(isImportedPlaceholder(0), isFalse);
+      expect(isImportedPlaceholder(null), isFalse);
+    });
+
+    testWidgets('a full profile shows the tag and offers no Message or Add '
+        'friend', (tester) async {
+      await pumpProfile(tester, flags: kForkUserFlagImported);
+
+      expect(find.byType(ImportedUserTag), findsOneWidget);
+      expect(
+        find.text(testL10n.fork.importedUserTag.toUpperCase()),
+        findsOneWidget,
+      );
+      expect(find.text(testL10n.userProfileMessage), findsNothing);
+      expect(find.text(testL10n.userProfileVoiceCall), findsNothing);
+      expect(addFriend, findsNothing);
+      await releaseTestWidgetTree(tester);
+    });
+
+    testWidgets('an ordinary account keeps Message and Add friend', (
+      tester,
+    ) async {
+      await pumpProfile(tester, flags: 0);
+
+      expect(find.byType(ImportedUserTag), findsNothing);
+      expect(find.text(testL10n.userProfileMessage), findsOneWidget);
+      expect(addFriend, findsOneWidget);
+      await releaseTestWidgetTree(tester);
+    });
+
+    testWidgets('the popout shows the tag and no Message', (tester) async {
+      await pumpProfile(tester, flags: kForkUserFlagImported, popout: true);
+
+      expect(find.byType(ImportedUserTag), findsOneWidget);
+      expect(find.text(testL10n.userProfileMessage), findsNothing);
+      await releaseTestWidgetTree(tester);
+    });
+
+    testWidgets('the popout of an ordinary account keeps Message', (
+      tester,
+    ) async {
+      await pumpProfile(tester, flags: 0, popout: true);
+
+      expect(find.byType(ImportedUserTag), findsNothing);
+      expect(find.text(testL10n.userProfileMessage), findsOneWidget);
+      await releaseTestWidgetTree(tester);
+    });
   });
 }

@@ -313,5 +313,7 @@
     "personaRestoredWithout": "Kom tilbake uten {items}: en annen persona har dem nå.",
     "personaRestoreFailed": "Kunne ikke gjenopprette personaen.",
     "deletedPersonaRestoreLabel": "Gjenopprett {name}",
-    "stickerUploadRequirements": "Klistremerker beholder sin egen størrelse, opptil 2048 piksler på hver side, og må være mindre enn {maxSize}. Større statiske bilder skaleres ned og komprimeres automatisk. Animerte klistremerker og SVG-er må allerede være innenfor grensen."
+    "stickerUploadRequirements": "Klistremerker beholder sin egen størrelse, opptil 2048 piksler på hver side, og må være mindre enn {maxSize}. Større statiske bilder skaleres ned og komprimeres automatisk. Animerte klistremerker og SVG-er må allerede være innenfor grensen.",
+    "importedUserTag": "Importert",
+    "importedUserTooltip": "Plassholder for noen som ikke er på Tyne: disse meldingene ble importert fra Discord."
 }
