@@ -313,5 +313,7 @@
     "personaRestoredWithout": "還原時缺少 {items}：它們現在屬於另一個人格。",
     "personaRestoreFailed": "無法還原該人格。",
     "deletedPersonaRestoreLabel": "還原{name}",
-    "stickerUploadRequirements": "貼圖會保留原始尺寸（每邊最多 2048 像素），且大小必須小於 {maxSize}。更大的靜態圖片會自動縮小並進行壓縮。動畫貼圖和 SVG 檔案必須已符合限制。"
+    "stickerUploadRequirements": "貼圖會保留原始尺寸（每邊最多 2048 像素），且大小必須小於 {maxSize}。更大的靜態圖片會自動縮小並進行壓縮。動畫貼圖和 SVG 檔案必須已符合限制。",
+    "importedUserTag": "已匯入",
+    "importedUserTooltip": "不在 Tyne 上的人的佔位帳號：這些訊息是從 Discord 匯入的。"
 }

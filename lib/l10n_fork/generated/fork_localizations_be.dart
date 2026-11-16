@@ -1227,4 +1227,11 @@ class ForkLocalizationsBe extends ForkLocalizations {
   String stickerUploadRequirements(String maxSize) {
     return 'Стыкеры захоўваюць свой памер, да 2048 пікселяў з кожнага боку, і павінны быць меншымі за $maxSize. Большыя статычныя выявы аўтаматычна памяншаюцца і сціскаюцца. Анімаваныя стыкеры і SVG ужо павінны ўкладвацца ў ліміт.';
   }
+
+  @override
+  String get importedUserTag => 'Імпартаваны';
+
+  @override
+  String get importedUserTooltip =>
+      'Замена для чалавека, якога няма ў Tyne: гэтыя паведамленні імпартаваныя з Discord.';
 }

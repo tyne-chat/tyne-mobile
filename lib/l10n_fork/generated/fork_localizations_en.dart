@@ -1191,6 +1191,13 @@ class ForkLocalizationsEn extends ForkLocalizations {
   String stickerUploadRequirements(String maxSize) {
     return 'Stickers keep their own size, up to 2048 pixels on each side, and must be under $maxSize. Larger static images are shrunk and compressed automatically. Animated stickers and SVGs must already fit the limit.';
   }
+
+  @override
+  String get importedUserTag => 'Imported';
+
+  @override
+  String get importedUserTooltip =>
+      'Placeholder for someone not on Tyne: these messages were imported from Discord.';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -2380,6 +2387,13 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   String stickerUploadRequirements(String maxSize) {
     return 'Stickers keep their own size, up to 2048 pixels on each side, and must be under $maxSize. Larger static images are shrunk and compressed automatically. Animated stickers and SVGs must already fit the limit.';
   }
+
+  @override
+  String get importedUserTag => 'Imported';
+
+  @override
+  String get importedUserTooltip =>
+      'Placeholder for someone not on Tyne: these messages were imported from Discord.';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -3569,4 +3583,11 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
   String stickerUploadRequirements(String maxSize) {
     return 'Stickers keep their own size, up to 2048 pixels on each side, and must be under $maxSize. Larger static images are shrunk and compressed automatically. Animated stickers and SVGs must already fit the limit.';
   }
+
+  @override
+  String get importedUserTag => 'Imported';
+
+  @override
+  String get importedUserTooltip =>
+      'Placeholder for someone not on Tyne: these messages were imported from Discord.';
 }
