@@ -223,6 +223,18 @@ void main() {
       expect(_columns(raw, 'messages'), containsAll(columns));
     });
 
+    test("an existing database gains the column for users' public flags "
+        '(tyne-chat/tyne#685)', () async {
+      final Database raw = sqlite3.openInMemory();
+      addTearDown(raw.close);
+      await _open(raw);
+      raw.execute('ALTER TABLE users DROP COLUMN public_flags');
+
+      await _open(raw);
+
+      expect(_columns(raw, 'users'), contains('public_flags'));
+    });
+
     test('an existing database gains the column for the persona a thread '
         'was started as', () async {
       final Database raw = sqlite3.openInMemory();
