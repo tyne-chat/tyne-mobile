@@ -1200,4 +1200,11 @@ class ForkLocalizationsNl extends ForkLocalizations {
   String stickerUploadRequirements(String maxSize) {
     return 'Stickers behouden hun eigen formaat, tot 2048 pixels per zijde, en mogen maximaal $maxSize zijn. Grotere statische afbeeldingen worden automatisch verkleind en gecomprimeerd. Geanimeerde stickers en SVG’s moeten al aan de limiet voldoen.';
   }
+
+  @override
+  String get importedUserTag => 'Geïmporteerd';
+
+  @override
+  String get importedUserTooltip =>
+      'Plaatshouder voor iemand die niet op Tyne zit: deze berichten zijn geïmporteerd uit Discord.';
 }

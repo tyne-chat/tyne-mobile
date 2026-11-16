@@ -1199,4 +1199,11 @@ class ForkLocalizationsHi extends ForkLocalizations {
   String stickerUploadRequirements(String maxSize) {
     return 'स्टिकर अपने मूल आकार में ही रहते हैं, हर तरफ़ अधिकतम 2048 पिक्सल तक, और $maxSize से कम के होने चाहिए। इससे बड़ी स्टैटिक इमेज अपने आप छोटी और कंप्रेस की जाती हैं। एनिमेटेड स्टिकर और SVG पहले से ही सीमा के भीतर होने चाहिए।';
   }
+
+  @override
+  String get importedUserTag => 'आयातित';
+
+  @override
+  String get importedUserTooltip =>
+      'Tyne पर न मौजूद किसी व्यक्ति के लिए प्लेसहोल्डर: ये संदेश Discord से आयात किए गए थे।';
 }

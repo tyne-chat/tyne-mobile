@@ -1187,4 +1187,11 @@ class ForkLocalizationsId extends ForkLocalizations {
   String stickerUploadRequirements(String maxSize) {
     return 'Stiker mempertahankan ukuran aslinya, hingga 2048 piksel di setiap sisi, dan harus berukuran kurang dari $maxSize. Gambar statis yang lebih besar akan diperkecil dan dikompresi secara otomatis. Stiker animasi dan SVG harus sudah sesuai dengan batas ukuran.';
   }
+
+  @override
+  String get importedUserTag => 'Diimpor';
+
+  @override
+  String get importedUserTooltip =>
+      'Akun pengganti untuk seseorang yang tidak ada di Tyne: pesan-pesan ini diimpor dari Discord.';
 }

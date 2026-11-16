@@ -1225,4 +1225,11 @@ class ForkLocalizationsPl extends ForkLocalizations {
   String stickerUploadRequirements(String maxSize) {
     return 'Naklejki zachowują swój rozmiar, do 2048 pikseli na każdym boku, i muszą mieć rozmiar mniejszy niż $maxSize. Większe statyczne obrazy są automatycznie zmniejszane i kompresowane. Animowane naklejki i pliki SVG muszą już spełniać ten limit.';
   }
+
+  @override
+  String get importedUserTag => 'Zaimportowane';
+
+  @override
+  String get importedUserTooltip =>
+      'Konto zastępcze osoby, której nie ma na Tyne: te wiadomości zaimportowano z Discorda.';
 }

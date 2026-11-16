@@ -1236,4 +1236,11 @@ class ForkLocalizationsAr extends ForkLocalizations {
   String stickerUploadRequirements(String maxSize) {
     return 'تحتفظ الملصقات بحجمها الأصلي، حتى 2048 بكسل لكل جانب، ويجب أن يكون حجمها أقل من $maxSize. تُصغَّر الصور الثابتة الأكبر وتُضغط تلقائيًا. أما الملصقات المتحركة وملفات SVG فيجب أن تكون ضمن الحد مسبقًا.';
   }
+
+  @override
+  String get importedUserTag => 'مستورد';
+
+  @override
+  String get importedUserTooltip =>
+      'حساب بديل لشخص غير موجود على Tyne: استُوردت هذه الرسائل من Discord.';
 }

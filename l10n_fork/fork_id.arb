@@ -313,5 +313,7 @@
     "personaRestoredWithout": "Kembali tanpa {items}: sekarang dimiliki persona lain.",
     "personaRestoreFailed": "Persona tidak dapat dipulihkan.",
     "deletedPersonaRestoreLabel": "Pulihkan {name}",
-    "stickerUploadRequirements": "Stiker mempertahankan ukuran aslinya, hingga 2048 piksel di setiap sisi, dan harus berukuran kurang dari {maxSize}. Gambar statis yang lebih besar akan diperkecil dan dikompresi secara otomatis. Stiker animasi dan SVG harus sudah sesuai dengan batas ukuran."
+    "stickerUploadRequirements": "Stiker mempertahankan ukuran aslinya, hingga 2048 piksel di setiap sisi, dan harus berukuran kurang dari {maxSize}. Gambar statis yang lebih besar akan diperkecil dan dikompresi secara otomatis. Stiker animasi dan SVG harus sudah sesuai dengan batas ukuran.",
+    "importedUserTag": "Diimpor",
+    "importedUserTooltip": "Akun pengganti untuk seseorang yang tidak ada di Tyne: pesan-pesan ini diimpor dari Discord."
 }

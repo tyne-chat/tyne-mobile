@@ -1223,4 +1223,11 @@ class ForkLocalizationsLt extends ForkLocalizations {
   String stickerUploadRequirements(String maxSize) {
     return 'Lipdukai išlaiko savo dydį, iki 2048 pikselių kiekvienoje kraštinėje, ir turi būti ne didesni nei $maxSize. Didesni statiniai vaizdai automatiškai sumažinami ir suspaudžiami. Animuoti lipdukai ir SVG jau turi atitikti nurodytą dydį.';
   }
+
+  @override
+  String get importedUserTag => 'Importuota';
+
+  @override
+  String get importedUserTooltip =>
+      'Vietos rezervavimo paskyra žmogui, kurio nėra Tyne: šios žinutės importuotos iš Discord.';
 }

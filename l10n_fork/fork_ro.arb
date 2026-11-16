@@ -313,5 +313,7 @@
     "personaRestoredWithout": "A revenit fără {items}: acum le are altă persona.",
     "personaRestoreFailed": "Persona nu a putut fi restaurată.",
     "deletedPersonaRestoreLabel": "Restaurează {name}",
-    "stickerUploadRequirements": "Stickerele își păstrează propria dimensiune, până la 2048 pixeli pe fiecare latură, și trebuie să aibă mai puțin de {maxSize}. Imaginile statice mai mari sunt micșorate și comprimate automat. Stickerele animate și SVG-urile trebuie să respecte deja limita."
+    "stickerUploadRequirements": "Stickerele își păstrează propria dimensiune, până la 2048 pixeli pe fiecare latură, și trebuie să aibă mai puțin de {maxSize}. Imaginile statice mai mari sunt micșorate și comprimate automat. Stickerele animate și SVG-urile trebuie să respecte deja limita.",
+    "importedUserTag": "Importat",
+    "importedUserTooltip": "Cont substituent pentru cineva care nu este pe Tyne: aceste mesaje au fost importate din Discord."
 }

@@ -313,5 +313,7 @@
     "personaRestoredWithout": "Vrnjena brez {items}: zdaj jih ima druga persona.",
     "personaRestoreFailed": "Persone ni bilo mogoče obnoviti.",
     "deletedPersonaRestoreLabel": "Obnovi {name}",
-    "stickerUploadRequirements": "Nalepke ohranijo svojo velikost, do 2048 slikovnih pik na vsaki stranici, in morajo biti manjše od {maxSize}. Večje statične slike se samodejno pomanjšajo in stisnejo. Animirane nalepke in datoteke SVG morajo že ustrezati omejitvi."
+    "stickerUploadRequirements": "Nalepke ohranijo svojo velikost, do 2048 slikovnih pik na vsaki stranici, in morajo biti manjše od {maxSize}. Večje statične slike se samodejno pomanjšajo in stisnejo. Animirane nalepke in datoteke SVG morajo že ustrezati omejitvi.",
+    "importedUserTag": "Uvoženo",
+    "importedUserTooltip": "Nadomestni račun za nekoga, ki ni na Tyne: ta sporočila so bila uvožena iz Discorda."
 }

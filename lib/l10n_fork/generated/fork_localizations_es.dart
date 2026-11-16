@@ -1208,6 +1208,13 @@ class ForkLocalizationsEs extends ForkLocalizations {
   String stickerUploadRequirements(String maxSize) {
     return 'Las pegatinas conservan su propio tamaño, hasta 2048 píxeles por lado, y deben ocupar menos de $maxSize. Las imágenes estáticas más grandes se reducen y comprimen automáticamente. Las pegatinas animadas y los archivos SVG ya deben cumplir el límite.';
   }
+
+  @override
+  String get importedUserTag => 'Importado';
+
+  @override
+  String get importedUserTooltip =>
+      'Marcador de posición para alguien que no está en Tyne: estos mensajes se importaron de Discord.';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -2413,4 +2420,11 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
   String stickerUploadRequirements(String maxSize) {
     return 'Los stickers conservan su propio tamaño, hasta 2048 píxeles por lado, y deben ocupar menos de $maxSize. Las imágenes estáticas más grandes se reducen y comprimen automáticamente. Los stickers animados y los archivos SVG ya deben cumplir el límite.';
   }
+
+  @override
+  String get importedUserTag => 'Importado';
+
+  @override
+  String get importedUserTooltip =>
+      'Marcador para alguien que no está en Tyne: estos mensajes se importaron de Discord.';
 }

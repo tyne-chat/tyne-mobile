@@ -667,9 +667,19 @@ void main() {
 // ignore: unreachable_from_main // Fork: used by user_profile_view_fork_test.dart.
 const String forkKUserId = _kUserId;
 // ignore: unreachable_from_main // Fork: used by user_profile_view_fork_test.dart.
+const String forkKOtherUserId = _kOtherUserId;
+// ignore: unreachable_from_main // Fork: used by user_profile_view_fork_test.dart.
 typedef ForkUpstreamHelpers = ({
   List<Override> Function({UserSettingsViewModel Function()? settings})
   overrides,
+  List<Override> Function(
+    Future<UserProfileFullResponse?> profile,
+    String? guildId,
+  )
+  otherUserOverrides,
 });
 // ignore: unreachable_from_main // Fork: used by user_profile_view_fork_test.dart.
-const ForkUpstreamHelpers forkUpstream = (overrides: _overrides);
+const ForkUpstreamHelpers forkUpstream = (
+  overrides: _overrides,
+  otherUserOverrides: _otherUserOverrides,
+);

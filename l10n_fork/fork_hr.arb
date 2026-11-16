@@ -313,5 +313,7 @@
     "personaRestoredWithout": "Vraćena bez {items}: sada ih ima druga persona.",
     "personaRestoreFailed": "Personu nije bilo moguće vratiti.",
     "deletedPersonaRestoreLabel": "Vrati {name}",
-    "stickerUploadRequirements": "Naljepnice zadržavaju vlastitu veličinu, do 2048 piksela po stranici, i moraju biti manje od {maxSize}. Veće statične slike automatski se smanjuju i komprimiraju. Animirane naljepnice i SVG-ovi već moraju biti unutar ograničenja."
+    "stickerUploadRequirements": "Naljepnice zadržavaju vlastitu veličinu, do 2048 piksela po stranici, i moraju biti manje od {maxSize}. Veće statične slike automatski se smanjuju i komprimiraju. Animirane naljepnice i SVG-ovi već moraju biti unutar ograničenja.",
+    "importedUserTag": "Uvezeno",
+    "importedUserTooltip": "Zamjenski račun za nekoga tko nije na Tyneu: ove su poruke uvezene s Discorda."
 }

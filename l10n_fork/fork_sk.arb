@@ -313,5 +313,7 @@
     "personaRestoredWithout": "Vrátila sa bez {items}: teraz ich má iná persona.",
     "personaRestoreFailed": "Personu sa nepodarilo obnoviť.",
     "deletedPersonaRestoreLabel": "Obnoviť {name}",
-    "stickerUploadRequirements": "Nálepky si zachovávajú vlastnú veľkosť, až 2048 pixelov na každej strane, a musia byť menšie ako {maxSize}. Väčšie statické obrázky sa automaticky zmenšia a skomprimujú. Animované nálepky a súbory SVG už musia spĺňať limit."
+    "stickerUploadRequirements": "Nálepky si zachovávajú vlastnú veľkosť, až 2048 pixelov na každej strane, a musia byť menšie ako {maxSize}. Väčšie statické obrázky sa automaticky zmenšia a skomprimujú. Animované nálepky a súbory SVG už musia spĺňať limit.",
+    "importedUserTag": "Importované",
+    "importedUserTooltip": "Zástupný účet za niekoho, kto nie je na Tyne: tieto správy boli importované z Discordu."
 }

@@ -313,5 +313,7 @@
     "personaRestoredWithout": "{items} nélkül tért vissza: ezek most egy másik personáé.",
     "personaRestoreFailed": "A personát nem sikerült visszaállítani.",
     "deletedPersonaRestoreLabel": "{name} visszaállítása",
-    "stickerUploadRequirements": "A matricák megtartják a saját méretüket, oldalanként legfeljebb 2048 képpontig, és a méretüknek {maxSize} alatt kell lennie. A nagyobb statikus képeket automatikusan lekicsinyítjük és tömörítjük. Az animált matricáknak és SVG-knek már feltöltéskor bele kell férniük a korlátba."
+    "stickerUploadRequirements": "A matricák megtartják a saját méretüket, oldalanként legfeljebb 2048 képpontig, és a méretüknek {maxSize} alatt kell lennie. A nagyobb statikus képeket automatikusan lekicsinyítjük és tömörítjük. Az animált matricáknak és SVG-knek már feltöltéskor bele kell férniük a korlátba.",
+    "importedUserTag": "Importált",
+    "importedUserTooltip": "Helyőrző valakinek, aki nincs a Tyne-on: ezeket az üzeneteket a Discordról importálták."
 }

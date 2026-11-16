@@ -1203,4 +1203,11 @@ class ForkLocalizationsHu extends ForkLocalizations {
   String stickerUploadRequirements(String maxSize) {
     return 'A matricák megtartják a saját méretüket, oldalanként legfeljebb 2048 képpontig, és a méretüknek $maxSize alatt kell lennie. A nagyobb statikus képeket automatikusan lekicsinyítjük és tömörítjük. Az animált matricáknak és SVG-knek már feltöltéskor bele kell férniük a korlátba.';
   }
+
+  @override
+  String get importedUserTag => 'Importált';
+
+  @override
+  String get importedUserTooltip =>
+      'Helyőrző valakinek, aki nincs a Tyne-on: ezeket az üzeneteket a Discordról importálták.';
 }

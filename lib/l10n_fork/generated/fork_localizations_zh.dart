@@ -1150,6 +1150,12 @@ class ForkLocalizationsZh extends ForkLocalizations {
   String stickerUploadRequirements(String maxSize) {
     return '贴纸会保留原始尺寸（每边最多 2048 像素），并且大小必须小于 $maxSize。更大的静态图像将自动缩小并压缩。动画贴纸和 SVG 必须已经符合大小限制。';
   }
+
+  @override
+  String get importedUserTag => '已导入';
+
+  @override
+  String get importedUserTooltip => '不在 Tyne 上的人的占位帐号：这些消息是从 Discord 导入的。';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -2298,4 +2304,10 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
   String stickerUploadRequirements(String maxSize) {
     return '貼圖會保留原始尺寸（每邊最多 2048 像素），且大小必須小於 $maxSize。更大的靜態圖片會自動縮小並進行壓縮。動畫貼圖和 SVG 檔案必須已符合限制。';
   }
+
+  @override
+  String get importedUserTag => '已匯入';
+
+  @override
+  String get importedUserTooltip => '不在 Tyne 上的人的佔位帳號：這些訊息是從 Discord 匯入的。';
 }

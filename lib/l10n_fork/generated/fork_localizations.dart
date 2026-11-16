@@ -2068,6 +2068,18 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'Stickers keep their own size, up to 2048 pixels on each side, and must be under {maxSize}. Larger static images are shrunk and compressed automatically. Animated stickers and SVGs must already fit the limit.'**
   String stickerUploadRequirements(String maxSize);
+
+  /// Tag after the name of a placeholder account that the Discord history import made for someone who is not on Tyne (tyne-chat/tyne#682); shown in capitals like the BOT tag. Keep it one short word. Same as the web app's "Imported".
+  ///
+  /// In en, this message translates to:
+  /// **'Imported'**
+  String get importedUserTag;
+
+  /// What the Imported tag means, shown when it is long-pressed or hovered and read by screen readers (tyne-chat/tyne#682). Same wording as the web app's tooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Placeholder for someone not on Tyne: these messages were imported from Discord.'**
+  String get importedUserTooltip;
 }
 
 class _ForkLocalizationsDelegate

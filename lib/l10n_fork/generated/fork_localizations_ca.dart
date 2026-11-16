@@ -1227,4 +1227,11 @@ class ForkLocalizationsCa extends ForkLocalizations {
   String stickerUploadRequirements(String maxSize) {
     return 'Els adhesius conserven la seva mida, fins a 2048 píxels per costat, i han d’ocupar menys de $maxSize. Les imatges estàtiques més grans es redueixen i es comprimeixen automàticament. Els adhesius animats i els SVG ja han de complir el límit.';
   }
+
+  @override
+  String get importedUserTag => 'Importat';
+
+  @override
+  String get importedUserTooltip =>
+      'Compte provisional d\'algú que no és a Tyne: aquests missatges s\'han importat de Discord.';
 }

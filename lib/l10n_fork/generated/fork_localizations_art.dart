@@ -1199,4 +1199,11 @@ class ForkLocalizationsArt extends ForkLocalizations {
   String stickerUploadRequirements(String maxSize) {
     return 'sitelen lipu li awen e suli ona, li ken suli tawa nanpa 2048 lon poka ale, li wile lili tawa $maxSize. sitelen pi tawa ala li suli mute la ilo li lili e ona, li lili e lipu ona. sitelen lipu tawa en SVG li wile lili tawa ni lon open.';
   }
+
+  @override
+  String get importedUserTag => 'kama';
+
+  @override
+  String get importedUserTooltip =>
+      'jan ni li lon ala Tyne. toki ni li kama tan Discord.';
 }

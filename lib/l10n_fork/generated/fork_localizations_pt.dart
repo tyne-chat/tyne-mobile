@@ -1210,6 +1210,13 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String stickerUploadRequirements(String maxSize) {
     return 'Os autocolantes mantêm o seu próprio tamanho, até 2048 píxeis em cada lado, e têm de ter menos de $maxSize. As imagens estáticas maiores são reduzidas e comprimidas automaticamente. Os autocolantes animados e os SVG já têm de cumprir o limite.';
   }
+
+  @override
+  String get importedUserTag => 'Importado';
+
+  @override
+  String get importedUserTooltip =>
+      'Conta provisória de alguém que não está no Tyne: estas mensagens foram importadas do Discord.';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -2422,4 +2429,11 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
   String stickerUploadRequirements(String maxSize) {
     return 'As figurinhas mantêm o próprio tamanho, até 2048 pixels em cada lado, e devem ter menos de $maxSize. Imagens estáticas maiores são reduzidas e compactadas automaticamente. Figurinhas animadas e SVGs já devem estar dentro do limite.';
   }
+
+  @override
+  String get importedUserTag => 'Importado';
+
+  @override
+  String get importedUserTooltip =>
+      'Conta provisória de alguém que não está no Tyne: estas mensagens foram importadas do Discord.';
 }

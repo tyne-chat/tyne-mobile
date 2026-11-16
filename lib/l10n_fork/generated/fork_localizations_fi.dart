@@ -1201,4 +1201,11 @@ class ForkLocalizationsFi extends ForkLocalizations {
   String stickerUploadRequirements(String maxSize) {
     return 'Tarrat säilyttävät oman kokonsa, enintään 2048 pikseliä kummallakin sivulla, ja niiden koon on oltava alle $maxSize. Suuremmat staattiset kuvat pienennetään ja pakataan automaattisesti. Animoitujen tarrojen ja SVG-kuvien on mahduttava kokorajaan sellaisenaan.';
   }
+
+  @override
+  String get importedUserTag => 'Tuotu';
+
+  @override
+  String get importedUserTooltip =>
+      'Paikkamerkki henkilölle, joka ei ole Tynessä: nämä viestit tuotiin Discordista.';
 }

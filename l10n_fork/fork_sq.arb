@@ -313,5 +313,7 @@
     "personaRestoredWithout": "U rikthye pa {items}: tani i ka një personë tjetër.",
     "personaRestoreFailed": "Persona nuk u rikthye.",
     "deletedPersonaRestoreLabel": "Rikthe {name}",
-    "stickerUploadRequirements": "Ngjitëset ruajnë madhësinë e tyre, deri në 2048 piksel për çdo anë, dhe duhet të jenë më pak se {maxSize}. Imazhet statike më të mëdha zvogëlohen dhe ngjeshen automatikisht. Ngjitëset e animuara dhe SVG-të duhet ta respektojnë tashmë kufirin."
+    "stickerUploadRequirements": "Ngjitëset ruajnë madhësinë e tyre, deri në 2048 piksel për çdo anë, dhe duhet të jenë më pak se {maxSize}. Imazhet statike më të mëdha zvogëlohen dhe ngjeshen automatikisht. Ngjitëset e animuara dhe SVG-të duhet ta respektojnë tashmë kufirin.",
+    "importedUserTag": "I importuar",
+    "importedUserTooltip": "Llogari zëvendësuese për dikë që nuk është në Tyne: këto mesazhe u importuan nga Discord."
 }

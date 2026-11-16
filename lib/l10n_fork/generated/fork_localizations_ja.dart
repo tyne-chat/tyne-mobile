@@ -1160,4 +1160,11 @@ class ForkLocalizationsJa extends ForkLocalizations {
   String stickerUploadRequirements(String maxSize) {
     return 'スタンプは元のサイズのまま保存されます（各辺最大2048ピクセル）。ファイルサイズは$maxSize未満である必要があります。これより大きい静止画像は自動的に縮小・圧縮されます。アニメーションスタンプとSVGは、あらかじめ制限内に収まっている必要があります。';
   }
+
+  @override
+  String get importedUserTag => 'インポート済み';
+
+  @override
+  String get importedUserTooltip =>
+      'Tyne にいない人のためのプレースホルダー：これらのメッセージは Discord からインポートされました。';
 }

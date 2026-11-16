@@ -1590,5 +1590,13 @@
                 "type": "String"
             }
         }
+    },
+    "importedUserTag": "Imported",
+    "@importedUserTag": {
+        "description": "Tag after the name of a placeholder account that the Discord history import made for someone who is not on Tyne (tyne-chat/tyne#682); shown in capitals like the BOT tag. Keep it one short word. Same as the web app's \"Imported\"."
+    },
+    "importedUserTooltip": "Placeholder for someone not on Tyne: these messages were imported from Discord.",
+    "@importedUserTooltip": {
+        "description": "What the Imported tag means, shown when it is long-pressed or hovered and read by screen readers (tyne-chat/tyne#682). Same wording as the web app's tooltip."
     }
 }

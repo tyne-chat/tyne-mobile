@@ -1187,4 +1187,11 @@ class ForkLocalizationsVi extends ForkLocalizations {
   String stickerUploadRequirements(String maxSize) {
     return 'Nhãn dán giữ nguyên kích thước gốc, tối đa 2048 pixel mỗi cạnh, và không được vượt quá $maxSize. Ảnh tĩnh lớn hơn sẽ được tự động thu nhỏ và nén. Nhãn dán động và SVG phải đã phù hợp với giới hạn này.';
   }
+
+  @override
+  String get importedUserTag => 'Đã nhập';
+
+  @override
+  String get importedUserTooltip =>
+      'Tài khoản giữ chỗ cho người không có trên Tyne: các tin nhắn này được nhập từ Discord.';
 }

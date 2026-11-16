@@ -1197,4 +1197,11 @@ class ForkLocalizationsDa extends ForkLocalizations {
   String stickerUploadRequirements(String maxSize) {
     return 'Klistermærker beholder deres egen størrelse, op til 2048 pixels på hver side, og skal være under $maxSize. Større statiske billeder skaleres ned og komprimeres automatisk. Animerede klistermærker og SVG’er skal allerede overholde grænsen.';
   }
+
+  @override
+  String get importedUserTag => 'Importeret';
+
+  @override
+  String get importedUserTooltip =>
+      'Pladsholder for en, der ikke er på Tyne: disse beskeder er importeret fra Discord.';
 }
