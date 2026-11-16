@@ -367,7 +367,12 @@ class _TimestampPickerBodyState extends ConsumerState<_TimestampPickerBody> {
 
     return ListView(
       controller: widget.scrollController,
-      padding: EdgeInsets.all(layout.s4),
+      // The sheet's bottom padding keeps Insert above the system navigation
+      // bar (tyne-chat/tyne#689).
+      padding: FluxerBottomSheet.scrollViewPadding(
+        context,
+        padding: EdgeInsets.all(layout.s4),
+      ),
       children: <Widget>[
         // NLP Field
         FluxerInput(
