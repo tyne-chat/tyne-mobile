@@ -1219,4 +1219,9 @@ class ForkLocalizationsFil extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'Pansamantalang account para sa taong wala sa Tyne: in-import ang mga mensaheng ito mula sa Discord.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return 'Wala si $name sa Tyne: in-import ang usapang ito mula sa Discord, at hindi na maaabot ng mga bagong mensahe.';
+  }
 }

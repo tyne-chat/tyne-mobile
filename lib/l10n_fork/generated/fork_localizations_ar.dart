@@ -1243,4 +1243,9 @@ class ForkLocalizationsAr extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'حساب بديل لشخص غير موجود على Tyne: استُوردت هذه الرسائل من Discord.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name ليس على Tyne: استُوردت هذه المحادثة من Discord، ولن تصله الرسائل الجديدة.';
+  }
 }

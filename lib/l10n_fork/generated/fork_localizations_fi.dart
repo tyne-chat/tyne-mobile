@@ -1208,4 +1208,9 @@ class ForkLocalizationsFi extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'Paikkamerkki henkilölle, joka ei ole Tynessä: nämä viestit tuotiin Discordista.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name ei ole Tynessä: tämä keskustelu tuotiin Discordista, eivätkä uudet viestit tavoita häntä.';
+  }
 }

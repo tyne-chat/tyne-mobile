@@ -1194,4 +1194,9 @@ class ForkLocalizationsVi extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'Tài khoản giữ chỗ cho người không có trên Tyne: các tin nhắn này được nhập từ Discord.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name không có trên Tyne: cuộc trò chuyện này được nhập từ Discord và tin nhắn mới sẽ không đến được với họ.';
+  }
 }
