@@ -1208,4 +1208,9 @@ class ForkLocalizationsBn extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'Tyne-এ নেই এমন কারও জন্য স্থানধারী: এই বার্তাগুলো Discord থেকে আমদানি করা হয়েছে।';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name Tyne-এ নেই: এই কথোপকথনটি Discord থেকে আমদানি করা হয়েছে, এবং নতুন বার্তা তাঁর কাছে পৌঁছাবে না।';
+  }
 }

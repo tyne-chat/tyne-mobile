@@ -10,6 +10,10 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/utils/user_tag.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/profile/domain/imported_placeholder.dart';
+
 @immutable
 class GroupMemberInfo {
   final String id;
@@ -61,6 +65,10 @@ class DmConversation {
 
   final List<String> remoteRecipientIds;
 
+  /// Fork: the other person is a placeholder the Discord import made, so nobody can be reached there
+  /// (tyne-chat/tyne#685).
+  final bool forkImportedRecipient;
+
   const DmConversation({
     required this.id,
     required this.type,
@@ -89,6 +97,7 @@ class DmConversation {
     this.groupMembers = const [],
     this.channelNicks = const {},
     this.remoteRecipientIds = const [],
+    this.forkImportedRecipient = false,
   });
 
   DmConversation withUnreadCount(int count) {
@@ -123,6 +132,7 @@ class DmConversation {
       groupMembers: groupMembers,
       channelNicks: channelNicks,
       remoteRecipientIds: remoteRecipientIds,
+      forkImportedRecipient: forkImportedRecipient,
     );
   }
 
@@ -203,6 +213,7 @@ class DmConversation {
     final String rawRecipientName =
         recipient?.globalName ?? recipient?.username ?? 'Unknown';
     return DmConversation(
+      forkImportedRecipient: isImportedPlaceholder(recipient?.publicFlags),
       id: row.id,
       type: row.type,
       recipientId: row.recipientId,
