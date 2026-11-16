@@ -315,5 +315,6 @@
     "deletedPersonaRestoreLabel": "Restaurar {name}",
     "stickerUploadRequirements": "As figurinhas mantêm o próprio tamanho, até 2048 pixels em cada lado, e devem ter menos de {maxSize}. Imagens estáticas maiores são reduzidas e compactadas automaticamente. Figurinhas animadas e SVGs já devem estar dentro do limite.",
     "importedUserTag": "Importado",
-    "importedUserTooltip": "Conta provisória de alguém que não está no Tyne: estas mensagens foram importadas do Discord."
+    "importedUserTooltip": "Conta provisória de alguém que não está no Tyne: estas mensagens foram importadas do Discord.",
+    "importedDmBarrier": "{name} não está no Tyne: esta conversa foi importada do Discord, e novas mensagens não chegarão até essa pessoa."
 }

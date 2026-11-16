@@ -315,5 +315,6 @@
     "deletedPersonaRestoreLabel": "Gjenopprett {name}",
     "stickerUploadRequirements": "Klistremerker beholder sin egen størrelse, opptil 2048 piksler på hver side, og må være mindre enn {maxSize}. Større statiske bilder skaleres ned og komprimeres automatisk. Animerte klistremerker og SVG-er må allerede være innenfor grensen.",
     "importedUserTag": "Importert",
-    "importedUserTooltip": "Plassholder for noen som ikke er på Tyne: disse meldingene ble importert fra Discord."
+    "importedUserTooltip": "Plassholder for noen som ikke er på Tyne: disse meldingene ble importert fra Discord.",
+    "importedDmBarrier": "{name} er ikke på Tyne: denne samtalen ble importert fra Discord, og nye meldinger når ikke fram."
 }
