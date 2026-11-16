@@ -1224,4 +1224,11 @@ class ForkLocalizationsSk extends ForkLocalizations {
   String stickerUploadRequirements(String maxSize) {
     return 'Nálepky si zachovávajú vlastnú veľkosť, až 2048 pixelov na každej strane, a musia byť menšie ako $maxSize. Väčšie statické obrázky sa automaticky zmenšia a skomprimujú. Animované nálepky a súbory SVG už musia spĺňať limit.';
   }
+
+  @override
+  String get importedUserTag => 'Importované';
+
+  @override
+  String get importedUserTooltip =>
+      'Zástupný účet za niekoho, kto nie je na Tyne: tieto správy boli importované z Discordu.';
 }

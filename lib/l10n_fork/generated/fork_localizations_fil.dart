@@ -1212,4 +1212,11 @@ class ForkLocalizationsFil extends ForkLocalizations {
   String stickerUploadRequirements(String maxSize) {
     return 'Pinapanatili ng mga sticker ang sarili nilang laki, hanggang 2048 pixel sa bawat gilid, at dapat ay mas maliit sa $maxSize. Awtomatikong pinapaliit at kino-compress ang mas malalaking static na larawan. Dapat ay pasok na sa limitasyon ang mga animated na sticker at SVG.';
   }
+
+  @override
+  String get importedUserTag => 'Inangkat';
+
+  @override
+  String get importedUserTooltip =>
+      'Pansamantalang account para sa taong wala sa Tyne: in-import ang mga mensaheng ito mula sa Discord.';
 }

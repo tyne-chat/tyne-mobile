@@ -1210,4 +1210,11 @@ class ForkLocalizationsEl extends ForkLocalizations {
   String stickerUploadRequirements(String maxSize) {
     return 'Τα αυτοκόλλητα διατηρούν το δικό τους μέγεθος, έως 2048 εικονοστοιχεία σε κάθε πλευρά, και πρέπει να είναι μικρότερα από $maxSize. Οι μεγαλύτερες στατικές εικόνες σμικρύνονται και συμπιέζονται αυτόματα. Τα κινούμενα αυτοκόλλητα και τα SVG πρέπει να είναι ήδη εντός του ορίου.';
   }
+
+  @override
+  String get importedUserTag => 'Εισαγόμενο';
+
+  @override
+  String get importedUserTooltip =>
+      'Λογαριασμός-σύμβολο για κάποιον που δεν είναι στο Tyne: αυτά τα μηνύματα εισήχθησαν από το Discord.';
 }
