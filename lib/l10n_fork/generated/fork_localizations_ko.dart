@@ -1165,4 +1165,9 @@ class ForkLocalizationsKo extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'Tyne에 없는 사람을 위한 자리 표시 계정: 이 메시지들은 Discord에서 가져왔습니다.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name님은 Tyne에 없습니다. 이 대화는 Discord에서 가져온 것이며, 새 메시지는 전달되지 않습니다.';
+  }
 }

@@ -1198,6 +1198,11 @@ class ForkLocalizationsEn extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'Placeholder for someone not on Tyne: these messages were imported from Discord.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name isn\'t on Tyne: this conversation was imported from Discord, and new messages can\'t reach them.';
+  }
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -2394,6 +2399,11 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   @override
   String get importedUserTooltip =>
       'Placeholder for someone not on Tyne: these messages were imported from Discord.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name isn\'t on Tyne: this conversation was imported from Discord, and new messages can\'t reach them.';
+  }
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -3590,4 +3600,9 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
   @override
   String get importedUserTooltip =>
       'Placeholder for someone not on Tyne: these messages were imported from Discord.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name isn\'t on Tyne: this conversation was imported from Discord, and new messages can\'t reach them.';
+  }
 }
