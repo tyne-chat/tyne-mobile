@@ -703,10 +703,17 @@ Persona? latchedPersonaFor(
   return null;
 }
 
-final _leadingDecoration = RegExp(r'^[^\p{Alphabetic}\p{N}]+', unicode: true);
+// Leading emoji and symbols, and spaces after them. Typed punctuation stays:
+// printable ASCII is never skipped (tyne-chat/tyne#686).
+final _leadingDecoration = RegExp(
+  r'^[^\p{Alphabetic}\p{N}!-~]+',
+  unicode: true,
+);
 
-/// The name as it is filed in sorted lists: without leading symbols or emoji,
-/// so "✨Alice" sits with the A's.
+/// The name as it is filed in sorted lists: without leading emoji or symbols,
+/// so "✨Alice" sits with the A's, but with leading ASCII punctuation, so
+/// "???Template" sits with "???". The web app's `PersonaSortName.ts` repeats
+/// this rule.
 String personaSortName(String name) {
   final trimmed = name.trim();
   final stripped = trimmed.replaceFirst(_leadingDecoration, '');
