@@ -72,18 +72,33 @@ void _openGallery(
 ///
 /// [topGap] puts space above them, only when there is something to show: the
 /// profile popout gives them a line of their own under the name. [imported]
-/// puts the "Imported" tag of a placeholder account first (tyne-chat/tyne#682).
+/// puts the "Imported" tag of a placeholder account first (tyne-chat/tyne#682);
+/// a bot the import made, which leads to no personas, shows that tag alone.
 Widget? accountPersonaNameTrailing(
   PersonaGalleryOwner? owner, {
   double topGap = 0,
   bool imported = false,
-}) => owner == null
-    ? null
-    : AccountPersonaNameTrailing(
-        owner: owner,
-        topGap: topGap,
-        imported: imported,
-      );
+}) {
+  if (owner != null) {
+    return AccountPersonaNameTrailing(
+      owner: owner,
+      topGap: topGap,
+      imported: imported,
+    );
+  }
+  if (!imported) {
+    return null;
+  }
+  // A Wrap, as AccountPersonaNameTrailing: it keeps the tag its own size both
+  // in the header's Wrap and in the popout's full-width list.
+  const Widget tag = Wrap(children: <Widget>[ImportedUserTag()]);
+  return topGap > 0
+      ? Padding(
+          padding: EdgeInsets.only(top: topGap),
+          child: tag,
+        )
+      : tag;
+}
 
 /// The account's display tag, then the "Personas (N)" pill; first the
 /// "Imported" tag when the account is an imported placeholder.

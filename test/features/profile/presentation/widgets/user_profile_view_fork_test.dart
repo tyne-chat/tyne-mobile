@@ -187,7 +187,7 @@ void main() {
   });
 
   group('imported placeholder accounts (tyne-chat/tyne#682)', () {
-    UserProfileFullResponse profile({required int flags}) =>
+    UserProfileFullResponse profile({required int flags, bool bot = false}) =>
         UserProfileFullResponse(
           user: UserPartialResponse(
             id: forkKOtherUserId,
@@ -197,6 +197,7 @@ void main() {
             avatar: null,
             avatarColor: null,
             flags: flags,
+            bot: bot,
           ),
           userProfile: const UserProfileFullResponseUserProfile(
             bio: null,
@@ -210,6 +211,7 @@ void main() {
     Future<void> pumpProfile(
       WidgetTester tester, {
       required int flags,
+      bool bot = false,
       bool popout = false,
     }) async {
       final ScrollController scrollController = ScrollController();
@@ -218,7 +220,9 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: forkUpstream.otherUserOverrides(
-            Future<UserProfileFullResponse?>.value(profile(flags: flags)),
+            Future<UserProfileFullResponse?>.value(
+              profile(flags: flags, bot: bot),
+            ),
             null,
           ),
           child: MaterialApp(
@@ -299,6 +303,29 @@ void main() {
 
       expect(find.byType(ImportedUserTag), findsNothing);
       expect(find.text(testL10n.userProfileMessage), findsOneWidget);
+      await releaseTestWidgetTree(tester);
+    });
+
+    testWidgets('a bot the import made shows the tag, in the full profile '
+        'and the popout', (tester) async {
+      await pumpProfile(tester, flags: kForkUserFlagImported, bot: true);
+      expect(find.byType(ImportedUserTag), findsOneWidget);
+      expect(find.text(testL10n.userProfileMessage), findsNothing);
+      await releaseTestWidgetTree(tester);
+
+      await pumpProfile(
+        tester,
+        flags: kForkUserFlagImported,
+        bot: true,
+        popout: true,
+      );
+      expect(find.byType(ImportedUserTag), findsOneWidget);
+      await releaseTestWidgetTree(tester);
+    });
+
+    testWidgets('another bot shows no Imported tag', (tester) async {
+      await pumpProfile(tester, flags: 0, bot: true);
+      expect(find.byType(ImportedUserTag), findsNothing);
       await releaseTestWidgetTree(tester);
     });
   });
