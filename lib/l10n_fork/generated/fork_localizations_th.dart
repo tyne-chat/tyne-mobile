@@ -1183,4 +1183,9 @@ class ForkLocalizationsTh extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'บัญชีแทนของคนที่ไม่ได้อยู่ใน Tyne: ข้อความเหล่านี้นำเข้ามาจาก Discord';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name ไม่ได้อยู่ใน Tyne: บทสนทนานี้นำเข้ามาจาก Discord และข้อความใหม่จะไปไม่ถึง';
+  }
 }
