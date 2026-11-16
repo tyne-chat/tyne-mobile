@@ -169,12 +169,37 @@ void main() {
     test('skips leading decoration but keeps accented and styled letters', () {
       expect(personaSortName('✨Alice'), 'Alice');
       expect(personaSortName('  🌙 Luna '), 'Luna');
-      expect(personaSortName('[Mika]'), 'Mika]');
       expect(personaSortName('★ 2B'), '2B');
       expect(personaSortName('✨Élodie'), 'Élodie');
       expect(personaSortName('𝓐𝓶𝔂'), '𝓐𝓶𝔂');
       expect(personaSortName('Ⓑⓔⓝ'), 'Ⓑⓔⓝ');
       expect(personaSortName('✨✨'), '✨✨');
+    });
+
+    // tyne-chat/tyne#686: "???Template" was filed as "Template", far from "???".
+    test('keeps leading ASCII punctuation', () {
+      expect(personaSortName('???Template'), '???Template');
+      expect(personaSortName('???'), '???');
+      expect(personaSortName('[Mika]'), '[Mika]');
+      expect(personaSortName('✨ ~Wisp'), '~Wisp');
+    });
+
+    test('plain order keeps "???" next to "???Template"', () {
+      final personas = [
+        for (final (index, name) in [
+          'THE EGG',
+          '???Template',
+          'Aelena',
+          '???',
+        ].indexed)
+          Persona(id: 'p$index', name: name),
+      ]..sort(comparePersonasByName);
+      expect(personas.map((p) => p.name), [
+        '???',
+        '???Template',
+        'Aelena',
+        'THE EGG',
+      ]);
     });
 
     test('plain order files decorated names under their first letter', () {
