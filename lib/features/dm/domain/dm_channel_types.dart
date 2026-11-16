@@ -36,8 +36,11 @@ bool isSystemDmConversation(DmConversation dm) =>
 bool isBotOrSystemDmRecipient(DmConversation dm) =>
     !dm.isGroup && (dm.isBot || dm.isSystem);
 
+// Fork: no calls with a placeholder the Discord import made; the server refuses them (tyne-chat/tyne#685).
 bool canStartDmCall(DmConversation dm) =>
-    !dm.isPersonalNotes && (dm.isGroup || !isBotOrSystemDmRecipient(dm));
+    !dm.isPersonalNotes &&
+    (dm.isGroup || !isBotOrSystemDmRecipient(dm)) &&
+    !dm.forkImportedRecipient;
 
 bool canCallUser({required bool isBot, required bool isSystem}) =>
     !isBot && !isSystem;

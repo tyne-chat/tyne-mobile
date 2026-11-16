@@ -2080,6 +2080,12 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'Placeholder for someone not on Tyne: these messages were imported from Discord.'**
   String get importedUserTooltip;
+
+  /// Shown instead of the message composer in a direct message with a placeholder account that the Discord history import made for someone who is not on Tyne (tyne-chat/tyne#685). name is their display name. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} isn\'t on Tyne: this conversation was imported from Discord, and new messages can\'t reach them.'**
+  String importedDmBarrier(String name);
 }
 
 class _ForkLocalizationsDelegate

@@ -1234,4 +1234,9 @@ class ForkLocalizationsCa extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'Compte provisional d\'algú que no és a Tyne: aquests missatges s\'han importat de Discord.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name no és a Tyne: aquesta conversa s’ha importat de Discord i els missatges nous no li arribaran.';
+  }
 }

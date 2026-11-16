@@ -315,5 +315,6 @@
     "deletedPersonaRestoreLabel": "{name} wiederherstellen",
     "stickerUploadRequirements": "Sticker behalten ihre eigene Größe, bis zu 2048 Pixel pro Seite, und dürfen {maxSize} nicht überschreiten. Größere statische Bilder werden automatisch verkleinert und komprimiert. Animierte Sticker und SVGs müssen bereits die Größenbeschränkung einhalten.",
     "importedUserTag": "Importiert",
-    "importedUserTooltip": "Platzhalter für jemanden, der nicht auf Tyne ist: Diese Nachrichten wurden aus Discord importiert."
+    "importedUserTooltip": "Platzhalter für jemanden, der nicht auf Tyne ist: Diese Nachrichten wurden aus Discord importiert.",
+    "importedDmBarrier": "{name} ist nicht auf Tyne: Diese Unterhaltung wurde aus Discord importiert, und neue Nachrichten erreichen niemanden."
 }

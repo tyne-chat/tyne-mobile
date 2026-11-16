@@ -1218,4 +1218,9 @@ class ForkLocalizationsBg extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'Заместител на човек, който не е в Tyne: тези съобщения са импортирани от Discord.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name не е в Tyne: този разговор е импортиран от Discord и новите съобщения няма да стигнат до него.';
+  }
 }

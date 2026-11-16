@@ -1204,4 +1204,9 @@ class ForkLocalizationsHe extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'ממלא מקום למישהו שאינו ב-Tyne: ההודעות האלה יובאו מ-Discord.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name לא נמצא/ת ב-Tyne: השיחה הזו יובאה מ-Discord, והודעות חדשות לא יגיעו אליו/ה.';
+  }
 }

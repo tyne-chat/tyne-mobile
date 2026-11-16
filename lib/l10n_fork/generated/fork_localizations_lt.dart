@@ -1230,4 +1230,9 @@ class ForkLocalizationsLt extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'Vietos rezervavimo paskyra žmogui, kurio nėra Tyne: šios žinutės importuotos iš Discord.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name nėra Tyne: šis pokalbis importuotas iš Discord, ir naujos žinutės jo nepasieks.';
+  }
 }

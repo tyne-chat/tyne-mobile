@@ -1231,4 +1231,9 @@ class ForkLocalizationsRo extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'Cont substituent pentru cineva care nu este pe Tyne: aceste mesaje au fost importate din Discord.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name nu este pe Tyne: această conversație a fost importată din Discord, iar mesajele noi nu ajung la această persoană.';
+  }
 }

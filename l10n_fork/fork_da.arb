@@ -315,5 +315,6 @@
     "deletedPersonaRestoreLabel": "Gendan {name}",
     "stickerUploadRequirements": "Klistermærker beholder deres egen størrelse, op til 2048 pixels på hver side, og skal være under {maxSize}. Større statiske billeder skaleres ned og komprimeres automatisk. Animerede klistermærker og SVG’er skal allerede overholde grænsen.",
     "importedUserTag": "Importeret",
-    "importedUserTooltip": "Pladsholder for en, der ikke er på Tyne: disse beskeder er importeret fra Discord."
+    "importedUserTooltip": "Pladsholder for en, der ikke er på Tyne: disse beskeder er importeret fra Discord.",
+    "importedDmBarrier": "{name} er ikke på Tyne: denne samtale er importeret fra Discord, og nye beskeder kan ikke nå frem."
 }

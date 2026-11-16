@@ -315,5 +315,6 @@
     "deletedPersonaRestoreLabel": "Atjaunot {name}",
     "stickerUploadRequirements": "Uzlīmes saglabā savu izmēru, līdz 2048 pikseļiem katrā malā, un to izmēram jābūt mazākam par {maxSize}. Lielāki statiski attēli tiek automātiski samazināti un saspiesti. Animētajām uzlīmēm un SVG failiem jau jāiekļaujas ierobežojumā.",
     "importedUserTag": "Importēts",
-    "importedUserTooltip": "Vietturis kādam, kura nav Tyne: šīs ziņas tika importētas no Discord."
+    "importedUserTooltip": "Vietturis kādam, kura nav Tyne: šīs ziņas tika importētas no Discord.",
+    "importedDmBarrier": "{name} nav Tyne: šī saruna tika importēta no Discord, un jaunās ziņas viņu nesasniegs."
 }

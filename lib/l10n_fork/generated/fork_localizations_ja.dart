@@ -1167,4 +1167,9 @@ class ForkLocalizationsJa extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'Tyne にいない人のためのプレースホルダー：これらのメッセージは Discord からインポートされました。';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name は Tyne にいません。この会話は Discord からインポートされたもので、新しいメッセージは届きません。';
+  }
 }

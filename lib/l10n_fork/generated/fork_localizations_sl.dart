@@ -1229,4 +1229,9 @@ class ForkLocalizationsSl extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'Nadomestni račun za nekoga, ki ni na Tyne: ta sporočila so bila uvožena iz Discorda.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name ni na Tyne: ta pogovor je bil uvožen iz Discorda, in nova sporočila ga ne bodo dosegla.';
+  }
 }

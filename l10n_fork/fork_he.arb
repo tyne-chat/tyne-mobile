@@ -315,5 +315,6 @@
     "deletedPersonaRestoreLabel": "שחזור {name}",
     "stickerUploadRequirements": "מדבקות שומרות על הגודל המקורי שלהן, עד 2048 פיקסלים בכל צד, וצריכות להיות קטנות מ-{maxSize}. תמונות סטטיות גדולות יותר יוקטנו ויידחסו באופן אוטומטי. מדבקות מונפשות וקבצי SVG צריכים לעמוד במגבלה כבר מראש.",
     "importedUserTag": "מיובא",
-    "importedUserTooltip": "ממלא מקום למישהו שאינו ב-Tyne: ההודעות האלה יובאו מ-Discord."
+    "importedUserTooltip": "ממלא מקום למישהו שאינו ב-Tyne: ההודעות האלה יובאו מ-Discord.",
+    "importedDmBarrier": "{name} לא נמצא/ת ב-Tyne: השיחה הזו יובאה מ-Discord, והודעות חדשות לא יגיעו אליו/ה."
 }

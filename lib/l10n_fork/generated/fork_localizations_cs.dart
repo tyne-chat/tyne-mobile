@@ -1231,4 +1231,9 @@ class ForkLocalizationsCs extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'Zástupný účet za někoho, kdo není na Tyne: tyto zprávy byly importovány z Discordu.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name není na Tyne: tato konverzace byla importována z Discordu a nové zprávy se k němu nedostanou.';
+  }
 }

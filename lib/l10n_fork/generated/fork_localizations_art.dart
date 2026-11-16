@@ -1206,4 +1206,9 @@ class ForkLocalizationsArt extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'jan ni li lon ala Tyne. toki ni li kama tan Discord.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return 'jan $name li lon ala Tyne. toki ni li kama tan Discord. toki sin li ken ala tawa ona.';
+  }
 }

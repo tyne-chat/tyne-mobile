@@ -315,5 +315,6 @@
     "deletedPersonaRestoreLabel": "Vrati {name}",
     "stickerUploadRequirements": "Naljepnice zadržavaju vlastitu veličinu, do 2048 piksela po stranici, i moraju biti manje od {maxSize}. Veće statične slike automatski se smanjuju i komprimiraju. Animirane naljepnice i SVG-ovi već moraju biti unutar ograničenja.",
     "importedUserTag": "Uvezeno",
-    "importedUserTooltip": "Zamjenski račun za nekoga tko nije na Tyneu: ove su poruke uvezene s Discorda."
+    "importedUserTooltip": "Zamjenski račun za nekoga tko nije na Tyneu: ove su poruke uvezene s Discorda.",
+    "importedDmBarrier": "{name} nije na Tyneu: ovaj je razgovor uvezen s Discorda i nove poruke do te osobe neće stići."
 }

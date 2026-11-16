@@ -1207,4 +1207,9 @@ class ForkLocalizationsNl extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'Plaatshouder voor iemand die niet op Tyne zit: deze berichten zijn geïmporteerd uit Discord.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name zit niet op Tyne: dit gesprek is geïmporteerd uit Discord, en nieuwe berichten komen niet aan.';
+  }
 }

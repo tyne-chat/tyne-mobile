@@ -315,5 +315,6 @@
     "deletedPersonaRestoreLabel": "Restaurează {name}",
     "stickerUploadRequirements": "Stickerele își păstrează propria dimensiune, până la 2048 pixeli pe fiecare latură, și trebuie să aibă mai puțin de {maxSize}. Imaginile statice mai mari sunt micșorate și comprimate automat. Stickerele animate și SVG-urile trebuie să respecte deja limita.",
     "importedUserTag": "Importat",
-    "importedUserTooltip": "Cont substituent pentru cineva care nu este pe Tyne: aceste mesaje au fost importate din Discord."
+    "importedUserTooltip": "Cont substituent pentru cineva care nu este pe Tyne: aceste mesaje au fost importate din Discord.",
+    "importedDmBarrier": "{name} nu este pe Tyne: această conversație a fost importată din Discord, iar mesajele noi nu ajung la această persoană."
 }

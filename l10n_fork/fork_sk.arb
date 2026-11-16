@@ -315,5 +315,6 @@
     "deletedPersonaRestoreLabel": "Obnoviť {name}",
     "stickerUploadRequirements": "Nálepky si zachovávajú vlastnú veľkosť, až 2048 pixelov na každej strane, a musia byť menšie ako {maxSize}. Väčšie statické obrázky sa automaticky zmenšia a skomprimujú. Animované nálepky a súbory SVG už musia spĺňať limit.",
     "importedUserTag": "Importované",
-    "importedUserTooltip": "Zástupný účet za niekoho, kto nie je na Tyne: tieto správy boli importované z Discordu."
+    "importedUserTooltip": "Zástupný účet za niekoho, kto nie je na Tyne: tieto správy boli importované z Discordu.",
+    "importedDmBarrier": "{name} nie je na Tyne: táto konverzácia bola importovaná z Discordu a nové správy sa k nemu nedostanú."
 }

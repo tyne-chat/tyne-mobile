@@ -2093,6 +2093,9 @@ class _DmBottomSheet extends ConsumerWidget {
               onTap: () {},
             ),
           );
+        // Fork: nobody is behind a placeholder from the Discord import (tyne-chat/tyne#685).
+        case _ when convo.forkImportedRecipient:
+          break;
         default:
           relChildren.add(
             FluxerBottomSheetMenuItem(

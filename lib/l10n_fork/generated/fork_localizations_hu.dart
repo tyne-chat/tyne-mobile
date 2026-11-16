@@ -1210,4 +1210,9 @@ class ForkLocalizationsHu extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'Helyőrző valakinek, aki nincs a Tyne-on: ezeket az üzeneteket a Discordról importálták.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name nincs a Tyne-on: ezt a beszélgetést a Discordról importálták, és az új üzenetek nem jutnak el hozzá.';
+  }
 }

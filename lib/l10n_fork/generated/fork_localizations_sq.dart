@@ -1210,4 +1210,9 @@ class ForkLocalizationsSq extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'Llogari zëvendësuese për dikë që nuk është në Tyne: këto mesazhe u importuan nga Discord.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name nuk është në Tyne: kjo bisedë u importua nga Discord dhe mesazhet e reja nuk do t’i arrijnë.';
+  }
 }

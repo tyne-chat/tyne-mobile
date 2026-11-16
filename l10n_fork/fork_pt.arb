@@ -315,5 +315,6 @@
     "deletedPersonaRestoreLabel": "Restaurar {name}",
     "stickerUploadRequirements": "Os autocolantes mantêm o seu próprio tamanho, até 2048 píxeis em cada lado, e têm de ter menos de {maxSize}. As imagens estáticas maiores são reduzidas e comprimidas automaticamente. Os autocolantes animados e os SVG já têm de cumprir o limite.",
     "importedUserTag": "Importado",
-    "importedUserTooltip": "Conta provisória de alguém que não está no Tyne: estas mensagens foram importadas do Discord."
+    "importedUserTooltip": "Conta provisória de alguém que não está no Tyne: estas mensagens foram importadas do Discord.",
+    "importedDmBarrier": "{name} não está no Tyne: esta conversa foi importada do Discord, e as novas mensagens não lhe chegarão."
 }

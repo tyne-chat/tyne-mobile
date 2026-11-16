@@ -1233,4 +1233,9 @@ class ForkLocalizationsRu extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'Заглушка для человека, которого нет в Tyne: эти сообщения импортированы из Discord.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name нет в Tyne: эта переписка импортирована из Discord, и новые сообщения до него не дойдут.';
+  }
 }

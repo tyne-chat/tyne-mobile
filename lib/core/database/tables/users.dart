@@ -28,6 +28,10 @@ class Users extends Table {
       text().withDefault(const Constant('[]'))();
   IntColumn get mentionFlags => integer().nullable()();
 
+  // Fork: the account's public flags, to know a placeholder the Discord import made (tyne-chat/tyne#685).
+  // Added on open by fork_schema.dart.
+  IntColumn get publicFlags => integer().nullable()();
+
   @override
   Set<Column> get primaryKey => {id};
 }

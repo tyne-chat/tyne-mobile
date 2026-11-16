@@ -1220,4 +1220,9 @@ class ForkLocalizationsIt extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'Segnaposto per qualcuno che non è su Tyne: questi messaggi sono stati importati da Discord.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name non è su Tyne: questa conversazione è stata importata da Discord e i nuovi messaggi non possono raggiungerlo.';
+  }
 }

@@ -1206,4 +1206,9 @@ class ForkLocalizationsHi extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'Tyne पर न मौजूद किसी व्यक्ति के लिए प्लेसहोल्डर: ये संदेश Discord से आयात किए गए थे।';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name Tyne पर नहीं हैं: यह बातचीत Discord से आयात की गई थी, और नए संदेश उन तक नहीं पहुँच सकते।';
+  }
 }

@@ -315,5 +315,6 @@
     "deletedPersonaRestoreLabel": "{name} adlı personayı geri yükle",
     "stickerUploadRequirements": "Çıkartmalar kendi boyutlarını korur, her kenarda en fazla 2048 piksel olabilir ve {maxSize} boyutundan küçük olmalıdır. Daha büyük statik görseller otomatik olarak küçültülür ve sıkıştırılır. Animasyonlu çıkartmaların ve SVG’lerin zaten bu sınıra uyması gerekir.",
     "importedUserTag": "İçe aktarıldı",
-    "importedUserTooltip": "Tyne'da olmayan biri için yer tutucu: bu mesajlar Discord'dan içe aktarıldı."
+    "importedUserTooltip": "Tyne'da olmayan biri için yer tutucu: bu mesajlar Discord'dan içe aktarıldı.",
+    "importedDmBarrier": "{name} Tyne'da değil: bu sohbet Discord'dan içe aktarıldı ve yeni mesajlar ona ulaşamaz."
 }

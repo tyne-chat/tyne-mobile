@@ -30,6 +30,13 @@ Future<void> ensureForkSchema(
 
   if (!(await _columnsOf(
     database,
+    database.users.actualTableName,
+  )).contains(database.users.publicFlags.name)) {
+    await migrator.addColumn(database.users, database.users.publicFlags);
+  }
+
+  if (!(await _columnsOf(
+    database,
     database.userPreferencesTable.actualTableName,
   )).contains(database.userPreferencesTable.emojiPinsJson.name)) {
     await migrator.addColumn(

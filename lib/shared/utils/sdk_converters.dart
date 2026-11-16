@@ -237,6 +237,7 @@ db.UsersCompanion userFromPartialSdk(UserPartialResponse sdk) {
   final bot = sdk.bot;
   final system = sdk.system;
   return db.UsersCompanion.insert(
+    publicFlags: Value(sdk.flags),
     id: sdk.id,
     username: sdk.username,
     discriminator: Value(sdk.discriminator),

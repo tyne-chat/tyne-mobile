@@ -1219,4 +1219,9 @@ class ForkLocalizationsLv extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'Vietturis kādam, kura nav Tyne: šīs ziņas tika importētas no Discord.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name nav Tyne: šī saruna tika importēta no Discord, un jaunās ziņas viņu nesasniegs.';
+  }
 }
