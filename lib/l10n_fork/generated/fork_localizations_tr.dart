@@ -1199,4 +1199,9 @@ class ForkLocalizationsTr extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'Tyne\'da olmayan biri için yer tutucu: bu mesajlar Discord\'dan içe aktarıldı.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name Tyne\'da değil: bu sohbet Discord\'dan içe aktarıldı ve yeni mesajlar ona ulaşamaz.';
+  }
 }

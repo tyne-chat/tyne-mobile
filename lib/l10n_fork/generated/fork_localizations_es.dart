@@ -1215,6 +1215,11 @@ class ForkLocalizationsEs extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'Marcador de posición para alguien que no está en Tyne: estos mensajes se importaron de Discord.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name no está en Tyne: esta conversación se importó de Discord y los mensajes nuevos no le llegarán.';
+  }
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -2427,4 +2432,9 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
   @override
   String get importedUserTooltip =>
       'Marcador para alguien que no está en Tyne: estos mensajes se importaron de Discord.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name no está en Tyne: esta conversación se importó de Discord y los mensajes nuevos no le llegarán.';
+  }
 }

@@ -1217,6 +1217,11 @@ class ForkLocalizationsPt extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'Conta provisória de alguém que não está no Tyne: estas mensagens foram importadas do Discord.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name não está no Tyne: esta conversa foi importada do Discord, e as novas mensagens não lhe chegarão.';
+  }
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -2436,4 +2441,9 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
   @override
   String get importedUserTooltip =>
       'Conta provisória de alguém que não está no Tyne: estas mensagens foram importadas do Discord.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name não está no Tyne: esta conversa foi importada do Discord, e novas mensagens não chegarão até essa pessoa.';
+  }
 }

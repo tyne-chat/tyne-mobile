@@ -1217,4 +1217,9 @@ class ForkLocalizationsEl extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'Λογαριασμός-σύμβολο για κάποιον που δεν είναι στο Tyne: αυτά τα μηνύματα εισήχθησαν από το Discord.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return 'Ο/Η $name δεν είναι στο Tyne: αυτή η συνομιλία εισήχθη από το Discord και τα νέα μηνύματα δεν μπορούν να τον/την φτάσουν.';
+  }
 }
