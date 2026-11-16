@@ -1194,4 +1194,9 @@ class ForkLocalizationsId extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'Akun pengganti untuk seseorang yang tidak ada di Tyne: pesan-pesan ini diimpor dari Discord.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name tidak ada di Tyne: percakapan ini diimpor dari Discord, dan pesan baru tidak akan sampai kepadanya.';
+  }
 }

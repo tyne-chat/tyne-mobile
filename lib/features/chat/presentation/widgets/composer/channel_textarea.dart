@@ -942,6 +942,14 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (dm != null && dm.isSystemDm) {
       return const SystemDmComposerBarrier();
     }
+    // Fork: nobody is behind a placeholder from the Discord import (tyne-chat/tyne#685).
+    if (dm != null && dm.forkImportedRecipient) {
+      return SystemDmComposerBarrier(
+        message: FluxerLocalizations.of(
+          context,
+        ).fork.importedDmBarrier(dm.recipientDisplayName),
+      );
+    }
     final bool directMessagesDisabled = ref.watch(
       instanceRuntimeConfigProvider.select(
         (InstanceRuntimeConfig config) => config.directMessagesDisabled,
