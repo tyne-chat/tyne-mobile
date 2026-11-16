@@ -1203,4 +1203,11 @@ class ForkLocalizationsSq extends ForkLocalizations {
   String stickerUploadRequirements(String maxSize) {
     return 'Ngjitëset ruajnë madhësinë e tyre, deri në 2048 piksel për çdo anë, dhe duhet të jenë më pak se $maxSize. Imazhet statike më të mëdha zvogëlohen dhe ngjeshen automatikisht. Ngjitëset e animuara dhe SVG-të duhet ta respektojnë tashmë kufirin.';
   }
+
+  @override
+  String get importedUserTag => 'I importuar';
+
+  @override
+  String get importedUserTooltip =>
+      'Llogari zëvendësuese për dikë që nuk është në Tyne: këto mesazhe u importuan nga Discord.';
 }

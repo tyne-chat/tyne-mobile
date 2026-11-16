@@ -1192,4 +1192,11 @@ class ForkLocalizationsTr extends ForkLocalizations {
   String stickerUploadRequirements(String maxSize) {
     return 'Çıkartmalar kendi boyutlarını korur, her kenarda en fazla 2048 piksel olabilir ve $maxSize boyutundan küçük olmalıdır. Daha büyük statik görseller otomatik olarak küçültülür ve sıkıştırılır. Animasyonlu çıkartmaların ve SVG’lerin zaten bu sınıra uyması gerekir.';
   }
+
+  @override
+  String get importedUserTag => 'İçe aktarıldı';
+
+  @override
+  String get importedUserTooltip =>
+      'Tyne\'da olmayan biri için yer tutucu: bu mesajlar Discord\'dan içe aktarıldı.';
 }
