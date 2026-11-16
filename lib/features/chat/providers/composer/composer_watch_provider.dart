@@ -7,6 +7,7 @@ import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 
 typedef ComposerWatch = ({
+  bool forkImportedRecipient,
   bool isSystemDm,
   bool isPersonalNotes,
   bool isGroup,
@@ -24,6 +25,7 @@ ComposerWatch? composerWatchFor(
     return null;
   }
   return (
+    forkImportedRecipient: conversation.forkImportedRecipient,
     isSystemDm: isSystemDmConversation(conversation),
     isPersonalNotes: conversation.isPersonalNotes,
     isGroup: conversation.isGroup,

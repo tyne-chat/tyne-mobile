@@ -315,5 +315,6 @@
     "deletedPersonaRestoreLabel": "Pulihkan {name}",
     "stickerUploadRequirements": "Stiker mempertahankan ukuran aslinya, hingga 2048 piksel di setiap sisi, dan harus berukuran kurang dari {maxSize}. Gambar statis yang lebih besar akan diperkecil dan dikompresi secara otomatis. Stiker animasi dan SVG harus sudah sesuai dengan batas ukuran.",
     "importedUserTag": "Diimpor",
-    "importedUserTooltip": "Akun pengganti untuk seseorang yang tidak ada di Tyne: pesan-pesan ini diimpor dari Discord."
+    "importedUserTooltip": "Akun pengganti untuk seseorang yang tidak ada di Tyne: pesan-pesan ini diimpor dari Discord.",
+    "importedDmBarrier": "{name} tidak ada di Tyne: percakapan ini diimpor dari Discord, dan pesan baru tidak akan sampai kepadanya."
 }
