@@ -69,6 +69,7 @@ import 'package:go_router/go_router.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
+import 'package:fluxer_app/features/profile/domain/imported_placeholder.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_color.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart'
@@ -76,6 +77,7 @@ import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart'
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/edit_persona_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
+import 'package:fluxer_app/features/profile/presentation/widgets/imported_user_tag.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/persona_gallery_entry.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_list_provider.dart';
@@ -373,6 +375,8 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     bool isBot = false,
     bool isSystem = false,
     bool canCall = true,
+    // Fork: an imported placeholder account: no message, call or friend actions (tyne-chat/tyne#682).
+    bool forkImported = false,
   }) {
     final layout = context.layout;
     final colors = context.colors;
@@ -427,6 +431,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
 
     if (widget.popout) {
       return _buildPopoutCard(
+        forkImported: forkImported,
         userId: userId,
         username: username,
         discriminator: discriminator,
@@ -525,11 +530,13 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                         UserProfileRelationshipButton(
                           relationshipStatus: relationship?.friendStatus,
                           isCurrentUser: isCurrentUser,
-                          allowFriendRequests: !ref.watch(
-                            instanceRuntimeConfigProvider.select(
-                              (config) => config.directMessagesDisabled,
-                            ),
-                          ),
+                          allowFriendRequests:
+                              !forkImported &&
+                              !ref.watch(
+                                instanceRuntimeConfigProvider.select(
+                                  (config) => config.directMessagesDisabled,
+                                ),
+                              ),
                           onUnblock: () => _handleRelationshipAction(
                             repoCall: () => ref
                                 .read(friendRepositoryProvider)
@@ -611,7 +618,10 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
           sliver: SliverList(
             delegate: SliverChildListDelegate.fixed(<Widget>[
               UserProfileHeader(
-                forkNameTrailing: accountPersonaNameTrailing(forkPersonas),
+                forkNameTrailing: accountPersonaNameTrailing(
+                  forkPersonas,
+                  imported: forkImported,
+                ),
                 username: username,
                 discriminator: discriminator,
                 displayName: displayName,
@@ -633,6 +643,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                   isFriend: relationship?.friendStatus == FriendStatus.accepted,
                   isBlocked: isBlocked,
                   canCall:
+                      !forkImported &&
                       canCall &&
                       !ref.watch(
                         instanceRuntimeConfigProvider.select(
@@ -641,11 +652,13 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                               !config.voiceEnabled,
                         ),
                       ),
-                  showMessage: !ref.watch(
-                    instanceRuntimeConfigProvider.select(
-                      (config) => config.directMessagesDisabled,
-                    ),
-                  ),
+                  showMessage:
+                      !forkImported &&
+                      !ref.watch(
+                        instanceRuntimeConfigProvider.select(
+                          (config) => config.directMessagesDisabled,
+                        ),
+                      ),
                   onMessage: () => _handleMessage(userId, isBlocked, username),
                   onVoiceCall: () => _handleOutboundDmCall(
                     peerUserId: userId,
@@ -775,6 +788,8 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     required bool isBot,
     required bool isSystem,
     required ValueChanged<Offset>? openActions,
+    // Fork: an imported placeholder account: no message, call or friend actions (tyne-chat/tyne#682).
+    bool forkImported = false,
   }) {
     final colors = context.colors;
     final textStyles = context.textStyles;
@@ -813,7 +828,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
               );
             },
           )
-        : dmsDisabled
+        : dmsDisabled || forkImported
         ? null
         : FluxerButton.primary(
             label: isBlocked ? l10n.userProfileOpenDm : l10n.userProfileMessage,
@@ -835,6 +850,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
         hidden: isWebhook || isBot || isSystem,
       ),
       topGap: 4,
+      imported: forkImported,
     );
 
     return UserProfilePopoutFrame(
@@ -1124,6 +1140,9 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     final Color bannerColor = bannerColorInt != null
         ? Color(bannerColorInt | 0xFF000000)
         : colors.backgroundSecondary;
+    // An imported placeholder's persona: the "Imported" tag and no Message
+    // (tyne-chat/tyne#682).
+    final bool imported = isImportedPlaceholder(rootProfile?.user.flags);
     final PersonaGalleryOwner? galleryOwner = personaGalleryOwnerFor(
       userId: effectiveUserId,
       isSelf: isCurrentUser,
@@ -1230,6 +1249,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                         color: colors.textPrimary,
                       ),
                     ),
+                    if (imported) const ImportedUserTag(),
                     if (personaTag != null && personaTag.trim().isNotEmpty)
                       FluxerUserTag(
                         label: personaTag.trim(),
@@ -1392,7 +1412,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                             },
                     ),
                   )
-                else
+                else if (!imported)
                   SizedBox(
                     width: double.infinity,
                     child: FluxerButton.primary(
@@ -1665,6 +1685,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
         final List<ProfileBadgeResponse> profileBadges =
             response.profileBadges ?? const <ProfileBadgeResponse>[];
         return _buildLoadedView(
+          forkImported: isImportedPlaceholder(response.user.flags),
           userId: response.user.id,
           username: response.user.username,
           discriminator: response.user.discriminator,
