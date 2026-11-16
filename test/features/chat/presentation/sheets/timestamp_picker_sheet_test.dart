@@ -6,6 +6,7 @@ import 'package:fluxer_app/features/chat/presentation/sheets/timestamp_picker_sh
 import 'package:fluxer_app/features/chat/providers/pickers/timestamp_insert_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/time_format_providers.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
+import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -233,5 +234,23 @@ void main() {
         expect(find.text('Insert'), findsOneWidget);
       },
     );
+
+    // tyne-chat/tyne#689: Android's three-button navigation bar takes 48 dp at
+    // the bottom of the screen, and Insert was drawn under it.
+    testWidgets('keeps Insert above the system navigation bar', (tester) async {
+      tester.view.viewPadding = const FakeViewPadding(bottom: 48);
+      tester.view.padding = const FakeViewPadding(bottom: 48);
+      addTearDown(tester.view.resetViewPadding);
+      addTearDown(tester.view.resetPadding);
+      await openPicker(tester);
+
+      final Rect insert = tester.getRect(
+        find.ancestor(
+          of: find.text('Insert'),
+          matching: find.byType(FluxerButton),
+        ),
+      );
+      expect(insert.bottom, lessThanOrEqualTo(1600 - 48));
+    });
   });
 }
