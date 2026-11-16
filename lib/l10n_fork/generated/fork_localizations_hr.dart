@@ -1217,4 +1217,9 @@ class ForkLocalizationsHr extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'Zamjenski račun za nekoga tko nije na Tyneu: ove su poruke uvezene s Discorda.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name nije na Tyneu: ovaj je razgovor uvezen s Discorda i nove poruke do te osobe neće stići.';
+  }
 }

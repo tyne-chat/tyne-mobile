@@ -2050,7 +2050,9 @@ class _DmBottomSheet extends ConsumerWidget {
       groups.add(FluxerMenuGroup(children: children));
     }
 
-    if (!convo.isGroup) {
+    // Fork: no friend, Block or invite actions with a placeholder from the
+    // Discord import: nobody is behind it (tyne-chat/tyne#685, #687).
+    if (!convo.isGroup && !convo.forkImportedRecipient) {
       final relChildren = <Widget>[
         if (inviteCandidates.isNotEmpty)
           FluxerBottomSheetSubmenuItem(
