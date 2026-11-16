@@ -28,6 +28,10 @@ import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/user_tag.dart';
 import 'package:fluxer_dart/export.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/profile/domain/imported_placeholder.dart';
+
 class UserProfileActionsSheet {
   UserProfileActionsSheet._();
 
@@ -70,6 +74,9 @@ class UserProfileActionsSheet {
         );
         final status = relationship?.friendStatus;
         final bool isSystem = user.system ?? false;
+        // Fork: no Report or Block for a placeholder from the Discord import:
+        // nobody is behind it (tyne-chat/tyne#687).
+        final bool forkImported = isImportedPlaceholder(user.flags);
 
         final groups = <List<Widget>>[];
 
@@ -283,7 +290,7 @@ class UserProfileActionsSheet {
               ),
             );
           }
-          if (canReportUserProfile) {
+          if (canReportUserProfile && !forkImported) {
             reportBlockItems.add(
               FluxerMenuItem(
                 label: l10n.userProfileReportUserProfile,
@@ -306,7 +313,7 @@ class UserProfileActionsSheet {
               ),
             );
           }
-          if (!isSystem) {
+          if (!isSystem && !forkImported) {
             if (status == FriendStatus.blocked) {
               reportBlockItems.add(
                 FluxerMenuItem(
