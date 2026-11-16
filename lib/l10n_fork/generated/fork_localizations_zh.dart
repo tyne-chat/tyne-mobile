@@ -1156,6 +1156,11 @@ class ForkLocalizationsZh extends ForkLocalizations {
 
   @override
   String get importedUserTooltip => '不在 Tyne 上的人的占位帐号：这些消息是从 Discord 导入的。';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name 不在 Tyne 上：这段对话是从 Discord 导入的，新消息无法送达对方。';
+  }
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -2310,4 +2315,9 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get importedUserTooltip => '不在 Tyne 上的人的佔位帳號：這些訊息是從 Discord 匯入的。';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name 不在 Tyne 上：這段對話是從 Discord 匯入的，新訊息無法送達對方。';
+  }
 }

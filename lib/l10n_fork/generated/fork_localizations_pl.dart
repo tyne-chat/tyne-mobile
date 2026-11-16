@@ -1232,4 +1232,9 @@ class ForkLocalizationsPl extends ForkLocalizations {
   @override
   String get importedUserTooltip =>
       'Konto zastępcze osoby, której nie ma na Tyne: te wiadomości zaimportowano z Discorda.';
+
+  @override
+  String importedDmBarrier(String name) {
+    return '$name nie ma na Tyne: tę rozmowę zaimportowano z Discorda i nowe wiadomości do tej osoby nie dotrą.';
+  }
 }
