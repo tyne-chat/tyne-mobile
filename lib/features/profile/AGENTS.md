@@ -166,6 +166,11 @@ name counts the API's limit in UTF-16 code units and is cut only between whole c
   `personaRefreshDelayProvider` after the last copy, and only a list on screen is fetched again.
   Opening a persona from the gallery, or swiping to one, asks nothing: the page shows the list's copy.
   Only a persona no longer in the list is fetched, once per session (tyne-chat/tyne#640).
+- **A Discord import placeholder's Open DM** (tyne-chat/tyne#696): `imported_conversation_provider.dart`, one
+  `GET /users/@me/imported-conversations/:id` per placeholder and account, shared by the popout footer, the full
+  profile's card and its personas' profiles (`imported_conversation_button.dart`); kept once answered, a failure
+  not asked again within a minute of the profile closing. Nothing is asked while signed out or where the
+  instance has DMs off.
 - **Many at once**: one `PATCH /users/@me/personas/visibility` or `POST /users/@me/personas/bulk-delete`
   per 250 personas, nothing when none would change, never retried; Undo is one more `PATCH`. The
   server's `USER_PERSONAS_UPDATE` then reloads the own list once per mobile session, as one change
