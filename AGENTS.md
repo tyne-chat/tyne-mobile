@@ -120,6 +120,9 @@ or `@generated` means a tool rewrites it.
   upstream uses, so the output for upstream's files stays byte-identical to upstream's. Each field in
   their fork blocks matches the server's (`packages/schema/proto/` in tyne) in name, number and type,
   by hand; nothing checks it (`lib/core/synced_preferences/AGENTS.md`).
+- **Desktop plugin registrants** (`generated_plugin*` in `linux/flutter/` and `windows/flutter/`,
+  `macos/Flutter/GeneratedPluginRegistrant.swift`): written by `flutter pub get`; the nightly
+  rebase moves them into its tip commit.
 - In a merge or rebase conflict on a generated file, take upstream's version and regenerate.
 - Say in the commit or summary which generator ran. "I edited the model" is never a valid
   description of a change under `dart_sdk/lib/models`.
