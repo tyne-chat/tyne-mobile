@@ -77,6 +77,7 @@ import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart'
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/edit_persona_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
+import 'package:fluxer_app/features/profile/presentation/widgets/imported_conversation_button.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/imported_user_tag.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/persona_gallery_entry.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
@@ -375,7 +376,8 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     bool isBot = false,
     bool isSystem = false,
     bool canCall = true,
-    // Fork: an imported placeholder account: no message, call or friend actions (tyne-chat/tyne#682).
+    // Fork: an imported placeholder account: no message, call or friend actions (tyne-chat/tyne#682),
+    // only Open DM for its imported conversation (tyne-chat/tyne#696).
     bool forkImported = false,
   }) {
     final layout = context.layout;
@@ -675,6 +677,11 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                   onEditProfile: () =>
                       UserSettingsModal.show(context, openProfileSection: true),
                 ),
+                ImportedConversationAction(
+                  userId: userId,
+                  imported: forkImported,
+                  onOpen: () => _handleMessage(userId, isBlocked, username),
+                ),
                 if (widget.useCurrentUserCache) ...[
                   SizedBox(height: layout.s3),
                   const UserProfileSelfCard(),
@@ -788,7 +795,8 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     required bool isBot,
     required bool isSystem,
     required ValueChanged<Offset>? openActions,
-    // Fork: an imported placeholder account: no message, call or friend actions (tyne-chat/tyne#682).
+    // Fork: an imported placeholder account: no message, call or friend actions (tyne-chat/tyne#682),
+    // only Open DM for its imported conversation (tyne-chat/tyne#696).
     bool forkImported = false,
   }) {
     final colors = context.colors;
@@ -828,7 +836,14 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
               );
             },
           )
-        : dmsDisabled || forkImported
+        : forkImported
+        ? importedConversationFooter(
+            context,
+            ref,
+            userId: userId,
+            onOpen: () => _handleMessage(userId, isBlocked, username),
+          )
+        : dmsDisabled
         ? null
         : FluxerButton.primary(
             label: isBlocked ? l10n.userProfileOpenDm : l10n.userProfileMessage,
@@ -1424,6 +1439,13 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                         rootDisplayName,
                       ),
                     ),
+                  )
+                // Fork: a placeholder's imported DM (tyne-chat/tyne#696).
+                else
+                  ImportedConversationPersonaButton(
+                    userId: effectiveUserId,
+                    onOpen: () =>
+                        _handleMessage(effectiveUserId, false, rootDisplayName),
                   ),
               ]),
             ),
