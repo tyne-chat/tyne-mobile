@@ -113,6 +113,24 @@ class ForkLocalizationsHu extends ForkLocalizations {
   String get personaPronounsHint => 'pl. ő/ők';
 
   @override
+  String get personaAliasesLabel => 'Álnevek';
+
+  @override
+  String get personaAliasLabel => 'Álnév';
+
+  @override
+  String get personaAliasesHelp =>
+      'További nevek, amelyekkel megtalálod ezt a personát';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'Álnév hozzáadása ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'Álnév eltávolítása';
+
+  @override
   String get personaBioHint => 'Mesélj másoknak erről a personáról...';
 
   @override

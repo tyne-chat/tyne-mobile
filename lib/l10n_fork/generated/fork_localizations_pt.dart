@@ -115,6 +115,23 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String get personaPronounsHint => 'ex. ela/ele';
 
   @override
+  String get personaAliasesLabel => 'Alcunhas';
+
+  @override
+  String get personaAliasLabel => 'Alcunha';
+
+  @override
+  String get personaAliasesHelp => 'Outros nomes para encontrar esta persona';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'Adicionar alcunha ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'Remover alcunha';
+
+  @override
   String get personaBioHint => 'Conta aos outros sobre esta persona...';
 
   @override
@@ -1361,6 +1378,23 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
 
   @override
   String get personaPronounsHint => 'ex. ela/dela';
+
+  @override
+  String get personaAliasesLabel => 'Apelidos';
+
+  @override
+  String get personaAliasLabel => 'Apelido';
+
+  @override
+  String get personaAliasesHelp => 'Outros nomes para encontrar esta persona';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'Adicionar apelido ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'Remover apelido';
 
   @override
   String get personaBioHint => 'Conte aos outros sobre essa persona...';

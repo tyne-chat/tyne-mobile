@@ -112,6 +112,23 @@ class ForkLocalizationsTh extends ForkLocalizations {
   String get personaPronounsHint => 'เช่น they/them';
 
   @override
+  String get personaAliasesLabel => 'ชื่อแฝง';
+
+  @override
+  String get personaAliasLabel => 'ชื่อแฝง';
+
+  @override
+  String get personaAliasesHelp => 'ชื่ออื่นที่ใช้ค้นหา Persona นี้';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'เพิ่มชื่อแฝง ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'ลบชื่อแฝง';
+
+  @override
   String get personaBioHint => 'บอกเล่าเกี่ยวกับ Persona นี้ให้ผู้อื่นรู้...';
 
   @override
