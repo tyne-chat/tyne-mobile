@@ -6,6 +6,10 @@ import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_providers.dart';
+
 typedef ComposerWatch = ({
   bool forkImportedRecipient,
   bool isSystemDm,
@@ -41,17 +45,21 @@ ComposerWatch? composerWatchFor(
 
 //
 // ignore: specify_nonobvious_property_types
-final composerWatchProvider = Provider.autoDispose
-    .family<ComposerWatch?, String>((Ref ref, String channelId) {
-      final List<DmConversation> conversations = ref.watch(
-        dmViewModelProvider.select((DmViewState state) => state.conversations),
-      );
-      final DmConversation? conversation = findDmById(conversations, channelId);
-      final String? friendNickname =
-          conversation == null ||
-              conversation.isGroup ||
-              conversation.isPersonalNotes
-          ? null
-          : ref.watch(friendNicknameProvider(conversation.recipientId)).value;
-      return composerWatchFor(conversation, friendNickname: friendNickname);
-    });
+final composerWatchProvider = Provider.autoDispose.family<ComposerWatch?, String>(
+  (Ref ref, String channelId) {
+    final List<DmConversation> conversations = ref.watch(
+      dmViewModelProvider.select((DmViewState state) => state.conversations),
+    );
+    // Fork: a DM thread's composer follows its DM's rules (tyne-chat/tyne#699).
+    final String dmId =
+        ref.watch(forkDmThreadParentOfProvider(channelId)) ?? channelId;
+    final DmConversation? conversation = findDmById(conversations, dmId);
+    final String? friendNickname =
+        conversation == null ||
+            conversation.isGroup ||
+            conversation.isPersonalNotes
+        ? null
+        : ref.watch(friendNicknameProvider(conversation.recipientId)).value;
+    return composerWatchFor(conversation, friendNickname: friendNickname);
+  },
+);
