@@ -316,5 +316,11 @@
     "stickerUploadRequirements": "تحتفظ الملصقات بحجمها الأصلي، حتى 2048 بكسل لكل جانب، ويجب أن يكون حجمها أقل من {maxSize}. تُصغَّر الصور الثابتة الأكبر وتُضغط تلقائيًا. أما الملصقات المتحركة وملفات SVG فيجب أن تكون ضمن الحد مسبقًا.",
     "importedUserTag": "مستورد",
     "importedUserTooltip": "حساب بديل لشخص غير موجود على Tyne: استُوردت هذه الرسائل من Discord.",
-    "importedDmBarrier": "{name} ليس على Tyne: استُوردت هذه المحادثة من Discord، ولن تصله الرسائل الجديدة."
+    "importedDmBarrier": "{name} ليس على Tyne: استُوردت هذه المحادثة من Discord، ولن تصله الرسائل الجديدة.",
+    "guildEmojiSortAndGroup": "الفرز والتجميع",
+    "guildEmojiSortName": "الاسم (أ–ي)",
+    "guildEmojiSortRecent": "المضافة حديثًا",
+    "guildEmojiGroupSplit": "غير المتحركة والمتحركة منفصلة",
+    "guildEmojiGroupTogether": "الكل في قائمة واحدة",
+    "guildEmojiAllSection": "الرموز التعبيرية ({count})"
 }
