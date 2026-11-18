@@ -35,9 +35,16 @@ import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/persona_sending_as_row.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_providers.dart';
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_threads.dart';
 import 'package:fluxer_app/features/threads/utils/thread_name_from_message.dart';
 
 bool canStartThreadIn(Channel parent, ThreadActor? actor) {
+  // Fork: threads in DMs, public only (tyne-chat/tyne#699).
+  if (forkIsDmThreadParent(parent)) {
+    return actor != null &&
+        canCreateThread(actor, ThreadCreateKind.public) == null;
+  }
   if (!isTextThreadParentType(parent.type) || actor == null) {
     return false;
   }
@@ -54,7 +61,8 @@ bool canStartThreadFromMessage({
   required Message message,
   required ThreadActor? actor,
 }) {
-  return isTextThreadParentType(parent.type) &&
+  return (isTextThreadParentType(parent.type) ||
+          forkIsDmThreadParent(parent)) &&
       actor != null &&
       message.isUserMessage &&
       message.deliveryState == MessageDeliveryState.sent &&
@@ -64,6 +72,20 @@ bool canStartThreadFromMessage({
 }
 
 bool watchCanCreateThreadFromMessage(WidgetRef ref, Message message) {
+  // Fork: a message in a DM starts a thread in the DM, when READY's switch
+  // allows it (tyne-chat/tyne#699).
+  final Channel? forkDmParent = ref.watch(forkDmThreadsEnabledProvider)
+      ? ref.watch(forkDmThreadParentProvider(message.channelId))
+      : null;
+  if (forkDmParent != null) {
+    return canStartThreadFromMessage(
+      parent: forkDmParent,
+      message: message,
+      actor: ref.watch(
+        parentThreadActorProvider(forkDmParent.guildId, forkDmParent.id),
+      ),
+    );
+  }
   final Channel? parent = ref
       .watch(channelByIdProvider(message.channelId))
       .value;
@@ -88,6 +110,19 @@ Future<void> showCreateThreadSheetForMessage(
       .getChannelById(message.channelId);
   await handOffFluxerSheet(context);
   final db.Channel? row = await parentRow;
+  // Fork: a message in a DM starts a thread in the DM (tyne-chat/tyne#699).
+  final Channel? forkDmParent = row == null
+      ? ref.read(forkDmThreadParentProvider(message.channelId))
+      : null;
+  if (forkDmParent != null && context.mounted) {
+    await showCreateThreadSheet(
+      context,
+      ref,
+      parent: forkDmParent,
+      sourceMessage: message,
+    );
+    return;
+  }
   if (row == null || !context.mounted) {
     return;
   }
@@ -309,6 +344,10 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
     ref
         .read(activePersonaProvider.notifier)
         .startChannelAs(created.id, personaData?['id'] as String?);
+    // Fork: Back from a new DM thread leaves for its DM (tyne-chat/tyne#699).
+    if (forkIsDmThreadParent(parent)) {
+      forkNoteDmThread(created.id, parent.id);
+    }
     final Message? source = widget.sourceMessage;
     final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
     await database.transaction(() async {
