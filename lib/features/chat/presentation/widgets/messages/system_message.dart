@@ -26,6 +26,10 @@ import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_widgets.dart';
+
 const Color _kSystemMessageOnlineIconColor = Color(0xFF22C55E);
 const Color _kSystemMessageRemoveIconColor = Color(0xFFEF4444);
 const double _kSystemMessageIconOpacity = 0.6;
@@ -146,6 +150,8 @@ class SystemMessage extends ConsumerWidget {
           : null,
       currentUserId: currentUserId,
     );
+    // Fork: a thread's count on its notice (tyne-chat/tyne#699).
+    forkAddThreadCreatedCount(textSpans, message);
     final String timestampText = formatMessageTimestamp(
       message.timestamp.toLocal(),
       FluxerLocalizations.of(context),
