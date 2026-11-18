@@ -114,6 +114,24 @@ class ForkLocalizationsDe extends ForkLocalizations {
   String get personaPronounsHint => 'z. B. sie/ihr';
 
   @override
+  String get personaAliasesLabel => 'Aliasse';
+
+  @override
+  String get personaAliasLabel => 'Alias';
+
+  @override
+  String get personaAliasesHelp =>
+      'Weitere Namen, unter denen du diese Persona findest';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'Alias hinzufügen ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'Alias entfernen';
+
+  @override
   String get personaBioHint => 'Erzähle anderen von dieser Persona...';
 
   @override
