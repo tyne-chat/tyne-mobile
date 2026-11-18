@@ -1259,4 +1259,12 @@ class ForkLocalizationsCa extends ForkLocalizations {
   String guildEmojiAllSection(int count) {
     return 'Emojis ($count)';
   }
+
+  @override
+  String get forwardAs => 'Reenvia com a';
+
+  @override
+  String forwardAsName(String name) {
+    return 'Reenvia com a $name';
+  }
 }

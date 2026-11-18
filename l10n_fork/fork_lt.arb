@@ -322,5 +322,7 @@
     "guildEmojiSortRecent": "Neseniai pridėti",
     "guildEmojiGroupSplit": "Neanimuoti ir animuoti atskirai",
     "guildEmojiGroupTogether": "Visi viename sąraše",
-    "guildEmojiAllSection": "Jaustukai ({count})"
+    "guildEmojiAllSection": "Jaustukai ({count})",
+    "forwardAs": "Persiųsti kaip",
+    "forwardAsName": "Persiųsti kaip {name}"
 }

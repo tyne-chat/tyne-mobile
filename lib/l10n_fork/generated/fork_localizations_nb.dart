@@ -1231,4 +1231,12 @@ class ForkLocalizationsNb extends ForkLocalizations {
   String guildEmojiAllSection(int count) {
     return 'Emojier ($count)';
   }
+
+  @override
+  String get forwardAs => 'Videresend som';
+
+  @override
+  String forwardAsName(String name) {
+    return 'Videresend som $name';
+  }
 }

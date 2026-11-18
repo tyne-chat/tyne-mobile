@@ -1260,4 +1260,12 @@ class ForkLocalizationsUk extends ForkLocalizations {
   String guildEmojiAllSection(int count) {
     return 'Емоджі ($count)';
   }
+
+  @override
+  String get forwardAs => 'Переслати як';
+
+  @override
+  String forwardAsName(String name) {
+    return 'Переслати як $name';
+  }
 }

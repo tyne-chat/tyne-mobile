@@ -322,5 +322,7 @@
     "guildEmojiSortRecent": "Mới thêm gần đây",
     "guildEmojiGroupSplit": "Tĩnh và động riêng",
     "guildEmojiGroupTogether": "Tất cả trong một danh sách",
-    "guildEmojiAllSection": "Biểu tượng cảm xúc ({count})"
+    "guildEmojiAllSection": "Biểu tượng cảm xúc ({count})",
+    "forwardAs": "Chuyển tiếp với tư cách",
+    "forwardAsName": "Chuyển tiếp với tư cách {name}"
 }

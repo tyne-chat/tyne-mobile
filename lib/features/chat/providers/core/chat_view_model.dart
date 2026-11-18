@@ -114,6 +114,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart'
 import 'package:fluxer_app/features/chat/data/persona_emoji_usage_store.dart';
 import 'package:fluxer_app/features/chat/data/prepared_attachments.dart';
 import 'package:fluxer_app/features/chat/domain/cloud_composer_attachments.dart';
+import 'package:fluxer_app/features/chat/domain/forward_as.dart';
 import 'package:fluxer_app/features/chat/providers/core/fork_around_page.dart';
 import 'package:fluxer_app/features/chat/providers/core/fork_detached_send.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
@@ -4978,6 +4979,7 @@ class ChatViewModel extends _$ChatViewModel {
     required String sourceChannelId,
     required String sourceMessageId,
     required List<String> destinationChannelIds,
+    ForwardAs? forwardAs,
     String? sourceGuildId,
     List<String>? attachmentIds,
     List<int>? embedIndices,
@@ -5041,6 +5043,7 @@ class ChatViewModel extends _$ChatViewModel {
         sourceChannelId: sourceChannelId,
         channelId: channelId,
         comment: normalizedComment?.content ?? '',
+        forwardAs: forwardAs,
       );
       // Held until the personas load (tyne-chat/tyne#30): every destination
       // waits for the same thing, so this is the first one and nothing went.
