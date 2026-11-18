@@ -12,6 +12,10 @@ import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/shared/providers/fork_profile_member.dart';
+
 part 'user_profile.g.dart';
 
 class CurrentUserCachedProfile {
@@ -67,6 +71,8 @@ Future<UserProfileFullResponse?> userProfile(
       withMutualGuilds: 'true',
     );
     await _cacheUserProfile(database, profile);
+    // Fork: keep the member it brings (tyne-chat/tyne#614).
+    await forkCacheProfileMember(database, guildId, profile);
     return profile;
   } on Object {
     if (cachedUser != null) {
