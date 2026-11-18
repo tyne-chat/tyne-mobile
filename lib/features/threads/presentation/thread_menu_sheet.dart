@@ -17,6 +17,10 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_providers.dart';
+
 Future<void> showThreadMenuSheet(
   BuildContext context,
   WidgetRef hostRef,
@@ -144,7 +148,10 @@ List<List<Widget>> buildThreadMenuGroups({
           null;
   final bool canUnarchiveIt =
       actor != null && thread.isArchivedThread && canUnarchive(actor) == null;
-  final bool canDelete = actor != null && canDeleteThread(actor) == null;
+  // Fork: in a 1:1 DM its starter may delete a thread (tyne-chat/tyne#699).
+  final bool canDelete =
+      (actor != null && canDeleteThread(actor) == null) ||
+      forkDmStarterMayDelete(ref, thread);
 
   final List<Widget> readGroup = <Widget>[
     if (includeMarkRead && hasUnread)

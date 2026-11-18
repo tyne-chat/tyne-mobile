@@ -9,6 +9,10 @@ import 'package:fluxer_app/features/threads/providers/thread_entered_from_parent
 import 'package:fluxer_app/features/voice/utils/pip/phone_call_layout.dart';
 import 'package:fluxer_app/material_ui.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_providers.dart';
+
 bool shellShowsConcurrentChannelList(BuildContext context) {
   if (!isMobileLayout(context)) {
     return true;
@@ -91,8 +95,11 @@ ShellChatBackContext shellChatBackContext(BuildContext context, WidgetRef ref) {
   final bool showsConcurrentChannelList = shellShowsConcurrentChannelList(
     context,
   );
+  // Fork: a DM's thread always leaves for its DM (tyne-chat/tyne#699).
   final bool leavesThreadToParent =
-      showsConcurrentChannelList || _isThreadEnteredFromParent(ref);
+      showsConcurrentChannelList ||
+      _isThreadEnteredFromParent(ref) ||
+      forkIsDmThreadChatForShell(ref);
   return ShellChatBackContext(
     isThread: leavesThreadToParent && isThreadChatForShell(ref),
     showsConcurrentChannelList: showsConcurrentChannelList,

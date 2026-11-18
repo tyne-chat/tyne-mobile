@@ -41,6 +41,7 @@ import 'package:fluxer_dart/gateway.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/features/profile/data/known_personas.dart';
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_gateway.dart';
 import 'package:fluxer_dart/gateway_client/fork_parse_skips.dart';
 
 const int _messageTypeThreadStarter = 21;
@@ -829,6 +830,10 @@ class GatewayEventHandler {
           if (guildId is String) {
             _emit(() => onGuildCommandsUpdate?.call(guildId));
           }
+        } else if (event.eventType == forkDmThreadEventName) {
+          // Fork: threads in DMs, unwrapped for the cases above
+          // (tyne-chat/tyne#699).
+          await forkHandleDmThreadEvent(this, event.data);
         } else if (event.parseError != null) {
           talker.warning(
             '[Gateway] Failed to parse ${event.eventType}: ${event.parseError}',
@@ -1422,6 +1427,8 @@ class GatewayEventHandler {
         }
       }
 
+      // Fork: threads in DMs (tyne-chat/tyne#699).
+      await forkApplyReadyDmThreads(this, event);
       await database.threadDao.pruneArchived(now: DateTime.now());
 
       if (trimCachedMessages) {
@@ -1754,11 +1761,17 @@ class GatewayEventHandler {
         decision.kind == ReadStateIncomingMessageKind.ackAutomaticMessage ||
         decision.kind == ReadStateIncomingMessageKind.ackBlockedMessage;
 
+    // Fork: every message in a followed DM thread counts, as in a DM
+    // (tyne-chat/tyne#699).
+    final bool forkDmThreadCounts = await forkDmThreadMessageCounts(
+      database,
+      channelResolution.guildChannel,
+    );
     if (!unknownThread) {
       await _applyReadStateDecisionForCreatedMessage(
         msg,
         isDm: isDm,
-        mentionsCurrentUser: mentionsCurrentUser,
+        mentionsCurrentUser: mentionsCurrentUser || forkDmThreadCounts,
         previousChannelLastMessageId: previousChannelLastMessageId,
         decision: decision,
       );

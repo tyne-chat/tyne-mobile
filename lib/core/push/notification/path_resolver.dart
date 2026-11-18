@@ -2,7 +2,16 @@ import 'package:fluxer_app/core/push/notification/payload.dart';
 import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/push/notification/fork_dm_thread_push_path.dart';
+
 String? resolvePushNotificationPath(Map<String, String> payload) {
+  // Fork: a DM thread's push opens the thread (tyne-chat/tyne#699).
+  final String? forkDmThreadPath = forkDmThreadPushPath(payload);
+  if (forkDmThreadPath != null) {
+    return forkDmThreadPath;
+  }
   final String? fromUrl = _pathFromUrl(payload['url']);
   if (fromUrl != null) {
     return fromUrl;
