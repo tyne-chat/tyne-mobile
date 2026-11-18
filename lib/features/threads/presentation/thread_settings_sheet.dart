@@ -12,6 +12,10 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_threads.dart';
+
 Future<void> showThreadSettingsSheet(BuildContext context, Channel thread) {
   return FluxerBottomSheet.show<void>(
     context,
@@ -106,6 +110,8 @@ class _ThreadSettingsBodyState extends ConsumerState<_ThreadSettingsBody> {
       threadActorContextProvider(thread.id),
     );
     final bool isModerator = actor != null && isThreadModeratorFor(actor);
+    // Fork: DM threads have no slowmode (tyne-chat/tyne#699).
+    final bool forkShowsSlowmode = isModerator && !forkIsDmThread(thread);
     final bool canInvitable =
         thread.type == ChannelType.privateThread &&
         actor != null &&
@@ -142,7 +148,7 @@ class _ThreadSettingsBodyState extends ConsumerState<_ThreadSettingsBody> {
             items: threadAutoArchiveItems(l10n),
             onChanged: (int value) => setState(() => _autoArchive = value),
           ),
-          if (isModerator) ...<Widget>[
+          if (forkShowsSlowmode) ...<Widget>[
             SizedBox(height: context.layout.s4),
             ChannelSlowmodeSlider(
               l10n: l10n,

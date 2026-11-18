@@ -18,7 +18,16 @@ import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:fluxer_dart/gateway.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_people.dart';
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_threads.dart';
+
 Future<void> showThreadMembersSheet(BuildContext context, Channel thread) {
+  // Fork: a DM thread's people are the DM's (tyne-chat/tyne#699).
+  if (forkIsDmThread(thread)) {
+    return forkShowDmThreadPeople(context, thread);
+  }
   return FluxerBottomSheet.showScrollable<void>(
     context,
     title: FluxerLocalizations.of(context).threadMembers,

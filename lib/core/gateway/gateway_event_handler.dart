@@ -42,6 +42,8 @@ import 'package:fluxer_dart/gateway.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/features/profile/data/known_personas.dart';
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_gateway.dart';
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_threads.dart';
 import 'package:fluxer_dart/gateway_client/fork_parse_skips.dart';
 
 const int _messageTypeThreadStarter = 21;
@@ -568,6 +570,8 @@ class GatewayEventHandler {
         );
         if (event.user.id == currentUserId) {
           unawaited(database.dmChannelDao.deleteDmChannel(event.channelId));
+          // Fork: and its threads (tyne-chat/tyne#699).
+          unawaited(forkLeaveDmThreads(this, event.channelId));
         } else {
           unawaited(
             database.dmChannelDao.removeRecipientId(
@@ -834,6 +838,10 @@ class GatewayEventHandler {
           if (guildId is String) {
             _emit(() => onGuildCommandsUpdate?.call(guildId));
           }
+        } else if (event.eventType == forkDmThreadEventName) {
+          // Fork: threads in DMs, unwrapped for the cases above
+          // (tyne-chat/tyne#699).
+          await forkHandleDmThreadEvent(this, event.data);
         } else if (event.parseError != null) {
           talker.warning(
             '[Gateway] Failed to parse ${event.eventType}: ${event.parseError}',
@@ -1227,6 +1235,12 @@ class GatewayEventHandler {
             });
         await database.messageDao.deleteMessagesForChannels(closedDmIds);
         prunedChannelIds.addAll(closedDmIds);
+        // Fork: and their threads (tyne-chat/tyne#699).
+        final List<String> forkClosedThreadIds = await forkDeleteDmThreadsOf(
+          database,
+          closedDmIds,
+        );
+        prunedChannelIds.addAll(forkClosedThreadIds);
       }
 
       final relUsers = <db.UsersCompanion>[];
@@ -1413,6 +1427,8 @@ class GatewayEventHandler {
       }
 
       await database.threadDao.pruneArchived(now: DateTime.now());
+      // Fork: threads in DMs (tyne-chat/tyne#699), indexed once archived ones are pruned.
+      await forkApplyReadyDmThreads(this, event);
 
       if (trimCachedMessages) {
         await database.messageDao.deleteMessagesOutsideKnownChannels();
@@ -1744,11 +1760,17 @@ class GatewayEventHandler {
         decision.kind == ReadStateIncomingMessageKind.ackAutomaticMessage ||
         decision.kind == ReadStateIncomingMessageKind.ackBlockedMessage;
 
+    // Fork: every message in a followed DM thread counts, as in a DM
+    // (tyne-chat/tyne#699).
+    final bool forkDmThreadCounts = await forkDmThreadMessageCounts(
+      database,
+      channelResolution.guildChannel,
+    );
     if (!unknownThread) {
       await _applyReadStateDecisionForCreatedMessage(
         msg,
         isDm: isDm,
-        mentionsCurrentUser: mentionsCurrentUser,
+        mentionsCurrentUser: mentionsCurrentUser || forkDmThreadCounts,
         previousChannelLastMessageId: previousChannelLastMessageId,
         decision: decision,
       );
@@ -1838,6 +1860,10 @@ class GatewayEventHandler {
             now: now,
           );
 
+    // Fork: a DM thread is quiet when its DM is muted (tyne-chat/tyne#699).
+    final bool forkMuted =
+        isChannelMuted ||
+        await forkDmThreadParentMuted(database, channelId, now);
     _emit(
       () => onMessageCreate?.call(
         MessageCreateDispatch(
@@ -1847,7 +1873,7 @@ class GatewayEventHandler {
             isDm: isDm,
             acknowledgedByGateway: acknowledgedByGateway,
             notificationLevel: notificationLevel,
-            isChannelMuted: isChannelMuted,
+            isChannelMuted: forkMuted,
           ),
         ),
       ),
@@ -2206,7 +2232,8 @@ class GatewayEventHandler {
     required String channelId,
     required List<String> messageIds,
   }) async {
-    if (guildId == null) {
+    // Fork: a DM thread's events have no guild id (tyne-chat/tyne#699).
+    if (guildId == null && forkDmThreadParentOf(channelId) == null) {
       return;
     }
     final int counted = messageIds.where((String id) => id != channelId).length;
@@ -2391,6 +2418,7 @@ class GatewayEventHandler {
       readStateWriteBatcher?.discard(threadId);
       messageMentionContextCache?.invalidateChannel(threadId);
       _emit(() => onChannelDelete?.call(threadId));
+      forkForgetDmThread(threadId);
     }
   }
 

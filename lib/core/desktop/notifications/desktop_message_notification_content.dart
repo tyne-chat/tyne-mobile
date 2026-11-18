@@ -8,6 +8,10 @@ import 'package:fluxer_app/features/chat/utils/messages/message_name_resolvers.d
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_threads.dart';
+
 const int kDesktopNotificationBodyMaxLength = 300;
 
 class DesktopMessageNotificationContent {
@@ -198,6 +202,14 @@ Future<DesktopNotificationChannelContext?> resolveDesktopNotificationChannel({
   final db.Channel? channel = await database.channelDao.getChannelById(
     channelId,
   );
+  // Fork: a DM thread is titled "Author (Thread name)", as a group DM is
+  // with its name, and opens on the DM routes (tyne-chat/tyne#699).
+  if (channel != null && forkIsDmThreadRow(channel)) {
+    return DesktopNotificationChannelContext(
+      isGroupDm: true,
+      groupDmName: channel.name.trim(),
+    );
+  }
   if (channel != null) {
     final db.Server? guild = await database.guildDao.getServerById(
       channel.guildId,
