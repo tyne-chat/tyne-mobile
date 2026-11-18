@@ -82,6 +82,10 @@ upstream step would be skipped for good. So:
 - `user_preferences.emoji_pins_json`: the account's pinned emojis and each persona's
   (`features/emoji/domain/emoji_pins.dart`), synced through the fork's `emoji_pins` field
   (`core/synced_preferences/AGENTS.md`).
+- Threads in DMs (tyne-chat/tyne#699) need no column: they are thread rows in `channels` and
+  `thread_members` with the guild id `''` (`forkDmThreadGuildKey`,
+  `features/threads/fork_dm_threads/dm_threads.dart`), the value upstream already reads as "no
+  community". Their read states are ordinary `read_states` rows.
 - `known_personas`: every persona the device has been told about (the persona a message was sent as,
   the personas it mentions, persona events and lookups); mention chips and the composer read it with no
   request. A deleted persona keeps its row.

@@ -155,6 +155,16 @@ its media service from any engine (tyne-chat/tyne#210).
     carry.
 - **Signal bar:** `features/signal_bar` (the strip in the composer, its notifiers and the gateway
   events; guide in its `AGENTS.md`).
+- **Threads in DMs** (tyne-chat/tyne#699): `features/threads/fork_dm_threads/`. A DM thread is a thread
+  row in `channels` and `thread_members` under the guild id `''`, so upstream's thread screen, menu,
+  composer gate and read states work on it; it opens on the DM routes (`/channels/@me/<thread>`) and Back
+  leaves it for its DM. Events arrive wrapped in `FORK_DM_THREAD_EVENT` and READY's `fork_dm_threads`
+  (`dm_thread_gateway.dart`); the rules of a DM (1:1: both may rename or close; group: the owner
+  moderates) are a fork `ThreadActor` handed to upstream's thread rules. The DM list's threads mark, the
+  DM header's Threads button, the counts on the chip, the browser rows and a channel's Threads button
+  are fork widgets (`dm_thread_widgets.dart`). An in-memory index of known DM threads (READY and the
+  thread events fill it) decides Back and whether a DM row or header looks for threads at all, so a DM
+  without threads opens no query. A push carrying `fork_thread_id` opens the thread.
 - **Server commands:** `features/guild_commands` (the commands in the `/` list, running one on send,
   the chip on its messages, the Commands tab of community settings; guide in its `AGENTS.md`).
 - **Settings through READY** (tyne-chat/tyne#274): `features/guilds/providers/held_guild_permissions_provider.dart`

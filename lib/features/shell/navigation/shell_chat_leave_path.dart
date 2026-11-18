@@ -4,6 +4,9 @@ import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 
+// Fork imports.
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_threads.dart';
+
 String shellChatLeavePath(ProviderContainer container, String shellLocation) {
   final RouteKind kind = classifyRoute(shellLocation);
   if (kind != RouteKind.chat) {
@@ -14,6 +17,11 @@ String shellChatLeavePath(ProviderContainer container, String shellLocation) {
     return RoutePaths.me;
   }
 
+  // Fork: a DM's thread goes back to the DM (tyne-chat/tyne#699).
+  final String? forkDmParentPath = forkDmThreadLeavePath(channelId);
+  if (forkDmParentPath != null) {
+    return forkDmParentPath;
+  }
   if (shellLocation.startsWith('${RoutePaths.me}/') ||
       shellLocation == RoutePaths.me) {
     return RoutePaths.me;

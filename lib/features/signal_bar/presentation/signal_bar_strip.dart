@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/signal_bar/providers/signal_bar_collapsed_pr
 import 'package:fluxer_app/features/signal_bar/providers/signal_bar_providers.dart';
 import 'package:fluxer_app/features/signal_bar/providers/signal_bar_snapshot_writer.dart';
 import 'package:fluxer_app/features/signal_bar/providers/signal_persona_affirmation.dart';
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_threads.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
@@ -129,7 +130,11 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
   /// last READY; what the device kept is shown meanwhile.
   void _loadChannelIfNeeded() {
     final String channelId = widget.channelId;
+    // A DM thread has no signals: the server refuses the request (a thread is
+    // not one of its text channel types), and the strip stays hidden, as on
+    // the web (tyne-chat/tyne#699).
     if (channelId.isEmpty ||
+        forkDmThreadParentOf(channelId) != null ||
         ref.read(signalBarConfigProvider).signals.isEmpty ||
         _signals.isConfirmed(channelId) ||
         _signals.isLoading(channelId)) {

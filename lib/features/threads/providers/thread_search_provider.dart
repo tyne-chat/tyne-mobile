@@ -6,6 +6,11 @@ import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/forum/data/forum_repository.dart';
 import 'package:fluxer_app/features/forum/domain/forum_channel.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_threads.dart';
+
 typedef ThreadSearchParent = ({String guildId, String parentId});
 
 enum ThreadSearchStatus { idle, loading, indexing, failed, done }
@@ -84,6 +89,19 @@ class ThreadSearchController extends Notifier<ThreadSearchState> {
   }
 
   Future<void> _run(int generation, int attempt) async {
+    // Fork: a DM's threads are searched on the device (tyne-chat/tyne#699).
+    if (parent.guildId == forkDmThreadGuildKey) {
+      final List<String> ids = await forkSearchDmThreadIds(
+        ref.read(fluxerDatabaseProvider),
+        parentId: parent.parentId,
+        query: state.query,
+        archived: state.archived,
+      );
+      if (ref.mounted && generation == _generation) {
+        state = state.copyWith(status: ThreadSearchStatus.done, threadIds: ids);
+      }
+      return;
+    }
     final ForumSearchOutcome outcome;
     try {
       outcome = await ref
