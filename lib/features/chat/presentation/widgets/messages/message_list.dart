@@ -120,6 +120,10 @@ import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_providers.dart';
+
 part 'message_list_settings_layer.dart';
 // Fork: tyne-chat/tyne#633.
 part 'message_list_skeleton_trim_fork.dart';
@@ -3750,6 +3754,9 @@ class _MessageListState extends ConsumerState<MessageList> {
         final bool isPinSystemMessage =
             message.type == messageTypeChannelPinnedMessage;
         final bool isThreadCreated = message.type == messageTypeThreadCreated;
+        // Fork: a thread started in a DM has the DM threads' key (tyne-chat/tyne#699).
+        final String? threadGuildId =
+            guildId ?? forkDmThreadKeyForChannel(ref, message.channelId);
         final Widget systemMessage = SystemMessage(
           key: ValueKey(message.id),
           message: message,
@@ -3757,12 +3764,12 @@ class _MessageListState extends ConsumerState<MessageList> {
           onJumpToPinnedMessage: isPinSystemMessage
               ? () =>
                     unawaited(jumpToPinnedSystemMessage(ref, message: message))
-              : isThreadCreated && guildId != null
+              : isThreadCreated && threadGuildId != null
               ? () => unawaited(
                   openThreadById(
                     this.context,
                     ref,
-                    guildId: guildId,
+                    guildId: threadGuildId,
                     threadId: message.messageReference?.channelId ?? '',
                     fromParent: true,
                   ),
