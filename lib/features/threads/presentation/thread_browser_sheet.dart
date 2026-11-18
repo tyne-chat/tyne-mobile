@@ -21,6 +21,11 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_widgets.dart';
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_threads.dart';
+
 Future<void> showThreadBrowserSheet(
   BuildContext context,
   WidgetRef hostRef,
@@ -41,7 +46,7 @@ Future<void> showThreadBrowserSheet(
       placement: FluxerDesktopPlacement.belowEnd,
     ),
     subtitle: Text(
-      '#${parent.name}',
+      forkThreadBrowserParentLabel(parent),
       style: context.textStyles.bodySmall.copyWith(
         color: context.colors.textSecondary,
       ),
@@ -253,6 +258,7 @@ class _ThreadBrowserBodyState extends ConsumerState<_ThreadBrowserBody> {
   Widget _row(Channel thread, {bool joined = false}) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return FluxerListRow(
+      titleAdornments: <Widget>[ForkThreadRowUnread(threadId: thread.id)],
       leading: PhosphorIcon(
         thread.type == ChannelType.privateThread
             ? PhosphorIconsFill.lockSimple
@@ -404,6 +410,9 @@ class _ThreadBrowserBodyState extends ConsumerState<_ThreadBrowserBody> {
       for (final Channel t in visible)
         if (!joined.contains(t.id)) t,
     ];
+    // Fork: threads with news first in each section (tyne-chat/tyne#699).
+    forkSortThreadsWithNewsFirst(ref, mine);
+    forkSortThreadsWithNewsFirst(ref, others);
     return <Widget>[
       if (mine.isNotEmpty)
         FluxerListSection(

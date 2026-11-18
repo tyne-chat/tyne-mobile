@@ -15,6 +15,10 @@ import 'package:fluxer_app/features/members/providers/member_providers.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_threads.dart';
+
 part 'channel_message_permissions_provider.g.dart';
 
 class ChannelMessagePermissions {
@@ -147,6 +151,10 @@ Future<ChannelMessagePermissions> channelMessagePermissions(
     return ChannelMessagePermissions.unresolved;
   }
   final Channel channel = Channel.fromRow(channelRow);
+  // Fork: a thread in a DM is written in as the DM is (tyne-chat/tyne#699).
+  if (forkIsDmThread(channel)) {
+    return ChannelMessagePermissions.all;
+  }
   if (channel.guildId.isEmpty) {
     return ChannelMessagePermissions.none;
   }

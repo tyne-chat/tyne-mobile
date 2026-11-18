@@ -82,6 +82,17 @@ the persona and signal-bar events.
   A new persona event needs its name in both places. The SDK drops an unknown event whose payload is an
   array before it reaches the handler.
 
+- **Threads in DMs** (tyne-chat/tyne#699): every event about a DM thread arrives as
+  `FORK_DM_THREAD_EVENT`, `{"t": <upstream event>, "d": <payload>}`. The `UnknownGatewayEvent` case hands
+  it to `forkHandleDmThreadEvent` (`features/threads/fork_dm_threads/dm_thread_gateway.dart`), which fills
+  in the guild key `''` for the thread events whose parser needs a `guild_id`, parses the inner event with
+  the SDK's `EventParser` and calls `handle` with it, so upstream's cases store it. READY's
+  `fork_dm_threads` (the followed DM threads, their read states, the account's switch) is applied by
+  `forkApplyReadyDmThreads`, one line inside READY's transaction before cached messages are trimmed;
+  both keep the in-memory index of known DM threads (`dm_threads.dart`) that the UI reads first.
+  `_handleMessageCreate` counts every message in a followed, unmuted DM thread
+  (`forkDmThreadMessageCounts`), as a DM message counts, without marking it as a mention.
+
 The routing block in the `UnknownGatewayEvent` case sits in upstream's most-changed file; a fork function
 called with one line before upstream's `if` would shrink it.
 
@@ -102,6 +113,8 @@ updates are sent only when the presence changes.
   reported from READY's isolate),
   `fork_gateway_parse_skip_log_test.dart` (the skip log),
   `gateway_reaction_add_many_fork_test.dart` (ADD_MANY with your own reactions and personas),
+  `test/features/threads/fork_dm_threads/dm_thread_gateway_test.dart` (the DM thread envelope, READY's
+  `fork_dm_threads`, unread counts of DM thread messages),
   `providers/typing_personas_provider_test.dart`.
 - Not covered: the seven persona event names in the handler, known-persona writes from events.
 - After a change: `flutter test test/core/gateway test/core/providers test/features/profile

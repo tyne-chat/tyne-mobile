@@ -52,6 +52,10 @@ import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_dart/gateway.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_widgets.dart';
+
 class ChannelHeader extends ConsumerWidget {
   const ChannelHeader({
     this.channelId,
@@ -395,6 +399,9 @@ class ChannelHeader extends ConsumerWidget {
                                       ),
                                       if (dm != null && dm.isGroup)
                                         GroupDmMemberCountSubtitle(dm: dm),
+                                      // Fork: a DM thread's DM (tyne-chat/tyne#699).
+                                      if (channel != null)
+                                        ForkDmThreadParentLine(thread: channel),
                                     ],
                                   ),
                                 ),
@@ -466,6 +473,9 @@ class ChannelHeader extends ConsumerWidget {
                       ),
                     ),
                   ],
+                  // Fork: a DM's threads (tyne-chat/tyne#699).
+                  if (showMessageActions && dm != null)
+                    ForkDmThreadsHeaderButton(dmId: dm.id),
                   if (showMessageActions &&
                       dm == null &&
                       channel != null &&
@@ -512,7 +522,8 @@ class ChannelHeader extends ConsumerWidget {
                   if (showMessageActions &&
                       channel != null &&
                       showsThreadHeaderActions(channel))
-                    ThreadHeaderMobileButton(channel: channel),
+                    // Fork: unread counts, no Members in a 1:1 DM's thread.
+                    ForkThreadHeaderMobileButton(channel: channel),
                   if (channel != null &&
                       channel.type == ChannelType.guildVoice) ...[
                     ChatButton(

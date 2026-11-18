@@ -23,6 +23,10 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_threads.dart';
+
 String threadErrorText(FluxerLocalizations l10n, Object error) {
   if (error is DioException) {
     final String? mapped = threadApiErrorMessage(
@@ -79,6 +83,17 @@ Future<void> openThread(
   ref
       .read(threadEnteredFromParentProvider.notifier)
       .enter(thread.id, fromParent: fromParent);
+  // Fork: a DM's thread opens on the DM routes (tyne-chat/tyne#699).
+  final String? forkDmId = thread.parentId;
+  if (forkIsDmThread(thread) && forkDmId != null) {
+    forkNoteDmThread(thread.id, forkDmId);
+    return navigateToDmChannelContent(
+      context: context,
+      ref: ref,
+      channelId: thread.id,
+      messageId: messageId,
+    );
+  }
   return navigateToGuildChannelContent(
     context: context,
     ref: ref,
