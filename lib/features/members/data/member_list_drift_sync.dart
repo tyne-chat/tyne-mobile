@@ -2,6 +2,10 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_dart/gateway.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/gateway/fork_member_confirmation.dart';
+
 class MemberListDriftSync {
   MemberListDriftSync(this._database);
 
@@ -55,5 +59,7 @@ class MemberListDriftSync {
           ]);
       await _database.userDao.updateUserPresencesBatch(presenceUpdates);
     });
+    // Fork: confirmed for this connection, changed or not (tyne-chat/tyne#614).
+    ForkMemberConfirmation.of(_database).confirm(guildId, latestByUserId.keys);
   }
 }
