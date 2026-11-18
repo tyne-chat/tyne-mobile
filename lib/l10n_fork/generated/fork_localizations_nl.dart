@@ -1212,4 +1212,24 @@ class ForkLocalizationsNl extends ForkLocalizations {
   String importedDmBarrier(String name) {
     return '$name zit niet op Tyne: dit gesprek is geïmporteerd uit Discord, en nieuwe berichten komen niet aan.';
   }
+
+  @override
+  String get guildEmojiSortAndGroup => 'Sorteren en groeperen';
+
+  @override
+  String get guildEmojiSortName => 'Naam (A–Z)';
+
+  @override
+  String get guildEmojiSortRecent => 'Onlangs toegevoegd';
+
+  @override
+  String get guildEmojiGroupSplit => 'Niet-geanimeerd en geanimeerd apart';
+
+  @override
+  String get guildEmojiGroupTogether => 'Alles in één lijst';
+
+  @override
+  String guildEmojiAllSection(int count) {
+    return 'Emoji ($count)';
+  }
 }

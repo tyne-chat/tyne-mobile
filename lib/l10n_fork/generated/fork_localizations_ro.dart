@@ -1236,4 +1236,24 @@ class ForkLocalizationsRo extends ForkLocalizations {
   String importedDmBarrier(String name) {
     return '$name nu este pe Tyne: această conversație a fost importată din Discord, iar mesajele noi nu ajung la această persoană.';
   }
+
+  @override
+  String get guildEmojiSortAndGroup => 'Sortare și grupare';
+
+  @override
+  String get guildEmojiSortName => 'Nume (A–Z)';
+
+  @override
+  String get guildEmojiSortRecent => 'Adăugate recent';
+
+  @override
+  String get guildEmojiGroupSplit => 'Neanimate și animate separat';
+
+  @override
+  String get guildEmojiGroupTogether => 'Toate într-o singură listă';
+
+  @override
+  String guildEmojiAllSection(int count) {
+    return 'Emoji ($count)';
+  }
 }

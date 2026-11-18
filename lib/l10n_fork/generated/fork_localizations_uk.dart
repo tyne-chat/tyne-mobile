@@ -1240,4 +1240,24 @@ class ForkLocalizationsUk extends ForkLocalizations {
   String importedDmBarrier(String name) {
     return '$name немає в Tyne: цю розмову імпортовано з Discord, і нові повідомлення до нього не дійдуть.';
   }
+
+  @override
+  String get guildEmojiSortAndGroup => 'Сортування й групування';
+
+  @override
+  String get guildEmojiSortName => 'Ім’я (А–Я)';
+
+  @override
+  String get guildEmojiSortRecent => 'Нещодавно додані';
+
+  @override
+  String get guildEmojiGroupSplit => 'Неанімовані й анімовані окремо';
+
+  @override
+  String get guildEmojiGroupTogether => 'Усі в одному списку';
+
+  @override
+  String guildEmojiAllSection(int count) {
+    return 'Емоджі ($count)';
+  }
 }

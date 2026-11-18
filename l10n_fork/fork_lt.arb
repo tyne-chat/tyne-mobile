@@ -316,5 +316,11 @@
     "stickerUploadRequirements": "Lipdukai išlaiko savo dydį, iki 2048 pikselių kiekvienoje kraštinėje, ir turi būti ne didesni nei {maxSize}. Didesni statiniai vaizdai automatiškai sumažinami ir suspaudžiami. Animuoti lipdukai ir SVG jau turi atitikti nurodytą dydį.",
     "importedUserTag": "Importuota",
     "importedUserTooltip": "Vietos rezervavimo paskyra žmogui, kurio nėra Tyne: šios žinutės importuotos iš Discord.",
-    "importedDmBarrier": "{name} nėra Tyne: šis pokalbis importuotas iš Discord, ir naujos žinutės jo nepasieks."
+    "importedDmBarrier": "{name} nėra Tyne: šis pokalbis importuotas iš Discord, ir naujos žinutės jo nepasieks.",
+    "guildEmojiSortAndGroup": "Rikiavimas ir grupavimas",
+    "guildEmojiSortName": "Vardas (A–Ž)",
+    "guildEmojiSortRecent": "Neseniai pridėti",
+    "guildEmojiGroupSplit": "Neanimuoti ir animuoti atskirai",
+    "guildEmojiGroupTogether": "Visi viename sąraše",
+    "guildEmojiAllSection": "Jaustukai ({count})"
 }

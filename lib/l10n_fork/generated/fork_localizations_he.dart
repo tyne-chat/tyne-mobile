@@ -1209,4 +1209,24 @@ class ForkLocalizationsHe extends ForkLocalizations {
   String importedDmBarrier(String name) {
     return '$name לא נמצא/ת ב-Tyne: השיחה הזו יובאה מ-Discord, והודעות חדשות לא יגיעו אליו/ה.';
   }
+
+  @override
+  String get guildEmojiSortAndGroup => 'מיון וקיבוץ';
+
+  @override
+  String get guildEmojiSortName => 'שם (א–ת)';
+
+  @override
+  String get guildEmojiSortRecent => 'נוספו לאחרונה';
+
+  @override
+  String get guildEmojiGroupSplit => 'לא מונפשים ומונפשים בנפרד';
+
+  @override
+  String get guildEmojiGroupTogether => 'הכול ברשימה אחת';
+
+  @override
+  String guildEmojiAllSection(int count) {
+    return 'אימוג\'י ($count)';
+  }
 }
