@@ -39,6 +39,10 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_widgets.dart';
+
 class ChannelHeaderToolbar extends ConsumerWidget {
   const ChannelHeaderToolbar({
     required this.channelId,
@@ -98,6 +102,9 @@ class ChannelHeaderToolbar extends ConsumerWidget {
         if (channel != null && showsThreadHeaderActions(channel))
           ThreadHeaderToolbarButtons(channel: channel!),
         ..._buildCallButtons(context, ref),
+        // Fork: a DM's threads (tyne-chat/tyne#699).
+        if (dm != null && !isPersonalNotes)
+          ForkDmThreadsToolbarButton(dmId: dm!.id),
         if (ref.watch(
           guildPermissionsProvider(watchAccountUserId(ref)).select(
             (Map<String, int> permissions) =>

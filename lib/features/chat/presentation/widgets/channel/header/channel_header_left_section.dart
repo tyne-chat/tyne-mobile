@@ -30,6 +30,11 @@ import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_widgets.dart';
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_threads.dart';
+
 class ChannelHeaderLeftSection extends ConsumerStatefulWidget {
   const ChannelHeaderLeftSection({
     required this.channelId,
@@ -118,6 +123,13 @@ class _ChannelHeaderLeftSectionState
                     isBotOrSystemDmRecipient(widget.dm!)) ...[
                   const SizedBox(width: 6),
                   FluxerUserTag(isSystem: widget.dm!.isSystem),
+                ],
+                // Fork: a DM thread's DM, as on phones (tyne-chat/tyne#699).
+                if (forkIsDmThread(widget.channel)) ...[
+                  const SizedBox(width: 8),
+                  Flexible(
+                    child: ForkDmThreadParentLine(thread: widget.channel!),
+                  ),
                 ],
               ],
             ),

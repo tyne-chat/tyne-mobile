@@ -17,6 +17,11 @@ import 'package:fluxer_app/features/threads/domain/thread_channel.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_providers.dart';
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_threads.dart';
+
 part 'thread_ui_providers.g.dart';
 
 List<Channel> _sortedThreads(Iterable<db.Channel> rows) =>
@@ -141,6 +146,10 @@ Stream<bool> currentMemberTimedOut(Ref ref, String guildId) {
 
 @riverpod
 ThreadActor? parentThreadActor(Ref ref, String guildId, String parentId) {
+  // Fork: the threads of a DM follow the DM's rules (tyne-chat/tyne#699).
+  if (guildId == forkDmThreadGuildKey) {
+    return ref.watch(forkDmParentThreadActorProvider(parentId));
+  }
   final int? perms = ref.watch(
     channelPermissionCacheProvider(
       watchAccountUserId(ref),
@@ -179,6 +188,11 @@ ThreadActorContext? threadActorContext(Ref ref, String threadId) {
   );
   if (actor == null) {
     return null;
+  }
+  // Fork: in a 1:1 DM either person counts as a thread's starter
+  // (tyne-chat/tyne#699).
+  if (forkIsDmThread(thread)) {
+    return watchForkDmThreadActorContext(ref, thread, actor);
   }
   final String? userId = ref.watch(currentUserIdProvider);
   return ThreadActorContext(

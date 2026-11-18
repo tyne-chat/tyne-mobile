@@ -14,6 +14,10 @@ import 'package:fluxer_app/features/shell/presentation/mobile_chat_back_scope.da
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/material_ui.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_widgets.dart';
+
 class DMLayout extends ConsumerWidget {
   final String? channelId;
   final String? targetMessageId;
@@ -47,6 +51,8 @@ class DMLayout extends ConsumerWidget {
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
+            // Fork: a DM thread opened by id is fetched when missing (tyne-chat/tyne#699).
+            ForkDmThreadRouteFetch(channelId: channelId!),
             if (showMatureContentGate)
               ColoredBox(
                 color: channelChatShellBackgroundColor(context),
