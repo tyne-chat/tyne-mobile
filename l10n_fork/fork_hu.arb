@@ -316,5 +316,11 @@
     "stickerUploadRequirements": "A matricák megtartják a saját méretüket, oldalanként legfeljebb 2048 képpontig, és a méretüknek {maxSize} alatt kell lennie. A nagyobb statikus képeket automatikusan lekicsinyítjük és tömörítjük. Az animált matricáknak és SVG-knek már feltöltéskor bele kell férniük a korlátba.",
     "importedUserTag": "Importált",
     "importedUserTooltip": "Helyőrző valakinek, aki nincs a Tyne-on: ezeket az üzeneteket a Discordról importálták.",
-    "importedDmBarrier": "{name} nincs a Tyne-on: ezt a beszélgetést a Discordról importálták, és az új üzenetek nem jutnak el hozzá."
+    "importedDmBarrier": "{name} nincs a Tyne-on: ezt a beszélgetést a Discordról importálták, és az új üzenetek nem jutnak el hozzá.",
+    "guildEmojiSortAndGroup": "Rendezés és csoportosítás",
+    "guildEmojiSortName": "Név (A–Z)",
+    "guildEmojiSortRecent": "Nemrég hozzáadott",
+    "guildEmojiGroupSplit": "Nem animált és animált külön",
+    "guildEmojiGroupTogether": "Mind egy listában",
+    "guildEmojiAllSection": "Emojik ({count})"
 }

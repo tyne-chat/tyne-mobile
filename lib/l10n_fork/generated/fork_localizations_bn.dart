@@ -1213,4 +1213,24 @@ class ForkLocalizationsBn extends ForkLocalizations {
   String importedDmBarrier(String name) {
     return '$name Tyne-এ নেই: এই কথোপকথনটি Discord থেকে আমদানি করা হয়েছে, এবং নতুন বার্তা তাঁর কাছে পৌঁছাবে না।';
   }
+
+  @override
+  String get guildEmojiSortAndGroup => 'সাজানো ও গ্রুপ করা';
+
+  @override
+  String get guildEmojiSortName => 'নাম (A–Z)';
+
+  @override
+  String get guildEmojiSortRecent => 'সম্প্রতি যোগ করা';
+
+  @override
+  String get guildEmojiGroupSplit => 'অ্যানিমেটেড নয় ও অ্যানিমেটেড আলাদা';
+
+  @override
+  String get guildEmojiGroupTogether => 'সব এক তালিকায়';
+
+  @override
+  String guildEmojiAllSection(int count) {
+    return 'ইমোজি ($count)';
+  }
 }

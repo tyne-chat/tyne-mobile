@@ -316,5 +316,11 @@
     "stickerUploadRequirements": "Pinapanatili ng mga sticker ang sarili nilang laki, hanggang 2048 pixel sa bawat gilid, at dapat ay mas maliit sa {maxSize}. Awtomatikong pinapaliit at kino-compress ang mas malalaking static na larawan. Dapat ay pasok na sa limitasyon ang mga animated na sticker at SVG.",
     "importedUserTag": "Inangkat",
     "importedUserTooltip": "Pansamantalang account para sa taong wala sa Tyne: in-import ang mga mensaheng ito mula sa Discord.",
-    "importedDmBarrier": "Wala si {name} sa Tyne: in-import ang usapang ito mula sa Discord, at hindi na maaabot ng mga bagong mensahe."
+    "importedDmBarrier": "Wala si {name} sa Tyne: in-import ang usapang ito mula sa Discord, at hindi na maaabot ng mga bagong mensahe.",
+    "guildEmojiSortAndGroup": "Ayusin at ipangkat",
+    "guildEmojiSortName": "Pangalan (A–Z)",
+    "guildEmojiSortRecent": "Kamakailang idinagdag",
+    "guildEmojiGroupSplit": "Hiwalay ang hindi animated at animated",
+    "guildEmojiGroupTogether": "Lahat sa iisang listahan",
+    "guildEmojiAllSection": "Mga emoji ({count})"
 }

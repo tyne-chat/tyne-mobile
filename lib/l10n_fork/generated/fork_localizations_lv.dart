@@ -1224,4 +1224,24 @@ class ForkLocalizationsLv extends ForkLocalizations {
   String importedDmBarrier(String name) {
     return '$name nav Tyne: šī saruna tika importēta no Discord, un jaunās ziņas viņu nesasniegs.';
   }
+
+  @override
+  String get guildEmojiSortAndGroup => 'Kārtot un grupēt';
+
+  @override
+  String get guildEmojiSortName => 'Vārds (A–Ž)';
+
+  @override
+  String get guildEmojiSortRecent => 'Nesen pievienotās';
+
+  @override
+  String get guildEmojiGroupSplit => 'Neanimētās un animētās atsevišķi';
+
+  @override
+  String get guildEmojiGroupTogether => 'Visas vienā sarakstā';
+
+  @override
+  String guildEmojiAllSection(int count) {
+    return 'Emocijzīmes ($count)';
+  }
 }
