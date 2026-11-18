@@ -8,6 +8,10 @@ import 'package:fluxer_app/features/channels/domain/channel.dart'
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/gateway/fork_member_confirmation.dart';
+
 String? encodePermissionOverwritesJson(List<ChannelOverwriteResponse>? list) {
   if (list == null || list.isEmpty) {
     return null;
@@ -306,6 +310,8 @@ Future<void> upsertGuildMembersFromSdk(
       );
     }
   });
+  // Fork: confirmed for this connection (tyne-chat/tyne#614).
+  ForkMemberConfirmation.of(database).confirmMembers(guildId, memberList);
 }
 
 Future<void> upsertSupplementalUsersFromSdk(
