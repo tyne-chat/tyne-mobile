@@ -114,6 +114,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart'
 import 'package:fluxer_app/features/chat/data/persona_emoji_usage_store.dart';
 import 'package:fluxer_app/features/chat/data/prepared_attachments.dart';
 import 'package:fluxer_app/features/chat/domain/cloud_composer_attachments.dart';
+import 'package:fluxer_app/features/chat/domain/forward_as.dart';
 import 'package:fluxer_app/features/chat/providers/core/fork_around_page.dart';
 import 'package:fluxer_app/features/chat/providers/core/fork_detached_send.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
@@ -5136,6 +5137,7 @@ class ChatViewModel extends _$ChatViewModel {
     required String sourceChannelId,
     required String sourceMessageId,
     required List<String> destinationChannelIds,
+    ForwardAs? forwardAs,
     String? sourceGuildId,
     List<String>? attachmentIds,
     List<int>? embedIndices,
@@ -5170,12 +5172,25 @@ class ChatViewModel extends _$ChatViewModel {
     if (!ref.mounted) {
       return;
     }
+    // Fork: the Forward sheet's choice ([forwardAs] is its pick, null for what
+    // it shows by default) holds for every destination and is made once; a
+    // forward that could go out as a persona is held until the personas load
+    // (tyne-chat/tyne#817, tyne-chat/tyne#30).
+    final OutgoingMessageResolution? outgoing = await resolveSheetForward(
+      ref.read,
+      sourceChannelId: sourceChannelId,
+      comment: normalizedComment?.content ?? '',
+      picked: forwardAs,
+    );
+    if (outgoing == null || !ref.mounted) {
+      return;
+    }
     final bool hasGlobalName =
         currentUser?.globalName?.trim().isNotEmpty ?? false;
     final String authorName = hasGlobalName
         ? currentUser!.globalName!
         : currentUser?.username ?? 'You';
-    Map<String, dynamic>? forwardPersonaData;
+    final Map<String, dynamic>? forwardPersonaData = outgoing.personaData;
     Message optimistic(String channelId, String content) =>
         _buildOptimisticMessage(
           channelId: channelId,
@@ -5194,18 +5209,7 @@ class ChatViewModel extends _$ChatViewModel {
         );
     final List<Message> shownHere = <Message>[];
     for (final String channelId in destinationChannelIds) {
-      final OutgoingMessageResolution? outgoing = await resolveForwardPersona(
-        ref.read,
-        sourceChannelId: sourceChannelId,
-        channelId: channelId,
-        comment: normalizedComment?.content ?? '',
-      );
-      // Held until the personas load (tyne-chat/tyne#30): every destination
-      // waits for the same thing, so this is the first one and nothing went.
-      if (outgoing == null || !ref.mounted) {
-        return;
-      }
-      forwardPersonaData = outgoing.personaData;
+      affirmSignalPersona(ref.read, channelId, outgoing.persona);
       final Message forward = optimistic(channelId, '').copyWith(
         messageReference: MessageReference(
           channelId: sourceChannelId,

@@ -1233,4 +1233,12 @@ class ForkLocalizationsBn extends ForkLocalizations {
   String guildEmojiAllSection(int count) {
     return 'ইমোজি ($count)';
   }
+
+  @override
+  String get forwardAs => 'যে নামে ফরওয়ার্ড';
+
+  @override
+  String forwardAsName(String name) {
+    return '$name নামে ফরওয়ার্ড';
+  }
 }

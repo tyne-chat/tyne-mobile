@@ -322,5 +322,7 @@
     "guildEmojiSortRecent": "Ajoutés récemment",
     "guildEmojiGroupSplit": "Non animés et animés séparés",
     "guildEmojiGroupTogether": "Tous dans une seule liste",
-    "guildEmojiAllSection": "Emojis ({count})"
+    "guildEmojiAllSection": "Emojis ({count})",
+    "forwardAs": "Transférer en tant que",
+    "forwardAsName": "Transférer en tant que {name}"
 }

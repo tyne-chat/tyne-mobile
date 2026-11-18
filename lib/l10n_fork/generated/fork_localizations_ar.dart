@@ -1268,4 +1268,12 @@ class ForkLocalizationsAr extends ForkLocalizations {
   String guildEmojiAllSection(int count) {
     return 'الرموز التعبيرية ($count)';
   }
+
+  @override
+  String get forwardAs => 'إعادة التوجيه باسم';
+
+  @override
+  String forwardAsName(String name) {
+    return 'إعادة التوجيه باسم $name';
+  }
 }

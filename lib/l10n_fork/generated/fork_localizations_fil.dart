@@ -1244,4 +1244,12 @@ class ForkLocalizationsFil extends ForkLocalizations {
   String guildEmojiAllSection(int count) {
     return 'Mga emoji ($count)';
   }
+
+  @override
+  String get forwardAs => 'I-forward bilang';
+
+  @override
+  String forwardAsName(String name) {
+    return 'I-forward bilang $name';
+  }
 }

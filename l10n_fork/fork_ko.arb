@@ -322,5 +322,7 @@
     "guildEmojiSortRecent": "최근 추가됨",
     "guildEmojiGroupSplit": "움직이지 않는 이모티콘과 움직이는 이모티콘 따로",
     "guildEmojiGroupTogether": "모두 한 목록에",
-    "guildEmojiAllSection": "이모티콘({count})"
+    "guildEmojiAllSection": "이모티콘({count})",
+    "forwardAs": "전달할 이름",
+    "forwardAsName": "{name}(으)로 전달"
 }
