@@ -1235,4 +1235,12 @@ class ForkLocalizationsSq extends ForkLocalizations {
   String guildEmojiAllSection(int count) {
     return 'Emoji-t ($count)';
   }
+
+  @override
+  String get forwardAs => 'Përcill si';
+
+  @override
+  String forwardAsName(String name) {
+    return 'Përcill si $name';
+  }
 }

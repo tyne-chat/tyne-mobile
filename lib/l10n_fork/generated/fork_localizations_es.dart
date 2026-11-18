@@ -1240,6 +1240,14 @@ class ForkLocalizationsEs extends ForkLocalizations {
   String guildEmojiAllSection(int count) {
     return 'Emojis ($count)';
   }
+
+  @override
+  String get forwardAs => 'Reenviar como';
+
+  @override
+  String forwardAsName(String name) {
+    return 'Reenviar como $name';
+  }
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -2476,5 +2484,13 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
   @override
   String guildEmojiAllSection(int count) {
     return 'Emojis ($count)';
+  }
+
+  @override
+  String get forwardAs => 'Reenviar como';
+
+  @override
+  String forwardAsName(String name) {
+    return 'Reenviar como $name';
   }
 }

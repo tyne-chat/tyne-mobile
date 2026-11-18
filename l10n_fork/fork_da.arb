@@ -322,5 +322,7 @@
     "guildEmojiSortRecent": "Senest tilføjet",
     "guildEmojiGroupSplit": "Ikke-animerede og animerede hver for sig",
     "guildEmojiGroupTogether": "Alle på én liste",
-    "guildEmojiAllSection": "Emojis ({count})"
+    "guildEmojiAllSection": "Emojis ({count})",
+    "forwardAs": "Videresend som",
+    "forwardAsName": "Videresend som {name}"
 }
