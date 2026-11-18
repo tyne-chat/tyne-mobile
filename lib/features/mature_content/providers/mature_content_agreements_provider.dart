@@ -21,6 +21,10 @@ import 'package:fluxer_app/features/settings/providers/view_models/user_settings
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_providers.dart';
+
 part 'mature_content_agreements_provider.g.dart';
 
 @Riverpod(keepAlive: true)
@@ -247,10 +251,13 @@ Future<ResolvedMatureGateContext?> matureGateContext(
 
 @riverpod
 Stream<bool> matureGroupDm(Ref ref, String channelId) {
+  // Fork: a DM thread is as mature as its group DM (tyne-chat/tyne#699).
+  final String dmId =
+      ref.watch(forkDmThreadParentOfProvider(channelId)) ?? channelId;
   return ref
       .watch(fluxerDatabaseProvider)
       .dmChannelDao
-      .watchDmChannel(channelId)
+      .watchDmChannel(dmId)
       .map(
         (db.DmChannel? row) =>
             row != null && isDmGroupType(row.type) && row.nsfw,
