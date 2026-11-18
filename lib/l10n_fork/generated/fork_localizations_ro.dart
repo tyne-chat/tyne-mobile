@@ -1256,4 +1256,12 @@ class ForkLocalizationsRo extends ForkLocalizations {
   String guildEmojiAllSection(int count) {
     return 'Emoji ($count)';
   }
+
+  @override
+  String get forwardAs => 'Redirecționează ca';
+
+  @override
+  String forwardAsName(String name) {
+    return 'Redirecționează ca $name';
+  }
 }

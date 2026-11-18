@@ -322,5 +322,7 @@
     "guildEmojiSortRecent": "Nemrég hozzáadott",
     "guildEmojiGroupSplit": "Nem animált és animált külön",
     "guildEmojiGroupTogether": "Mind egy listában",
-    "guildEmojiAllSection": "Emojik ({count})"
+    "guildEmojiAllSection": "Emojik ({count})",
+    "forwardAs": "Továbbítás mint",
+    "forwardAsName": "Továbbítás mint {name}"
 }

@@ -322,5 +322,7 @@
     "guildEmojiSortRecent": "最近新增",
     "guildEmojiGroupSplit": "非動態與動態分開",
     "guildEmojiGroupTogether": "全部列在一起",
-    "guildEmojiAllSection": "表情符號 ({count})"
+    "guildEmojiAllSection": "表情符號 ({count})",
+    "forwardAs": "轉傳身分",
+    "forwardAsName": "以 {name} 身分轉傳"
 }

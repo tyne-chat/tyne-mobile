@@ -1223,6 +1223,14 @@ class ForkLocalizationsEn extends ForkLocalizations {
   String guildEmojiAllSection(int count) {
     return 'Emoji ($count)';
   }
+
+  @override
+  String get forwardAs => 'Forward as';
+
+  @override
+  String forwardAsName(String name) {
+    return 'Forward as $name';
+  }
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -2444,6 +2452,14 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   String guildEmojiAllSection(int count) {
     return 'Emoji ($count)';
   }
+
+  @override
+  String get forwardAs => 'Forward as';
+
+  @override
+  String forwardAsName(String name) {
+    return 'Forward as $name';
+  }
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -3664,5 +3680,13 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
   @override
   String guildEmojiAllSection(int count) {
     return 'Emoji ($count)';
+  }
+
+  @override
+  String get forwardAs => 'Forward as';
+
+  @override
+  String forwardAsName(String name) {
+    return 'Forward as $name';
   }
 }

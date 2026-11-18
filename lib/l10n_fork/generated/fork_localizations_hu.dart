@@ -1235,4 +1235,12 @@ class ForkLocalizationsHu extends ForkLocalizations {
   String guildEmojiAllSection(int count) {
     return 'Emojik ($count)';
   }
+
+  @override
+  String get forwardAs => 'Továbbítás mint';
+
+  @override
+  String forwardAsName(String name) {
+    return 'Továbbítás mint $name';
+  }
 }
