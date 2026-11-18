@@ -365,6 +365,30 @@ abstract class ForkLocalizations {
   /// **'e.g. they/them'**
   String get personaPronounsHint;
 
+  /// Heading of the persona aliases in the persona editor: other names, never shown, that find the persona when searching or mentioning (tyne-chat/tyne#707).
+  ///
+  /// In en, this message translates to:
+  /// **'Aliases'**
+  String get personaAliasesLabel;
+
+  /// Helper text under the persona aliases heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Other names for finding this persona'**
+  String get personaAliasesHelp;
+
+  /// Button that adds an alias row to a persona, with how many it has out of the maximum.
+  ///
+  /// In en, this message translates to:
+  /// **'Add alias ({count}/{max})'**
+  String personaAddAlias(int count, int max);
+
+  /// Accessible name of the button that removes one alias of a persona.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove alias'**
+  String get personaRemoveAlias;
+
   /// Hint text for persona biography input.
   ///
   /// In en, this message translates to:

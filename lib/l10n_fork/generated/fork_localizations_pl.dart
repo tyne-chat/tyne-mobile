@@ -114,6 +114,21 @@ class ForkLocalizationsPl extends ForkLocalizations {
   String get personaPronounsHint => 'np. ono/jego';
 
   @override
+  String get personaAliasesLabel => 'Aliasy';
+
+  @override
+  String get personaAliasesHelp =>
+      'Inne nazwy, po których znajdziesz tę personę';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'Dodaj alias ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'Usuń alias';
+
+  @override
   String get personaBioHint => 'Opowiedz innym o tej personie...';
 
   @override

@@ -29,7 +29,8 @@ List<PersonaGallerySort> personaGallerySorts({required bool isOwner}) => isOwner
 bool isPublicPersona(Persona persona) =>
     persona.visibility == 'public' && !persona.isDeleted;
 
-/// The personas whose name, pronouns or bio contain [query], ignoring case.
+/// The personas whose name, aliases, pronouns or bio contain [query], ignoring
+/// case.
 /// Searching happens on the device.
 List<Persona> filterPersonaGallery(List<Persona> personas, String query) {
   final String needle = query.trim().toLowerCase();
@@ -39,7 +40,10 @@ List<Persona> filterPersonaGallery(List<Persona> personas, String query) {
   bool has(String? text) => text?.toLowerCase().contains(needle) ?? false;
   return <Persona>[
     for (final Persona persona in personas)
-      if (has(persona.name) || has(persona.pronouns) || has(persona.bio))
+      if (has(persona.name) ||
+          persona.aliases.any(has) ||
+          has(persona.pronouns) ||
+          has(persona.bio))
         persona,
   ];
 }

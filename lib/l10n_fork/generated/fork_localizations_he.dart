@@ -112,6 +112,20 @@ class ForkLocalizationsHe extends ForkLocalizations {
   String get personaPronounsHint => 'לדוגמה: הוא/היא';
 
   @override
+  String get personaAliasesLabel => 'כינויים';
+
+  @override
+  String get personaAliasesHelp => 'שמות נוספים למציאת הפרסונה הזו';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'הוספת כינוי ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'הסרת הכינוי';
+
+  @override
   String get personaBioHint => 'ספר לאחרים על פרסונה זו...';
 
   @override

@@ -109,6 +109,20 @@ class ForkLocalizationsJa extends ForkLocalizations {
   String get personaPronounsHint => '例: they/them';
 
   @override
+  String get personaAliasesLabel => '別名';
+
+  @override
+  String get personaAliasesHelp => 'このペルソナを見つけるための別の名前';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return '別名を追加 ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => '別名を削除';
+
+  @override
   String get personaBioHint => 'このペルソナについて紹介...';
 
   @override
