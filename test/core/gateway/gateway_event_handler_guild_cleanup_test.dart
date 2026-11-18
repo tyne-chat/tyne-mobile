@@ -492,3 +492,14 @@ Map<String, dynamic> _guildRaw({required String id}) => {
   'emojis': <Map<String, Object?>>[],
   'stickers': <Map<String, Object?>>[],
 };
+
+// ignore: unreachable_from_main // Fork: used by gateway_event_handler_member_confirmation_fork_test.dart.
+typedef ForkUpstreamReadyHelpers = ({
+  UserPrivateResponse Function() user,
+  Map<String, dynamic> Function({required String id}) guildRaw,
+});
+// ignore: unreachable_from_main // Fork: used by gateway_event_handler_member_confirmation_fork_test.dart.
+const ForkUpstreamReadyHelpers forkUpstreamReady = (
+  user: _user,
+  guildRaw: _guildRaw,
+);
