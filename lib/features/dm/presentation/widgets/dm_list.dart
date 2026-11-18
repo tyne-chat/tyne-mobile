@@ -71,6 +71,7 @@ import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/features/quick_switcher/presentation/widgets/quick_switcher_fab.dart';
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_widgets.dart';
 
 class DMList extends ConsumerStatefulWidget {
   const DMList({super.key});
@@ -1428,7 +1429,14 @@ class _DMListState extends ConsumerState<DMList> {
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-                      if (!isMuted) _DmListMentionBadge(channelId: c.id),
+                      // Fork: the DM's threads beside its count
+                      // (tyne-chat/tyne#699).
+                      ForkDmRowCountsWithThreads(
+                        dmId: c.id,
+                        children: <Widget>[
+                          if (!isMuted) _DmListMentionBadge(channelId: c.id),
+                        ],
+                      ),
                     ],
                   ),
                 ),

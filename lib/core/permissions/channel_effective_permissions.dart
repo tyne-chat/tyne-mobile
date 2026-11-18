@@ -19,6 +19,10 @@ import 'package:fluxer_app/features/settings/providers/view_models/user_settings
 import 'package:riverpod/misc.dart' show FutureProviderFamily;
 import 'package:riverpod/riverpod.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_threads.dart';
+
 typedef ChannelPermissionBitsOutcome = ({int value, bool shouldCache});
 
 bool _guildIsListed(Ref ref, String guildId) {
@@ -171,6 +175,10 @@ computeEffectiveGuildChannelPermissionBitsOutcome({
   }
   if (channelRow == null) {
     return (value: 0, shouldCache: false);
+  }
+  // Fork: a thread in a DM has a DM member's rights (tyne-chat/tyne#699).
+  if (forkIsDmThreadRow(channelRow)) {
+    return (value: forkDmThreadMemberPermissions, shouldCache: true);
   }
   if (channelRow.guildId.isEmpty) {
     return (value: 0, shouldCache: true);
