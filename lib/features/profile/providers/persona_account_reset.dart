@@ -3,6 +3,8 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/gateway/fork_member_confirmation.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/chat/data/channel_persona_mention_cache.dart';
 import 'package:fluxer_app/features/profile/data/persona_lookup.dart';
 import 'package:fluxer_app/features/profile/providers/multi_persona_reactions_provider.dart';
@@ -24,6 +26,8 @@ void resetPersonaStateForAccountChange(Ref ref) {
     ..invalidate(systemDisplayTagProvider)
     ..invalidate(activePersonaProvider);
   ChannelPersonaMentionCache.instance.clear();
+  // Which cached members the last connection confirmed (tyne-chat/tyne#614).
+  ForkMemberConfirmation.of(ref.read(fluxerDatabaseProvider)).reset();
   // Lookups and refreshes still on their way belong to the previous account.
   ref.invalidate(personaLookupBatcherProvider);
 }
