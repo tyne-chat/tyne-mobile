@@ -26,6 +26,10 @@ import 'package:fluxer_app/features/shell/providers/drawer/reveal_side_provider.
 import 'package:fluxer_app/features/voice/providers/voice_pip_providers.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_providers.dart';
+
 class DrawerNavigationCoordinator {
   const DrawerNavigationCoordinator._();
 
@@ -278,6 +282,10 @@ class DrawerNavigationCoordinator {
     ProviderContainer container,
     String channelId,
   ) {
+    // Fork: a deleted DM thread is left for its DM (tyne-chat/tyne#699).
+    if (forkLeaveDeletedDmThread(container, channelId)) {
+      return;
+    }
     final String? path = deletedChannelExitPath(
       location: container.read(routeStateProvider).effectiveShellLocation,
       channelId: channelId,

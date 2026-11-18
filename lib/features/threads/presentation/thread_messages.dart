@@ -18,6 +18,12 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_providers.dart';
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_widgets.dart';
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_threads.dart';
+
 bool isThreadSystemMessageType(int type) =>
     type == messageTypeThreadCreated || type == messageTypeThreadStarterMessage;
 
@@ -34,6 +40,14 @@ Future<void> openThreadById(
   ref
       .read(threadEnteredFromParentProvider.notifier)
       .enter(threadId, fromParent: fromParent);
+  // Fork: a DM's thread opens on the DM routes (tyne-chat/tyne#699).
+  if (guildId == forkDmThreadGuildKey) {
+    return navigateToDmChannelContent(
+      context: context,
+      ref: ref,
+      channelId: threadId,
+    );
+  }
   return navigateToChannelContent(
     context: context,
     ref: ref,
@@ -186,8 +200,16 @@ class MessageThreadChip extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Fork: or the DM a thread was started in (tyne-chat/tyne#699).
     final String? resolvedGuildId =
-        guildId ?? ref.watch(channelGuildIdProvider(message.channelId)).value;
+        guildId ??
+        ref.watch(channelGuildIdProvider(message.channelId)).value ??
+        watchForkDmThreadGuildKey(
+          ref,
+          channelId: message.channelId,
+          messageId: message.id,
+          threadJson: message.threadJson,
+        );
     if (resolvedGuildId == null) {
       return const SizedBox.shrink();
     }
@@ -258,6 +280,8 @@ class MessageThreadChip extends ConsumerWidget {
                     size: 12,
                     color: countColor,
                   ),
+                  // Fork: its unread mentions (tyne-chat/tyne#699).
+                  ForkThreadChipCount(threadId: message.id),
                 ],
               ),
             ),
