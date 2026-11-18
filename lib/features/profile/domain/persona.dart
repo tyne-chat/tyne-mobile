@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import 'package:fluxer_app/features/profile/domain/persona_name_search.dart';
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/domain/signature_emoji.dart';
 
@@ -43,6 +44,7 @@ class Persona {
     required this.name,
     this.avatarHash,
     this.bannerHash,
+    this.aliases = const <String>[],
     this.pronouns,
     this.color,
     this.avatarColor,
@@ -63,6 +65,10 @@ class Persona {
   final String name;
   final String? avatarHash;
   final String? bannerHash;
+
+  /// Other names to find the persona by when searching or mentioning; never
+  /// shown (tyne-chat/tyne#707).
+  final List<String> aliases;
   final String? pronouns;
   final int? color;
   final int? avatarColor;
@@ -114,6 +120,7 @@ class Persona {
           (json['avatar_hash'] as String?) ?? (json['avatar'] as String?),
       bannerHash:
           (json['banner_hash'] as String?) ?? (json['banner'] as String?),
+      aliases: personaAliasesFromJson(json['aliases']),
       pronouns: json['pronouns'] as String?,
       color:
           (json['color'] as num?)?.toInt() ??
@@ -154,6 +161,7 @@ class Persona {
       'name': name,
       if (avatarHash != null) 'avatar_hash': avatarHash,
       if (bannerHash != null) 'banner_hash': bannerHash,
+      if (aliases.isNotEmpty) 'aliases': aliases,
       if (pronouns != null) 'pronouns': pronouns,
       if (color != null) 'color': color,
       if (avatarColor != null) 'avatar_color': avatarColor,
@@ -176,6 +184,7 @@ class Persona {
     String? name,
     String? avatarHash,
     String? bannerHash,
+    List<String>? aliases,
     String? pronouns,
     int? color,
     int? avatarColor,
@@ -196,6 +205,7 @@ class Persona {
       name: name ?? this.name,
       avatarHash: avatarHash ?? this.avatarHash,
       bannerHash: bannerHash ?? this.bannerHash,
+      aliases: aliases ?? this.aliases,
       pronouns: pronouns ?? this.pronouns,
       color: color ?? this.color,
       avatarColor: avatarColor ?? this.avatarColor,
@@ -219,6 +229,7 @@ class Persona {
       name: name,
       avatarHash: avatarHash,
       bannerHash: bannerHash,
+      aliases: aliases,
       pronouns: pronouns,
       color: color,
       avatarColor: avatarColor,

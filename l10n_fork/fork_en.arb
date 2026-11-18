@@ -133,6 +133,36 @@
     "@personaPronounsHint": {
         "description": "Hint text for persona pronouns input."
     },
+    "personaAliasesLabel": "Aliases",
+    "@personaAliasesLabel": {
+        "description": "Heading of the persona aliases in the persona editor: other names, never shown, that find the persona when searching or mentioning (tyne-chat/tyne#707)."
+    },
+    "personaAliasLabel": "Alias",
+    "@personaAliasLabel": {
+        "description": "Spoken name of one alias field in the persona editor: another name, never shown, that finds the persona when searching or mentioning."
+    },
+    "personaAliasesHelp": "Other names for finding this persona",
+    "@personaAliasesHelp": {
+        "description": "Helper text under the persona aliases heading."
+    },
+    "personaAddAlias": "Add alias ({count}/{max})",
+    "@personaAddAlias": {
+        "description": "Button that adds an alias row to a persona, with how many it has out of the maximum.",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            },
+            "max": {
+                "type": "int",
+                "example": "10"
+            }
+        }
+    },
+    "personaRemoveAlias": "Remove alias",
+    "@personaRemoveAlias": {
+        "description": "Accessible name of the button that removes one alias of a persona."
+    },
     "personaBioHint": "Tell others about this persona...",
     "@personaBioHint": {
         "description": "Hint text for persona biography input."

@@ -113,6 +113,23 @@ class ForkLocalizationsId extends ForkLocalizations {
   String get personaPronounsHint => 'mis. they/them';
 
   @override
+  String get personaAliasesLabel => 'Alias';
+
+  @override
+  String get personaAliasLabel => 'Alias';
+
+  @override
+  String get personaAliasesHelp => 'Nama lain untuk menemukan persona ini';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'Tambah alias ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'Hapus alias';
+
+  @override
   String get personaBioHint =>
       'Ceritakan tentang persona ini kepada yang lain...';
 
