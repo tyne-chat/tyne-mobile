@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:dio/dio.dart';
+import 'package:fluxer_app/features/profile/domain/persona_name_search.dart';
 
 double calculatePersonaFrecencyScore({
   int? useCount,
@@ -54,21 +55,16 @@ int calculatePersonaMatchScore({
   String? ownerUsername,
   String? ownerNickname,
   String? ownerGlobalName,
+  Iterable<String>? aliases,
 }) {
   final String q = query.trim().toLowerCase();
   if (q.isEmpty) {
     return 0;
   }
 
-  final String name = personaName.toLowerCase();
-  if (name.startsWith(q)) {
-    return 1000;
-  }
-  if (name.contains(' $q') || name.contains('-$q') || name.contains('_$q')) {
-    return 800;
-  }
-  if (name.contains(q)) {
-    return 500;
+  final int byName = personaNameMatchScore(personaName, aliases, q);
+  if (byName >= 0) {
+    return byName;
   }
   final String sys = (displayTagText ?? '').toLowerCase();
   if (sys.startsWith(q)) {
@@ -225,6 +221,7 @@ class ChannelPersonaMentionCache {
                     ownerUsername: user,
                     ownerNickname: nick,
                     ownerGlobalName: global,
+                    aliases: personaAliasesFromJson(item['aliases']),
                   );
                   return match >= 0;
                 }).toList()
@@ -237,6 +234,7 @@ class ChannelPersonaMentionCache {
                 ownerUsername: a['owner_username'] as String?,
                 ownerNickname: a['owner_nickname'] as String?,
                 ownerGlobalName: a['owner_global_name'] as String?,
+                aliases: personaAliasesFromJson(a['aliases']),
               );
               final int bMatch = calculatePersonaMatchScore(
                 personaName: b['name'] as String? ?? '',
@@ -245,6 +243,7 @@ class ChannelPersonaMentionCache {
                 ownerUsername: b['owner_username'] as String?,
                 ownerNickname: b['owner_nickname'] as String?,
                 ownerGlobalName: b['owner_global_name'] as String?,
+                aliases: personaAliasesFromJson(b['aliases']),
               );
               if (aMatch != bMatch) {
                 return bMatch.compareTo(aMatch);

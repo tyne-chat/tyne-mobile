@@ -115,6 +115,21 @@ class ForkLocalizationsUk extends ForkLocalizations {
   String get personaPronounsHint => 'напр. вони/їх';
 
   @override
+  String get personaAliasesLabel => 'Псевдоніми';
+
+  @override
+  String get personaAliasesHelp =>
+      'Інші імена, за якими можна знайти цю персону';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'Додати псевдонім ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'Вилучити псевдонім';
+
+  @override
   String get personaBioHint => 'Розкажіть іншим про цю персону...';
 
   @override

@@ -109,6 +109,20 @@ class ForkLocalizationsKo extends ForkLocalizations {
   String get personaPronounsHint => '예: they/them';
 
   @override
+  String get personaAliasesLabel => '별칭';
+
+  @override
+  String get personaAliasesHelp => '이 페르소나를 찾기 위한 다른 이름';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return '별칭 추가 ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => '별칭 삭제';
+
+  @override
   String get personaBioHint => '이 페르소나에 대해 알려주세요...';
 
   @override

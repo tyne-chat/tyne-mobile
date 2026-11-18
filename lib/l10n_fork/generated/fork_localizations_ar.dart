@@ -112,6 +112,20 @@ class ForkLocalizationsAr extends ForkLocalizations {
   String get personaPronounsHint => 'مثال: هو/هي';
 
   @override
+  String get personaAliasesLabel => 'أسماء بديلة';
+
+  @override
+  String get personaAliasesHelp => 'أسماء أخرى للعثور على هذه الشخصية';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'إضافة اسم بديل ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'إزالة الاسم البديل';
+
+  @override
   String get personaBioHint => 'أخبر الآخرين عن هذه الشخصية...';
 
   @override

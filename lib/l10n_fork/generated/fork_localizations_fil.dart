@@ -114,6 +114,21 @@ class ForkLocalizationsFil extends ForkLocalizations {
   String get personaPronounsHint => 'hal. they/them';
 
   @override
+  String get personaAliasesLabel => 'Mga alyas';
+
+  @override
+  String get personaAliasesHelp =>
+      'Iba pang pangalan para mahanap ang personang ito';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'Magdagdag ng alyas ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'Alisin ang alyas';
+
+  @override
   String get personaBioHint => 'Ikuwento sa iba ang tungkol sa personang ito…';
 
   @override

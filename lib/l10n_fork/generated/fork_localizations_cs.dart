@@ -115,6 +115,21 @@ class ForkLocalizationsCs extends ForkLocalizations {
   String get personaPronounsHint => 'např. oni/jejich';
 
   @override
+  String get personaAliasesLabel => 'Aliasy';
+
+  @override
+  String get personaAliasesHelp =>
+      'Další jména, podle kterých tuto personu najdete';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'Přidat alias ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'Odebrat alias';
+
+  @override
   String get personaBioHint => 'Řekněte ostatním něco o této personě...';
 
   @override

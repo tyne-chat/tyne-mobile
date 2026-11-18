@@ -115,6 +115,20 @@ class ForkLocalizationsDa extends ForkLocalizations {
   String get personaPronounsHint => 'f.eks. de/dem';
 
   @override
+  String get personaAliasesLabel => 'Aliasser';
+
+  @override
+  String get personaAliasesHelp => 'Andre navne at finde denne persona under';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'Tilføj alias ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'Fjern alias';
+
+  @override
   String get personaBioHint => 'Fortæl andre om denne persona...';
 
   @override

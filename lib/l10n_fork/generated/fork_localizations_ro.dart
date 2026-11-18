@@ -113,6 +113,21 @@ class ForkLocalizationsRo extends ForkLocalizations {
   String get personaPronounsHint => 'de ex. ea/el';
 
   @override
+  String get personaAliasesLabel => 'Aliasuri';
+
+  @override
+  String get personaAliasesHelp =>
+      'Alte nume după care să găsești această persona';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'Adaugă alias ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'Elimină aliasul';
+
+  @override
   String get personaBioHint => 'Spune-le celorlalți despre această persona...';
 
   @override

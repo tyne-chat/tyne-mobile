@@ -115,6 +115,20 @@ class ForkLocalizationsTr extends ForkLocalizations {
   String get personaPronounsHint => 'örn. o/onlar';
 
   @override
+  String get personaAliasesLabel => 'Takma adlar';
+
+  @override
+  String get personaAliasesHelp => 'Bu personayı bulmak için başka adlar';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'Takma ad ekle ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'Takma adı kaldır';
+
+  @override
   String get personaBioHint => 'Diğerlerine bu personadan bahset...';
 
   @override

@@ -115,6 +115,20 @@ class ForkLocalizationsSq extends ForkLocalizations {
   String get personaPronounsHint => 'p.sh. ata/atyre';
 
   @override
+  String get personaAliasesLabel => 'Pseudonime';
+
+  @override
+  String get personaAliasesHelp => 'Emra të tjerë për ta gjetur këtë personë';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'Shto pseudonim ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'Hiq pseudonimin';
+
+  @override
   String get personaBioHint => 'U trego të tjerëve për këtë personë…';
 
   @override

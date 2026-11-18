@@ -12,6 +12,7 @@
 import 'package:dio/dio.dart';
 import 'package:fluxer_app/features/chat/data/channel_persona_mention_cache.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
+import 'package:fluxer_app/features/profile/domain/persona_name_search.dart';
 
 const String kPersonaSearchIdPrefix = 'persona:';
 
@@ -37,7 +38,9 @@ List<String> personaSearchIds(List<String> ids) => <String>[
 
 /// The persona a name typed without picking it stands for: the one known
 /// persona with that name (any case), or null when there is none or more than
-/// one. The parser asks this only after no account matched the name.
+/// one. A persona with the name among its aliases counts too, but only when no persona
+/// has it as its name (tyne-chat/tyne#707). The parser asks this only after no
+/// account matched the name.
 String? resolvePersonaSearchName(
   String name, {
   Iterable<Map<String, dynamic>>? known,
@@ -46,12 +49,24 @@ String? resolvePersonaSearchName(
   if (wanted.isEmpty) {
     return null;
   }
-  final Set<String> ids = <String>{
-    for (final Map<String, dynamic> item
-        in known ?? ChannelPersonaMentionCache.instance.cachedItems)
+  final List<Map<String, dynamic>> items = <Map<String, dynamic>>[
+    ...known ?? ChannelPersonaMentionCache.instance.cachedItems,
+  ];
+  Set<String> ids = <String>{
+    for (final Map<String, dynamic> item in items)
       if ((item['name'] as String? ?? '').trim().toLowerCase() == wanted)
         ?item['id'] as String?,
   };
+  if (ids.isEmpty) {
+    ids = <String>{
+      for (final Map<String, dynamic> item in items)
+        if (personaAliasesInclude(
+          personaAliasesFromJson(item['aliases']),
+          wanted,
+        ))
+          ?item['id'] as String?,
+    };
+  }
   return ids.length == 1 ? personaSearchId(ids.single) : null;
 }
 

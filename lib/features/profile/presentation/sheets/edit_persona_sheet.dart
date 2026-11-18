@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/profile/data/persona_image_upload.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_duplicate_name.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
+import 'package:fluxer_app/features/profile/domain/persona_name_search.dart';
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/persona_copy_bar.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_banner.dart';
@@ -127,11 +128,15 @@ class _TagPairControllers {
 
 class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
   late final TextEditingController _nameController;
+  // Fork: one row per alias (tyne-chat/tyne#707).
+  final List<TextEditingController> _aliasControllers =
+      <TextEditingController>[];
   late final TextEditingController _pronounsController;
   late final TextEditingController _bioController;
   final List<_TagPairControllers> _tagControllers = [];
 
   late String _initialName;
+  late List<String> _initialAliases;
   late String _initialPronouns;
   late String _initialBio;
   late List<({String prefix, String suffix})> _initialTags;
@@ -177,6 +182,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     }
     final p = widget.persona;
     _initialName = p?.name ?? '';
+    _initialAliases = normalizePersonaAliases(p?.aliases ?? const <String>[]);
     _initialPronouns = p?.pronouns ?? '';
     _initialBio = p?.bio ?? '';
 
@@ -218,6 +224,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     _initialVisibility = p?.visibility ?? 'unlisted';
 
     _nameController = TextEditingController(text: _initialName);
+    _setAliasRows(_initialAliases);
     _pronounsController = TextEditingController(text: _initialPronouns);
     _bioController = TextEditingController(text: _initialBio);
 
@@ -244,6 +251,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       source.name,
       for (final Persona p in personas) p.name,
     ]);
+    _initialAliases = normalizePersonaAliases(source.aliases);
     _initialPronouns = source.pronouns ?? '';
     _initialBio = source.bio ?? '';
     _initialTags = [(prefix: '', suffix: '')];
@@ -264,6 +272,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
         baseOffset: 0,
         extentOffset: _initialName.length,
       );
+    _setAliasRows(_initialAliases);
     _pronounsController = TextEditingController(text: _initialPronouns);
     _bioController = TextEditingController(text: _initialBio);
     _nameController.addListener(_onFieldChanged);
@@ -297,6 +306,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
 
   bool get _hasChanges {
     if (_nameController.text.trim() != _initialName ||
+        !_sameAliases(_aliases, _initialAliases) ||
         _pronounsController.text.trim() != _initialPronouns ||
         _bioController.text.trim() != _initialBio ||
         _avatarHash != _initialAvatarHash ||
@@ -345,6 +355,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
 
   void _reset() {
     _nameController.text = _initialName;
+    _setAliasRows(_initialAliases);
     _pronounsController.text = _initialPronouns;
     _bioController.text = _initialBio;
 
@@ -375,6 +386,55 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       _visibility = _initialVisibility;
     });
     widget.canDismissNotifier.value = true;
+  }
+
+  /// The aliases as typed, tidied as the server stores them.
+  List<String> get _aliases => normalizePersonaAliases(
+    _aliasControllers.map((TextEditingController c) => c.text),
+  );
+
+  static bool _sameAliases(List<String> a, List<String> b) =>
+      a.length == b.length &&
+      Iterable<int>.generate(a.length).every((int i) => a[i] == b[i]);
+
+  /// One row per alias, and one empty row when there are none.
+  void _setAliasRows(List<String> aliases) {
+    for (final TextEditingController c in _aliasControllers) {
+      c.dispose();
+    }
+    _aliasControllers.clear();
+    for (final String alias in aliases.isEmpty ? <String>[''] : aliases) {
+      _aliasControllers.add(
+        TextEditingController(text: alias)..addListener(_onFieldChanged),
+      );
+    }
+  }
+
+  void _addAlias() {
+    if (_aliasControllers.length >= kPersonaAliasesMax) {
+      return;
+    }
+    setState(() {
+      _aliasControllers.add(
+        TextEditingController()..addListener(_onFieldChanged),
+      );
+    });
+    _onFieldChanged();
+  }
+
+  void _removeAlias(int index) {
+    if (index < 0 || index >= _aliasControllers.length) {
+      return;
+    }
+    setState(() {
+      _aliasControllers.removeAt(index).dispose();
+      if (_aliasControllers.isEmpty) {
+        _aliasControllers.add(
+          TextEditingController()..addListener(_onFieldChanged),
+        );
+      }
+    });
+    _onFieldChanged();
   }
 
   void _addTagPair() {
@@ -414,6 +474,9 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     _pronounsController.removeListener(_onFieldChanged);
     _bioController.removeListener(_onFieldChanged);
     _nameController.dispose();
+    for (final TextEditingController c in _aliasControllers) {
+      c.dispose();
+    }
     _pronounsController.dispose();
     _bioController.dispose();
     for (final c in _tagControllers) {
@@ -766,6 +829,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     try {
       final Dio dio = ref.read(fluxerDioProvider);
       await _storePendingImages(dio);
+      final List<String> aliases = _aliases;
       final String? pronouns = _pronounsController.text.trim().isEmpty
           ? null
           : _pronounsController.text.trim();
@@ -788,6 +852,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
         'banner_hash': _bannerHash,
         'color': _color,
         'avatar_color': _avatarColor,
+        'aliases': aliases,
         'pronouns': pronouns,
         'bio': bio,
         'auto_tag_disabled': _autoTagDisabled,
@@ -814,6 +879,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
             bannerHash: _bannerHash,
             color: _color,
             avatarColor: _avatarColor,
+            aliases: aliases,
             pronouns: pronouns,
             bio: bio,
             autoTagDisabled: _autoTagDisabled,
@@ -885,6 +951,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
             avatarHash: _avatarHash,
             bannerHash: _bannerHash,
             color: _color,
+            aliases: aliases,
             pronouns: pronouns,
             bio: bio,
             autoTagDisabled: _autoTagDisabled,
@@ -914,6 +981,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
 
       if (mounted) {
         _initialName = _nameController.text.trim();
+        _initialAliases = _aliases;
         _initialPronouns = _pronounsController.text.trim();
         _initialBio = _bioController.text.trim();
         _initialTags = validTags
@@ -1386,6 +1454,65 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
           autofocus: !isEditing,
         ),
         SizedBox(height: layout.s3),
+
+        // Aliases: only for finding the persona, never shown
+        // (tyne-chat/tyne#707). One row each, as the tag pairs below.
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              l10n.fork.personaAliasesLabel,
+              style: textStyles.label.copyWith(color: colors.textPrimary),
+            ),
+            FluxerButton.secondary(
+              label: l10n.fork.personaAddAlias(
+                _aliasControllers.length,
+                kPersonaAliasesMax,
+              ),
+              icon: PhosphorIconsBold.plus,
+              size: FluxerButtonSize.small,
+              fitContent: true,
+              onPressed:
+                  (_isSaving || _aliasControllers.length >= kPersonaAliasesMax)
+                  ? null
+                  : _addAlias,
+            ),
+          ],
+        ),
+        SizedBox(height: layout.s1),
+        Text(
+          l10n.fork.personaAliasesHelp,
+          style: textStyles.bodySmall.copyWith(color: colors.textSecondary),
+        ),
+        SizedBox(height: layout.s2),
+        for (int i = 0; i < _aliasControllers.length; i++) ...[
+          Padding(
+            padding: EdgeInsets.only(bottom: layout.s2),
+            child: Row(
+              children: [
+                Expanded(
+                  child: FluxerInput(
+                    key: ValueKey<String>('persona-alias-$i'),
+                    controller: _aliasControllers[i],
+                    maxLength: kPersonaAliasMaxLength,
+                    enabled: !_isSaving,
+                  ),
+                ),
+                if (_aliasControllers.length > 1) ...[
+                  SizedBox(width: layout.s2),
+                  FluxerButton.dangerSecondary(
+                    size: FluxerButtonSize.small,
+                    isSquare: true,
+                    icon: PhosphorIconsBold.trash,
+                    semanticLabel: l10n.fork.personaRemoveAlias,
+                    onPressed: _isSaving ? null : () => _removeAlias(i),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ],
+        SizedBox(height: layout.s1),
 
         // Pronouns
         FluxerInput(
