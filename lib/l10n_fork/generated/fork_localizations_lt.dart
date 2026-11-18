@@ -114,6 +114,24 @@ class ForkLocalizationsLt extends ForkLocalizations {
   String get personaPronounsHint => 'pvz., jie/jų';
 
   @override
+  String get personaAliasesLabel => 'Slapyvardžiai';
+
+  @override
+  String get personaAliasLabel => 'Slapyvardis';
+
+  @override
+  String get personaAliasesHelp =>
+      'Kiti vardai, pagal kuriuos galima rasti šią personą';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'Pridėti slapyvardį ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'Pašalinti slapyvardį';
+
+  @override
   String get personaBioHint => 'Papasakokite kitiems apie šią personą...';
 
   @override

@@ -114,6 +114,23 @@ class ForkLocalizationsSl extends ForkLocalizations {
   String get personaPronounsHint => 'npr. oni/njihov';
 
   @override
+  String get personaAliasesLabel => 'Vzdevki';
+
+  @override
+  String get personaAliasLabel => 'Vzdevek';
+
+  @override
+  String get personaAliasesHelp => 'Druga imena, po katerih najdete to persono';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'Dodaj vzdevek ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'Odstrani vzdevek';
+
+  @override
   String get personaBioHint => 'Povejte drugim nekaj o tej personi …';
 
   @override

@@ -12,6 +12,7 @@ import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
+import 'package:fluxer_app/features/profile/domain/persona_name_search.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/edit_persona_sheet.dart';
 import 'package:fluxer_app/features/profile/providers/deleted_personas.dart';
 import 'package:fluxer_app/features/profile/providers/multi_persona_reactions_provider.dart';
@@ -470,7 +471,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
       if (_searchQuery.isEmpty) {
         return true;
       }
-      if (p.name.toLowerCase().contains(_searchQuery)) {
+      if (personaNameMatches(p.name, p.aliases, _searchQuery)) {
         return true;
       }
       if (p.pronouns?.toLowerCase().contains(_searchQuery) ?? false) {

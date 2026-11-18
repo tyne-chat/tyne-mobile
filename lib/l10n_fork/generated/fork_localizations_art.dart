@@ -114,6 +114,23 @@ class ForkLocalizationsArt extends ForkLocalizations {
   String get personaPronounsHint => 'sama ni: they/them';
 
   @override
+  String get personaAliasesLabel => 'nimi ante';
+
+  @override
+  String get personaAliasLabel => 'nimi ante';
+
+  @override
+  String get personaAliasesHelp => 'nimi ante la sina ken alasa e jan insa ni';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'o pana e nimi ante ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'o weka e nimi ante';
+
+  @override
   String get personaBioHint => 'o toki e jan insa ni tawa jan ante...';
 
   @override
