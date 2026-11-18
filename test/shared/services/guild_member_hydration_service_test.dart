@@ -311,3 +311,15 @@ class _FailAdapter implements HttpClientAdapter {
   @override
   void close({bool force = false}) {}
 }
+
+// ignore: unreachable_from_main // Fork: used by guild_member_hydration_service_fork_test.dart.
+typedef ForkRecordingAdapter = _RecordingAdapter;
+// ignore: unreachable_from_main // Fork: used by guild_member_hydration_service_fork_test.dart.
+typedef ForkFailAdapter = _FailAdapter;
+// ignore: unreachable_from_main // Fork: used by guild_member_hydration_service_fork_test.dart.
+typedef ForkRecordingGateway = _RecordingGateway;
+// ignore: unreachable_from_main // Fork: used by guild_member_hydration_service_fork_test.dart.
+typedef ForkRecordedRequest = _RecordedRequest;
+// ignore: unreachable_from_main // Fork: used by guild_member_hydration_service_fork_test.dart.
+const FluxerClient Function(HttpClientAdapter adapter) forkClientWithAdapter =
+    _clientWithAdapter;
