@@ -113,6 +113,23 @@ class ForkLocalizationsHi extends ForkLocalizations {
   String get personaPronounsHint => 'जैसे वह/वे';
 
   @override
+  String get personaAliasesLabel => 'उपनाम';
+
+  @override
+  String get personaAliasLabel => 'उपनाम';
+
+  @override
+  String get personaAliasesHelp => 'इस परसोना को ढूँढने के लिए दूसरे नाम';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'उपनाम जोड़ें ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'उपनाम हटाएँ';
+
+  @override
   String get personaBioHint => 'दूसरों को इस परसोना के बारे में बताएं...';
 
   @override

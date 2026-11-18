@@ -115,6 +115,24 @@ class ForkLocalizationsHr extends ForkLocalizations {
   String get personaPronounsHint => 'npr. oni/njih';
 
   @override
+  String get personaAliasesLabel => 'Aliasi';
+
+  @override
+  String get personaAliasLabel => 'Alias';
+
+  @override
+  String get personaAliasesHelp =>
+      'Druga imena po kojima ćete pronaći ovu personu';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'Dodaj alias ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'Ukloni alias';
+
+  @override
   String get personaBioHint => 'Recite drugima nešto o ovoj personi...';
 
   @override
