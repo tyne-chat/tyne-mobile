@@ -2086,6 +2086,42 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'{name} isn\'t on Tyne: this conversation was imported from Discord, and new messages can\'t reach them.'**
   String importedDmBarrier(String name);
+
+  /// Community settings → Emoji, the sort and grouping menu (tyne-chat/tyne#775). Same wording as the web app's. Title of the menu, and the sort button's spoken name.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort and group'**
+  String get guildEmojiSortAndGroup;
+
+  /// Community settings → Emoji, the sort and grouping menu (tyne-chat/tyne#775). Same wording as the web app's. Sort choice: emojis in alphabetical order.
+  ///
+  /// In en, this message translates to:
+  /// **'Name (A–Z)'**
+  String get guildEmojiSortName;
+
+  /// Community settings → Emoji, the sort and grouping menu (tyne-chat/tyne#775). Same wording as the web app's. Sort choice: the newest uploaded emojis first.
+  ///
+  /// In en, this message translates to:
+  /// **'Recently added'**
+  String get guildEmojiSortRecent;
+
+  /// Community settings → Emoji, the sort and grouping menu (tyne-chat/tyne#775). Same wording as the web app's. Grouping choice: two sections, non-animated emojis and animated emojis.
+  ///
+  /// In en, this message translates to:
+  /// **'Non-animated and animated apart'**
+  String get guildEmojiGroupSplit;
+
+  /// Community settings → Emoji, the sort and grouping menu (tyne-chat/tyne#775). Same wording as the web app's. Grouping choice: non-animated and animated emojis in one section.
+  ///
+  /// In en, this message translates to:
+  /// **'All in one list'**
+  String get guildEmojiGroupTogether;
+
+  /// Community settings → Emoji, the sort and grouping menu (tyne-chat/tyne#775). Same wording as the web app's. Section heading when non-animated and animated emojis are listed together. count is the number of emojis.
+  ///
+  /// In en, this message translates to:
+  /// **'Emoji ({count})'**
+  String guildEmojiAllSection(int count);
 }
 
 class _ForkLocalizationsDelegate

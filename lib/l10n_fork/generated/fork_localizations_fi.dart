@@ -1213,4 +1213,24 @@ class ForkLocalizationsFi extends ForkLocalizations {
   String importedDmBarrier(String name) {
     return '$name ei ole Tynessä: tämä keskustelu tuotiin Discordista, eivätkä uudet viestit tavoita häntä.';
   }
+
+  @override
+  String get guildEmojiSortAndGroup => 'Järjestys ja ryhmittely';
+
+  @override
+  String get guildEmojiSortName => 'Nimi (A–Ö)';
+
+  @override
+  String get guildEmojiSortRecent => 'Viimeksi lisätyt';
+
+  @override
+  String get guildEmojiGroupSplit => 'Ei-animoidut ja animoidut erikseen';
+
+  @override
+  String get guildEmojiGroupTogether => 'Kaikki yhdessä luettelossa';
+
+  @override
+  String guildEmojiAllSection(int count) {
+    return 'Emojit ($count)';
+  }
 }

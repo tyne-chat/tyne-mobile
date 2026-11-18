@@ -316,5 +316,11 @@
     "stickerUploadRequirements": "Naklejki zachowują swój rozmiar, do 2048 pikseli na każdym boku, i muszą mieć rozmiar mniejszy niż {maxSize}. Większe statyczne obrazy są automatycznie zmniejszane i kompresowane. Animowane naklejki i pliki SVG muszą już spełniać ten limit.",
     "importedUserTag": "Zaimportowane",
     "importedUserTooltip": "Konto zastępcze osoby, której nie ma na Tyne: te wiadomości zaimportowano z Discorda.",
-    "importedDmBarrier": "{name} nie ma na Tyne: tę rozmowę zaimportowano z Discorda i nowe wiadomości do tej osoby nie dotrą."
+    "importedDmBarrier": "{name} nie ma na Tyne: tę rozmowę zaimportowano z Discorda i nowe wiadomości do tej osoby nie dotrą.",
+    "guildEmojiSortAndGroup": "Sortowanie i grupowanie",
+    "guildEmojiSortName": "Nazwa (A–Z)",
+    "guildEmojiSortRecent": "Ostatnio dodane",
+    "guildEmojiGroupSplit": "Nieruchome i animowane osobno",
+    "guildEmojiGroupTogether": "Wszystkie na jednej liście",
+    "guildEmojiAllSection": "Emoji ({count})"
 }

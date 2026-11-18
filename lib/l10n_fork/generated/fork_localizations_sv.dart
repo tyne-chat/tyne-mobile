@@ -1213,4 +1213,24 @@ class ForkLocalizationsSv extends ForkLocalizations {
   String importedDmBarrier(String name) {
     return '$name finns inte på Tyne: den här konversationen importerades från Discord, och nya meddelanden når inte fram.';
   }
+
+  @override
+  String get guildEmojiSortAndGroup => 'Sortera och gruppera';
+
+  @override
+  String get guildEmojiSortName => 'Namn (A–Ö)';
+
+  @override
+  String get guildEmojiSortRecent => 'Nyligen tillagda';
+
+  @override
+  String get guildEmojiGroupSplit => 'Icke-animerade och animerade var för sig';
+
+  @override
+  String get guildEmojiGroupTogether => 'Alla i en lista';
+
+  @override
+  String guildEmojiAllSection(int count) {
+    return 'Emojier ($count)';
+  }
 }

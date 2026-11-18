@@ -1211,4 +1211,25 @@ class ForkLocalizationsArt extends ForkLocalizations {
   String importedDmBarrier(String name) {
     return 'jan $name li lon ala Tyne. toki ni li kama tan Discord. toki sin li ken ala tawa ona.';
   }
+
+  @override
+  String get guildEmojiSortAndGroup => 'o nasin o kulupu';
+
+  @override
+  String get guildEmojiSortName => 'nimi (A–Z)';
+
+  @override
+  String get guildEmojiSortRecent => 'sin lon tenpo poka';
+
+  @override
+  String get guildEmojiGroupSplit =>
+      'sitelen pilin tawa ala en sitelen pilin tawa li lon poka ante';
+
+  @override
+  String get guildEmojiGroupTogether => 'ale li lon kulupu wan';
+
+  @override
+  String guildEmojiAllSection(int count) {
+    return 'sitelen pilin ($count)';
+  }
 }
