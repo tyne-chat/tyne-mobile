@@ -1203,6 +1203,26 @@ class ForkLocalizationsEn extends ForkLocalizations {
   String importedDmBarrier(String name) {
     return '$name isn\'t on Tyne: this conversation was imported from Discord, and new messages can\'t reach them.';
   }
+
+  @override
+  String get guildEmojiSortAndGroup => 'Sort and group';
+
+  @override
+  String get guildEmojiSortName => 'Name (A–Z)';
+
+  @override
+  String get guildEmojiSortRecent => 'Recently added';
+
+  @override
+  String get guildEmojiGroupSplit => 'Non-animated and animated apart';
+
+  @override
+  String get guildEmojiGroupTogether => 'All in one list';
+
+  @override
+  String guildEmojiAllSection(int count) {
+    return 'Emoji ($count)';
+  }
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -2404,6 +2424,26 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   String importedDmBarrier(String name) {
     return '$name isn\'t on Tyne: this conversation was imported from Discord, and new messages can\'t reach them.';
   }
+
+  @override
+  String get guildEmojiSortAndGroup => 'Sort and group';
+
+  @override
+  String get guildEmojiSortName => 'Name (A–Z)';
+
+  @override
+  String get guildEmojiSortRecent => 'Recently added';
+
+  @override
+  String get guildEmojiGroupSplit => 'Non-animated and animated apart';
+
+  @override
+  String get guildEmojiGroupTogether => 'All in one list';
+
+  @override
+  String guildEmojiAllSection(int count) {
+    return 'Emoji ($count)';
+  }
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -3604,5 +3644,25 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
   @override
   String importedDmBarrier(String name) {
     return '$name isn\'t on Tyne: this conversation was imported from Discord, and new messages can\'t reach them.';
+  }
+
+  @override
+  String get guildEmojiSortAndGroup => 'Sort and group';
+
+  @override
+  String get guildEmojiSortName => 'Name (A–Z)';
+
+  @override
+  String get guildEmojiSortRecent => 'Recently added';
+
+  @override
+  String get guildEmojiGroupSplit => 'Non-animated and animated apart';
+
+  @override
+  String get guildEmojiGroupTogether => 'All in one list';
+
+  @override
+  String guildEmojiAllSection(int count) {
+    return 'Emoji ($count)';
   }
 }

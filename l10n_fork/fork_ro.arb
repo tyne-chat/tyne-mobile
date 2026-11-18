@@ -316,5 +316,11 @@
     "stickerUploadRequirements": "Stickerele își păstrează propria dimensiune, până la 2048 pixeli pe fiecare latură, și trebuie să aibă mai puțin de {maxSize}. Imaginile statice mai mari sunt micșorate și comprimate automat. Stickerele animate și SVG-urile trebuie să respecte deja limita.",
     "importedUserTag": "Importat",
     "importedUserTooltip": "Cont substituent pentru cineva care nu este pe Tyne: aceste mesaje au fost importate din Discord.",
-    "importedDmBarrier": "{name} nu este pe Tyne: această conversație a fost importată din Discord, iar mesajele noi nu ajung la această persoană."
+    "importedDmBarrier": "{name} nu este pe Tyne: această conversație a fost importată din Discord, iar mesajele noi nu ajung la această persoană.",
+    "guildEmojiSortAndGroup": "Sortare și grupare",
+    "guildEmojiSortName": "Nume (A–Z)",
+    "guildEmojiSortRecent": "Adăugate recent",
+    "guildEmojiGroupSplit": "Neanimate și animate separat",
+    "guildEmojiGroupTogether": "Toate într-o singură listă",
+    "guildEmojiAllSection": "Emoji ({count})"
 }

@@ -316,5 +316,11 @@
     "stickerUploadRequirements": "স্টিকার তাদের নিজস্ব আকারেই থাকে, প্রতিটি দিকে সর্বোচ্চ 2048 পিক্সেল পর্যন্ত, এবং এগুলোর আকার {maxSize}-এর কম হতে হবে। এর চেয়ে বড় স্থির ছবি স্বয়ংক্রিয়ভাবে ছোট ও সংকুচিত করা হয়। অ্যানিমেটেড স্টিকার ও SVG আগে থেকেই সীমার মধ্যে থাকতে হবে।",
     "importedUserTag": "আমদানি করা",
     "importedUserTooltip": "Tyne-এ নেই এমন কারও জন্য স্থানধারী: এই বার্তাগুলো Discord থেকে আমদানি করা হয়েছে।",
-    "importedDmBarrier": "{name} Tyne-এ নেই: এই কথোপকথনটি Discord থেকে আমদানি করা হয়েছে, এবং নতুন বার্তা তাঁর কাছে পৌঁছাবে না।"
+    "importedDmBarrier": "{name} Tyne-এ নেই: এই কথোপকথনটি Discord থেকে আমদানি করা হয়েছে, এবং নতুন বার্তা তাঁর কাছে পৌঁছাবে না।",
+    "guildEmojiSortAndGroup": "সাজানো ও গ্রুপ করা",
+    "guildEmojiSortName": "নাম (A–Z)",
+    "guildEmojiSortRecent": "সম্প্রতি যোগ করা",
+    "guildEmojiGroupSplit": "অ্যানিমেটেড নয় ও অ্যানিমেটেড আলাদা",
+    "guildEmojiGroupTogether": "সব এক তালিকায়",
+    "guildEmojiAllSection": "ইমোজি ({count})"
 }
