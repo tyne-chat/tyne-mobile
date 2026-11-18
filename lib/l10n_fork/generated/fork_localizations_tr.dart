@@ -1204,4 +1204,24 @@ class ForkLocalizationsTr extends ForkLocalizations {
   String importedDmBarrier(String name) {
     return '$name Tyne\'da değil: bu sohbet Discord\'dan içe aktarıldı ve yeni mesajlar ona ulaşamaz.';
   }
+
+  @override
+  String get guildEmojiSortAndGroup => 'Sırala ve grupla';
+
+  @override
+  String get guildEmojiSortName => 'Ad (A–Z)';
+
+  @override
+  String get guildEmojiSortRecent => 'Son eklenenler';
+
+  @override
+  String get guildEmojiGroupSplit => 'Hareketsiz ve hareketli ayrı';
+
+  @override
+  String get guildEmojiGroupTogether => 'Tümü tek listede';
+
+  @override
+  String guildEmojiAllSection(int count) {
+    return 'Emojiler ($count)';
+  }
 }

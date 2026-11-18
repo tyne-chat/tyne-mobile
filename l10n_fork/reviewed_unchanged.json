@@ -18,6 +18,7 @@
             "signalBarSignalWithNames"
         ],
         "cs": [
+            "guildEmojiAllSection",
             "personaTagExampleText"
         ],
         "da": [
@@ -26,11 +27,15 @@
         "de": [
             "guildCommandInputOptional",
             "guildCommandName",
+            "guildEmojiSortName",
             "personaGallerySortName",
             "personaGalleryTitle",
             "personaSectionTitle",
             "personaTagSuffixLabel",
             "userSettingsNavPersonas"
+        ],
+        "el": [
+            "guildEmojiAllSection"
         ],
         "es": [
             "guildCommandScript",
@@ -72,6 +77,7 @@
             "userSettingsNavPersonas"
         ],
         "id": [
+            "guildEmojiAllSection",
             "personaEditPersona",
             "personaEditTitle",
             "personaModeManual"
@@ -79,6 +85,7 @@
         "it": [
             "guildCommandScript",
             "guildCommandSectionInput",
+            "guildEmojiAllSection",
             "personaReactionsAccount",
             "personaSectionTitle",
             "userSettingsNavPersonas"
@@ -91,9 +98,13 @@
         ],
         "nl": [
             "guildCommandScript",
+            "guildEmojiAllSection",
             "instanceOfflineTitle",
             "personaGalleryViewAvatars",
             "personaReactionsAccount"
+        ],
+        "pl": [
+            "guildEmojiAllSection"
         ],
         "pt": [
             "guildCommandScript",
@@ -113,6 +124,7 @@
         ],
         "ro": [
             "guildCommandScript",
+            "guildEmojiAllSection",
             "personaGalleryTitle",
             "personaModeManual",
             "personaSectionTitle",
@@ -121,6 +133,7 @@
             "userSettingsNavPersonas"
         ],
         "sk": [
+            "guildEmojiAllSection",
             "personaTagExampleText",
             "signalBarSignalWithNames"
         ],

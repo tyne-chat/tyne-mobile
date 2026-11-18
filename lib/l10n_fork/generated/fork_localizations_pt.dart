@@ -1222,6 +1222,26 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String importedDmBarrier(String name) {
     return '$name não está no Tyne: esta conversa foi importada do Discord, e as novas mensagens não lhe chegarão.';
   }
+
+  @override
+  String get guildEmojiSortAndGroup => 'Ordenar e agrupar';
+
+  @override
+  String get guildEmojiSortName => 'Nome (A–Z)';
+
+  @override
+  String get guildEmojiSortRecent => 'Adicionados recentemente';
+
+  @override
+  String get guildEmojiGroupSplit => 'Não animados e animados em separado';
+
+  @override
+  String get guildEmojiGroupTogether => 'Todos numa só lista';
+
+  @override
+  String guildEmojiAllSection(int count) {
+    return 'Emojis ($count)';
+  }
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -2445,5 +2465,25 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
   @override
   String importedDmBarrier(String name) {
     return '$name não está no Tyne: esta conversa foi importada do Discord, e novas mensagens não chegarão até essa pessoa.';
+  }
+
+  @override
+  String get guildEmojiSortAndGroup => 'Ordenar e agrupar';
+
+  @override
+  String get guildEmojiSortName => 'Nome (A–Z)';
+
+  @override
+  String get guildEmojiSortRecent => 'Adicionados recentemente';
+
+  @override
+  String get guildEmojiGroupSplit => 'Não animados e animados separados';
+
+  @override
+  String get guildEmojiGroupTogether => 'Todos em uma lista';
+
+  @override
+  String guildEmojiAllSection(int count) {
+    return 'Emojis ($count)';
   }
 }

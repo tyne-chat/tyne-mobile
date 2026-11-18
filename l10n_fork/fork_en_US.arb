@@ -316,5 +316,11 @@
     "stickerUploadRequirements": "Stickers keep their own size, up to 2048 pixels on each side, and must be under {maxSize}. Larger static images are shrunk and compressed automatically. Animated stickers and SVGs must already fit the limit.",
     "importedUserTag": "Imported",
     "importedUserTooltip": "Placeholder for someone not on Tyne: these messages were imported from Discord.",
-    "importedDmBarrier": "{name} isn't on Tyne: this conversation was imported from Discord, and new messages can't reach them."
+    "importedDmBarrier": "{name} isn't on Tyne: this conversation was imported from Discord, and new messages can't reach them.",
+    "guildEmojiSortAndGroup": "Sort and group",
+    "guildEmojiSortName": "Name (A–Z)",
+    "guildEmojiSortRecent": "Recently added",
+    "guildEmojiGroupSplit": "Non-animated and animated apart",
+    "guildEmojiGroupTogether": "All in one list",
+    "guildEmojiAllSection": "Emoji ({count})"
 }

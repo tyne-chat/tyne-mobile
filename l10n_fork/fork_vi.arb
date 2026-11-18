@@ -316,5 +316,11 @@
     "stickerUploadRequirements": "Nhãn dán giữ nguyên kích thước gốc, tối đa 2048 pixel mỗi cạnh, và không được vượt quá {maxSize}. Ảnh tĩnh lớn hơn sẽ được tự động thu nhỏ và nén. Nhãn dán động và SVG phải đã phù hợp với giới hạn này.",
     "importedUserTag": "Đã nhập",
     "importedUserTooltip": "Tài khoản giữ chỗ cho người không có trên Tyne: các tin nhắn này được nhập từ Discord.",
-    "importedDmBarrier": "{name} không có trên Tyne: cuộc trò chuyện này được nhập từ Discord và tin nhắn mới sẽ không đến được với họ."
+    "importedDmBarrier": "{name} không có trên Tyne: cuộc trò chuyện này được nhập từ Discord và tin nhắn mới sẽ không đến được với họ.",
+    "guildEmojiSortAndGroup": "Sắp xếp và nhóm",
+    "guildEmojiSortName": "Tên (A–Z)",
+    "guildEmojiSortRecent": "Mới thêm gần đây",
+    "guildEmojiGroupSplit": "Tĩnh và động riêng",
+    "guildEmojiGroupTogether": "Tất cả trong một danh sách",
+    "guildEmojiAllSection": "Biểu tượng cảm xúc ({count})"
 }

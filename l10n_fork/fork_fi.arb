@@ -316,5 +316,11 @@
     "stickerUploadRequirements": "Tarrat säilyttävät oman kokonsa, enintään 2048 pikseliä kummallakin sivulla, ja niiden koon on oltava alle {maxSize}. Suuremmat staattiset kuvat pienennetään ja pakataan automaattisesti. Animoitujen tarrojen ja SVG-kuvien on mahduttava kokorajaan sellaisenaan.",
     "importedUserTag": "Tuotu",
     "importedUserTooltip": "Paikkamerkki henkilölle, joka ei ole Tynessä: nämä viestit tuotiin Discordista.",
-    "importedDmBarrier": "{name} ei ole Tynessä: tämä keskustelu tuotiin Discordista, eivätkä uudet viestit tavoita häntä."
+    "importedDmBarrier": "{name} ei ole Tynessä: tämä keskustelu tuotiin Discordista, eivätkä uudet viestit tavoita häntä.",
+    "guildEmojiSortAndGroup": "Järjestys ja ryhmittely",
+    "guildEmojiSortName": "Nimi (A–Ö)",
+    "guildEmojiSortRecent": "Viimeksi lisätyt",
+    "guildEmojiGroupSplit": "Ei-animoidut ja animoidut erikseen",
+    "guildEmojiGroupTogether": "Kaikki yhdessä luettelossa",
+    "guildEmojiAllSection": "Emojit ({count})"
 }

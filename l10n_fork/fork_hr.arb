@@ -316,5 +316,11 @@
     "stickerUploadRequirements": "Naljepnice zadržavaju vlastitu veličinu, do 2048 piksela po stranici, i moraju biti manje od {maxSize}. Veće statične slike automatski se smanjuju i komprimiraju. Animirane naljepnice i SVG-ovi već moraju biti unutar ograničenja.",
     "importedUserTag": "Uvezeno",
     "importedUserTooltip": "Zamjenski račun za nekoga tko nije na Tyneu: ove su poruke uvezene s Discorda.",
-    "importedDmBarrier": "{name} nije na Tyneu: ovaj je razgovor uvezen s Discorda i nove poruke do te osobe neće stići."
+    "importedDmBarrier": "{name} nije na Tyneu: ovaj je razgovor uvezen s Discorda i nove poruke do te osobe neće stići.",
+    "guildEmojiSortAndGroup": "Razvrstavanje i grupiranje",
+    "guildEmojiSortName": "Ime (A–Ž)",
+    "guildEmojiSortRecent": "Nedavno dodani",
+    "guildEmojiGroupSplit": "Neanimirani i animirani odvojeno",
+    "guildEmojiGroupTogether": "Svi na jednom popisu",
+    "guildEmojiAllSection": "Emojiji ({count})"
 }
