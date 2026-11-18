@@ -322,5 +322,7 @@
     "guildEmojiSortRecent": "हाल ही में जोड़े गए",
     "guildEmojiGroupSplit": "गैर-एनिमेटेड और एनिमेटेड अलग-अलग",
     "guildEmojiGroupTogether": "सब एक सूची में",
-    "guildEmojiAllSection": "इमोजी ({count})"
+    "guildEmojiAllSection": "इमोजी ({count})",
+    "forwardAs": "इस रूप में फ़ॉरवर्ड करें",
+    "forwardAsName": "{name} के रूप में फ़ॉरवर्ड करें"
 }

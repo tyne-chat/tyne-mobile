@@ -323,5 +323,7 @@
     "guildEmojiSortRecent": "sin lon tenpo poka",
     "guildEmojiGroupSplit": "sitelen pilin tawa ala en sitelen pilin tawa li lon poka ante",
     "guildEmojiGroupTogether": "ale li lon kulupu wan",
-    "guildEmojiAllSection": "sitelen pilin ({count})"
+    "guildEmojiAllSection": "sitelen pilin ({count})",
+    "forwardAs": "o pana sin kepeken nimi",
+    "forwardAsName": "o pana sin kepeken nimi {name}"
 }
