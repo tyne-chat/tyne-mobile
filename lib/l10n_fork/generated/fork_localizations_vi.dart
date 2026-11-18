@@ -1219,4 +1219,12 @@ class ForkLocalizationsVi extends ForkLocalizations {
   String guildEmojiAllSection(int count) {
     return 'Biểu tượng cảm xúc ($count)';
   }
+
+  @override
+  String get forwardAs => 'Chuyển tiếp với tư cách';
+
+  @override
+  String forwardAsName(String name) {
+    return 'Chuyển tiếp với tư cách $name';
+  }
 }

@@ -322,5 +322,7 @@
     "guildEmojiSortRecent": "Nedavno dodani",
     "guildEmojiGroupSplit": "Neanimirani i animirani odvojeno",
     "guildEmojiGroupTogether": "Svi na jednom popisu",
-    "guildEmojiAllSection": "Emojiji ({count})"
+    "guildEmojiAllSection": "Emojiji ({count})",
+    "forwardAs": "Proslijedi kao",
+    "forwardAsName": "Proslijedi kao {name}"
 }

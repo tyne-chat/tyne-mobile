@@ -1231,4 +1231,12 @@ class ForkLocalizationsHi extends ForkLocalizations {
   String guildEmojiAllSection(int count) {
     return 'इमोजी ($count)';
   }
+
+  @override
+  String get forwardAs => 'इस रूप में फ़ॉरवर्ड करें';
+
+  @override
+  String forwardAsName(String name) {
+    return '$name के रूप में फ़ॉरवर्ड करें';
+  }
 }

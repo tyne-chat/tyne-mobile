@@ -520,7 +520,13 @@ List<Widget> buildMessageActionMenuGroups({
         label: l10n.chatMessageEdit,
         onTap: () => onAction(MessageAction.edit),
       ),
-    if (canShowEdit && hasPersonas)
+    // Fork: also for a forward, whose sender is the one thing about it that can
+    // change (tyne-chat/tyne#817).
+    if (permissions.isOwnMessage &&
+        isUserMessage &&
+        supportsInteractiveActions &&
+        !message.isSending &&
+        hasPersonas)
       FluxerBottomSheetMenuItem(
         icon: PhosphorIconsFill.userSwitch,
         label: l10n.fork.chatMessageChangePersona,

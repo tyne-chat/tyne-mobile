@@ -1636,5 +1636,18 @@
                 "type": "int"
             }
         }
+    },
+    "forwardAs": "Forward as",
+    "@forwardAs": {
+        "description": "The Forward sheet's \"Forward as\" row (tyne-chat/tyne#817). Same wording as the web app's. Title of the persona picker it opens."
+    },
+    "forwardAsName": "Forward as {name}",
+    "@forwardAsName": {
+        "description": "The Forward sheet's \"Forward as\" row (tyne-chat/tyne#817). Same wording as the web app's. The row's text: who the forward and its comment are sent as. name is a persona's name or the account's name.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     }
 }

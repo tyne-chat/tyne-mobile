@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/chat/domain/cloud_composer_attachments.dart';
+import 'package:fluxer_app/features/chat/domain/forward_as.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
@@ -62,33 +63,81 @@ Future<OutgoingMessageResolution?> resolveOutgoingPersona({
   onSendAsAccount: onSendAsAccount,
 );
 
-/// What a forward and its comment go out as in [channelId]. They are one thing
-/// said by one speaker, so a tag in [comment] decides for both. Without one they
-/// use the persona selected where the forward started, which is the one on
-/// screen, and then the destination's, so that the account does not turn up in
-/// a channel where a persona was chosen. Call it once per destination. Null
-/// when held, as [resolveOutgoingPersona] says.
-Future<OutgoingMessageResolution?> resolveForwardPersona(
+/// What a forward from the Forward sheet and its comment go out as
+/// (tyne-chat/tyne#817): the sheet's pick, [picked], else what the sheet shows
+/// before anyone picks ([defaultForwardAs]). They are one thing said by one
+/// speaker, so a tag in [comment] decides for both, and a backslash sends them
+/// as the account. Either way it is a choice made in the sheet, like a pick: it
+/// changes no channel's selection, even in "last" mode, and records one use for
+/// the whole forward, so call it once per forward, not per destination.
+///
+/// Null when held, as [resolveOutgoingPersona] says (tyne-chat/tyne#30): a
+/// forward that could go out as a persona waits for the persona list rather
+/// than go out as the account because the list has not loaded.
+Future<OutgoingMessageResolution?> resolveSheetForward(
   SignalProviderReader read, {
   required String sourceChannelId,
-  required String channelId,
   required String comment,
-  VoidCallback? onSendAsAccount,
+  required ForwardAs? picked,
+}) async {
+  if (!_personasReady(read) &&
+      _mayGoOutAsPersona(read, comment, sourceChannelId) &&
+      !await _waitForPersonas(read)) {
+    _showSendHeld(read, sourceChannelId, null);
+    return null;
+  }
+  final List<Persona> personas =
+      read(myPersonasProvider).asData?.value ?? const <Persona>[];
+  final ForwardAs chosen =
+      picked ?? defaultForwardAs(read, sourceChannelId: sourceChannelId);
+  final MatchResult said = matchPersona(
+    comment,
+    personas,
+    chosen.persona?.id,
+    hasAttachments: false,
+    allowEmptyContent: true,
+  );
+  final Persona? persona = said.isFromTag
+      ? said.persona
+      : said.wasEscaped
+      ? null
+      : chosen.persona;
+  final String text = said.isFromTag || said.wasEscaped
+      ? said.strippedContent
+      : comment;
+  if (persona == null) {
+    return OutgoingMessageResolution(
+      text: text,
+      personaData: null,
+      wasEscaped: said.wasEscaped,
+    );
+  }
+  unawaited(read(activePersonaProvider.notifier).recordUsage(persona.id));
+  final systemTag = read(systemDisplayTagProvider);
+  return OutgoingMessageResolution(
+    text: text,
+    personaData: persona.toSubprofilePayload(
+      displayTagText: systemTag.text,
+      displayTagIcon: systemTag.iconUrl,
+    ),
+    persona: persona,
+    matched: true,
+  );
+}
+
+/// Who the Forward sheet shows a forward going out as before anyone picks: the
+/// persona active in the channel it is forwarded from (the one on screen),
+/// else the account (tyne-chat/tyne#817).
+ForwardAs defaultForwardAs(
+  SignalProviderReader read, {
+  required String sourceChannelId,
 }) {
-  final Persona? sourcePersona = latchedPersonaFor(
+  final Persona? source = latchedPersonaFor(
     read(activePersonaProvider),
     read(myPersonasProvider).asData?.value ?? const <Persona>[],
     sourceChannelId,
   );
-  return _resolveOutgoingPersona(
-    read,
-    rawText: comment,
-    channelId: channelId,
-    allowEmptyContent: true,
-    hasAttachments: false,
-    personaChannelId: sourcePersona == null ? channelId : sourceChannelId,
-    onSendAsAccount: onSendAsAccount,
-  );
+  return source == null ? const ForwardAs.account() : ForwardAs.persona(source);
 }
 
 Future<OutgoingMessageResolution?> _resolveOutgoingPersona(

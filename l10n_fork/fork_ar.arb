@@ -322,5 +322,7 @@
     "guildEmojiSortRecent": "المضافة حديثًا",
     "guildEmojiGroupSplit": "غير المتحركة والمتحركة منفصلة",
     "guildEmojiGroupTogether": "الكل في قائمة واحدة",
-    "guildEmojiAllSection": "الرموز التعبيرية ({count})"
+    "guildEmojiAllSection": "الرموز التعبيرية ({count})",
+    "forwardAs": "إعادة التوجيه باسم",
+    "forwardAsName": "إعادة التوجيه باسم {name}"
 }
