@@ -16,6 +16,10 @@ import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/mention_display_utils.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/shared/providers/fork_cached_member_refresh.dart';
+
 String? resolveGuildIdForChannel(WidgetRef ref, String? channelId) {
   if (channelId != null && channelId.isNotEmpty) {
     final channel = resolveGuildChannel(ref, channelId);
@@ -260,11 +264,17 @@ AsyncValue<GuildUserDisplay?> _combine(
     _lastResolvedDisplayProvider,
   );
   final db.User? user = userAsync.value;
+  // Fork: also a cached member this connection has not confirmed (tyne-chat/tyne#614).
+  final bool forkRefresh =
+      fetchOnMiss &&
+      guildId != null &&
+      guildId.isNotEmpty &&
+      forkWatchCachedMemberRefresh(ref, userId, guildId);
   if (fetchOnMiss &&
       guildId != null &&
       guildId.isNotEmpty &&
       user != null &&
-      memberAsync.value == null) {
+      (memberAsync.value == null || forkRefresh)) {
     final GuildMemberHydrationService hydrationService = ref.read(
       guildMemberHydrationServiceProvider,
     );
