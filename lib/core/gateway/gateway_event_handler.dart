@@ -42,6 +42,7 @@ import 'package:fluxer_dart/gateway.dart';
 
 // Fork imports.
 // ignore: directives_ordering
+import 'package:fluxer_app/core/gateway/fork_member_confirmation.dart';
 import 'package:fluxer_app/features/profile/data/known_personas.dart';
 import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_gateway.dart';
 import 'package:fluxer_app/features/threads/fork_dm_threads/dm_threads.dart';
@@ -880,6 +881,12 @@ class GatewayEventHandler {
     if (!isSameUserReconnect) {
       _emit(onSessionChanging);
     }
+    // Fork: which cached members this connection confirms (tyne-chat/tyne#614).
+    forkStartMemberConfirmation(
+      database,
+      fullWipe: shouldFullWipe,
+      rawGuilds: event.rawGuilds,
+    );
     talker.info(
       '[Gateway] READY received (session: ${event.sessionId}),'
       ' guilds: ${event.rawGuilds.length}'
@@ -1165,6 +1172,8 @@ class GatewayEventHandler {
         if (memberCompanions.isNotEmpty) {
           await database.memberDao.upsertMembers(memberCompanions);
         }
+        // Fork: READY's members are confirmed (tyne-chat/tyne#614).
+        ForkMemberConfirmation.of(database).confirmCompanions(memberCompanions);
         final Map<String, List<String>> staleThreadIds = await database
             .threadDao
             .reconcileJoinedForGuilds(joinedThreads);
@@ -2341,7 +2350,9 @@ class GatewayEventHandler {
       member.user.id,
       guildId,
     );
-    if (existing != null) {
+    // Fork: a row this connection has not confirmed may be stale (tyne-chat/tyne#614).
+    if (existing != null &&
+        !forkCachedMemberUnconfirmed(database, guildId, member.user.id)) {
       return;
     }
     await _handleMemberUpsert(guildId, member);
@@ -2372,6 +2383,10 @@ class GatewayEventHandler {
         <db.MembersCompanion>[memberCompanionFromSdk(member, guildId: guildId)],
       );
     });
+    // Fork: confirmed for this connection (tyne-chat/tyne#614).
+    ForkMemberConfirmation.of(
+      database,
+    ).confirm(guildId, <String>[member.user.id]);
   }
 
   void _handleMemberRemove(GuildMemberRemoveEvent event) {
@@ -2781,7 +2796,6 @@ class GatewayEventHandler {
       event.guild.members,
       event.guild.voiceStates,
     );
-
     unawaited(() async {
       final ({List<String> channelIds, Set<String> roleGuildIds}) pruned =
           await database.transaction(() async {
@@ -2892,6 +2906,14 @@ class GatewayEventHandler {
             );
             return pruned;
           });
+      // Fork: confirmed once stored; available to ask for again (tyne-chat/tyne#614).
+      forkGuildCreateStored(
+        database,
+        guildId,
+        members,
+        current:
+            _guildAvailabilityGenerations[guildId] == availabilityGeneration,
+      );
       if (_guildAvailabilityGenerations[guildId] == availabilityGeneration) {
         _emit(() => onGuildAvailable?.call(guildId));
       }
@@ -2998,6 +3020,8 @@ class GatewayEventHandler {
 
   Future<void> _handleGuildDelete(GuildDeleteEvent event) async {
     _bumpGuildAvailability(event.guildId);
+    // Fork: its member rows go (tyne-chat/tyne#614).
+    ForkMemberConfirmation.of(database).forgetGuild(event.guildId);
     _emit(
       () => onGuildAvailabilityChanged?.call(
         event.guildId,
