@@ -322,5 +322,7 @@
     "guildEmojiSortRecent": "Onlangs toegevoegd",
     "guildEmojiGroupSplit": "Niet-geanimeerd en geanimeerd apart",
     "guildEmojiGroupTogether": "Alles in één lijst",
-    "guildEmojiAllSection": "Emoji ({count})"
+    "guildEmojiAllSection": "Emoji ({count})",
+    "forwardAs": "Doorsturen als",
+    "forwardAsName": "Doorsturen als {name}"
 }

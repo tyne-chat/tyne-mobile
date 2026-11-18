@@ -322,5 +322,7 @@
     "guildEmojiSortRecent": "Son eklenenler",
     "guildEmojiGroupSplit": "Hareketsiz ve hareketli ayrı",
     "guildEmojiGroupTogether": "Tümü tek listede",
-    "guildEmojiAllSection": "Emojiler ({count})"
+    "guildEmojiAllSection": "Emojiler ({count})",
+    "forwardAs": "Şu olarak ilet",
+    "forwardAsName": "{name} olarak ilet"
 }

@@ -322,5 +322,7 @@
     "guildEmojiSortRecent": "Nedavno dodani",
     "guildEmojiGroupSplit": "Neanimirani in animirani ločeno",
     "guildEmojiGroupTogether": "Vsi na enem seznamu",
-    "guildEmojiAllSection": "Emodžiji ({count})"
+    "guildEmojiAllSection": "Emodžiji ({count})",
+    "forwardAs": "Posreduj kot",
+    "forwardAsName": "Posreduj kot {name}"
 }

@@ -2122,6 +2122,18 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'Emoji ({count})'**
   String guildEmojiAllSection(int count);
+
+  /// The Forward sheet's "Forward as" row (tyne-chat/tyne#817). Same wording as the web app's. Title of the persona picker it opens.
+  ///
+  /// In en, this message translates to:
+  /// **'Forward as'**
+  String get forwardAs;
+
+  /// The Forward sheet's "Forward as" row (tyne-chat/tyne#817). Same wording as the web app's. The row's text: who the forward and its comment are sent as. name is a persona's name or the account's name.
+  ///
+  /// In en, this message translates to:
+  /// **'Forward as {name}'**
+  String forwardAsName(String name);
 }
 
 class _ForkLocalizationsDelegate
