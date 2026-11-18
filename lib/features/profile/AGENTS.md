@@ -56,6 +56,15 @@ persona is selected. A persona with `auto_tag_disabled` is one whose tags are ig
 way it acts like any other persona, also when selected.
 `isUnfinishedPersonaTag` keeps typing indicators and signals quiet while a tag is half typed.
 
+**Finding a persona by name** is another matter: `domain/persona_name_search.dart` scores typed text
+against a persona's name and its `aliases` (tyne-chat/tyne#707), taking the best match, and mirrors the
+server repository's `PersonaNameSearch.ts`: change both together. Aliases (up to 10) are other names to
+find the persona by, such as an easy-to-type one for `SΛTVRN`; they are never shown. The mention
+autocomplete (`ChannelPersonaMentionCache`), the pickers (`personaMatchesQuery`), the settings list, the
+gallery and message search's typed names (`resolvePersonaSearchName`, which also reads the account's own
+personas, kept by `MyPersonasNotifier` in `ownPersonasForSearch`) all match them. Tests:
+`test/features/profile/domain/persona_name_search_test.dart`.
+
 ## Sending and showing
 
 - **Only the persona's id goes to the server** (`persona_id` on sends, edits and typing). The server
@@ -140,7 +149,7 @@ The form's "Don't match this persona's tags" switch sets `auto_tag_disabled`.
 **Duplicate** (tyne-chat/tyne#599), above Delete, is off while the form has unsaved changes. It closes the
 editor and opens `EditPersonaSheet.show(copyOf:)`: a new persona filled in from the saved one, with the
 same picture hashes (nothing uploaded; the server deletes images only with the account), colours,
-pronouns, bio, visibility and tag matching, under `duplicatePersonaName` (`domain/persona_duplicate_name.dart`,
+aliases, pronouns, bio, visibility and tag matching, under `duplicatePersonaName` (`domain/persona_duplicate_name.dart`,
 the web's rule: "Lyra (2)", a copy of a copy counting on), autofocused and selected. Tags and signature
 emojis start empty, since each belongs to one persona. The copy is unsaved from the start: `PersonaCopyBar`
 ("Copy of …", Cancel, Create) stays up below the form (not over it, where it would cover the field being

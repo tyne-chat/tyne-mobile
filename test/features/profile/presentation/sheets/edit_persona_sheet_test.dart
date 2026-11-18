@@ -287,12 +287,12 @@ void main() {
 
         // Field 0 is the colour, 1 the name.
         await tester.enterText(find.byType(TextField).at(1), 'Colons');
-        await tester.enterText(find.byType(TextField).at(3), 'a:::');
-        await tester.enterText(find.byType(TextField).at(4), 'b');
+        await tester.enterText(find.byType(TextField).at(4), 'a:::');
+        await tester.enterText(find.byType(TextField).at(5), 'b');
         await tester.tap(find.text('Add Tag Pair (1/5)'));
         await tester.pumpAndSettle();
-        await tester.enterText(find.byType(TextField).at(5), 'a');
-        await tester.enterText(find.byType(TextField).at(6), ':::b');
+        await tester.enterText(find.byType(TextField).at(6), 'a');
+        await tester.enterText(find.byType(TextField).at(7), ':::b');
         await tester.pumpAndSettle();
         await tester.tap(find.text('Save'));
         await tester.pumpAndSettle();
@@ -307,7 +307,7 @@ void main() {
 
       // Add a non-empty tag prefix (index 3) to make form dirty while name is empty
       final textFields = find.byType(TextField);
-      await tester.enterText(textFields.at(3), 'tag:');
+      await tester.enterText(textFields.at(4), 'tag:');
       await tester.pumpAndSettle();
 
       expect(isSaveBarVisible(tester), isTrue);
@@ -336,8 +336,8 @@ void main() {
       // Name is index 1
       await tester.enterText(textFields.at(1), 'Colliding Alter');
       // Tag 1 Prefix is index 3, Suffix is index 4
-      await tester.enterText(textFields.at(3), '[');
-      await tester.enterText(textFields.at(4), ']');
+      await tester.enterText(textFields.at(4), '[');
+      await tester.enterText(textFields.at(5), ']');
       await tester.pumpAndSettle();
 
       expect(isSaveBarVisible(tester), isTrue);
@@ -366,7 +366,7 @@ void main() {
       // Name is index 1
       await tester.enterText(textFields.at(1), 'Valid Name');
       // Tag 1 Prefix is index 3
-      await tester.enterText(textFields.at(3), '{');
+      await tester.enterText(textFields.at(4), '{');
 
       // Add second tag pair
       await tester.tap(find.text('Add Tag Pair (1/5)'));
@@ -374,7 +374,7 @@ void main() {
 
       final updatedFields = find.byType(TextField);
       // Second tag pair prefix is now index 5
-      await tester.enterText(updatedFields.at(5), '{');
+      await tester.enterText(updatedFields.at(6), '{');
       await tester.pumpAndSettle();
 
       expect(isSaveBarVisible(tester), isTrue);
@@ -412,10 +412,10 @@ void main() {
       final nameField = tester.widget<TextField>(textFields.at(1));
       expect(nameField.controller?.text, 'Test Persona');
 
-      final pronounsField = tester.widget<TextField>(textFields.at(2));
+      final pronounsField = tester.widget<TextField>(textFields.at(3));
       expect(pronounsField.controller?.text, 'they/them');
 
-      final bioField = tester.widget<TextField>(textFields.at(5));
+      final bioField = tester.widget<TextField>(textFields.at(6));
       expect(bioField.controller?.text, 'Testing persona edit sheet');
 
       // Verify Delete Persona button exists
@@ -514,7 +514,7 @@ void main() {
 
         // Make a change to trigger the save bar
         final textFields = find.byType(TextField);
-        await tester.enterText(textFields.at(2), 'she/her');
+        await tester.enterText(textFields.at(3), 'she/her');
         await tester.pumpAndSettle();
 
         expect(isSaveBarVisible(tester), isTrue);
@@ -717,6 +717,7 @@ void main() {
     const lyra = PublicPersona(
       id: 'lyra_1',
       name: 'Lyra',
+      aliases: <String>['Lyre'],
       pronouns: 'she/they',
       bio: 'Night owl, stargazer.',
       avatarHash: 'lyraavatar',
@@ -794,13 +795,20 @@ void main() {
               .widget<TextField>(find.byType(TextField).at(2))
               .controller
               ?.text,
+          'Lyre',
+        );
+        expect(
+          tester
+              .widget<TextField>(find.byType(TextField).at(3))
+              .controller
+              ?.text,
           'she/they',
         );
         // One empty tag pair, and no signature emoji chips.
         expect(find.text('Add Tag Pair (1/5)'), findsOneWidget);
         expect(
           tester
-              .widget<TextField>(find.byType(TextField).at(3))
+              .widget<TextField>(find.byType(TextField).at(4))
               .controller
               ?.text,
           isEmpty,
@@ -824,6 +832,7 @@ void main() {
           'banner_hash': 'lyrabanner',
           'color': 0x7B6CF6,
           'avatar_color': 0x26225E,
+          'aliases': <String>['Lyre'],
           'pronouns': 'she/they',
           'bio': 'Night owl, stargazer.',
           'auto_tag_disabled': true,
@@ -887,7 +896,7 @@ void main() {
       await scrollTo(tester, find.text('Duplicate Persona'));
       expect(duplicateButton(tester).onPressed, isNotNull);
 
-      await tester.enterText(find.byType(TextField).at(2), 'she/her');
+      await tester.enterText(find.byType(TextField).at(3), 'she/her');
       await tester.pumpAndSettle();
       expect(duplicateButton(tester).onPressed, isNull);
 
