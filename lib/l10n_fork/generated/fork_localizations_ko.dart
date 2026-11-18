@@ -1190,4 +1190,12 @@ class ForkLocalizationsKo extends ForkLocalizations {
   String guildEmojiAllSection(int count) {
     return '이모티콘($count)';
   }
+
+  @override
+  String get forwardAs => '전달할 이름';
+
+  @override
+  String forwardAsName(String name) {
+    return '$name(으)로 전달';
+  }
 }

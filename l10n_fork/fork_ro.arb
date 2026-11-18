@@ -322,5 +322,7 @@
     "guildEmojiSortRecent": "Adăugate recent",
     "guildEmojiGroupSplit": "Neanimate și animate separat",
     "guildEmojiGroupTogether": "Toate într-o singură listă",
-    "guildEmojiAllSection": "Emoji ({count})"
+    "guildEmojiAllSection": "Emoji ({count})",
+    "forwardAs": "Redirecționează ca",
+    "forwardAsName": "Redirecționează ca {name}"
 }

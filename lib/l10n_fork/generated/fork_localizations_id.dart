@@ -1219,4 +1219,12 @@ class ForkLocalizationsId extends ForkLocalizations {
   String guildEmojiAllSection(int count) {
     return 'Emoji ($count)';
   }
+
+  @override
+  String get forwardAs => 'Teruskan sebagai';
+
+  @override
+  String forwardAsName(String name) {
+    return 'Teruskan sebagai $name';
+  }
 }

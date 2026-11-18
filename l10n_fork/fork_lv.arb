@@ -322,5 +322,7 @@
     "guildEmojiSortRecent": "Nesen pievienotās",
     "guildEmojiGroupSplit": "Neanimētās un animētās atsevišķi",
     "guildEmojiGroupTogether": "Visas vienā sarakstā",
-    "guildEmojiAllSection": "Emocijzīmes ({count})"
+    "guildEmojiAllSection": "Emocijzīmes ({count})",
+    "forwardAs": "Pārsūtīt kā",
+    "forwardAsName": "Pārsūtīt kā {name}"
 }
