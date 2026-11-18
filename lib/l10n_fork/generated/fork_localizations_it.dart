@@ -1225,4 +1225,24 @@ class ForkLocalizationsIt extends ForkLocalizations {
   String importedDmBarrier(String name) {
     return '$name non è su Tyne: questa conversazione è stata importata da Discord e i nuovi messaggi non possono raggiungerlo.';
   }
+
+  @override
+  String get guildEmojiSortAndGroup => 'Ordina e raggruppa';
+
+  @override
+  String get guildEmojiSortName => 'Nome (A–Z)';
+
+  @override
+  String get guildEmojiSortRecent => 'Aggiunte di recente';
+
+  @override
+  String get guildEmojiGroupSplit => 'Non animate e animate separate';
+
+  @override
+  String get guildEmojiGroupTogether => 'Tutte in un unico elenco';
+
+  @override
+  String guildEmojiAllSection(int count) {
+    return 'Emoji ($count)';
+  }
 }

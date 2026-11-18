@@ -1224,4 +1224,24 @@ class ForkLocalizationsFil extends ForkLocalizations {
   String importedDmBarrier(String name) {
     return 'Wala si $name sa Tyne: in-import ang usapang ito mula sa Discord, at hindi na maaabot ng mga bagong mensahe.';
   }
+
+  @override
+  String get guildEmojiSortAndGroup => 'Ayusin at ipangkat';
+
+  @override
+  String get guildEmojiSortName => 'Pangalan (A–Z)';
+
+  @override
+  String get guildEmojiSortRecent => 'Kamakailang idinagdag';
+
+  @override
+  String get guildEmojiGroupSplit => 'Hiwalay ang hindi animated at animated';
+
+  @override
+  String get guildEmojiGroupTogether => 'Lahat sa iisang listahan';
+
+  @override
+  String guildEmojiAllSection(int count) {
+    return 'Mga emoji ($count)';
+  }
 }

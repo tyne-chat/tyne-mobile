@@ -1170,4 +1170,24 @@ class ForkLocalizationsKo extends ForkLocalizations {
   String importedDmBarrier(String name) {
     return '$name님은 Tyne에 없습니다. 이 대화는 Discord에서 가져온 것이며, 새 메시지는 전달되지 않습니다.';
   }
+
+  @override
+  String get guildEmojiSortAndGroup => '정렬 및 그룹화';
+
+  @override
+  String get guildEmojiSortName => '이름순 (A–Z)';
+
+  @override
+  String get guildEmojiSortRecent => '최근 추가됨';
+
+  @override
+  String get guildEmojiGroupSplit => '움직이지 않는 이모티콘과 움직이는 이모티콘 따로';
+
+  @override
+  String get guildEmojiGroupTogether => '모두 한 목록에';
+
+  @override
+  String guildEmojiAllSection(int count) {
+    return '이모티콘($count)';
+  }
 }

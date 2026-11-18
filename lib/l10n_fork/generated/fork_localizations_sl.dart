@@ -1234,4 +1234,24 @@ class ForkLocalizationsSl extends ForkLocalizations {
   String importedDmBarrier(String name) {
     return '$name ni na Tyne: ta pogovor je bil uvožen iz Discorda, in nova sporočila ga ne bodo dosegla.';
   }
+
+  @override
+  String get guildEmojiSortAndGroup => 'Razvrščanje in združevanje';
+
+  @override
+  String get guildEmojiSortName => 'Ime (A–Ž)';
+
+  @override
+  String get guildEmojiSortRecent => 'Nedavno dodani';
+
+  @override
+  String get guildEmojiGroupSplit => 'Neanimirani in animirani ločeno';
+
+  @override
+  String get guildEmojiGroupTogether => 'Vsi na enem seznamu';
+
+  @override
+  String guildEmojiAllSection(int count) {
+    return 'Emodžiji ($count)';
+  }
 }
