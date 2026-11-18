@@ -322,5 +322,7 @@
     "guildEmojiSortRecent": "最近追加",
     "guildEmojiGroupSplit": "非アニメーションとアニメーションを分ける",
     "guildEmojiGroupTogether": "すべてを1つのリストに",
-    "guildEmojiAllSection": "絵文字 ({count})"
+    "guildEmojiAllSection": "絵文字 ({count})",
+    "forwardAs": "転送する名義",
+    "forwardAsName": "{name}として転送"
 }

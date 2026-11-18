@@ -322,5 +322,7 @@
     "guildEmojiSortRecent": "Kamakailang idinagdag",
     "guildEmojiGroupSplit": "Hiwalay ang hindi animated at animated",
     "guildEmojiGroupTogether": "Lahat sa iisang listahan",
-    "guildEmojiAllSection": "Mga emoji ({count})"
+    "guildEmojiAllSection": "Mga emoji ({count})",
+    "forwardAs": "I-forward bilang",
+    "forwardAsName": "I-forward bilang {name}"
 }

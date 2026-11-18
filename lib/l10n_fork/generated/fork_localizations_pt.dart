@@ -1242,6 +1242,14 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String guildEmojiAllSection(int count) {
     return 'Emojis ($count)';
   }
+
+  @override
+  String get forwardAs => 'Reencaminhar como';
+
+  @override
+  String forwardAsName(String name) {
+    return 'Reencaminhar como $name';
+  }
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -2485,5 +2493,13 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
   @override
   String guildEmojiAllSection(int count) {
     return 'Emojis ($count)';
+  }
+
+  @override
+  String get forwardAs => 'Encaminhar como';
+
+  @override
+  String forwardAsName(String name) {
+    return 'Encaminhar como $name';
   }
 }

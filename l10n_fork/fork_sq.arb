@@ -322,5 +322,7 @@
     "guildEmojiSortRecent": "Shtuar së fundi",
     "guildEmojiGroupSplit": "Jo të animuara dhe të animuara veçmas",
     "guildEmojiGroupTogether": "Të gjitha në një listë",
-    "guildEmojiAllSection": "Emoji-t ({count})"
+    "guildEmojiAllSection": "Emoji-t ({count})",
+    "forwardAs": "Përcill si",
+    "forwardAsName": "Përcill si {name}"
 }
