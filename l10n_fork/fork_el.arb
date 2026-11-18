@@ -322,5 +322,7 @@
     "guildEmojiSortRecent": "Προστέθηκαν πρόσφατα",
     "guildEmojiGroupSplit": "Μη κινούμενα και κινούμενα χωριστά",
     "guildEmojiGroupTogether": "Όλα σε μία λίστα",
-    "guildEmojiAllSection": "Emoji ({count})"
+    "guildEmojiAllSection": "Emoji ({count})",
+    "forwardAs": "Προώθηση ως",
+    "forwardAsName": "Προώθηση ως {name}"
 }

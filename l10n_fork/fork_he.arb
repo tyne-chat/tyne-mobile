@@ -322,5 +322,7 @@
     "guildEmojiSortRecent": "נוספו לאחרונה",
     "guildEmojiGroupSplit": "לא מונפשים ומונפשים בנפרד",
     "guildEmojiGroupTogether": "הכול ברשימה אחת",
-    "guildEmojiAllSection": "אימוג'י ({count})"
+    "guildEmojiAllSection": "אימוג'י ({count})",
+    "forwardAs": "העברה בתור",
+    "forwardAsName": "העברה בתור {name}"
 }

@@ -1181,6 +1181,14 @@ class ForkLocalizationsZh extends ForkLocalizations {
   String guildEmojiAllSection(int count) {
     return '表情（$count）';
   }
+
+  @override
+  String get forwardAs => '转发身份';
+
+  @override
+  String forwardAsName(String name) {
+    return '以 $name 身份转发';
+  }
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -2359,5 +2367,13 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
   @override
   String guildEmojiAllSection(int count) {
     return '表情符號 ($count)';
+  }
+
+  @override
+  String get forwardAs => '轉傳身分';
+
+  @override
+  String forwardAsName(String name) {
+    return '以 $name 身分轉傳';
   }
 }

@@ -322,5 +322,7 @@
     "guildEmojiSortRecent": "Viimeksi lisätyt",
     "guildEmojiGroupSplit": "Ei-animoidut ja animoidut erikseen",
     "guildEmojiGroupTogether": "Kaikki yhdessä luettelossa",
-    "guildEmojiAllSection": "Emojit ({count})"
+    "guildEmojiAllSection": "Emojit ({count})",
+    "forwardAs": "Välitä nimellä",
+    "forwardAsName": "Välitä nimellä {name}"
 }
