@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/utils/reactions/own_reactions.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/edit_persona_sheet.dart';
@@ -189,22 +190,9 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
 
     final personas = ref.watch(sortedPersonasProvider);
 
-    final filteredPersonas = personas.where((p) {
-      if (_query.isEmpty) {
-        return true;
-      }
-      if (p.name.toLowerCase().contains(_query)) {
-        return true;
-      }
-      if (p.pronouns?.toLowerCase().contains(_query) ?? false) {
-        return true;
-      }
-      return p.personaTags.any(
-        (t) =>
-            (t.prefix?.toLowerCase().contains(_query) ?? false) ||
-            (t.suffix?.toLowerCase().contains(_query) ?? false),
-      );
-    }).toList();
+    final filteredPersonas = personas
+        .where((p) => personaMatchesQuery(p, _query))
+        .toList();
 
     final recents = _query.isEmpty
         ? rankedPersonas.take(5).toList()

@@ -113,6 +113,23 @@ class ForkLocalizationsVi extends ForkLocalizations {
   String get personaPronounsHint => 'vd. they/them';
 
   @override
+  String get personaAliasesLabel => 'Biệt danh';
+
+  @override
+  String get personaAliasLabel => 'Biệt danh';
+
+  @override
+  String get personaAliasesHelp => 'Các tên khác để tìm persona này';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'Thêm biệt danh ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'Xóa biệt danh';
+
+  @override
   String get personaBioHint => 'Giới thiệu với người khác về persona này...';
 
   @override
