@@ -1232,4 +1232,12 @@ class ForkLocalizationsArt extends ForkLocalizations {
   String guildEmojiAllSection(int count) {
     return 'sitelen pilin ($count)';
   }
+
+  @override
+  String get forwardAs => 'o pana sin kepeken nimi';
+
+  @override
+  String forwardAsName(String name) {
+    return 'o pana sin kepeken nimi $name';
+  }
 }

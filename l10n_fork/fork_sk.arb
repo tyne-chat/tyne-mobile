@@ -322,5 +322,7 @@
     "guildEmojiSortRecent": "Nedávno pridané",
     "guildEmojiGroupSplit": "Neanimované a animované zvlášť",
     "guildEmojiGroupTogether": "Všetky v jednom zozname",
-    "guildEmojiAllSection": "Emoji ({count})"
+    "guildEmojiAllSection": "Emoji ({count})",
+    "forwardAs": "Preposlať ako",
+    "forwardAsName": "Preposlať ako {name}"
 }

@@ -18,8 +18,10 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/data/ack_batcher.dart';
 import 'package:fluxer_app/features/channels/providers/ack_batcher_provider.dart';
+import 'package:fluxer_app/features/chat/domain/forward_as.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_page_sync.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
@@ -169,8 +171,10 @@ void main() {
     ChatViewModel notifier, {
     List<String> to = const <String>['channel-1'],
     String? comment,
+    ForwardAs? forwardAs,
   }) async {
     await notifier.forwardMessage(
+      forwardAs: forwardAs,
       sourceChannelId: 'source',
       sourceMessageId: 'src-1',
       destinationChannelIds: to,
@@ -323,5 +327,88 @@ void main() {
 
     expect(adapter.sends.last.body['persona_id'], 'persona_fox');
     expect(adapter.sends.last.body['message_reference'], isNotNull);
+  });
+
+  group("the Forward sheet's Forward as (tyne-chat/tyne#817)", () {
+    test('sends the forward and its comment as the picked persona in every '
+        'destination', () async {
+      final _SendRecorder adapter = _SendRecorder();
+      await forward(
+        await open(
+          containerWith(
+            adapter,
+            const ActivePersonaState(
+              scope: PersonaScope.channel,
+              channelPersonaIds: <String, String>{'channel-2': 'persona_fox'},
+            ),
+          ),
+        ),
+        to: <String>['channel-1', 'channel-2'],
+        comment: 'look',
+        forwardAs: const ForwardAs.persona(_bao),
+      );
+      // Every forward goes before the comments; each send names the pick.
+      expect(adapter.sends, hasLength(4));
+      expect(
+        <(String, Object?)>[
+          for (final send in adapter.sends)
+            (send.channelId, send.body['persona_id']),
+        ],
+        unorderedEquals(<(String, Object?)>[
+          ('channel-1', 'persona_bao'),
+          ('channel-1', 'persona_bao'),
+          ('channel-2', 'persona_bao'),
+          ('channel-2', 'persona_bao'),
+        ]),
+      );
+    });
+
+    test('sends as the account when the account was picked, although a '
+        'persona is selected', () async {
+      final _SendRecorder adapter = _SendRecorder();
+      await forward(
+        await open(containerWith(adapter, foxSelected)),
+        forwardAs: const ForwardAs.account(),
+      );
+      expect(adapter.sends, hasLength(1));
+      expect(adapter.sends.single.body['persona_id'], isNull);
+    });
+
+    test('lets a tag in the comment win over the pick', () async {
+      final _SendRecorder adapter = _SendRecorder();
+      await forward(
+        await open(containerWith(adapter, const ActivePersonaState())),
+        comment: 'B: look',
+        forwardAs: const ForwardAs.persona(_fox),
+      );
+      expect(
+        <Object?>[for (final send in adapter.sends) send.body['persona_id']],
+        <Object?>['persona_bao', 'persona_bao'],
+      );
+      expect(adapter.sends.last.body['content'], 'look');
+    });
+
+    test('shows the persona active in the channel forwarded from, else the '
+        'account', () {
+      ForwardAs defaultFor(Map<String, String> selections) => defaultForwardAs(
+        containerWith(
+          _SendRecorder(),
+          ActivePersonaState(
+            scope: PersonaScope.channel,
+            channelPersonaIds: selections,
+          ),
+        ).read,
+        sourceChannelId: 'source',
+      );
+
+      expect(
+        defaultFor(const <String, String>{'channel-1': 'persona_bao'}).persona,
+        isNull,
+      );
+      expect(
+        defaultFor(const <String, String>{'source': 'persona_fox'}).persona?.id,
+        'persona_fox',
+      );
+    });
   });
 }

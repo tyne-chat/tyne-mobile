@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/chat/domain/cloud_composer_attachments.dart';
+import 'package:fluxer_app/features/chat/domain/forward_as.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
@@ -64,17 +65,31 @@ Future<OutgoingMessageResolution?> resolveOutgoingPersona({
 
 /// What a forward and its comment go out as in [channelId]. They are one thing
 /// said by one speaker, so a tag in [comment] decides for both. Without one they
-/// use the persona selected where the forward started, which is the one on
-/// screen, and then the destination's, so that the account does not turn up in
-/// a channel where a persona was chosen. Call it once per destination. Null
-/// when held, as [resolveOutgoingPersona] says.
+/// go out as [forwardAs], the Forward sheet's choice, which is what the sheet
+/// showed (tyne-chat/tyne#817). Without that they use the persona selected
+/// where the forward started, which is the one on screen, and then the
+/// destination's, so that the account does not turn up in a channel where a
+/// persona was chosen. Call it once per destination. Null when held, as
+/// [resolveOutgoingPersona] says.
 Future<OutgoingMessageResolution?> resolveForwardPersona(
   SignalProviderReader read, {
   required String sourceChannelId,
   required String channelId,
   required String comment,
+  ForwardAs? forwardAs,
   VoidCallback? onSendAsAccount,
-}) {
+}) async {
+  if (forwardAs != null) {
+    final OutgoingMessageResolution? picked = _resolvePickedForward(
+      read,
+      channelId: channelId,
+      comment: comment,
+      forwardAs: forwardAs,
+    );
+    if (picked != null) {
+      return picked;
+    }
+  }
   final Persona? sourcePersona = latchedPersonaFor(
     read(activePersonaProvider),
     read(myPersonasProvider).asData?.value ?? const <Persona>[],
@@ -89,6 +104,64 @@ Future<OutgoingMessageResolution?> resolveForwardPersona(
     personaChannelId: sourcePersona == null ? channelId : sourceChannelId,
     onSendAsAccount: onSendAsAccount,
   );
+}
+
+/// A forward sent as the sheet's [forwardAs]: null when [comment] carries a
+/// persona's tag, which still decides as in the message box.
+OutgoingMessageResolution? _resolvePickedForward(
+  SignalProviderReader read, {
+  required String channelId,
+  required String comment,
+  required ForwardAs forwardAs,
+}) {
+  final List<Persona> personas =
+      read(myPersonasProvider).asData?.value ?? const <Persona>[];
+  final Persona? picked = forwardAs.persona;
+  final MatchResult said = matchPersona(
+    comment,
+    personas,
+    picked?.id,
+    hasAttachments: false,
+    allowEmptyContent: true,
+  );
+  if (said.isFromTag) {
+    return null;
+  }
+  if (said.wasEscaped || picked == null) {
+    affirmSignalPersona(read, channelId, null);
+    return OutgoingMessageResolution(
+      text: said.wasEscaped ? said.strippedContent : comment,
+      personaData: null,
+      wasEscaped: said.wasEscaped,
+    );
+  }
+  affirmSignalPersona(read, channelId, picked);
+  unawaited(read(activePersonaProvider.notifier).recordUsage(picked.id));
+  final systemTag = read(systemDisplayTagProvider);
+  return OutgoingMessageResolution(
+    text: comment,
+    personaData: picked.toSubprofilePayload(
+      displayTagText: systemTag.text,
+      displayTagIcon: systemTag.iconUrl,
+    ),
+    persona: picked,
+    matched: true,
+  );
+}
+
+/// Who the Forward sheet shows a forward going out as before anyone picks: the
+/// persona active in the channel it is forwarded from (the one on screen),
+/// else the account (tyne-chat/tyne#817).
+ForwardAs defaultForwardAs(
+  SignalProviderReader read, {
+  required String sourceChannelId,
+}) {
+  final Persona? source = latchedPersonaFor(
+    read(activePersonaProvider),
+    read(myPersonasProvider).asData?.value ?? const <Persona>[],
+    sourceChannelId,
+  );
+  return source == null ? const ForwardAs.account() : ForwardAs.persona(source);
 }
 
 Future<OutgoingMessageResolution?> _resolveOutgoingPersona(

@@ -1192,4 +1192,12 @@ class ForkLocalizationsJa extends ForkLocalizations {
   String guildEmojiAllSection(int count) {
     return '絵文字 ($count)';
   }
+
+  @override
+  String get forwardAs => '転送する名義';
+
+  @override
+  String forwardAsName(String name) {
+    return '$nameとして転送';
+  }
 }
