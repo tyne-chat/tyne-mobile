@@ -74,6 +74,30 @@ the persona and signal-bar events.
   READY's guilds are parsed in a background isolate, where that hook is not set, so
   `parseReadyGuilds` calls `forkComputeLoggingSkips` instead of `compute`; any other `compute` that
   parses gateway data needs the same (tyne-chat/tyne#193).
+- **Members after a reconnect** (tyne-chat/tyne#614): READY in incremental or cache mode keeps the cached
+  `members` rows, and upstream never overwrites one, so a nickname or role change missed while the app was
+  away stayed old. `fork_member_confirmation.dart` marks, per connection, which cached members the server
+  has written since READY, as the web marks restored members (`GuildMembers.ts`). Every READY starts the
+  record over, and so does an account change (`resetPersonaStateForAccountChange`); after a READY that
+  kept the cache, every cached member of its guilds is unconfirmed until READY's members, an event, a
+  chunk, a profile or REST writes it. Then:
+  - an embedded member (message, reaction, typing, voice) overwrites an unconfirmed row
+    (`_hydrateMemberIfMissing`);
+  - a shown unconfirmed member is asked for once more through op 8 (`GuildMemberHydrationService`,
+    `guildUserDisplayProvider`, which also re-checks on the full-recovery bump and when its guild comes
+    back), never through the per-user REST fallback, at most once per connection; one the reply leaves out
+    left while the app was away, and its row is deleted;
+  - op 8 requests go one at a time for the whole app: the gateway runs one per socket and keeps one
+    waiting, and a third replaces the waiting one, which then gets no answer;
+  - a guild READY lists as unavailable is not asked for until its GUILD_CREATE is stored; a GUILD_CREATE
+    or GUILD_SYNC of an available guild (sent whenever a guild is opened) confirms the members it
+    carries and gives nobody a second request; GUILD_DELETE forgets the guild;
+  - the service forgets its non-members on every READY, and a community profile stores the member it
+    brings (`fork_profile_member.dart`), or deletes the row of someone no longer in the guild.
+  Confirming is a line where server members are written: READY, `_handleMemberUpsert`, GUILD_CREATE,
+  `upsertGuildMembersFromSdk` (chunks, REST, the member list's repository, profiles),
+  `MemberListDriftSync`. A new path that writes members from the server needs it too; a local partial
+  write must not.
 - **Known personas:** message create, update and saved-message events upsert the personas a message names
   into Drift (`upsertKnownPersonasFromSdk`), so mention chips need no request.
 - **Persona and signal-bar events** arrive as `UnknownGatewayEvent`s and are routed by name in that case:
@@ -115,7 +139,10 @@ updates are sent only when the presence changes.
   `gateway_reaction_add_many_fork_test.dart` (ADD_MANY with your own reactions and personas),
   `test/features/threads/fork_dm_threads/dm_thread_gateway_test.dart` (the DM thread envelope, READY's
   `fork_dm_threads`, unread counts of DM thread messages),
-  `providers/typing_personas_provider_test.dart`.
+  `providers/typing_personas_provider_test.dart`,
+  `gateway_event_handler_member_confirmation_fork_test.dart` (members unconfirmed after a reconnect; the
+  hydration side in `test/shared/services/guild_member_hydration_service_fork_test.dart`, which counts
+  the requests).
 - Not covered: the seven persona event names in the handler, known-persona writes from events.
 - After a change: `flutter test test/core/gateway test/core/providers test/features/profile
   test/features/signal_bar test/features/chat`. The nightly gate runs all of `test/core`.

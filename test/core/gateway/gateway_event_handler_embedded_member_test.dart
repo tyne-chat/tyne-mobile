@@ -214,3 +214,22 @@ void main() {
     expect((await _waitForMember(database))?.nick, 'first');
   });
 }
+
+// ignore: unreachable_from_main // Fork: used by gateway_event_handler_member_confirmation_fork_test.dart.
+typedef ForkUpstreamHelpers = ({
+  Map<String, Object?> Function(String id) userJson,
+  Map<String, Object?> Function({required String nick}) memberJson,
+  Map<String, Object?> Function({required String nick}) guildMessageJson,
+  Map<String, Object?> Function({required String nick}) reactionJson,
+});
+// ignore: unreachable_from_main // Fork: used by gateway_event_handler_member_confirmation_fork_test.dart.
+const ForkUpstreamHelpers forkUpstream = (
+  userJson: _userJson,
+  memberJson: _memberJson,
+  guildMessageJson: _guildMessageJson,
+  reactionJson: _reactionJson,
+);
+// ignore: unreachable_from_main // Fork: used by gateway_event_handler_member_confirmation_fork_test.dart.
+const String forkGuildId = _guildId;
+// ignore: unreachable_from_main // Fork: used by gateway_event_handler_member_confirmation_fork_test.dart.
+const String forkAuthorId = _authorId;
