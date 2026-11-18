@@ -316,5 +316,11 @@
     "stickerUploadRequirements": "Klistermärken behåller sin egen storlek, upp till 2048 pixlar per sida, och måste vara mindre än {maxSize}. Större statiska bilder skalas ned och komprimeras automatiskt. Animerade klistermärken och SVG-filer måste redan vara inom gränsen.",
     "importedUserTag": "Importerad",
     "importedUserTooltip": "Platshållare för någon som inte är på Tyne: de här meddelandena importerades från Discord.",
-    "importedDmBarrier": "{name} finns inte på Tyne: den här konversationen importerades från Discord, och nya meddelanden når inte fram."
+    "importedDmBarrier": "{name} finns inte på Tyne: den här konversationen importerades från Discord, och nya meddelanden når inte fram.",
+    "guildEmojiSortAndGroup": "Sortera och gruppera",
+    "guildEmojiSortName": "Namn (A–Ö)",
+    "guildEmojiSortRecent": "Nyligen tillagda",
+    "guildEmojiGroupSplit": "Icke-animerade och animerade var för sig",
+    "guildEmojiGroupTogether": "Alla i en lista",
+    "guildEmojiAllSection": "Emojier ({count})"
 }

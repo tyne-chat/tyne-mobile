@@ -316,5 +316,11 @@
     "stickerUploadRequirements": "Стыкеры захоўваюць свой памер, да 2048 пікселяў з кожнага боку, і павінны быць меншымі за {maxSize}. Большыя статычныя выявы аўтаматычна памяншаюцца і сціскаюцца. Анімаваныя стыкеры і SVG ужо павінны ўкладвацца ў ліміт.",
     "importedUserTag": "Імпартаваны",
     "importedUserTooltip": "Замена для чалавека, якога няма ў Tyne: гэтыя паведамленні імпартаваныя з Discord.",
-    "importedDmBarrier": "{name} няма ў Tyne: гэтая размова імпартаваная з Discord, і новыя паведамленні да яго не дойдуць."
+    "importedDmBarrier": "{name} няма ў Tyne: гэтая размова імпартаваная з Discord, і новыя паведамленні да яго не дойдуць.",
+    "guildEmojiSortAndGroup": "Сартаванне і групоўка",
+    "guildEmojiSortName": "Імя (А–Я)",
+    "guildEmojiSortRecent": "Нядаўна дададзеныя",
+    "guildEmojiGroupSplit": "Неанімаваныя і анімаваныя асобна",
+    "guildEmojiGroupTogether": "Усе ў адным спісе",
+    "guildEmojiAllSection": "Эмодзі ({count})"
 }
