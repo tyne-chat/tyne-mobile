@@ -1161,6 +1161,26 @@ class ForkLocalizationsZh extends ForkLocalizations {
   String importedDmBarrier(String name) {
     return '$name 不在 Tyne 上：这段对话是从 Discord 导入的，新消息无法送达对方。';
   }
+
+  @override
+  String get guildEmojiSortAndGroup => '排序和分组';
+
+  @override
+  String get guildEmojiSortName => '名称（A–Z）';
+
+  @override
+  String get guildEmojiSortRecent => '最近添加';
+
+  @override
+  String get guildEmojiGroupSplit => '非动态与动态分开';
+
+  @override
+  String get guildEmojiGroupTogether => '全部在一个列表中';
+
+  @override
+  String guildEmojiAllSection(int count) {
+    return '表情（$count）';
+  }
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -2319,5 +2339,25 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
   @override
   String importedDmBarrier(String name) {
     return '$name 不在 Tyne 上：這段對話是從 Discord 匯入的，新訊息無法送達對方。';
+  }
+
+  @override
+  String get guildEmojiSortAndGroup => '排序與分組';
+
+  @override
+  String get guildEmojiSortName => '名稱（A–Z）';
+
+  @override
+  String get guildEmojiSortRecent => '最近新增';
+
+  @override
+  String get guildEmojiGroupSplit => '非動態與動態分開';
+
+  @override
+  String get guildEmojiGroupTogether => '全部列在一起';
+
+  @override
+  String guildEmojiAllSection(int count) {
+    return '表情符號 ($count)';
   }
 }

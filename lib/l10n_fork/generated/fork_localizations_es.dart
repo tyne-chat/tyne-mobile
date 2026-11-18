@@ -1220,6 +1220,26 @@ class ForkLocalizationsEs extends ForkLocalizations {
   String importedDmBarrier(String name) {
     return '$name no está en Tyne: esta conversación se importó de Discord y los mensajes nuevos no le llegarán.';
   }
+
+  @override
+  String get guildEmojiSortAndGroup => 'Ordenar y agrupar';
+
+  @override
+  String get guildEmojiSortName => 'Nombre (A–Z)';
+
+  @override
+  String get guildEmojiSortRecent => 'Añadidos recientemente';
+
+  @override
+  String get guildEmojiGroupSplit => 'No animados y animados por separado';
+
+  @override
+  String get guildEmojiGroupTogether => 'Todos en una lista';
+
+  @override
+  String guildEmojiAllSection(int count) {
+    return 'Emojis ($count)';
+  }
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -2436,5 +2456,25 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
   @override
   String importedDmBarrier(String name) {
     return '$name no está en Tyne: esta conversación se importó de Discord y los mensajes nuevos no le llegarán.';
+  }
+
+  @override
+  String get guildEmojiSortAndGroup => 'Ordenar y agrupar';
+
+  @override
+  String get guildEmojiSortName => 'Nombre (A–Z)';
+
+  @override
+  String get guildEmojiSortRecent => 'Agregados recientemente';
+
+  @override
+  String get guildEmojiGroupSplit => 'No animados y animados por separado';
+
+  @override
+  String get guildEmojiGroupTogether => 'Todos en una lista';
+
+  @override
+  String guildEmojiAllSection(int count) {
+    return 'Emojis ($count)';
   }
 }

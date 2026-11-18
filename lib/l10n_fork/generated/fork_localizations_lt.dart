@@ -1235,4 +1235,24 @@ class ForkLocalizationsLt extends ForkLocalizations {
   String importedDmBarrier(String name) {
     return '$name nėra Tyne: šis pokalbis importuotas iš Discord, ir naujos žinutės jo nepasieks.';
   }
+
+  @override
+  String get guildEmojiSortAndGroup => 'Rikiavimas ir grupavimas';
+
+  @override
+  String get guildEmojiSortName => 'Vardas (A–Ž)';
+
+  @override
+  String get guildEmojiSortRecent => 'Neseniai pridėti';
+
+  @override
+  String get guildEmojiGroupSplit => 'Neanimuoti ir animuoti atskirai';
+
+  @override
+  String get guildEmojiGroupTogether => 'Visi viename sąraše';
+
+  @override
+  String guildEmojiAllSection(int count) {
+    return 'Jaustukai ($count)';
+  }
 }

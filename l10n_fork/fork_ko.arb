@@ -316,5 +316,11 @@
     "stickerUploadRequirements": "스티커는 원래 크기를 유지하며(각 변 최대 2048픽셀) {maxSize} 이하여야 합니다. 이보다 큰 정지된 이미지는 자동으로 축소되고 압축됩니다. 애니메이션 스티커와 SVG는 이미 제한 내에 있어야 합니다.",
     "importedUserTag": "가져옴",
     "importedUserTooltip": "Tyne에 없는 사람을 위한 자리 표시 계정: 이 메시지들은 Discord에서 가져왔습니다.",
-    "importedDmBarrier": "{name}님은 Tyne에 없습니다. 이 대화는 Discord에서 가져온 것이며, 새 메시지는 전달되지 않습니다."
+    "importedDmBarrier": "{name}님은 Tyne에 없습니다. 이 대화는 Discord에서 가져온 것이며, 새 메시지는 전달되지 않습니다.",
+    "guildEmojiSortAndGroup": "정렬 및 그룹화",
+    "guildEmojiSortName": "이름순 (A–Z)",
+    "guildEmojiSortRecent": "최근 추가됨",
+    "guildEmojiGroupSplit": "움직이지 않는 이모티콘과 움직이는 이모티콘 따로",
+    "guildEmojiGroupTogether": "모두 한 목록에",
+    "guildEmojiAllSection": "이모티콘({count})"
 }

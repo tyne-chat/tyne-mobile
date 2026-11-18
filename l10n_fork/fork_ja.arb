@@ -316,5 +316,11 @@
     "stickerUploadRequirements": "スタンプは元のサイズのまま保存されます（各辺最大2048ピクセル）。ファイルサイズは{maxSize}未満である必要があります。これより大きい静止画像は自動的に縮小・圧縮されます。アニメーションスタンプとSVGは、あらかじめ制限内に収まっている必要があります。",
     "importedUserTag": "インポート済み",
     "importedUserTooltip": "Tyne にいない人のためのプレースホルダー：これらのメッセージは Discord からインポートされました。",
-    "importedDmBarrier": "{name} は Tyne にいません。この会話は Discord からインポートされたもので、新しいメッセージは届きません。"
+    "importedDmBarrier": "{name} は Tyne にいません。この会話は Discord からインポートされたもので、新しいメッセージは届きません。",
+    "guildEmojiSortAndGroup": "並び替えとグループ化",
+    "guildEmojiSortName": "名前順（A–Z）",
+    "guildEmojiSortRecent": "最近追加",
+    "guildEmojiGroupSplit": "非アニメーションとアニメーションを分ける",
+    "guildEmojiGroupTogether": "すべてを1つのリストに",
+    "guildEmojiAllSection": "絵文字 ({count})"
 }

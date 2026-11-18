@@ -316,5 +316,11 @@
     "stickerUploadRequirements": "Стікери зберігають свій розмір, до 2048 пікселів з кожного боку, і повинні бути меншими за {maxSize}. Більші статичні зображення автоматично зменшуються та стискаються. Анімовані стікери та SVG мають одразу відповідати обмеженню.",
     "importedUserTag": "Імпортовано",
     "importedUserTooltip": "Заповнювач для людини, якої немає в Tyne: ці повідомлення імпортовано з Discord.",
-    "importedDmBarrier": "{name} немає в Tyne: цю розмову імпортовано з Discord, і нові повідомлення до нього не дійдуть."
+    "importedDmBarrier": "{name} немає в Tyne: цю розмову імпортовано з Discord, і нові повідомлення до нього не дійдуть.",
+    "guildEmojiSortAndGroup": "Сортування й групування",
+    "guildEmojiSortName": "Ім’я (А–Я)",
+    "guildEmojiSortRecent": "Нещодавно додані",
+    "guildEmojiGroupSplit": "Неанімовані й анімовані окремо",
+    "guildEmojiGroupTogether": "Усі в одному списку",
+    "guildEmojiAllSection": "Емоджі ({count})"
 }

@@ -36,6 +36,13 @@ import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_emoji_list_order.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/guild/expressions/guild_emoji_sort_button.dart';
+import 'package:fluxer_app/features/settings/providers/guild/guild_emoji_list_order_provider.dart';
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+
 class GuildEmojiSettingsWidget extends ConsumerStatefulWidget {
   const GuildEmojiSettingsWidget({
     required this.guildId,
@@ -106,12 +113,19 @@ class _GuildEmojiSettingsWidgetState
     final List<GuildEmojiSettingsEntry> visibleEmojis = state.filteredIndices
         .map((int index) => state.emojis[index])
         .toList(growable: false);
-    final List<GuildEmojiSettingsEntry> staticEmojis = visibleEmojis
-        .where((GuildEmojiSettingsEntry entry) => !entry.animated)
-        .toList(growable: false);
-    final List<GuildEmojiSettingsEntry> animatedEmojis = visibleEmojis
-        .where((GuildEmojiSettingsEntry entry) => entry.animated)
-        .toList(growable: false);
+    // Fork: the order and grouping chosen in the sort menu (tyne-chat/tyne#775).
+    final GuildEmojiListOrder listOrder = ref.watch(
+      guildEmojiListOrderProvider,
+    );
+    final sections = orderGuildEmojiSections(visibleEmojis, listOrder);
+    final List<GuildEmojiSettingsEntry> staticEmojis = sections.staticEmojis;
+    final List<GuildEmojiSettingsEntry> animatedEmojis =
+        sections.animatedEmojis;
+    // Fork: one "Emoji (N)" heading when every emoji is in one list.
+    final String staticSectionTitle =
+        listOrder.grouping == GuildEmojiListGrouping.together
+        ? l10n.fork.guildEmojiAllSection(staticEmojis.length)
+        : l10n.guildSettingsNonAnimatedEmoji(staticEmojis.length);
     final GuildExpressionLimits? limits = limitsAsync.value;
     final String maxSizeLabel = limits == null
         ? ''
@@ -137,6 +151,7 @@ class _GuildEmojiSettingsWidgetState
                 .setSearchQuery,
           ),
         ),
+        const SliverToBoxAdapter(child: GuildEmojiSortRow()),
         if (canCreate && limits != null) ...<Widget>[
           SliverToBoxAdapter(
             child: GuildUploadSlotInfo(
@@ -200,10 +215,7 @@ class _GuildEmojiSettingsWidgetState
           ),
         if (staticEmojis.isNotEmpty) ...<Widget>[
           SliverToBoxAdapter(
-            child: _SectionTitle(
-              label: l10n.guildSettingsNonAnimatedEmoji(staticEmojis.length),
-              isFirst: true,
-            ),
+            child: _SectionTitle(label: staticSectionTitle, isFirst: true),
           ),
           const SliverToBoxAdapter(child: GuildEmojiListHeader()),
           SliverList(
