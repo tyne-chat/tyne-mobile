@@ -316,5 +316,11 @@
     "stickerUploadRequirements": "貼圖會保留原始尺寸（每邊最多 2048 像素），且大小必須小於 {maxSize}。更大的靜態圖片會自動縮小並進行壓縮。動畫貼圖和 SVG 檔案必須已符合限制。",
     "importedUserTag": "已匯入",
     "importedUserTooltip": "不在 Tyne 上的人的佔位帳號：這些訊息是從 Discord 匯入的。",
-    "importedDmBarrier": "{name} 不在 Tyne 上：這段對話是從 Discord 匯入的，新訊息無法送達對方。"
+    "importedDmBarrier": "{name} 不在 Tyne 上：這段對話是從 Discord 匯入的，新訊息無法送達對方。",
+    "guildEmojiSortAndGroup": "排序與分組",
+    "guildEmojiSortName": "名稱（A–Z）",
+    "guildEmojiSortRecent": "最近新增",
+    "guildEmojiGroupSplit": "非動態與動態分開",
+    "guildEmojiGroupTogether": "全部列在一起",
+    "guildEmojiAllSection": "表情符號 ({count})"
 }
