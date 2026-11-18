@@ -322,5 +322,7 @@
     "guildEmojiSortRecent": "Recently added",
     "guildEmojiGroupSplit": "Non-animated and animated apart",
     "guildEmojiGroupTogether": "All in one list",
-    "guildEmojiAllSection": "Emoji ({count})"
+    "guildEmojiAllSection": "Emoji ({count})",
+    "forwardAs": "Forward as",
+    "forwardAsName": "Forward as {name}"
 }

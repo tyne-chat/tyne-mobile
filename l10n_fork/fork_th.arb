@@ -322,5 +322,7 @@
     "guildEmojiSortRecent": "เพิ่มล่าสุด",
     "guildEmojiGroupSplit": "แยกแบบไม่เคลื่อนไหวและเคลื่อนไหว",
     "guildEmojiGroupTogether": "ทั้งหมดในรายการเดียว",
-    "guildEmojiAllSection": "อิโมจิ ({count})"
+    "guildEmojiAllSection": "อิโมจิ ({count})",
+    "forwardAs": "ส่งต่อในนาม",
+    "forwardAsName": "ส่งต่อในนาม {name}"
 }

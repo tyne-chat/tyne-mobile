@@ -322,5 +322,7 @@
     "guildEmojiSortRecent": "Наскоро добавени",
     "guildEmojiGroupSplit": "Неанимирани и анимирани поотделно",
     "guildEmojiGroupTogether": "Всички в един списък",
-    "guildEmojiAllSection": "Емоджита ({count})"
+    "guildEmojiAllSection": "Емоджита ({count})",
+    "forwardAs": "Препращане като",
+    "forwardAsName": "Препращане като {name}"
 }

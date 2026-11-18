@@ -1257,4 +1257,12 @@ class ForkLocalizationsPl extends ForkLocalizations {
   String guildEmojiAllSection(int count) {
     return 'Emoji ($count)';
   }
+
+  @override
+  String get forwardAs => 'Przekaż jako';
+
+  @override
+  String forwardAsName(String name) {
+    return 'Przekaż jako $name';
+  }
 }

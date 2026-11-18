@@ -51,6 +51,10 @@ import 'package:riverpod/src/framework.dart' show Override;
 import '../../../../helpers/open_test_database.dart';
 import '../../../../helpers/test_l10n.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/domain/forward_as.dart';
+
 Message _message({
   String channelId = 'c1',
   List<Embed> embeds = const <Embed>[],
@@ -1055,6 +1059,9 @@ class _FakeChatViewModel extends ChatViewModel {
     required String sourceChannelId,
     required String sourceMessageId,
     required List<String> destinationChannelIds,
+    // Fork: the fork's "Forward as" choice (tyne-chat/tyne#817), so that this
+    // fake still overrides forwardMessage.
+    ForwardAs? forwardAs,
     String? sourceGuildId,
     List<String>? attachmentIds,
     List<int>? embedIndices,

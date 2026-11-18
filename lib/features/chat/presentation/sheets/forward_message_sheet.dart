@@ -35,6 +35,11 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/domain/forward_as.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/forward/forward_as_persona_row.dart';
+
 const int kForwardSelectionLimit = 5;
 
 bool shouldNavigateAfterForward(int destinationCount) {
@@ -268,6 +273,8 @@ class _ForwardMessageSheetBodyState
     extends ConsumerState<_ForwardMessageSheetBody> {
   final TextEditingController _searchController = TextEditingController();
   final Set<String> _selected = <String>{};
+  // Fork: who the forward goes out as, once picked (tyne-chat/tyne#817).
+  ForwardAs? _forwardAs;
   String _query = '';
 
   late final ComposerMentionController _commentController;
@@ -416,6 +423,11 @@ class _ForwardMessageSheetBodyState
       ref
           .read(chatViewModelProvider.notifier)
           .forwardMessage(
+            forwardAs: chosenForwardAs(
+              ref,
+              picked: _forwardAs,
+              sourceChannelId: widget.sourceChannelId,
+            ),
             sourceChannelId: widget.sourceChannelId,
             sourceMessageId: widget.sourceMessageId,
             attachmentIds: widget.attachmentIds,
@@ -636,6 +648,13 @@ class _ForwardMessageSheetBodyState
                 ),
               if (sendBlockedBySlowmode && !commentDisabled)
                 const SlowmodeSendBlockedNotice(),
+              ForwardAsPersonaRow(
+                sourceChannelId: widget.sourceChannelId,
+                comment: _commentController.toWireText(),
+                picked: _forwardAs,
+                onPick: (ForwardAs forwardAs) =>
+                    setState(() => _forwardAs = forwardAs),
+              ),
               _buildCommentField(
                 context,
                 l10n,

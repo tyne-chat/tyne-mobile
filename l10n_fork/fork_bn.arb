@@ -322,5 +322,7 @@
     "guildEmojiSortRecent": "সম্প্রতি যোগ করা",
     "guildEmojiGroupSplit": "অ্যানিমেটেড নয় ও অ্যানিমেটেড আলাদা",
     "guildEmojiGroupTogether": "সব এক তালিকায়",
-    "guildEmojiAllSection": "ইমোজি ({count})"
+    "guildEmojiAllSection": "ইমোজি ({count})",
+    "forwardAs": "যে নামে ফরওয়ার্ড",
+    "forwardAsName": "{name} নামে ফরওয়ার্ড"
 }

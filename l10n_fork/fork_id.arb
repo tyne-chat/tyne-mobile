@@ -322,5 +322,7 @@
     "guildEmojiSortRecent": "Baru ditambahkan",
     "guildEmojiGroupSplit": "Non-animasi dan animasi terpisah",
     "guildEmojiGroupTogether": "Semua dalam satu daftar",
-    "guildEmojiAllSection": "Emoji ({count})"
+    "guildEmojiAllSection": "Emoji ({count})",
+    "forwardAs": "Teruskan sebagai",
+    "forwardAsName": "Teruskan sebagai {name}"
 }
