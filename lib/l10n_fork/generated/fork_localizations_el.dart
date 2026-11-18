@@ -1222,4 +1222,24 @@ class ForkLocalizationsEl extends ForkLocalizations {
   String importedDmBarrier(String name) {
     return 'Ο/Η $name δεν είναι στο Tyne: αυτή η συνομιλία εισήχθη από το Discord και τα νέα μηνύματα δεν μπορούν να τον/την φτάσουν.';
   }
+
+  @override
+  String get guildEmojiSortAndGroup => 'Ταξινόμηση και ομαδοποίηση';
+
+  @override
+  String get guildEmojiSortName => 'Όνομα (Α–Ω)';
+
+  @override
+  String get guildEmojiSortRecent => 'Προστέθηκαν πρόσφατα';
+
+  @override
+  String get guildEmojiGroupSplit => 'Μη κινούμενα και κινούμενα χωριστά';
+
+  @override
+  String get guildEmojiGroupTogether => 'Όλα σε μία λίστα';
+
+  @override
+  String guildEmojiAllSection(int count) {
+    return 'Emoji ($count)';
+  }
 }

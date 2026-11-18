@@ -1607,5 +1607,34 @@
                 "type": "String"
             }
         }
+    },
+    "guildEmojiSortAndGroup": "Sort and group",
+    "@guildEmojiSortAndGroup": {
+        "description": "Community settings → Emoji, the sort and grouping menu (tyne-chat/tyne#775). Same wording as the web app's. Title of the menu, and the sort button's spoken name."
+    },
+    "guildEmojiSortName": "Name (A–Z)",
+    "@guildEmojiSortName": {
+        "description": "Community settings → Emoji, the sort and grouping menu (tyne-chat/tyne#775). Same wording as the web app's. Sort choice: emojis in alphabetical order."
+    },
+    "guildEmojiSortRecent": "Recently added",
+    "@guildEmojiSortRecent": {
+        "description": "Community settings → Emoji, the sort and grouping menu (tyne-chat/tyne#775). Same wording as the web app's. Sort choice: the newest uploaded emojis first."
+    },
+    "guildEmojiGroupSplit": "Non-animated and animated apart",
+    "@guildEmojiGroupSplit": {
+        "description": "Community settings → Emoji, the sort and grouping menu (tyne-chat/tyne#775). Same wording as the web app's. Grouping choice: two sections, non-animated emojis and animated emojis."
+    },
+    "guildEmojiGroupTogether": "All in one list",
+    "@guildEmojiGroupTogether": {
+        "description": "Community settings → Emoji, the sort and grouping menu (tyne-chat/tyne#775). Same wording as the web app's. Grouping choice: non-animated and animated emojis in one section."
+    },
+    "guildEmojiAllSection": "Emoji ({count})",
+    "@guildEmojiAllSection": {
+        "description": "Community settings → Emoji, the sort and grouping menu (tyne-chat/tyne#775). Same wording as the web app's. Section heading when non-animated and animated emojis are listed together. count is the number of emojis.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
     }
 }

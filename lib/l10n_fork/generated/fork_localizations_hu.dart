@@ -1215,4 +1215,24 @@ class ForkLocalizationsHu extends ForkLocalizations {
   String importedDmBarrier(String name) {
     return '$name nincs a Tyne-on: ezt a beszélgetést a Discordról importálták, és az új üzenetek nem jutnak el hozzá.';
   }
+
+  @override
+  String get guildEmojiSortAndGroup => 'Rendezés és csoportosítás';
+
+  @override
+  String get guildEmojiSortName => 'Név (A–Z)';
+
+  @override
+  String get guildEmojiSortRecent => 'Nemrég hozzáadott';
+
+  @override
+  String get guildEmojiGroupSplit => 'Nem animált és animált külön';
+
+  @override
+  String get guildEmojiGroupTogether => 'Mind egy listában';
+
+  @override
+  String guildEmojiAllSection(int count) {
+    return 'Emojik ($count)';
+  }
 }

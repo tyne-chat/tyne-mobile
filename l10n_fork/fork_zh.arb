@@ -316,5 +316,11 @@
     "stickerUploadRequirements": "贴纸会保留原始尺寸（每边最多 2048 像素），并且大小必须小于 {maxSize}。更大的静态图像将自动缩小并压缩。动画贴纸和 SVG 必须已经符合大小限制。",
     "importedUserTag": "已导入",
     "importedUserTooltip": "不在 Tyne 上的人的占位帐号：这些消息是从 Discord 导入的。",
-    "importedDmBarrier": "{name} 不在 Tyne 上：这段对话是从 Discord 导入的，新消息无法送达对方。"
+    "importedDmBarrier": "{name} 不在 Tyne 上：这段对话是从 Discord 导入的，新消息无法送达对方。",
+    "guildEmojiSortAndGroup": "排序和分组",
+    "guildEmojiSortName": "名称（A–Z）",
+    "guildEmojiSortRecent": "最近添加",
+    "guildEmojiGroupSplit": "非动态与动态分开",
+    "guildEmojiGroupTogether": "全部在一个列表中",
+    "guildEmojiAllSection": "表情（{count}）"
 }

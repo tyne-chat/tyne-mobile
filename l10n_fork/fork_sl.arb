@@ -316,5 +316,11 @@
     "stickerUploadRequirements": "Nalepke ohranijo svojo velikost, do 2048 slikovnih pik na vsaki stranici, in morajo biti manjše od {maxSize}. Večje statične slike se samodejno pomanjšajo in stisnejo. Animirane nalepke in datoteke SVG morajo že ustrezati omejitvi.",
     "importedUserTag": "Uvoženo",
     "importedUserTooltip": "Nadomestni račun za nekoga, ki ni na Tyne: ta sporočila so bila uvožena iz Discorda.",
-    "importedDmBarrier": "{name} ni na Tyne: ta pogovor je bil uvožen iz Discorda, in nova sporočila ga ne bodo dosegla."
+    "importedDmBarrier": "{name} ni na Tyne: ta pogovor je bil uvožen iz Discorda, in nova sporočila ga ne bodo dosegla.",
+    "guildEmojiSortAndGroup": "Razvrščanje in združevanje",
+    "guildEmojiSortName": "Ime (A–Ž)",
+    "guildEmojiSortRecent": "Nedavno dodani",
+    "guildEmojiGroupSplit": "Neanimirani in animirani ločeno",
+    "guildEmojiGroupTogether": "Vsi na enem seznamu",
+    "guildEmojiAllSection": "Emodžiji ({count})"
 }
