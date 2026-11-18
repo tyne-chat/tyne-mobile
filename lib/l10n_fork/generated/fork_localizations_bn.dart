@@ -112,6 +112,20 @@ class ForkLocalizationsBn extends ForkLocalizations {
   String get personaPronounsHint => 'যেমন তারা/তাদের';
 
   @override
+  String get personaAliasesLabel => 'উপনাম';
+
+  @override
+  String get personaAliasesHelp => 'এই পারসোনাকে খুঁজে পাওয়ার অন্য নাম';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'উপনাম যোগ করুন ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'উপনাম সরান';
+
+  @override
   String get personaBioHint => 'অন্যদের এই পারসোনা সম্পর্কে বলুন…';
 
   @override

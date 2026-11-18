@@ -56,6 +56,13 @@ persona is selected. A persona with `auto_tag_disabled` is one whose tags are ig
 way it acts like any other persona, also when selected.
 `isUnfinishedPersonaTag` keeps typing indicators and signals quiet while a tag is half typed.
 
+**Finding a persona by name** is another matter: `domain/persona_name_search.dart` scores typed text
+against a persona's name, then its `alias` (tyne-chat/tyne#707), and mirrors the server repository's
+`PersonaNameSearch.ts`. The alias holds other names to find the persona by, such as an easy-to-type
+one for `SΛTVRN`; it is never shown. The mention autocomplete (`ChannelPersonaMentionCache`), the
+pickers (`personaMatchesQuery`), the settings list, the gallery and message search's typed names
+(`resolvePersonaSearchName`) all match it.
+
 ## Sending and showing
 
 - **Only the persona's id goes to the server** (`persona_id` on sends, edits and typing). The server

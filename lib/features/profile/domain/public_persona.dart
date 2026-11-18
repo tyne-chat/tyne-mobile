@@ -1,4 +1,5 @@
 import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/domain/persona_name_search.dart';
 
 class PublicPersona {
   const PublicPersona({
@@ -8,6 +9,7 @@ class PublicPersona {
     this.bannerHash,
     this.displayTagText,
     this.displayTagIcon,
+    this.aliases = const <String>[],
     this.pronouns,
     this.color,
     this.avatarColor,
@@ -24,6 +26,10 @@ class PublicPersona {
   final String? bannerHash;
   final String? displayTagText;
   final String? displayTagIcon;
+
+  /// Other names to find the persona by when searching or mentioning; never
+  /// shown (tyne-chat/tyne#707).
+  final List<String> aliases;
   final String? pronouns;
   final int? color;
   final int? avatarColor;
@@ -77,6 +83,7 @@ class PublicPersona {
           (json['banner_hash'] as String?) ?? (json['banner'] as String?),
       displayTagText: json['display_tag_text'] as String?,
       displayTagIcon: json['display_tag_icon'] as String?,
+      aliases: personaAliasesFromJson(json['aliases']),
       pronouns: json['pronouns'] as String?,
       color: (json['color'] as num?)?.toInt(),
       avatarColor:
@@ -98,6 +105,7 @@ class PublicPersona {
       if (bannerHash != null) 'banner_hash': bannerHash,
       if (displayTagText != null) 'display_tag_text': displayTagText,
       if (displayTagIcon != null) 'display_tag_icon': displayTagIcon,
+      if (aliases.isNotEmpty) 'aliases': aliases,
       if (pronouns != null) 'pronouns': pronouns,
       if (color != null) 'color': color,
       if (avatarColor != null) 'avatar_color': avatarColor,
@@ -116,6 +124,7 @@ class PublicPersona {
     String? bannerHash,
     String? displayTagText,
     String? displayTagIcon,
+    List<String>? aliases,
     String? pronouns,
     int? color,
     int? avatarColor,
@@ -132,6 +141,7 @@ class PublicPersona {
       bannerHash: bannerHash ?? this.bannerHash,
       displayTagText: displayTagText ?? this.displayTagText,
       displayTagIcon: displayTagIcon ?? this.displayTagIcon,
+      aliases: aliases ?? this.aliases,
       pronouns: pronouns ?? this.pronouns,
       color: color ?? this.color,
       avatarColor: avatarColor ?? this.avatarColor,
@@ -149,6 +159,7 @@ class PublicPersona {
       name: name,
       avatarHash: avatarHash,
       bannerHash: bannerHash,
+      aliases: aliases,
       pronouns: pronouns,
       color: color,
       avatarColor: avatarColor,

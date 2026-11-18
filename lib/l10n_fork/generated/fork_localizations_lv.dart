@@ -114,6 +114,20 @@ class ForkLocalizationsLv extends ForkLocalizations {
   String get personaPronounsHint => 'piem., viņa/viņas';
 
   @override
+  String get personaAliasesLabel => 'Aizstājvārdi';
+
+  @override
+  String get personaAliasesHelp => 'Citi vārdi, pēc kuriem atrast šo personu';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'Pievienot aizstājvārdu ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'Noņemt aizstājvārdu';
+
+  @override
   String get personaBioHint => 'Pastāstiet citiem par šo personu...';
 
   @override

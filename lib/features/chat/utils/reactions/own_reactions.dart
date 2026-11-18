@@ -112,8 +112,8 @@ List<Persona> recentPersonas(
   return recent.length >= 2 ? recent : const <Persona>[];
 }
 
-/// Whether [persona] matches a search for [query]: its name, pronouns or a
-/// proxy tag contains it, ignoring case.
+/// Whether [persona] matches a search for [query]: its name, aliases, pronouns
+/// or a proxy tag contains it, ignoring case.
 bool personaMatchesQuery(Persona persona, String query) {
   final String needle = query.trim().toLowerCase();
   if (needle.isEmpty) {
@@ -121,6 +121,7 @@ bool personaMatchesQuery(Persona persona, String query) {
   }
   bool has(String? text) => text != null && text.toLowerCase().contains(needle);
   return has(persona.name) ||
+      persona.aliases.any(has) ||
       has(persona.pronouns) ||
       persona.personaTags.any((PersonaTag t) => has(t.prefix) || has(t.suffix));
 }

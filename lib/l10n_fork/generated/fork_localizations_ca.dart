@@ -115,6 +115,20 @@ class ForkLocalizationsCa extends ForkLocalizations {
   String get personaPronounsHint => 'p. ex. elli';
 
   @override
+  String get personaAliasesLabel => 'Àlies';
+
+  @override
+  String get personaAliasesHelp => 'Altres noms per trobar aquesta persona';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'Afegeix un àlies ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'Elimina l’àlies';
+
+  @override
   String get personaBioHint =>
       'Explica als altres alguna cosa sobre aquesta persona…';
 

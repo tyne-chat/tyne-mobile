@@ -109,6 +109,20 @@ class ForkLocalizationsZh extends ForkLocalizations {
   String get personaPronounsHint => '例如：they/them';
 
   @override
+  String get personaAliasesLabel => '别名';
+
+  @override
+  String get personaAliasesHelp => '用来找到此人格的其他名称';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return '添加别名 ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => '删除别名';
+
+  @override
   String get personaBioHint => '向他人介绍此人格...';
 
   @override
@@ -1294,6 +1308,20 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get personaPronounsHint => '例如：they/them';
+
+  @override
+  String get personaAliasesLabel => '別名';
+
+  @override
+  String get personaAliasesHelp => '用來找到此人格的其他名稱';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return '新增別名 ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => '移除別名';
 
   @override
   String get personaBioHint => '向其他人介紹這個人格...';

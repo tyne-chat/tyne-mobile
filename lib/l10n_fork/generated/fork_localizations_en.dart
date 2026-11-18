@@ -112,6 +112,20 @@ class ForkLocalizationsEn extends ForkLocalizations {
   String get personaPronounsHint => 'e.g. they/them';
 
   @override
+  String get personaAliasesLabel => 'Aliases';
+
+  @override
+  String get personaAliasesHelp => 'Other names for finding this persona';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'Add alias ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'Remove alias';
+
+  @override
   String get personaBioHint => 'Tell others about this persona...';
 
   @override
@@ -1341,6 +1355,20 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   String get personaPronounsHint => 'e.g. they/them';
 
   @override
+  String get personaAliasesLabel => 'Aliases';
+
+  @override
+  String get personaAliasesHelp => 'Other names for finding this persona';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'Add alias ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'Remove alias';
+
+  @override
   String get personaBioHint => 'Tell others about this persona...';
 
   @override
@@ -2568,6 +2596,20 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
 
   @override
   String get personaPronounsHint => 'e.g. they/them';
+
+  @override
+  String get personaAliasesLabel => 'Aliases';
+
+  @override
+  String get personaAliasesHelp => 'Other names for finding this persona';
+
+  @override
+  String personaAddAlias(int count, int max) {
+    return 'Add alias ($count/$max)';
+  }
+
+  @override
+  String get personaRemoveAlias => 'Remove alias';
 
   @override
   String get personaBioHint => 'Tell others about this persona...';
