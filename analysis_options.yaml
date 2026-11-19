@@ -7,6 +7,8 @@ analyzer:
   errors:
     lines_longer_than_80_chars: ignore
   exclude:
+    # Fork: the fork's generated catalogue, like upstream's lib/l10n/generated below.
+    - "lib/l10n_fork/generated/**"
     - "**/*.g.dart"
     - "**/*.freezed.dart"
     - "build/**"

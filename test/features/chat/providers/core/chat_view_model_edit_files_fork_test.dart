@@ -99,7 +99,7 @@ class _EditRecorder extends PaginatingAdapter {
     Future<void>? cancelFuture,
   ) async {
     if (options.method != 'PATCH') {
-      return super.fetch(options, requestStream, cancelFuture);
+      return await super.fetch(options, requestStream, cancelFuture);
     }
     final Object? data = options.data;
     final Map<String, dynamic> body;

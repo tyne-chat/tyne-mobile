@@ -104,7 +104,7 @@ void main() {
       final ProviderSubscription<AsyncValue<String?>> subscription = names
           .listen(threadOwnerPersonaNameProvider(key), (_, _) {});
       addTearDown(subscription.close);
-      return names.read(threadOwnerPersonaNameProvider(key).future);
+      return await names.read(threadOwnerPersonaNameProvider(key).future);
     }
 
     test('is null for a thread started as the account', () async {
