@@ -145,7 +145,7 @@ class GapServer extends PaginatingAdapter {
     if (options.method == 'POST' && path.endsWith('/ack')) {
       return ResponseBody.fromString('', 204);
     }
-    return super.fetch(options, requestStream, cancelFuture);
+    return await super.fetch(options, requestStream, cancelFuture);
   }
 
   /// A page around a message as the server builds it (`visible_around` and

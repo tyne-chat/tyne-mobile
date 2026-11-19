@@ -215,11 +215,11 @@ void main() {
 
     expect(_mentionColour(tester, '@Plain'), _linkColour(tester));
     expect(
-      container.exists(
+      container.read(
         publicPersonaProvider((
           userId: _kUserId,
           personaId: _kUnknownPersonaId,
-        )),
+        )).exists,
       ),
       isFalse,
     );

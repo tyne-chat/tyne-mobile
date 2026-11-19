@@ -182,7 +182,7 @@ personaGroupsProvider =
 /// At READY: loads the groups again where something already reads them, since
 /// changes made while disconnected sent no event here. Nothing otherwise.
 void reloadPersonaGroupsIfLoaded(Ref ref) {
-  if (ref.exists(personaGroupsProvider)) {
+  if (ref.read(personaGroupsProvider.exists)) {
     unawaited(ref.read(personaGroupsProvider.notifier).reloadSilently());
   }
 }
@@ -190,7 +190,7 @@ void reloadPersonaGroupsIfLoaded(Ref ref) {
 /// `USER_PERSONA_GROUPS_UPDATE`: the whole list replaces the one held here.
 /// Nothing is loaded when nothing reads the groups yet.
 void applyPersonaGroupsEvent(Ref ref, Object? data) {
-  if (ref.exists(personaGroupsProvider)) {
+  if (ref.read(personaGroupsProvider.exists)) {
     ref
         .read(personaGroupsProvider.notifier)
         .replaceAll(PersonaGroup.listFromJson(data));

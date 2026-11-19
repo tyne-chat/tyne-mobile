@@ -11,7 +11,7 @@ Future<GuildEmojiListOrder> _restored(ProviderContainer container) async {
   container.read(guildEmojiListOrderProvider);
   await SharedPreferences.getInstance();
   await pumpEventQueue();
-  return container.read(guildEmojiListOrderProvider);
+  return await container.read(guildEmojiListOrderProvider);
 }
 
 void main() {
