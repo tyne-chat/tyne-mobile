@@ -1333,4 +1333,103 @@ class ForkLocalizationsLt extends ForkLocalizations {
   @override
   String get personaGroupFailed =>
       'Nepavyko pakeisti grupių. Bandykite dar kartą.';
+
+  @override
+  String get personaMentionableByLabel => 'Kas gali paminėti';
+
+  @override
+  String get personaMentionableByEveryone => 'Visi';
+
+  @override
+  String get personaMentionableBySelf => 'Tik jūs';
+
+  @override
+  String get personaMentionableByNobody => 'Niekas';
+
+  @override
+  String get personaMentionableByEveryoneDescription =>
+      'Bet kas gali rasti šią personą rašant @ arba ieškant.';
+
+  @override
+  String get personaMentionableBySelfDescription =>
+      'Ją randa tik jūsų paskyra, rašant @ arba ieškant.';
+
+  @override
+  String get personaMentionableByNobodyDescription =>
+      'Neįtraukta į @ pasiūlymus ir paieškos filtrus, net jūsų. Ji vis tiek gali kalbėti, o jos profilis priklauso nuo matomumo.';
+
+  @override
+  String get personaMentionableByFollows =>
+      'Pagal matomumą, kol nepasirinksite.';
+
+  @override
+  String get personaMentionableByFollowVisibility => 'Pagal matomumą';
+
+  @override
+  String get personaBulkMentions => 'Paminėjimai';
+
+  @override
+  String get personaBulkMentionsEveryone => 'Leisti paminėti visiems';
+
+  @override
+  String get personaBulkMentionsSelf => 'Leisti paminėti tik jums';
+
+  @override
+  String get personaBulkMentionsNobody => 'Neleisti paminėti niekam';
+
+  @override
+  String personaBulkNowMentionableByEveryone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personų dabar gali paminėti visi',
+      many: '$count personos dabar gali paminėti visi',
+      few: '$count personas dabar gali paminėti visi',
+      one: '$count personą dabar gali paminėti visi',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableBySelf(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personų dabar galite paminėti tik jūs',
+      many: '$count personos dabar galite paminėti tik jūs',
+      few: '$count personas dabar galite paminėti tik jūs',
+      one: '$count personą dabar galite paminėti tik jūs',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByNobody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personų dabar niekas negali paminėti',
+      many: '$count personos dabar niekas negali paminėti',
+      few: '$count personų dabar niekas negali paminėti',
+      one: '$count personos dabar niekas negali paminėti',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByFollowing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personų paminėjimai dabar priklauso nuo matomumo',
+      many: '$count personos paminėjimai dabar priklauso nuo matomumo',
+      few: '$count personų paminėjimai dabar priklauso nuo matomumo',
+      one: '$count personos paminėjimai dabar priklauso nuo matomumo',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaNotMentionable =>
+      'Niekas negauna šios personos paminėjimų pasiūlymuose';
 }

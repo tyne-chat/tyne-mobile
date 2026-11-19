@@ -1305,4 +1305,98 @@ class ForkLocalizationsHe extends ForkLocalizations {
 
   @override
   String get personaGroupFailed => 'לא ניתן היה לשנות את הקבוצות. נסו שוב.';
+
+  @override
+  String get personaMentionableByLabel => 'מי יכול לאזכר';
+
+  @override
+  String get personaMentionableByEveryone => 'כולם';
+
+  @override
+  String get personaMentionableBySelf => 'רק אתם';
+
+  @override
+  String get personaMentionableByNobody => 'אף אחד';
+
+  @override
+  String get personaMentionableByEveryoneDescription =>
+      'כל אחד יכול למצוא את הפרסונה הזו בהקלדת @ או בחיפוש.';
+
+  @override
+  String get personaMentionableBySelfDescription =>
+      'רק החשבון שלכם מוצא אותה בהקלדת @ או בחיפוש.';
+
+  @override
+  String get personaMentionableByNobodyDescription =>
+      'מוסתרת מהצעות @ וממסנני חיפוש, גם אצלכם. היא עדיין יכולה לדבר, והפרופיל שלה נקבע לפי הנראות.';
+
+  @override
+  String get personaMentionableByFollows => 'לפי הנראות עד שתבחרו.';
+
+  @override
+  String get personaMentionableByFollowVisibility => 'לפי הנראות';
+
+  @override
+  String get personaBulkMentions => 'אזכורים';
+
+  @override
+  String get personaBulkMentionsEveryone => 'לאפשר אזכורים לכולם';
+
+  @override
+  String get personaBulkMentionsSelf => 'לאפשר אזכורים רק לכם';
+
+  @override
+  String get personaBulkMentionsNobody => 'לא לאפשר אזכורים לאף אחד';
+
+  @override
+  String personaBulkNowMentionableByEveryone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'כולם יכולים עכשיו לאזכר $count פרסונות',
+      two: 'כולם יכולים עכשיו לאזכר $count פרסונות',
+      one: 'כולם יכולים עכשיו לאזכר פרסונה אחת',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableBySelf(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'רק אתם יכולים עכשיו לאזכר $count פרסונות',
+      two: 'רק אתם יכולים עכשיו לאזכר $count פרסונות',
+      one: 'רק אתם יכולים עכשיו לאזכר פרסונה אחת',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByNobody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'אף אחד לא יכול עכשיו לאזכר $count פרסונות',
+      two: 'אף אחד לא יכול עכשיו לאזכר $count פרסונות',
+      one: 'אף אחד לא יכול עכשיו לאזכר פרסונה אחת',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByFollowing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'אזכורים של $count פרסונות נקבעים עכשיו לפי הנראות',
+      two: 'אזכורים של $count פרסונות נקבעים עכשיו לפי הנראות',
+      one: 'אזכורים של פרסונה אחת נקבעים עכשיו לפי הנראות',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaNotMentionable =>
+      'אף אחד לא מקבל את הפרסונה הזו בהצעות אזכור';
 }

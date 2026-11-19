@@ -1309,4 +1309,95 @@ class ForkLocalizationsFi extends ForkLocalizations {
 
   @override
   String get personaGroupFailed => 'Ryhmiä ei voitu muuttaa. Yritä uudelleen.';
+
+  @override
+  String get personaMentionableByLabel => 'Kuka voi mainita';
+
+  @override
+  String get personaMentionableByEveryone => 'Kaikki';
+
+  @override
+  String get personaMentionableBySelf => 'Vain sinä';
+
+  @override
+  String get personaMentionableByNobody => 'Ei kukaan';
+
+  @override
+  String get personaMentionableByEveryoneDescription =>
+      'Kuka tahansa löytää tämän persoonan kirjoittamalla @ tai hakemalla.';
+
+  @override
+  String get personaMentionableBySelfDescription =>
+      'Vain tilisi löytää sen kirjoittamalla @ tai hakemalla.';
+
+  @override
+  String get personaMentionableByNobodyDescription =>
+      'Ei näy @-ehdotuksissa eikä hakusuodattimissa, ei sinunkaan. Se voi yhä kirjoittaa, ja sen profiili seuraa näkyvyyttä.';
+
+  @override
+  String get personaMentionableByFollows =>
+      'Seuraa näkyvyyttä, kunnes valitset.';
+
+  @override
+  String get personaMentionableByFollowVisibility => 'Seuraa näkyvyyttä';
+
+  @override
+  String get personaBulkMentions => 'Maininnat';
+
+  @override
+  String get personaBulkMentionsEveryone => 'Salli maininnat kaikilta';
+
+  @override
+  String get personaBulkMentionsSelf => 'Salli maininnat vain sinulta';
+
+  @override
+  String get personaBulkMentionsNobody => 'Älä salli mainintoja keneltäkään';
+
+  @override
+  String personaBulkNowMentionableByEveryone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persoonaa',
+      one: '$count persoonan',
+    );
+    return 'Kuka tahansa voi nyt mainita $_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableBySelf(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persoonaa',
+      one: '$count persoonan',
+    );
+    return 'Vain sinä voit nyt mainita $_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByNobody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persoonaa',
+      one: '$count persoonaa',
+    );
+    return 'Kukaan ei voi nyt mainita $_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByFollowing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persoonan',
+      one: '$count persoonan',
+    );
+    return '$_temp0 maininnat seuraavat nyt näkyvyyttä';
+  }
+
+  @override
+  String get personaNotMentionable =>
+      'Tämä persoona ei näy kenenkään mainintaehdotuksissa';
 }
