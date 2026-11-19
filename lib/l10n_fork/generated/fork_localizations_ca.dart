@@ -1336,4 +1336,99 @@ class ForkLocalizationsCa extends ForkLocalizations {
   @override
   String get personaGroupFailed =>
       'No s’han pogut canviar els grups. Torna-ho a provar.';
+
+  @override
+  String get personaMentionableByLabel => 'Qui pot esmentar';
+
+  @override
+  String get personaMentionableByEveryone => 'Tothom';
+
+  @override
+  String get personaMentionableBySelf => 'Només tu';
+
+  @override
+  String get personaMentionableByNobody => 'Ningú';
+
+  @override
+  String get personaMentionableByEveryoneDescription =>
+      'Tothom pot trobar aquesta persona en escriure @ o en cercar.';
+
+  @override
+  String get personaMentionableBySelfDescription =>
+      'Només el teu compte la troba en escriure @ o en cercar.';
+
+  @override
+  String get personaMentionableByNobodyDescription =>
+      'Exclosa dels suggeriments de @ i dels filtres de cerca, també dels teus. Encara pot parlar, i el seu perfil segueix la visibilitat.';
+
+  @override
+  String get personaMentionableByFollows =>
+      'Segueix la visibilitat fins que triïs.';
+
+  @override
+  String get personaMentionableByFollowVisibility => 'Segueix la visibilitat';
+
+  @override
+  String get personaBulkMentions => 'Mencions';
+
+  @override
+  String get personaBulkMentionsEveryone => 'Permet mencions de tothom';
+
+  @override
+  String get personaBulkMentionsSelf => 'Permet mencions només teves';
+
+  @override
+  String get personaBulkMentionsNobody => 'No permetis mencions de ningú';
+
+  @override
+  String personaBulkNowMentionableByEveryone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persones',
+      many: '$count persones',
+      one: '$count persona',
+    );
+    return 'Ara tothom pot esmentar $_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableBySelf(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persones',
+      many: '$count persones',
+      one: '$count persona',
+    );
+    return 'Ara només tu pots esmentar $_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByNobody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persones',
+      many: '$count persones',
+      one: '$count persona',
+    );
+    return 'Ara ningú no pot esmentar $_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByFollowing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persones',
+      many: '$count persones',
+      one: '$count persona',
+    );
+    return 'Les mencions de $_temp0 ara segueixen la visibilitat';
+  }
+
+  @override
+  String get personaNotMentionable =>
+      'Ningú no veu aquesta persona als suggeriments de mencions';
 }

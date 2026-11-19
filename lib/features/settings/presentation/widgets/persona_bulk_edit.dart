@@ -2,11 +2,13 @@
 
 // Fork: the pieces of the Personas settings page's select mode
 // (tyne-chat/tyne#542): the visibility filter chips with their counts, the
-// bar on top while selecting, the action bar at the bottom, and the
-// confirmation before making personas public or private, or deleting them.
+// bar on top while selecting, the action bar at the bottom with its
+// Visibility and Mentions sheets (tyne-chat/tyne#652), and the confirmation
+// before making personas public or private, or deleting them.
 // The page (`user_persona_settings.dart`) holds the state and does the work.
 
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/profile/domain/persona_mention_setting.dart';
 import 'package:fluxer_app/features/settings/providers/persona_settings_launch_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -191,16 +193,24 @@ class PersonaSelectionBar extends StatelessWidget {
   }
 }
 
-/// The actions at the bottom while personas are selected: Public, Unlisted,
-/// Private and Delete. A visibility none of the selected would change to is
-/// disabled.
+/// The value standing for "Follow Visibility" in the Mentions sheet: a
+/// persona's stored mention setting is then null (tyne-chat/tyne#652).
+const String kPersonaFollowVisibility = 'follow';
+
+/// The actions at the bottom while personas are selected: Groups, Visibility,
+/// Mentions and Delete. Visibility and Mentions open a sheet of their values;
+/// a value every selected persona has already is shown picked, and one none
+/// of them would change to is disabled.
 class PersonaBulkActionBar extends StatelessWidget {
   const PersonaBulkActionBar({
     required this.canMakePublic,
     required this.canMakeUnlisted,
     required this.canMakePrivate,
+    required this.sharedVisibility,
+    required this.sharedMentionableBy,
     required this.busy,
     required this.onVisibility,
+    required this.onMentionableBy,
     required this.onDelete,
     this.onGroups,
     super.key,
@@ -210,13 +220,84 @@ class PersonaBulkActionBar extends StatelessWidget {
   final bool canMakeUnlisted;
   final bool canMakePrivate;
 
+  /// The visibility every selected persona has, or null when they differ.
+  final String? sharedVisibility;
+
+  /// The stored mention setting every selected persona has
+  /// ([kPersonaFollowVisibility] for none), or null when they differ.
+  final String? sharedMentionableBy;
+
   /// A change is under way: nothing can be pressed.
   final bool busy;
   final ValueChanged<String> onVisibility;
+
+  /// Gets a mention setting, or null to follow visibility.
+  final ValueChanged<String?> onMentionableBy;
   final VoidCallback onDelete;
 
   /// Opens the Groups sheet (tyne-chat/tyne#829); no Groups button without it.
   final VoidCallback? onGroups;
+
+  Future<void> _chooseVisibility(BuildContext context) async {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final String? picked = await choosePersonaBulkOption(
+      context,
+      key: const ValueKey<String>('persona-bulk-visibility-sheet'),
+      title: l10n.fork.personaVisibilityLabel,
+      current: sharedVisibility,
+      items: <FluxerRadioItem<String>>[
+        FluxerRadioItem<String>(
+          value: 'public',
+          label: l10n.fork.personaVisibilityPublic,
+          enabled: canMakePublic,
+        ),
+        FluxerRadioItem<String>(
+          value: 'unlisted',
+          label: l10n.fork.personaVisibilityUnlisted,
+          enabled: canMakeUnlisted,
+        ),
+        FluxerRadioItem<String>(
+          value: 'private',
+          label: l10n.fork.personaVisibilityPrivate,
+          enabled: canMakePrivate,
+        ),
+      ],
+    );
+    if (picked != null) {
+      onVisibility(picked);
+    }
+  }
+
+  Future<void> _chooseMentionableBy(BuildContext context) async {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final String? picked = await choosePersonaBulkOption(
+      context,
+      key: const ValueKey<String>('persona-bulk-mentions-sheet'),
+      title: l10n.fork.personaMentionableByLabel,
+      current: sharedMentionableBy,
+      items: <FluxerRadioItem<String>>[
+        FluxerRadioItem<String>(
+          value: PersonaMentionableBy.everyone,
+          label: l10n.fork.personaBulkMentionsEveryone,
+        ),
+        FluxerRadioItem<String>(
+          value: PersonaMentionableBy.self,
+          label: l10n.fork.personaBulkMentionsSelf,
+        ),
+        FluxerRadioItem<String>(
+          value: PersonaMentionableBy.nobody,
+          label: l10n.fork.personaBulkMentionsNobody,
+        ),
+        FluxerRadioItem<String>(
+          value: kPersonaFollowVisibility,
+          label: l10n.fork.personaMentionableByFollowVisibility,
+        ),
+      ],
+    );
+    if (picked != null && picked != sharedMentionableBy) {
+      onMentionableBy(picked == kPersonaFollowVisibility ? null : picked);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -247,31 +328,18 @@ class PersonaBulkActionBar extends StatelessWidget {
                   onTap: busy ? null : openGroups,
                 ),
               _BarButton(
-                key: const ValueKey<String>('persona-bulk-public'),
-                icon: PhosphorIconsBold.globeSimple,
-                label: l10n.fork.personaVisibilityPublic,
-                semanticLabel: l10n.fork.personaBulkMakePublic,
-                onTap: busy || !canMakePublic
-                    ? null
-                    : () => onVisibility('public'),
+                key: const ValueKey<String>('persona-bulk-visibility'),
+                icon: PhosphorIconsBold.eye,
+                label: l10n.fork.personaVisibilityLabel,
+                semanticLabel: l10n.fork.personaVisibilityLabel,
+                onTap: busy ? null : () => _chooseVisibility(context),
               ),
               _BarButton(
-                key: const ValueKey<String>('persona-bulk-unlisted'),
-                icon: PhosphorIconsBold.eyeSlash,
-                label: l10n.fork.personaVisibilityUnlisted,
-                semanticLabel: l10n.fork.personaBulkMakeUnlisted,
-                onTap: busy || !canMakeUnlisted
-                    ? null
-                    : () => onVisibility('unlisted'),
-              ),
-              _BarButton(
-                key: const ValueKey<String>('persona-bulk-private'),
-                icon: PhosphorIconsBold.lockSimple,
-                label: l10n.fork.personaVisibilityPrivate,
-                semanticLabel: l10n.fork.personaBulkMakePrivate,
-                onTap: busy || !canMakePrivate
-                    ? null
-                    : () => onVisibility('private'),
+                key: const ValueKey<String>('persona-bulk-mentions'),
+                icon: PhosphorIconsBold.at,
+                label: l10n.fork.personaBulkMentions,
+                semanticLabel: l10n.fork.personaMentionableByLabel,
+                onTap: busy ? null : () => _chooseMentionableBy(context),
               ),
               _BarButton(
                 key: const ValueKey<String>('persona-bulk-delete'),
@@ -288,6 +356,30 @@ class PersonaBulkActionBar extends StatelessWidget {
     );
   }
 }
+
+/// A sheet of the values one bulk action can give the selection: the one
+/// picked, or null when it is closed without a pick.
+Future<String?> choosePersonaBulkOption(
+  BuildContext context, {
+  required String title,
+  required String? current,
+  required List<FluxerRadioItem<String>> items,
+  Key? key,
+}) => FluxerBottomSheet.show<String>(
+  context,
+  title: title,
+  useRootNavigator: true,
+  builder: (BuildContext sheetContext, VoidCallback close) => Padding(
+    key: key,
+    padding: EdgeInsets.symmetric(horizontal: sheetContext.layout.s4),
+    child: FluxerRadioGroup<String>(
+      value: current,
+      items: items,
+      onChanged: (String value) =>
+          Navigator.of(sheetContext, rootNavigator: true).pop(value),
+    ),
+  ),
+);
 
 class _BarButton extends StatelessWidget {
   const _BarButton({
@@ -397,4 +489,51 @@ Future<bool> confirmPersonaBulkAction(
     },
   );
   return result ?? false;
+}
+
+/// On a persona row whose persona nobody gets in mention suggestions
+/// (tyne-chat/tyne#652): an @ struck through, as on the web. Phosphor has no
+/// such icon, so the line is painted over its @.
+class PersonaNotMentionableIcon extends StatelessWidget {
+  const PersonaNotMentionableIcon({required this.color, super.key});
+
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    return Semantics(
+      label: l10n.fork.personaNotMentionable,
+      excludeSemantics: true,
+      child: SizedBox.square(
+        dimension: 14,
+        child: CustomPaint(
+          foregroundPainter: _StrikePainter(color),
+          child: PhosphorIcon(PhosphorIconsBold.at, size: 14, color: color),
+        ),
+      ),
+    );
+  }
+}
+
+class _StrikePainter extends CustomPainter {
+  const _StrikePainter(this.color);
+
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint paint = Paint()
+      ..color = color
+      ..strokeWidth = size.width / 10
+      ..strokeCap = StrokeCap.round;
+    canvas.drawLine(
+      Offset(size.width * 0.16, size.height * 0.16),
+      Offset(size.width * 0.84, size.height * 0.84),
+      paint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_StrikePainter oldDelegate) => oldDelegate.color != color;
 }

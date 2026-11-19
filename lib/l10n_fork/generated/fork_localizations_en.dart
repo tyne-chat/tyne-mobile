@@ -1299,6 +1299,97 @@ class ForkLocalizationsEn extends ForkLocalizations {
 
   @override
   String get personaGroupFailed => 'Couldn’t change the groups. Try again.';
+
+  @override
+  String get personaMentionableByLabel => 'Allow mentions by';
+
+  @override
+  String get personaMentionableByEveryone => 'Everyone';
+
+  @override
+  String get personaMentionableBySelf => 'Only you';
+
+  @override
+  String get personaMentionableByNobody => 'Nobody';
+
+  @override
+  String get personaMentionableByEveryoneDescription =>
+      'Anyone can find this persona when typing @ or searching.';
+
+  @override
+  String get personaMentionableBySelfDescription =>
+      'Only your account finds it when typing @ or searching.';
+
+  @override
+  String get personaMentionableByNobodyDescription =>
+      'Left out of @ suggestions and search filters, yours too. It can still speak, and its profile follows Visibility.';
+
+  @override
+  String get personaMentionableByFollows =>
+      'Follows Visibility until you choose.';
+
+  @override
+  String get personaMentionableByFollowVisibility => 'Follow Visibility';
+
+  @override
+  String get personaBulkMentions => 'Mentions';
+
+  @override
+  String get personaBulkMentionsEveryone => 'Allow mentions by everyone';
+
+  @override
+  String get personaBulkMentionsSelf => 'Allow mentions only by you';
+
+  @override
+  String get personaBulkMentionsNobody => 'Allow mentions by nobody';
+
+  @override
+  String personaBulkNowMentionableByEveryone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return 'Mentions of $_temp0 now allowed by everyone';
+  }
+
+  @override
+  String personaBulkNowMentionableBySelf(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return 'Mentions of $_temp0 now allowed only by you';
+  }
+
+  @override
+  String personaBulkNowMentionableByNobody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return 'Mentions of $_temp0 now allowed by nobody';
+  }
+
+  @override
+  String personaBulkNowMentionableByFollowing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return 'Mentions of $_temp0 now follow Visibility';
+  }
+
+  @override
+  String get personaNotMentionable =>
+      'Nobody gets this persona in mention suggestions';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -2596,6 +2687,97 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
 
   @override
   String get personaGroupFailed => 'Couldn’t change the groups. Try again.';
+
+  @override
+  String get personaMentionableByLabel => 'Allow mentions by';
+
+  @override
+  String get personaMentionableByEveryone => 'Everyone';
+
+  @override
+  String get personaMentionableBySelf => 'Only you';
+
+  @override
+  String get personaMentionableByNobody => 'Nobody';
+
+  @override
+  String get personaMentionableByEveryoneDescription =>
+      'Anyone can find this persona when typing @ or searching.';
+
+  @override
+  String get personaMentionableBySelfDescription =>
+      'Only your account finds it when typing @ or searching.';
+
+  @override
+  String get personaMentionableByNobodyDescription =>
+      'Left out of @ suggestions and search filters, yours too. It can still speak, and its profile follows Visibility.';
+
+  @override
+  String get personaMentionableByFollows =>
+      'Follows Visibility until you choose.';
+
+  @override
+  String get personaMentionableByFollowVisibility => 'Follow Visibility';
+
+  @override
+  String get personaBulkMentions => 'Mentions';
+
+  @override
+  String get personaBulkMentionsEveryone => 'Allow mentions by everyone';
+
+  @override
+  String get personaBulkMentionsSelf => 'Allow mentions only by you';
+
+  @override
+  String get personaBulkMentionsNobody => 'Allow mentions by nobody';
+
+  @override
+  String personaBulkNowMentionableByEveryone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return 'Mentions of $_temp0 now allowed by everyone';
+  }
+
+  @override
+  String personaBulkNowMentionableBySelf(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return 'Mentions of $_temp0 now allowed only by you';
+  }
+
+  @override
+  String personaBulkNowMentionableByNobody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return 'Mentions of $_temp0 now allowed by nobody';
+  }
+
+  @override
+  String personaBulkNowMentionableByFollowing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return 'Mentions of $_temp0 now follow Visibility';
+  }
+
+  @override
+  String get personaNotMentionable =>
+      'Nobody gets this persona in mention suggestions';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -3893,4 +4075,95 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
 
   @override
   String get personaGroupFailed => 'Couldn’t change the groups. Try again.';
+
+  @override
+  String get personaMentionableByLabel => 'Allow mentions by';
+
+  @override
+  String get personaMentionableByEveryone => 'Everyone';
+
+  @override
+  String get personaMentionableBySelf => 'Only you';
+
+  @override
+  String get personaMentionableByNobody => 'Nobody';
+
+  @override
+  String get personaMentionableByEveryoneDescription =>
+      'Anyone can find this persona when typing @ or searching.';
+
+  @override
+  String get personaMentionableBySelfDescription =>
+      'Only your account finds it when typing @ or searching.';
+
+  @override
+  String get personaMentionableByNobodyDescription =>
+      'Left out of @ suggestions and search filters, yours too. It can still speak, and its profile follows Visibility.';
+
+  @override
+  String get personaMentionableByFollows =>
+      'Follows Visibility until you choose.';
+
+  @override
+  String get personaMentionableByFollowVisibility => 'Follow Visibility';
+
+  @override
+  String get personaBulkMentions => 'Mentions';
+
+  @override
+  String get personaBulkMentionsEveryone => 'Allow mentions by everyone';
+
+  @override
+  String get personaBulkMentionsSelf => 'Allow mentions only by you';
+
+  @override
+  String get personaBulkMentionsNobody => 'Allow mentions by nobody';
+
+  @override
+  String personaBulkNowMentionableByEveryone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return 'Mentions of $_temp0 now allowed by everyone';
+  }
+
+  @override
+  String personaBulkNowMentionableBySelf(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return 'Mentions of $_temp0 now allowed only by you';
+  }
+
+  @override
+  String personaBulkNowMentionableByNobody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return 'Mentions of $_temp0 now allowed by nobody';
+  }
+
+  @override
+  String personaBulkNowMentionableByFollowing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return 'Mentions of $_temp0 now follow Visibility';
+  }
+
+  @override
+  String get personaNotMentionable =>
+      'Nobody gets this persona in mention suggestions';
 }

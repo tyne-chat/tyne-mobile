@@ -1313,4 +1313,95 @@ class ForkLocalizationsHu extends ForkLocalizations {
   @override
   String get personaGroupFailed =>
       'Nem sikerült módosítani a csoportokat. Próbáld újra.';
+
+  @override
+  String get personaMentionableByLabel => 'Ki említheti meg';
+
+  @override
+  String get personaMentionableByEveryone => 'Mindenki';
+
+  @override
+  String get personaMentionableBySelf => 'Csak te';
+
+  @override
+  String get personaMentionableByNobody => 'Senki';
+
+  @override
+  String get personaMentionableByEveryoneDescription =>
+      'Bárki megtalálja ezt a personát, amikor @-ot ír vagy keres.';
+
+  @override
+  String get personaMentionableBySelfDescription =>
+      'Csak a fiókod találja meg, amikor @-ot írsz vagy keresel.';
+
+  @override
+  String get personaMentionableByNobodyDescription =>
+      'Kimarad a @-javaslatokból és a keresési szűrőkből, a tieidből is. Továbbra is írhat, a profilja pedig a Láthatóságot követi.';
+
+  @override
+  String get personaMentionableByFollows =>
+      'A Láthatóságot követi, amíg nem választasz.';
+
+  @override
+  String get personaMentionableByFollowVisibility => 'Láthatóság szerint';
+
+  @override
+  String get personaBulkMentions => 'Említések';
+
+  @override
+  String get personaBulkMentionsEveryone => 'Mindenki megemlítheti';
+
+  @override
+  String get personaBulkMentionsSelf => 'Csak te említheted meg';
+
+  @override
+  String get personaBulkMentionsNobody => 'Senki sem említheti meg';
+
+  @override
+  String personaBulkNowMentionableByEveryone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personát mostantól mindenki megemlítheti',
+      one: '$count personát mostantól mindenki megemlítheti',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableBySelf(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personát mostantól csak te említheted meg',
+      one: '$count personát mostantól csak te említheted meg',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByNobody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personát mostantól senki sem említheti meg',
+      one: '$count personát mostantól senki sem említheti meg',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByFollowing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona említései mostantól a Láthatóságot követik',
+      one: '$count persona említései mostantól a Láthatóságot követik',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaNotMentionable =>
+      'Ez a persona senkinek sem jelenik meg az említési javaslatokban';
 }

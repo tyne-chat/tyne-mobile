@@ -22,6 +22,8 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/guild_commands/providers/guild_commands_providers.dart';
+import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_user_tag.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
@@ -70,6 +72,18 @@ class _MentionApi implements HttpClientAdapter {
 
   @override
   void close({bool force = false}) {}
+}
+
+/// The account's own personas, already loaded.
+class _OwnPersonas extends MyPersonasNotifier {
+  _OwnPersonas(this._personas);
+  final List<Persona> _personas;
+
+  @override
+  AsyncValue<List<Persona>> build() => AsyncValue.data(_personas);
+
+  @override
+  Future<void> reloadSilently() async {}
 }
 
 /// A gateway that never connects; member search only needs one to exist.
@@ -136,6 +150,7 @@ void main() {
     List<Message> messages = const <Message>[],
     _CommunityCommands? commands,
     bool inCommunity = false,
+    List<Persona> ownPersonas = const <Persona>[],
   }) async {
     final Dio dio = Dio(BaseOptions(baseUrl: 'https://test.fluxer.invalid'))
       ..httpClientAdapter = api;
@@ -165,6 +180,7 @@ void main() {
             gatewayConnectionProvider.overrideWithValue(gateway),
             if (commands != null)
               guildCommandsProvider.overrideWith(() => commands),
+            myPersonasProvider.overrideWith(() => _OwnPersonas(ownPersonas)),
           ],
         );
     final MutableChatViewModel chat = readMutableChatViewModel(container);
@@ -237,8 +253,13 @@ void main() {
     await finish(tester);
   });
 
-  testWidgets('a persona from the messages on screen is offered without '
-      'asking the server for it', (WidgetTester tester) async {
+  // tyne-chat/tyne#652 and tyne-tools#44: another account's persona comes only
+  // from the server's list, which applies its mention setting; a message on
+  // screen only ranks it, so a private persona or a copy set to nobody is not
+  // offered from there.
+  testWidgets("another account's persona is not offered from a message alone", (
+    WidgetTester tester,
+  ) async {
     await pumpComposer(
       tester,
       messages: <Message>[
@@ -259,10 +280,44 @@ void main() {
     await type(tester, '@');
     await type(tester, '@Ow');
 
-    expect(find.text('Owl'), findsOneWidget);
-    expect(find.text('bob'), findsOneWidget);
-    expect(find.text('Fox'), findsNothing);
+    expect(find.text('Owl'), findsNothing);
+    // The list without a query was whole, so "Ow" is answered from it.
     expect(api.queries, <String>['']);
+    await finish(tester);
+  });
+
+  testWidgets('own personas from the messages on screen are offered from the '
+      'own list, unless set to nobody', (WidgetTester tester) async {
+    await pumpComposer(
+      tester,
+      ownPersonas: const <Persona>[
+        Persona(id: 'persona_wren', name: 'Wren'),
+        Persona(id: 'persona_copy', name: 'Wrenna', mentionableBy: 'nobody'),
+      ],
+      messages: <Message>[
+        for (final (String id, String pid, String name) persona
+            in <(String, String, String)>[
+              ('1000000000000000301', 'persona_wren', 'Wren'),
+              ('1000000000000000302', 'persona_copy', 'Wrenna'),
+            ])
+          Message(
+            id: persona.$1,
+            channelId: kComposerHarnessChannelA,
+            authorId: kComposerHarnessUserId,
+            authorName: 'me',
+            content: 'hi',
+            timestamp: DateTime.now(),
+            personaId: persona.$2,
+            personaName: persona.$3,
+          ),
+      ],
+    );
+
+    await type(tester, '@');
+    await type(tester, '@Wr');
+
+    expect(find.text('Wren'), findsOneWidget);
+    expect(find.text('Wrenna'), findsNothing);
     await finish(tester);
   });
 
