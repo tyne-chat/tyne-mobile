@@ -31,6 +31,7 @@
     "personaPronounsLabel": "সর্বনাম",
     "personaPronounsHint": "যেমন তারা/তাদের",
     "personaAliasesLabel": "উপনাম",
+    "personaAliasLabel": "উপনাম",
     "personaAliasesHelp": "এই পারসোনাকে খুঁজে পাওয়ার অন্য নাম",
     "personaAddAlias": "উপনাম যোগ করুন ({count}/{max})",
     "personaRemoveAlias": "উপনাম সরান",

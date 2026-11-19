@@ -31,6 +31,7 @@
     "personaPronounsLabel": "Vietniekvārdi",
     "personaPronounsHint": "piem., viņa/viņas",
     "personaAliasesLabel": "Aizstājvārdi",
+    "personaAliasLabel": "Aizstājvārds",
     "personaAliasesHelp": "Citi vārdi, pēc kuriem atrast šo personu",
     "personaAddAlias": "Pievienot aizstājvārdu ({count}/{max})",
     "personaRemoveAlias": "Noņemt aizstājvārdu",

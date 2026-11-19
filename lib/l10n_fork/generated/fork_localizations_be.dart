@@ -117,6 +117,9 @@ class ForkLocalizationsBe extends ForkLocalizations {
   String get personaAliasesLabel => 'Псеўданімы';
 
   @override
+  String get personaAliasLabel => 'Псеўданім';
+
+  @override
   String get personaAliasesHelp =>
       'Іншыя імёны, па якіх можна знайсці гэтую персону';
 

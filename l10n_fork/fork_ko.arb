@@ -23,6 +23,7 @@
     "personaPronounsLabel": "대명사",
     "personaPronounsHint": "예: they/them",
     "personaAliasesLabel": "별칭",
+    "personaAliasLabel": "별칭",
     "personaAliasesHelp": "이 페르소나를 찾기 위한 다른 이름",
     "personaAddAlias": "별칭 추가 ({count}/{max})",
     "personaRemoveAlias": "별칭 삭제",

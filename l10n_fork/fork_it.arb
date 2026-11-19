@@ -23,6 +23,7 @@
     "personaPronounsLabel": "Pronomi",
     "personaPronounsHint": "es. lei/lui",
     "personaAliasesLabel": "Alias",
+    "personaAliasLabel": "Alias",
     "personaAliasesHelp": "Altri nomi con cui trovare questa persona",
     "personaAddAlias": "Aggiungi alias ({count}/{max})",
     "personaRemoveAlias": "Rimuovi alias",

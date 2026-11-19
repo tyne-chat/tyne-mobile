@@ -23,6 +23,7 @@
     "personaPronounsLabel": "Pronomen",
     "personaPronounsHint": "t.ex. hen/henom",
     "personaAliasesLabel": "Alias",
+    "personaAliasLabel": "Alias",
     "personaAliasesHelp": "Andra namn att hitta den här personan med",
     "personaAddAlias": "Lägg till alias ({count}/{max})",
     "personaRemoveAlias": "Ta bort alias",

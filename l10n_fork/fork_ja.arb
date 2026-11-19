@@ -23,6 +23,7 @@
     "personaPronounsLabel": "代名詞",
     "personaPronounsHint": "例: they/them",
     "personaAliasesLabel": "別名",
+    "personaAliasLabel": "別名",
     "personaAliasesHelp": "このペルソナを見つけるための別の名前",
     "personaAddAlias": "別名を追加 ({count}/{max})",
     "personaRemoveAlias": "別名を削除",

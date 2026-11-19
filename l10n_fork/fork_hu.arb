@@ -23,6 +23,7 @@
     "personaPronounsLabel": "Névmások",
     "personaPronounsHint": "pl. ő/ők",
     "personaAliasesLabel": "Álnevek",
+    "personaAliasLabel": "Álnév",
     "personaAliasesHelp": "További nevek, amelyekkel megtalálod ezt a personát",
     "personaAddAlias": "Álnév hozzáadása ({count}/{max})",
     "personaRemoveAlias": "Álnév eltávolítása",

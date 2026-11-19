@@ -23,6 +23,7 @@
     "personaPronounsLabel": "Zaimki",
     "personaPronounsHint": "np. ono/jego",
     "personaAliasesLabel": "Aliasy",
+    "personaAliasLabel": "Alias",
     "personaAliasesHelp": "Inne nazwy, po których znajdziesz tę personę",
     "personaAddAlias": "Dodaj alias ({count}/{max})",
     "personaRemoveAlias": "Usuń alias",

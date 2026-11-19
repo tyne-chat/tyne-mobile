@@ -31,6 +31,7 @@
     "personaPronounsLabel": "Pronoms",
     "personaPronounsHint": "p. ex. elli",
     "personaAliasesLabel": "Àlies",
+    "personaAliasLabel": "Àlies",
     "personaAliasesHelp": "Altres noms per trobar aquesta persona",
     "personaAddAlias": "Afegeix un àlies ({count}/{max})",
     "personaRemoveAlias": "Elimina l’àlies",

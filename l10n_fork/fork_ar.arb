@@ -23,6 +23,7 @@
     "personaPronounsLabel": "الضمائر",
     "personaPronounsHint": "مثال: هو/هي",
     "personaAliasesLabel": "أسماء بديلة",
+    "personaAliasLabel": "اسم بديل",
     "personaAliasesHelp": "أسماء أخرى للعثور على هذه الشخصية",
     "personaAddAlias": "إضافة اسم بديل ({count}/{max})",
     "personaRemoveAlias": "إزالة الاسم البديل",

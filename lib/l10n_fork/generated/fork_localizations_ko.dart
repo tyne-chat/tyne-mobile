@@ -112,6 +112,9 @@ class ForkLocalizationsKo extends ForkLocalizations {
   String get personaAliasesLabel => '별칭';
 
   @override
+  String get personaAliasLabel => '별칭';
+
+  @override
   String get personaAliasesHelp => '이 페르소나를 찾기 위한 다른 이름';
 
   @override

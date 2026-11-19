@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/chat/data/channel_persona_mention_cache.dart';
 import 'package:fluxer_app/features/emoji/providers/emoji_pins_provider.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/domain/persona_name_search.dart';
 import 'package:fluxer_app/features/profile/domain/persona_settings.dart';
 import 'package:fluxer_app/features/profile/providers/multi_persona_reactions_provider.dart';
 import 'package:fluxer_app/features/profile/providers/persona_first_load.dart';
@@ -137,6 +138,16 @@ class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
     _gate.reset();
     _hadPersonas = false;
     _tags = const <PersonaTag>[];
+    // Message search finds the account's own personas by name and alias.
+    noteOwnPersonasForSearch(const []);
+    listenSelf(
+      (_, AsyncValue<List<Persona>> next) => noteOwnPersonasForSearch(
+        <({String id, String name, List<String> aliases})>[
+          for (final Persona p in next.asData?.value ?? const <Persona>[])
+            (id: p.id, name: p.name, aliases: p.aliases),
+        ],
+      ),
+    );
     unawaited(_readHadPersonas());
     unawaited(_gate.run(_loadPersonas));
     return const AsyncValue.loading();

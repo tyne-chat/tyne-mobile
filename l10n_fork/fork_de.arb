@@ -23,6 +23,7 @@
     "personaPronounsLabel": "Pronomen",
     "personaPronounsHint": "z. B. sie/ihr",
     "personaAliasesLabel": "Aliasse",
+    "personaAliasLabel": "Alias",
     "personaAliasesHelp": "Weitere Namen, unter denen du diese Persona findest",
     "personaAddAlias": "Alias hinzufügen ({count}/{max})",
     "personaRemoveAlias": "Alias entfernen",

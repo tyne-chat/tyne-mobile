@@ -23,6 +23,7 @@
     "personaPronounsLabel": "Αντωνυμίες",
     "personaPronounsHint": "π.χ. αυτοί/αυτές",
     "personaAliasesLabel": "Ψευδώνυμα",
+    "personaAliasLabel": "Ψευδώνυμο",
     "personaAliasesHelp": "Άλλα ονόματα για να βρίσκετε αυτή την persona",
     "personaAddAlias": "Προσθήκη ψευδωνύμου ({count}/{max})",
     "personaRemoveAlias": "Αφαίρεση ψευδωνύμου",

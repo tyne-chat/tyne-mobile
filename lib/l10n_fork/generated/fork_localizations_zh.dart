@@ -112,6 +112,9 @@ class ForkLocalizationsZh extends ForkLocalizations {
   String get personaAliasesLabel => '别名';
 
   @override
+  String get personaAliasLabel => '别名';
+
+  @override
   String get personaAliasesHelp => '用来找到此人格的其他名称';
 
   @override
@@ -1311,6 +1314,9 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get personaAliasesLabel => '別名';
+
+  @override
+  String get personaAliasLabel => '別名';
 
   @override
   String get personaAliasesHelp => '用來找到此人格的其他名稱';

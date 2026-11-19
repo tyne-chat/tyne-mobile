@@ -31,6 +31,7 @@
     "personaPronounsLabel": "Zámená",
     "personaPronounsHint": "napr. oni/ich",
     "personaAliasesLabel": "Aliasy",
+    "personaAliasLabel": "Alias",
     "personaAliasesHelp": "Ďalšie mená, podľa ktorých túto personu nájdete",
     "personaAddAlias": "Pridať alias ({count}/{max})",
     "personaRemoveAlias": "Odstrániť alias",

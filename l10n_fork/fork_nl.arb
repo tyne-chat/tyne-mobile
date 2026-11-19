@@ -23,6 +23,7 @@
     "personaPronounsLabel": "Voornaamwoorden",
     "personaPronounsHint": "bijv. die/hen",
     "personaAliasesLabel": "Aliassen",
+    "personaAliasLabel": "Alias",
     "personaAliasesHelp": "Andere namen om deze persona mee te vinden",
     "personaAddAlias": "Alias toevoegen ({count}/{max})",
     "personaRemoveAlias": "Alias verwijderen",

@@ -115,6 +115,9 @@ class ForkLocalizationsAr extends ForkLocalizations {
   String get personaAliasesLabel => 'أسماء بديلة';
 
   @override
+  String get personaAliasLabel => 'اسم بديل';
+
+  @override
   String get personaAliasesHelp => 'أسماء أخرى للعثور على هذه الشخصية';
 
   @override

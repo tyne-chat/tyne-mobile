@@ -23,6 +23,7 @@
     "personaPronounsLabel": "Kata ganti",
     "personaPronounsHint": "mis. they/them",
     "personaAliasesLabel": "Alias",
+    "personaAliasLabel": "Alias",
     "personaAliasesHelp": "Nama lain untuk menemukan persona ini",
     "personaAddAlias": "Tambah alias ({count}/{max})",
     "personaRemoveAlias": "Hapus alias",

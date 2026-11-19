@@ -23,6 +23,7 @@
     "personaPronounsLabel": "सर्वनाम",
     "personaPronounsHint": "जैसे वह/वे",
     "personaAliasesLabel": "उपनाम",
+    "personaAliasLabel": "उपनाम",
     "personaAliasesHelp": "इस परसोना को ढूँढने के लिए दूसरे नाम",
     "personaAddAlias": "उपनाम जोड़ें ({count}/{max})",
     "personaRemoveAlias": "उपनाम हटाएँ",
