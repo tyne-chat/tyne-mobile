@@ -161,6 +161,9 @@ Future<void> dispatchMessageAction({
       callbacks.onEdit?.call();
     case MessageAction.changePersona:
       final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+      // Read now: the message's row may be gone by the time a persona is
+      // picked, and its ref with it.
+      final ChatViewModel chat = ref.read(chatViewModelProvider.notifier);
       _runAfterModalSettles(
         context,
         () => unawaited(
@@ -169,12 +172,10 @@ Future<void> dispatchMessageAction({
             showModes: false,
             selectedPersonaId: message.personaId,
             title: l10n.fork.chatMessageChangePersona,
-            onSelectPersona: (p) => ref
-                .read(chatViewModelProvider.notifier)
-                .changeMessagePersona(message: message, persona: p),
-            onSelectRoot: () => ref
-                .read(chatViewModelProvider.notifier)
-                .changeMessagePersona(message: message, persona: null),
+            onSelectPersona: (p) =>
+                chat.changeMessagePersona(message: message, persona: p),
+            onSelectRoot: () =>
+                chat.changeMessagePersona(message: message, persona: null),
           ),
         ),
       );

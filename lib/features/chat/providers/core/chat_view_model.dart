@@ -7814,6 +7814,9 @@ class ChatViewModel extends _$ChatViewModel {
             messageId: message.id,
             personaData: personaData,
           );
+      if (!ref.mounted) {
+        return;
+      }
       final List<Message>? nextMessages = _replaceById(
         state.messages,
         updatedMessage,
@@ -7832,6 +7835,9 @@ class ChatViewModel extends _$ChatViewModel {
       }
     } on Exception catch (e) {
       debugPrint('[ChatViewModel] Failed to change message persona: $e');
+      if (!ref.mounted) {
+        return;
+      }
       state = state.copyWith(
         errorMessage: ref
             .read(appLocalizationsProvider)
