@@ -831,12 +831,14 @@ class GatewayEventHandler {
         talker.warning('[Gateway] Error: [${e.code}] ${e.message}');
         _emit(() => onGatewayError?.call(e));
       case UnknownGatewayEvent():
+        // Fork: the persona events, groups included (tyne-chat/tyne#829).
         if (event.eventType == 'USER_PERSONA_CREATE' ||
             event.eventType == 'USER_PERSONA_UPDATE' ||
             event.eventType == 'USER_PERSONA_DELETE' ||
             event.eventType == 'USER_PERSONAS_UPDATE' ||
             event.eventType == 'USER_PERSONA_SETTINGS_UPDATE' ||
             event.eventType == 'USER_PERSONA_CHANNEL_STATE_UPDATE' ||
+            event.eventType == 'USER_PERSONA_GROUPS_UPDATE' ||
             event.eventType == 'GUILD_PERSONAS_DIRTY') {
           _emit(() => onUserPersonasUpdate?.call(event.eventType, event.data));
         } else if (event.eventType == 'CHANNEL_SIGNAL_UPDATE' ||

@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "Visas vienā sarakstā",
     "guildEmojiAllSection": "Emocijzīmes ({count})",
     "forwardAs": "Pārsūtīt kā",
-    "forwardAsName": "Pārsūtīt kā {name}"
+    "forwardAsName": "Pārsūtīt kā {name}",
+    "personaGroupNew": "Jauna grupa",
+    "personaGroupNameLabel": "Grupas nosaukums",
+    "personaGroupCreate": "Izveidot grupu",
+    "personaGroupRename": "Pārdēvēt grupu",
+    "personaGroupDelete": "Dzēst grupu",
+    "personaGroupDeleteConfirm": "Vai dzēst grupu “{name}”? Tajā esošās personas tiks saglabātas.",
+    "personaGroupNone": "Nav grupā",
+    "personaGroups": "Grupas",
+    "personaGroupAddTo": "Pievienot grupai",
+    "personaGroupNewEllipsis": "Jauna grupa…",
+    "personaGroupSelectMembers": "Atlasīt tajā esošās personas",
+    "personaGroupsDone": "Gatavs",
+    "personaGroupOptions": "{name} opcijas",
+    "personaGroupRemoveFrom": "Noņemt no “{name}”",
+    "personaGroupFailed": "Neizdevās mainīt grupas. Mēģiniet vēlreiz."
 }

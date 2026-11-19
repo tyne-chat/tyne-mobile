@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "Alle på én liste",
     "guildEmojiAllSection": "Emojis ({count})",
     "forwardAs": "Videresend som",
-    "forwardAsName": "Videresend som {name}"
+    "forwardAsName": "Videresend som {name}",
+    "personaGroupNew": "Ny gruppe",
+    "personaGroupNameLabel": "Gruppenavn",
+    "personaGroupCreate": "Opret gruppe",
+    "personaGroupRename": "Omdøb gruppe",
+    "personaGroupDelete": "Slet gruppe",
+    "personaGroupDeleteConfirm": "Vil du slette gruppen »{name}«? Personaerne i den bevares.",
+    "personaGroupNone": "Ikke i en gruppe",
+    "personaGroups": "Grupper",
+    "personaGroupAddTo": "Føj til gruppe",
+    "personaGroupNewEllipsis": "Ny gruppe…",
+    "personaGroupSelectMembers": "Vælg personaerne i den",
+    "personaGroupsDone": "Færdig",
+    "personaGroupOptions": "Indstillinger for {name}",
+    "personaGroupRemoveFrom": "Fjern fra “{name}”",
+    "personaGroupFailed": "Grupperne kunne ikke ændres. Prøv igen."
 }

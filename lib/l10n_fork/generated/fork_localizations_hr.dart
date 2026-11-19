@@ -1268,4 +1268,56 @@ class ForkLocalizationsHr extends ForkLocalizations {
   String forwardAsName(String name) {
     return 'Proslijedi kao $name';
   }
+
+  @override
+  String get personaGroupNew => 'Nova grupa';
+
+  @override
+  String get personaGroupNameLabel => 'Naziv grupe';
+
+  @override
+  String get personaGroupCreate => 'Stvori grupu';
+
+  @override
+  String get personaGroupRename => 'Preimenuj grupu';
+
+  @override
+  String get personaGroupDelete => 'Izbriši grupu';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return 'Izbrisati grupu „$name”? Persone u njoj ostaju.';
+  }
+
+  @override
+  String get personaGroupNone => 'Izvan grupa';
+
+  @override
+  String get personaGroups => 'Grupe';
+
+  @override
+  String get personaGroupAddTo => 'Dodaj u grupu';
+
+  @override
+  String get personaGroupNewEllipsis => 'Nova grupa…';
+
+  @override
+  String get personaGroupSelectMembers => 'Odaberi persone u njoj';
+
+  @override
+  String get personaGroupsDone => 'Gotovo';
+
+  @override
+  String personaGroupOptions(String name) {
+    return 'Mogućnosti za $name';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'Ukloni iz „$name”';
+  }
+
+  @override
+  String get personaGroupFailed =>
+      'Grupe se nisu mogle promijeniti. Pokušajte ponovno.';
 }

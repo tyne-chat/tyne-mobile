@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "Όλα σε μία λίστα",
     "guildEmojiAllSection": "Emoji ({count})",
     "forwardAs": "Προώθηση ως",
-    "forwardAsName": "Προώθηση ως {name}"
+    "forwardAsName": "Προώθηση ως {name}",
+    "personaGroupNew": "Νέα ομάδα",
+    "personaGroupNameLabel": "Όνομα ομάδας",
+    "personaGroupCreate": "Δημιουργία ομάδας",
+    "personaGroupRename": "Μετονομασία ομάδας",
+    "personaGroupDelete": "Διαγραφή ομάδας",
+    "personaGroupDeleteConfirm": "Διαγραφή της ομάδας «{name}»; Οι persona που περιέχει διατηρούνται.",
+    "personaGroupNone": "Εκτός ομάδας",
+    "personaGroups": "Ομάδες",
+    "personaGroupAddTo": "Προσθήκη σε ομάδα",
+    "personaGroupNewEllipsis": "Νέα ομάδα…",
+    "personaGroupSelectMembers": "Επιλογή των persona της",
+    "personaGroupsDone": "Τέλος",
+    "personaGroupOptions": "Επιλογές για {name}",
+    "personaGroupRemoveFrom": "Αφαίρεση από «{name}»",
+    "personaGroupFailed": "Δεν ήταν δυνατή η αλλαγή των ομάδων. Δοκιμάστε ξανά."
 }

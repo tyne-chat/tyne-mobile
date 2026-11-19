@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "Vsi na enem seznamu",
     "guildEmojiAllSection": "Emodžiji ({count})",
     "forwardAs": "Posreduj kot",
-    "forwardAsName": "Posreduj kot {name}"
+    "forwardAsName": "Posreduj kot {name}",
+    "personaGroupNew": "Nova skupina",
+    "personaGroupNameLabel": "Ime skupine",
+    "personaGroupCreate": "Ustvari skupino",
+    "personaGroupRename": "Preimenuj skupino",
+    "personaGroupDelete": "Izbriši skupino",
+    "personaGroupDeleteConfirm": "Želite izbrisati skupino »{name}«? Persone v njej ostanejo.",
+    "personaGroupNone": "Zunaj skupin",
+    "personaGroups": "Skupine",
+    "personaGroupAddTo": "Dodaj v skupino",
+    "personaGroupNewEllipsis": "Nova skupina…",
+    "personaGroupSelectMembers": "Izberi persone v njej",
+    "personaGroupsDone": "Končano",
+    "personaGroupOptions": "Možnosti za {name}",
+    "personaGroupRemoveFrom": "Odstrani iz »{name}«",
+    "personaGroupFailed": "Skupin ni bilo mogoče spremeniti. Poskusite znova."
 }

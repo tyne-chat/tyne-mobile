@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "Lahat sa iisang listahan",
     "guildEmojiAllSection": "Mga emoji ({count})",
     "forwardAs": "I-forward bilang",
-    "forwardAsName": "I-forward bilang {name}"
+    "forwardAsName": "I-forward bilang {name}",
+    "personaGroupNew": "Bagong grupo",
+    "personaGroupNameLabel": "Pangalan ng grupo",
+    "personaGroupCreate": "Gumawa ng grupo",
+    "personaGroupRename": "Palitan ang pangalan ng grupo",
+    "personaGroupDelete": "I-delete ang grupo",
+    "personaGroupDeleteConfirm": "I-delete ang grupong \"{name}\"? Mananatili ang mga persona rito.",
+    "personaGroupNone": "Wala sa grupo",
+    "personaGroups": "Mga grupo",
+    "personaGroupAddTo": "Idagdag sa grupo",
+    "personaGroupNewEllipsis": "Bagong grupo…",
+    "personaGroupSelectMembers": "Piliin ang mga persona rito",
+    "personaGroupsDone": "Tapos na",
+    "personaGroupOptions": "Mga opsyon para sa {name}",
+    "personaGroupRemoveFrom": "Alisin sa “{name}”",
+    "personaGroupFailed": "Hindi mabago ang mga grupo. Subukan ulit."
 }

@@ -2164,6 +2164,96 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'Forward as {name}'**
   String forwardAsName(String name);
+
+  /// Persona groups (tyne-chat/tyne#829). Same wording as the web app's. Button in the Personas settings list's header, and the title of the dialog that names a new group.
+  ///
+  /// In en, this message translates to:
+  /// **'New Group'**
+  String get personaGroupNew;
+
+  /// Persona groups (tyne-chat/tyne#829). Same wording as the web app's. Label of the name field when making or renaming a group.
+  ///
+  /// In en, this message translates to:
+  /// **'Group Name'**
+  String get personaGroupNameLabel;
+
+  /// Persona groups (tyne-chat/tyne#829). Same wording as the web app's. Button that makes the new group.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Group'**
+  String get personaGroupCreate;
+
+  /// Persona groups (tyne-chat/tyne#829). Same wording as the web app's. Item in a group's menu, and the title of the dialog that renames it.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename Group'**
+  String get personaGroupRename;
+
+  /// Persona groups (tyne-chat/tyne#829). Same wording as the web app's. Item in a group's menu, and the button that confirms it. The personas in the group are not deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Group'**
+  String get personaGroupDelete;
+
+  /// Persona groups (tyne-chat/tyne#829). Same wording as the web app's. Asked before deleting a group. name is the group's name.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete the group “{name}”? The personas in it are kept.'**
+  String personaGroupDeleteConfirm(String name);
+
+  /// Persona groups (tyne-chat/tyne#829). Same wording as the web app's. Heading of the section that lists the personas in no group.
+  ///
+  /// In en, this message translates to:
+  /// **'Not in a Group'**
+  String get personaGroupNone;
+
+  /// Persona groups (tyne-chat/tyne#829). Same wording as the web app's. Label of the persona editor's Groups field, of the select mode's Groups button, and title of the Groups sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Groups'**
+  String get personaGroups;
+
+  /// Persona groups (tyne-chat/tyne#829). Same wording as the web app's. Button in the persona editor's Groups field that puts the persona in a group.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to Group'**
+  String get personaGroupAddTo;
+
+  /// Persona groups (tyne-chat/tyne#829). Same wording as the web app's. Last item of a list of groups: makes a new group, asking for its name.
+  ///
+  /// In en, this message translates to:
+  /// **'New Group…'**
+  String get personaGroupNewEllipsis;
+
+  /// Persona groups (tyne-chat/tyne#829). Same wording as the web app's. Item in a group's menu: starts selecting, with every persona in the group selected.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the personas in it'**
+  String get personaGroupSelectMembers;
+
+  /// Persona groups (tyne-chat/tyne#829). Phone only. Button that applies the Groups sheet's changes and closes it.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get personaGroupsDone;
+
+  /// Persona groups (tyne-chat/tyne#829). Same wording as the web app's. Spoken label of the button that opens a group's menu. name is the group's name.
+  ///
+  /// In en, this message translates to:
+  /// **'Options for {name}'**
+  String personaGroupOptions(String name);
+
+  /// Persona groups (tyne-chat/tyne#829). Phone only. Spoken label of the cross on a group's chip in the persona editor. name is the group's name.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from {name}'**
+  String personaGroupRemoveFrom(String name);
+
+  /// Persona groups (tyne-chat/tyne#829). Same wording as the web app's. Shown when making, renaming or deleting a group, or changing who is in groups, fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn’t change the groups. Try again.'**
+  String get personaGroupFailed;
 }
 
 class _ForkLocalizationsDelegate
