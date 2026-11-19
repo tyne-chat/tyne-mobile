@@ -44,6 +44,10 @@ void _seedPreviousAccountsPersonas() {
 }
 
 void main() {
+  // Signing out clears the app badge over a platform channel, which needs a
+  // binding; the binding mocks HTTP, which the fake API server needs real.
+  TestWidgetsFlutterBinding.ensureInitialized();
+  HttpOverrides.global = null;
   setUp(ChannelPersonaMentionCache.instance.clear);
   tearDown(ChannelPersonaMentionCache.instance.clear);
 
