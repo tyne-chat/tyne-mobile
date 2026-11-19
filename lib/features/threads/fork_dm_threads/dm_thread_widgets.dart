@@ -11,14 +11,17 @@ import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/domain/unread_state.dart';
+import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/channels/utils/navigation/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_header_icon_button.dart';
 import 'package:fluxer_app/features/chat/utils/channel_header_utils.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
+import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_chat_back.dart';
+import 'package:fluxer_app/features/threads/data/threads_repository.dart';
 import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_providers.dart';
 import 'package:fluxer_app/features/threads/fork_dm_threads/dm_threads.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_browser_sheet.dart';
@@ -75,7 +78,7 @@ class ForkDmThreadsHeaderButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (!watchForkDmHasThreads(ref, dmId)) {
+    if (!watchForkDmShowsThreadsButton(ref, dmId)) {
       return const SizedBox.shrink();
     }
     final Channel? parent = ref.watch(forkDmThreadParentProvider(dmId));
@@ -106,7 +109,7 @@ class ForkDmThreadsToolbarButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (!watchForkDmHasThreads(ref, dmId)) {
+    if (!watchForkDmShowsThreadsButton(ref, dmId)) {
       return const SizedBox.shrink();
     }
     final Channel? parent = ref.watch(forkDmThreadParentProvider(dmId));
@@ -383,5 +386,54 @@ class ForkDmThreadParentLine extends ConsumerWidget {
         ),
       ),
     );
+  }
+}
+
+/// Fetches the DM thread [channelId] when it is opened by id and the device
+/// does not have it (a push tap, a link, a closed or imported thread), as
+/// upstream's ThreadRouteGate does for a community's threads. It asks only
+/// once the DM list has loaded and the id is neither a DM, a stored channel
+/// nor a known DM thread, once per id, and never again on failure: one
+/// request per opening. Draws nothing.
+class ForkDmThreadRouteFetch extends ConsumerStatefulWidget {
+  const ForkDmThreadRouteFetch({required this.channelId, super.key});
+
+  final String channelId;
+
+  @override
+  ConsumerState<ForkDmThreadRouteFetch> createState() =>
+      _ForkDmThreadRouteFetchState();
+}
+
+class _ForkDmThreadRouteFetchState
+    extends ConsumerState<ForkDmThreadRouteFetch> {
+  final Set<String> _asked = <String>{};
+
+  @override
+  Widget build(BuildContext context) {
+    final String channelId = widget.channelId;
+    final bool dmsLoaded = ref.watch(
+      dmViewModelProvider.select(
+        (DmViewState state) => state.hasReceivedInitialConversations,
+      ),
+    );
+    final bool isDm = ref.watch(forkDmConversationProvider(channelId)) != null;
+    final AsyncValue<Channel?> row = ref.watch(channelByIdProvider(channelId));
+    final bool known =
+        ref.watch(forkDmThreadParentOfProvider(channelId)) != null;
+    if (dmsLoaded &&
+        !isDm &&
+        !known &&
+        row.hasValue &&
+        row.value == null &&
+        _asked.add(channelId)) {
+      unawaited(
+        ref
+            .read(threadsRepositoryProvider)
+            .fetch(guildId: forkDmThreadGuildKey, threadId: channelId)
+            .then<void>((_) {}, onError: (Object _) {}),
+      );
+    }
+    return const SizedBox.shrink();
   }
 }

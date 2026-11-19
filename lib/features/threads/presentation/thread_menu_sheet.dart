@@ -152,6 +152,8 @@ List<List<Widget>> buildThreadMenuGroups({
   final bool canDelete =
       (actor != null && canDeleteThread(actor) == null) ||
       forkDmStarterMayDelete(ref, thread);
+  // Fork: a 1:1 DM thread's members are the two people in it (tyne-chat/tyne#699).
+  final bool forkShowMembers = !watchForkIsOneToOneDmThread(ref, thread);
 
   final List<Widget> readGroup = <Widget>[
     if (includeMarkRead && hasUnread)
@@ -196,11 +198,12 @@ List<List<Widget>> buildThreadMenuGroups({
         label: l10n.threadLeave,
         onTap: () => run(() => leaveThread(hostContext, hostRef, thread)),
       ),
-    FluxerBottomSheetMenuItem(
-      icon: PhosphorIconsFill.users,
-      label: l10n.threadMembers,
-      onTap: () => run(() => showThreadMembersSheet(hostContext, thread)),
-    ),
+    if (forkShowMembers)
+      FluxerBottomSheetMenuItem(
+        icon: PhosphorIconsFill.users,
+        label: l10n.threadMembers,
+        onTap: () => run(() => showThreadMembersSheet(hostContext, thread)),
+      ),
     if (canEdit)
       FluxerBottomSheetMenuItem(
         icon: PhosphorIconsFill.gear,

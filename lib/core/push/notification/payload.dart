@@ -2,6 +2,10 @@ import 'dart:convert';
 
 import 'package:fluxer_app/core/router/route_kind.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/push/notification/fork_dm_thread_push_path.dart';
+
 const String kPushNotificationClearType = 'notification_clear';
 const String kPushNotificationClearAction = 'clear_channel';
 
@@ -84,6 +88,8 @@ Map<String, String> enrichPushPayload(Map<String, String> payload) {
       enriched['notification_tag'] = buildChannelTag(channelId);
     }
   }
+  // Fork: a DM thread's push is tagged by the thread (tyne-chat/tyne#699).
+  forkRetagDmThreadPush(enriched);
   return enriched;
 }
 
