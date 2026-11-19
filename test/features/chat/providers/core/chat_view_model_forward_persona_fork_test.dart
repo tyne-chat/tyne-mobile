@@ -89,7 +89,7 @@ class _SendRecorder extends PaginatingAdapter {
       r'/channels/([^/]+)/messages$',
     ).firstMatch(options.uri.path)?.group(1);
     if (options.method != 'POST' || channelId == null) {
-      return super.fetch(options, requestStream, cancelFuture);
+      return await super.fetch(options, requestStream, cancelFuture);
     }
     final List<int> bytes = await requestStream!.expand((b) => b).toList();
     final Map<String, dynamic> body =

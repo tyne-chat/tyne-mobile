@@ -178,5 +178,5 @@ Future<ui.Codec> _decodeWithBinding(Uint8List bytes) async {
   final ui.ImmutableBuffer buffer = await ui.ImmutableBuffer.fromUint8List(
     bytes,
   );
-  return PaintingBinding.instance.instantiateImageCodecWithSize(buffer);
+  return await PaintingBinding.instance.instantiateImageCodecWithSize(buffer);
 }

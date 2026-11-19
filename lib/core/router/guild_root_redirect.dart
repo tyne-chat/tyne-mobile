@@ -311,5 +311,5 @@ Future<String?> forkDmRootRedirectWithoutChannelList({
   if (shouldStayOnGuildChannelList(uri: uri, extra: extra)) {
     return null;
   }
-  return resolveDmRootRedirect(uri: uri, db: db);
+  return await resolveDmRootRedirect(uri: uri, db: db);
 }

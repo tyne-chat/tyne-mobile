@@ -112,7 +112,7 @@ Future<bool> forkDmThreadMessageCounts(
   if (channel == null || !forkIsDmThreadRow(channel)) {
     return false;
   }
-  return _followedForEveryMessage(database, channel.id);
+  return await _followedForEveryMessage(database, channel.id);
 }
 
 /// Whether every message in the DM thread [threadId] counts for the account,
@@ -127,7 +127,7 @@ Future<bool> forkDmThreadCountsEveryMessage(
   if (forkDmThreadParentOf(threadId) == null) {
     return false;
   }
-  return _followedForEveryMessage(database, threadId);
+  return await _followedForEveryMessage(database, threadId);
 }
 
 Future<bool> _followedForEveryMessage(
