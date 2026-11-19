@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "Të gjitha në një listë",
     "guildEmojiAllSection": "Emoji-t ({count})",
     "forwardAs": "Përcill si",
-    "forwardAsName": "Përcill si {name}"
+    "forwardAsName": "Përcill si {name}",
+    "personaGroupNew": "Grup i ri",
+    "personaGroupNameLabel": "Emri i grupit",
+    "personaGroupCreate": "Krijo grupin",
+    "personaGroupRename": "Riemërto grupin",
+    "personaGroupDelete": "Fshi grupin",
+    "personaGroupDeleteConfirm": "Të fshihet grupi \"{name}\"? Personat në të ruhen.",
+    "personaGroupNone": "Jashtë grupeve",
+    "personaGroups": "Grupet",
+    "personaGroupAddTo": "Shto në grup",
+    "personaGroupNewEllipsis": "Grup i ri…",
+    "personaGroupSelectMembers": "Përzgjidh personat në të",
+    "personaGroupsDone": "U krye",
+    "personaGroupOptions": "Opsionet për {name}",
+    "personaGroupRemoveFrom": "Hiq nga “{name}”",
+    "personaGroupFailed": "Grupet nuk u ndryshuan. Provo sërish."
 }

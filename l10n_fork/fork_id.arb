@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "Semua dalam satu daftar",
     "guildEmojiAllSection": "Emoji ({count})",
     "forwardAs": "Teruskan sebagai",
-    "forwardAsName": "Teruskan sebagai {name}"
+    "forwardAsName": "Teruskan sebagai {name}",
+    "personaGroupNew": "Grup baru",
+    "personaGroupNameLabel": "Nama grup",
+    "personaGroupCreate": "Buat grup",
+    "personaGroupRename": "Ganti nama grup",
+    "personaGroupDelete": "Hapus grup",
+    "personaGroupDeleteConfirm": "Hapus grup \"{name}\"? Persona di dalamnya tetap disimpan.",
+    "personaGroupNone": "Tidak dalam grup",
+    "personaGroups": "Grup",
+    "personaGroupAddTo": "Tambahkan ke grup",
+    "personaGroupNewEllipsis": "Grup baru…",
+    "personaGroupSelectMembers": "Pilih persona di dalamnya",
+    "personaGroupsDone": "Selesai",
+    "personaGroupOptions": "Opsi untuk {name}",
+    "personaGroupRemoveFrom": "Keluarkan dari “{name}”",
+    "personaGroupFailed": "Tidak dapat mengubah grup. Coba lagi."
 }

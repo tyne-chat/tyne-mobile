@@ -1284,4 +1284,56 @@ class ForkLocalizationsCa extends ForkLocalizations {
   String forwardAsName(String name) {
     return 'Reenvia com a $name';
   }
+
+  @override
+  String get personaGroupNew => 'Grup nou';
+
+  @override
+  String get personaGroupNameLabel => 'Nom del grup';
+
+  @override
+  String get personaGroupCreate => 'Crea el grup';
+
+  @override
+  String get personaGroupRename => 'Canvia el nom del grup';
+
+  @override
+  String get personaGroupDelete => 'Suprimeix el grup';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return 'Vols suprimir el grup «$name»? Les persones que conté es conserven.';
+  }
+
+  @override
+  String get personaGroupNone => 'Sense grup';
+
+  @override
+  String get personaGroups => 'Grups';
+
+  @override
+  String get personaGroupAddTo => 'Afegeix al grup';
+
+  @override
+  String get personaGroupNewEllipsis => 'Grup nou…';
+
+  @override
+  String get personaGroupSelectMembers => 'Selecciona les persones que conté';
+
+  @override
+  String get personaGroupsDone => 'Fet';
+
+  @override
+  String personaGroupOptions(String name) {
+    return 'Opcions de $name';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'Treu de «$name»';
+  }
+
+  @override
+  String get personaGroupFailed =>
+      'No s’han pogut canviar els grups. Torna-ho a provar.';
 }

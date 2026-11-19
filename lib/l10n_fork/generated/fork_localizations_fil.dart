@@ -1270,4 +1270,55 @@ class ForkLocalizationsFil extends ForkLocalizations {
   String forwardAsName(String name) {
     return 'I-forward bilang $name';
   }
+
+  @override
+  String get personaGroupNew => 'Bagong grupo';
+
+  @override
+  String get personaGroupNameLabel => 'Pangalan ng grupo';
+
+  @override
+  String get personaGroupCreate => 'Gumawa ng grupo';
+
+  @override
+  String get personaGroupRename => 'Palitan ang pangalan ng grupo';
+
+  @override
+  String get personaGroupDelete => 'I-delete ang grupo';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return 'I-delete ang grupong \"$name\"? Mananatili ang mga persona rito.';
+  }
+
+  @override
+  String get personaGroupNone => 'Wala sa grupo';
+
+  @override
+  String get personaGroups => 'Mga grupo';
+
+  @override
+  String get personaGroupAddTo => 'Idagdag sa grupo';
+
+  @override
+  String get personaGroupNewEllipsis => 'Bagong grupo…';
+
+  @override
+  String get personaGroupSelectMembers => 'Piliin ang mga persona rito';
+
+  @override
+  String get personaGroupsDone => 'Tapos na';
+
+  @override
+  String personaGroupOptions(String name) {
+    return 'Mga opsyon para sa $name';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'Alisin sa “$name”';
+  }
+
+  @override
+  String get personaGroupFailed => 'Hindi mabago ang mga grupo. Subukan ulit.';
 }

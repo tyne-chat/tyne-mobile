@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "Kaikki yhdessä luettelossa",
     "guildEmojiAllSection": "Emojit ({count})",
     "forwardAs": "Välitä nimellä",
-    "forwardAsName": "Välitä nimellä {name}"
+    "forwardAsName": "Välitä nimellä {name}",
+    "personaGroupNew": "Uusi ryhmä",
+    "personaGroupNameLabel": "Ryhmän nimi",
+    "personaGroupCreate": "Luo ryhmä",
+    "personaGroupRename": "Nimeä ryhmä uudelleen",
+    "personaGroupDelete": "Poista ryhmä",
+    "personaGroupDeleteConfirm": "Poistetaanko ryhmä ”{name}”? Sen persoonat säilyvät.",
+    "personaGroupNone": "Ei missään ryhmässä",
+    "personaGroups": "Ryhmät",
+    "personaGroupAddTo": "Lisää ryhmään",
+    "personaGroupNewEllipsis": "Uusi ryhmä…",
+    "personaGroupSelectMembers": "Valitse sen persoonat",
+    "personaGroupsDone": "Valmis",
+    "personaGroupOptions": "Ryhmän {name} asetukset",
+    "personaGroupRemoveFrom": "Poista ryhmästä ”{name}”",
+    "personaGroupFailed": "Ryhmiä ei voitu muuttaa. Yritä uudelleen."
 }
