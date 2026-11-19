@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "الكل في قائمة واحدة",
     "guildEmojiAllSection": "الرموز التعبيرية ({count})",
     "forwardAs": "إعادة التوجيه باسم",
-    "forwardAsName": "إعادة التوجيه باسم {name}"
+    "forwardAsName": "إعادة التوجيه باسم {name}",
+    "personaGroupNew": "مجموعة جديدة",
+    "personaGroupNameLabel": "اسم المجموعة",
+    "personaGroupCreate": "إنشاء المجموعة",
+    "personaGroupRename": "إعادة تسمية المجموعة",
+    "personaGroupDelete": "حذف المجموعة",
+    "personaGroupDeleteConfirm": "هل تريد حذف المجموعة «{name}»؟ ستبقى الشخصيات التي فيها.",
+    "personaGroupNone": "ليست في مجموعة",
+    "personaGroups": "المجموعات",
+    "personaGroupAddTo": "إضافة إلى مجموعة",
+    "personaGroupNewEllipsis": "مجموعة جديدة…",
+    "personaGroupSelectMembers": "تحديد الشخصيات التي فيها",
+    "personaGroupsDone": "تم",
+    "personaGroupOptions": "خيارات {name}",
+    "personaGroupRemoveFrom": "إزالة من “{name}”",
+    "personaGroupFailed": "تعذّر تغيير المجموعات. حاول مرة أخرى."
 }

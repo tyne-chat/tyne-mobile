@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "ทั้งหมดในรายการเดียว",
     "guildEmojiAllSection": "อิโมจิ ({count})",
     "forwardAs": "ส่งต่อในนาม",
-    "forwardAsName": "ส่งต่อในนาม {name}"
+    "forwardAsName": "ส่งต่อในนาม {name}",
+    "personaGroupNew": "กลุ่มใหม่",
+    "personaGroupNameLabel": "ชื่อกลุ่ม",
+    "personaGroupCreate": "สร้างกลุ่ม",
+    "personaGroupRename": "เปลี่ยนชื่อกลุ่ม",
+    "personaGroupDelete": "ลบกลุ่ม",
+    "personaGroupDeleteConfirm": "ลบกลุ่ม \"{name}\" ใช่ไหม Persona ในกลุ่มจะยังอยู่",
+    "personaGroupNone": "ไม่อยู่ในกลุ่มใด",
+    "personaGroups": "กลุ่ม",
+    "personaGroupAddTo": "เพิ่มเข้ากลุ่ม",
+    "personaGroupNewEllipsis": "กลุ่มใหม่…",
+    "personaGroupSelectMembers": "เลือก Persona ในกลุ่มนี้",
+    "personaGroupsDone": "เสร็จสิ้น",
+    "personaGroupOptions": "ตัวเลือกสำหรับ {name}",
+    "personaGroupRemoveFrom": "นำออกจาก “{name}”",
+    "personaGroupFailed": "เปลี่ยนกลุ่มไม่ได้ ลองอีกครั้ง"
 }

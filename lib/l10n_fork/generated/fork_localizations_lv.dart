@@ -1269,4 +1269,55 @@ class ForkLocalizationsLv extends ForkLocalizations {
   String forwardAsName(String name) {
     return 'Pārsūtīt kā $name';
   }
+
+  @override
+  String get personaGroupNew => 'Jauna grupa';
+
+  @override
+  String get personaGroupNameLabel => 'Grupas nosaukums';
+
+  @override
+  String get personaGroupCreate => 'Izveidot grupu';
+
+  @override
+  String get personaGroupRename => 'Pārdēvēt grupu';
+
+  @override
+  String get personaGroupDelete => 'Dzēst grupu';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return 'Vai dzēst grupu “$name”? Tajā esošās personas tiks saglabātas.';
+  }
+
+  @override
+  String get personaGroupNone => 'Nav grupā';
+
+  @override
+  String get personaGroups => 'Grupas';
+
+  @override
+  String get personaGroupAddTo => 'Pievienot grupai';
+
+  @override
+  String get personaGroupNewEllipsis => 'Jauna grupa…';
+
+  @override
+  String get personaGroupSelectMembers => 'Atlasīt tajā esošās personas';
+
+  @override
+  String get personaGroupsDone => 'Gatavs';
+
+  @override
+  String personaGroupOptions(String name) {
+    return '$name opcijas';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'Noņemt no “$name”';
+  }
+
+  @override
+  String get personaGroupFailed => 'Neizdevās mainīt grupas. Mēģiniet vēlreiz.';
 }

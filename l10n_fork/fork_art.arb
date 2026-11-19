@@ -330,5 +330,20 @@
     "guildEmojiGroupTogether": "ale li lon kulupu wan",
     "guildEmojiAllSection": "sitelen pilin ({count})",
     "forwardAs": "o pana sin kepeken nimi",
-    "forwardAsName": "o pana sin kepeken nimi {name}"
+    "forwardAsName": "o pana sin kepeken nimi {name}",
+    "personaGroupNew": "kulupu sin",
+    "personaGroupNameLabel": "nimi kulupu",
+    "personaGroupCreate": "o pali e kulupu",
+    "personaGroupRename": "o ante e nimi kulupu",
+    "personaGroupDelete": "o weka e kulupu",
+    "personaGroupDeleteConfirm": "sina wile ala wile weka e kulupu \"{name}\"? jan insa lon ona li awen.",
+    "personaGroupNone": "lon kulupu ala",
+    "personaGroups": "kulupu",
+    "personaGroupAddTo": "o pana tawa kulupu",
+    "personaGroupNewEllipsis": "kulupu sin…",
+    "personaGroupSelectMembers": "o wile e jan insa lon kulupu ni",
+    "personaGroupsDone": "pini",
+    "personaGroupOptions": "ken pi kulupu {name}",
+    "personaGroupRemoveFrom": "o weka tan “{name}”",
+    "personaGroupFailed": "ilo li ken ala ante e kulupu. o lukin sin."
 }

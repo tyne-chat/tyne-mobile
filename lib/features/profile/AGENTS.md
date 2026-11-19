@@ -24,6 +24,7 @@ reaches most of the app. The server side is tyne-chat/tyne `fluxer_api/src/api/p
 | The persona profile | `_buildPersonaProfile` in `presentation/widgets/user_profile_view.dart` |
 | Changing the visibility of, or deleting, many own personas at once (tyne-chat/tyne#542) | `providers/persona_bulk_actions.dart` (the settings page's select mode uses it) |
 | Own deleted personas and Restore (tyne-chat/tyne#610) | `providers/deleted_personas.dart` (the settings page's Deleted personas section uses it) |
+| Own persona groups (tyne-chat/tyne#829): model, sections and changes; the list and its requests; folds on this device; the editor's Groups field and the name dialog | `domain/persona_group.dart`, `providers/persona_groups_provider.dart`, `providers/persona_group_folds_provider.dart`, `presentation/widgets/persona_groups_field.dart`, `presentation/widgets/persona_group_name_dialog.dart` (the settings page's part is in `lib/features/settings`) |
 | An account's public personas: the "Personas (N)" pill, row and gallery (tyne-chat/tyne#189) | `providers/public_persona_list_provider.dart`, `domain/persona_gallery.dart`, `presentation/widgets/persona_gallery_entry.dart`, `presentation/sheets/persona_gallery_sheet.dart`, `presentation/sheets/persona_profile_pager.dart`, `providers/persona_gallery_view_provider.dart` |
 
 The persona settings page is in `lib/features/settings`; the composer's persona resolution, the picker
@@ -124,7 +125,7 @@ personas, kept by `MyPersonasNotifier` in `ownPersonasForSearch`) all match them
 
 ## Gateway events
 
-`handlePersonaGatewayEvent` gets seven event names from the gateway handler (they arrive as
+`handlePersonaGatewayEvent` gets eight event names from the gateway handler (they arrive as
 `UnknownGatewayEvent`s; a new name must be added there too). It clears the persona mention cache for the
 event's guild, then:
 
@@ -136,15 +137,28 @@ event's guild, then:
   holds none; it also invalidates the profiles. Every one, deletes included, also asks
   `PublicPersonaListRefresher` to drop that account's public list once the burst of copies is over.
 - `USER_PERSONA_CHANNEL_STATE_UPDATE`, `USER_PERSONA_SETTINGS_UPDATE`: apply the change.
+- `USER_PERSONA_GROUPS_UPDATE` (tyne-chat/tyne#829): the whole list of the account's groups replaces
+  the one held, with no request, and only where something already reads the groups
+  (`applyPersonaGroupsEvent`).
 - The account's own `USER_PERSONA_CREATE|UPDATE|DELETE` and `USER_PERSONAS_UPDATE`: reload the own list
   (one GET from every mobile session of the account), apply the payload's persona, rename messages.
 
 ## The editor
 
 `EditPersonaSheet` checks names, tag collisions and signature-emoji collisions locally, then PATCHes or
-POSTs **every field**: a caller that passes a partial persona wipes tags, emojis and visibility. Avatar and
+POSTs **every field** (no PATCH when only the groups changed): a caller that passes a partial persona wipes tags, emojis and visibility. Avatar and
 banner go through `POST /users/@me/personas/avatar|banner`, checked against the instance's image limit.
 The form's "Don't match this persona's tags" switch sets `auto_tag_disabled`.
+
+**Groups** (tyne-chat/tyne#829), below About Me: a chip per group the persona is in, a cross to take
+it out, and "Add to group", listing the other groups and "New group…" (which makes the group at once,
+one request). The form keeps what was added and taken out against the groups as the server has them
+(so a list that loads late still counts, and a copy follows its source's groups as they load); Save
+sends them after the persona, in one
+`PATCH …/groups/members` and only if something changes. With only the groups changed the persona is
+not sent (it would tell every community it changed), and a failure leaves the editor open; otherwise
+a failure is a toast in place of the success one, the persona being saved. A new persona's groups go the same way once it is made; a copy (Duplicate) starts in the
+groups of the persona it copies.
 
 **Duplicate** (tyne-chat/tyne#599), above Delete, is off while the form has unsaved changes. It closes the
 editor and opens `EditPersonaSheet.show(copyOf:)`: a new persona filled in from the saved one, with the
@@ -180,6 +194,14 @@ name counts the API's limit in UTF-16 code units and is cut only between whole c
   profile's card and its personas' profiles (`imported_conversation_button.dart`); kept once answered, a failure
   not asked again within a minute of the profile closing. Nothing is asked while signed out or where the
   instance has DMs off.
+- **Groups** (tyne-chat/tyne#829): one `GET /users/@me/personas/groups` when something first reads
+  them (the settings page, the editor), shared while it runs; a failure leaves no groups and is asked
+  again only at the next READY (`reloadPersonaGroupsIfLoaded`, nothing when nothing reads them), never
+  per build. The provider watches the signed-in account, so every way of changing account (switch, Add
+  Account, sign-out, a stored account taking over) drops them; signed out it asks nothing. Riverpod
+  keeps the notifier across those builds, so a counter that only grows (`_epoch`) drops the answers to
+  requests made for the previous account, and the folds check their key after reading storage. Each change is one request, never retried; the server's
+  `USER_PERSONA_GROUPS_UPDATE` replaces the list with no request.
 - **Many at once**: one `PATCH /users/@me/personas/visibility` or `POST /users/@me/personas/bulk-delete`
   per 250 personas, nothing when none would change, never retried; Undo is one more `PATCH`. The
   server's `USER_PERSONAS_UPDATE` then reloads the own list once per mobile session, as one change
@@ -211,6 +233,8 @@ display tag and pill through one more element in its name `Wrap`.
   `domain/persona_image_urls_test.dart`, `domain/persona_gallery_test.dart`,
   `providers/public_persona_list_provider_test.dart`, `presentation/widgets/persona_gallery_entry_test.dart`;
   `test/fork_support/wait_until.dart` instead of sleeps.
+- Groups: `domain/persona_group_test.dart`, `providers/persona_groups_provider_test.dart` (request
+  counts, the event, folds), `presentation/sheets/edit_persona_sheet_groups_test.dart`.
 - Request counts: `presentation/sheets/persona_profile_pager_test.dart`, `providers/persona_bulk_actions_test.dart`, `providers/deleted_personas_test.dart`, `data/persona_lookup_test.dart`, the "without naming one" group of
   `persona_gateway_events_test.dart`, and `providers/public_persona_list_provider_test.dart` (shared,
   kept, not repeated after a failure, a burst of change events).
