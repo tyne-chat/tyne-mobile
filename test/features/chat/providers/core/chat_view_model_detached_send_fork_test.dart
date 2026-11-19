@@ -18,6 +18,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/providers/guild/guild_composer_access_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 
 import '../../../../helpers/chat_view_model_pagination_test_harness.dart';
@@ -70,6 +71,10 @@ Future<_Scene> _openAtReadMark({bool scrollToBottomOnSend = false}) async {
   final GapServer server = GapServer();
   final ProviderContainer container = paginationContainer(db, server);
   addTearDown(container.dispose);
+  // The composer on screen listens to its guild access. A send only reads it,
+  // and a provider nothing listens to is paused, so its member row would
+  // never load and the send would wait for it.
+  container.listen(guildComposerAccessProvider(_channelId), (_, _) {});
   await _setScrollToBottomOnSend(container, scrollToBottomOnSend);
   final ChatViewModel notifier = container.read(chatViewModelProvider.notifier);
   await notifier.switchChannel(_channelId);
