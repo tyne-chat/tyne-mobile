@@ -90,11 +90,18 @@ class _ChannelPersonaMentionCacheEntry {
     required this.items,
     this.serverFetchedAt,
     this.guildId,
+    this.complete = false,
   });
 
   final List<Map<String, dynamic>> items;
   final DateTime? serverFetchedAt;
   final String? guildId;
+
+  /// The channel's whole list is here: the fetch without a query came back
+  /// under its limit. A query nothing matches then has nothing more to find on
+  /// the server (tyne-chat/tyne#652: a channel whose personas are all set to
+  /// nobody used to ask again at every keystroke). Lasts as long as [isFresh].
+  final bool complete;
 
   bool get isFresh =>
       serverFetchedAt != null &&
@@ -128,12 +135,16 @@ class ChannelPersonaMentionCache {
     _cache.clear();
   }
 
-  /// Every persona fetched for any channel so far, once each; message search
-  /// resolves persona names typed without picking them against these.
+  /// Every persona fetched for any channel so far and still fresh, once each;
+  /// message search resolves persona names typed without picking them against
+  /// these. An expired list may still name a persona since set to nobody.
   List<Map<String, dynamic>> get cachedItems {
     final Map<String, Map<String, dynamic>> byId =
         <String, Map<String, dynamic>>{};
     for (final _ChannelPersonaMentionCacheEntry entry in _cache.values) {
+      if (!entry.isFresh) {
+        continue;
+      }
       for (final Map<String, dynamic> item in entry.items) {
         final String? id = item['id'] as String?;
         if (id != null && id.isNotEmpty) {
@@ -149,11 +160,14 @@ class ChannelPersonaMentionCache {
     List<Map<String, dynamic>> items, {
     String? guildId,
     bool fromServer = true,
+    bool complete = false,
   }) {
     final Map<String, Map<String, dynamic>> byId =
         <String, Map<String, dynamic>>{};
     final _ChannelPersonaMentionCacheEntry? existing = _cache[channelId];
-    if (existing != null) {
+    // A whole list from the server replaces what was here: a persona since
+    // set to nobody, or deleted, must not outlive it (tyne-chat/tyne#652).
+    if (existing != null && !(fromServer && complete)) {
       for (final Map<String, dynamic> item in existing.items) {
         final String? id = item['id'] as String?;
         if (id != null && id.isNotEmpty) {
@@ -194,6 +208,7 @@ class ChannelPersonaMentionCache {
       items: byId.values.toList(),
       serverFetchedAt: fromServer ? DateTime.now() : existing?.serverFetchedAt,
       guildId: guildId ?? existing?.guildId,
+      complete: fromServer ? complete : existing?.complete ?? false,
     );
   }
 
@@ -310,7 +325,7 @@ class ChannelPersonaMentionCache {
         query,
         overrideLastUsedAtMs: overrideLastUsedAtMs,
       );
-      if (localMatches.isNotEmpty || query.isEmpty) {
+      if (localMatches.isNotEmpty || query.isEmpty || entry.complete) {
         return localMatches;
       }
     }
@@ -341,6 +356,7 @@ class ChannelPersonaMentionCache {
         items,
         guildId: guildId,
         fromServer: query.trim().isEmpty,
+        complete: query.trim().isEmpty && items.length < limit,
       );
       return filterItems(
         _cache[channelId]?.items ?? items,

@@ -169,7 +169,11 @@ froze the panel on the previous conversation.
   persona. Deleting a persona drops its pins (`MyPersonasNotifier.removePersona`).
 - **Persona mention autocomplete** asks `GET /channels/:id/persona-mentions` through
   `ChannelPersonaMentionCache` (15-minute cache per channel). Mention syncs are not debounced, so with a
-  stale cache one keystroke can send two requests; failures are not cached. Do not add callers, and
+  stale cache one keystroke can send two requests; failures are not cached. A fresh answer without a
+  query that came back under its limit is the channel's whole list (`complete`), and a query nothing
+  matches is then answered from it. Personas seen in the loaded messages only rank the list: other
+  accounts' come only from the route, which applies their mention setting, and the account's own
+  from `myPersonasProvider`, unless set to nobody (tyne-chat/tyne#652). Do not add callers, and
   count requests in a test if you change it (root `AGENTS.md`, "Network calls").
 
 ## Where the fork's code sits

@@ -1268,4 +1268,89 @@ class ForkLocalizationsJa extends ForkLocalizations {
 
   @override
   String get personaGroupFailed => 'グループを変更できませんでした。もう一度お試しください。';
+
+  @override
+  String get personaMentionableByLabel => 'メンションを許可する相手';
+
+  @override
+  String get personaMentionableByEveryone => '全員';
+
+  @override
+  String get personaMentionableBySelf => '自分のみ';
+
+  @override
+  String get personaMentionableByNobody => 'なし';
+
+  @override
+  String get personaMentionableByEveryoneDescription =>
+      '@ の入力時や検索時に、誰でもこのペルソナを見つけられます。';
+
+  @override
+  String get personaMentionableBySelfDescription =>
+      '@ の入力時や検索時に見つけられるのは自分のアカウントだけです。';
+
+  @override
+  String get personaMentionableByNobodyDescription =>
+      '@ の候補や検索フィルターに表示されません（自分にも）。発言はでき、プロフィールは公開範囲に従います。';
+
+  @override
+  String get personaMentionableByFollows => '選ぶまでは公開範囲に従います。';
+
+  @override
+  String get personaMentionableByFollowVisibility => '公開範囲に従う';
+
+  @override
+  String get personaBulkMentions => 'メンション';
+
+  @override
+  String get personaBulkMentionsEveryone => '全員にメンションを許可';
+
+  @override
+  String get personaBulkMentionsSelf => '自分だけにメンションを許可';
+
+  @override
+  String get personaBulkMentionsNobody => '誰にもメンションを許可しない';
+
+  @override
+  String personaBulkNowMentionableByEveryone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 件のペルソナを全員がメンションできるようにしました',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableBySelf(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 件のペルソナを自分だけがメンションできるようにしました',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByNobody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 件のペルソナを誰もメンションできないようにしました',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByFollowing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 件のペルソナのメンションを公開範囲に従うようにしました',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaNotMentionable => 'このペルソナはメンション候補に誰にも表示されません';
 }

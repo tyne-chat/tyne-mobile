@@ -1,10 +1,14 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import 'package:fluxer_app/features/profile/domain/persona_mention_setting.dart';
 import 'package:fluxer_app/features/profile/domain/persona_name_search.dart';
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/domain/signature_emoji.dart';
 
 export 'package:fluxer_app/features/profile/domain/signature_emoji.dart';
+
+// Tells copyWith to keep a nullable field, so it can still be set to null.
+const Object _keep = Object();
 
 class PersonaTag {
   const PersonaTag({this.prefix, this.suffix});
@@ -55,6 +59,7 @@ class Persona {
     this.useCount = 0,
     this.lastUsedAtMs,
     this.visibility = 'unlisted',
+    this.mentionableBy,
     this.externalUuid,
     this.createdAt,
     this.updatedAt,
@@ -79,12 +84,20 @@ class Persona {
   final int useCount;
   final int? lastUsedAtMs;
   final String visibility;
+
+  /// Who gets it in mention suggestions, as stored (tyne-chat/tyne#652); null
+  /// follows [visibility] (`persona_mention_setting.dart`).
+  final String? mentionableBy;
   final String? externalUuid;
   final String? createdAt;
   final String? updatedAt;
   final DateTime? deletedAt;
 
   bool get isDeleted => deletedAt != null;
+
+  /// [mentionableBy] as it applies now.
+  String get effectiveMentionable =>
+      effectiveMentionableBy(mentionableBy, visibility);
 
   factory Persona.fromJson(Map<String, dynamic> json) {
     final rawTags =
@@ -142,6 +155,7 @@ class Persona {
           0,
       lastUsedAtMs: lastUsed,
       visibility: (json['visibility'] as String?) ?? 'unlisted',
+      mentionableBy: personaMentionableByFromJson(json['mentionable_by']),
       externalUuid:
           (json['external_uuid'] as String?) ??
           (json['externalUuid'] as String?),
@@ -172,6 +186,7 @@ class Persona {
       'use_count': useCount,
       if (lastUsedAtMs != null) 'last_used_at_ms': lastUsedAtMs.toString(),
       'visibility': visibility,
+      'mentionable_by': mentionableBy,
       if (externalUuid != null) 'external_uuid': externalUuid,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
@@ -194,6 +209,7 @@ class Persona {
     int? useCount,
     int? lastUsedAtMs,
     String? visibility,
+    Object? mentionableBy = _keep,
     String? externalUuid,
     String? createdAt,
     String? updatedAt,
@@ -216,6 +232,9 @@ class Persona {
       useCount: useCount ?? this.useCount,
       lastUsedAtMs: lastUsedAtMs ?? this.lastUsedAtMs,
       visibility: visibility ?? this.visibility,
+      mentionableBy: identical(mentionableBy, _keep)
+          ? this.mentionableBy
+          : mentionableBy as String?,
       externalUuid: externalUuid ?? this.externalUuid,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
@@ -235,6 +254,7 @@ class Persona {
       avatarColor: avatarColor,
       bio: bio,
       visibility: visibility,
+      mentionableBy: mentionableBy,
       autoTagDisabled: autoTagDisabled,
       personaTags: personaTags,
       signatureEmojis: signatureEmojis,

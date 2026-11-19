@@ -2254,6 +2254,114 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'Couldn’t change the groups. Try again.'**
   String get personaGroupFailed;
+
+  /// Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Label of the persona editor setting, above Everyone / Only you / Nobody.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow mentions by'**
+  String get personaMentionableByLabel;
+
+  /// Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Option: everyone gets this persona in mention and search suggestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Everyone'**
+  String get personaMentionableByEveryone;
+
+  /// Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Option: only your own account gets it in suggestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Only you'**
+  String get personaMentionableBySelf;
+
+  /// Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Option: nobody gets it in suggestions, not even you.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody'**
+  String get personaMentionableByNobody;
+
+  /// Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Helper text under the setting when Everyone applies.
+  ///
+  /// In en, this message translates to:
+  /// **'Anyone can find this persona when typing @ or searching.'**
+  String get personaMentionableByEveryoneDescription;
+
+  /// Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Helper text under the setting when Only you applies.
+  ///
+  /// In en, this message translates to:
+  /// **'Only your account finds it when typing @ or searching.'**
+  String get personaMentionableBySelfDescription;
+
+  /// Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Helper text under the setting when Nobody applies; for copies of other people’s personas. Visibility is the setting above it.
+  ///
+  /// In en, this message translates to:
+  /// **'Left out of @ suggestions and search filters, yours too. It can still speak, and its profile follows Visibility.'**
+  String get personaMentionableByNobodyDescription;
+
+  /// Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Added to the helper text while the persona has no choice of its own: a private persona is then only for you, any other for everyone.
+  ///
+  /// In en, this message translates to:
+  /// **'Follows Visibility until you choose.'**
+  String get personaMentionableByFollows;
+
+  /// Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Button and menu item that drops the choice, so the setting follows Visibility again.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow Visibility'**
+  String get personaMentionableByFollowVisibility;
+
+  /// Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Button in the persona selection bar; opens a sheet to choose who gets the selected personas in mention and search suggestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Mentions'**
+  String get personaBulkMentions;
+
+  /// Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Choice in the selection bar’s Mentions sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow mentions by everyone'**
+  String get personaBulkMentionsEveryone;
+
+  /// Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Choice in the selection bar’s Mentions sheet: only your own account gets them in suggestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow mentions only by you'**
+  String get personaBulkMentionsSelf;
+
+  /// Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Choice in the selection bar’s Mentions sheet: nobody gets them in suggestions, you included.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow mentions by nobody'**
+  String get personaBulkMentionsNobody;
+
+  /// Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Snack bar after the change, with Undo.
+  ///
+  /// In en, this message translates to:
+  /// **'Mentions of {count, plural, one {{count} persona} other {{count} personas}} now allowed by everyone'**
+  String personaBulkNowMentionableByEveryone(int count);
+
+  /// Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Snack bar after the change, with Undo.
+  ///
+  /// In en, this message translates to:
+  /// **'Mentions of {count, plural, one {{count} persona} other {{count} personas}} now allowed only by you'**
+  String personaBulkNowMentionableBySelf(int count);
+
+  /// Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Snack bar after the change, with Undo.
+  ///
+  /// In en, this message translates to:
+  /// **'Mentions of {count, plural, one {{count} persona} other {{count} personas}} now allowed by nobody'**
+  String personaBulkNowMentionableByNobody(int count);
+
+  /// Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Snack bar after making the selection follow its visibility again, with Undo.
+  ///
+  /// In en, this message translates to:
+  /// **'Mentions of {count, plural, one {{count} persona} other {{count} personas}} now follow Visibility'**
+  String personaBulkNowMentionableByFollowing(int count);
+
+  /// Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Read out for the small struck-through @ on a persona row in settings set to Nobody.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody gets this persona in mention suggestions'**
+  String get personaNotMentionable;
 }
 
 class _ForkLocalizationsDelegate

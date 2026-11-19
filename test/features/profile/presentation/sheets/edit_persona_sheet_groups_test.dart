@@ -233,9 +233,20 @@ void main() {
     'a persona field and a group: the persona first, then the groups',
     (WidgetTester tester) async {
       await openEditor(tester);
-      final Finder name = find.widgetWithText(TextField, 'Lyra').first;
-      await tester.ensureVisible(name);
-      await tester.enterText(name, 'Lyra B');
+      // The editor opens scrolled to the groups; since the mention setting
+      // (tyne-chat/tyne#652) the name field is then out of the built list.
+      final Finder name = find.widgetWithText(TextField, 'Lyra');
+      await tester.scrollUntilVisible(
+        name,
+        -300,
+        scrollable: find
+            .descendant(
+              of: find.byType(ListView).first,
+              matching: find.byType(Scrollable),
+            )
+            .first,
+      );
+      await tester.enterText(name.first, 'Lyra B');
       await tester.pumpAndSettle();
       await tester.ensureVisible(
         find.byKey(const ValueKey<String>('persona-group-add')),
