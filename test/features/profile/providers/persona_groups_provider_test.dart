@@ -178,7 +178,7 @@ void main() {
       container.read(_readyProvider)();
       container.read(_eventProvider)(<String, Object?>{'groups': <Object?>[]});
       expect(adapter.requests, isEmpty);
-      expect(container.exists(personaGroupsProvider), isFalse);
+      expect(container.read(personaGroupsProvider.exists), isFalse);
     });
 
     test('one request, shared by every reader and every reload while it runs, '

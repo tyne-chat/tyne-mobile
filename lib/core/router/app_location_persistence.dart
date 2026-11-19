@@ -258,7 +258,7 @@ Future<String?> _resolveValidChatLocation(
         await db.dmChannelDao.getDmChannelById(channelId) != null) {
       return path;
     }
-    return resolveDmRootRedirect(
+    return await resolveDmRootRedirect(
       uri: Uri(path: RoutePaths.me),
       db: db,
     );
