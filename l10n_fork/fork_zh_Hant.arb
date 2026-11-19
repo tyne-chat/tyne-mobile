@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "全部列在一起",
     "guildEmojiAllSection": "表情符號 ({count})",
     "forwardAs": "轉傳身分",
-    "forwardAsName": "以 {name} 身分轉傳"
+    "forwardAsName": "以 {name} 身分轉傳",
+    "personaGroupNew": "新增分組",
+    "personaGroupNameLabel": "分組名稱",
+    "personaGroupCreate": "建立分組",
+    "personaGroupRename": "重新命名分組",
+    "personaGroupDelete": "刪除分組",
+    "personaGroupDeleteConfirm": "要刪除分組「{name}」嗎？其中的人格會保留。",
+    "personaGroupNone": "未分組",
+    "personaGroups": "分組",
+    "personaGroupAddTo": "新增到分組",
+    "personaGroupNewEllipsis": "新增分組…",
+    "personaGroupSelectMembers": "選取其中的人格",
+    "personaGroupsDone": "完成",
+    "personaGroupOptions": "{name} 的選項",
+    "personaGroupRemoveFrom": "從「{name}」移除",
+    "personaGroupFailed": "無法變更分組。請再試一次。"
 }

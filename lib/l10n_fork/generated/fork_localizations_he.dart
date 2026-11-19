@@ -1254,4 +1254,55 @@ class ForkLocalizationsHe extends ForkLocalizations {
   String forwardAsName(String name) {
     return 'העברה בתור $name';
   }
+
+  @override
+  String get personaGroupNew => 'קבוצה חדשה';
+
+  @override
+  String get personaGroupNameLabel => 'שם הקבוצה';
+
+  @override
+  String get personaGroupCreate => 'יצירת קבוצה';
+
+  @override
+  String get personaGroupRename => 'שינוי שם הקבוצה';
+
+  @override
+  String get personaGroupDelete => 'מחיקת הקבוצה';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return 'למחוק את הקבוצה \"$name\"? הפרסונות שבה יישמרו.';
+  }
+
+  @override
+  String get personaGroupNone => 'לא בקבוצה';
+
+  @override
+  String get personaGroups => 'קבוצות';
+
+  @override
+  String get personaGroupAddTo => 'הוספה לקבוצה';
+
+  @override
+  String get personaGroupNewEllipsis => 'קבוצה חדשה…';
+
+  @override
+  String get personaGroupSelectMembers => 'בחירת הפרסונות שבה';
+
+  @override
+  String get personaGroupsDone => 'סיום';
+
+  @override
+  String personaGroupOptions(String name) {
+    return 'אפשרויות עבור $name';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'הסרה מ־“$name”';
+  }
+
+  @override
+  String get personaGroupFailed => 'לא ניתן היה לשנות את הקבוצות. נסו שוב.';
 }

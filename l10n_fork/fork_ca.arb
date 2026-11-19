@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "Tots en una llista",
     "guildEmojiAllSection": "Emojis ({count})",
     "forwardAs": "Reenvia com a",
-    "forwardAsName": "Reenvia com a {name}"
+    "forwardAsName": "Reenvia com a {name}",
+    "personaGroupNew": "Grup nou",
+    "personaGroupNameLabel": "Nom del grup",
+    "personaGroupCreate": "Crea el grup",
+    "personaGroupRename": "Canvia el nom del grup",
+    "personaGroupDelete": "Suprimeix el grup",
+    "personaGroupDeleteConfirm": "Vols suprimir el grup «{name}»? Les persones que conté es conserven.",
+    "personaGroupNone": "Sense grup",
+    "personaGroups": "Grups",
+    "personaGroupAddTo": "Afegeix al grup",
+    "personaGroupNewEllipsis": "Grup nou…",
+    "personaGroupSelectMembers": "Selecciona les persones que conté",
+    "personaGroupsDone": "Fet",
+    "personaGroupOptions": "Opcions de {name}",
+    "personaGroupRemoveFrom": "Treu de «{name}»",
+    "personaGroupFailed": "No s’han pogut canviar els grups. Torna-ho a provar."
 }

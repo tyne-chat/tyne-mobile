@@ -5,8 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/domain/persona_group.dart';
 import 'package:fluxer_app/features/profile/domain/persona_settings.dart';
 import 'package:fluxer_app/features/profile/providers/multi_persona_reactions_provider.dart';
+import 'package:fluxer_app/features/profile/providers/persona_groups_provider.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_persona_settings.dart';
 import 'package:fluxer_app/features/settings/providers/persona_settings_launch_provider.dart';
@@ -55,6 +57,13 @@ Dio _createMockDio([_MockDioAdapter? adapter]) {
   final dio = Dio(BaseOptions(baseUrl: 'https://test.fluxer.invalid'))
     ..httpClientAdapter = adapter ?? _MockDioAdapter();
   return dio;
+}
+
+/// No persona groups, and no request for them (tyne-chat/tyne#829): these
+/// tests count every request.
+class _NoPersonaGroups extends PersonaGroupsNotifier {
+  @override
+  List<PersonaGroup> build() => const <PersonaGroup>[];
 }
 
 /// The settings page opened from the Personas gallery (tyne-chat/tyne#542).
@@ -195,6 +204,7 @@ void main() {
         systemDisplayTagProvider.overrideWith(
           () => _FakeSystemDisplayTagNotifier(initialTag),
         ),
+        personaGroupsProvider.overrideWith(_NoPersonaGroups.new),
       ],
       child: const Scaffold(body: UserPersonaSettings()),
     );
