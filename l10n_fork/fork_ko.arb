@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "모두 한 목록에",
     "guildEmojiAllSection": "이모티콘({count})",
     "forwardAs": "전달할 이름",
-    "forwardAsName": "{name}(으)로 전달"
+    "forwardAsName": "{name}(으)로 전달",
+    "personaGroupNew": "새 그룹",
+    "personaGroupNameLabel": "그룹 이름",
+    "personaGroupCreate": "그룹 만들기",
+    "personaGroupRename": "그룹 이름 바꾸기",
+    "personaGroupDelete": "그룹 삭제",
+    "personaGroupDeleteConfirm": "‘{name}’ 그룹을 삭제할까요? 그룹 안의 페르소나는 그대로 남습니다.",
+    "personaGroupNone": "그룹 없음",
+    "personaGroups": "그룹",
+    "personaGroupAddTo": "그룹에 추가",
+    "personaGroupNewEllipsis": "새 그룹…",
+    "personaGroupSelectMembers": "그룹 안의 페르소나 선택",
+    "personaGroupsDone": "완료",
+    "personaGroupOptions": "{name} 옵션",
+    "personaGroupRemoveFrom": "'{name}'에서 제거",
+    "personaGroupFailed": "그룹을 변경하지 못했습니다. 다시 시도해 주세요."
 }

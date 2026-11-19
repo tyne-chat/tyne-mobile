@@ -1256,4 +1256,55 @@ class ForkLocalizationsHi extends ForkLocalizations {
   String forwardAsName(String name) {
     return '$name के रूप में फ़ॉरवर्ड करें';
   }
+
+  @override
+  String get personaGroupNew => 'नया ग्रुप';
+
+  @override
+  String get personaGroupNameLabel => 'ग्रुप का नाम';
+
+  @override
+  String get personaGroupCreate => 'ग्रुप बनाएँ';
+
+  @override
+  String get personaGroupRename => 'ग्रुप का नाम बदलें';
+
+  @override
+  String get personaGroupDelete => 'ग्रुप मिटाएँ';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return '\"$name\" ग्रुप मिटाएँ? इसमें मौजूद परसोना बने रहेंगे।';
+  }
+
+  @override
+  String get personaGroupNone => 'किसी ग्रुप में नहीं';
+
+  @override
+  String get personaGroups => 'ग्रुप';
+
+  @override
+  String get personaGroupAddTo => 'ग्रुप में जोड़ें';
+
+  @override
+  String get personaGroupNewEllipsis => 'नया ग्रुप…';
+
+  @override
+  String get personaGroupSelectMembers => 'इसमें मौजूद परसोना चुनें';
+
+  @override
+  String get personaGroupsDone => 'हो गया';
+
+  @override
+  String personaGroupOptions(String name) {
+    return '$name के विकल्प';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return '“$name” से हटाएँ';
+  }
+
+  @override
+  String get personaGroupFailed => 'ग्रुप नहीं बदले जा सके। फिर से कोशिश करें।';
 }

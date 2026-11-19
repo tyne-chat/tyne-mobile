@@ -1260,4 +1260,55 @@ class ForkLocalizationsSq extends ForkLocalizations {
   String forwardAsName(String name) {
     return 'Përcill si $name';
   }
+
+  @override
+  String get personaGroupNew => 'Grup i ri';
+
+  @override
+  String get personaGroupNameLabel => 'Emri i grupit';
+
+  @override
+  String get personaGroupCreate => 'Krijo grupin';
+
+  @override
+  String get personaGroupRename => 'Riemërto grupin';
+
+  @override
+  String get personaGroupDelete => 'Fshi grupin';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return 'Të fshihet grupi \"$name\"? Personat në të ruhen.';
+  }
+
+  @override
+  String get personaGroupNone => 'Jashtë grupeve';
+
+  @override
+  String get personaGroups => 'Grupet';
+
+  @override
+  String get personaGroupAddTo => 'Shto në grup';
+
+  @override
+  String get personaGroupNewEllipsis => 'Grup i ri…';
+
+  @override
+  String get personaGroupSelectMembers => 'Përzgjidh personat në të';
+
+  @override
+  String get personaGroupsDone => 'U krye';
+
+  @override
+  String personaGroupOptions(String name) {
+    return 'Opsionet për $name';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'Hiq nga “$name”';
+  }
+
+  @override
+  String get personaGroupFailed => 'Grupet nuk u ndryshuan. Provo sërish.';
 }

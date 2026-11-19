@@ -1282,4 +1282,56 @@ class ForkLocalizationsCs extends ForkLocalizations {
   String forwardAsName(String name) {
     return 'Přeposlat jako $name';
   }
+
+  @override
+  String get personaGroupNew => 'Nová skupina';
+
+  @override
+  String get personaGroupNameLabel => 'Název skupiny';
+
+  @override
+  String get personaGroupCreate => 'Vytvořit skupinu';
+
+  @override
+  String get personaGroupRename => 'Přejmenovat skupinu';
+
+  @override
+  String get personaGroupDelete => 'Smazat skupinu';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return 'Smazat skupinu „$name“? Persony v ní zůstanou.';
+  }
+
+  @override
+  String get personaGroupNone => 'Mimo skupiny';
+
+  @override
+  String get personaGroups => 'Skupiny';
+
+  @override
+  String get personaGroupAddTo => 'Přidat do skupiny';
+
+  @override
+  String get personaGroupNewEllipsis => 'Nová skupina…';
+
+  @override
+  String get personaGroupSelectMembers => 'Vybrat persony v ní';
+
+  @override
+  String get personaGroupsDone => 'Hotovo';
+
+  @override
+  String personaGroupOptions(String name) {
+    return 'Možnosti skupiny $name';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'Odebrat z „$name“';
+  }
+
+  @override
+  String get personaGroupFailed =>
+      'Skupiny se nepodařilo změnit. Zkuste to znovu.';
 }

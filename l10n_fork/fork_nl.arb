@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "Alles in één lijst",
     "guildEmojiAllSection": "Emoji ({count})",
     "forwardAs": "Doorsturen als",
-    "forwardAsName": "Doorsturen als {name}"
+    "forwardAsName": "Doorsturen als {name}",
+    "personaGroupNew": "Nieuwe groep",
+    "personaGroupNameLabel": "Groepsnaam",
+    "personaGroupCreate": "Groep maken",
+    "personaGroupRename": "Groep hernoemen",
+    "personaGroupDelete": "Groep verwijderen",
+    "personaGroupDeleteConfirm": "De groep ‘{name}’ verwijderen? De persona's erin blijven bewaard.",
+    "personaGroupNone": "Niet in een groep",
+    "personaGroups": "Groepen",
+    "personaGroupAddTo": "Toevoegen aan groep",
+    "personaGroupNewEllipsis": "Nieuwe groep…",
+    "personaGroupSelectMembers": "De persona's erin selecteren",
+    "personaGroupsDone": "Klaar",
+    "personaGroupOptions": "Opties voor {name}",
+    "personaGroupRemoveFrom": "Verwijderen uit ‘{name}’",
+    "personaGroupFailed": "De groepen konden niet worden gewijzigd. Probeer het opnieuw."
 }

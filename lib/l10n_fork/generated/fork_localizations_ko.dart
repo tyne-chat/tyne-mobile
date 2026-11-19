@@ -1215,4 +1215,55 @@ class ForkLocalizationsKo extends ForkLocalizations {
   String forwardAsName(String name) {
     return '$name(으)로 전달';
   }
+
+  @override
+  String get personaGroupNew => '새 그룹';
+
+  @override
+  String get personaGroupNameLabel => '그룹 이름';
+
+  @override
+  String get personaGroupCreate => '그룹 만들기';
+
+  @override
+  String get personaGroupRename => '그룹 이름 바꾸기';
+
+  @override
+  String get personaGroupDelete => '그룹 삭제';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return '‘$name’ 그룹을 삭제할까요? 그룹 안의 페르소나는 그대로 남습니다.';
+  }
+
+  @override
+  String get personaGroupNone => '그룹 없음';
+
+  @override
+  String get personaGroups => '그룹';
+
+  @override
+  String get personaGroupAddTo => '그룹에 추가';
+
+  @override
+  String get personaGroupNewEllipsis => '새 그룹…';
+
+  @override
+  String get personaGroupSelectMembers => '그룹 안의 페르소나 선택';
+
+  @override
+  String get personaGroupsDone => '완료';
+
+  @override
+  String personaGroupOptions(String name) {
+    return '$name 옵션';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return '\'$name\'에서 제거';
+  }
+
+  @override
+  String get personaGroupFailed => '그룹을 변경하지 못했습니다. 다시 시도해 주세요.';
 }

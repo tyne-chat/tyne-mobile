@@ -1285,4 +1285,56 @@ class ForkLocalizationsBe extends ForkLocalizations {
   String forwardAsName(String name) {
     return 'Пераслаць як $name';
   }
+
+  @override
+  String get personaGroupNew => 'Новая група';
+
+  @override
+  String get personaGroupNameLabel => 'Назва групы';
+
+  @override
+  String get personaGroupCreate => 'Стварыць групу';
+
+  @override
+  String get personaGroupRename => 'Перайменаваць групу';
+
+  @override
+  String get personaGroupDelete => 'Выдаліць групу';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return 'Выдаліць групу «$name»? Персоны ў ёй застануцца.';
+  }
+
+  @override
+  String get personaGroupNone => 'Па-за групамі';
+
+  @override
+  String get personaGroups => 'Групы';
+
+  @override
+  String get personaGroupAddTo => 'Дадаць у групу';
+
+  @override
+  String get personaGroupNewEllipsis => 'Новая група…';
+
+  @override
+  String get personaGroupSelectMembers => 'Выбраць персоны ў ёй';
+
+  @override
+  String get personaGroupsDone => 'Гатова';
+
+  @override
+  String personaGroupOptions(String name) {
+    return 'Параметры групы $name';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'Выдаліць з «$name»';
+  }
+
+  @override
+  String get personaGroupFailed =>
+      'Не ўдалося змяніць групы. Паспрабуйце яшчэ раз.';
 }
