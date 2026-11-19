@@ -145,7 +145,7 @@ jobs:
           # The version upstream's CI pins (dart-analyze.yml on canary). Unpinned, a new stable release
           # fails the fork's analysis gate overnight (3.50.0 on 2026-11-11, tyne-chat/tyne#607): move it
           # when upstream does.
-          flutter-version: 3.47.9
+          flutter-version: 3.50.0
           cache: true
 
       - name: Set up Rust (Native Markdown Parser)
