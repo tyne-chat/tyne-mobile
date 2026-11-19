@@ -178,10 +178,7 @@ its media service from any engine (tyne-chat/tyne#210).
   they were loaded; a clock restarts at frame 1 when no emoji with its loop length is on screen. The
   app binding (`core/zoom/fluxer_app_zoom.dart`) installs `ForkSyncedEmojiImageCache`, which
   recognises those images by URL whichever upstream widget draws them
-  (`core/media/fork_synced_emoji_*.dart`). Before decoding, it marks the opaque first frame of a GIF
-  transparent at an unused colour, which Flutter before 3.50 needs to decode the later frames
-  (`core/media/fork_gif_first_frame_alpha.dart`, tyne-chat/tyne#615; delete it once every build
-  uses Flutter 3.50 or later).
+  (`core/media/fork_synced_emoji_*.dart`).
 - **Members after a reconnect** (tyne-chat/tyne#614): cached members a READY kept count as unconfirmed
   until the server writes them again, and are then refreshed by embedded members and one op 8 request
   per connection, as the web does (`core/gateway/fork_member_confirmation.dart`, guide in
