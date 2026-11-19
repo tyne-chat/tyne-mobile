@@ -239,4 +239,53 @@ void main() {
     expect(s.gateway.requests, hasLength(1));
     expect(s.rest.requestCount, 0);
   });
+
+  test('one gateway request at a time across guilds, none lost to the '
+      "gateway's one waiting slot", () async {
+    final _Setup s = _Setup();
+    final List<String> guilds = <String>['g1', 'g2', 'g3', 'g4'];
+    for (final String guildId in guilds) {
+      await s.database.memberDao.upsertMember(
+        MembersCompanion.insert(
+          userId: 'u-$guildId',
+          guildId: guildId,
+          nick: const Value('old'),
+        ),
+      );
+    }
+    s.confirmation.startConnection(cacheKept: true, guildIds: guilds);
+    final List<ForkRecordedRequest> open = <ForkRecordedRequest>[];
+    int mostOpen = 0;
+    s.gateway.onRequest = (ForkRecordedRequest request) async {
+      open.add(request);
+      if (open.length > mostOpen) {
+        mostOpen = open.length;
+      }
+    };
+    Future<void> answerFirst() async {
+      await pumpEventQueue();
+      final ForkRecordedRequest request = open.removeAt(0);
+      s.waiter.notifyChunk(
+        nonce: request.nonce,
+        chunkCount: 1,
+        userIds: request.userIds,
+      );
+    }
+
+    final Future<void> all = Future.wait(<Future<void>>[
+      for (final String guildId in guilds)
+        s.service.hydrateMembers(
+          guildId: guildId,
+          userIds: <String>['u-$guildId'],
+        ),
+    ]);
+    for (int i = 0; i < guilds.length; i++) {
+      await answerFirst();
+    }
+    await all;
+
+    expect(s.gateway.requests, hasLength(4));
+    expect(mostOpen, 1);
+    expect(s.rest.requestCount, 0);
+  });
 }

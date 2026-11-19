@@ -78,18 +78,26 @@ the persona and signal-bar events.
   `members` rows, and upstream never overwrites one, so a nickname or role change missed while the app was
   away stayed old. `fork_member_confirmation.dart` marks, per connection, which cached members the server
   has written since READY, as the web marks restored members (`GuildMembers.ts`). Every READY starts the
-  record over; after one that kept the cache, every cached member of its guilds (unavailable ones
-  included) is unconfirmed until READY's members, an event, a chunk, a profile or REST writes it. Then:
+  record over, and so does an account change (`resetPersonaStateForAccountChange`); after a READY that
+  kept the cache, every cached member of its guilds is unconfirmed until READY's members, an event, a
+  chunk, a profile or REST writes it. Then:
   - an embedded member (message, reaction, typing, voice) overwrites an unconfirmed row
     (`_hydrateMemberIfMissing`);
   - a shown unconfirmed member is asked for once more through op 8 (`GuildMemberHydrationService`,
     `guildUserDisplayProvider`, which also re-checks on the full-recovery bump and when its guild comes
     back), never through the per-user REST fallback, at most once per connection; one the reply leaves out
     left while the app was away, and its row is deleted;
-  - the service forgets its non-members on every READY.
+  - op 8 requests go one at a time for the whole app: the gateway runs one per socket and keeps one
+    waiting, and a third replaces the waiting one, which then gets no answer;
+  - a guild READY lists as unavailable is not asked for until its GUILD_CREATE is stored; a GUILD_CREATE
+    or GUILD_SYNC of an available guild (sent whenever a guild is opened) confirms the members it
+    carries and gives nobody a second request; GUILD_DELETE forgets the guild;
+  - the service forgets its non-members on every READY, and a community profile stores the member it
+    brings (`fork_profile_member.dart`), or deletes the row of someone no longer in the guild.
   Confirming is a line where server members are written: READY, `_handleMemberUpsert`, GUILD_CREATE,
-  `upsertGuildMembersFromSdk` (chunks, REST, the member list's repository), `MemberListDriftSync`. A new
-  path that writes members from the server needs it too; a local partial write must not.
+  `upsertGuildMembersFromSdk` (chunks, REST, the member list's repository, profiles),
+  `MemberListDriftSync`. A new path that writes members from the server needs it too; a local partial
+  write must not.
 - **Known personas:** message create, update and saved-message events upsert the personas a message names
   into Drift (`upsertKnownPersonasFromSdk`), so mention chips need no request.
 - **Persona and signal-bar events** arrive as `UnknownGatewayEvent`s and are routed by name in that case:

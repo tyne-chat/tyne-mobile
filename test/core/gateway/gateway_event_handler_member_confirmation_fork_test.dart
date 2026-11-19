@@ -9,6 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/gateway/fork_member_confirmation.dart';
 import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
+import 'package:fluxer_dart/export.dart' show GuildMemberResponse;
 import 'package:fluxer_dart/gateway.dart';
 import 'package:fluxer_dart/gateway_client/event_parser.dart';
 
@@ -227,12 +228,76 @@ void main() {
       expect(confirmation.claimRequests('g', <String>['a', 'b']), isEmpty);
       expect(confirmation.isUnconfirmed('g', 'a'), isTrue);
 
-      confirmation.guildAvailable('g');
-      expect(confirmation.claimRequests('g', <String>['a']), <String>['a']);
+      // A GUILD_CREATE or GUILD_SYNC of an available guild (it comes whenever
+      // the guild is opened) gives nobody a second request.
+      forkGuildCreateStored(
+        database,
+        'g',
+        const <GuildMemberResponse>[],
+        current: true,
+      );
+      expect(confirmation.claimRequests('g', <String>['a']), isEmpty);
 
       confirmation.startConnection(cacheKept: true, guildIds: <String>['g']);
       expect(confirmation.claimRequests('g', <String>['a']), <String>['a']);
     });
+
+    test('a guild READY listed as unavailable is asked for only once its '
+        'GUILD_CREATE is stored', () {
+      final ForkMemberConfirmation confirmation = ForkMemberConfirmation.of(
+        database,
+      );
+      forkStartMemberConfirmation(
+        database,
+        fullWipe: false,
+        rawGuilds: <Map<String, dynamic>>[
+          <String, dynamic>{'id': 'g', 'unavailable': true},
+          <String, dynamic>{
+            'id': 'hidden',
+            'unavailable': true,
+            'unavailable_hidden': true,
+          },
+        ],
+      );
+      expect(confirmation.isUnconfirmed('g', 'a'), isTrue);
+      expect(confirmation.needsRequest('g', 'a'), isFalse);
+      expect(confirmation.needsRequest('hidden', 'a'), isFalse);
+
+      // A GUILD_DELETE won the race: still unavailable.
+      forkGuildCreateStored(
+        database,
+        'g',
+        const <GuildMemberResponse>[],
+        current: false,
+      );
+      expect(confirmation.needsRequest('g', 'a'), isFalse);
+
+      forkGuildCreateStored(
+        database,
+        'g',
+        const <GuildMemberResponse>[],
+        current: true,
+      );
+      expect(confirmation.needsRequest('g', 'a'), isTrue);
+    });
+
+    test(
+      'GUILD_DELETE forgets the guild, and an account change everything',
+      () {
+        final ForkMemberConfirmation confirmation = ForkMemberConfirmation.of(
+          database,
+        )..startConnection(cacheKept: true, guildIds: <String>['g', 'h']);
+        final int ready = confirmation.readyCount;
+
+        confirmation.forgetGuild('g');
+        expect(confirmation.isUnconfirmed('g', 'a'), isFalse);
+        expect(confirmation.isUnconfirmed('h', 'a'), isTrue);
+
+        confirmation.reset();
+        expect(confirmation.isUnconfirmed('h', 'a'), isFalse);
+        expect(confirmation.readyCount, ready + 1);
+      },
+    );
 
     test('confirmed and full-READY members are not asked for', () {
       final ForkMemberConfirmation confirmation =
