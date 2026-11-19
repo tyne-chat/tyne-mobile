@@ -165,7 +165,7 @@ void main() {
         required int run,
       }) async {
         await Future<void>.delayed(slowness);
-        return server.fetch(
+        return await server.fetch(
           template: template,
           input: input,
           counterNames: counterNames,

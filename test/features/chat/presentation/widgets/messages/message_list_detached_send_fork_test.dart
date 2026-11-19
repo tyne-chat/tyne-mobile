@@ -8,7 +8,6 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
@@ -21,6 +20,7 @@ import 'package:fluxer_app/features/channels/providers/ack_batcher_provider.dart
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/shared/services/guild_member_hydration_service.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../../helpers/fork_message_gap_harness.dart';

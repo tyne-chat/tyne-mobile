@@ -17,7 +17,7 @@ class EmojiPinsNotifier extends AsyncNotifier<EmojiPins> {
     if (userId == null) {
       return EmojiPins.empty;
     }
-    return ref
+    return await ref
         .read(fluxerDatabaseProvider)
         .userPreferencesDao
         .getEmojiPins(userId);
