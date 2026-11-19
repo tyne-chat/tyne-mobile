@@ -10,14 +10,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/permissions/thread_permissions.dart';
+import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
+import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
+import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/threads/domain/thread_channel.dart';
 import 'package:fluxer_app/features/threads/fork_dm_threads/dm_threads.dart';
 import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
@@ -77,15 +80,47 @@ ThreadActor? forkDmThreadActorFor({
   );
 }
 
-/// The account in the threads of a DM, by the DM's id.
+/// Whether a thread could be written in [dm] at all: not a system DM, not a
+/// conversation with a Discord import placeholder, not with someone blocked,
+/// and not while the instance has DMs turned off. The composer refuses the
+/// same (tyne-chat/tyne#699).
+bool forkDmWritable(
+  DmConversation dm, {
+  required Set<String> blockedUserIds,
+  required bool directMessagesDisabled,
+}) {
+  if (isSystemDmConversation(dm) || dm.forkImportedRecipient) {
+    return false;
+  }
+  if (directMessagesDisabled && !dm.isPersonalNotes) {
+    return false;
+  }
+  return dm.isGroup || !blockedUserIds.contains(dm.recipientId);
+}
+
+/// The account in the threads of a DM, by the DM's id. It may start one only
+/// with READY's switch on, in a DM it can write in.
 final ProviderFamily<ThreadActor?, String> forkDmParentThreadActorProvider =
-    Provider.autoDispose.family<ThreadActor?, String>(
-      (Ref ref, String dmId) => forkDmThreadActorFor(
-        dm: ref.watch(forkDmConversationProvider(dmId)),
+    Provider.autoDispose.family<ThreadActor?, String>((Ref ref, String dmId) {
+      final DmConversation? dm = ref.watch(forkDmConversationProvider(dmId));
+      return forkDmThreadActorFor(
+        dm: dm,
         currentUserId: ref.watch(currentUserIdProvider),
-        canStart: ref.watch(forkDmThreadsEnabledProvider),
-      ),
-    );
+        canStart:
+            ref.watch(forkDmThreadsEnabledProvider) &&
+            dm != null &&
+            forkDmWritable(
+              dm,
+              blockedUserIds: ref.watch(blockedUserIdsProvider),
+              directMessagesDisabled: ref.watch(
+                instanceRuntimeConfigProvider.select(
+                  (InstanceRuntimeConfig config) =>
+                      config.directMessagesDisabled,
+                ),
+              ),
+            ),
+      );
+    });
 
 /// The account in one DM thread. In a 1:1 DM either person may rename and
 /// close a thread, which upstream's rules give its starter, so both count as
@@ -152,6 +187,20 @@ bool forkDmStarterMayDelete(WidgetRef ref, Channel thread) {
     dm: ref.watch(forkDmConversationProvider(parentId)),
     currentUserId: ref.watch(currentUserIdProvider),
   );
+}
+
+/// When the DM thread [channelId] on screen is deleted, leaves it for its DM
+/// rather than for the DM list, as Back does. True when it did.
+bool forkLeaveDeletedDmThread(ProviderContainer container, String channelId) {
+  final String? path = forkDmThreadLeavePath(channelId);
+  final String location = container
+      .read(routeStateProvider)
+      .effectiveShellLocation;
+  if (path == null || extractChannelId(location) != channelId) {
+    return false;
+  }
+  container.read(fluxerRouterProvider).go(path);
+  return true;
 }
 
 /// Whether [thread] is in a 1:1 DM (not a group DM), watched.
@@ -246,6 +295,13 @@ ForkThreadsUnread watchForkDmThreadsUnread(WidgetRef ref, String dmId) =>
 bool watchForkDmHasThreads(WidgetRef ref, String dmId) =>
     ref.watch(forkDmHasKnownThreadsProvider(dmId));
 
+/// Whether the DM [dmId]'s header shows its Threads button: a thread is known
+/// in it, or the account may start threads at all. Closed, unfollowed and
+/// imported threads are not known until the browser fetches them, so the
+/// button cannot wait for one (tyne-chat/tyne#699).
+bool watchForkDmShowsThreadsButton(WidgetRef ref, String dmId) =>
+    watchForkDmHasThreads(ref, dmId) || ref.watch(forkDmThreadsEnabledProvider);
+
 /// The unread state of one thread, for its chip and its browser row.
 UnreadState? watchForkThreadUnread(WidgetRef ref, String threadId) =>
     ref.watch(channelUnreadProvider(threadId)).value;
@@ -261,15 +317,32 @@ DmConversation? watchForkDmThreadParent(WidgetRef ref, String threadId) {
 }
 
 /// The guild key of the thread started from message [messageId] (the
-/// thread has the message's id) when it is a known thread of the DM
-/// [channelId], otherwise null.
+/// thread has the message's id) in the DM [channelId], otherwise null: a
+/// known thread of the DM, or one the message says it has ([threadJson]),
+/// which the device may not know (closed, not followed, imported).
 String? watchForkDmThreadGuildKey(
   WidgetRef ref, {
   required String channelId,
   required String messageId,
-}) => ref.watch(forkDmThreadParentOfProvider(messageId)) == channelId
-    ? forkDmThreadGuildKey
-    : null;
+  String? threadJson,
+}) {
+  if (ref.watch(forkDmThreadParentOfProvider(messageId)) == channelId) {
+    return forkDmThreadGuildKey;
+  }
+  if (threadJson != null &&
+      threadJson.isNotEmpty &&
+      ref.watch(forkDmConversationProvider(channelId)) != null) {
+    return forkDmThreadGuildKey;
+  }
+  return null;
+}
+
+/// The DM threads' key when [channelId] is a DM that can have threads, for
+/// code that opens a thread by id from a DM; null otherwise. Reads once.
+String? forkDmThreadKeyForChannel(WidgetRef ref, String channelId) =>
+    ref.read(forkDmThreadParentProvider(channelId)) == null
+    ? null
+    : forkDmThreadGuildKey;
 
 /// Whether the chat on screen is a DM thread, which Back always leaves for
 /// its DM (upstream does that for a thread only when it was opened from its

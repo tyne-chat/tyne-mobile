@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart'
     show isThreadChannelType;
+import 'package:fluxer_app/features/threads/domain/thread_channel.dart';
 import 'package:fluxer_app/features/threads/fork_dm_threads/dm_threads.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
@@ -43,6 +44,7 @@ const Set<String> _channelEvents = <String>{
   'MESSAGE_ACK',
   'TYPING_START',
   'CHANNEL_PINS_UPDATE',
+  'CHANNEL_PINS_ACK',
 };
 
 /// The upstream event a DM thread envelope carries, parsed so that
@@ -98,9 +100,11 @@ Future<void> forkHandleDmThreadEvent(
 }
 
 /// Whether a message just created in [channel] counts towards its unread
-/// count. Every message in a DM thread does for the members who follow it
-/// and have not muted it, as every DM message does (the server counts them
-/// the same way); the message itself is not marked as a mention.
+/// count. Every message in a DM thread does for the members who follow it,
+/// have not muted it and have not turned its messages down to mentions or
+/// nothing, as every DM message does (the server's
+/// `dmThreadNotifiedMemberIds` counts them the same way); the message itself
+/// is not marked as a mention.
 Future<bool> forkDmThreadMessageCounts(
   db.FluxerDatabase database,
   db.Channel? channel,
@@ -108,10 +112,89 @@ Future<bool> forkDmThreadMessageCounts(
   if (channel == null || !forkIsDmThreadRow(channel)) {
     return false;
   }
-  final db.ThreadMember? member = await database.threadDao.getMember(
-    channel.id,
+  return _followedForEveryMessage(database, channel.id);
+}
+
+/// Whether every message in the DM thread [threadId] counts for the account,
+/// as every DM message does: it follows the thread, has not muted it, and has
+/// not turned its messages down to mentions or nothing. False for any other
+/// channel. Read when a message arrives and when unread counts are worked out
+/// again after a delete.
+Future<bool> forkDmThreadCountsEveryMessage(
+  db.FluxerDatabase database,
+  String threadId,
+) async {
+  if (forkDmThreadParentOf(threadId) == null) {
+    return false;
+  }
+  return _followedForEveryMessage(database, threadId);
+}
+
+Future<bool> _followedForEveryMessage(
+  db.FluxerDatabase database,
+  String threadId,
+) async {
+  final db.ThreadMember? member = await database.threadDao.getMember(threadId);
+  if (member == null || isThreadMemberMuted(member, DateTime.now())) {
+    return false;
+  }
+  final ThreadNotificationSetting setting = threadNotificationSettingOf(
+    member.flags,
   );
-  return member != null && !isThreadMemberMuted(member, DateTime.now());
+  return setting != ThreadNotificationSetting.onlyMentions &&
+      setting != ThreadNotificationSetting.none;
+}
+
+/// Whether the DM the DM thread [channelId] belongs to is muted, so that a
+/// message in the thread neither sounds nor shows a banner, as in its DM.
+/// False for any other channel (tyne-chat/tyne#699).
+Future<bool> forkDmThreadParentMuted(
+  db.FluxerDatabase database,
+  String channelId,
+  DateTime now,
+) async {
+  final String? dmId = forkDmThreadParentOf(channelId);
+  if (dmId == null) {
+    return false;
+  }
+  final db.UserGuildSettingsTableData? row = await database.userGuildSettingsDao
+      .getByGuildId('@me');
+  final UserGuildSettingsResponse? settings = row == null
+      ? null
+      : decodeUserGuildSettings(row.data);
+  return isChannelOverrideMuted(settings?.channelOverrides?[dmId], now: now);
+}
+
+/// Deletes the stored threads of the DMs [dmIds], which are gone (closed
+/// while the app was away), and forgets them. Returns their ids.
+Future<List<String>> forkDeleteDmThreadsOf(
+  db.FluxerDatabase database,
+  Iterable<String> dmIds,
+) async {
+  final List<String> removed = <String>[];
+  for (final String dmId in dmIds) {
+    for (final String threadId
+        in await database.threadDao.deleteThreadsForParent(dmId)) {
+      forkForgetDmThread(threadId);
+      removed.add(threadId);
+    }
+  }
+  return removed;
+}
+
+/// The account left the group DM [dmId]: its threads go with it, and a
+/// thread on screen is left as a deleted channel is.
+Future<void> forkLeaveDmThreads(
+  GatewayEventHandler handler,
+  String dmId,
+) async {
+  for (final String threadId in await forkDeleteDmThreadsOf(
+    handler.database,
+    <String>[dmId],
+  )) {
+    handler.readStateWriteBatcher?.discard(threadId);
+    handler.onChannelDelete?.call(threadId);
+  }
 }
 
 /// READY's `fork_dm_threads`: the active DM threads the account follows,

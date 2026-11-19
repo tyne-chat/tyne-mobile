@@ -62,7 +62,9 @@ AndroidNotificationReplyTarget? androidNotificationReplyTarget(
     return null;
   }
   final String? userId = _nonEmpty(payload['target_user_id']);
-  final String? channelId = _nonEmpty(payload['channel_id']);
+  // Fork: to the DM thread, as in sendPushNotificationReply (tyne-chat/tyne#699).
+  final String? channelId =
+      _nonEmpty(payload['fork_thread_id']) ?? _nonEmpty(payload['channel_id']);
   final String? messageId = _nonEmpty(payload['message_id']);
   if (userId == null || channelId == null || messageId == null) {
     return null;

@@ -11,6 +11,10 @@ import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
 import 'package:fluxer_dart/export.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_gateway.dart';
+
 const int readStateFlagIsThread = 1 << 1;
 
 class ReadStateRepository {
@@ -458,6 +462,9 @@ class ReadStateRepository {
     if (isDm && await _isDmMuted(channelId)) {
       return 0;
     }
+    // Fork: a followed DM thread counts every message, as the gateway does (tyne-chat/tyne#699).
+    final bool forkEveryMessage =
+        !isDm && await forkDmThreadCountsEveryMessage(_db, channelId);
     final blockedUserIds = await _db.relationshipDao.getBlockedUserIds();
     final messages = await _db.messageDao.getMessages(channelId, limit: 1000);
     var mentionCount = 0;
@@ -468,7 +475,7 @@ class ReadStateRepository {
       if (blockedUserIds.contains(message.authorId)) {
         continue;
       }
-      if (isDm) {
+      if (isDm || forkEveryMessage) {
         if (currentUserId == null || message.authorId != currentUserId) {
           mentionCount++;
         }

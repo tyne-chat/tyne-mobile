@@ -9,6 +9,10 @@ import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_threads.dart';
+
 part 'threads_repository.g.dart';
 
 class ThreadsRepository {
@@ -55,9 +59,11 @@ class ThreadsRepository {
     final ChannelResponse thread = await _client.channels.getChannel(
       channelId: threadId,
     );
-    if (thread.guildId == guildId &&
+    // Fork: a DM thread has no guild; it is stored under '' (tyne-chat/tyne#699).
+    if ((thread.guildId ?? forkDmThreadGuildKey) == guildId &&
         isThreadChannelType(thread.type.json ?? -1)) {
       await _store(thread, guildId);
+      forkNoteFetchedDmThread(thread, guildId);
     }
     return thread;
   }
