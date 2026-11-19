@@ -1334,4 +1334,99 @@ class ForkLocalizationsRo extends ForkLocalizations {
   @override
   String get personaGroupFailed =>
       'Nu s-au putut modifica grupurile. Încearcă din nou.';
+
+  @override
+  String get personaMentionableByLabel => 'Permite mențiuni de la';
+
+  @override
+  String get personaMentionableByEveryone => 'Toată lumea';
+
+  @override
+  String get personaMentionableBySelf => 'Doar tu';
+
+  @override
+  String get personaMentionableByNobody => 'Nimeni';
+
+  @override
+  String get personaMentionableByEveryoneDescription =>
+      'Oricine găsește această persona când tastează @ sau caută.';
+
+  @override
+  String get personaMentionableBySelfDescription =>
+      'Doar contul tău o găsește când tastezi @ sau cauți.';
+
+  @override
+  String get personaMentionableByNobodyDescription =>
+      'Exclusă din sugestiile @ și din filtrele de căutare, inclusiv ale tale. Poate vorbi în continuare, iar profilul ei urmează Vizibilitatea.';
+
+  @override
+  String get personaMentionableByFollows => 'Urmează Vizibilitatea până alegi.';
+
+  @override
+  String get personaMentionableByFollowVisibility => 'Urmează Vizibilitatea';
+
+  @override
+  String get personaBulkMentions => 'Mențiuni';
+
+  @override
+  String get personaBulkMentionsEveryone =>
+      'Permite mențiuni de la toată lumea';
+
+  @override
+  String get personaBulkMentionsSelf => 'Permite mențiuni doar de la tine';
+
+  @override
+  String get personaBulkMentionsNobody => 'Nu permite mențiuni de la nimeni';
+
+  @override
+  String personaBulkNowMentionableByEveryone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de personas pot fi menționate acum de toată lumea',
+      few: '$count personas pot fi menționate acum de toată lumea',
+      one: '$count persona poate fi menționată acum de toată lumea',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableBySelf(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de personas pot fi menționate acum doar de tine',
+      few: '$count personas pot fi menționate acum doar de tine',
+      one: '$count persona poate fi menționată acum doar de tine',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByNobody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de personas nu mai pot fi menționate de nimeni',
+      few: '$count personas nu mai pot fi menționate de nimeni',
+      one: '$count persona nu mai poate fi menționată de nimeni',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByFollowing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Mențiunile pentru $count de personas urmează acum Vizibilitatea',
+      few: 'Mențiunile pentru $count personas urmează acum Vizibilitatea',
+      one: 'Mențiunile pentru $count persona urmează acum Vizibilitatea',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaNotMentionable =>
+      'Această persona nu apare nimănui în sugestiile de mențiuni';
 }

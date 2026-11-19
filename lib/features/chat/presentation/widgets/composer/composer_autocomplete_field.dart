@@ -77,8 +77,11 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/guild_commands/providers/guild_commands_providers.dart';
 import 'package:fluxer_app/features/profile/data/known_personas.dart';
+import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_color.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
+import 'package:fluxer_app/features/profile/domain/persona_mention_setting.dart';
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/threads/fork_dm_threads/dm_threads.dart';
 

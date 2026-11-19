@@ -1309,4 +1309,96 @@ class ForkLocalizationsNl extends ForkLocalizations {
   @override
   String get personaGroupFailed =>
       'De groepen konden niet worden gewijzigd. Probeer het opnieuw.';
+
+  @override
+  String get personaMentionableByLabel => 'Vermeldingen toestaan door';
+
+  @override
+  String get personaMentionableByEveryone => 'Iedereen';
+
+  @override
+  String get personaMentionableBySelf => 'Alleen jij';
+
+  @override
+  String get personaMentionableByNobody => 'Niemand';
+
+  @override
+  String get personaMentionableByEveryoneDescription =>
+      'Iedereen kan deze persona vinden bij het typen van @ of zoeken.';
+
+  @override
+  String get personaMentionableBySelfDescription =>
+      'Alleen jouw account vindt deze bij het typen van @ of zoeken.';
+
+  @override
+  String get personaMentionableByNobodyDescription =>
+      'Weggelaten uit @-suggesties en zoekfilters, ook die van jou. De persona kan nog steeds spreken en het profiel volgt Zichtbaarheid.';
+
+  @override
+  String get personaMentionableByFollows =>
+      'Volgt Zichtbaarheid totdat je kiest.';
+
+  @override
+  String get personaMentionableByFollowVisibility => 'Zichtbaarheid volgen';
+
+  @override
+  String get personaBulkMentions => 'Vermeldingen';
+
+  @override
+  String get personaBulkMentionsEveryone =>
+      'Vermeldingen door iedereen toestaan';
+
+  @override
+  String get personaBulkMentionsSelf => 'Vermeldingen alleen door jou toestaan';
+
+  @override
+  String get personaBulkMentionsNobody => 'Vermeldingen door niemand toestaan';
+
+  @override
+  String personaBulkNowMentionableByEveryone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona\'s nu door iedereen te vermelden',
+      one: '$count persona nu door iedereen te vermelden',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableBySelf(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona\'s nu alleen door jou te vermelden',
+      one: '$count persona nu alleen door jou te vermelden',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByNobody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona\'s nu door niemand te vermelden',
+      one: '$count persona nu door niemand te vermelden',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByFollowing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Vermeldingen van $count persona\'s volgen nu Zichtbaarheid',
+      one: 'Vermeldingen van $count persona volgen nu Zichtbaarheid',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaNotMentionable =>
+      'Niemand krijgt deze persona in vermeldingssuggesties';
 }

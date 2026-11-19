@@ -425,8 +425,11 @@ void main() {
       final pronounsField = tester.widget<TextField>(textFields.at(3));
       expect(pronounsField.controller?.text, 'they/them');
 
-      final bioField = tester.widget<TextField>(textFields.at(6));
-      expect(bioField.controller?.text, 'Testing persona edit sheet');
+      // Fork: the bio sits below the visibility and mention settings, past what
+      // the list builds at first (tyne-chat/tyne#652): scroll to it.
+      final Finder bio = find.text('Testing persona edit sheet');
+      await scrollTo(tester, bio);
+      expect(bio, findsOneWidget);
 
       // Verify Delete Persona button exists
       final deleteButton = find.text('Delete Persona');
@@ -632,6 +635,83 @@ void main() {
       await tester.tap(find.text('Reset'));
       await tester.pumpAndSettle();
       expect(isSaveBarVisible(tester), isFalse);
+    });
+  });
+
+  // "Allow mentions by" (tyne-chat/tyne#652): null follows the visibility
+  // until a value is picked; Follow Visibility drops a pick.
+  group('EditPersonaSheet - mention setting', () {
+    Future<_PersonaApiAdapter> openWithApi(
+      WidgetTester tester,
+      PublicPersona persona,
+    ) async {
+      final adapter = _PersonaApiAdapter();
+      final dio = Dio(BaseOptions(baseUrl: 'https://api.test'))
+        ..httpClientAdapter = adapter;
+      await openSheet(tester, persona: persona, dio: dio);
+      return adapter;
+    }
+
+    Future<void> tapLabel(WidgetTester tester, String label) async {
+      await scrollTo(tester, find.text(label).last);
+      await tester.tap(find.text(label).last);
+      await tester.pumpAndSettle();
+    }
+
+    // The setting sits below the visibility, past what the list builds at first.
+    Future<void> showSetting(WidgetTester tester) =>
+        scrollTo(tester, find.text('Allow mentions by'));
+
+    testWidgets('follows visibility and sends null until a value is picked', (
+      tester,
+    ) async {
+      final adapter = await openWithApi(
+        tester,
+        const PublicPersona(id: 'existing_p1', name: 'Existing Alter'),
+      );
+      await showSetting(tester);
+      expect(
+        find.textContaining('Follows Visibility until you choose.'),
+        findsOneWidget,
+      );
+      expect(find.text('Follow Visibility'), findsNothing);
+
+      await tapLabel(tester, 'Private');
+      expect(find.textContaining('Only your account finds it'), findsOneWidget);
+      await tester.tap(find.text('Save'));
+      await tester.pumpAndSettle();
+      expect(adapter.lastSavedBody?['visibility'], 'private');
+      expect(adapter.lastSavedBody, containsPair('mentionable_by', null));
+    });
+
+    const PublicPersona onlyYou = PublicPersona(
+      id: 'existing_p1',
+      name: 'Existing Alter',
+      mentionableBy: 'self',
+    );
+
+    testWidgets('sends a picked value', (tester) async {
+      final adapter = await openWithApi(tester, onlyYou);
+      await showSetting(tester);
+
+      await tapLabel(tester, 'Nobody');
+      await tester.tap(find.text('Save'));
+      await tester.pumpAndSettle();
+      expect(adapter.lastSavedBody?['mentionable_by'], 'nobody');
+    });
+
+    testWidgets('Follow Visibility drops a pick and sends null', (
+      tester,
+    ) async {
+      final adapter = await openWithApi(tester, onlyYou);
+      await showSetting(tester);
+      expect(find.text('Follow Visibility'), findsOneWidget);
+
+      await tapLabel(tester, 'Follow Visibility');
+      expect(find.text('Follow Visibility'), findsNothing);
+      await tester.tap(find.text('Save'));
+      await tester.pumpAndSettle();
+      expect(adapter.lastSavedBody, containsPair('mentionable_by', null));
     });
   });
 
@@ -849,6 +929,7 @@ void main() {
           'persona_tags': <Map<String, dynamic>>[],
           'signature_emojis': <Map<String, dynamic>>[],
           'visibility': 'public',
+          'mentionable_by': null,
         });
         expect(find.text('Copy of Lyra'), findsNothing);
       },
