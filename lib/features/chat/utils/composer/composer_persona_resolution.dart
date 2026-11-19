@@ -63,88 +63,64 @@ Future<OutgoingMessageResolution?> resolveOutgoingPersona({
   onSendAsAccount: onSendAsAccount,
 );
 
-/// What a forward and its comment go out as in [channelId]. They are one thing
-/// said by one speaker, so a tag in [comment] decides for both. Without one they
-/// go out as [forwardAs], the Forward sheet's choice, which is what the sheet
-/// showed (tyne-chat/tyne#817). Without that they use the persona selected
-/// where the forward started, which is the one on screen, and then the
-/// destination's, so that the account does not turn up in a channel where a
-/// persona was chosen. Call it once per destination. Null when held, as
-/// [resolveOutgoingPersona] says.
-Future<OutgoingMessageResolution?> resolveForwardPersona(
+/// What a forward from the Forward sheet and its comment go out as
+/// (tyne-chat/tyne#817): the sheet's pick, [picked], else what the sheet shows
+/// before anyone picks ([defaultForwardAs]). They are one thing said by one
+/// speaker, so a tag in [comment] decides for both, and a backslash sends them
+/// as the account. Either way it is a choice made in the sheet, like a pick: it
+/// changes no channel's selection, even in "last" mode, and records one use for
+/// the whole forward, so call it once per forward, not per destination.
+///
+/// Null when held, as [resolveOutgoingPersona] says (tyne-chat/tyne#30): a
+/// forward that could go out as a persona waits for the persona list rather
+/// than go out as the account because the list has not loaded.
+Future<OutgoingMessageResolution?> resolveSheetForward(
   SignalProviderReader read, {
   required String sourceChannelId,
-  required String channelId,
   required String comment,
-  ForwardAs? forwardAs,
-  VoidCallback? onSendAsAccount,
+  required ForwardAs? picked,
 }) async {
-  if (forwardAs != null) {
-    final OutgoingMessageResolution? picked = _resolvePickedForward(
-      read,
-      channelId: channelId,
-      comment: comment,
-      forwardAs: forwardAs,
-    );
-    if (picked != null) {
-      return picked;
-    }
+  if (!_personasReady(read) &&
+      _mayGoOutAsPersona(read, comment, sourceChannelId) &&
+      !await _waitForPersonas(read)) {
+    _showSendHeld(read, sourceChannelId, null);
+    return null;
   }
-  final Persona? sourcePersona = latchedPersonaFor(
-    read(activePersonaProvider),
-    read(myPersonasProvider).asData?.value ?? const <Persona>[],
-    sourceChannelId,
-  );
-  return _resolveOutgoingPersona(
-    read,
-    rawText: comment,
-    channelId: channelId,
-    allowEmptyContent: true,
-    hasAttachments: false,
-    personaChannelId: sourcePersona == null ? channelId : sourceChannelId,
-    onSendAsAccount: onSendAsAccount,
-  );
-}
-
-/// A forward sent as the sheet's [forwardAs]: null when [comment] carries a
-/// persona's tag, which still decides as in the message box.
-OutgoingMessageResolution? _resolvePickedForward(
-  SignalProviderReader read, {
-  required String channelId,
-  required String comment,
-  required ForwardAs forwardAs,
-}) {
   final List<Persona> personas =
       read(myPersonasProvider).asData?.value ?? const <Persona>[];
-  final Persona? picked = forwardAs.persona;
+  final ForwardAs chosen =
+      picked ?? defaultForwardAs(read, sourceChannelId: sourceChannelId);
   final MatchResult said = matchPersona(
     comment,
     personas,
-    picked?.id,
+    chosen.persona?.id,
     hasAttachments: false,
     allowEmptyContent: true,
   );
-  if (said.isFromTag) {
-    return null;
-  }
-  if (said.wasEscaped || picked == null) {
-    affirmSignalPersona(read, channelId, null);
+  final Persona? persona = said.isFromTag
+      ? said.persona
+      : said.wasEscaped
+      ? null
+      : chosen.persona;
+  final String text = said.isFromTag || said.wasEscaped
+      ? said.strippedContent
+      : comment;
+  if (persona == null) {
     return OutgoingMessageResolution(
-      text: said.wasEscaped ? said.strippedContent : comment,
+      text: text,
       personaData: null,
       wasEscaped: said.wasEscaped,
     );
   }
-  affirmSignalPersona(read, channelId, picked);
-  unawaited(read(activePersonaProvider.notifier).recordUsage(picked.id));
+  unawaited(read(activePersonaProvider.notifier).recordUsage(persona.id));
   final systemTag = read(systemDisplayTagProvider);
   return OutgoingMessageResolution(
-    text: comment,
-    personaData: picked.toSubprofilePayload(
+    text: text,
+    personaData: persona.toSubprofilePayload(
       displayTagText: systemTag.text,
       displayTagIcon: systemTag.iconUrl,
     ),
-    persona: picked,
+    persona: persona,
     matched: true,
   );
 }

@@ -24,6 +24,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_page_sync.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/providers/persona_first_load.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/shared/services/guild_member_hydration_service.dart';
 import 'package:fluxer_dart/export.dart';
@@ -44,6 +45,20 @@ class _Personas extends MyPersonasNotifier {
   @override
   AsyncValue<List<Persona>> build() =>
       const AsyncValue.data(<Persona>[_fox, _bao]);
+}
+
+/// An account that had personas, whose list never loads.
+class _UnloadedPersonas extends MyPersonasNotifier {
+  @override
+  AsyncValue<List<Persona>> build() => const AsyncValue.loading();
+
+  @override
+  bool get hadPersonas => true;
+
+  @override
+  Future<List<Persona>?> whenLoaded({
+    Duration timeout = kPersonaSendWait,
+  }) async => null;
 }
 
 class _Selection extends ActivePersonaNotifier {
@@ -122,8 +137,9 @@ void main() {
 
   ProviderContainer containerWith(
     _SendRecorder adapter,
-    ActivePersonaState selection,
-  ) {
+    ActivePersonaState selection, {
+    MyPersonasNotifier Function() personas = _Personas.new,
+  }) {
     final Dio dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
       ..httpClientAdapter = adapter;
     final FluxerClient client = FluxerClient(
@@ -137,7 +153,7 @@ void main() {
         fluxerDioProvider.overrideWithValue(dio),
         fluxerClientProvider.overrideWithValue(client),
         currentUserIdProvider.overrideWithValue('me'),
-        myPersonasProvider.overrideWith(_Personas.new),
+        myPersonasProvider.overrideWith(personas),
         activePersonaProvider.overrideWith(() => _Selection(selection)),
         ackBatcherProvider.overrideWith((ref) {
           final AckBatcher batcher = AckBatcher(
@@ -241,7 +257,8 @@ void main() {
     });
   });
 
-  test("falls back to each destination's selection", () async {
+  test("without a pick, sends as the source channel's selection, else as the "
+      'account, whatever the destination has selected', () async {
     final _SendRecorder adapter = _SendRecorder();
     await forward(
       await open(
@@ -255,7 +272,7 @@ void main() {
 
     expect(sentAs(adapter), <String, Object?>{
       'channel-1': null,
-      'channel-2': 'persona_bao',
+      'channel-2': null,
     });
   });
 
@@ -387,6 +404,66 @@ void main() {
       );
       expect(adapter.sends.last.body['content'], 'look');
     });
+
+    test('a tag in the comment changes no channel\'s selection in "last" '
+        'mode', () async {
+      final _SendRecorder adapter = _SendRecorder();
+      final ProviderContainer container = containerWith(
+        adapter,
+        const ActivePersonaState(
+          mode: PersonaMode.last,
+          scope: PersonaScope.channel,
+          channelPersonaIds: <String, String>{'source': 'persona_fox'},
+        ),
+      );
+      await forward(
+        await open(container),
+        to: <String>['channel-1', 'channel-2'],
+        comment: 'B: look',
+      );
+
+      expect(
+        <Object?>{for (final send in adapter.sends) send.body['persona_id']},
+        <Object?>{'persona_bao'},
+      );
+      final ActivePersonaState after = container.read(activePersonaProvider);
+      expect(after.latchedIdFor('source'), 'persona_fox');
+      expect(after.latchedIdFor('channel-1'), isNull);
+      expect(after.latchedIdFor('channel-2'), isNull);
+    });
+
+    test('sends as the account after a backslash, without it', () async {
+      final _SendRecorder adapter = _SendRecorder();
+      await forward(
+        await open(containerWith(adapter, foxSelected)),
+        comment: r'\look',
+        forwardAs: const ForwardAs.persona(_fox),
+      );
+      expect(
+        <Object?>[for (final send in adapter.sends) send.body['persona_id']],
+        <Object?>[null, null],
+      );
+      expect(adapter.sends.last.body['content'], 'look');
+    });
+
+    test(
+      'holds a forward that could go out as a persona until the list '
+      'loads, and sends nothing when it does not (tyne-chat/tyne#30)',
+      () async {
+        final _SendRecorder adapter = _SendRecorder();
+        await forward(
+          await open(
+            containerWith(
+              adapter,
+              foxSelected,
+              personas: _UnloadedPersonas.new,
+            ),
+          ),
+          comment: 'look',
+        );
+        expect(adapter.sends, isEmpty);
+      },
+    );
 
     test('shows the persona active in the channel forwarded from, else the '
         'account', () {

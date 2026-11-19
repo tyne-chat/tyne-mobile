@@ -423,11 +423,7 @@ class _ForwardMessageSheetBodyState
       ref
           .read(chatViewModelProvider.notifier)
           .forwardMessage(
-            forwardAs: chosenForwardAs(
-              ref,
-              picked: _forwardAs,
-              sourceChannelId: widget.sourceChannelId,
-            ),
+            forwardAs: _forwardAs,
             sourceChannelId: widget.sourceChannelId,
             sourceMessageId: widget.sourceMessageId,
             attachmentIds: widget.attachmentIds,
