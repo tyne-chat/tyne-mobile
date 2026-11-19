@@ -611,7 +611,7 @@ int? _composerMentionPersonaColor(
   String userId,
   String personaId,
 ) {
-  if (ref.exists(myPersonasProvider)) {
+  if (ref.read(myPersonasProvider.exists)) {
     for (final Persona p
         in ref.read(myPersonasProvider).asData?.value ?? const <Persona>[]) {
       if (p.id == personaId) {
@@ -625,7 +625,8 @@ int? _composerMentionPersonaColor(
   }
   // A known persona comes from a database query, so it has a value only
   // while something on screen watches it, such as a message mentioning it.
-  final db.KnownPersona? known = ref.exists(knownPersonaProvider(personaId))
+  final db.KnownPersona? known =
+      ref.read(knownPersonaProvider(personaId).exists)
       ? ref.read(knownPersonaProvider(personaId)).value
       : null;
   final int? knownColor = known == null
@@ -639,7 +640,7 @@ int? _composerMentionPersonaColor(
     return knownColor;
   }
   final PersonaProfileKey key = (userId: userId, personaId: personaId);
-  final PublicPersona? profile = ref.exists(publicPersonaProvider(key))
+  final PublicPersona? profile = ref.read(publicPersonaProvider(key).exists)
       ? ref.read(publicPersonaProvider(key)).value
       : null;
   return profile == null

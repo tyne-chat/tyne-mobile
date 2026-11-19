@@ -145,7 +145,7 @@ class _Server extends PaginatingAdapter {
         '${Uri.decodeFull(options.uri.path)}'
         '${options.uri.hasQuery ? '?${options.uri.query}' : ''}';
     if (options.method == 'GET') {
-      return super.fetch(options, requestStream, cancelFuture);
+      return await super.fetch(options, requestStream, cancelFuture);
     }
     final Map<String, dynamic>? body = await _readBody(options, requestStream);
     requests.add((method: options.method, path: path, body: body));

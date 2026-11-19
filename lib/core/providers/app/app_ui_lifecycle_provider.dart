@@ -179,10 +179,10 @@ class _AppUiLifecycleObserverState extends ConsumerState<AppUiLifecycleObserver>
     if (!wasForeground && isForeground) {
       unawaited(ref.read(wellKnownProvider.notifier).refresh());
       // Fork: refresh personas where the signed-in app already uses them.
-      if (ref.exists(myPersonasProvider)) {
+      if (ref.read(myPersonasProvider.exists)) {
         unawaited(ref.read(myPersonasProvider.notifier).reloadSilently());
       }
-      if (ref.exists(personaSettingsProvider)) {
+      if (ref.read(personaSettingsProvider.exists)) {
         unawaited(ref.read(personaSettingsProvider.notifier).reloadSilently());
       }
     }
