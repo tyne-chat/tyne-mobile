@@ -128,15 +128,19 @@ froze the panel on the previous conversation.
   list never loaded, goes out at once as before. A leading `\` with a persona selected sends as the
   account without waiting. Forwards and Shift-drops are held without the action. The pill stays
   while the list is missing (`watchPersonaPillVisible`), so the selection can be changed back.
-- **Forwards** go through `resolveForwardPersona` from `forwardMessage`, once per destination: a tag in
-  the comment decides for the forward and its comment; otherwise the selection where the forward
-  started, then the destination's, then the account. A stored send keeps its persona, so a retry after
+- **Forwards** (the Forward sheet, tyne-chat/tyne#817): `forwardMessage` runs `resolveSheetForward` once
+  per forward, with the sheet's pick or, without one, what the sheet shows (`defaultForwardAs`: the
+  persona selected where the forward started, else the account). A tag in the comment decides for the
+  forward and its comment and a `\` sends as the account, but like a pick it changes no channel's
+  selection, even in "last" mode, and records one use. A forward that could go out as a persona waits
+  for the list and is held, as above. A stored send keeps its persona, so a retry after
   a restart goes out as it did before.
 - **The selection** comes from `features/profile` (`activePersonaProvider`, `latchedPersonaFor`). Threads
   and forum posts resolve against the parent channel (`personaChannelId`).
 - **Editing:** `saveEditedMessage` runs `matchEditMessage`; a persona change is a `PATCH` with
   `persona_id` through raw Dio, because the SDK's `editMessage` is multipart. "Change persona" uses
-  `MessageRepository.editMessagePersona`.
+  `MessageRepository.editMessagePersona`, also on a forward (one's own interactive message, not one
+  still sending).
 - **Showing:** `Message` carries the persona fields from the server's `subprofile`;
   `MessageItem._buildAuthorHeaderRow` draws the name and the account badge. Persona mention chips read
   your own personas, then the device's `known_personas` table (`knownPersonaProvider`): no request per

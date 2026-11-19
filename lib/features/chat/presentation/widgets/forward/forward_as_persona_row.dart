@@ -6,10 +6,13 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/forward_as.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/persona_picker_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/persona_composer_pill.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
+import 'package:fluxer_app/features/profile/data/known_personas.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
@@ -52,12 +55,14 @@ class ForwardAsPersonaRow extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final List<Persona> personas =
-        ref.watch(myPersonasProvider).asData?.value ?? const <Persona>[];
-    if (personas.isEmpty) {
+    // Shown while the list loads too, as the message box's row is, for an
+    // account that had personas (tyne-chat/tyne#30).
+    if (!watchPersonaPillVisible(ref)) {
       return const SizedBox.shrink();
     }
-    ref.watch(activePersonaProvider);
+    final List<Persona> personas =
+        ref.watch(myPersonasProvider).asData?.value ?? const <Persona>[];
+    final ActivePersonaState activeState = ref.watch(activePersonaProvider);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final userSettings = ref.watch(userSettingsViewModelProvider);
     final ForwardAs chosen = chosenForwardAs(
@@ -77,11 +82,26 @@ class ForwardAsPersonaRow extends ConsumerWidget {
         : said.wasEscaped
         ? null
         : chosen.persona;
+    // Before the list loads, the persona selected where the forward comes from
+    // is shown from the device's copy of it.
+    final String? latchedId = activeState.latchedIdFor(sourceChannelId);
+    final KnownPersona? known =
+        shown == null && picked == null && !said.wasEscaped && latchedId != null
+        ? ref.watch(knownPersonaProvider(latchedId)).asData?.value
+        : null;
     final String accountName = userSettings.displayName.isNotEmpty
         ? userSettings.displayName
         : userSettings.username;
-    final String name = shown?.name ?? accountName;
-    final String label = l10n.fork.forwardAsName(name);
+    final String name = shown?.name ?? known?.name ?? accountName;
+    final String label = said.isFromTag
+        ? l10n.fork.personaSendingAsTag(name)
+        : l10n.fork.forwardAsName(name);
+    // A persona without a picture of its own shows the account's, as on
+    // messages.
+    final String? personaAvatar = shown != null
+        ? personaImageHash(shown.avatarHash)
+        : personaImageHash(known?.avatar);
+    final bool asPersona = shown != null || known != null;
     return Semantics(
       button: true,
       label: label,
@@ -95,7 +115,7 @@ class ForwardAsPersonaRow extends ConsumerWidget {
             PersonaPickerSheet.show(
               context,
               showModes: false,
-              selectedPersonaId: chosen.persona?.id,
+              selectedPersonaId: shown?.id ?? (asPersona ? latchedId : null),
               title: l10n.fork.forwardAs,
               onSelectPersona: (Persona persona) =>
                   onPick(ForwardAs.persona(persona)),
@@ -110,11 +130,11 @@ class ForwardAsPersonaRow extends ConsumerWidget {
               ClipOval(
                 child: FluxerAvatar.user(
                   userId: userSettings.userId,
-                  imageUrl: shown != null
-                      ? personaImageHash(shown.avatarHash)
-                      : userSettings.avatarUrl,
+                  imageUrl: personaAvatar ?? userSettings.avatarUrl,
                   fallbackText: name,
-                  avatarColor: shown?.color ?? userSettings.avatarColor,
+                  avatarColor: personaAvatar != null
+                      ? (shown?.avatarColor ?? known?.avatarColor)
+                      : userSettings.avatarColor,
                   size: 24,
                   showStatus: false,
                 ),
