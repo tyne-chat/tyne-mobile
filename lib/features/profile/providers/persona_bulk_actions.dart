@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-// Fork: changing the visibility of, or deleting, many of the account's
-// personas at once (tyne-chat/tyne#542), for the Personas settings page's
-// select mode.
+// Fork: changing the visibility or the mention setting of, or deleting, many
+// of the account's personas at once (tyne-chat/tyne#542, #652), for the
+// Personas settings page's select mode.
 //
-// Requests: one `PATCH /users/@me/personas/visibility` or one
+// Requests: one `PATCH /users/@me/personas/visibility`, one
+// `PATCH /users/@me/personas/mentions` or one
 // `POST /users/@me/personas/bulk-delete` per 250 personas (the server's
 // limit; each request is all or nothing), and nothing at all when no persona
 // would change. Undo is one more PATCH carrying each persona's previous
-// visibility. Nothing is retried: a failure is the caller's to show. The
+// value. Nothing is retried: a failure is the caller's to show. The
 // server then sends the account's sessions one `USER_PERSONAS_UPDATE` (one
 // list reload each, as for a single change), and for a delete clears the
 // selection and the per-channel selections naming the deleted personas,
@@ -44,6 +45,24 @@ class PersonaVisibilityChange {
 
   /// Each changed persona's visibility before, by id.
   final Map<String, String> previous;
+
+  int get count => previous.length;
+}
+
+/// A mention setting change that went through, with what Undo puts back
+/// (tyne-chat/tyne#652). Null stands for "follows visibility".
+@immutable
+class PersonaMentionableByChange {
+  const PersonaMentionableByChange({
+    required this.mentionableBy,
+    required this.previous,
+  });
+
+  /// The stored setting the personas got.
+  final String? mentionableBy;
+
+  /// Each changed persona's stored setting before, by id.
+  final Map<String, String?> previous;
 
   int get count => previous.length;
 }
@@ -92,6 +111,46 @@ class PersonaBulkActions {
     await _patch(target);
   }
 
+  /// Gives [mentionableBy] (null: follow visibility) to those of the personas
+  /// with [ids] whose stored setting differs. Null when none needed changing,
+  /// and then nothing is sent.
+  Future<PersonaMentionableByChange?> setMentionableBy(
+    Iterable<String> ids,
+    String? mentionableBy,
+  ) async {
+    final Set<String> wanted = ids.toSet();
+    final Map<String, String?> previous = <String, String?>{
+      for (final Persona p in _personas)
+        if (wanted.contains(p.id) && p.mentionableBy != mentionableBy)
+          p.id: p.mentionableBy,
+    };
+    if (previous.isEmpty) {
+      return null;
+    }
+    await _patchMentionableBy(<String, String?>{
+      for (final String id in previous.keys) id: mentionableBy,
+    });
+    return PersonaMentionableByChange(
+      mentionableBy: mentionableBy,
+      previous: previous,
+    );
+  }
+
+  /// Puts back each persona's stored setting from before [change], in one
+  /// request, for those still there and still changed.
+  Future<void> undoMentionableBy(PersonaMentionableByChange change) async {
+    final Map<String, String?> target = <String, String?>{
+      for (final Persona p in _personas)
+        if (change.previous.containsKey(p.id) &&
+            change.previous[p.id] != p.mentionableBy)
+          p.id: change.previous[p.id],
+    };
+    if (target.isEmpty) {
+      return;
+    }
+    await _patchMentionableBy(target);
+  }
+
   /// Deletes the personas with [ids] and drops them here. Returns how many
   /// were deleted; none are asked for when none is the account's.
   Future<int> delete(Iterable<String> ids) async {
@@ -132,16 +191,41 @@ class PersonaBulkActions {
     }
   }
 
+  Future<void> _patchMentionableBy(Map<String, String?> target) async {
+    final Dio dio = _ref.read(fluxerDioProvider);
+    for (final List<String> chunk in _chunks(target.keys.toList())) {
+      final Response<dynamic> response = await dio.patch<dynamic>(
+        '/users/@me/personas/mentions',
+        data: <String, dynamic>{
+          'personas': <Map<String, String?>>[
+            for (final String id in chunk)
+              <String, String?>{'id': id, 'mentionable_by': target[id]},
+          ],
+        },
+      );
+      final Set<String>? changed = _changedIds(response.data);
+      _ref.read(myPersonasProvider.notifier).replacePersonas(<Persona>[
+        for (final Persona p in _personas)
+          if (chunk.contains(p.id) &&
+              (changed == null || changed.contains(p.id)))
+            p.copyWith(mentionableBy: target[p.id]),
+      ]);
+    }
+  }
+
+  /// The ids of the personas a bulk answer lists, or null when it lists none.
+  static Set<String>? _changedIds(Object? data) => data is List
+      ? <String>{
+          for (final Object? item in data)
+            if (item is Map && item['id'] is String) item['id'] as String,
+        }
+      : null;
+
   /// Shows the new visibilities at once, in one change of the list: those the
   /// server says it changed, or all that were asked for when its answer says
   /// nothing.
   void _applyVisibility(Object? data, Map<String, String> asked) {
-    final Set<String>? changed = data is List
-        ? <String>{
-            for (final Object? item in data)
-              if (item is Map && item['id'] is String) item['id'] as String,
-          }
-        : null;
+    final Set<String>? changed = _changedIds(data);
     _ref.read(myPersonasProvider.notifier).replacePersonas(<Persona>[
       for (final Persona p in _personas)
         if (asked[p.id] case final String visibility

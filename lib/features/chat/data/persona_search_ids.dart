@@ -130,8 +130,9 @@ class PersonaSearchSuggestion {
 }
 
 /// The personas to suggest for [query] in a channel: the same ones the
-/// composer suggests for an @-mention there (every persona of the user's own,
-/// and the public and unlisted personas of the channel's other members).
+/// composer suggests for an @-mention there (the user's own unless set to
+/// nobody, and the other members' set to everyone; a persona whose owner has
+/// not chosen follows its visibility, tyne-chat/tyne#652).
 Future<List<PersonaSearchSuggestion>> fetchPersonaSearchSuggestions({
   required Dio dio,
   required String channelId,

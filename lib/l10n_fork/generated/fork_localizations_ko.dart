@@ -1266,4 +1266,89 @@ class ForkLocalizationsKo extends ForkLocalizations {
 
   @override
   String get personaGroupFailed => '그룹을 변경하지 못했습니다. 다시 시도해 주세요.';
+
+  @override
+  String get personaMentionableByLabel => '멘션 허용 대상';
+
+  @override
+  String get personaMentionableByEveryone => '모든 사람';
+
+  @override
+  String get personaMentionableBySelf => '나만';
+
+  @override
+  String get personaMentionableByNobody => '아무도 없음';
+
+  @override
+  String get personaMentionableByEveryoneDescription =>
+      '누구나 @를 입력하거나 검색할 때 이 페르소나를 찾을 수 있어요.';
+
+  @override
+  String get personaMentionableBySelfDescription =>
+      '@를 입력하거나 검색할 때 내 계정에서만 찾을 수 있어요.';
+
+  @override
+  String get personaMentionableByNobodyDescription =>
+      '내 것을 포함해 @ 추천과 검색 필터에서 제외돼요. 여전히 말할 수 있고, 프로필은 공개 범위를 따라요.';
+
+  @override
+  String get personaMentionableByFollows => '직접 선택하기 전까지 공개 범위를 따라요.';
+
+  @override
+  String get personaMentionableByFollowVisibility => '공개 범위 따르기';
+
+  @override
+  String get personaBulkMentions => '멘션';
+
+  @override
+  String get personaBulkMentionsEveryone => '모든 사람에게 멘션 허용';
+
+  @override
+  String get personaBulkMentionsSelf => '나에게만 멘션 허용';
+
+  @override
+  String get personaBulkMentionsNobody => '아무에게도 멘션 허용 안 함';
+
+  @override
+  String personaBulkNowMentionableByEveryone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '이제 모든 사람이 페르소나 $count개를 멘션할 수 있음',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableBySelf(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '이제 나만 페르소나 $count개를 멘션할 수 있음',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByNobody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '이제 아무도 페르소나 $count개를 멘션할 수 없음',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByFollowing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '페르소나 $count개의 멘션이 이제 공개 범위를 따름',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaNotMentionable => '아무에게도 멘션 추천에 이 페르소나가 표시되지 않음';
 }

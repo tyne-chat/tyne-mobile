@@ -1,5 +1,9 @@
 import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/domain/persona_mention_setting.dart';
 import 'package:fluxer_app/features/profile/domain/persona_name_search.dart';
+
+// Tells copyWith to keep a nullable field, so it can still be set to null.
+const Object _keep = Object();
 
 class PublicPersona {
   const PublicPersona({
@@ -15,6 +19,7 @@ class PublicPersona {
     this.avatarColor,
     this.bio,
     this.visibility,
+    this.mentionableBy,
     this.autoTagDisabled = false,
     this.personaTags = const [],
     this.signatureEmojis = const [],
@@ -35,6 +40,10 @@ class PublicPersona {
   final int? avatarColor;
   final String? bio;
   final String? visibility;
+
+  /// Who gets it in mention suggestions, as stored (tyne-chat/tyne#652); null
+  /// follows [visibility]. Only the owner's own personas carry it.
+  final String? mentionableBy;
   final bool autoTagDisabled;
   final List<PersonaTag> personaTags;
   final List<SignatureEmoji> signatureEmojis;
@@ -91,6 +100,7 @@ class PublicPersona {
           (json['avatarColor'] as num?)?.toInt(),
       bio: json['bio'] as String?,
       visibility: json['visibility'] as String?,
+      mentionableBy: personaMentionableByFromJson(json['mentionable_by']),
       autoTagDisabled: json['auto_tag_disabled'] as bool? ?? false,
       personaTags: tags,
       signatureEmojis: sigs,
@@ -111,6 +121,7 @@ class PublicPersona {
       if (avatarColor != null) 'avatar_color': avatarColor,
       if (bio != null) 'bio': bio,
       if (visibility != null) 'visibility': visibility,
+      if (mentionableBy != null) 'mentionable_by': mentionableBy,
       'auto_tag_disabled': autoTagDisabled,
       'persona_tags': personaTags.map((t) => t.toJson()).toList(),
       'signature_emojis': signatureEmojis.map((s) => s.toJson()).toList(),
@@ -130,6 +141,7 @@ class PublicPersona {
     int? avatarColor,
     String? bio,
     String? visibility,
+    Object? mentionableBy = _keep,
     bool? autoTagDisabled,
     List<PersonaTag>? personaTags,
     List<SignatureEmoji>? signatureEmojis,
@@ -147,6 +159,9 @@ class PublicPersona {
       avatarColor: avatarColor ?? this.avatarColor,
       bio: bio ?? this.bio,
       visibility: visibility ?? this.visibility,
+      mentionableBy: identical(mentionableBy, _keep)
+          ? this.mentionableBy
+          : mentionableBy as String?,
       autoTagDisabled: autoTagDisabled ?? this.autoTagDisabled,
       personaTags: personaTags ?? this.personaTags,
       signatureEmojis: signatureEmojis ?? this.signatureEmojis,
@@ -165,6 +180,7 @@ class PublicPersona {
       avatarColor: avatarColor,
       bio: bio,
       visibility: visibility ?? 'unlisted',
+      mentionableBy: mentionableBy,
       autoTagDisabled: autoTagDisabled,
       personaTags: personaTags,
       signatureEmojis: signatureEmojis,

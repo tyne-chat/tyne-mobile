@@ -967,6 +967,15 @@ class ComposerAutocompleteFieldState
         .read(chatViewModelProvider)
         .messages;
     final Map<String, int> inChannelLastUsedAtMs = <String, int>{};
+    // Messages only rank the personas that spoke here. Other accounts' come
+    // only from the mention route, which applies their mention setting, and
+    // the account's own from its own list, unless set to nobody
+    // (tyne-chat/tyne#652).
+    final Map<String, Persona> ownPersonas = <String, Persona>{
+      for (final Persona p
+          in ref.read(myPersonasProvider).asData?.value ?? const <Persona>[])
+        p.id: p,
+    };
     final List<Map<String, dynamic>> channelMsgPersonas =
         <Map<String, dynamic>>[];
     final Set<String> seenMsgPersonaIds = <String>{};
@@ -983,6 +992,13 @@ class ComposerAutocompleteFieldState
         continue;
       }
       seenMsgPersonaIds.add(pid);
+      final Persona? own = msg.authorId == currentUserId
+          ? ownPersonas[pid]
+          : null;
+      if (own == null ||
+          !isOwnPersonaSuggested(own.mentionableBy, own.visibility)) {
+        continue;
+      }
 
       final Member? ownerMember = membersById[msg.authorId];
       final String resolvedOwnerUsername = (msg.authorId == currentUserId)
@@ -994,8 +1010,9 @@ class ComposerAutocompleteFieldState
 
       channelMsgPersonas.add(<String, dynamic>{
         'id': pid,
-        'name': pName,
-        'avatar_hash': msg.personaAvatar,
+        'name': own.name,
+        'aliases': own.aliases,
+        'avatar_hash': own.avatarHash,
         'avatar_color': msg.authorAvatarColor,
         'display_tag_text': msg.personaTag,
         'display_tag_icon': msg.personaTagIcon,
@@ -1005,7 +1022,7 @@ class ComposerAutocompleteFieldState
         'owner_avatar': msg.authorAvatar,
         'use_count': 1,
         'last_used_at_ms': msgTimeMs,
-        'visibility': 'public',
+        'visibility': own.visibility,
       });
     }
 

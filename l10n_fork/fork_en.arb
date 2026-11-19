@@ -1754,5 +1754,97 @@
     "personaGroupFailed": "Couldn’t change the groups. Try again.",
     "@personaGroupFailed": {
         "description": "Persona groups (tyne-chat/tyne#829). Same wording as the web app's. Shown when making, renaming or deleting a group, or changing who is in groups, fails."
+    },
+    "personaMentionableByLabel": "Allow mentions by",
+    "@personaMentionableByLabel": {
+        "description": "Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Label of the persona editor setting, above Everyone / Only you / Nobody."
+    },
+    "personaMentionableByEveryone": "Everyone",
+    "@personaMentionableByEveryone": {
+        "description": "Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Option: everyone gets this persona in mention and search suggestions."
+    },
+    "personaMentionableBySelf": "Only you",
+    "@personaMentionableBySelf": {
+        "description": "Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Option: only your own account gets it in suggestions."
+    },
+    "personaMentionableByNobody": "Nobody",
+    "@personaMentionableByNobody": {
+        "description": "Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Option: nobody gets it in suggestions, not even you."
+    },
+    "personaMentionableByEveryoneDescription": "Anyone can find this persona when typing @ or searching.",
+    "@personaMentionableByEveryoneDescription": {
+        "description": "Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Helper text under the setting when Everyone applies."
+    },
+    "personaMentionableBySelfDescription": "Only your account finds it when typing @ or searching.",
+    "@personaMentionableBySelfDescription": {
+        "description": "Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Helper text under the setting when Only you applies."
+    },
+    "personaMentionableByNobodyDescription": "Left out of @ suggestions and search filters, yours too. It can still speak, and its profile follows Visibility.",
+    "@personaMentionableByNobodyDescription": {
+        "description": "Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Helper text under the setting when Nobody applies; for copies of other people’s personas. Visibility is the setting above it."
+    },
+    "personaMentionableByFollows": "Follows Visibility until you choose.",
+    "@personaMentionableByFollows": {
+        "description": "Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Added to the helper text while the persona has no choice of its own: a private persona is then only for you, any other for everyone."
+    },
+    "personaMentionableByFollowVisibility": "Follow Visibility",
+    "@personaMentionableByFollowVisibility": {
+        "description": "Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Button and menu item that drops the choice, so the setting follows Visibility again."
+    },
+    "personaBulkMentions": "Mentions",
+    "@personaBulkMentions": {
+        "description": "Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Button in the persona selection bar; opens a sheet to choose who gets the selected personas in mention and search suggestions."
+    },
+    "personaBulkMentionsEveryone": "Allow mentions by everyone",
+    "@personaBulkMentionsEveryone": {
+        "description": "Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Choice in the selection bar’s Mentions sheet."
+    },
+    "personaBulkMentionsSelf": "Allow mentions only by you",
+    "@personaBulkMentionsSelf": {
+        "description": "Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Choice in the selection bar’s Mentions sheet: only your own account gets them in suggestions."
+    },
+    "personaBulkMentionsNobody": "Allow mentions by nobody",
+    "@personaBulkMentionsNobody": {
+        "description": "Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Choice in the selection bar’s Mentions sheet: nobody gets them in suggestions, you included."
+    },
+    "personaBulkNowMentionableByEveryone": "Mentions of {count, plural, one {{count} persona} other {{count} personas}} now allowed by everyone",
+    "@personaBulkNowMentionableByEveryone": {
+        "description": "Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Snack bar after the change, with Undo.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "personaBulkNowMentionableBySelf": "Mentions of {count, plural, one {{count} persona} other {{count} personas}} now allowed only by you",
+    "@personaBulkNowMentionableBySelf": {
+        "description": "Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Snack bar after the change, with Undo.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "personaBulkNowMentionableByNobody": "Mentions of {count, plural, one {{count} persona} other {{count} personas}} now allowed by nobody",
+    "@personaBulkNowMentionableByNobody": {
+        "description": "Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Snack bar after the change, with Undo.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "personaBulkNowMentionableByFollowing": "Mentions of {count, plural, one {{count} persona} other {{count} personas}} now follow Visibility",
+    "@personaBulkNowMentionableByFollowing": {
+        "description": "Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Snack bar after making the selection follow its visibility again, with Undo.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "personaNotMentionable": "Nobody gets this persona in mention suggestions",
+    "@personaNotMentionable": {
+        "description": "Who gets a persona in mention suggestions (tyne-chat/tyne#652). Same wording as the web app’s. Read out for the small struck-through @ on a persona row in settings set to Nobody."
     }
 }
