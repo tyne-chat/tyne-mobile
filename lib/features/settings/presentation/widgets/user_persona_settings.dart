@@ -14,6 +14,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_group.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
+import 'package:fluxer_app/features/profile/domain/persona_mention_setting.dart';
 import 'package:fluxer_app/features/profile/domain/persona_name_search.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/edit_persona_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/persona_group_name_dialog.dart';
@@ -392,6 +393,93 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
       toasts.show(
         FluxerToast(message: failed, variant: FluxerToastVariant.danger),
       );
+    }
+  }
+
+  /// The value every one of [values] has, or null when they differ.
+  static String? _shared(Iterable<String> values) {
+    final Set<String> distinct = values.toSet();
+    return distinct.length == 1 ? distinct.single : null;
+  }
+
+  String _nowMentionableByMessage(
+    FluxerLocalizations l10n,
+    String? mentionableBy,
+    int count,
+  ) => switch (mentionableBy) {
+    PersonaMentionableBy.everyone =>
+      l10n.fork.personaBulkNowMentionableByEveryone(count),
+    PersonaMentionableBy.self => l10n.fork.personaBulkNowMentionableBySelf(
+      count,
+    ),
+    PersonaMentionableBy.nobody => l10n.fork.personaBulkNowMentionableByNobody(
+      count,
+    ),
+    _ => l10n.fork.personaBulkNowMentionableByFollowing(count),
+  };
+
+  /// Gives the selected personas who gets them in mention suggestions
+  /// (tyne-chat/tyne#652; null: follow visibility). No confirmation: it only
+  /// decides suggestions. Nothing to change keeps the selection.
+  Future<void> _bulkSetMentionableBy(
+    String? mentionableBy,
+    List<Persona> selected,
+  ) async {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final PersonaBulkActions actions = ref.read(personaBulkActionsProvider);
+    final Toast toasts = ref.read(toastProvider.notifier);
+    final String failed = l10n.fork.personaBulkFailed;
+    setState(() => _bulkBusy = true);
+    try {
+      final PersonaMentionableByChange? change = await actions.setMentionableBy(
+        <String>[for (final Persona p in selected) p.id],
+        mentionableBy,
+      );
+      if (change == null) {
+        return;
+      }
+      if (mounted) {
+        _stopSelecting();
+      }
+      toasts.show(
+        FluxerToast(
+          message: _nowMentionableByMessage(l10n, mentionableBy, change.count),
+          variant: FluxerToastVariant.success,
+          action: FluxerToastAction(
+            label: l10n.fork.personaUndo,
+            onPressed: () => unawaited(() async {
+              try {
+                await actions.undoMentionableBy(change);
+              } on Object catch (err, st) {
+                talker.warning(
+                  '[UserPersonaSettings] Undoing a mention setting change failed: $err',
+                  err,
+                  st,
+                );
+                toasts.show(
+                  FluxerToast(
+                    message: failed,
+                    variant: FluxerToastVariant.danger,
+                  ),
+                );
+              }
+            }()),
+          ),
+        ),
+      );
+    } on Object catch (err, st) {
+      talker.warning(
+        '[UserPersonaSettings] Bulk mention setting change failed: $err',
+        err,
+        st,
+      );
+      toasts.show(
+        FluxerToast(message: failed, variant: FluxerToastVariant.danger),
+      );
+    } finally {
+      if (mounted) {
+        setState(() => _bulkBusy = false);
+      }
     }
   }
 
@@ -1221,9 +1309,20 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                   canMakePrivate: selectedPersonas.any(
                     (p) => p.visibility != 'private',
                   ),
+                  sharedVisibility: _shared(
+                    selectedPersonas.map((p) => p.visibility),
+                  ),
+                  sharedMentionableBy: _shared(
+                    selectedPersonas.map(
+                      (p) => p.mentionableBy ?? kPersonaFollowVisibility,
+                    ),
+                  ),
                   busy: _bulkBusy,
                   onVisibility: (visibility) => unawaited(
                     _bulkSetVisibility(visibility, selectedPersonas),
+                  ),
+                  onMentionableBy: (mentionableBy) => unawaited(
+                    _bulkSetMentionableBy(mentionableBy, selectedPersonas),
                   ),
                   onDelete: () => unawaited(_bulkDelete(selectedPersonas)),
                   onGroups: () => unawaited(_bulkGroups(selectedPersonas)),
@@ -1334,6 +1433,13 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                           PhosphorIcon(
                             PhosphorIconsBold.lockSimple,
                             size: 14,
+                            color: colors.textPrimaryMuted,
+                          ),
+                        ],
+                        if (persona.effectiveMentionable ==
+                            PersonaMentionableBy.nobody) ...[
+                          SizedBox(width: layout.s1_5),
+                          PersonaNotMentionableIcon(
                             color: colors.textPrimaryMuted,
                           ),
                         ],

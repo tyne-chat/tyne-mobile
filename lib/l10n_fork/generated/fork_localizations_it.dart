@@ -1321,4 +1321,95 @@ class ForkLocalizationsIt extends ForkLocalizations {
 
   @override
   String get personaGroupFailed => 'Impossibile modificare i gruppi. Riprova.';
+
+  @override
+  String get personaMentionableByLabel => 'Menzioni consentite a';
+
+  @override
+  String get personaMentionableByEveryone => 'Tutti';
+
+  @override
+  String get personaMentionableBySelf => 'Solo tu';
+
+  @override
+  String get personaMentionableByNobody => 'Nessuno';
+
+  @override
+  String get personaMentionableByEveryoneDescription =>
+      'Chiunque può trovare questa persona digitando @ o cercando.';
+
+  @override
+  String get personaMentionableBySelfDescription =>
+      'Solo il tuo account la trova digitando @ o cercando.';
+
+  @override
+  String get personaMentionableByNobodyDescription =>
+      'Esclusa dai suggerimenti di @ e dai filtri di ricerca, anche i tuoi. Può ancora parlare e il suo profilo segue Visibilità.';
+
+  @override
+  String get personaMentionableByFollows =>
+      'Segue Visibilità finché non scegli.';
+
+  @override
+  String get personaMentionableByFollowVisibility => 'Segui Visibilità';
+
+  @override
+  String get personaBulkMentions => 'Menzioni';
+
+  @override
+  String get personaBulkMentionsEveryone => 'Consenti menzioni a tutti';
+
+  @override
+  String get personaBulkMentionsSelf => 'Consenti menzioni solo a te';
+
+  @override
+  String get personaBulkMentionsNobody => 'Non consentire menzioni a nessuno';
+
+  @override
+  String personaBulkNowMentionableByEveryone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona ora sono menzionabili da tutti',
+      one: '$count persona ora è menzionabile da tutti',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableBySelf(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona ora sono menzionabili solo da te',
+      one: '$count persona ora è menzionabile solo da te',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByNobody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persona ora non sono menzionabili da nessuno',
+      one: '$count persona ora non è menzionabile da nessuno',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByFollowing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Le menzioni di $count persona ora seguono Visibilità',
+      one: 'Le menzioni di $count persona ora seguono Visibilità',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaNotMentionable =>
+      'Nessuno riceve questa persona nei suggerimenti di menzione';
 }

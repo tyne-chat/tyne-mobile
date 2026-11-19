@@ -1336,4 +1336,103 @@ class ForkLocalizationsRu extends ForkLocalizations {
   @override
   String get personaGroupFailed =>
       'Не удалось изменить группы. Попробуйте ещё раз.';
+
+  @override
+  String get personaMentionableByLabel => 'Кто может упоминать';
+
+  @override
+  String get personaMentionableByEveryone => 'Все';
+
+  @override
+  String get personaMentionableBySelf => 'Только вы';
+
+  @override
+  String get personaMentionableByNobody => 'Никто';
+
+  @override
+  String get personaMentionableByEveryoneDescription =>
+      'Найти эту персону через @ или поиск может любой.';
+
+  @override
+  String get personaMentionableBySelfDescription =>
+      'Найти её через @ или поиск может только ваш аккаунт.';
+
+  @override
+  String get personaMentionableByNobodyDescription =>
+      'Не появляется в подсказках @ и фильтрах поиска, даже у вас. Персона по-прежнему может писать, а её профиль зависит от видимости.';
+
+  @override
+  String get personaMentionableByFollows =>
+      'Определяется видимостью, пока вы не выберете.';
+
+  @override
+  String get personaMentionableByFollowVisibility => 'По видимости';
+
+  @override
+  String get personaBulkMentions => 'Упоминания';
+
+  @override
+  String get personaBulkMentionsEveryone => 'Разрешить упоминания всем';
+
+  @override
+  String get personaBulkMentionsSelf => 'Разрешить упоминания только вам';
+
+  @override
+  String get personaBulkMentionsNobody => 'Запретить упоминания всем';
+
+  @override
+  String personaBulkNowMentionableByEveryone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Упоминать $count персоны теперь могут все',
+      many: 'Упоминать $count персон теперь могут все',
+      few: 'Упоминать $count персоны теперь могут все',
+      one: 'Упоминать $count персону теперь могут все',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableBySelf(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Упоминать $count персоны теперь можете только вы',
+      many: 'Упоминать $count персон теперь можете только вы',
+      few: 'Упоминать $count персоны теперь можете только вы',
+      one: 'Упоминать $count персону теперь можете только вы',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByNobody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Упоминать $count персоны теперь не может никто',
+      many: 'Упоминать $count персон теперь не может никто',
+      few: 'Упоминать $count персоны теперь не может никто',
+      one: 'Упоминать $count персону теперь не может никто',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByFollowing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Упоминания $count персоны теперь определяются видимостью',
+      many: 'Упоминания $count персон теперь определяются видимостью',
+      few: 'Упоминания $count персон теперь определяются видимостью',
+      one: 'Упоминания $count персоны теперь определяются видимостью',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaNotMentionable =>
+      'Эта персона ни у кого не появляется в подсказках упоминаний';
 }

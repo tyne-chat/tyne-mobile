@@ -1309,4 +1309,95 @@ class ForkLocalizationsBn extends ForkLocalizations {
 
   @override
   String get personaGroupFailed => 'গ্রুপগুলো বদলানো যায়নি। আবার চেষ্টা করুন।';
+
+  @override
+  String get personaMentionableByLabel => 'কে মেনশন করতে পারবে';
+
+  @override
+  String get personaMentionableByEveryone => 'সবাই';
+
+  @override
+  String get personaMentionableBySelf => 'শুধু আপনি';
+
+  @override
+  String get personaMentionableByNobody => 'কেউ না';
+
+  @override
+  String get personaMentionableByEveryoneDescription =>
+      '@ লিখে বা সার্চ করে যে কেউ এই পারসোনা খুঁজে পাবে।';
+
+  @override
+  String get personaMentionableBySelfDescription =>
+      '@ লিখলে বা সার্চ করলে শুধু আপনার অ্যাকাউন্ট এটি খুঁজে পায়।';
+
+  @override
+  String get personaMentionableByNobodyDescription =>
+      '@ পরামর্শ ও সার্চ ফিল্টারে দেখা যায় না, আপনার নিজেরগুলোতেও না। এটি এখনও কথা বলতে পারে, আর এর প্রোফাইল দৃশ্যমানতা অনুসরণ করে।';
+
+  @override
+  String get personaMentionableByFollows =>
+      'আপনি বেছে না নেওয়া পর্যন্ত দৃশ্যমানতা অনুসরণ করে।';
+
+  @override
+  String get personaMentionableByFollowVisibility => 'দৃশ্যমানতা অনুসরণ করুন';
+
+  @override
+  String get personaBulkMentions => 'মেনশন';
+
+  @override
+  String get personaBulkMentionsEveryone => 'সবাইকে মেনশন করতে দিন';
+
+  @override
+  String get personaBulkMentionsSelf => 'শুধু আপনাকে মেনশন করতে দিন';
+
+  @override
+  String get personaBulkMentionsNobody => 'কাউকে মেনশন করতে দেবেন না';
+
+  @override
+  String personaBulkNowMentionableByEveryone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countটি পারসোনাকে',
+      one: '$countটি পারসোনাকে',
+    );
+    return 'এখন সবাই $_temp0 মেনশন করতে পারবে';
+  }
+
+  @override
+  String personaBulkNowMentionableBySelf(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countটি পারসোনাকে',
+      one: '$countটি পারসোনাকে',
+    );
+    return 'এখন শুধু আপনি $_temp0 মেনশন করতে পারবেন';
+  }
+
+  @override
+  String personaBulkNowMentionableByNobody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countটি পারসোনাকে',
+      one: '$countটি পারসোনাকে',
+    );
+    return 'এখন কেউ $_temp0 মেনশন করতে পারবে না';
+  }
+
+  @override
+  String personaBulkNowMentionableByFollowing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countটি পারসোনার',
+      one: '$countটি পারসোনার',
+    );
+    return '$_temp0 মেনশন এখন দৃশ্যমানতা অনুসরণ করে';
+  }
+
+  @override
+  String get personaNotMentionable =>
+      'এই পারসোনা কারও মেনশন পরামর্শে দেখা যায় না';
 }
