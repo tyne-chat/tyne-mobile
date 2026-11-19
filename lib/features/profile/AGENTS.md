@@ -22,7 +22,8 @@ reaches most of the app. The server side is tyne-chat/tyne `fluxer_api/src/api/p
 | The device's persona cache | `data/known_personas.dart` (Drift table `known_personas`) |
 | Create, edit, duplicate, delete | `presentation/sheets/edit_persona_sheet.dart` (the copy's bar: `persona_copy_bar.dart`) |
 | The persona profile | `_buildPersonaProfile` in `presentation/widgets/user_profile_view.dart` |
-| Changing the visibility of, or deleting, many own personas at once (tyne-chat/tyne#542) | `providers/persona_bulk_actions.dart` (the settings page's select mode uses it) |
+| Changing the visibility or mention setting of, or deleting, many own personas at once (tyne-chat/tyne#542, #652) | `providers/persona_bulk_actions.dart` (the settings page's select mode uses it) |
+| Who gets a persona in mention suggestions (tyne-chat/tyne#652) | `domain/persona_mention_setting.dart` |
 | Own deleted personas and Restore (tyne-chat/tyne#610) | `providers/deleted_personas.dart` (the settings page's Deleted personas section uses it) |
 | Own persona groups (tyne-chat/tyne#829): model, sections and changes; the list and its requests; folds on this device; the editor's Groups field and the name dialog | `domain/persona_group.dart`, `providers/persona_groups_provider.dart`, `providers/persona_group_folds_provider.dart`, `presentation/widgets/persona_groups_field.dart`, `presentation/widgets/persona_group_name_dialog.dart` (the settings page's part is in `lib/features/settings`) |
 | An account's public personas: the "Personas (N)" pill, row and gallery (tyne-chat/tyne#189) | `providers/public_persona_list_provider.dart`, `domain/persona_gallery.dart`, `presentation/widgets/persona_gallery_entry.dart`, `presentation/sheets/persona_gallery_sheet.dart`, `presentation/sheets/persona_profile_pager.dart`, `providers/persona_gallery_view_provider.dart` |
@@ -65,6 +66,16 @@ autocomplete (`ChannelPersonaMentionCache`), the pickers (`personaMatchesQuery`)
 gallery and message search's typed names (`resolvePersonaSearchName`, which also reads the account's own
 personas, kept by `MyPersonasNotifier` in `ownPersonasForSearch`) all match them. Tests:
 `test/features/profile/domain/persona_name_search_test.dart`.
+
+**Who gets a persona in suggestions** (tyne-chat/tyne#652): `mentionableBy` (`everyone`, `self`,
+`nobody`) decides who gets it in the mention autocomplete and search's `from:`/`mentions:`; it is for
+copies of other people's personas and hides nothing else. Stored null follows the visibility
+(`domain/persona_mention_setting.dart`, the server's `PersonaMentionableBy.ts` rule): private only for
+its owner, any other for everyone. The editor's "Allow mentions by" shows that value until one is
+picked and sends null meanwhile; "Follow Visibility" drops a pick. `Persona.copyWith` and
+`PublicPersona.copyWith` take `mentionableBy: null` to clear it, and every copy the editor makes
+carries it. Other accounts' personas come only from the server's mention route, which applies the
+setting; the account's own Nobody personas stay out of `ownPersonasForSearch`.
 
 ## Sending and showing
 
@@ -118,7 +129,8 @@ personas, kept by `MyPersonasNotifier` in `ownPersonasForSearch`) all match them
   mode (`personaSettingsLaunchProvider`, tyne-chat/tyne#542).
 - **Many at once** (tyne-chat/tyne#542): `PersonaBulkActions` sends only the personas that change, in
   one request per 250 (the server's limit, each all or nothing), applies the answer to the list in
-  one change (`replacePersonas`), and keeps each persona's previous visibility for Undo. A bulk
+  one change (`replacePersonas`), and keeps each persona's previous visibility or stored mention
+  setting for Undo. A bulk
   delete drops the personas (`removePersonas`, their pinned emojis in one synced change through
   `forgetPersonas`) and clears the selection and per-channel selections naming them here at once,
   without a request: the server clears them itself and its events follow.
@@ -163,7 +175,7 @@ groups of the persona it copies.
 **Duplicate** (tyne-chat/tyne#599), above Delete, is off while the form has unsaved changes. It closes the
 editor and opens `EditPersonaSheet.show(copyOf:)`: a new persona filled in from the saved one, with the
 same picture hashes (nothing uploaded; the server deletes images only with the account), colours,
-aliases, pronouns, bio, visibility and tag matching, under `duplicatePersonaName` (`domain/persona_duplicate_name.dart`,
+aliases, pronouns, bio, visibility, mention setting and tag matching, under `duplicatePersonaName` (`domain/persona_duplicate_name.dart`,
 the web's rule: "Lyra (2)", a copy of a copy counting on), autofocused and selected. Tags and signature
 emojis start empty, since each belongs to one persona. The copy is unsaved from the start: `PersonaCopyBar`
 ("Copy of …", Cancel, Create) stays up below the form (not over it, where it would cover the field being
@@ -202,7 +214,7 @@ name counts the API's limit in UTF-16 code units and is cut only between whole c
   keeps the notifier across those builds, so a counter that only grows (`_epoch`) drops the answers to
   requests made for the previous account, and the folds check their key after reading storage. Each change is one request, never retried; the server's
   `USER_PERSONA_GROUPS_UPDATE` replaces the list with no request.
-- **Many at once**: one `PATCH /users/@me/personas/visibility` or `POST /users/@me/personas/bulk-delete`
+- **Many at once**: one `PATCH /users/@me/personas/visibility`, `PATCH /users/@me/personas/mentions` or `POST /users/@me/personas/bulk-delete`
   per 250 personas, nothing when none would change, never retried; Undo is one more `PATCH`. The
   server's `USER_PERSONAS_UPDATE` then reloads the own list once per mobile session, as one change
   does.
