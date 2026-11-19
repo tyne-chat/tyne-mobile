@@ -116,6 +116,9 @@ class ForkLocalizationsHu extends ForkLocalizations {
   String get personaAliasesLabel => 'Álnevek';
 
   @override
+  String get personaAliasLabel => 'Álnév';
+
+  @override
   String get personaAliasesHelp =>
       'További nevek, amelyekkel megtalálod ezt a personát';
 

@@ -23,6 +23,7 @@
     "personaPronounsLabel": "Pronoms",
     "personaPronounsHint": "ex. iel/elle/il",
     "personaAliasesLabel": "Alias",
+    "personaAliasLabel": "Alias",
     "personaAliasesHelp": "D’autres noms pour trouver cette persona",
     "personaAddAlias": "Ajouter un alias ({count}/{max})",
     "personaRemoveAlias": "Retirer l’alias",

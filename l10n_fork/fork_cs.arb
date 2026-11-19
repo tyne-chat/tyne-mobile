@@ -23,6 +23,7 @@
     "personaPronounsLabel": "Zájmena",
     "personaPronounsHint": "např. oni/jejich",
     "personaAliasesLabel": "Aliasy",
+    "personaAliasLabel": "Alias",
     "personaAliasesHelp": "Další jména, podle kterých tuto personu najdete",
     "personaAddAlias": "Přidat alias ({count}/{max})",
     "personaRemoveAlias": "Odebrat alias",

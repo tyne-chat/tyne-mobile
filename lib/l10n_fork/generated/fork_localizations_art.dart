@@ -117,6 +117,9 @@ class ForkLocalizationsArt extends ForkLocalizations {
   String get personaAliasesLabel => 'nimi ante';
 
   @override
+  String get personaAliasLabel => 'nimi ante';
+
+  @override
   String get personaAliasesHelp => 'nimi ante la sina ken alasa e jan insa ni';
 
   @override

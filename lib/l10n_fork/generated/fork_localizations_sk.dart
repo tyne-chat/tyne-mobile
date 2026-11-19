@@ -117,6 +117,9 @@ class ForkLocalizationsSk extends ForkLocalizations {
   String get personaAliasesLabel => 'Aliasy';
 
   @override
+  String get personaAliasLabel => 'Alias';
+
+  @override
   String get personaAliasesHelp =>
       'Ďalšie mená, podľa ktorých túto personu nájdete';
 

@@ -23,6 +23,7 @@
     "personaPronounsLabel": "Pronominit",
     "personaPronounsHint": "esim. hän/hänelle",
     "personaAliasesLabel": "Aliakset",
+    "personaAliasLabel": "Alias",
     "personaAliasesHelp": "Muita nimiä, joilla tämän persoonan löytää",
     "personaAddAlias": "Lisää alias ({count}/{max})",
     "personaRemoveAlias": "Poista alias",

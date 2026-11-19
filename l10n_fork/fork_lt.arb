@@ -23,6 +23,7 @@
     "personaPronounsLabel": "Įvardžiai",
     "personaPronounsHint": "pvz., jie/jų",
     "personaAliasesLabel": "Slapyvardžiai",
+    "personaAliasLabel": "Slapyvardis",
     "personaAliasesHelp": "Kiti vardai, pagal kuriuos galima rasti šią personą",
     "personaAddAlias": "Pridėti slapyvardį ({count}/{max})",
     "personaRemoveAlias": "Pašalinti slapyvardį",

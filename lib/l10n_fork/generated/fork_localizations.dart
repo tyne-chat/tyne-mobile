@@ -371,6 +371,12 @@ abstract class ForkLocalizations {
   /// **'Aliases'**
   String get personaAliasesLabel;
 
+  /// Spoken name of one alias field in the persona editor: another name, never shown, that finds the persona when searching or mentioning.
+  ///
+  /// In en, this message translates to:
+  /// **'Alias'**
+  String get personaAliasLabel;
+
   /// Helper text under the persona aliases heading.
   ///
   /// In en, this message translates to:

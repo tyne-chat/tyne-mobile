@@ -23,6 +23,7 @@
     "personaPronounsLabel": "代名詞",
     "personaPronounsHint": "例如：they/them",
     "personaAliasesLabel": "別名",
+    "personaAliasLabel": "別名",
     "personaAliasesHelp": "用來找到此人格的其他名稱",
     "personaAddAlias": "新增別名 ({count}/{max})",
     "personaRemoveAlias": "移除別名",

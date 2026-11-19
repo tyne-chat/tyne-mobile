@@ -116,6 +116,9 @@ class ForkLocalizationsRo extends ForkLocalizations {
   String get personaAliasesLabel => 'Aliasuri';
 
   @override
+  String get personaAliasLabel => 'Alias';
+
+  @override
   String get personaAliasesHelp =>
       'Alte nume după care să găsești această persona';
 

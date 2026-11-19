@@ -118,6 +118,9 @@ class ForkLocalizationsBg extends ForkLocalizations {
   String get personaAliasesLabel => 'Псевдоними';
 
   @override
+  String get personaAliasLabel => 'Псевдоним';
+
+  @override
   String get personaAliasesHelp =>
       'Други имена, по които да намерите тази персона';
 

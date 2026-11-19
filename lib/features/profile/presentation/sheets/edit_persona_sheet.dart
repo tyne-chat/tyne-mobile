@@ -1460,10 +1460,13 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              l10n.fork.personaAliasesLabel,
-              style: textStyles.label.copyWith(color: colors.textPrimary),
+            Flexible(
+              child: Text(
+                l10n.fork.personaAliasesLabel,
+                style: textStyles.label.copyWith(color: colors.textPrimary),
+              ),
             ),
+            SizedBox(width: layout.s2),
             FluxerButton.secondary(
               label: l10n.fork.personaAddAlias(
                 _aliasControllers.length,
@@ -1486,16 +1489,23 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
         ),
         SizedBox(height: layout.s2),
         for (int i = 0; i < _aliasControllers.length; i++) ...[
+          // Keyed by its controller, so removing a row above keeps the focus
+          // and the keyboard where they are.
           Padding(
+            key: ObjectKey(_aliasControllers[i]),
             padding: EdgeInsets.only(bottom: layout.s2),
             child: Row(
               children: [
                 Expanded(
-                  child: FluxerInput(
-                    key: ValueKey<String>('persona-alias-$i'),
-                    controller: _aliasControllers[i],
-                    maxLength: kPersonaAliasMaxLength,
-                    enabled: !_isSaving,
+                  child: Semantics(
+                    label: l10n.fork.personaAliasLabel,
+                    textField: true,
+                    child: FluxerInput(
+                      key: ValueKey<String>('persona-alias-$i'),
+                      controller: _aliasControllers[i],
+                      maxLength: kPersonaAliasMaxLength,
+                      enabled: !_isSaving,
+                    ),
                   ),
                 ),
                 if (_aliasControllers.length > 1) ...[

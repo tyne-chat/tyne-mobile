@@ -23,6 +23,7 @@
     "personaPronounsLabel": "Zamirler",
     "personaPronounsHint": "örn. o/onlar",
     "personaAliasesLabel": "Takma adlar",
+    "personaAliasLabel": "Takma ad",
     "personaAliasesHelp": "Bu personayı bulmak için başka adlar",
     "personaAddAlias": "Takma ad ekle ({count}/{max})",
     "personaRemoveAlias": "Takma adı kaldır",

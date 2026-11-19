@@ -31,6 +31,7 @@
     "personaPronounsLabel": "Përemrat",
     "personaPronounsHint": "p.sh. ata/atyre",
     "personaAliasesLabel": "Pseudonime",
+    "personaAliasLabel": "Pseudonim",
     "personaAliasesHelp": "Emra të tjerë për ta gjetur këtë personë",
     "personaAddAlias": "Shto pseudonim ({count}/{max})",
     "personaRemoveAlias": "Hiq pseudonimin",

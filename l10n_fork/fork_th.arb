@@ -23,6 +23,7 @@
     "personaPronounsLabel": "คำสรรพนาม",
     "personaPronounsHint": "เช่น they/them",
     "personaAliasesLabel": "ชื่อแฝง",
+    "personaAliasLabel": "ชื่อแฝง",
     "personaAliasesHelp": "ชื่ออื่นที่ใช้ค้นหา Persona นี้",
     "personaAddAlias": "เพิ่มชื่อแฝง ({count}/{max})",
     "personaRemoveAlias": "ลบชื่อแฝง",

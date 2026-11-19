@@ -118,6 +118,9 @@ class ForkLocalizationsSq extends ForkLocalizations {
   String get personaAliasesLabel => 'Pseudonime';
 
   @override
+  String get personaAliasLabel => 'Pseudonim';
+
+  @override
   String get personaAliasesHelp => 'Emra të tjerë për ta gjetur këtë personë';
 
   @override

@@ -23,6 +23,7 @@
     "personaPronounsLabel": "Đại từ nhân xưng",
     "personaPronounsHint": "vd. they/them",
     "personaAliasesLabel": "Biệt danh",
+    "personaAliasLabel": "Biệt danh",
     "personaAliasesHelp": "Các tên khác để tìm persona này",
     "personaAddAlias": "Thêm biệt danh ({count}/{max})",
     "personaRemoveAlias": "Xóa biệt danh",

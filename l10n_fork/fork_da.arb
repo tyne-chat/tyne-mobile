@@ -23,6 +23,7 @@
     "personaPronounsLabel": "Pronominer",
     "personaPronounsHint": "f.eks. de/dem",
     "personaAliasesLabel": "Aliasser",
+    "personaAliasLabel": "Alias",
     "personaAliasesHelp": "Andre navne at finde denne persona under",
     "personaAddAlias": "Tilføj alias ({count}/{max})",
     "personaRemoveAlias": "Fjern alias",
