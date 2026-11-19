@@ -8,9 +8,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/domain/persona_group.dart';
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/edit_persona_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/persona_copy_bar.dart';
+import 'package:fluxer_app/features/profile/providers/persona_groups_provider.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
@@ -23,6 +25,13 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/image_utils.dart';
 
 import '../../../../helpers/pump_fluxer_app.dart';
+
+/// No persona groups, and no request for them (tyne-chat/tyne#829): these
+/// tests count every request.
+class _NoPersonaGroups extends PersonaGroupsNotifier {
+  @override
+  List<PersonaGroup> build() => const <PersonaGroup>[];
+}
 
 class _FakeUserSettings extends UserSettingsViewModel {
   @override
@@ -159,6 +168,7 @@ void main() {
         systemDisplayTagProvider.overrideWith(
           _FakeSystemDisplayTagNotifier.new,
         ),
+        personaGroupsProvider.overrideWith(_NoPersonaGroups.new),
       ],
       child: Consumer(
         builder: (context, ref, _) {

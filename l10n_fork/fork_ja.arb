@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "すべてを1つのリストに",
     "guildEmojiAllSection": "絵文字 ({count})",
     "forwardAs": "転送する名義",
-    "forwardAsName": "{name}として転送"
+    "forwardAsName": "{name}として転送",
+    "personaGroupNew": "新しいグループ",
+    "personaGroupNameLabel": "グループ名",
+    "personaGroupCreate": "グループを作成",
+    "personaGroupRename": "グループ名を変更",
+    "personaGroupDelete": "グループを削除",
+    "personaGroupDeleteConfirm": "グループ「{name}」を削除しますか？中のペルソナはそのまま残ります。",
+    "personaGroupNone": "グループなし",
+    "personaGroups": "グループ",
+    "personaGroupAddTo": "グループに追加",
+    "personaGroupNewEllipsis": "新しいグループ…",
+    "personaGroupSelectMembers": "中のペルソナを選択",
+    "personaGroupsDone": "完了",
+    "personaGroupOptions": "{name}のオプション",
+    "personaGroupRemoveFrom": "「{name}」から外す",
+    "personaGroupFailed": "グループを変更できませんでした。もう一度お試しください。"
 }

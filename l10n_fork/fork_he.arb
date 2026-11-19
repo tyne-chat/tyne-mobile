@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "הכול ברשימה אחת",
     "guildEmojiAllSection": "אימוג'י ({count})",
     "forwardAs": "העברה בתור",
-    "forwardAsName": "העברה בתור {name}"
+    "forwardAsName": "העברה בתור {name}",
+    "personaGroupNew": "קבוצה חדשה",
+    "personaGroupNameLabel": "שם הקבוצה",
+    "personaGroupCreate": "יצירת קבוצה",
+    "personaGroupRename": "שינוי שם הקבוצה",
+    "personaGroupDelete": "מחיקת הקבוצה",
+    "personaGroupDeleteConfirm": "למחוק את הקבוצה \"{name}\"? הפרסונות שבה יישמרו.",
+    "personaGroupNone": "לא בקבוצה",
+    "personaGroups": "קבוצות",
+    "personaGroupAddTo": "הוספה לקבוצה",
+    "personaGroupNewEllipsis": "קבוצה חדשה…",
+    "personaGroupSelectMembers": "בחירת הפרסונות שבה",
+    "personaGroupsDone": "סיום",
+    "personaGroupOptions": "אפשרויות עבור {name}",
+    "personaGroupRemoveFrom": "הסרה מ־“{name}”",
+    "personaGroupFailed": "לא ניתן היה לשנות את הקבוצות. נסו שוב."
 }

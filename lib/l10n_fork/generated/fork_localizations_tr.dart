@@ -1249,4 +1249,55 @@ class ForkLocalizationsTr extends ForkLocalizations {
   String forwardAsName(String name) {
     return '$name olarak ilet';
   }
+
+  @override
+  String get personaGroupNew => 'Yeni grup';
+
+  @override
+  String get personaGroupNameLabel => 'Grup adı';
+
+  @override
+  String get personaGroupCreate => 'Grup oluştur';
+
+  @override
+  String get personaGroupRename => 'Grubu yeniden adlandır';
+
+  @override
+  String get personaGroupDelete => 'Grubu sil';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return '\"$name\" grubu silinsin mi? İçindeki personalar korunur.';
+  }
+
+  @override
+  String get personaGroupNone => 'Grupta değil';
+
+  @override
+  String get personaGroups => 'Gruplar';
+
+  @override
+  String get personaGroupAddTo => 'Gruba ekle';
+
+  @override
+  String get personaGroupNewEllipsis => 'Yeni grup…';
+
+  @override
+  String get personaGroupSelectMembers => 'İçindeki personaları seç';
+
+  @override
+  String get personaGroupsDone => 'Bitti';
+
+  @override
+  String personaGroupOptions(String name) {
+    return '$name seçenekleri';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return '“$name” grubundan çıkar';
+  }
+
+  @override
+  String get personaGroupFailed => 'Gruplar değiştirilemedi. Tekrar dene.';
 }

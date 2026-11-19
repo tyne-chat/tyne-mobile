@@ -1281,4 +1281,56 @@ class ForkLocalizationsLt extends ForkLocalizations {
   String forwardAsName(String name) {
     return 'Persiųsti kaip $name';
   }
+
+  @override
+  String get personaGroupNew => 'Nauja grupė';
+
+  @override
+  String get personaGroupNameLabel => 'Grupės pavadinimas';
+
+  @override
+  String get personaGroupCreate => 'Sukurti grupę';
+
+  @override
+  String get personaGroupRename => 'Pervadinti grupę';
+
+  @override
+  String get personaGroupDelete => 'Ištrinti grupę';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return 'Ištrinti grupę „$name“? Joje esančios personos išliks.';
+  }
+
+  @override
+  String get personaGroupNone => 'Ne grupėje';
+
+  @override
+  String get personaGroups => 'Grupės';
+
+  @override
+  String get personaGroupAddTo => 'Pridėti į grupę';
+
+  @override
+  String get personaGroupNewEllipsis => 'Nauja grupė…';
+
+  @override
+  String get personaGroupSelectMembers => 'Pasirinkti joje esančias personas';
+
+  @override
+  String get personaGroupsDone => 'Atlikta';
+
+  @override
+  String personaGroupOptions(String name) {
+    return '$name parinktys';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'Pašalinti iš „$name“';
+  }
+
+  @override
+  String get personaGroupFailed =>
+      'Nepavyko pakeisti grupių. Bandykite dar kartą.';
 }

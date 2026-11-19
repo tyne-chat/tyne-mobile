@@ -1206,6 +1206,57 @@ class ForkLocalizationsZh extends ForkLocalizations {
   String forwardAsName(String name) {
     return '以 $name 身份转发';
   }
+
+  @override
+  String get personaGroupNew => '新建分组';
+
+  @override
+  String get personaGroupNameLabel => '分组名称';
+
+  @override
+  String get personaGroupCreate => '创建分组';
+
+  @override
+  String get personaGroupRename => '重命名分组';
+
+  @override
+  String get personaGroupDelete => '删除分组';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return '要删除分组“$name”吗？其中的人格会保留。';
+  }
+
+  @override
+  String get personaGroupNone => '未分组';
+
+  @override
+  String get personaGroups => '分组';
+
+  @override
+  String get personaGroupAddTo => '添加到分组';
+
+  @override
+  String get personaGroupNewEllipsis => '新建分组…';
+
+  @override
+  String get personaGroupSelectMembers => '选择其中的人格';
+
+  @override
+  String get personaGroupsDone => '完成';
+
+  @override
+  String personaGroupOptions(String name) {
+    return '$name 的选项';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return '从“$name”中移除';
+  }
+
+  @override
+  String get personaGroupFailed => '无法更改分组。请重试。';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -2410,4 +2461,55 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
   String forwardAsName(String name) {
     return '以 $name 身分轉傳';
   }
+
+  @override
+  String get personaGroupNew => '新增分組';
+
+  @override
+  String get personaGroupNameLabel => '分組名稱';
+
+  @override
+  String get personaGroupCreate => '建立分組';
+
+  @override
+  String get personaGroupRename => '重新命名分組';
+
+  @override
+  String get personaGroupDelete => '刪除分組';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return '要刪除分組「$name」嗎？其中的人格會保留。';
+  }
+
+  @override
+  String get personaGroupNone => '未分組';
+
+  @override
+  String get personaGroups => '分組';
+
+  @override
+  String get personaGroupAddTo => '新增到分組';
+
+  @override
+  String get personaGroupNewEllipsis => '新增分組…';
+
+  @override
+  String get personaGroupSelectMembers => '選取其中的人格';
+
+  @override
+  String get personaGroupsDone => '完成';
+
+  @override
+  String personaGroupOptions(String name) {
+    return '$name 的選項';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return '從「$name」移除';
+  }
+
+  @override
+  String get personaGroupFailed => '無法變更分組。請再試一次。';
 }

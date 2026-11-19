@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "全部在一个列表中",
     "guildEmojiAllSection": "表情（{count}）",
     "forwardAs": "转发身份",
-    "forwardAsName": "以 {name} 身份转发"
+    "forwardAsName": "以 {name} 身份转发",
+    "personaGroupNew": "新建分组",
+    "personaGroupNameLabel": "分组名称",
+    "personaGroupCreate": "创建分组",
+    "personaGroupRename": "重命名分组",
+    "personaGroupDelete": "删除分组",
+    "personaGroupDeleteConfirm": "要删除分组“{name}”吗？其中的人格会保留。",
+    "personaGroupNone": "未分组",
+    "personaGroups": "分组",
+    "personaGroupAddTo": "添加到分组",
+    "personaGroupNewEllipsis": "新建分组…",
+    "personaGroupSelectMembers": "选择其中的人格",
+    "personaGroupsDone": "完成",
+    "personaGroupOptions": "{name} 的选项",
+    "personaGroupRemoveFrom": "从“{name}”中移除",
+    "personaGroupFailed": "无法更改分组。请重试。"
 }

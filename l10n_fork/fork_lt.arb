@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "Visi viename sąraše",
     "guildEmojiAllSection": "Jaustukai ({count})",
     "forwardAs": "Persiųsti kaip",
-    "forwardAsName": "Persiųsti kaip {name}"
+    "forwardAsName": "Persiųsti kaip {name}",
+    "personaGroupNew": "Nauja grupė",
+    "personaGroupNameLabel": "Grupės pavadinimas",
+    "personaGroupCreate": "Sukurti grupę",
+    "personaGroupRename": "Pervadinti grupę",
+    "personaGroupDelete": "Ištrinti grupę",
+    "personaGroupDeleteConfirm": "Ištrinti grupę „{name}“? Joje esančios personos išliks.",
+    "personaGroupNone": "Ne grupėje",
+    "personaGroups": "Grupės",
+    "personaGroupAddTo": "Pridėti į grupę",
+    "personaGroupNewEllipsis": "Nauja grupė…",
+    "personaGroupSelectMembers": "Pasirinkti joje esančias personas",
+    "personaGroupsDone": "Atlikta",
+    "personaGroupOptions": "{name} parinktys",
+    "personaGroupRemoveFrom": "Pašalinti iš „{name}“",
+    "personaGroupFailed": "Nepavyko pakeisti grupių. Bandykite dar kartą."
 }

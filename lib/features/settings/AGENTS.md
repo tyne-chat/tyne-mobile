@@ -23,6 +23,7 @@ and pushed is in `lib/core/synced_preferences/AGENTS.md`.
 | Personas page; quick-switcher switch (fork) | `presentation/widgets/user_persona_settings.dart`; `providers/quick_switcher_button_preferences_provider.dart` |
 | The Personas page's filter chips and select mode (fork, tyne-chat/tyne#542) | `presentation/widgets/persona_bulk_edit.dart`, `providers/persona_settings_launch_provider.dart`; the requests in the profile folder's `providers/persona_bulk_actions.dart` |
 | The Personas page's Deleted personas section and Restore (fork, tyne-chat/tyne#610) | `presentation/widgets/deleted_personas_section.dart`; the requests in the profile folder's `providers/deleted_personas.dart` |
+| The Personas page's groups: section headers, a group's menu, the select mode's Groups sheet (fork, tyne-chat/tyne#829) | `presentation/widgets/persona_group_sections.dart`; the groups, folds and requests in the profile folder (`domain/persona_group.dart`, `providers/persona_groups_provider.dart`, `providers/persona_group_folds_provider.dart`) |
 | Widget kit (`FluxerSettingsSheet`, `FluxerSettingsSection`) | `lib/features/ui/settings/` |
 
 ## Reaching a section
@@ -117,6 +118,21 @@ whose values are a server resource mirrored in SharedPreferences.
   persona has it) or deletes. Public, Private and Delete ask first; Unlisted applies at once. The
   work is the profile folder's `PersonaBulkActions`; a visibility change ends with a toast with Undo,
   a failure with a toast that keeps the selection. The save bar hides while selecting.
+- **Groups** (tyne-chat/tyne#829), PluralKit's idea: with at least one group the list shows a
+  section per group, in the order the groups were made, then "Not in a group"; a persona in several
+  groups shows in each (`buildPersonaGroupSections`). A tap on a section's header folds it; folds are
+  kept on this device per account (`personaGroupFoldsProvider`, SharedPreferences
+  `persona_group_folds_<account>`), never sent, and "Not in a group" folds under `none`. A search shows
+  its matches in one flat list, folded groups included; a chip hides the groups it leaves empty.
+  "Select all" takes only what shows, so not folded groups. With groups but no personas the groups
+  still show. "New Group", under the visibility chips (the header's buttons already fill a phone's
+  width), makes a group (a name dialog, 1 to 100 characters); a group's ⋯ opens Rename group, Select
+  the personas in it (off for a group with none shown; select mode with its live personas, the
+  group unfolded) and Delete group (asks first; its personas stay). A failure is a toast with the
+  server's reason when it gave one (the 250-group limit), else "Couldn't change the groups". Select mode's bar gains Groups: a sheet with a box per group, ticked when every
+  selected persona is in it and dashed when some are, a tap putting all in or, when all are, taking
+  all out, "New group…" (made with the selected personas in it), and Done, which sends one request for
+  every row changed and ends select mode. Without groups the page is as before.
 - **Deleted personas** (tyne-chat/tyne#610), the last section, as on the web: Show loads the list
   (most recently deleted first; a long list scrolls in a box of its own, `kDeletedPersonasListMaxHeight`),
   a failure waits for Retry, and Restore brings a persona back at once, one at a time, with a toast
@@ -187,7 +203,10 @@ empty state, with no error or retry (tyne-chat/tyne#350). Every card is built (a
 
 | Action | Requests | On failure |
 |---|---|---|
-| Opening the Personas page | none (its providers load at start-up and READY) | |
+| Opening the Personas page | none, except the first time anything reads the groups: 1 `GET /users/@me/personas/groups`, shared (its other providers load at start-up and READY) | the page shows no groups; nothing asks again until the next READY |
+| New group, Rename group, Delete group | 1 `POST`, `PATCH` or `DELETE` under `/users/@me/personas/groups` | toast; nothing changes |
+| Select mode: Groups sheet's Done | 1 `PATCH /users/@me/personas/groups/members` for every row changed, none when nothing changes; "New group…" is 1 `POST`; the event then replaces the list with no request | toast; the sheet stays open |
+| Folding a group | none (this device only) | |
 | Mode, "Make active", "Active" | 1 `PATCH /users/@me/personas/settings` | state stays; the error escapes unhandled (`unawaited` inside a `try`) |
 | Scope | 1 `PATCH` | put back silently |
 | "React as several personas at once" | 1 `PATCH /users/@me/personas/settings` | logged and put back; no retry |
@@ -216,7 +235,10 @@ Each request answers a tap; nothing runs per item or per build, and the pages re
   count them and make them fail. The request rules themselves are in the profile folder's
   `providers/persona_bulk_actions_test.dart`. `presentation/widgets/deleted_personas_section_test.dart`
   (no request until Show, Retry, Restore, a long list in its box), with the request rules in the
-  profile folder's `providers/deleted_personas_test.dart`. Also
+  profile folder's `providers/deleted_personas_test.dart`. `presentation/widgets/persona_groups_settings_test.dart`
+  (sections, folds, search, a chip, New group, "Select the personas in it", the Groups sheet's one
+  request), with the request rules in the profile folder's `providers/persona_groups_provider_test.dart`.
+  Also
   `test/core/deep_links/user_settings_deep_link_fork_test.dart`, through `test/core`.
 - Fork, not in the list: `providers/quick_switcher_button_preferences_provider_test.dart`,
   `domain/guild/expressions/guild_emoji_list_order_test.dart`,

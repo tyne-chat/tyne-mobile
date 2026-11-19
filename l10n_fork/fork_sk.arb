@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "Všetky v jednom zozname",
     "guildEmojiAllSection": "Emoji ({count})",
     "forwardAs": "Preposlať ako",
-    "forwardAsName": "Preposlať ako {name}"
+    "forwardAsName": "Preposlať ako {name}",
+    "personaGroupNew": "Nová skupina",
+    "personaGroupNameLabel": "Názov skupiny",
+    "personaGroupCreate": "Vytvoriť skupinu",
+    "personaGroupRename": "Premenovať skupinu",
+    "personaGroupDelete": "Odstrániť skupinu",
+    "personaGroupDeleteConfirm": "Odstrániť skupinu „{name}“? Persony v nej zostanú.",
+    "personaGroupNone": "Mimo skupín",
+    "personaGroups": "Skupiny",
+    "personaGroupAddTo": "Pridať do skupiny",
+    "personaGroupNewEllipsis": "Nová skupina…",
+    "personaGroupSelectMembers": "Vybrať persony v nej",
+    "personaGroupsDone": "Hotovo",
+    "personaGroupOptions": "Možnosti skupiny {name}",
+    "personaGroupRemoveFrom": "Odobrať z „{name}“",
+    "personaGroupFailed": "Skupiny sa nepodarilo zmeniť. Skúste to znova."
 }
