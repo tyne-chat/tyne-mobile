@@ -2770,11 +2770,6 @@ class GatewayEventHandler {
       event.guild.members,
       event.guild.voiceStates,
     );
-    // Fork: its members may be asked for again; these are confirmed (tyne-chat/tyne#614).
-    ForkMemberConfirmation.of(database)
-      ..guildAvailable(guildId)
-      ..confirmMembers(guildId, members);
-
     unawaited(() async {
       final ({List<String> channelIds, Set<String> roleGuildIds}) pruned =
           await database.transaction(() async {
@@ -2885,6 +2880,14 @@ class GatewayEventHandler {
             );
             return pruned;
           });
+      // Fork: confirmed once stored; available to ask for again (tyne-chat/tyne#614).
+      forkGuildCreateStored(
+        database,
+        guildId,
+        members,
+        current:
+            _guildAvailabilityGenerations[guildId] == availabilityGeneration,
+      );
       if (_guildAvailabilityGenerations[guildId] == availabilityGeneration) {
         _emit(() => onGuildAvailable?.call(guildId));
       }
@@ -2985,6 +2988,8 @@ class GatewayEventHandler {
 
   Future<void> _handleGuildDelete(GuildDeleteEvent event) async {
     _bumpGuildAvailability(event.guildId);
+    // Fork: its member rows go (tyne-chat/tyne#614).
+    ForkMemberConfirmation.of(database).forgetGuild(event.guildId);
     _emit(
       () => onGuildAvailabilityChanged?.call(
         event.guildId,

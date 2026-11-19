@@ -72,7 +72,7 @@ Future<UserProfileFullResponse?> userProfile(
     );
     await _cacheUserProfile(database, profile);
     // Fork: keep the member it brings (tyne-chat/tyne#614).
-    await forkCacheProfileMember(database, guildId, profile);
+    await forkCacheProfileMember(ref, database, guildId, profile);
     return profile;
   } on Object {
     if (cachedUser != null) {
