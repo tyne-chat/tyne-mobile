@@ -236,7 +236,9 @@ if the user opted in and the build has a Measure key and URL.
   once `gradlew` and `local.properties` exist (`flutter build apk --config-only` writes both without
   building), leaving out `:app:compileFlutterBuildCanaryUnifiedpushDebug`: without `-x` the task
   builds the Flutter app for Android, Rust included, which JVM tests do not need and which fails where
-  Rust has no Android targets. Two of upstream's tests in `SsoAuthSessionTasksTest` fail there with `Method parse in
+  Rust has no Android targets. Since Flutter 3.50, create the empty
+  `build/app/intermediates/flutter/canaryUnifiedpushDebug` first: `copyFlutterAssets` takes that
+  task's output as an input and fails if it is missing. Two of upstream's tests in `SsoAuthSessionTasksTest` fail there with `Method parse in
   android.net.Uri not mocked`: they call `Uri.parse` without Robolectric, which is why the gate
   names the fork's. A fork test goes in its own file, `Fork*Test.kt`, or `<UpstreamName>ForkTest.kt`
   for fork behaviour in an upstream class; a name outside those patterns is not run by the gate.
