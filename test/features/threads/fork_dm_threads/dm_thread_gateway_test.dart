@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
+import 'package:fluxer_app/features/threads/domain/thread_channel.dart';
 import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_gateway.dart';
 import 'package:fluxer_app/features/threads/fork_dm_threads/dm_threads.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
@@ -28,6 +29,7 @@ Map<String, Object?> _dmThread({
   String id = _threadId,
   bool member = true,
   bool muted = false,
+  int flags = 0,
 }) => <String, Object?>{
   'id': id,
   'type': 11,
@@ -47,7 +49,7 @@ Map<String, Object?> _dmThread({
   if (member)
     'member': <String, Object?>{
       'join_timestamp': '2026-11-17T09:00:00.000Z',
-      'flags': 0,
+      'flags': flags,
       'muted': muted,
     },
 };
@@ -131,6 +133,19 @@ void main() {
 
       expect(event, isA<MessageCreateEvent>());
       expect((event! as MessageCreateEvent).guildId, isNull);
+    });
+
+    test('a pins ack is read', () {
+      expect(
+        forkUnwrapDmThreadEvent(<String, dynamic>{
+          't': 'CHANNEL_PINS_ACK',
+          'd': <String, dynamic>{
+            'channel_id': _threadId,
+            'timestamp': '2026-11-17T09:00:00.000Z',
+          },
+        }),
+        isA<ChannelPinsAckEvent>(),
+      );
     });
 
     test('anything that is not a DM thread event is dropped', () {
@@ -231,6 +246,54 @@ void main() {
         _threadId,
       );
       expect(state?.mentionCount ?? 0, 0);
+    });
+
+    test('a thread turned down to mentions does not count other messages, '
+        'as the server does', () async {
+      final h = _build();
+      await h.handler.handle(
+        _wrapped(
+          'THREAD_CREATE',
+          _dmThread(flags: threadMemberFlagOnlyMentions),
+        ),
+      );
+
+      await h.handler.handle(
+        _wrapped('MESSAGE_CREATE', _message(_snowflakeAt(1))),
+      );
+
+      final ReadState? state = await h.database.readStateDao.getReadState(
+        _threadId,
+      );
+      expect(state?.mentionCount ?? 0, 0);
+    });
+
+    test("a deleted message lowers the thread's message count", () async {
+      final h = _build();
+      await h.handler.handle(_wrapped('THREAD_CREATE', _dmThread()));
+      await h.handler.handle(
+        _wrapped('MESSAGE_CREATE', _message(_snowflakeAt(1))),
+      );
+      await h.handler.handle(
+        _wrapped('MESSAGE_CREATE', _message(_snowflakeAt(2))),
+      );
+      final int before =
+          (await h.database.channelDao.getChannelById(
+            _threadId,
+          ))?.messageCount ??
+          0;
+
+      await h.handler.handle(
+        _wrapped('MESSAGE_DELETE', <String, Object?>{
+          'id': _snowflakeAt(2),
+          'channel_id': _threadId,
+        }),
+      );
+
+      expect(
+        (await h.database.channelDao.getChannelById(_threadId))?.messageCount,
+        before - 1,
+      );
     });
 
     test('a thread the account left does not count its messages', () async {

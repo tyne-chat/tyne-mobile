@@ -23,6 +23,7 @@ import 'package:fluxer_app/shared/icons/phosphor.dart';
 
 // Fork imports.
 // ignore: directives_ordering
+import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_providers.dart';
 import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_widgets.dart';
 import 'package:fluxer_app/features/threads/fork_dm_threads/dm_threads.dart';
 
@@ -77,10 +78,18 @@ Future<void> showThreadBrowserForChannel(
       .read(fluxerDatabaseProvider)
       .channelDao
       .getChannelById(channelId);
-  if (row == null || !context.mounted) {
+  // Fork: a DM is not in channels; its stand-in parent (tyne-chat/tyne#699).
+  final Channel? forkDmParent = row == null
+      ? ref.read(forkDmThreadParentProvider(channelId))
+      : null;
+  if ((row == null && forkDmParent == null) || !context.mounted) {
     return;
   }
-  await showThreadBrowserSheet(context, ref, Channel.fromRow(row));
+  await showThreadBrowserSheet(
+    context,
+    ref,
+    forkDmParent ?? Channel.fromRow(row!),
+  );
 }
 
 ThreadActorContext threadContextFor(

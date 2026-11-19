@@ -353,7 +353,8 @@ class ComposerAutocompleteFieldState
       return 0;
     }
     final bool isDirectChat = isComposerDirectChat(
-      channelId: _channelId,
+      // Fork: a DM thread is direct, as its DM (tyne-chat/tyne#699).
+      channelId: forkDirectChatId(_channelId),
       dmConversations: ref.read(dmViewModelProvider).conversations,
       currentUserId: ref.read(currentUserIdProvider),
     );
@@ -1226,7 +1227,8 @@ class ComposerAutocompleteFieldState
     final List<DmConversation> dms = ref.read(
       dmViewModelProvider.select((DmViewState s) => s.conversations),
     );
-    final DmConversation? dm = findDmById(dms, _channelId);
+    // Fork: a DM thread mentions its DM's people (tyne-chat/tyne#699).
+    final DmConversation? dm = findDmById(dms, forkDirectChatId(_channelId));
     if (dm == null) {
       return const <Member>[];
     }
@@ -1364,7 +1366,8 @@ class ComposerAutocompleteFieldState
       return;
     }
     final bool isDirect = isComposerDirectChat(
-      channelId: _channelId,
+      // Fork: a DM thread is direct, as its DM (tyne-chat/tyne#699).
+      channelId: forkDirectChatId(_channelId),
       dmConversations: ref.read(dmViewModelProvider).conversations,
       currentUserId: ref.read(currentUserIdProvider),
     );

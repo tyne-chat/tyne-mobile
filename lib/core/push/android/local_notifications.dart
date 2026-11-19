@@ -34,6 +34,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/core/push/android/conversation/fork_alert_entry.dart';
+import 'package:fluxer_app/core/push/notification/fork_dm_thread_push_path.dart';
 
 export 'package:fluxer_app/core/push/android/channels.dart'
     show androidPushChannelId;
@@ -413,7 +414,8 @@ final class LocalPushNotifications {
     );
     await _serializedPublish(() async {
       if (PushNotificationClear.isAckedOnAndroid(
-        resolvePushChannelId(payload),
+        // Fork: a DM thread's push is read with the thread (tyne-chat/tyne#699).
+        forkDmThreadPushChannelId(payload) ?? resolvePushChannelId(payload),
         payload['message_id'],
       )) {
         return;

@@ -20,6 +20,7 @@ import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_dart/export.dart' show ChannelResponse;
 
 /// The guild id a DM thread is stored under in `channels` and
 /// `thread_members`.
@@ -108,6 +109,20 @@ void forkNoteDmThread(String threadId, String dmId) {
     ..._dmThreadParents.value,
     threadId: dmId,
   });
+}
+
+/// The DM a chat is direct as: the DM of a known DM thread, else [channelId]
+/// itself. For code that looks a chat up among the DMs (tyne-chat/tyne#699).
+String forkDirectChatId(String channelId) =>
+    forkDmThreadParentOf(channelId) ?? channelId;
+
+/// Records a thread fetched from the server under [guildKey] when it is a DM
+/// thread, so Back and the DM's marks know it (tyne-chat/tyne#699).
+void forkNoteFetchedDmThread(ChannelResponse thread, String guildKey) {
+  final String? parentId = thread.parentId;
+  if (guildKey == forkDmThreadGuildKey && parentId != null) {
+    forkNoteDmThread(thread.id, parentId);
+  }
 }
 
 /// Forgets [threadId] (deleted).
