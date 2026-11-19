@@ -15,11 +15,15 @@ class GuildEmojiListOrderNotifier extends Notifier<GuildEmojiListOrder> {
   static const String sortPrefKey = 'guild_emoji_list_sort';
   static const String groupingPrefKey = 'guild_emoji_list_grouping';
 
-  bool _chosen = false;
+  // Each choice made before the saved ones were read wins over its saved
+  // value; the other one is still restored.
+  bool _chosenSort = false;
+  bool _chosenGrouping = false;
 
   @override
   GuildEmojiListOrder build() {
-    _chosen = false;
+    _chosenSort = false;
+    _chosenGrouping = false;
     unawaited(_restore());
     return defaultGuildEmojiListOrder;
   }
@@ -29,18 +33,22 @@ class GuildEmojiListOrderNotifier extends Notifier<GuildEmojiListOrder> {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String? sort = prefs.getString(sortPrefKey);
       final String? grouping = prefs.getString(groupingPrefKey);
-      if (!ref.mounted || _chosen) {
+      if (!ref.mounted) {
         return;
       }
       state = (
-        sort: GuildEmojiListSort.values.firstWhere(
-          (GuildEmojiListSort value) => value.name == sort,
-          orElse: () => defaultGuildEmojiListOrder.sort,
-        ),
-        grouping: GuildEmojiListGrouping.values.firstWhere(
-          (GuildEmojiListGrouping value) => value.name == grouping,
-          orElse: () => defaultGuildEmojiListOrder.grouping,
-        ),
+        sort: _chosenSort
+            ? state.sort
+            : GuildEmojiListSort.values.firstWhere(
+                (GuildEmojiListSort value) => value.name == sort,
+                orElse: () => defaultGuildEmojiListOrder.sort,
+              ),
+        grouping: _chosenGrouping
+            ? state.grouping
+            : GuildEmojiListGrouping.values.firstWhere(
+                (GuildEmojiListGrouping value) => value.name == grouping,
+                orElse: () => defaultGuildEmojiListOrder.grouping,
+              ),
       );
     } on Object catch (_) {
       // The default stays.
@@ -49,22 +57,27 @@ class GuildEmojiListOrderNotifier extends Notifier<GuildEmojiListOrder> {
 
   /// Lists the emojis by [sort] from now on, on this device.
   Future<void> chooseSort(GuildEmojiListSort sort) async {
-    _chosen = true;
+    _chosenSort = true;
     state = (sort: sort, grouping: state.grouping);
-    await _save(sortPrefKey, sort.name);
+    await _save(sortPrefKey, () => state.sort.name);
   }
 
   /// Groups the emojis by [grouping] from now on, on this device.
   Future<void> chooseGrouping(GuildEmojiListGrouping grouping) async {
-    _chosen = true;
+    _chosenGrouping = true;
     state = (sort: state.sort, grouping: grouping);
-    await _save(groupingPrefKey, grouping.name);
+    await _save(groupingPrefKey, () => state.grouping.name);
   }
 
-  Future<void> _save(String key, String value) async {
+  /// Writes the latest choice, read once the preferences are open, so that an
+  /// earlier tap finishing last does not overwrite a later one.
+  Future<void> _save(String key, String Function() value) async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString(key, value);
+      if (!ref.mounted) {
+        return;
+      }
+      await prefs.setString(key, value());
     } on Object catch (_) {
       // Kept for this session only.
     }
