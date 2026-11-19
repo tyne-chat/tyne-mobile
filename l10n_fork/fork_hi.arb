@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "सब एक सूची में",
     "guildEmojiAllSection": "इमोजी ({count})",
     "forwardAs": "इस रूप में फ़ॉरवर्ड करें",
-    "forwardAsName": "{name} के रूप में फ़ॉरवर्ड करें"
+    "forwardAsName": "{name} के रूप में फ़ॉरवर्ड करें",
+    "personaGroupNew": "नया ग्रुप",
+    "personaGroupNameLabel": "ग्रुप का नाम",
+    "personaGroupCreate": "ग्रुप बनाएँ",
+    "personaGroupRename": "ग्रुप का नाम बदलें",
+    "personaGroupDelete": "ग्रुप मिटाएँ",
+    "personaGroupDeleteConfirm": "\"{name}\" ग्रुप मिटाएँ? इसमें मौजूद परसोना बने रहेंगे।",
+    "personaGroupNone": "किसी ग्रुप में नहीं",
+    "personaGroups": "ग्रुप",
+    "personaGroupAddTo": "ग्रुप में जोड़ें",
+    "personaGroupNewEllipsis": "नया ग्रुप…",
+    "personaGroupSelectMembers": "इसमें मौजूद परसोना चुनें",
+    "personaGroupsDone": "हो गया",
+    "personaGroupOptions": "{name} के विकल्प",
+    "personaGroupRemoveFrom": "“{name}” से हटाएँ",
+    "personaGroupFailed": "ग्रुप नहीं बदले जा सके। फिर से कोशिश करें।"
 }

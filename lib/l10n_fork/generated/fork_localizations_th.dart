@@ -1233,4 +1233,55 @@ class ForkLocalizationsTh extends ForkLocalizations {
   String forwardAsName(String name) {
     return 'ส่งต่อในนาม $name';
   }
+
+  @override
+  String get personaGroupNew => 'กลุ่มใหม่';
+
+  @override
+  String get personaGroupNameLabel => 'ชื่อกลุ่ม';
+
+  @override
+  String get personaGroupCreate => 'สร้างกลุ่ม';
+
+  @override
+  String get personaGroupRename => 'เปลี่ยนชื่อกลุ่ม';
+
+  @override
+  String get personaGroupDelete => 'ลบกลุ่ม';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return 'ลบกลุ่ม \"$name\" ใช่ไหม Persona ในกลุ่มจะยังอยู่';
+  }
+
+  @override
+  String get personaGroupNone => 'ไม่อยู่ในกลุ่มใด';
+
+  @override
+  String get personaGroups => 'กลุ่ม';
+
+  @override
+  String get personaGroupAddTo => 'เพิ่มเข้ากลุ่ม';
+
+  @override
+  String get personaGroupNewEllipsis => 'กลุ่มใหม่…';
+
+  @override
+  String get personaGroupSelectMembers => 'เลือก Persona ในกลุ่มนี้';
+
+  @override
+  String get personaGroupsDone => 'เสร็จสิ้น';
+
+  @override
+  String personaGroupOptions(String name) {
+    return 'ตัวเลือกสำหรับ $name';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'นำออกจาก “$name”';
+  }
+
+  @override
+  String get personaGroupFailed => 'เปลี่ยนกลุ่มไม่ได้ ลองอีกครั้ง';
 }

@@ -1244,4 +1244,55 @@ class ForkLocalizationsId extends ForkLocalizations {
   String forwardAsName(String name) {
     return 'Teruskan sebagai $name';
   }
+
+  @override
+  String get personaGroupNew => 'Grup baru';
+
+  @override
+  String get personaGroupNameLabel => 'Nama grup';
+
+  @override
+  String get personaGroupCreate => 'Buat grup';
+
+  @override
+  String get personaGroupRename => 'Ganti nama grup';
+
+  @override
+  String get personaGroupDelete => 'Hapus grup';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return 'Hapus grup \"$name\"? Persona di dalamnya tetap disimpan.';
+  }
+
+  @override
+  String get personaGroupNone => 'Tidak dalam grup';
+
+  @override
+  String get personaGroups => 'Grup';
+
+  @override
+  String get personaGroupAddTo => 'Tambahkan ke grup';
+
+  @override
+  String get personaGroupNewEllipsis => 'Grup baru…';
+
+  @override
+  String get personaGroupSelectMembers => 'Pilih persona di dalamnya';
+
+  @override
+  String get personaGroupsDone => 'Selesai';
+
+  @override
+  String personaGroupOptions(String name) {
+    return 'Opsi untuk $name';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'Keluarkan dari “$name”';
+  }
+
+  @override
+  String get personaGroupFailed => 'Tidak dapat mengubah grup. Coba lagi.';
 }

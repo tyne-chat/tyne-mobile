@@ -5,21 +5,27 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/domain/persona_group.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 import 'package:fluxer_app/features/profile/domain/persona_name_search.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/edit_persona_sheet.dart';
+import 'package:fluxer_app/features/profile/presentation/widgets/persona_group_name_dialog.dart';
 import 'package:fluxer_app/features/profile/providers/deleted_personas.dart';
 import 'package:fluxer_app/features/profile/providers/multi_persona_reactions_provider.dart';
 import 'package:fluxer_app/features/profile/providers/persona_bulk_actions.dart';
+import 'package:fluxer_app/features/profile/providers/persona_group_folds_provider.dart';
+import 'package:fluxer_app/features/profile/providers/persona_groups_provider.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/deleted_personas_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/persona_bulk_edit.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/persona_group_sections.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/persona_settings_launch_provider.dart';
 import 'package:fluxer_app/features/shell/providers/user/current_user_private_provider.dart';
@@ -439,6 +445,131 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
     }
   }
 
+  // Persona groups (tyne-chat/tyne#829). Each change is one request; a failure
+  // ends in a toast and changes nothing here.
+
+  void _showGroupFailure(Object err, StackTrace st) {
+    talker.warning(
+      '[UserPersonaSettings] Persona group change failed',
+      err,
+      st,
+    );
+    ref
+        .read(toastProvider.notifier)
+        .show(
+          FluxerToast(
+            // The server's reason when it gave one (the group limit, say).
+            message: userFacingErrorMessage(
+              err,
+              FluxerLocalizations.of(context).fork.personaGroupFailed,
+            ),
+            variant: FluxerToastVariant.danger,
+          ),
+        );
+  }
+
+  Future<void> _createGroup() async {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final String? name = await showPersonaGroupNameDialog(
+      context,
+      title: l10n.fork.personaGroupNew,
+      confirmLabel: l10n.fork.personaGroupCreate,
+    );
+    if (name == null || !mounted) {
+      return;
+    }
+    try {
+      await ref.read(personaGroupsProvider.notifier).create(name);
+    } on Object catch (err, st) {
+      if (mounted) {
+        _showGroupFailure(err, st);
+      }
+    }
+  }
+
+  Future<void> _renameGroup(PersonaGroup group) async {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final String? name = await showPersonaGroupNameDialog(
+      context,
+      title: l10n.fork.personaGroupRename,
+      confirmLabel: l10n.save,
+      initialName: group.name,
+    );
+    if (name == null || name == group.name || !mounted) {
+      return;
+    }
+    try {
+      await ref.read(personaGroupsProvider.notifier).rename(group.id, name);
+    } on Object catch (err, st) {
+      if (mounted) {
+        _showGroupFailure(err, st);
+      }
+    }
+  }
+
+  Future<void> _deleteGroup(PersonaGroup group) async {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final bool confirmed = await confirmPersonaBulkAction(
+      context,
+      title: l10n.fork.personaGroupDelete,
+      body: l10n.fork.personaGroupDeleteConfirm(group.name),
+      confirmLabel: l10n.fork.personaGroupDelete,
+      danger: true,
+    );
+    if (!confirmed || !mounted) {
+      return;
+    }
+    try {
+      await ref.read(personaGroupsProvider.notifier).delete(group.id);
+    } on Object catch (err, st) {
+      if (mounted) {
+        _showGroupFailure(err, st);
+      }
+    }
+  }
+
+  /// Select mode, with the group's personas selected and the group unfolded.
+  void _selectGroupMembers(PersonaGroup group, List<Persona> personas) {
+    ref.read(personaGroupFoldsProvider.notifier).unfold(group.id);
+    setState(() {
+      _selecting = true;
+      _selected
+        ..clear()
+        ..addAll(<String>[
+          for (final Persona p in personas)
+            if (group.contains(p.id)) p.id,
+        ]);
+    });
+  }
+
+  void _openGroupMenu(
+    PersonaGroup group,
+    Offset position,
+    List<Persona> personas,
+  ) {
+    unawaited(
+      showPersonaGroupMenu(
+        context,
+        position: position,
+        onRename: () => unawaited(_renameGroup(group)),
+        canSelectMembers: personas.any((Persona p) => group.contains(p.id)),
+        onSelectMembers: () => _selectGroupMembers(group, personas),
+        onDelete: () => unawaited(_deleteGroup(group)),
+      ),
+    );
+  }
+
+  /// The select mode's Groups sheet; select mode ends once its Done went through.
+  Future<void> _bulkGroups(List<Persona> selected) async {
+    final bool done = await showPersonaGroupsSheet(
+      context,
+      selectedIds: <String>[for (final Persona p in selected) p.id],
+    );
+    if (done && mounted) {
+      _stopSelecting();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = FluxerLocalizations.of(context);
@@ -498,12 +629,33 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
     final List<Persona> shownPersonas = filteredPersonas
         .where((p) => _filter.matches(p.visibility))
         .toList();
+    // Persona groups (tyne-chat/tyne#829): one section per group, then those in
+    // none. A search shows its matches in one flat list, folded groups
+    // included; without groups the list stays flat.
+    final List<PersonaGroup> groups = ref.watch(personaGroupsProvider);
+    final Set<String> foldedGroups = ref.watch(personaGroupFoldsProvider);
+    final List<PersonaGroupSection> groupSections = _searchQuery.isEmpty
+        ? buildPersonaGroupSections(
+            personas: shownPersonas,
+            groups: groups,
+            folded: foldedGroups,
+            hideEmpty: _filter != PersonaVisibilityFilter.all,
+          )
+        : const <PersonaGroupSection>[];
     final List<Persona> selectedPersonas = personas
         .where((p) => _selected.contains(p.id))
         .toList();
+    // What "Select all" takes: what shows, so not the personas of folded
+    // groups.
+    final List<Persona> selectablePersonas = groupSections.isEmpty
+        ? shownPersonas
+        : <Persona>{
+            for (final PersonaGroupSection section in groupSections)
+              if (!section.folded) ...section.personas,
+          }.toList();
     final bool allShownSelected =
-        shownPersonas.isNotEmpty &&
-        shownPersonas.every((p) => _selected.contains(p.id));
+        selectablePersonas.isNotEmpty &&
+        selectablePersonas.every((p) => _selected.contains(p.id));
 
     final Persona? activePersona = activeState.activePersonaId != null
         ? personas.where((p) => p.id == activeState.activePersonaId).firstOrNull
@@ -865,6 +1017,23 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                       onSelected: (filter) => setState(() => _filter = filter),
                     ),
                   ),
+                // Making a persona group (tyne-chat/tyne#829): here rather than
+                // in the header, whose buttons already fill a phone's width.
+                if (!_selecting)
+                  Padding(
+                    padding: EdgeInsets.only(bottom: layout.s1_5),
+                    child: Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: FluxerButton.ghost(
+                        key: const ValueKey<String>('persona-group-new'),
+                        size: FluxerButtonSize.small,
+                        fitContent: true,
+                        icon: PhosphorIconsBold.folderPlus,
+                        label: l10n.fork.personaGroupNew,
+                        onPressed: () => unawaited(_createGroup()),
+                      ),
+                    ),
+                  ),
                 if (personasAsync.isLoading && personas.isEmpty)
                   const Center(
                     child: Padding(
@@ -872,7 +1041,9 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                       child: FluxerLoadingSpinner(),
                     ),
                   )
-                else if (personas.isEmpty)
+                // With groups but no personas, the groups still show, so they
+                // can be renamed or deleted (tyne-chat/tyne#829).
+                else if (personas.isEmpty && groupSections.isEmpty)
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.all(layout.s4),
@@ -952,6 +1123,45 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                       textAlign: TextAlign.center,
                     ),
                   )
+                else if (groupSections.isNotEmpty)
+                  for (final PersonaGroupSection section in groupSections)
+                    Column(
+                      key: ValueKey<String>(
+                        'persona-group-section-${section.key}',
+                      ),
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      spacing: layout.s2,
+                      children: [
+                        PersonaGroupSectionHeader(
+                          title:
+                              section.group?.name ?? l10n.fork.personaGroupNone,
+                          count: section.personas.length,
+                          folded: section.folded,
+                          onToggle: () => ref
+                              .read(personaGroupFoldsProvider.notifier)
+                              .toggle(section.key),
+                          onOptions: switch (section.group) {
+                            final PersonaGroup group =>
+                              (Offset position) =>
+                                  _openGroupMenu(group, position, personas),
+                            null => null,
+                          },
+                        ),
+                        if (!section.folded)
+                          for (final Persona persona in section.personas)
+                            _buildPersonaCard(
+                              context,
+                              persona,
+                              userId: currentUser?.id,
+                              canSetActive:
+                                  activeState.scope == PersonaScope.global,
+                              isThisActive:
+                                  activeState.scope == PersonaScope.global &&
+                                  activeState.isLatched &&
+                                  activeState.activePersonaId == persona.id,
+                            ),
+                      ],
+                    )
                 else
                   ...shownPersonas.map(
                     (persona) => _buildPersonaCard(
@@ -989,13 +1199,13 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
               PersonaSelectionBar(
                 selectedCount: selectedPersonas.length,
                 allShownSelected: allShownSelected,
-                canSelectAll: shownPersonas.isNotEmpty,
+                canSelectAll: selectablePersonas.isNotEmpty,
                 onClose: _stopSelecting,
                 onSelectAll: () => setState(() {
                   if (allShownSelected) {
-                    _selected.removeAll(shownPersonas.map((p) => p.id));
+                    _selected.removeAll(selectablePersonas.map((p) => p.id));
                   } else {
-                    _selected.addAll(shownPersonas.map((p) => p.id));
+                    _selected.addAll(selectablePersonas.map((p) => p.id));
                   }
                 }),
               ),
@@ -1016,6 +1226,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                     _bulkSetVisibility(visibility, selectedPersonas),
                   ),
                   onDelete: () => unawaited(_bulkDelete(selectedPersonas)),
+                  onGroups: () => unawaited(_bulkGroups(selectedPersonas)),
                 ),
             ],
           )

@@ -1248,6 +1248,57 @@ class ForkLocalizationsEn extends ForkLocalizations {
   String forwardAsName(String name) {
     return 'Forward as $name';
   }
+
+  @override
+  String get personaGroupNew => 'New Group';
+
+  @override
+  String get personaGroupNameLabel => 'Group Name';
+
+  @override
+  String get personaGroupCreate => 'Create Group';
+
+  @override
+  String get personaGroupRename => 'Rename Group';
+
+  @override
+  String get personaGroupDelete => 'Delete Group';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return 'Delete the group “$name”? The personas in it are kept.';
+  }
+
+  @override
+  String get personaGroupNone => 'Not in a Group';
+
+  @override
+  String get personaGroups => 'Groups';
+
+  @override
+  String get personaGroupAddTo => 'Add to Group';
+
+  @override
+  String get personaGroupNewEllipsis => 'New Group…';
+
+  @override
+  String get personaGroupSelectMembers => 'Select the personas in it';
+
+  @override
+  String get personaGroupsDone => 'Done';
+
+  @override
+  String personaGroupOptions(String name) {
+    return 'Options for $name';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'Remove from $name';
+  }
+
+  @override
+  String get personaGroupFailed => 'Couldn’t change the groups. Try again.';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -2494,6 +2545,57 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   String forwardAsName(String name) {
     return 'Forward as $name';
   }
+
+  @override
+  String get personaGroupNew => 'New Group';
+
+  @override
+  String get personaGroupNameLabel => 'Group Name';
+
+  @override
+  String get personaGroupCreate => 'Create Group';
+
+  @override
+  String get personaGroupRename => 'Rename Group';
+
+  @override
+  String get personaGroupDelete => 'Delete Group';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return 'Delete the group “$name”? The personas in it are kept.';
+  }
+
+  @override
+  String get personaGroupNone => 'Not in a Group';
+
+  @override
+  String get personaGroups => 'Groups';
+
+  @override
+  String get personaGroupAddTo => 'Add to Group';
+
+  @override
+  String get personaGroupNewEllipsis => 'New Group…';
+
+  @override
+  String get personaGroupSelectMembers => 'Select the personas in it';
+
+  @override
+  String get personaGroupsDone => 'Done';
+
+  @override
+  String personaGroupOptions(String name) {
+    return 'Options for $name';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'Remove from $name';
+  }
+
+  @override
+  String get personaGroupFailed => 'Couldn’t change the groups. Try again.';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -3740,4 +3842,55 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
   String forwardAsName(String name) {
     return 'Forward as $name';
   }
+
+  @override
+  String get personaGroupNew => 'New Group';
+
+  @override
+  String get personaGroupNameLabel => 'Group Name';
+
+  @override
+  String get personaGroupCreate => 'Create Group';
+
+  @override
+  String get personaGroupRename => 'Rename Group';
+
+  @override
+  String get personaGroupDelete => 'Delete Group';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return 'Delete the group “$name”? The personas in it are kept.';
+  }
+
+  @override
+  String get personaGroupNone => 'Not in a Group';
+
+  @override
+  String get personaGroups => 'Groups';
+
+  @override
+  String get personaGroupAddTo => 'Add to Group';
+
+  @override
+  String get personaGroupNewEllipsis => 'New Group…';
+
+  @override
+  String get personaGroupSelectMembers => 'Select the personas in it';
+
+  @override
+  String get personaGroupsDone => 'Done';
+
+  @override
+  String personaGroupOptions(String name) {
+    return 'Options for $name';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'Remove from $name';
+  }
+
+  @override
+  String get personaGroupFailed => 'Couldn’t change the groups. Try again.';
 }

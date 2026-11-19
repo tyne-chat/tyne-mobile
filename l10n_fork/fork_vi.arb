@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "Tất cả trong một danh sách",
     "guildEmojiAllSection": "Biểu tượng cảm xúc ({count})",
     "forwardAs": "Chuyển tiếp với tư cách",
-    "forwardAsName": "Chuyển tiếp với tư cách {name}"
+    "forwardAsName": "Chuyển tiếp với tư cách {name}",
+    "personaGroupNew": "Nhóm mới",
+    "personaGroupNameLabel": "Tên nhóm",
+    "personaGroupCreate": "Tạo nhóm",
+    "personaGroupRename": "Đổi tên nhóm",
+    "personaGroupDelete": "Xóa nhóm",
+    "personaGroupDeleteConfirm": "Xóa nhóm \"{name}\"? Các persona trong nhóm vẫn được giữ lại.",
+    "personaGroupNone": "Không thuộc nhóm nào",
+    "personaGroups": "Nhóm",
+    "personaGroupAddTo": "Thêm vào nhóm",
+    "personaGroupNewEllipsis": "Nhóm mới…",
+    "personaGroupSelectMembers": "Chọn các persona trong nhóm",
+    "personaGroupsDone": "Xong",
+    "personaGroupOptions": "Tùy chọn cho {name}",
+    "personaGroupRemoveFrom": "Xóa khỏi “{name}”",
+    "personaGroupFailed": "Không thể thay đổi nhóm. Hãy thử lại."
 }

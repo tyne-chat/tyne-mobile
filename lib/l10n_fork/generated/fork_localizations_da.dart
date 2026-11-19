@@ -1254,4 +1254,55 @@ class ForkLocalizationsDa extends ForkLocalizations {
   String forwardAsName(String name) {
     return 'Videresend som $name';
   }
+
+  @override
+  String get personaGroupNew => 'Ny gruppe';
+
+  @override
+  String get personaGroupNameLabel => 'Gruppenavn';
+
+  @override
+  String get personaGroupCreate => 'Opret gruppe';
+
+  @override
+  String get personaGroupRename => 'Omdøb gruppe';
+
+  @override
+  String get personaGroupDelete => 'Slet gruppe';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return 'Vil du slette gruppen »$name«? Personaerne i den bevares.';
+  }
+
+  @override
+  String get personaGroupNone => 'Ikke i en gruppe';
+
+  @override
+  String get personaGroups => 'Grupper';
+
+  @override
+  String get personaGroupAddTo => 'Føj til gruppe';
+
+  @override
+  String get personaGroupNewEllipsis => 'Ny gruppe…';
+
+  @override
+  String get personaGroupSelectMembers => 'Vælg personaerne i den';
+
+  @override
+  String get personaGroupsDone => 'Færdig';
+
+  @override
+  String personaGroupOptions(String name) {
+    return 'Indstillinger for $name';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'Fjern fra “$name”';
+  }
+
+  @override
+  String get personaGroupFailed => 'Grupperne kunne ikke ændres. Prøv igen.';
 }
