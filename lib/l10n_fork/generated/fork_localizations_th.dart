@@ -1284,4 +1284,91 @@ class ForkLocalizationsTh extends ForkLocalizations {
 
   @override
   String get personaGroupFailed => 'เปลี่ยนกลุ่มไม่ได้ ลองอีกครั้ง';
+
+  @override
+  String get personaMentionableByLabel => 'อนุญาตให้กล่าวถึงโดย';
+
+  @override
+  String get personaMentionableByEveryone => 'ทุกคน';
+
+  @override
+  String get personaMentionableBySelf => 'เฉพาะคุณ';
+
+  @override
+  String get personaMentionableByNobody => 'ไม่มีใคร';
+
+  @override
+  String get personaMentionableByEveryoneDescription =>
+      'ทุกคนจะพบ Persona นี้เมื่อพิมพ์ @ หรือค้นหา';
+
+  @override
+  String get personaMentionableBySelfDescription =>
+      'มีเพียงบัญชีของคุณที่พบเมื่อพิมพ์ @ หรือค้นหา';
+
+  @override
+  String get personaMentionableByNobodyDescription =>
+      'ไม่แสดงในคำแนะนำ @ และตัวกรองการค้นหา รวมถึงของคุณด้วย Persona นี้ยังพูดได้ และโปรไฟล์เป็นไปตามการมองเห็น';
+
+  @override
+  String get personaMentionableByFollows =>
+      'เป็นไปตามการมองเห็นจนกว่าคุณจะเลือก';
+
+  @override
+  String get personaMentionableByFollowVisibility => 'ตามการมองเห็น';
+
+  @override
+  String get personaBulkMentions => 'การกล่าวถึง';
+
+  @override
+  String get personaBulkMentionsEveryone => 'อนุญาตให้ทุกคนกล่าวถึง';
+
+  @override
+  String get personaBulkMentionsSelf => 'อนุญาตให้คุณกล่าวถึงเท่านั้น';
+
+  @override
+  String get personaBulkMentionsNobody => 'ไม่อนุญาตให้ใครกล่าวถึง';
+
+  @override
+  String personaBulkNowMentionableByEveryone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ทุกคนกล่าวถึง Persona $count รายการได้แล้ว',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableBySelf(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'มีเพียงคุณที่กล่าวถึง Persona $count รายการได้แล้ว',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByNobody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ไม่มีใครกล่าวถึง Persona $count รายการได้แล้ว',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByFollowing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'การกล่าวถึง Persona $count รายการเป็นไปตามการมองเห็นแล้ว',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaNotMentionable =>
+      'ไม่มีใครเห็น Persona นี้ในคำแนะนำการกล่าวถึง';
 }

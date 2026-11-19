@@ -1308,4 +1308,95 @@ class ForkLocalizationsArt extends ForkLocalizations {
 
   @override
   String get personaGroupFailed => 'ilo li ken ala ante e kulupu. o lukin sin.';
+
+  @override
+  String get personaMentionableByLabel => 'jan seme li ken pana e nimi @?';
+
+  @override
+  String get personaMentionableByEveryone => 'jan ale';
+
+  @override
+  String get personaMentionableBySelf => 'sina taso';
+
+  @override
+  String get personaMentionableByNobody => 'jan ala';
+
+  @override
+  String get personaMentionableByEveryoneDescription =>
+      'jan ale li ken lukin e jan insa ni lon nimi @ en lon alasa.';
+
+  @override
+  String get personaMentionableBySelfDescription =>
+      'lipu jan sina taso li lukin e ona lon nimi @ en lon alasa.';
+
+  @override
+  String get personaMentionableByNobodyDescription =>
+      'jan insa ni li lon ala sona pi nimi @ li lon ala alasa, kin tawa sina. ona li ken toki. ken lukin li lawa e lipu ona.';
+
+  @override
+  String get personaMentionableByFollows =>
+      'sina pana ala e wile la, ken lukin li lawa.';
+
+  @override
+  String get personaMentionableByFollowVisibility => 'o kepeken ken lukin';
+
+  @override
+  String get personaBulkMentions => 'nimi @';
+
+  @override
+  String get personaBulkMentionsEveryone => 'jan ale li ken pana e nimi @';
+
+  @override
+  String get personaBulkMentionsSelf => 'sina taso li ken pana e nimi @';
+
+  @override
+  String get personaBulkMentionsNobody => 'jan ala li ken pana e nimi @';
+
+  @override
+  String personaBulkNowMentionableByEveryone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'jan ale li ken pana e nimi @ pi jan insa $count',
+      one: 'jan ale li ken pana e nimi @ pi jan insa $count',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableBySelf(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'sina taso li ken pana e nimi @ pi jan insa $count',
+      one: 'sina taso li ken pana e nimi @ pi jan insa $count',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByNobody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'jan ala li ken pana e nimi @ pi jan insa $count',
+      one: 'jan ala li ken pana e nimi @ pi jan insa $count',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByFollowing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ken lukin li lawa e nimi @ pi jan insa $count',
+      one: 'ken lukin li lawa e nimi @ pi jan insa $count',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaNotMentionable =>
+      'jan ala li lukin e jan insa ni lon sona pi nimi @';
 }

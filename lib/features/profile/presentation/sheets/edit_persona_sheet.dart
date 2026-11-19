@@ -17,6 +17,7 @@ import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_duplicate_name.dart';
 import 'package:fluxer_app/features/profile/domain/persona_group.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
+import 'package:fluxer_app/features/profile/domain/persona_mention_setting.dart';
 import 'package:fluxer_app/features/profile/domain/persona_name_search.dart';
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/persona_copy_bar.dart';
@@ -150,6 +151,9 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
   int? _initialColor;
   int? _initialAvatarColor;
   late String _initialVisibility;
+  // Who gets it in mention suggestions (tyne-chat/tyne#652); null follows the
+  // visibility until a value is picked.
+  String? _initialMentionableBy;
   late bool _initialAutoTagDisabled;
 
   String? _avatarHash;
@@ -158,6 +162,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
   int? _avatarColor;
   bool _autoTagDisabled = false;
   String _visibility = 'unlisted';
+  String? _mentionableBy;
   // A picked image, not stored yet: Save uploads it first and Reset drops it,
   // as in upstream's profile editor.
   Uint8List? _pendingAvatar;
@@ -232,6 +237,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     _initialAvatarColor = p?.avatarColor;
     _initialAutoTagDisabled = p?.autoTagDisabled ?? false;
     _initialVisibility = p?.visibility ?? 'unlisted';
+    _initialMentionableBy = p?.mentionableBy;
 
     _nameController = TextEditingController(text: _initialName);
     _setAliasRows(_initialAliases);
@@ -248,11 +254,12 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     _avatarColor = _initialAvatarColor;
     _autoTagDisabled = _initialAutoTagDisabled;
     _visibility = _initialVisibility;
+    _mentionableBy = _initialMentionableBy;
   }
 
   /// A new persona that starts as a copy of [source] (tyne-chat/tyne#599): its
-  /// pictures (the same stored files), colours, pronouns, bio, visibility and
-  /// tag matching, under a numbered name, selected so typing replaces it. Tags
+  /// pictures (the same stored files), colours, pronouns, bio, visibility,
+  /// mention setting and tag matching, under a numbered name, selected so typing replaces it. Tags
   /// and signature emojis start empty, since each belongs to one persona.
   void _initCopyOf(PublicPersona source) {
     final List<Persona> personas =
@@ -276,6 +283,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     _initialAvatarColor = source.avatarColor;
     _initialAutoTagDisabled = source.autoTagDisabled;
     _initialVisibility = source.visibility ?? 'unlisted';
+    _initialMentionableBy = source.mentionableBy;
 
     _nameController = TextEditingController(text: _initialName)
       ..selection = TextSelection(
@@ -295,6 +303,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     _avatarColor = _initialAvatarColor;
     _autoTagDisabled = _initialAutoTagDisabled;
     _visibility = _initialVisibility;
+    _mentionableBy = _initialMentionableBy;
     // The copy goes in the groups of the persona it copies, read when they are
     // needed (`_baseId`), so groups that load after the copy opened count too.
   }
@@ -408,6 +417,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
         _color != _initialColor ||
         _avatarColor != _initialAvatarColor ||
         _visibility != _initialVisibility ||
+        _mentionableBy != _initialMentionableBy ||
         _autoTagDisabled != _initialAutoTagDisabled) {
       return true;
     }
@@ -476,6 +486,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       _avatarColor = _initialAvatarColor;
       _autoTagDisabled = _initialAutoTagDisabled;
       _visibility = _initialVisibility;
+      _mentionableBy = _initialMentionableBy;
       _addedGroupIds.clear();
       _removedGroupIds.clear();
     });
@@ -955,6 +966,8 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
         'persona_tags': tags,
         'signature_emojis': _signatureEmojis.map((e) => e.toJson()).toList(),
         'visibility': _visibility,
+        // Null while it follows the visibility, which the server reads the same way.
+        'mentionable_by': _mentionableBy,
       };
 
       final PublicPersona result;
@@ -983,6 +996,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
             bio: bio,
             autoTagDisabled: _autoTagDisabled,
             visibility: _visibility,
+            mentionableBy: _mentionableBy,
             personaTags: validTags
                 .map(
                   (c) => PersonaTag(
@@ -1045,6 +1059,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
             bio: bio,
             autoTagDisabled: _autoTagDisabled,
             visibility: _visibility,
+            mentionableBy: _mentionableBy,
             personaTags: validTags
                 .map(
                   (c) => PersonaTag(
@@ -1094,6 +1109,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
         _initialBannerHash = _bannerHash;
         _initialColor = _color;
         _initialVisibility = _visibility;
+        _initialMentionableBy = _mentionableBy;
         _initialAutoTagDisabled = _autoTagDisabled;
 
         if (personaChanged) {
@@ -1215,6 +1231,79 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
         setState(() => _isSaving = false);
       }
     }
+  }
+
+  /// "Allow mentions by" (tyne-chat/tyne#652): who gets the persona in mention
+  /// and search suggestions. While nothing is picked it shows, and follows,
+  /// what the visibility implies; Follow Visibility drops a pick.
+  List<Widget> _buildMentionableBy(BuildContext context) {
+    final l10n = FluxerLocalizations.of(context);
+    final colors = context.colors;
+    final textStyles = context.textStyles;
+    final layout = context.layout;
+    final String effective = effectiveMentionableBy(
+      _mentionableBy,
+      _visibility,
+    );
+    final String description = switch (effective) {
+      PersonaMentionableBy.self =>
+        l10n.fork.personaMentionableBySelfDescription,
+      PersonaMentionableBy.nobody =>
+        l10n.fork.personaMentionableByNobodyDescription,
+      _ => l10n.fork.personaMentionableByEveryoneDescription,
+    };
+    return <Widget>[
+      Text(
+        l10n.fork.personaMentionableByLabel,
+        style: textStyles.label.copyWith(color: colors.textPrimary),
+      ),
+      SizedBox(height: layout.s2),
+      FluxerRadioGroup<String>(
+        value: effective,
+        items: [
+          FluxerRadioItem(
+            value: PersonaMentionableBy.everyone,
+            label: l10n.fork.personaMentionableByEveryone,
+          ),
+          FluxerRadioItem(
+            value: PersonaMentionableBy.self,
+            label: l10n.fork.personaMentionableBySelf,
+          ),
+          FluxerRadioItem(
+            value: PersonaMentionableBy.nobody,
+            label: l10n.fork.personaMentionableByNobody,
+          ),
+        ],
+        onChanged: (val) {
+          if (!_isSaving) {
+            setState(() => _mentionableBy = val);
+            _onFieldChanged();
+          }
+        },
+      ),
+      SizedBox(height: layout.s1),
+      Text(
+        _mentionableBy == null
+            ? '$description ${l10n.fork.personaMentionableByFollows}'
+            : description,
+        style: textStyles.bodySmall.copyWith(color: colors.textSecondary),
+      ),
+      if (_mentionableBy != null) ...[
+        SizedBox(height: layout.s2),
+        FluxerButton.ghost(
+          label: l10n.fork.personaMentionableByFollowVisibility,
+          size: FluxerButtonSize.small,
+          fitContent: true,
+          onPressed: _isSaving
+              ? null
+              : () {
+                  setState(() => _mentionableBy = null);
+                  _onFieldChanged();
+                },
+        ),
+      ],
+      SizedBox(height: layout.s3),
+    ];
   }
 
   @override
@@ -1857,6 +1946,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
           },
         ),
         SizedBox(height: layout.s3),
+        ..._buildMentionableBy(context),
 
         // About Me
         FluxerInput.multiline(
