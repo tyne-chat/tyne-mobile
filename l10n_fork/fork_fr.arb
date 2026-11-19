@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "Tous dans une seule liste",
     "guildEmojiAllSection": "Emojis ({count})",
     "forwardAs": "Transférer en tant que",
-    "forwardAsName": "Transférer en tant que {name}"
+    "forwardAsName": "Transférer en tant que {name}",
+    "personaGroupNew": "Nouveau groupe",
+    "personaGroupNameLabel": "Nom du groupe",
+    "personaGroupCreate": "Créer le groupe",
+    "personaGroupRename": "Renommer le groupe",
+    "personaGroupDelete": "Supprimer le groupe",
+    "personaGroupDeleteConfirm": "Supprimer le groupe « {name} » ? Les personas qu'il contient sont conservées.",
+    "personaGroupNone": "Dans aucun groupe",
+    "personaGroups": "Groupes",
+    "personaGroupAddTo": "Ajouter au groupe",
+    "personaGroupNewEllipsis": "Nouveau groupe…",
+    "personaGroupSelectMembers": "Sélectionner ses personas",
+    "personaGroupsDone": "Terminé",
+    "personaGroupOptions": "Options de {name}",
+    "personaGroupRemoveFrom": "Retirer de « {name} »",
+    "personaGroupFailed": "Impossible de modifier les groupes. Réessayez."
 }

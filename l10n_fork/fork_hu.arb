@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "Mind egy listában",
     "guildEmojiAllSection": "Emojik ({count})",
     "forwardAs": "Továbbítás mint",
-    "forwardAsName": "Továbbítás mint {name}"
+    "forwardAsName": "Továbbítás mint {name}",
+    "personaGroupNew": "Új csoport",
+    "personaGroupNameLabel": "Csoport neve",
+    "personaGroupCreate": "Csoport létrehozása",
+    "personaGroupRename": "Csoport átnevezése",
+    "personaGroupDelete": "Csoport törlése",
+    "personaGroupDeleteConfirm": "Törlöd a(z) „{name}” csoportot? A benne lévő personák megmaradnak.",
+    "personaGroupNone": "Csoporton kívül",
+    "personaGroups": "Csoportok",
+    "personaGroupAddTo": "Hozzáadás csoporthoz",
+    "personaGroupNewEllipsis": "Új csoport…",
+    "personaGroupSelectMembers": "A benne lévő personák kijelölése",
+    "personaGroupsDone": "Kész",
+    "personaGroupOptions": "{name} beállításai",
+    "personaGroupRemoveFrom": "Eltávolítás innen: „{name}”",
+    "personaGroupFailed": "Nem sikerült módosítani a csoportokat. Próbáld újra."
 }

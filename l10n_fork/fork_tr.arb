@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "Tümü tek listede",
     "guildEmojiAllSection": "Emojiler ({count})",
     "forwardAs": "Şu olarak ilet",
-    "forwardAsName": "{name} olarak ilet"
+    "forwardAsName": "{name} olarak ilet",
+    "personaGroupNew": "Yeni grup",
+    "personaGroupNameLabel": "Grup adı",
+    "personaGroupCreate": "Grup oluştur",
+    "personaGroupRename": "Grubu yeniden adlandır",
+    "personaGroupDelete": "Grubu sil",
+    "personaGroupDeleteConfirm": "\"{name}\" grubu silinsin mi? İçindeki personalar korunur.",
+    "personaGroupNone": "Grupta değil",
+    "personaGroups": "Gruplar",
+    "personaGroupAddTo": "Gruba ekle",
+    "personaGroupNewEllipsis": "Yeni grup…",
+    "personaGroupSelectMembers": "İçindeki personaları seç",
+    "personaGroupsDone": "Bitti",
+    "personaGroupOptions": "{name} seçenekleri",
+    "personaGroupRemoveFrom": "“{name}” grubundan çıkar",
+    "personaGroupFailed": "Gruplar değiştirilemedi. Tekrar dene."
 }

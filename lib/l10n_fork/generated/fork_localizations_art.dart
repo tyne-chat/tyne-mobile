@@ -1257,4 +1257,55 @@ class ForkLocalizationsArt extends ForkLocalizations {
   String forwardAsName(String name) {
     return 'o pana sin kepeken nimi $name';
   }
+
+  @override
+  String get personaGroupNew => 'kulupu sin';
+
+  @override
+  String get personaGroupNameLabel => 'nimi kulupu';
+
+  @override
+  String get personaGroupCreate => 'o pali e kulupu';
+
+  @override
+  String get personaGroupRename => 'o ante e nimi kulupu';
+
+  @override
+  String get personaGroupDelete => 'o weka e kulupu';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return 'sina wile ala wile weka e kulupu \"$name\"? jan insa lon ona li awen.';
+  }
+
+  @override
+  String get personaGroupNone => 'lon kulupu ala';
+
+  @override
+  String get personaGroups => 'kulupu';
+
+  @override
+  String get personaGroupAddTo => 'o pana tawa kulupu';
+
+  @override
+  String get personaGroupNewEllipsis => 'kulupu sin…';
+
+  @override
+  String get personaGroupSelectMembers => 'o wile e jan insa lon kulupu ni';
+
+  @override
+  String get personaGroupsDone => 'pini';
+
+  @override
+  String personaGroupOptions(String name) {
+    return 'ken pi kulupu $name';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'o weka tan “$name”';
+  }
+
+  @override
+  String get personaGroupFailed => 'ilo li ken ala ante e kulupu. o lukin sin.';
 }

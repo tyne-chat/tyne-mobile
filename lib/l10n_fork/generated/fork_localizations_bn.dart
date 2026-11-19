@@ -1258,4 +1258,55 @@ class ForkLocalizationsBn extends ForkLocalizations {
   String forwardAsName(String name) {
     return '$name নামে ফরওয়ার্ড';
   }
+
+  @override
+  String get personaGroupNew => 'নতুন গ্রুপ';
+
+  @override
+  String get personaGroupNameLabel => 'গ্রুপের নাম';
+
+  @override
+  String get personaGroupCreate => 'গ্রুপ তৈরি করুন';
+
+  @override
+  String get personaGroupRename => 'গ্রুপের নাম বদলান';
+
+  @override
+  String get personaGroupDelete => 'গ্রুপ মুছুন';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return '\"$name\" গ্রুপটি মুছবেন? এর পারসোনাগুলো থেকে যাবে।';
+  }
+
+  @override
+  String get personaGroupNone => 'কোনো গ্রুপে নেই';
+
+  @override
+  String get personaGroups => 'গ্রুপ';
+
+  @override
+  String get personaGroupAddTo => 'গ্রুপে যোগ করুন';
+
+  @override
+  String get personaGroupNewEllipsis => 'নতুন গ্রুপ…';
+
+  @override
+  String get personaGroupSelectMembers => 'এর পারসোনাগুলো বেছে নিন';
+
+  @override
+  String get personaGroupsDone => 'সম্পন্ন';
+
+  @override
+  String personaGroupOptions(String name) {
+    return '$name-এর বিকল্প';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return '“$name” থেকে সরান';
+  }
+
+  @override
+  String get personaGroupFailed => 'গ্রুপগুলো বদলানো যায়নি। আবার চেষ্টা করুন।';
 }

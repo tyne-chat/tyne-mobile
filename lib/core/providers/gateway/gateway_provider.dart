@@ -78,6 +78,7 @@ export 'gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/gateway/providers/typing_personas_provider.dart';
 import 'package:fluxer_app/features/guild_commands/providers/guild_commands_providers.dart';
 import 'package:fluxer_app/features/profile/providers/persona_gateway_events.dart';
+import 'package:fluxer_app/features/profile/providers/persona_groups_provider.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/signal_bar/providers/signal_bar_providers.dart';
 
@@ -263,8 +264,11 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
               );
             }),
       );
+      // Fork: the account's personas and their settings, and the persona
+      // groups where something reads them (tyne-chat/tyne#829).
       unawaited(ref.read(myPersonasProvider.notifier).reloadSilently());
       unawaited(ref.read(personaSettingsProvider.notifier).reloadSilently());
+      reloadPersonaGroupsIfLoaded(ref);
     }),
     onResumed: () => ifMounted(() {
       talker.info('[Gateway] RESUMED, light recovery');

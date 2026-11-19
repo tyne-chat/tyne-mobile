@@ -1266,6 +1266,59 @@ class ForkLocalizationsEs extends ForkLocalizations {
   String forwardAsName(String name) {
     return 'Reenviar como $name';
   }
+
+  @override
+  String get personaGroupNew => 'Nuevo grupo';
+
+  @override
+  String get personaGroupNameLabel => 'Nombre del grupo';
+
+  @override
+  String get personaGroupCreate => 'Crear grupo';
+
+  @override
+  String get personaGroupRename => 'Cambiar el nombre del grupo';
+
+  @override
+  String get personaGroupDelete => 'Eliminar grupo';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return '¿Eliminar el grupo «$name»? Las personas que contiene se conservan.';
+  }
+
+  @override
+  String get personaGroupNone => 'Sin grupo';
+
+  @override
+  String get personaGroups => 'Grupos';
+
+  @override
+  String get personaGroupAddTo => 'Añadir al grupo';
+
+  @override
+  String get personaGroupNewEllipsis => 'Nuevo grupo…';
+
+  @override
+  String get personaGroupSelectMembers =>
+      'Seleccionar las personas que contiene';
+
+  @override
+  String get personaGroupsDone => 'Listo';
+
+  @override
+  String personaGroupOptions(String name) {
+    return 'Opciones de $name';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'Quitar de «$name»';
+  }
+
+  @override
+  String get personaGroupFailed =>
+      'No se han podido cambiar los grupos. Inténtalo de nuevo.';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -2529,4 +2582,57 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
   String forwardAsName(String name) {
     return 'Reenviar como $name';
   }
+
+  @override
+  String get personaGroupNew => 'Nuevo grupo';
+
+  @override
+  String get personaGroupNameLabel => 'Nombre del grupo';
+
+  @override
+  String get personaGroupCreate => 'Crear grupo';
+
+  @override
+  String get personaGroupRename => 'Cambiar nombre del grupo';
+
+  @override
+  String get personaGroupDelete => 'Eliminar grupo';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return '¿Eliminar el grupo “$name”? Las personas que contiene se conservan.';
+  }
+
+  @override
+  String get personaGroupNone => 'Sin grupo';
+
+  @override
+  String get personaGroups => 'Grupos';
+
+  @override
+  String get personaGroupAddTo => 'Agregar al grupo';
+
+  @override
+  String get personaGroupNewEllipsis => 'Nuevo grupo…';
+
+  @override
+  String get personaGroupSelectMembers =>
+      'Seleccionar las personas que contiene';
+
+  @override
+  String get personaGroupsDone => 'Listo';
+
+  @override
+  String personaGroupOptions(String name) {
+    return 'Opciones de $name';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'Quitar de “$name”';
+  }
+
+  @override
+  String get personaGroupFailed =>
+      'No se pudieron cambiar los grupos. Inténtalo de nuevo.';
 }

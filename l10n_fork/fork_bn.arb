@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "সব এক তালিকায়",
     "guildEmojiAllSection": "ইমোজি ({count})",
     "forwardAs": "যে নামে ফরওয়ার্ড",
-    "forwardAsName": "{name} নামে ফরওয়ার্ড"
+    "forwardAsName": "{name} নামে ফরওয়ার্ড",
+    "personaGroupNew": "নতুন গ্রুপ",
+    "personaGroupNameLabel": "গ্রুপের নাম",
+    "personaGroupCreate": "গ্রুপ তৈরি করুন",
+    "personaGroupRename": "গ্রুপের নাম বদলান",
+    "personaGroupDelete": "গ্রুপ মুছুন",
+    "personaGroupDeleteConfirm": "\"{name}\" গ্রুপটি মুছবেন? এর পারসোনাগুলো থেকে যাবে।",
+    "personaGroupNone": "কোনো গ্রুপে নেই",
+    "personaGroups": "গ্রুপ",
+    "personaGroupAddTo": "গ্রুপে যোগ করুন",
+    "personaGroupNewEllipsis": "নতুন গ্রুপ…",
+    "personaGroupSelectMembers": "এর পারসোনাগুলো বেছে নিন",
+    "personaGroupsDone": "সম্পন্ন",
+    "personaGroupOptions": "{name}-এর বিকল্প",
+    "personaGroupRemoveFrom": "“{name}” থেকে সরান",
+    "personaGroupFailed": "গ্রুপগুলো বদলানো যায়নি। আবার চেষ্টা করুন।"
 }
