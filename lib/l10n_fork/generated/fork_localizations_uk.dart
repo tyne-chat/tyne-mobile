@@ -1286,4 +1286,56 @@ class ForkLocalizationsUk extends ForkLocalizations {
   String forwardAsName(String name) {
     return 'Переслати як $name';
   }
+
+  @override
+  String get personaGroupNew => 'Нова група';
+
+  @override
+  String get personaGroupNameLabel => 'Назва групи';
+
+  @override
+  String get personaGroupCreate => 'Створити групу';
+
+  @override
+  String get personaGroupRename => 'Перейменувати групу';
+
+  @override
+  String get personaGroupDelete => 'Видалити групу';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return 'Видалити групу «$name»? Персони в ній залишаться.';
+  }
+
+  @override
+  String get personaGroupNone => 'Поза групами';
+
+  @override
+  String get personaGroups => 'Групи';
+
+  @override
+  String get personaGroupAddTo => 'Додати до групи';
+
+  @override
+  String get personaGroupNewEllipsis => 'Нова група…';
+
+  @override
+  String get personaGroupSelectMembers => 'Вибрати персони в ній';
+
+  @override
+  String get personaGroupsDone => 'Готово';
+
+  @override
+  String personaGroupOptions(String name) {
+    return 'Параметри групи $name';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'Прибрати з «$name»';
+  }
+
+  @override
+  String get personaGroupFailed =>
+      'Не вдалося змінити групи. Спробуйте ще раз.';
 }

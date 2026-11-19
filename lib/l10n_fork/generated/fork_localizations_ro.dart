@@ -1282,4 +1282,56 @@ class ForkLocalizationsRo extends ForkLocalizations {
   String forwardAsName(String name) {
     return 'Redirecționează ca $name';
   }
+
+  @override
+  String get personaGroupNew => 'Grup nou';
+
+  @override
+  String get personaGroupNameLabel => 'Numele grupului';
+
+  @override
+  String get personaGroupCreate => 'Creează grupul';
+
+  @override
+  String get personaGroupRename => 'Redenumește grupul';
+
+  @override
+  String get personaGroupDelete => 'Șterge grupul';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return 'Ștergi grupul „$name”? Personas din el se păstrează.';
+  }
+
+  @override
+  String get personaGroupNone => 'În niciun grup';
+
+  @override
+  String get personaGroups => 'Grupuri';
+
+  @override
+  String get personaGroupAddTo => 'Adaugă în grup';
+
+  @override
+  String get personaGroupNewEllipsis => 'Grup nou…';
+
+  @override
+  String get personaGroupSelectMembers => 'Selectează personas din el';
+
+  @override
+  String get personaGroupsDone => 'Gata';
+
+  @override
+  String personaGroupOptions(String name) {
+    return 'Opțiuni pentru $name';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'Elimină din „$name”';
+  }
+
+  @override
+  String get personaGroupFailed =>
+      'Nu s-au putut modifica grupurile. Încearcă din nou.';
 }

@@ -15,12 +15,15 @@ import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression
 import 'package:fluxer_app/features/profile/data/persona_image_upload.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_duplicate_name.dart';
+import 'package:fluxer_app/features/profile/domain/persona_group.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 import 'package:fluxer_app/features/profile/domain/persona_name_search.dart';
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/persona_copy_bar.dart';
+import 'package:fluxer_app/features/profile/presentation/widgets/persona_groups_field.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_banner.dart';
 import 'package:fluxer_app/features/profile/providers/deleted_personas.dart';
+import 'package:fluxer_app/features/profile/providers/persona_groups_provider.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/image_crop_sheet.dart';
@@ -161,6 +164,13 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
   Uint8List? _pendingBanner;
   bool _isSaving = false;
 
+  // The groups the form puts the persona in or takes it out of
+  // (tyne-chat/tyne#829), against the groups as the server has them, so that a
+  // list that loads or changes while the editor is open still counts. Save
+  // sends them in one request.
+  final Set<String> _addedGroupIds = <String>{};
+  final Set<String> _removedGroupIds = <String>{};
+
   void _onFieldChanged() {
     if (!mounted) {
       return;
@@ -285,6 +295,81 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     _avatarColor = _initialAvatarColor;
     _autoTagDisabled = _initialAutoTagDisabled;
     _visibility = _initialVisibility;
+    // The copy goes in the groups of the persona it copies, read when they are
+    // needed (`_baseId`), so groups that load after the copy opened count too.
+  }
+
+  /// The persona whose groups the form starts from: the one edited, or the one
+  /// a copy is made from.
+  String? get _baseId => widget.persona?.id ?? widget.copyOf?.id;
+
+  /// The group changes Save would send for [personaId]. A new persona is in
+  /// no group yet, so a copy is put in every group the form shows it in.
+  List<PersonaGroupMemberChange> _groupChanges(String personaId) {
+    final List<PersonaGroup> groups = ref.read(personaGroupsProvider);
+    return personaGroupChangesForPersona(
+      personaId: personaId,
+      groups: groups,
+      added: widget.persona == null && widget.copyOf != null
+          ? _chosenGroupIds(groups)
+          : _addedGroupIds,
+      removed: _removedGroupIds,
+    );
+  }
+
+  /// The groups the persona is in as the form stands.
+  Set<String> _chosenGroupIds(List<PersonaGroup> groups) {
+    final String? id = _baseId;
+    return <String>{
+      for (final PersonaGroup g in groups)
+        if (_addedGroupIds.contains(g.id) ||
+            (id != null && g.contains(id) && !_removedGroupIds.contains(g.id)))
+          g.id,
+    };
+  }
+
+  void _addToGroup(String groupId) {
+    setState(() {
+      _removedGroupIds.remove(groupId);
+      _addedGroupIds.add(groupId);
+    });
+    _onFieldChanged();
+  }
+
+  void _removeFromGroup(String groupId) {
+    setState(() {
+      _addedGroupIds.remove(groupId);
+      _removedGroupIds.add(groupId);
+    });
+    _onFieldChanged();
+  }
+
+  /// Sends the form's group changes for the saved persona [personaId], after
+  /// the persona's own. Returns false when they failed, which a toast says;
+  /// the persona's own fields are saved either way.
+  Future<bool> _saveGroups(String personaId) async {
+    if (personaId.isEmpty) {
+      return true;
+    }
+    final List<PersonaGroupMemberChange> changes = _groupChanges(personaId);
+    if (changes.isEmpty) {
+      return true;
+    }
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final Toast toasts = ref.read(toastProvider.notifier);
+    try {
+      await ref.read(personaGroupsProvider.notifier).changeMembers(changes);
+      return true;
+    } on Object catch (err, st) {
+      talker.warning('[EditPersonaSheet] Saving groups failed: $err', err, st);
+      toasts.show(
+        FluxerToast(
+          message: userFacingErrorMessage(err, l10n.fork.personaGroupFailed),
+          variant: FluxerToastVariant.danger,
+        ),
+      );
+      return false;
+    }
   }
 
   /// Closes this persona's editor and opens a new persona's, filled in from
@@ -304,7 +389,14 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     await EditPersonaSheet.show(navigator.context, copyOf: source);
   }
 
-  bool get _hasChanges {
+  bool get _hasChanges =>
+      _personaFieldsChanged ||
+      _groupChanges(widget.persona?.id ?? '').isNotEmpty;
+
+  /// Whether the persona's own fields changed. Its groups are another request
+  /// (tyne-chat/tyne#829): a save that changes only them does not send the
+  /// persona, which would tell every community it changed.
+  bool get _personaFieldsChanged {
     if (_nameController.text.trim() != _initialName ||
         !_sameAliases(_aliases, _initialAliases) ||
         _pronounsController.text.trim() != _initialPronouns ||
@@ -384,6 +476,8 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       _avatarColor = _initialAvatarColor;
       _autoTagDisabled = _initialAutoTagDisabled;
       _visibility = _initialVisibility;
+      _addedGroupIds.clear();
+      _removedGroupIds.clear();
     });
     widget.canDismissNotifier.value = true;
   }
@@ -825,6 +919,8 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       }
     }
 
+    // Read before the images are stored, which clears the pending ones.
+    final bool personaChanged = widget.persona == null || _personaFieldsChanged;
     setState(() => _isSaving = true);
     try {
       final Dio dio = ref.read(fluxerDioProvider);
@@ -862,7 +958,10 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       };
 
       final PublicPersona result;
-      if (widget.persona != null) {
+      if (widget.persona != null && !personaChanged) {
+        // Only the groups changed: the persona is not sent.
+        result = widget.persona!;
+      } else if (widget.persona != null) {
         final Response<dynamic> response = await dio.patch<dynamic>(
           '/users/@me/personas/${widget.persona!.id}',
           data: payload,
@@ -924,16 +1023,6 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
             }
           }
         }
-        if (mounted) {
-          ref
-              .read(toastProvider.notifier)
-              .show(
-                FluxerToast(
-                  message: l10n.fork.personaUpdatedToast,
-                  variant: FluxerToastVariant.success,
-                ),
-              );
-        }
       } else {
         final Response<dynamic> response = await dio.post<dynamic>(
           '/users/@me/personas',
@@ -967,16 +1056,27 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
             signatureEmojis: _signatureEmojis,
           );
         }
-        if (mounted) {
-          ref
-              .read(toastProvider.notifier)
-              .show(
-                FluxerToast(
-                  message: l10n.fork.personaCreatedToast,
-                  variant: FluxerToastVariant.success,
-                ),
-              );
-        }
+      }
+
+      // Fork: the persona's groups (tyne-chat/tyne#829), in one request. When
+      // they fail, the toast says so instead of the success one. With only
+      // the groups changed the editor stays open, so Save can try again; a
+      // new persona exists by now, so its editor closes either way.
+      final bool groupsSaved = !mounted || await _saveGroups(result.id);
+      if (!groupsSaved && widget.persona != null && !personaChanged) {
+        return;
+      }
+      if (mounted && groupsSaved) {
+        ref
+            .read(toastProvider.notifier)
+            .show(
+              FluxerToast(
+                message: widget.persona != null
+                    ? l10n.fork.personaUpdatedToast
+                    : l10n.fork.personaCreatedToast,
+                variant: FluxerToastVariant.success,
+              ),
+            );
       }
 
       if (mounted) {
@@ -996,8 +1096,12 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
         _initialVisibility = _visibility;
         _initialAutoTagDisabled = _autoTagDisabled;
 
-        ref.read(myPersonasProvider.notifier).upsertPersona(result.toPersona());
-        unawaited(ref.read(myPersonasProvider.notifier).reloadSilently());
+        if (personaChanged) {
+          ref
+              .read(myPersonasProvider.notifier)
+              .upsertPersona(result.toPersona());
+          unawaited(ref.read(myPersonasProvider.notifier).reloadSilently());
+        }
         widget.canDismissNotifier.value = true;
         Navigator.of(context, rootNavigator: true).pop(result);
       }
@@ -1120,6 +1224,9 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     final textStyles = context.textStyles;
     final l10n = FluxerLocalizations.of(context);
     final isEditing = widget.persona != null;
+    // The groups changing elsewhere can make the form's group edits change
+    // nothing any more, or something again: the sheet's dismissal follows.
+    ref.listen(personaGroupsProvider, (_, _) => _onFieldChanged());
 
     final currentUserSettings = ref.watch(userSettingsViewModelProvider);
     final bool hasCustomAvatar =
@@ -1761,6 +1868,15 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
           maxLength: 4096,
           showCounter: true,
           enabled: !_isSaving,
+        ),
+        SizedBox(height: layout.s3),
+
+        // Groups (tyne-chat/tyne#829)
+        PersonaGroupsField(
+          chosenIds: _chosenGroupIds(ref.watch(personaGroupsProvider)),
+          enabled: !_isSaving,
+          onAdd: _addToGroup,
+          onRemove: _removeFromGroup,
         ),
         if (isEditing) ...[
           SizedBox(height: layout.s4),

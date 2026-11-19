@@ -1268,4 +1268,56 @@ class ForkLocalizationsEl extends ForkLocalizations {
   String forwardAsName(String name) {
     return 'Προώθηση ως $name';
   }
+
+  @override
+  String get personaGroupNew => 'Νέα ομάδα';
+
+  @override
+  String get personaGroupNameLabel => 'Όνομα ομάδας';
+
+  @override
+  String get personaGroupCreate => 'Δημιουργία ομάδας';
+
+  @override
+  String get personaGroupRename => 'Μετονομασία ομάδας';
+
+  @override
+  String get personaGroupDelete => 'Διαγραφή ομάδας';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return 'Διαγραφή της ομάδας «$name»; Οι persona που περιέχει διατηρούνται.';
+  }
+
+  @override
+  String get personaGroupNone => 'Εκτός ομάδας';
+
+  @override
+  String get personaGroups => 'Ομάδες';
+
+  @override
+  String get personaGroupAddTo => 'Προσθήκη σε ομάδα';
+
+  @override
+  String get personaGroupNewEllipsis => 'Νέα ομάδα…';
+
+  @override
+  String get personaGroupSelectMembers => 'Επιλογή των persona της';
+
+  @override
+  String get personaGroupsDone => 'Τέλος';
+
+  @override
+  String personaGroupOptions(String name) {
+    return 'Επιλογές για $name';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'Αφαίρεση από «$name»';
+  }
+
+  @override
+  String get personaGroupFailed =>
+      'Δεν ήταν δυνατή η αλλαγή των ομάδων. Δοκιμάστε ξανά.';
 }
