@@ -11,11 +11,11 @@
 @Tags(['slow'])
 library;
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/domain/message_window.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_viewport.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../../../../helpers/fork_message_gap_harness.dart';
 import 'fork_message_list_scenario.dart';

@@ -20,7 +20,7 @@ ProviderContainer _run([String? account]) {
 Future<bool> _settled(ProviderContainer container) async {
   container.read(signalBarCollapsedProvider);
   await pumpEventQueue();
-  return container.read(signalBarCollapsedProvider);
+  return await container.read(signalBarCollapsedProvider);
 }
 
 Future<void> _press(ProviderContainer container) async {

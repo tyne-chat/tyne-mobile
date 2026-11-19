@@ -12,11 +12,11 @@
 @Tags(['slow'])
 library;
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/push/notification/path_resolver.dart';
 import 'package:fluxer_app/core/utils/channel_jump_link.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../../../../helpers/fork_message_gap_harness.dart';
 import 'fork_message_list_scenario.dart';

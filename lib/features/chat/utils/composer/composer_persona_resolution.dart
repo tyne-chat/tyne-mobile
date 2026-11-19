@@ -330,7 +330,7 @@ Future<bool> _waitForPersonas(SignalProviderReader read) async {
       read(activePersonaProvider).scope != PersonaScope.channel) {
     return true;
   }
-  return read(activePersonaProvider.notifier).whenChannelStatesLoaded();
+  return await read(activePersonaProvider.notifier).whenChannelStatesLoaded();
 }
 
 /// A leading backslash with a persona selected means "as the account", which

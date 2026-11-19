@@ -1172,7 +1172,7 @@ class MessageRepository {
       throw Exception('Empty response from editMessageWithFiles');
     }
     final MessageResponseSchema schema = MessageResponseSchema.fromJson(data);
-    return _persistSdkMessage(channelId: channelId, schema: schema);
+    return await _persistSdkMessage(channelId: channelId, schema: schema);
   }
 
   Future<Message> editMessagePersona({
