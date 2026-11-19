@@ -6,6 +6,8 @@
 // history only: the server reopens that DM and refuses any other.
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_action_card_row.dart';
 import 'package:fluxer_app/features/profile/providers/imported_conversation_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -20,7 +22,7 @@ Widget? importedConversationFooter(
   required String userId,
   required VoidCallback onOpen,
 }) {
-  if (ref.watch(importedConversationProvider(userId)).value == null) {
+  if (!_hasImportedConversation(ref, userId)) {
     return null;
   }
   return FluxerButton.primary(
@@ -47,8 +49,39 @@ class ImportedConversationAction extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (!imported ||
-        ref.watch(importedConversationProvider(userId)).value == null) {
+    if (!imported || !_hasImportedConversation(ref, userId)) {
+      return const SizedBox.shrink();
+    }
+    // Upstream's card, as Message and a blocked user's Open DM have it (Gemini
+    // Carbon's review): its "blocked" only names the card Open DM.
+    return UserProfileActionCardRow(
+      isCurrentUser: false,
+      isFriend: false,
+      isBlocked: true,
+      canCall: false,
+      onMessage: () async => onOpen(),
+      onVoiceCall: () async {},
+      onVideoCall: () async {},
+      onEditProfile: () {},
+    );
+  }
+}
+
+/// A persona profile's Open DM, for a persona of the placeholder with
+/// [userId], where Message is for anyone else's (Gemini Carbon's review).
+class ImportedConversationPersonaButton extends ConsumerWidget {
+  const ImportedConversationPersonaButton({
+    required this.userId,
+    required this.onOpen,
+    super.key,
+  });
+
+  final String userId;
+  final VoidCallback onOpen;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    if (!_hasImportedConversation(ref, userId)) {
       return const SizedBox.shrink();
     }
     return SizedBox(
@@ -60,4 +93,17 @@ class ImportedConversationAction extends ConsumerWidget {
       ),
     );
   }
+}
+
+/// Whether there is an imported conversation to open: never asked, and none,
+/// where the instance has DMs off.
+bool _hasImportedConversation(WidgetRef ref, String userId) {
+  if (ref.watch(
+    instanceRuntimeConfigProvider.select(
+      (config) => config.directMessagesDisabled,
+    ),
+  )) {
+    return false;
+  }
+  return ref.watch(importedConversationProvider(userId)).value != null;
 }

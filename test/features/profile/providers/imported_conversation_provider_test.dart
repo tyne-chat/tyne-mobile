@@ -14,6 +14,7 @@ import 'package:fake_async/fake_async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/profile/providers/imported_conversation_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -47,15 +48,22 @@ class _RecordingAdapter implements HttpClientAdapter {
   void close({bool force = false}) {}
 }
 
-ProviderContainer _container(_RecordingAdapter adapter) {
+ProviderContainer _container(
+  _RecordingAdapter adapter, {
+  String? viewer = 'me',
+}) {
   final Dio dio = Dio(BaseOptions(baseUrl: 'https://example.invalid'))
     ..httpClientAdapter = adapter;
-  return ProviderContainer(
+  final ProviderContainer container = ProviderContainer(
     overrides: [
       fluxerDioProvider.overrideWithValue(dio),
       fluxerBaseUrlProvider.overrideWithValue('https://example.invalid'),
     ],
   );
+  if (viewer != null) {
+    container.read(currentUserIdProvider.notifier).set(viewer);
+  }
+  return container;
 }
 
 void main() {
@@ -164,6 +172,49 @@ void main() {
 
         container.dispose();
         async.flushTimers();
+      });
+    });
+
+    // Gemini Carbon's review of tyne-chat/tyne#696.
+    test('asks nothing while signed out', () async {
+      final _RecordingAdapter adapter = _RecordingAdapter();
+      final ProviderContainer container = _container(adapter, viewer: null);
+      addTearDown(container.dispose);
+      expect(
+        await container.read(importedConversationProvider(_userId).future),
+        isNull,
+      );
+      expect(adapter.requestedPaths, isEmpty);
+    });
+
+    test('asks again for the account switched to', () {
+      fakeAsync((FakeAsync async) {
+        final _RecordingAdapter adapter = _RecordingAdapter();
+        final ProviderContainer container = _container(adapter)
+          ..listen(importedConversationProvider(_userId), (_, _) {});
+        async.elapse(const Duration(milliseconds: 1));
+        container.read(currentUserIdProvider.notifier).set('other');
+        async.elapse(const Duration(milliseconds: 1));
+        expect(adapter.requestedPaths, hasLength(2));
+
+        container.dispose();
+        async.flushTimers();
+      });
+    });
+
+    test('a failure that comes after the profile is gone leaves no timer', () {
+      fakeAsync((FakeAsync async) {
+        final _RecordingAdapter adapter = _RecordingAdapter(status: 429);
+        final ProviderContainer container = _container(adapter);
+        container
+            .listen(importedConversationProvider(_userId), (_, _) {})
+            .close();
+        // Gone before the answer arrives.
+        container.invalidate(importedConversationProvider(_userId));
+        async.elapse(const Duration(milliseconds: 1));
+        expect(async.pendingTimers, isEmpty);
+
+        container.dispose();
       });
     });
   });
