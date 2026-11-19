@@ -1258,4 +1258,56 @@ class ForkLocalizationsSv extends ForkLocalizations {
   String forwardAsName(String name) {
     return 'Vidarebefordra som $name';
   }
+
+  @override
+  String get personaGroupNew => 'Ny grupp';
+
+  @override
+  String get personaGroupNameLabel => 'Gruppnamn';
+
+  @override
+  String get personaGroupCreate => 'Skapa grupp';
+
+  @override
+  String get personaGroupRename => 'Byt namn på grupp';
+
+  @override
+  String get personaGroupDelete => 'Ta bort grupp';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return 'Vill du ta bort gruppen ”$name”? Personas i den behålls.';
+  }
+
+  @override
+  String get personaGroupNone => 'Inte i någon grupp';
+
+  @override
+  String get personaGroups => 'Grupper';
+
+  @override
+  String get personaGroupAddTo => 'Lägg till i grupp';
+
+  @override
+  String get personaGroupNewEllipsis => 'Ny grupp…';
+
+  @override
+  String get personaGroupSelectMembers => 'Välj personas i den';
+
+  @override
+  String get personaGroupsDone => 'Klar';
+
+  @override
+  String personaGroupOptions(String name) {
+    return 'Alternativ för $name';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'Ta bort från ”$name”';
+  }
+
+  @override
+  String get personaGroupFailed =>
+      'Det gick inte att ändra grupperna. Försök igen.';
 }

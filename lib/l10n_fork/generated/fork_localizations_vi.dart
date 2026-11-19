@@ -1244,4 +1244,55 @@ class ForkLocalizationsVi extends ForkLocalizations {
   String forwardAsName(String name) {
     return 'Chuyển tiếp với tư cách $name';
   }
+
+  @override
+  String get personaGroupNew => 'Nhóm mới';
+
+  @override
+  String get personaGroupNameLabel => 'Tên nhóm';
+
+  @override
+  String get personaGroupCreate => 'Tạo nhóm';
+
+  @override
+  String get personaGroupRename => 'Đổi tên nhóm';
+
+  @override
+  String get personaGroupDelete => 'Xóa nhóm';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return 'Xóa nhóm \"$name\"? Các persona trong nhóm vẫn được giữ lại.';
+  }
+
+  @override
+  String get personaGroupNone => 'Không thuộc nhóm nào';
+
+  @override
+  String get personaGroups => 'Nhóm';
+
+  @override
+  String get personaGroupAddTo => 'Thêm vào nhóm';
+
+  @override
+  String get personaGroupNewEllipsis => 'Nhóm mới…';
+
+  @override
+  String get personaGroupSelectMembers => 'Chọn các persona trong nhóm';
+
+  @override
+  String get personaGroupsDone => 'Xong';
+
+  @override
+  String personaGroupOptions(String name) {
+    return 'Tùy chọn cho $name';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'Xóa khỏi “$name”';
+  }
+
+  @override
+  String get personaGroupFailed => 'Không thể thay đổi nhóm. Hãy thử lại.';
 }

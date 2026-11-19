@@ -1283,4 +1283,56 @@ class ForkLocalizationsPl extends ForkLocalizations {
   String forwardAsName(String name) {
     return 'Przekaż jako $name';
   }
+
+  @override
+  String get personaGroupNew => 'Nowa grupa';
+
+  @override
+  String get personaGroupNameLabel => 'Nazwa grupy';
+
+  @override
+  String get personaGroupCreate => 'Utwórz grupę';
+
+  @override
+  String get personaGroupRename => 'Zmień nazwę grupy';
+
+  @override
+  String get personaGroupDelete => 'Usuń grupę';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return 'Usunąć grupę „$name”? Persony w niej zostaną zachowane.';
+  }
+
+  @override
+  String get personaGroupNone => 'Poza grupami';
+
+  @override
+  String get personaGroups => 'Grupy';
+
+  @override
+  String get personaGroupAddTo => 'Dodaj do grupy';
+
+  @override
+  String get personaGroupNewEllipsis => 'Nowa grupa…';
+
+  @override
+  String get personaGroupSelectMembers => 'Zaznacz persony w niej';
+
+  @override
+  String get personaGroupsDone => 'Gotowe';
+
+  @override
+  String personaGroupOptions(String name) {
+    return 'Opcje grupy $name';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'Usuń z „$name”';
+  }
+
+  @override
+  String get personaGroupFailed =>
+      'Nie udało się zmienić grup. Spróbuj ponownie.';
 }
