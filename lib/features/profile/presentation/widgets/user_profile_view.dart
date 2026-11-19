@@ -1439,6 +1439,13 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                         rootDisplayName,
                       ),
                     ),
+                  )
+                // Fork: a placeholder's imported DM (tyne-chat/tyne#696).
+                else
+                  ImportedConversationPersonaButton(
+                    userId: effectiveUserId,
+                    onOpen: () =>
+                        _handleMessage(effectiveUserId, false, rootDisplayName),
                   ),
               ]),
             ),

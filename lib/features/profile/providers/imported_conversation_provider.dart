@@ -28,8 +28,11 @@ final Provider<Duration> importedConversationFailureCooldownProvider =
 final FutureProviderFamily<String?, String>
 importedConversationProvider = FutureProvider.autoDispose.family<String?, String>(
   (Ref ref, String userId) async {
-    // Whose DMs they are depends on who asks.
-    ref.watch(currentUserIdProvider);
+    // Whose DMs they are depends on who asks; signed out, nobody does.
+    final String? viewerId = ref.watch(currentUserIdProvider);
+    if (viewerId == null || viewerId.isEmpty) {
+      return null;
+    }
     final Duration cooldown = ref.watch(
       importedConversationFailureCooldownProvider,
     );
@@ -67,6 +70,10 @@ importedConversationProvider = FutureProvider.autoDispose.family<String?, String
         err,
         st,
       );
+    }
+    // Gone while asking (closed, or the account switched): nothing to keep.
+    if (!ref.mounted) {
+      return null;
     }
     failed = true;
     if (unwatched) {
