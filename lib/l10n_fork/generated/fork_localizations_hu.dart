@@ -1261,4 +1261,56 @@ class ForkLocalizationsHu extends ForkLocalizations {
   String forwardAsName(String name) {
     return 'Továbbítás mint $name';
   }
+
+  @override
+  String get personaGroupNew => 'Új csoport';
+
+  @override
+  String get personaGroupNameLabel => 'Csoport neve';
+
+  @override
+  String get personaGroupCreate => 'Csoport létrehozása';
+
+  @override
+  String get personaGroupRename => 'Csoport átnevezése';
+
+  @override
+  String get personaGroupDelete => 'Csoport törlése';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return 'Törlöd a(z) „$name” csoportot? A benne lévő personák megmaradnak.';
+  }
+
+  @override
+  String get personaGroupNone => 'Csoporton kívül';
+
+  @override
+  String get personaGroups => 'Csoportok';
+
+  @override
+  String get personaGroupAddTo => 'Hozzáadás csoporthoz';
+
+  @override
+  String get personaGroupNewEllipsis => 'Új csoport…';
+
+  @override
+  String get personaGroupSelectMembers => 'A benne lévő personák kijelölése';
+
+  @override
+  String get personaGroupsDone => 'Kész';
+
+  @override
+  String personaGroupOptions(String name) {
+    return '$name beállításai';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'Eltávolítás innen: „$name”';
+  }
+
+  @override
+  String get personaGroupFailed =>
+      'Nem sikerült módosítani a csoportokat. Próbáld újra.';
 }

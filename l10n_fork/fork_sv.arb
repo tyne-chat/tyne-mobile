@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "Alla i en lista",
     "guildEmojiAllSection": "Emojier ({count})",
     "forwardAs": "Vidarebefordra som",
-    "forwardAsName": "Vidarebefordra som {name}"
+    "forwardAsName": "Vidarebefordra som {name}",
+    "personaGroupNew": "Ny grupp",
+    "personaGroupNameLabel": "Gruppnamn",
+    "personaGroupCreate": "Skapa grupp",
+    "personaGroupRename": "Byt namn på grupp",
+    "personaGroupDelete": "Ta bort grupp",
+    "personaGroupDeleteConfirm": "Vill du ta bort gruppen ”{name}”? Personas i den behålls.",
+    "personaGroupNone": "Inte i någon grupp",
+    "personaGroups": "Grupper",
+    "personaGroupAddTo": "Lägg till i grupp",
+    "personaGroupNewEllipsis": "Ny grupp…",
+    "personaGroupSelectMembers": "Välj personas i den",
+    "personaGroupsDone": "Klar",
+    "personaGroupOptions": "Alternativ för {name}",
+    "personaGroupRemoveFrom": "Ta bort från ”{name}”",
+    "personaGroupFailed": "Det gick inte att ändra grupperna. Försök igen."
 }

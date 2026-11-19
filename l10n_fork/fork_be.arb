@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "Усе ў адным спісе",
     "guildEmojiAllSection": "Эмодзі ({count})",
     "forwardAs": "Пераслаць як",
-    "forwardAsName": "Пераслаць як {name}"
+    "forwardAsName": "Пераслаць як {name}",
+    "personaGroupNew": "Новая група",
+    "personaGroupNameLabel": "Назва групы",
+    "personaGroupCreate": "Стварыць групу",
+    "personaGroupRename": "Перайменаваць групу",
+    "personaGroupDelete": "Выдаліць групу",
+    "personaGroupDeleteConfirm": "Выдаліць групу «{name}»? Персоны ў ёй застануцца.",
+    "personaGroupNone": "Па-за групамі",
+    "personaGroups": "Групы",
+    "personaGroupAddTo": "Дадаць у групу",
+    "personaGroupNewEllipsis": "Новая група…",
+    "personaGroupSelectMembers": "Выбраць персоны ў ёй",
+    "personaGroupsDone": "Гатова",
+    "personaGroupOptions": "Параметры групы {name}",
+    "personaGroupRemoveFrom": "Выдаліць з «{name}»",
+    "personaGroupFailed": "Не ўдалося змяніць групы. Паспрабуйце яшчэ раз."
 }

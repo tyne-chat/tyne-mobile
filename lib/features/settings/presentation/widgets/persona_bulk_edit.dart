@@ -202,6 +202,7 @@ class PersonaBulkActionBar extends StatelessWidget {
     required this.busy,
     required this.onVisibility,
     required this.onDelete,
+    this.onGroups,
     super.key,
   });
 
@@ -213,6 +214,9 @@ class PersonaBulkActionBar extends StatelessWidget {
   final bool busy;
   final ValueChanged<String> onVisibility;
   final VoidCallback onDelete;
+
+  /// Opens the Groups sheet (tyne-chat/tyne#829); no Groups button without it.
+  final VoidCallback? onGroups;
 
   @override
   Widget build(BuildContext context) {
@@ -234,6 +238,14 @@ class PersonaBulkActionBar extends StatelessWidget {
           ),
           child: Row(
             children: <Widget>[
+              if (onGroups case final VoidCallback openGroups)
+                _BarButton(
+                  key: const ValueKey<String>('persona-bulk-groups'),
+                  icon: PhosphorIconsBold.folder,
+                  label: l10n.fork.personaGroups,
+                  semanticLabel: l10n.fork.personaGroups,
+                  onTap: busy ? null : openGroups,
+                ),
               _BarButton(
                 key: const ValueKey<String>('persona-bulk-public'),
                 icon: PhosphorIconsBold.globeSimple,
