@@ -29,7 +29,10 @@ Future<String> forkPrepareGuildStickerImage({
   required int maxSizeBytes,
 }) async {
   if (isSvgBytes(bytes) || ImageUtils.checkAnimated(bytes).isAnimated) {
-    return optimizeGuildStickerImage(bytes: bytes, maxSizeBytes: maxSizeBytes);
+    return await optimizeGuildStickerImage(
+      bytes: bytes,
+      maxSizeBytes: maxSizeBytes,
+    );
   }
   final img.Decoder? decoder = img.findDecoderForData(bytes);
   final img.DecodeInfo? info = decoder?.startDecode(bytes);

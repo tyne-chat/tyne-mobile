@@ -28,7 +28,7 @@ void resetPersonaStateForAccountChange(Ref ref) {
     ..invalidate(activePersonaProvider);
   // The groups are loaded again for the next account only where something
   // reads them (tyne-chat/tyne#829).
-  if (ref.exists(personaGroupsProvider)) {
+  if (ref.read(personaGroupsProvider.exists)) {
     ref.invalidate(personaGroupsProvider);
   }
   ChannelPersonaMentionCache.instance.clear();

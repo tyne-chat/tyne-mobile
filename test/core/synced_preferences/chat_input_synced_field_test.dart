@@ -1,3 +1,4 @@
+import 'package:fixnum/fixnum.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
@@ -6,6 +7,7 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/fork_synced_field_registry.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
+import 'package:fluxer_app/core/synced_preferences/fields/save_camera_uploads_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/preferences.pb.dart'
     as pb;
 import 'package:fluxer_app/features/chat/utils/composer/emoticon_conversion.dart';
@@ -84,7 +86,7 @@ void main() {
     await store.hydrateFromUserSettings(
       syncedPreferencesUserSettings(
         pb.SyncedPreferences(
-          chatInput: pb.ChatInputSettings(saveCameraCapturesToDevice: false),
+          chatInput: _chatInputWithLegacyCameraField(),
           sidebar: pb.SidebarPreferences(inlineDmsCollapsed: true),
         ),
       ),
@@ -97,8 +99,12 @@ void main() {
     expect(api.pushes, hasLength(1));
     final pb.SyncedPreferences pushed = api.lastPush;
     expect(pushed.chatInput.convertEmoticons, isTrue);
-    expect(pushed.chatInput.hasSaveCameraCapturesToDevice(), isTrue);
-    expect(pushed.chatInput.saveCameraCapturesToDevice, isFalse);
+    expect(
+      pushed.chatInput.unknownFields
+          .getField(kLegacyChatInputSaveCameraUploadsFieldNumber)
+          ?.varints,
+      <Int64>[Int64.ZERO],
+    );
     expect(pushed.sidebar.inlineDmsCollapsed, isTrue);
   });
 
@@ -137,3 +143,12 @@ void main() {
     });
   });
 }
+
+/// `chat_input` with the old `save_camera_captures_to_device` (field 2) off,
+/// which the schema now leaves out of `ChatInputSettings` and upstream reads
+/// as a legacy unknown field.
+pb.ChatInputSettings _chatInputWithLegacyCameraField() => pb.ChatInputSettings()
+  ..unknownFields.mergeVarintField(
+    kLegacyChatInputSaveCameraUploadsFieldNumber,
+    Int64.ZERO,
+  );
