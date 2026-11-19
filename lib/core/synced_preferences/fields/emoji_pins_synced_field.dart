@@ -41,7 +41,7 @@ class EmojiPinsSyncedField
     if (userId == null) {
       return EmojiPins.empty;
     }
-    return _ref
+    return await _ref
         .read(fluxerDatabaseProvider)
         .userPreferencesDao
         .getEmojiPins(userId);
