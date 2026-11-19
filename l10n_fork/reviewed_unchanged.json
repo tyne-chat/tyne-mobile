@@ -77,6 +77,7 @@
             "guildCommandMessage",
             "guildCommandScript",
             "personaAliasLabel",
+            "personaBulkMentions",
             "personaGalleryCount",
             "personaGalleryTitle",
             "personaGalleryViewAvatars",
