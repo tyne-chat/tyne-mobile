@@ -1335,4 +1335,103 @@ class ForkLocalizationsPl extends ForkLocalizations {
   @override
   String get personaGroupFailed =>
       'Nie udało się zmienić grup. Spróbuj ponownie.';
+
+  @override
+  String get personaMentionableByLabel => 'Kto może wspominać';
+
+  @override
+  String get personaMentionableByEveryone => 'Wszyscy';
+
+  @override
+  String get personaMentionableBySelf => 'Tylko ty';
+
+  @override
+  String get personaMentionableByNobody => 'Nikt';
+
+  @override
+  String get personaMentionableByEveryoneDescription =>
+      'Każdy może znaleźć tę personę, wpisując @ lub wyszukując.';
+
+  @override
+  String get personaMentionableBySelfDescription =>
+      'Znajduje ją tylko twoje konto, gdy wpisujesz @ lub wyszukujesz.';
+
+  @override
+  String get personaMentionableByNobodyDescription =>
+      'Pomijana w podpowiedziach @ i filtrach wyszukiwania, także twoich. Nadal może pisać, a jej profil zależy od Widoczności.';
+
+  @override
+  String get personaMentionableByFollows =>
+      'Według Widoczności, dopóki nie wybierzesz.';
+
+  @override
+  String get personaMentionableByFollowVisibility => 'Według Widoczności';
+
+  @override
+  String get personaBulkMentions => 'Wzmianki';
+
+  @override
+  String get personaBulkMentionsEveryone => 'Zezwól na wzmianki wszystkim';
+
+  @override
+  String get personaBulkMentionsSelf => 'Zezwól na wzmianki tylko sobie';
+
+  @override
+  String get personaBulkMentionsNobody => 'Nie zezwalaj nikomu na wzmianki';
+
+  @override
+  String personaBulkNowMentionableByEveryone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persony mogą teraz wspominać wszyscy',
+      many: '$count person mogą teraz wspominać wszyscy',
+      few: '$count persony mogą teraz wspominać wszyscy',
+      one: '$count personę mogą teraz wspominać wszyscy',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableBySelf(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persony możesz teraz wspominać tylko ty',
+      many: '$count person możesz teraz wspominać tylko ty',
+      few: '$count persony możesz teraz wspominać tylko ty',
+      one: '$count personę możesz teraz wspominać tylko ty',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByNobody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persony nie może teraz wspominać nikt',
+      many: '$count person nie może teraz wspominać nikt',
+      few: '$count person nie może teraz wspominać nikt',
+      one: '$count persony nie może teraz wspominać nikt',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByFollowing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Wzmianki $count persony zależą teraz od Widoczności',
+      many: 'Wzmianki $count person zależą teraz od Widoczności',
+      few: 'Wzmianki $count person zależą teraz od Widoczności',
+      one: 'Wzmianki $count persony zależą teraz od Widoczności',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaNotMentionable =>
+      'Nikt nie dostaje tej persony w podpowiedziach wzmianek';
 }

@@ -321,6 +321,59 @@ void main() {
       expect(again.map((item) => item['id']), <String>['p1']);
     });
 
+    // tyne-chat/tyne#652: a channel whose personas are all set to nobody has
+    // an empty list, which used to be asked for again at every keystroke.
+    test(
+      'answers a query nothing matches from a fresh whole list, with no request',
+      () async {
+        final Dio dio = dioAnswering(
+          (options, handler) => handler.resolve(
+            Response<dynamic>(requestOptions: options, data: <dynamic>[]),
+          ),
+        );
+
+        await cache.getChannelPersonas(dio: dio, channelId: 'ch1');
+        for (final String query in <String>['l', 'ly', 'lyr']) {
+          final List<Map<String, dynamic>> found = await cache
+              .getChannelPersonas(dio: dio, channelId: 'ch1', query: query);
+          expect(found, isEmpty);
+        }
+
+        expect(requests, 1);
+      },
+    );
+
+    test('a whole list replaces the one before, dropping who left it', () {
+      cache
+        ..setChannelPersonas('ch1', <Map<String, dynamic>>[
+          <String, dynamic>{'id': 'p1', 'name': 'Alice'},
+          <String, dynamic>{'id': 'p2', 'name': 'Lyra'},
+        ])
+        ..setChannelPersonas('ch1', <Map<String, dynamic>>[
+          <String, dynamic>{'id': 'p1', 'name': 'Alice'},
+        ], complete: true);
+
+      expect(cache.cachedItems.map((item) => item['id']), <String>['p1']);
+    });
+
+    test('asks the server for a query when the list hit its limit', () async {
+      final Dio dio = dioAnswering(
+        (options, handler) => handler.resolve(
+          Response<dynamic>(
+            requestOptions: options,
+            data: <dynamic>[
+              <String, dynamic>{'id': 'p1', 'name': 'Alice'},
+            ],
+          ),
+        ),
+      );
+
+      await cache.getChannelPersonas(dio: dio, channelId: 'ch1', limit: 1);
+      await cache.getChannelPersonas(dio: dio, channelId: 'ch1', query: 'zed');
+
+      expect(requests, 2);
+    });
+
     test('falls back to what it has when the server fails', () async {
       final Dio failing = dioAnswering(
         (options, handler) =>

@@ -1334,4 +1334,103 @@ class ForkLocalizationsSk extends ForkLocalizations {
   @override
   String get personaGroupFailed =>
       'Skupiny sa nepodarilo zmeniť. Skúste to znova.';
+
+  @override
+  String get personaMentionableByLabel => 'Kto môže spomenúť';
+
+  @override
+  String get personaMentionableByEveryone => 'Všetci';
+
+  @override
+  String get personaMentionableBySelf => 'Len vy';
+
+  @override
+  String get personaMentionableByNobody => 'Nikto';
+
+  @override
+  String get personaMentionableByEveryoneDescription =>
+      'Túto personu nájde ktokoľvek pri písaní @ alebo pri hľadaní.';
+
+  @override
+  String get personaMentionableBySelfDescription =>
+      'Nájde ju len váš účet pri písaní @ alebo pri hľadaní.';
+
+  @override
+  String get personaMentionableByNobodyDescription =>
+      'Nezobrazuje sa v návrhoch @ ani vo filtroch hľadania, ani u vás. Stále môže písať a jej profil sa riadi viditeľnosťou.';
+
+  @override
+  String get personaMentionableByFollows =>
+      'Riadi sa viditeľnosťou, kým nevyberiete.';
+
+  @override
+  String get personaMentionableByFollowVisibility => 'Podľa viditeľnosti';
+
+  @override
+  String get personaBulkMentions => 'Zmienky';
+
+  @override
+  String get personaBulkMentionsEveryone => 'Povoliť zmienky všetkým';
+
+  @override
+  String get personaBulkMentionsSelf => 'Povoliť zmienky len vám';
+
+  @override
+  String get personaBulkMentionsNobody => 'Zakázať zmienky všetkým';
+
+  @override
+  String personaBulkNowMentionableByEveryone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persón teraz môžu spomenúť všetci',
+      many: '$count persony teraz môžu spomenúť všetci',
+      few: '$count persony teraz môžu spomenúť všetci',
+      one: '$count personu teraz môžu spomenúť všetci',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableBySelf(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persón teraz môžete spomenúť len vy',
+      many: '$count persony teraz môžete spomenúť len vy',
+      few: '$count persony teraz môžete spomenúť len vy',
+      one: '$count personu teraz môžete spomenúť len vy',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByNobody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persón teraz nemôže spomenúť nikto',
+      many: '$count persony teraz nemôže spomenúť nikto',
+      few: '$count persony teraz nemôže spomenúť nikto',
+      one: '$count personu teraz nemôže spomenúť nikto',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByFollowing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Zmienky $count persón sa teraz riadia viditeľnosťou',
+      many: 'Zmienky $count persony sa teraz riadia viditeľnosťou',
+      few: 'Zmienky $count persón sa teraz riadia viditeľnosťou',
+      one: 'Zmienky $count persony sa teraz riadia viditeľnosťou',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaNotMentionable =>
+      'Táto persona sa nikomu nezobrazuje v návrhoch zmienok';
 }

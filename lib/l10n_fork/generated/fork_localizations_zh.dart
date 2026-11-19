@@ -1257,6 +1257,89 @@ class ForkLocalizationsZh extends ForkLocalizations {
 
   @override
   String get personaGroupFailed => '无法更改分组。请重试。';
+
+  @override
+  String get personaMentionableByLabel => '谁可以提及';
+
+  @override
+  String get personaMentionableByEveryone => '所有人';
+
+  @override
+  String get personaMentionableBySelf => '仅你';
+
+  @override
+  String get personaMentionableByNobody => '无人';
+
+  @override
+  String get personaMentionableByEveryoneDescription => '任何人输入 @ 或搜索时都能找到此人格。';
+
+  @override
+  String get personaMentionableBySelfDescription => '仅你的账号在输入 @ 或搜索时能找到它。';
+
+  @override
+  String get personaMentionableByNobodyDescription =>
+      '不会出现在 @ 建议和搜索筛选中，你的也不例外。它仍可发言，其资料跟随可见性。';
+
+  @override
+  String get personaMentionableByFollows => '在你选择之前，跟随可见性。';
+
+  @override
+  String get personaMentionableByFollowVisibility => '跟随可见性';
+
+  @override
+  String get personaBulkMentions => '提及';
+
+  @override
+  String get personaBulkMentionsEveryone => '允许所有人提及';
+
+  @override
+  String get personaBulkMentionsSelf => '仅允许你提及';
+
+  @override
+  String get personaBulkMentionsNobody => '不允许任何人提及';
+
+  @override
+  String personaBulkNowMentionableByEveryone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '现在所有人都可以提及 $count 个人格',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableBySelf(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '现在仅你可以提及 $count 个人格',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByNobody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '现在任何人都不能提及 $count 个人格',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByFollowing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个人格的提及设置现已跟随可见性',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaNotMentionable => '任何人的提及建议中都不会出现此人格';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -2512,4 +2595,87 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get personaGroupFailed => '無法變更分組。請再試一次。';
+
+  @override
+  String get personaMentionableByLabel => '誰可以提及';
+
+  @override
+  String get personaMentionableByEveryone => '所有人';
+
+  @override
+  String get personaMentionableBySelf => '僅你';
+
+  @override
+  String get personaMentionableByNobody => '無人';
+
+  @override
+  String get personaMentionableByEveryoneDescription => '任何人輸入 @ 或搜尋時都能找到此人格。';
+
+  @override
+  String get personaMentionableBySelfDescription => '僅你的帳號在輸入 @ 或搜尋時能找到它。';
+
+  @override
+  String get personaMentionableByNobodyDescription =>
+      '不會出現在 @ 建議和搜尋篩選中，你的也不例外。它仍可發言，其個人資料跟隨可見度。';
+
+  @override
+  String get personaMentionableByFollows => '在你選擇之前，跟隨可見度。';
+
+  @override
+  String get personaMentionableByFollowVisibility => '跟隨可見度';
+
+  @override
+  String get personaBulkMentions => '提及';
+
+  @override
+  String get personaBulkMentionsEveryone => '允許所有人提及';
+
+  @override
+  String get personaBulkMentionsSelf => '僅允許你提及';
+
+  @override
+  String get personaBulkMentionsNobody => '不允許任何人提及';
+
+  @override
+  String personaBulkNowMentionableByEveryone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '現在所有人都可以提及 $count 個人格',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableBySelf(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '現在僅你可以提及 $count 個人格',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByNobody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '現在任何人都不能提及 $count 個人格',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByFollowing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 個人格的提及設定現已跟隨可見度',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get personaNotMentionable => '任何人的提及建議中都不會出現此人格';
 }

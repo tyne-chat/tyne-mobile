@@ -1344,4 +1344,110 @@ class ForkLocalizationsAr extends ForkLocalizations {
 
   @override
   String get personaGroupFailed => 'تعذّر تغيير المجموعات. حاول مرة أخرى.';
+
+  @override
+  String get personaMentionableByLabel => 'من يمكنه الإشارة';
+
+  @override
+  String get personaMentionableByEveryone => 'الجميع';
+
+  @override
+  String get personaMentionableBySelf => 'أنت فقط';
+
+  @override
+  String get personaMentionableByNobody => 'لا أحد';
+
+  @override
+  String get personaMentionableByEveryoneDescription =>
+      'يمكن لأي شخص العثور على هذه الشخصية عند كتابة @ أو البحث.';
+
+  @override
+  String get personaMentionableBySelfDescription =>
+      'حسابك وحده يجدها عند كتابة @ أو البحث.';
+
+  @override
+  String get personaMentionableByNobodyDescription =>
+      'لا تظهر في اقتراحات @ ولا في عوامل تصفية البحث، حتى لديك. ما زال بإمكانها التحدث، وملفها الشخصي يتبع الظهور.';
+
+  @override
+  String get personaMentionableByFollows => 'تتبع الظهور حتى تختار.';
+
+  @override
+  String get personaMentionableByFollowVisibility => 'اتباع الظهور';
+
+  @override
+  String get personaBulkMentions => 'الإشارات';
+
+  @override
+  String get personaBulkMentionsEveryone => 'السماح بالإشارة من الجميع';
+
+  @override
+  String get personaBulkMentionsSelf => 'السماح بالإشارة منك فقط';
+
+  @override
+  String get personaBulkMentionsNobody => 'منع الإشارة من الجميع';
+
+  @override
+  String personaBulkNowMentionableByEveryone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count شخصية',
+      many: '$count شخصية',
+      few: '$count شخصيات',
+      two: 'شخصيتين',
+      one: 'شخصية واحدة',
+      zero: '$count شخصية',
+    );
+    return 'أصبحت الإشارة إلى $_temp0 متاحة للجميع';
+  }
+
+  @override
+  String personaBulkNowMentionableBySelf(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count شخصية',
+      many: '$count شخصية',
+      few: '$count شخصيات',
+      two: 'شخصيتين',
+      one: 'شخصية واحدة',
+      zero: '$count شخصية',
+    );
+    return 'أصبحت الإشارة إلى $_temp0 متاحة لك فقط';
+  }
+
+  @override
+  String personaBulkNowMentionableByNobody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count شخصية',
+      many: '$count شخصية',
+      few: '$count شخصيات',
+      two: 'شخصيتين',
+      one: 'شخصية واحدة',
+      zero: '$count شخصية',
+    );
+    return 'أصبحت الإشارة إلى $_temp0 ممنوعة على الجميع';
+  }
+
+  @override
+  String personaBulkNowMentionableByFollowing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count شخصية',
+      many: '$count شخصية',
+      few: '$count شخصيات',
+      two: 'شخصيتين',
+      one: 'شخصية واحدة',
+      zero: '$count شخصية',
+    );
+    return 'أصبحت الإشارة إلى $_temp0 تتبع الظهور';
+  }
+
+  @override
+  String get personaNotMentionable =>
+      'لا تظهر هذه الشخصية لأحد في اقتراحات الإشارة';
 }

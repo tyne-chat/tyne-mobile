@@ -583,6 +583,23 @@ void main() {
         )
         .enabled;
 
+    // Visibility and Mentions open a sheet of their values (tyne-chat/tyne#652).
+    Finder sheetOption(String sheet, String label) => find.descendant(
+      of: find.byKey(ValueKey<String>(sheet)),
+      matching: find.text(label),
+    );
+
+    Future<void> openSheet(WidgetTester tester, String button) async {
+      await tester.tap(find.byKey(ValueKey<String>(button)));
+      await tester.pumpAndSettle();
+    }
+
+    Future<void> chooseVisibility(WidgetTester tester, String label) async {
+      await openSheet(tester, 'persona-bulk-visibility');
+      await tester.tap(sheetOption('persona-bulk-visibility-sheet', label));
+      await tester.pumpAndSettle();
+    }
+
     List<Object?> patched(_MockDioAdapter adapter) => <Object?>[
       for (final RequestOptions r in adapter.requests)
         if (r.method == 'PATCH') r.data,
@@ -693,20 +710,21 @@ void main() {
       expect(selectedText(0), findsOneWidget);
     });
 
-    testWidgets('a visibility all the selected have is disabled', (
+    testWidgets('a visibility all the selected have cannot be picked', (
       tester,
     ) async {
-      await pumpSettings(tester, personas: mixed);
+      final _MockDioAdapter adapter = _MockDioAdapter();
+      await pumpSettings(tester, personas: mixed, adapter: adapter);
       await tester.longPress(find.text('Pub One'));
       await tester.pumpAndSettle();
 
-      expect(barButtonEnabled(tester, 'persona-bulk-public'), isFalse);
-      expect(barButtonEnabled(tester, 'persona-bulk-unlisted'), isTrue);
-      expect(barButtonEnabled(tester, 'persona-bulk-private'), isTrue);
-
-      await tester.tap(find.text('Unl One'));
-      await tester.pumpAndSettle();
-      expect(barButtonEnabled(tester, 'persona-bulk-public'), isTrue);
+      await chooseVisibility(tester, testL10n.fork.personaVisibilityPublic);
+      expect(
+        find.byKey(const ValueKey<String>('persona-bulk-visibility-sheet')),
+        findsOneWidget,
+      );
+      expect(adapter.requests, isEmpty);
+      expect(barButtonEnabled(tester, 'persona-bulk-visibility'), isTrue);
     });
 
     testWidgets('Unlisted applies at once in one request, and Undo puts back', (
@@ -719,9 +737,7 @@ void main() {
       await tester.tap(find.text('Priv One'));
       await tester.pumpAndSettle();
 
-      await tester.tap(
-        find.byKey(const ValueKey<String>('persona-bulk-unlisted')),
-      );
+      await chooseVisibility(tester, testL10n.fork.personaVisibilityUnlisted);
       await settle(tester);
 
       expect(
@@ -766,10 +782,7 @@ void main() {
         await tester.longPress(find.text('Unl One'));
         await tester.pumpAndSettle();
 
-        await tester.tap(
-          find.byKey(const ValueKey<String>('persona-bulk-public')),
-        );
-        await tester.pumpAndSettle();
+        await chooseVisibility(tester, testL10n.fork.personaVisibilityPublic);
         expect(
           find.text(testL10n.fork.personaBulkConfirmPublicTitle(1)),
           findsOneWidget,
@@ -779,10 +792,7 @@ void main() {
         expect(adapter.requests, isEmpty);
         expect(selectedText(1), findsOneWidget);
 
-        await tester.tap(
-          find.byKey(const ValueKey<String>('persona-bulk-public')),
-        );
-        await tester.pumpAndSettle();
+        await chooseVisibility(tester, testL10n.fork.personaVisibilityPublic);
         await tester.tap(
           find.byKey(const ValueKey<String>('persona-bulk-confirm')),
         );
@@ -796,10 +806,7 @@ void main() {
       await tester.longPress(find.text('Unl One'));
       await tester.pumpAndSettle();
 
-      await tester.tap(
-        find.byKey(const ValueKey<String>('persona-bulk-private')),
-      );
-      await tester.pumpAndSettle();
+      await chooseVisibility(tester, testL10n.fork.personaVisibilityPrivate);
 
       expect(
         find.text(testL10n.fork.personaBulkConfirmPrivateTitle(1)),
@@ -809,6 +816,91 @@ void main() {
         find.text(testL10n.fork.personaBulkConfirmPrivateBody),
         findsOneWidget,
       );
+    });
+
+    testWidgets(
+      'Mentions applies at once in one request, and Undo restores each stored value',
+      (tester) async {
+        final _MockDioAdapter adapter = _MockDioAdapter();
+        await pumpSettings(
+          tester,
+          personas: <Persona>[
+            pub,
+            unl.copyWith(mentionableBy: 'self'),
+            priv,
+          ],
+          adapter: adapter,
+        );
+        await tester.longPress(find.text('Pub One'));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Unl One'));
+        await tester.pumpAndSettle();
+
+        await openSheet(tester, 'persona-bulk-mentions');
+        await tester.tap(
+          sheetOption(
+            'persona-bulk-mentions-sheet',
+            testL10n.fork.personaBulkMentionsNobody,
+          ),
+        );
+        await settle(tester);
+
+        expect(
+          find.byKey(const ValueKey<String>('persona-bulk-confirm')),
+          findsNothing,
+        );
+        expect(adapter.requests.single.path, '/users/@me/personas/mentions');
+        expect(patched(adapter), <Object?>[
+          <String, Object?>{
+            'personas': <Map<String, String?>>[
+              <String, String?>{'id': 'pub', 'mentionable_by': 'nobody'},
+              <String, String?>{'id': 'unl', 'mentionable_by': 'nobody'},
+            ],
+          },
+        ]);
+        expect(
+          find.byKey(const ValueKey<String>('persona-selection-bar')),
+          findsNothing,
+        );
+
+        final FluxerToast toast = containerOf(
+          tester,
+        ).read(toastProvider).last.toast;
+        expect(
+          toast.message,
+          testL10n.fork.personaBulkNowMentionableByNobody(2),
+        );
+        toast.action!.onPressed();
+        await settle(tester);
+
+        expect(patched(adapter).last, <String, Object?>{
+          'personas': <Map<String, String?>>[
+            <String, String?>{'id': 'pub', 'mentionable_by': null},
+            <String, String?>{'id': 'unl', 'mentionable_by': 'self'},
+          ],
+        });
+      },
+    );
+
+    testWidgets('picking the setting all the selected have sends nothing', (
+      tester,
+    ) async {
+      final _MockDioAdapter adapter = _MockDioAdapter();
+      await pumpSettings(tester, personas: mixed, adapter: adapter);
+      await tester.longPress(find.text('Pub One'));
+      await tester.pumpAndSettle();
+
+      await openSheet(tester, 'persona-bulk-mentions');
+      await tester.tap(
+        sheetOption(
+          'persona-bulk-mentions-sheet',
+          testL10n.fork.personaMentionableByFollowVisibility,
+        ),
+      );
+      await settle(tester);
+
+      expect(adapter.requests, isEmpty);
+      expect(selectedText(1), findsOneWidget);
     });
 
     testWidgets('Delete asks, then deletes all in one request', (tester) async {
@@ -852,10 +944,7 @@ void main() {
       await tester.longPress(find.text('Unl One'));
       await tester.pumpAndSettle();
 
-      await tester.tap(
-        find.byKey(const ValueKey<String>('persona-bulk-private')),
-      );
-      await tester.pumpAndSettle();
+      await chooseVisibility(tester, testL10n.fork.personaVisibilityPrivate);
       await tester.tap(
         find.byKey(const ValueKey<String>('persona-bulk-confirm')),
       );
