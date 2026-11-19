@@ -233,6 +233,9 @@ class _MessageContextMenuItems extends ConsumerWidget {
             shortcut: 'E',
           ),
         if (permissions.isOwnMessage &&
+            isUserMessage &&
+            interactive &&
+            !message.isSending &&
             (ref.watch(myPersonasProvider).asData?.value.isNotEmpty ?? false))
           item(
             label: l10n.fork.chatMessageChangePersona,
