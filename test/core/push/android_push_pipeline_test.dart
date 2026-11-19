@@ -250,12 +250,13 @@ void main() {
 
   test('attachment pictures on the media host are fetched pre-scaled', () {
     final PushMediaInstanceUrls endpoints = PushMediaInstanceUrls.official();
+    // Fork: the instance's default hosts, not upstream's (the fork's differ).
     expect(
       pushAttachmentImageUrl(<String, String>{
         'image_url':
-            'https://fluxerusercontent.com/attachments/1/2/cat.gif?ex=9&is=8&hm=ab&height=4000&animated=true',
+            '${InstanceEndpoints.defaultMedia}/attachments/1/2/cat.gif?ex=9&is=8&hm=ab&height=4000&animated=true',
       }, endpoints: endpoints),
-      'https://fluxerusercontent.com/attachments/1/2/cat.gif?ex=9&is=8&hm=ab&width=720&format=webp&animated=false',
+      '${InstanceEndpoints.defaultMedia}/attachments/1/2/cat.gif?ex=9&is=8&hm=ab&width=720&format=webp&animated=false',
     );
     expect(
       pushAttachmentImageUrl(<String, String>{
