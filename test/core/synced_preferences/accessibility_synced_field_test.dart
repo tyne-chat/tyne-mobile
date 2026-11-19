@@ -239,8 +239,6 @@ void main() {
         autoSendKlipyGifs: true,
         syncReducedMotionWithSystem: false,
         reducedMotionOverride: true,
-        fontSize: 24,
-        messageGroupSpacing: 0,
       );
       final pushed = AccessibilitySyncedField.toProtoForPush(
         local: local,
@@ -251,10 +249,6 @@ void main() {
       expect(pushed.hideKeyboardHints, isTrue);
       expect(pushed.syncReducedMotionWithSystem, isTrue);
       expect(pushed.reducedMotionOverride, isFalse);
-      expect(pushed.fontSize, 24);
-      expect(pushed.messageGroupSpacing, 0);
-      expect(pushed.mobileFontSize, 16);
-      expect(pushed.mobileMessageGroupSpacing, 16);
     });
 
     test('roundtrips motion and underline accessibility fields', () {

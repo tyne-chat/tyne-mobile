@@ -30,6 +30,26 @@ void main() {
     );
 
     test(
+      'push keeps desktop fontSize and messageGroupSpacing from the wire and writes the mobile fields',
+      () {
+        final local = AccessibilitySyncedField.fromProto(
+          accessibility_pb.AccessibilitySettings(),
+        );
+        final pushed = AccessibilitySyncedField.toProtoForPush(
+          local: local,
+          wireBase: accessibility_pb.AccessibilitySettings(
+            fontSize: 24,
+            messageGroupSpacing: 0,
+          ),
+        );
+        expect(pushed.fontSize, 24);
+        expect(pushed.messageGroupSpacing, 0);
+        expect(pushed.mobileFontSize, 16);
+        expect(pushed.mobileMessageGroupSpacing, 16);
+      },
+    );
+
+    test(
       'mergeForMigration keeps local font size and spacing when remote omits mobile fields',
       () {
         final field = forkUpstream.splashZoomField();
