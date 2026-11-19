@@ -117,6 +117,9 @@ class ForkLocalizationsLv extends ForkLocalizations {
   String get personaAliasesLabel => 'Aizstājvārdi';
 
   @override
+  String get personaAliasLabel => 'Aizstājvārds';
+
+  @override
   String get personaAliasesHelp => 'Citi vārdi, pēc kuriem atrast šo personu';
 
   @override

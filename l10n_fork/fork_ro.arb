@@ -23,6 +23,7 @@
     "personaPronounsLabel": "Pronume",
     "personaPronounsHint": "de ex. ea/el",
     "personaAliasesLabel": "Aliasuri",
+    "personaAliasLabel": "Alias",
     "personaAliasesHelp": "Alte nume după care să găsești această persona",
     "personaAddAlias": "Adaugă alias ({count}/{max})",
     "personaRemoveAlias": "Elimină aliasul",

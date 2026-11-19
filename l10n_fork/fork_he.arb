@@ -23,6 +23,7 @@
     "personaPronounsLabel": "כינויי גוף",
     "personaPronounsHint": "לדוגמה: הוא/היא",
     "personaAliasesLabel": "כינויים",
+    "personaAliasLabel": "כינוי",
     "personaAliasesHelp": "שמות נוספים למציאת הפרסונה הזו",
     "personaAddAlias": "הוספת כינוי ({count}/{max})",
     "personaRemoveAlias": "הסרת הכינוי",

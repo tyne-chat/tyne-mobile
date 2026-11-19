@@ -31,6 +31,7 @@
     "personaPronounsLabel": "Mga Panghalip",
     "personaPronounsHint": "hal. they/them",
     "personaAliasesLabel": "Mga alyas",
+    "personaAliasLabel": "Alyas",
     "personaAliasesHelp": "Iba pang pangalan para mahanap ang personang ito",
     "personaAddAlias": "Magdagdag ng alyas ({count}/{max})",
     "personaRemoveAlias": "Alisin ang alyas",

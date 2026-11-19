@@ -118,6 +118,9 @@ class ForkLocalizationsIt extends ForkLocalizations {
   String get personaAliasesLabel => 'Alias';
 
   @override
+  String get personaAliasLabel => 'Alias';
+
+  @override
   String get personaAliasesHelp => 'Altri nomi con cui trovare questa persona';
 
   @override

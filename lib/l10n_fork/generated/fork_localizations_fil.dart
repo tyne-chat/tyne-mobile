@@ -117,6 +117,9 @@ class ForkLocalizationsFil extends ForkLocalizations {
   String get personaAliasesLabel => 'Mga alyas';
 
   @override
+  String get personaAliasLabel => 'Alyas';
+
+  @override
   String get personaAliasesHelp =>
       'Iba pang pangalan para mahanap ang personang ito';
 

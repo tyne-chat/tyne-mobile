@@ -20,14 +20,16 @@ const int _aliasPrefix = 900;
 const int _aliasWord = 700;
 const int _aliasAnywhere = 450;
 
+/// What a word starts after: a space, a dash, an underscore, or an opening
+/// bracket ("Chelsea (Sol)").
+const List<String> _wordStarts = <String>[' ', '-', '_', '(', '['];
+
 int _textScore(String text, String q, int prefix, int word, int anywhere) {
   final String lowered = text.toLowerCase();
   if (lowered.startsWith(q)) {
     return prefix;
   }
-  if (lowered.contains(' $q') ||
-      lowered.contains('-$q') ||
-      lowered.contains('_$q')) {
+  if (_wordStarts.any((String start) => lowered.contains('$start$q'))) {
     return word;
   }
   if (lowered.contains(q)) {
@@ -36,9 +38,12 @@ int _textScore(String text, String q, int prefix, int word, int anywhere) {
   return -1;
 }
 
-/// The score of [query] against a persona's [name], else its best alias:
-/// higher is a better match, -1 when none contains it. The query is trimmed
-/// and compared without case; an empty one scores 0.
+/// The score of [query] against a persona's [name] and [aliases], the best of
+/// them: higher is a better match, -1 when none contains it. A name always
+/// beats the same kind of match on an alias, but a stronger match on an alias
+/// beats a weaker one on the name ("Saturn" as an alias outranks "Lady
+/// Saturn" as a name). The query is trimmed and compared without case; an
+/// empty one scores 0.
 int personaNameMatchScore(
   String name,
   Iterable<String>? aliases,
@@ -48,11 +53,10 @@ int personaNameMatchScore(
   if (q.isEmpty) {
     return 0;
   }
-  final int byName = _textScore(name, q, _namePrefix, _nameWord, _nameAnywhere);
-  if (byName >= 0) {
-    return byName;
+  int best = _textScore(name, q, _namePrefix, _nameWord, _nameAnywhere);
+  if (best == _namePrefix) {
+    return best;
   }
-  int best = -1;
   for (final String alias in aliases ?? const <String>[]) {
     final int score = _textScore(
       alias,
@@ -110,3 +114,26 @@ List<String> personaAliasesFromJson(Object? value) => value is List
           if (item is String) item,
       ]
     : const <String>[];
+
+// The account's own personas as message search knows them (id, name,
+// aliases), kept by `MyPersonasNotifier` whenever its list changes, so a name
+// typed after `from:` or `mentions:` finds them even before the mention list
+// has been fetched (tyne-chat/tyne#707). Plain data, no provider: the search
+// parser has no ref.
+List<Map<String, Object?>> _ownPersonasForSearch =
+    const <Map<String, Object?>>[];
+
+/// The account's own personas for message search, as mention items.
+List<Map<String, Object?>> get ownPersonasForSearch => _ownPersonasForSearch;
+
+/// Replaces [ownPersonasForSearch]: an empty list when signed out.
+void noteOwnPersonasForSearch(
+  Iterable<({String id, String name, List<String> aliases})> personas,
+) {
+  _ownPersonasForSearch = List<Map<String, Object?>>.unmodifiable(
+    <Map<String, Object?>>[
+      for (final ({String id, String name, List<String> aliases}) p in personas)
+        <String, Object?>{'id': p.id, 'name': p.name, 'aliases': p.aliases},
+    ],
+  );
+}

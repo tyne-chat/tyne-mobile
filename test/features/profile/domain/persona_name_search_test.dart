@@ -35,6 +35,33 @@ void main() {
       expect(personaNameMatches('ΞΣNΛ', const <String>[], 'aelena'), isFalse);
     });
 
+    test('lets a stronger match on an alias beat a weaker one on the name, '
+        'and takes an opening bracket as the start of a word', () {
+      expect(
+        personaNameMatchScore('SΛTVRN', <String>['Saturn'], 'saturn'),
+        greaterThan(personaNameMatchScore('Lady Saturn', null, 'saturn')),
+      );
+      expect(
+        personaNameMatchScore('Marisol', <String>['Sol'], 'sol'),
+        personaNameMatchScore('X', <String>['Sol'], 'sol'),
+      );
+      expect(
+        personaNameMatchScore('神聖狐天使', <String>['Chelsea (Sol)'], 'sol'),
+        personaNameMatchScore('神聖狐天使', <String>['Chelsea Sol'], 'sol'),
+      );
+    });
+
+    test("a typed search name finds the account's own persona by its alias "
+        'before any mention list is fetched', () {
+      noteOwnPersonasForSearch(
+        <({String id, String name, List<String> aliases})>[
+          (id: 'own-1', name: 'SΛTVRN', aliases: <String>['Saturn']),
+        ],
+      );
+      addTearDown(() => noteOwnPersonasForSearch(const []));
+      expect(resolvePersonaSearchName('saturn'), personaSearchId('own-1'));
+    });
+
     test('ranks a name match above the same match on an alias', () {
       expect(
         personaNameMatchScore('Saturn', null, 'sat'),

@@ -115,6 +115,9 @@ class ForkLocalizationsEn extends ForkLocalizations {
   String get personaAliasesLabel => 'Aliases';
 
   @override
+  String get personaAliasLabel => 'Alias';
+
+  @override
   String get personaAliasesHelp => 'Other names for finding this persona';
 
   @override
@@ -1358,6 +1361,9 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   String get personaAliasesLabel => 'Aliases';
 
   @override
+  String get personaAliasLabel => 'Alias';
+
+  @override
   String get personaAliasesHelp => 'Other names for finding this persona';
 
   @override
@@ -2599,6 +2605,9 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
 
   @override
   String get personaAliasesLabel => 'Aliases';
+
+  @override
+  String get personaAliasLabel => 'Alias';
 
   @override
   String get personaAliasesHelp => 'Other names for finding this persona';

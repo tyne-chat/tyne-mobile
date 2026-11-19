@@ -115,6 +115,9 @@ class ForkLocalizationsTh extends ForkLocalizations {
   String get personaAliasesLabel => 'ชื่อแฝง';
 
   @override
+  String get personaAliasLabel => 'ชื่อแฝง';
+
+  @override
   String get personaAliasesHelp => 'ชื่ออื่นที่ใช้ค้นหา Persona นี้';
 
   @override

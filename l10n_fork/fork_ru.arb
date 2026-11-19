@@ -23,6 +23,7 @@
     "personaPronounsLabel": "Местоимения",
     "personaPronounsHint": "напр. они/их",
     "personaAliasesLabel": "Псевдонимы",
+    "personaAliasLabel": "Псевдоним",
     "personaAliasesHelp": "Другие имена, по которым можно найти эту персону",
     "personaAddAlias": "Добавить псевдоним ({count}/{max})",
     "personaRemoveAlias": "Удалить псевдоним",

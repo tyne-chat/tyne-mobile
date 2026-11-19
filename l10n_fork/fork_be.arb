@@ -31,6 +31,7 @@
     "personaPronounsLabel": "Займеннікі",
     "personaPronounsHint": "напр. яны/іх",
     "personaAliasesLabel": "Псеўданімы",
+    "personaAliasLabel": "Псеўданім",
     "personaAliasesHelp": "Іншыя імёны, па якіх можна знайсці гэтую персону",
     "personaAddAlias": "Дадаць псеўданім ({count}/{max})",
     "personaRemoveAlias": "Выдаліць псеўданім",

@@ -23,6 +23,7 @@
     "personaPronounsLabel": "Pronomes",
     "personaPronounsHint": "ex. ela/dela",
     "personaAliasesLabel": "Apelidos",
+    "personaAliasLabel": "Apelido",
     "personaAliasesHelp": "Outros nomes para encontrar esta persona",
     "personaAddAlias": "Adicionar apelido ({count}/{max})",
     "personaRemoveAlias": "Remover apelido",

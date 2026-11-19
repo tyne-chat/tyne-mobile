@@ -118,6 +118,9 @@ class ForkLocalizationsTr extends ForkLocalizations {
   String get personaAliasesLabel => 'Takma adlar';
 
   @override
+  String get personaAliasLabel => 'Takma ad';
+
+  @override
   String get personaAliasesHelp => 'Bu personayı bulmak için başka adlar';
 
   @override

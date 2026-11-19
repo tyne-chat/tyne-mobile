@@ -116,6 +116,9 @@ class ForkLocalizationsVi extends ForkLocalizations {
   String get personaAliasesLabel => 'Biệt danh';
 
   @override
+  String get personaAliasLabel => 'Biệt danh';
+
+  @override
   String get personaAliasesHelp => 'Các tên khác để tìm persona này';
 
   @override

@@ -19,15 +19,18 @@
         ],
         "cs": [
             "guildEmojiAllSection",
+            "personaAliasLabel",
             "personaTagExampleText"
         ],
         "da": [
-            "guildCommandScript"
+            "guildCommandScript",
+            "personaAliasLabel"
         ],
         "de": [
             "guildCommandInputOptional",
             "guildCommandName",
             "guildEmojiSortName",
+            "personaAliasLabel",
             "personaGallerySortName",
             "personaGalleryTitle",
             "personaSectionTitle",
@@ -39,6 +42,7 @@
         ],
         "es": [
             "guildCommandScript",
+            "personaAliasLabel",
             "personaGalleryCount",
             "personaGalleryTitle",
             "personaModeManual",
@@ -47,11 +51,15 @@
         ],
         "es_419": [
             "guildCommandScript",
+            "personaAliasLabel",
             "personaGalleryCount",
             "personaGalleryTitle",
             "personaModeManual",
             "personaSectionTitle",
             "userSettingsNavPersonas"
+        ],
+        "fi": [
+            "personaAliasLabel"
         ],
         "fil": [
             "guildCommandCounterChannel",
@@ -68,6 +76,7 @@
             "guildCommandDescription",
             "guildCommandMessage",
             "guildCommandScript",
+            "personaAliasLabel",
             "personaGalleryCount",
             "personaGalleryTitle",
             "personaGalleryViewAvatars",
@@ -76,8 +85,12 @@
             "timestampPickerDateLabel",
             "userSettingsNavPersonas"
         ],
+        "hr": [
+            "personaAliasLabel"
+        ],
         "id": [
             "guildEmojiAllSection",
+            "personaAliasLabel",
             "personaEditPersona",
             "personaEditTitle",
             "personaModeManual"
@@ -86,6 +99,7 @@
             "guildCommandScript",
             "guildCommandSectionInput",
             "guildEmojiAllSection",
+            "personaAliasLabel",
             "personaReactionsAccount",
             "personaSectionTitle",
             "userSettingsNavPersonas"
@@ -96,15 +110,20 @@
             "signalBarSignalWithNames",
             "userSettingsNavPersonas"
         ],
+        "nb": [
+            "personaAliasLabel"
+        ],
         "nl": [
             "guildCommandScript",
             "guildEmojiAllSection",
             "instanceOfflineTitle",
+            "personaAliasLabel",
             "personaGalleryViewAvatars",
             "personaReactionsAccount"
         ],
         "pl": [
-            "guildEmojiAllSection"
+            "guildEmojiAllSection",
+            "personaAliasLabel"
         ],
         "pt": [
             "guildCommandScript",
@@ -125,6 +144,7 @@
         "ro": [
             "guildCommandScript",
             "guildEmojiAllSection",
+            "personaAliasLabel",
             "personaGalleryTitle",
             "personaModeManual",
             "personaSectionTitle",
@@ -134,6 +154,7 @@
         ],
         "sk": [
             "guildEmojiAllSection",
+            "personaAliasLabel",
             "personaTagExampleText",
             "signalBarSignalWithNames"
         ],
@@ -145,6 +166,7 @@
             "signalBarSignalWithNames"
         ],
         "sv": [
+            "personaAliasLabel",
             "personaGalleryCount",
             "personaGalleryTitle",
             "personaSectionTitle",

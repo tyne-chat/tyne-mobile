@@ -31,6 +31,7 @@
     "personaPronounsLabel": "Zaimki",
     "personaPronounsHint": "npr. oni/njihov",
     "personaAliasesLabel": "Vzdevki",
+    "personaAliasLabel": "Vzdevek",
     "personaAliasesHelp": "Druga imena, po katerih najdete to persono",
     "personaAddAlias": "Dodaj vzdevek ({count}/{max})",
     "personaRemoveAlias": "Odstrani vzdevek",

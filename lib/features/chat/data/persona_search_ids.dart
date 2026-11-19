@@ -37,8 +37,8 @@ List<String> personaSearchIds(List<String> ids) => <String>[
 ];
 
 /// The persona a name typed without picking it stands for: the one known
-/// persona with that name (any case), or null when there is none or more than
-/// one. A persona with the name among its aliases counts too, but only when no persona
+/// persona with that name (any case), among the account's own personas and
+/// the mention list's, or null when there is none or more than one. A persona with the name among its aliases counts too, but only when no persona
 /// has it as its name (tyne-chat/tyne#707). The parser asks this only after no
 /// account matched the name.
 String? resolvePersonaSearchName(
@@ -49,8 +49,14 @@ String? resolvePersonaSearchName(
   if (wanted.isEmpty) {
     return null;
   }
+  // The account's own personas first, as the web's PersonaStore: they are
+  // known before any mention list is fetched, and a fresh edit wins.
   final List<Map<String, dynamic>> items = <Map<String, dynamic>>[
-    ...known ?? ChannelPersonaMentionCache.instance.cachedItems,
+    ...known ??
+        <Map<String, dynamic>>[
+          ...ownPersonasForSearch,
+          ...ChannelPersonaMentionCache.instance.cachedItems,
+        ],
   ];
   Set<String> ids = <String>{
     for (final Map<String, dynamic> item in items)
