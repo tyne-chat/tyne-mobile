@@ -1337,4 +1337,103 @@ class ForkLocalizationsBe extends ForkLocalizations {
   @override
   String get personaGroupFailed =>
       'Не ўдалося змяніць групы. Паспрабуйце яшчэ раз.';
+
+  @override
+  String get personaMentionableByLabel => 'Хто можа згадваць';
+
+  @override
+  String get personaMentionableByEveryone => 'Усе';
+
+  @override
+  String get personaMentionableBySelf => 'Толькі вы';
+
+  @override
+  String get personaMentionableByNobody => 'Ніхто';
+
+  @override
+  String get personaMentionableByEveryoneDescription =>
+      'Любы можа знайсці гэту персону, набраўшы @ або ў пошуку.';
+
+  @override
+  String get personaMentionableBySelfDescription =>
+      'Толькі ваш уліковы запіс знаходзіць яе, калі вы набіраеце @ або шукаеце.';
+
+  @override
+  String get personaMentionableByNobodyDescription =>
+      'Не трапляе ў падказкі @ і фільтры пошуку, нават у вашы. Яна можа пісаць далей, а яе профіль адпавядае бачнасці.';
+
+  @override
+  String get personaMentionableByFollows =>
+      'Залежыць ад бачнасці, пакуль вы не выбераце.';
+
+  @override
+  String get personaMentionableByFollowVisibility => 'Паводле бачнасці';
+
+  @override
+  String get personaBulkMentions => 'Згадкі';
+
+  @override
+  String get personaBulkMentionsEveryone => 'Дазволіць згадкі ўсім';
+
+  @override
+  String get personaBulkMentionsSelf => 'Дазволіць згадкі толькі вам';
+
+  @override
+  String get personaBulkMentionsNobody => 'Забараніць згадкі ўсім';
+
+  @override
+  String personaBulkNowMentionableByEveryone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count персоны',
+      many: '$count персон',
+      few: '$count персоны',
+      one: '$count персону',
+    );
+    return 'Цяпер усе могуць згадваць $_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableBySelf(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count персоны',
+      many: '$count персон',
+      few: '$count персоны',
+      one: '$count персону',
+    );
+    return 'Цяпер толькі вы можаце згадваць $_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByNobody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count персоны',
+      many: '$count персон',
+      few: '$count персоны',
+      one: '$count персону',
+    );
+    return 'Цяпер ніхто не можа згадваць $_temp0';
+  }
+
+  @override
+  String personaBulkNowMentionableByFollowing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count персоны',
+      many: '$count персон',
+      few: '$count персон',
+      one: '$count персоны',
+    );
+    return 'Згадкі $_temp0 цяпер залежаць ад бачнасці';
+  }
+
+  @override
+  String get personaNotMentionable =>
+      'Ніхто не бачыць гэту персону ў падказках згадак';
 }

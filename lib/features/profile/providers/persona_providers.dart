@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/chat/data/channel_persona_mention_cache.dart';
 import 'package:fluxer_app/features/emoji/providers/emoji_pins_provider.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/domain/persona_mention_setting.dart';
 import 'package:fluxer_app/features/profile/domain/persona_name_search.dart';
 import 'package:fluxer_app/features/profile/domain/persona_settings.dart';
 import 'package:fluxer_app/features/profile/providers/multi_persona_reactions_provider.dart';
@@ -138,14 +139,13 @@ class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
     _gate.reset();
     _hadPersonas = false;
     _tags = const <PersonaTag>[];
-    // Message search finds the account's own personas by name and alias.
+    // Message search finds the account's own personas by name and alias,
+    // except those set to nobody (tyne-chat/tyne#652), so a copy of a
+    // friend's persona leaves the friend's to a typed name.
     noteOwnPersonasForSearch(const []);
     listenSelf(
       (_, AsyncValue<List<Persona>> next) => noteOwnPersonasForSearch(
-        <({String id, String name, List<String> aliases})>[
-          for (final Persona p in next.asData?.value ?? const <Persona>[])
-            (id: p.id, name: p.name, aliases: p.aliases),
-        ],
+        ownPersonasSearchable(next.asData?.value ?? const <Persona>[]),
       ),
     );
     unawaited(_readHadPersonas());
@@ -278,6 +278,7 @@ class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
       removePersona(persona.id);
       return;
     }
+    _forgetMentionSuggestions();
     state.whenData((current) {
       final idx = current.indexWhere((p) => p.id == persona.id);
       if (idx >= 0) {
@@ -291,6 +292,7 @@ class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
   }
 
   void removePersona(String id) {
+    _forgetMentionSuggestions();
     state.whenData((current) {
       state = AsyncValue.data(current.where((p) => p.id != id).toList());
     });
@@ -308,6 +310,7 @@ class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
     if (byId.isEmpty) {
       return;
     }
+    _forgetMentionSuggestions();
     state.whenData((current) {
       state = AsyncValue.data(<Persona>[
         for (final Persona p in current) byId[p.id] ?? p,
@@ -322,6 +325,7 @@ class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
     if (gone.isEmpty) {
       return;
     }
+    _forgetMentionSuggestions();
     state.whenData((current) {
       state = AsyncValue.data(
         current.where((p) => !gone.contains(p.id)).toList(),
@@ -329,6 +333,13 @@ class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
     });
     unawaited(_forgetPinnedEmojisOf(gone));
   }
+
+  /// Fork: an own persona changed here, by an edit, a bulk change or an
+  /// event: the cached mention lists hold the old one, a persona just set to
+  /// nobody among them (tyne-chat/tyne#652), so they are asked again on the
+  /// next `@` (one request), as the web does.
+  void _forgetMentionSuggestions() =>
+      ChannelPersonaMentionCache.instance.clear();
 
   Future<void> _forgetPinnedEmojisOf(Set<String> ids) async {
     try {
@@ -1110,3 +1121,14 @@ final personaSettingsProvider =
     NotifierProvider<PersonaSettingsNotifier, AsyncValue<PersonaSettings>>(
       PersonaSettingsNotifier.new,
     );
+
+/// Fork: the account's own personas message search finds by typed name:
+/// all but those set to nobody (tyne-chat/tyne#652), so a copy of a friend's
+/// persona leaves the friend's to a typed name.
+List<({String id, String name, List<String> aliases})> ownPersonasSearchable(
+  Iterable<Persona> personas,
+) => <({String id, String name, List<String> aliases})>[
+  for (final Persona p in personas)
+    if (isOwnPersonaSuggested(p.mentionableBy, p.visibility))
+      (id: p.id, name: p.name, aliases: p.aliases),
+];

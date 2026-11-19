@@ -1319,4 +1319,95 @@ class ForkLocalizationsDe extends ForkLocalizations {
   @override
   String get personaGroupFailed =>
       'Die Gruppen konnten nicht geändert werden. Versuch es noch einmal.';
+
+  @override
+  String get personaMentionableByLabel => 'Erwähnen dürfen';
+
+  @override
+  String get personaMentionableByEveryone => 'Jeder';
+
+  @override
+  String get personaMentionableBySelf => 'Nur du';
+
+  @override
+  String get personaMentionableByNobody => 'Niemand';
+
+  @override
+  String get personaMentionableByEveryoneDescription =>
+      'Alle finden diese Persona beim Tippen von @ oder bei der Suche.';
+
+  @override
+  String get personaMentionableBySelfDescription =>
+      'Nur dein Konto findet sie beim Tippen von @ oder bei der Suche.';
+
+  @override
+  String get personaMentionableByNobodyDescription =>
+      'Fehlt in @-Vorschlägen und Suchfiltern, auch in deinen. Sie kann weiter schreiben, und ihr Profil folgt der Sichtbarkeit.';
+
+  @override
+  String get personaMentionableByFollows =>
+      'Folgt der Sichtbarkeit, bis du etwas auswählst.';
+
+  @override
+  String get personaMentionableByFollowVisibility => 'Der Sichtbarkeit folgen';
+
+  @override
+  String get personaBulkMentions => 'Erwähnungen';
+
+  @override
+  String get personaBulkMentionsEveryone => 'Erwähnen für alle erlauben';
+
+  @override
+  String get personaBulkMentionsSelf => 'Erwähnen nur für dich erlauben';
+
+  @override
+  String get personaBulkMentionsNobody => 'Erwähnen für niemanden erlauben';
+
+  @override
+  String personaBulkNowMentionableByEveryone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Personas',
+      one: '$count Persona',
+    );
+    return 'Erwähnen von $_temp0 jetzt für alle erlaubt';
+  }
+
+  @override
+  String personaBulkNowMentionableBySelf(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Personas',
+      one: '$count Persona',
+    );
+    return 'Erwähnen von $_temp0 jetzt nur für dich erlaubt';
+  }
+
+  @override
+  String personaBulkNowMentionableByNobody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Personas',
+      one: '$count Persona',
+    );
+    return 'Erwähnen von $_temp0 jetzt für niemanden erlaubt';
+  }
+
+  @override
+  String personaBulkNowMentionableByFollowing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Personas',
+      one: '$count Persona',
+    );
+    return 'Erwähnen von $_temp0 folgt jetzt der Sichtbarkeit';
+  }
+
+  @override
+  String get personaNotMentionable =>
+      'Diese Persona erscheint bei niemandem in Erwähnungsvorschlägen';
 }

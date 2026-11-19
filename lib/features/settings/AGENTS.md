@@ -114,10 +114,15 @@ whose values are a server resource mirrored in SharedPreferences.
   mode: a checkbox on each card, a tap toggles it, the card actions hide, a bar on top shows the
   count, closes select mode and selects all the cards that show (or none when all are). The
   selection is kept by id across chips and search; the actions apply to all of it. The bottom bar
-  (`PersonaBulkActionBar`) sets Public, Unlisted or Private (each disabled when every selected
-  persona has it) or deletes. Public, Private and Delete ask first; Unlisted applies at once. The
-  work is the profile folder's `PersonaBulkActions`; a visibility change ends with a toast with Undo,
-  a failure with a toast that keeps the selection. The save bar hides while selecting.
+  (`PersonaBulkActionBar`) is Groups, Visibility, Mentions and Delete (four buttons fit a phone's
+  width; Chiara's choice, tyne-chat/tyne#652). Visibility opens a sheet of Public, Unlisted and
+  Private (each disabled when every selected persona has it); Public, Private and Delete ask
+  first, Unlisted applies at once. Mentions opens a sheet of the stored mention settings (Everyone,
+  Only you, Nobody, Follow Visibility), the one every selected persona has picked; it applies at
+  once and picking the shared one changes nothing. The work is the profile folder's
+  `PersonaBulkActions`; a change ends with a toast with Undo, a failure with a toast that keeps the
+  selection. A card set to Nobody shows a struck-through @ (`PersonaNotMentionableIcon`). The save
+  bar hides while selecting.
 - **Groups** (tyne-chat/tyne#829), PluralKit's idea: with at least one group the list shows a
   section per group, in the order the groups were made, then "Not in a group"; a persona in several
   groups shows in each (`buildPersonaGroupSections`). A tap on a section's header folds it; folds are
