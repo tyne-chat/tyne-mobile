@@ -16,6 +16,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 /// A row with the sort button at its end, under the emoji search field.
 class GuildEmojiSortRow extends ConsumerWidget {
@@ -29,8 +30,17 @@ class GuildEmojiSortRow extends ConsumerWidget {
         ? l10n.fork.guildEmojiSortRecent
         : l10n.fork.guildEmojiSortName;
     final colors = context.colors;
+    // The same gutter and spacing as the search field above and the upload
+    // card below.
     return Padding(
-      padding: EdgeInsets.only(bottom: context.layout.s2),
+      padding: usesDesktopPointerUi(context)
+          ? const EdgeInsets.only(bottom: 16)
+          : EdgeInsets.fromLTRB(
+              context.layout.s4,
+              context.layout.s2,
+              context.layout.s4,
+              0,
+            ),
       child: Align(
         alignment: AlignmentDirectional.centerEnd,
         child: FluxerTappable(

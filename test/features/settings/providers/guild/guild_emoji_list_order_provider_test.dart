@@ -46,6 +46,28 @@ void main() {
     ));
   });
 
+  test('a choice made before the saved ones are read keeps the other saved '
+      'choice', () async {
+    SharedPreferences.setMockInitialValues(<String, Object>{
+      GuildEmojiListOrderNotifier.sortPrefKey: 'recent',
+      GuildEmojiListOrderNotifier.groupingPrefKey: 'together',
+    });
+    final ProviderContainer container = ProviderContainer();
+    addTearDown(container.dispose);
+    final GuildEmojiListOrderNotifier notifier = container.read(
+      guildEmojiListOrderProvider.notifier,
+    );
+    // Before the saved choices are read: the sort is chosen, the grouping is not.
+    final Future<void> chosen = notifier.chooseSort(GuildEmojiListSort.name);
+    expect(await _restored(container), (
+      sort: GuildEmojiListSort.name,
+      grouping: GuildEmojiListGrouping.together,
+    ));
+    await chosen;
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    expect(prefs.getString(GuildEmojiListOrderNotifier.sortPrefKey), 'name');
+  });
+
   test('falls back to the default for a value it does not know', () async {
     SharedPreferences.setMockInitialValues(<String, Object>{
       GuildEmojiListOrderNotifier.sortPrefKey: 'newest',

@@ -73,7 +73,7 @@ Where the value is kept decides who sees it:
 | User settings, `PATCH /users/@me/settings` | `UserSettingsViewModel` setters (compact mode, embeds, developer mode…), `UserSettingsSyncService` (theme, time format, AFK, locale) | yes; mirrored in Drift |
 | Synced preferences | setters calling `markDirty(SyncedPreferenceField.x)` or `ref.markSyncedDirty`: sound, double-tap, swipe, voice prompts, parts of appearance and advanced | yes |
 | Drift `user_preferences`, per account | appearance, chat, advanced, voice, default apps (`load(userId)` at start-up, `_persist()` on change) | no, unless the setter also marks a synced field |
-| SharedPreferences | notifications, haptics, open communities to last channel, the quick-switcher switch | no; shared by every account on the device |
+| SharedPreferences | notifications, haptics, open communities to last channel, the quick-switcher switch, the community emoji list's sort and grouping (`guild_emoji_list_order_provider.dart`) | no; shared by every account on the device |
 | Persona settings, `PATCH /users/@me/personas/settings` | the Personas page | yes |
 
 `AppearancePreferences` persists every setter to Drift, then marks `accessibility`,
@@ -165,7 +165,14 @@ empty state, with no error or retry (tyne-chat/tyne#350). Every card is built (a
 - **Community emojis A to Z:** `compareGuildEmojiSettingsEntriesByName` appended to
   `guild_emoji_settings_entry.dart`; `_forkSortedByName` appended to `guild_emoji_settings_provider.dart`
   and used at upstream's two `_sortNewestFirst` calls and after an update; upstream's helper stays under
-  `// ignore: unused_element`.
+  `// ignore: unused_element`. The order itself is `shared/utils/emoji/fork_custom_emoji_name_order.dart`,
+  shared with the emoji picker and matching the web app's `compareEmojisByName`: case ignored, digits
+  as numbers, same names newest first.
+- **Sort and group the emoji list** (tyne-chat/tyne#775): `GuildEmojiSortRow`
+  (`guild_emoji_sort_button.dart`) under the search field, `orderGuildEmojiSections`
+  (`domain/guild/expressions/guild_emoji_list_order.dart`) and `guildEmojiListOrderProvider`; three small
+  hand-offs in `guild_emoji_settings_widget.dart`. The row keeps its neighbours' gutter. A choice made before the
+  saved ones are read keeps the other saved one.
 
 ## Other traps
 
@@ -212,6 +219,9 @@ Each request answers a tap; nothing runs per item or per build, and the pages re
   profile folder's `providers/deleted_personas_test.dart`. Also
   `test/core/deep_links/user_settings_deep_link_fork_test.dart`, through `test/core`.
 - Fork, not in the list: `providers/quick_switcher_button_preferences_provider_test.dart`,
+  `domain/guild/expressions/guild_emoji_list_order_test.dart`,
+  `providers/guild/guild_emoji_list_order_provider_test.dart`,
+  `test/shared/utils/emoji/fork_custom_emoji_name_order_test.dart`,
   `test/shared/utils/fork_image_upload_limit_test.dart` (tyne-chat/tyne#132). Upstream's
   `providers/guild/guild_emoji_settings_provider_test.dart`, whose expected order the fork changed
   under `// Fork:`, is not in it either.
