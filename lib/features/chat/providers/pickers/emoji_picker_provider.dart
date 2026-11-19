@@ -21,6 +21,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
 import 'package:fluxer_app/features/chat/data/persona_emoji_usage_store.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+import 'package:fluxer_app/shared/utils/emoji/fork_custom_emoji_name_order.dart';
 
 part 'emoji_picker_provider.g.dart';
 
@@ -75,17 +76,8 @@ String unicodeEmojiFavoriteKey(EmojiEntry emoji) =>
 String customEmojiFavoriteKey(GuildEmojiEntry emoji) =>
     'custom:${emoji.guildId}:${emoji.id}';
 
-int compareGuildEmojiEntriesByName(GuildEmojiEntry a, GuildEmojiEntry b) {
-  final diff = a.nameLower.compareTo(b.nameLower);
-  if (diff != 0) {
-    return diff;
-  }
-  final exactDiff = a.name.compareTo(b.name);
-  if (exactDiff != 0) {
-    return exactDiff;
-  }
-  return a.id.compareTo(b.id);
-}
+int compareGuildEmojiEntriesByName(GuildEmojiEntry a, GuildEmojiEntry b) =>
+    compareCustomEmojiNames(a.name, a.id, b.name, b.id);
 
 sealed class FrecentEmojiItem {
   const FrecentEmojiItem();
