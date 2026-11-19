@@ -244,7 +244,7 @@ folder. A new folder guide is added to this list in the same commit.
   keyboard inset fix, and what breaks installs and releases.
 - `lib/core/database/AGENTS.md`: the local Drift database and how the fork changes its schema.
 - `lib/core/gateway/AGENTS.md`: how gateway events reach Drift and the providers.
-- `lib/core/synced_preferences/AGENTS.md`: settings synced through the account: the protobuf copy,
+- `lib/core/synced_preferences/AGENTS.md`: settings synced through the account: the generated protobuf files,
   how the store merges and pushes, and the fork's mobile layout fields.
 - `lib/features/chat/AGENTS.md`: the message engine and list, the composer, the chat screen.
 - `lib/features/guild_commands/AGENTS.md`: server commands on the phone: the list of usable commands,
