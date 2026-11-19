@@ -32,6 +32,11 @@ class ForkMemberConfirmation {
   final Set<String> _unverifiedGuilds = <String>{};
   final Map<String, Set<String>> _confirmed = <String, Set<String>>{};
   final Map<String, Set<String>> _requested = <String, Set<String>>{};
+
+  /// Guilds READY listed as unavailable, until their GUILD_CREATE: the gateway
+  /// answers no request for one, so none is sent (the request would wait out
+  /// its timeout instead).
+  final Set<String> _unavailableGuilds = <String>{};
   int _readyCount = 0;
 
   /// Goes up on every READY, so per-connection state elsewhere (the hydration
@@ -41,19 +46,27 @@ class ForkMemberConfirmation {
   /// A new connection: nothing is unconfirmed after a `full` READY (the tables
   /// were just rewritten); after an `incremental` or `cache` one, every cached
   /// member of [guildIds] is, unavailable guilds included (their rows are kept
-  /// too, and their GUILD_CREATE brings only some members).
+  /// too, and their GUILD_CREATE brings only some members). Those in
+  /// [unavailableGuildIds] are asked for only once they are back.
   void startConnection({
     required bool cacheKept,
     required Iterable<String> guildIds,
+    Iterable<String> unavailableGuildIds = const <String>[],
   }) {
     _readyCount++;
     _unverifiedGuilds.clear();
     _confirmed.clear();
     _requested.clear();
+    _unavailableGuilds.clear();
     if (cacheKept) {
       _unverifiedGuilds.addAll(guildIds);
+      _unavailableGuilds.addAll(unavailableGuildIds);
     }
   }
+
+  /// The account changed: nothing is known about the next one's members until
+  /// its READY, and per-connection state elsewhere starts over.
+  void reset() => startConnection(cacheKept: false, guildIds: const <String>[]);
 
   /// The server has just written these members.
   void confirm(String guildId, Iterable<String> userIds) {
@@ -80,9 +93,11 @@ class ForkMemberConfirmation {
       _unverifiedGuilds.contains(guildId) &&
       !(_confirmed[guildId]?.contains(userId) ?? false);
 
-  /// Unconfirmed and not asked for yet in this connection.
+  /// Unconfirmed, in a guild that is available, and not asked for yet in this
+  /// connection.
   bool needsRequest(String guildId, String userId) =>
       isUnconfirmed(guildId, userId) &&
+      !_unavailableGuilds.contains(guildId) &&
       !(_requested[guildId]?.contains(userId) ?? false);
 
   /// The members of [userIds] to ask the gateway for now, each marked as asked
@@ -99,9 +114,20 @@ class ForkMemberConfirmation {
     return claimed;
   }
 
-  /// The guild came back (GUILD_CREATE): the gateway refused requests for it
-  /// while it was unavailable, so its members may be asked for again.
-  void guildAvailable(String guildId) => _requested.remove(guildId);
+  /// The guild came back (its GUILD_CREATE has been stored): its members may
+  /// be asked for now. Only a guild READY listed as unavailable changes; a
+  /// GUILD_CREATE or GUILD_SYNC of an available one, which arrives whenever
+  /// the guild is opened, gives nobody a second request.
+  void guildAvailable(String guildId) => _unavailableGuilds.remove(guildId);
+
+  /// The guild's member rows were removed (GUILD_DELETE): nothing about them
+  /// is left to confirm.
+  void forgetGuild(String guildId) {
+    _unverifiedGuilds.remove(guildId);
+    _unavailableGuilds.remove(guildId);
+    _confirmed.remove(guildId);
+    _requested.remove(guildId);
+  }
 
   /// The member's row was removed.
   void forget(String guildId, String userId) {
@@ -121,7 +147,29 @@ void forkStartMemberConfirmation(
     for (final Map<String, dynamic> rawGuild in rawGuilds)
       if (rawGuild['id'] case final String id) id,
   ],
+  unavailableGuildIds: <String>[
+    for (final Map<String, dynamic> rawGuild in rawGuilds)
+      if (rawGuild['unavailable'] == true)
+        if (rawGuild['id'] case final String id) id,
+  ],
 );
+
+/// A GUILD_CREATE (or GUILD_SYNC) has been stored: the [members] it carried
+/// are confirmed, and when it is still the guild's latest availability
+/// ([current]), the guild is available to ask for again.
+void forkGuildCreateStored(
+  FluxerDatabase database,
+  String guildId,
+  Iterable<GuildMemberResponse> members, {
+  required bool current,
+}) {
+  final ForkMemberConfirmation confirmation = ForkMemberConfirmation.of(
+    database,
+  )..confirmMembers(guildId, members);
+  if (current) {
+    confirmation.guildAvailable(guildId);
+  }
+}
 
 /// Whether an embedded member may overwrite the cached row: only when this
 /// connection has not confirmed it.

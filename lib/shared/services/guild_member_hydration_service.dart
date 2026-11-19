@@ -42,6 +42,9 @@ class GuildMemberHydrationService {
   // Fork: the READY whose non-members `_nonMembers` holds (tyne-chat/tyne#614).
   int _forkNonMembersReady = 0;
 
+  // Fork: the gateway request in flight, which the next one waits for.
+  Future<void> _forkGatewayTurn = Future<void>.value();
+
   bool isNonMember(String guildId, String userId) {
     _forkForgetNonMembersAfterReady();
     return _nonMembers[guildId]?.contains(userId) ?? false;
@@ -130,22 +133,13 @@ class GuildMemberHydrationService {
     }
     final GatewayConnection? gateway = _readGateway();
     if (gateway != null && gateway.state == GatewayState.connected) {
-      // Fork: claimed just before sending, so no other caller asks again.
-      final List<String> forkClaimed = ForkMemberConfirmation.of(
-        _database,
-      ).claimRequests(guildId, forkCached);
-      await _requestMissingMembersViaGateway(
-        gateway: gateway,
+      // Fork: one gateway request at a time across guilds, and cached members
+      // asked for once (tyne-chat/tyne#614).
+      await _forkRequestViaGateway(
         guildId: guildId,
-        missingUserIds: <String>[...forkClaimed, ...missingUserIds],
+        cached: forkCached,
+        missingUserIds: missingUserIds,
         onMemberFetched: onMemberFetched,
-      );
-      // Fork: those the gateway reports as gone left while the app was away.
-      await forkRemoveMembersWhoLeft(
-        _database,
-        guildId,
-        forkClaimed,
-        isNonMember: (String userId) => isNonMember(guildId, userId),
       );
     }
     final List<String> stillMissing = await _missingMemberUserIds(
@@ -299,6 +293,54 @@ extension on GuildMemberHydrationService {
       _forkNonMembersReady = ready;
       _nonMembers.clear();
     }
+  }
+
+  /// Asks the gateway for [missingUserIds] and for those of [cached] not yet
+  /// asked for in this connection, one request at a time for the whole app.
+  /// The gateway runs one request per connection and keeps one more waiting;
+  /// a third replaces the waiting one, which then gets no answer, so a burst
+  /// across guilds after a reconnect would lose requests. Whether the socket is
+  /// still connected and what is claimed are decided when the turn comes.
+  Future<void> _forkRequestViaGateway({
+    required String guildId,
+    required Set<String> cached,
+    required List<String> missingUserIds,
+    void Function(String userId)? onMemberFetched,
+  }) {
+    final Future<void> turn = _forkGatewayTurn.then((_) async {
+      final GatewayConnection? gateway = _readGateway();
+      if (gateway == null || gateway.state != GatewayState.connected) {
+        return;
+      }
+      final List<String> stillMissing = missingUserIds.isEmpty
+          ? const <String>[]
+          : await _missingMemberUserIds(
+              guildId: guildId,
+              userIds: missingUserIds.toSet(),
+            );
+      // Claimed just before sending, so no other caller asks again.
+      final List<String> claimed = ForkMemberConfirmation.of(
+        _database,
+      ).claimRequests(guildId, cached);
+      if (claimed.isEmpty && stillMissing.isEmpty) {
+        return;
+      }
+      await _requestMissingMembersViaGateway(
+        gateway: gateway,
+        guildId: guildId,
+        missingUserIds: <String>[...claimed, ...stillMissing],
+        onMemberFetched: onMemberFetched,
+      );
+      // Those the gateway reports as gone left while the app was away.
+      await forkRemoveMembersWhoLeft(
+        _database,
+        guildId,
+        claimed,
+        isNonMember: (String userId) => isNonMember(guildId, userId),
+      );
+    });
+    _forkGatewayTurn = turn.catchError((Object _) {});
+    return turn;
   }
 
   /// Members of [userIds] with a cached row this connection has not confirmed
