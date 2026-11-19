@@ -329,5 +329,20 @@
     "guildEmojiGroupTogether": "Toate într-o singură listă",
     "guildEmojiAllSection": "Emoji ({count})",
     "forwardAs": "Redirecționează ca",
-    "forwardAsName": "Redirecționează ca {name}"
+    "forwardAsName": "Redirecționează ca {name}",
+    "personaGroupNew": "Grup nou",
+    "personaGroupNameLabel": "Numele grupului",
+    "personaGroupCreate": "Creează grupul",
+    "personaGroupRename": "Redenumește grupul",
+    "personaGroupDelete": "Șterge grupul",
+    "personaGroupDeleteConfirm": "Ștergi grupul „{name}”? Personas din el se păstrează.",
+    "personaGroupNone": "În niciun grup",
+    "personaGroups": "Grupuri",
+    "personaGroupAddTo": "Adaugă în grup",
+    "personaGroupNewEllipsis": "Grup nou…",
+    "personaGroupSelectMembers": "Selectează personas din el",
+    "personaGroupsDone": "Gata",
+    "personaGroupOptions": "Opțiuni pentru {name}",
+    "personaGroupRemoveFrom": "Elimină din „{name}”",
+    "personaGroupFailed": "Nu s-au putut modifica grupurile. Încearcă din nou."
 }

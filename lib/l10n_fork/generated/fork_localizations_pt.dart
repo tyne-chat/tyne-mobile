@@ -1267,6 +1267,58 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String forwardAsName(String name) {
     return 'Reencaminhar como $name';
   }
+
+  @override
+  String get personaGroupNew => 'Novo grupo';
+
+  @override
+  String get personaGroupNameLabel => 'Nome do grupo';
+
+  @override
+  String get personaGroupCreate => 'Criar grupo';
+
+  @override
+  String get personaGroupRename => 'Mudar o nome do grupo';
+
+  @override
+  String get personaGroupDelete => 'Eliminar grupo';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return 'Eliminar o grupo «$name»? As personas nele são mantidas.';
+  }
+
+  @override
+  String get personaGroupNone => 'Sem grupo';
+
+  @override
+  String get personaGroups => 'Grupos';
+
+  @override
+  String get personaGroupAddTo => 'Adicionar ao grupo';
+
+  @override
+  String get personaGroupNewEllipsis => 'Novo grupo…';
+
+  @override
+  String get personaGroupSelectMembers => 'Selecionar as personas nele';
+
+  @override
+  String get personaGroupsDone => 'Concluído';
+
+  @override
+  String personaGroupOptions(String name) {
+    return 'Opções de $name';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'Remover de “$name”';
+  }
+
+  @override
+  String get personaGroupFailed =>
+      'Não foi possível alterar os grupos. Tenta novamente.';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -2536,4 +2588,56 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
   String forwardAsName(String name) {
     return 'Encaminhar como $name';
   }
+
+  @override
+  String get personaGroupNew => 'Novo grupo';
+
+  @override
+  String get personaGroupNameLabel => 'Nome do grupo';
+
+  @override
+  String get personaGroupCreate => 'Criar grupo';
+
+  @override
+  String get personaGroupRename => 'Renomear grupo';
+
+  @override
+  String get personaGroupDelete => 'Excluir grupo';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return 'Excluir o grupo \"$name\"? As personas nele são mantidas.';
+  }
+
+  @override
+  String get personaGroupNone => 'Sem grupo';
+
+  @override
+  String get personaGroups => 'Grupos';
+
+  @override
+  String get personaGroupAddTo => 'Adicionar ao grupo';
+
+  @override
+  String get personaGroupNewEllipsis => 'Novo grupo…';
+
+  @override
+  String get personaGroupSelectMembers => 'Selecionar as personas nele';
+
+  @override
+  String get personaGroupsDone => 'Concluído';
+
+  @override
+  String personaGroupOptions(String name) {
+    return 'Opções de $name';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'Remover de “$name”';
+  }
+
+  @override
+  String get personaGroupFailed =>
+      'Não foi possível alterar os grupos. Tente novamente.';
 }

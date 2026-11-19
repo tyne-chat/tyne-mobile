@@ -1258,4 +1258,55 @@ class ForkLocalizationsFi extends ForkLocalizations {
   String forwardAsName(String name) {
     return 'Välitä nimellä $name';
   }
+
+  @override
+  String get personaGroupNew => 'Uusi ryhmä';
+
+  @override
+  String get personaGroupNameLabel => 'Ryhmän nimi';
+
+  @override
+  String get personaGroupCreate => 'Luo ryhmä';
+
+  @override
+  String get personaGroupRename => 'Nimeä ryhmä uudelleen';
+
+  @override
+  String get personaGroupDelete => 'Poista ryhmä';
+
+  @override
+  String personaGroupDeleteConfirm(String name) {
+    return 'Poistetaanko ryhmä ”$name”? Sen persoonat säilyvät.';
+  }
+
+  @override
+  String get personaGroupNone => 'Ei missään ryhmässä';
+
+  @override
+  String get personaGroups => 'Ryhmät';
+
+  @override
+  String get personaGroupAddTo => 'Lisää ryhmään';
+
+  @override
+  String get personaGroupNewEllipsis => 'Uusi ryhmä…';
+
+  @override
+  String get personaGroupSelectMembers => 'Valitse sen persoonat';
+
+  @override
+  String get personaGroupsDone => 'Valmis';
+
+  @override
+  String personaGroupOptions(String name) {
+    return 'Ryhmän $name asetukset';
+  }
+
+  @override
+  String personaGroupRemoveFrom(String name) {
+    return 'Poista ryhmästä ”$name”';
+  }
+
+  @override
+  String get personaGroupFailed => 'Ryhmiä ei voitu muuttaa. Yritä uudelleen.';
 }
