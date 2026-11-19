@@ -75,6 +75,36 @@ void main() {
     ]);
   });
 
+  test('lists by name as the web app does', () {
+    final byName = orderGuildEmojiSections(<GuildEmojiSettingsEntry>[
+      _emoji('1500000000000000001', 'star'),
+      _emoji('1500000000000000002', 'blob_10'),
+      _emoji('1500000000000000003', 'Star'),
+      _emoji('1500000000000000004', 'blob_2'),
+    ], defaultGuildEmojiListOrder);
+    // Natural number order; same names newest first.
+    expect(
+      byName.staticEmojis.map((GuildEmojiSettingsEntry e) => e.id).toList(),
+      <String>[
+        '1500000000000000004',
+        '1500000000000000002',
+        '1500000000000000003',
+        '1500000000000000001',
+      ],
+    );
+  });
+
+  test('compares ids as numbers with Recently added', () {
+    final recent = orderGuildEmojiSections(
+      <GuildEmojiSettingsEntry>[
+        _emoji('999999999999999999', 'older'),
+        _emoji('1000000000000000000', 'newer'),
+      ],
+      (sort: GuildEmojiListSort.recent, grouping: GuildEmojiListGrouping.split),
+    );
+    expect(_names(recent.staticEmojis), <String>['newer', 'older']);
+  });
+
   test('leaves the list it was given as it was', () {
     final List<GuildEmojiSettingsEntry> given =
         List<GuildEmojiSettingsEntry>.of(_emojis);
