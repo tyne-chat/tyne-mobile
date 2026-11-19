@@ -517,7 +517,11 @@ List<Widget> buildMessageActionMenuGroups({
       ),
     // Fork: also for a forward, whose sender is the one thing about it that can
     // change (tyne-chat/tyne#817).
-    if (permissions.isOwnMessage && isUserMessage && hasPersonas)
+    if (permissions.isOwnMessage &&
+        isUserMessage &&
+        supportsInteractiveActions &&
+        !message.isSending &&
+        hasPersonas)
       FluxerBottomSheetMenuItem(
         icon: PhosphorIconsFill.userSwitch,
         label: l10n.fork.chatMessageChangePersona,
