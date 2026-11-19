@@ -3,9 +3,9 @@
 Client settings that follow an account across devices (accessibility and appearance, picker favourites
 and frecency, favourite channels, folders, sounds, swipe and double-tap actions…), sent as one protobuf
 message, `SyncedPreferences`, base64-encoded in the `synced_preferences` string of the user settings.
-The web app writes the same blob from its own `.proto` copy. This folder holds the app's copy, the Dart
-generated from it, the store that merges the server's blob into local state and pushes changes, and one
-adapter per top-level field. The design is upstream's; the fork splits the phone's chat font size and
+The schema is the server's (`fluxer/packages/schema/proto`, in the `fluxer` submodule), which the web
+app also uses. This folder holds the Dart generated from it, the store that merges the server's blob into
+local state and pushes changes, and one adapter per top-level field. The design is upstream's; the fork splits the phone's chat font size and
 message spacing from the desktop's, and adds a top-level field of its own for pinned emojis. The server's side (its copy, the web's merge, how the API decodes
 and strips old fields) is in tyne-chat/tyne `packages/schema/AGENTS.md`, "Synced preferences".
 
@@ -19,7 +19,7 @@ and strips old fields) is in tyne-chat/tyne `packages/schema/AGENTS.md`, "Synced
 | Adapter contract; the base that starts from the server's copy | `engine/synced_field_adapter.dart`, `engine/proto_synced_field_adapter.dart` (`mergeOrCreate`) |
 | Top-level numbers; registered adapters (upstream's 27, then the fork's) | `engine/synced_preference_field.dart`, `engine/synced_field_registry.dart`, `engine/fork_synced_field_registry.dart` |
 | Accessibility ↔ appearance, advanced, theme | `fields/accessibility_synced_field.dart`, `synced_theme_hydration.dart` |
-| Wire format | `proto/fluxer/user/preferences/v1/*.proto` → `generated/` (committed) |
+| Wire format | `fluxer/packages/schema/proto/fluxer/user/preferences/v1/*.proto` → `generated/` (committed), by `tool/generate_protos.sh`. `proto/` is upstream's old copy, no longer read |
 | Hydrate callers | READY, `USER_SETTINGS_UPDATE` (`core/gateway/gateway_event_handler.dart` → `_handleUserSettingsHydrate` in `core/providers/gateway_provider.dart`); `ThemePreference.load` |
 | `reset()` callers | `AppStartup._leaveBoundAccount`, `AccountManager.signOut`, `expireSessionIfInvalid` |
 
@@ -83,10 +83,10 @@ two devices saving at once can undo each other's change to another field.
 
 ## The fork's changes and where they hook in
 
-- `accessibility.proto`: the `// Fork fields.` block at the top of `AccessibilitySettings` holds
-  `mobile_font_size`, `mobile_message_group_spacing`, `mobile_compact_message_group_spacing`
-  (2224–2226), as in the server's block. `show_alt_text_on_images` is upstream mobile's own setting;
-  its number is being settled in tyne-chat/tyne#146.
+- The server schema's `accessibility.proto` (tyne repository): the `// Fork fields.` block at the top of
+  `AccessibilitySettings` holds `mobile_font_size`, `mobile_message_group_spacing`,
+  `mobile_compact_message_group_spacing` (2224–2226), and `show_alt_text_on_images` (2223), which the
+  app no longer syncs (tyne-chat/tyne#821).
 - `fields/accessibility_synced_field.dart`, inside upstream's lines: three `has…InProto` flags on
   `AccessibilityLocalState`; `fromProto`, `toProto`, `toProtoForPush`, `_merge` and `applyRemote` use
   the `mobile_*` fields instead of `font_size` (12), `message_group_spacing` (10) and
@@ -96,8 +96,8 @@ two devices saving at once can undo each other's change to another field.
   the phone's font size.
 - `synced_theme_hydration.dart`: the chat font size comes from `mobile_font_size`.
 - **Pinned emojis** (tyne-chat/tyne#140): top-level `EmojiPinsState emoji_pins = 2200` in the
-  `// Fork fields.` block of `preferences.proto` (with a `// Fork imports.` line), its messages in the
-  fork-owned `fork_emoji_pins.proto`, the same as the server's. `SyncedPreferenceField.emojiPins` sits
+  `// Fork fields.` block of the server schema's `preferences.proto`, its messages in its fork-owned
+  `fork_emoji_pins.proto`. `SyncedPreferenceField.emojiPins` sits
   under `// Fork values.`; `fields/emoji_pins_synced_field.dart` is registered by
   `engine/fork_synced_field_registry.dart`, which the store's `registerDefaultAdapters` calls after
   upstream's list. The owner is `emojiPinsProvider` (`features/emoji`), the storage
@@ -119,9 +119,10 @@ The adapter and the store are the files upstream changes most here: keep the for
 1. Number it by the root `AGENTS.md` ("Numbers upstream hands out"), never a number either copy used
    or reserved. Add it to the server's copy first, and to the web's store if the web rebuilds that
    sub-message on save; that must reach the web before an app release writes the field.
-2. Add the same name, number and type to the fork block here, touching nothing else. A field the phone
-   neither reads nor writes need not be declared: it passes through.
-3. Regenerate (below) and commit `generated/` with the `.proto`.
+2. Move the `fluxer` submodule to a tyne commit that has it. Every field in the server's schema is
+   declared here, so a field the phone neither reads nor writes still passes through.
+3. Regenerate (below) and commit `generated/` with the pointer; the nightly rebase writes both again
+   at the branch's tip.
 4. In the adapter: read in `fromProto`, write in every builder, compare in `statesEqual`, merge in
    `_merge` or `mergeRemote`. If other clients may lack it, keep a `has…InProto` flag and the local
    value when it is absent, in the owner's `applySynced…` too. The owner marks it dirty on change.
@@ -133,20 +134,20 @@ fields are stored by name) and a registration line in `registerForkSyncedFieldAd
 (`engine/fork_synced_field_registry.dart`), which leaves upstream's list and its count test alone. A varint scalar pushes with
 `fieldPushWireType => 0` and `encodePushValueBytes`.
 
-**Regenerating:** from `proto/`, `protoc --dart_out=../generated -I . $(find . -name '*.proto' | sort)`
-into an emptied `generated/`, with exactly the `protoc_plugin` upstream used (25.1.0 in October 2026;
-25.0.0 already differs). On upstream's `.proto` files it must reproduce upstream's `generated/` byte
-for byte.
+**Regenerating:** `bash tool/generate_protos.sh` (upstream's, since 2026-11-18; `--check` verifies),
+after `flutter pub get`. It runs buf on `fluxer/packages/schema/proto` with the `protoc_plugin` in
+`pubspec.lock`. On upstream's `fluxer` pointer it reproduces upstream's `generated/` byte for byte;
+on the fork's it adds the fork's fields. Never edit the `.proto` files in `proto/`: they are upstream's
+and unused (tyne-chat/tyne#822).
 
-**Retiring a field:** stop using it and replace its line with `reserved` (number and name) in both
-copies. The phone keeps sending the stored bytes back as an unknown field, so if they could break a
+**Retiring a field:** stop using it and replace its line with `reserved` (number and name) in the
+server's schema. The phone keeps sending the stored bytes back as an unknown field, so if they could break a
 decoder the API strips them (`RetiredSyncedPreferenceFields.ts`). Never reuse the number.
 
 ## Rules and traps
 
-- **Two copies, by hand.** This one follows upstream's mobile app, which already differs from the
-  server's (accessibility 42 and 43, top-level 113). Only the fork block mirrors the server's; nothing
-  checks it.
+- **One schema, the server's.** The generated files follow the `fluxer` pointer: a field the server
+  renames or removes breaks the app's build at the next regeneration, which is the point.
 - **Declare a number with the server's type.** Bytes of another wire type break the API (it refuses
   every later save of the account) and the web (it reads the blob as empty), not the phone.
 - **`writeProto` starts from the server's copy:** set or clear every modelled field, and `clear()`
@@ -184,12 +185,9 @@ does not reset it. Retrying a 400 and the repair's missing cooldown are tyne-cha
   test waits on the clock.
 - Fork: `emoji_pins_synced_field_test.dart` (the pins through the store: hydrate, one push for quick
   pins, the empty message for the last unpin, an absent field), and
-  `accessibility_synced_field_fork_test.dart`, importing upstream's
-  `accessibility_synced_field_test.dart` `hide main` for the helpers named in its appended block.
-  Older fork tests still sit in upstream's files and could move: two fixture lines and four assertions
-  in "toProtoForPush preserves desktop-only fields from wire base", and three tests at the end of the
-  first group of `accessibility_theme_sync_store_test.dart`.
-- Not covered: a push keeping an undeclared field inside a sub-message, or a wrong-wire-type value;
-  the two copies' fork blocks against each other.
+  `accessibility_synced_field_fork_test.dart` and `accessibility_theme_sync_store_fork_test.dart`,
+  each importing upstream's test `hide main` for the helpers named in its appended block
+  (tyne-chat/tyne#834).
+- Not covered: a push keeping an undeclared field inside a sub-message, or a wrong-wire-type value.
 - After a change: `flutter test test/core/synced_preferences`, the owner's tests if a setter or
   `applySynced…` changed, then the root list.
