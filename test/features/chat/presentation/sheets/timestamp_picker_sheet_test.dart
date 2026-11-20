@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/chat/providers/pickers/timestamp_insert_prov
 import 'package:fluxer_app/features/settings/providers/preferences/time_format_providers.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -251,6 +252,24 @@ void main() {
         ),
       );
       expect(insert.bottom, lessThanOrEqualTo(1600 - 48));
+    });
+
+    // tyne-chat/tyne#436: each keystroke rebuilds the sheet; the time zone
+    // menu's some 300 items are built once.
+    testWidgets('typing keeps the same time zone items', (tester) async {
+      await openPicker(tester);
+      List<FluxerSelectItem<String>> zoneItems() => tester
+          .widgetList<FluxerSelect<String>>(find.byType(FluxerSelect<String>))
+          .map((FluxerSelect<String> select) => select.items)
+          .singleWhere(
+            (List<FluxerSelectItem<String>> items) => items.length > 100,
+          );
+      final List<FluxerSelectItem<String>> before = zoneItems();
+
+      await tester.enterText(find.byType(TextField).first, 'tomorrow');
+      await tester.pumpAndSettle();
+
+      expect(zoneItems(), same(before));
     });
   });
 }

@@ -75,8 +75,22 @@ class _FluxerTimestampPillState extends ConsumerState<FluxerTimestampPill> {
     super.dispose();
   }
 
+  // What the relative text read at the last build, and what it was built
+  // from: a tick rebuilds only when the text changes (tyne-chat/tyne#436), as
+  // upstream's FluxerLiveTimestamp does.
+  String? _shownRelative;
+  FluxerLocalizations? _l10n;
+  bool _use12Hour = false;
+
+  String _relative(FluxerLocalizations l10n, bool use12Hour) =>
+      formatMarkdownTimestamp(widget.dateTime, 'R', l10n, use12Hour: use12Hour);
+
   void _onTick() {
-    if (mounted) {
+    final FluxerLocalizations? l10n = _l10n;
+    if (!mounted || l10n == null) {
+      return;
+    }
+    if (_relative(l10n, _use12Hour) != _shownRelative) {
       setState(() {});
     }
   }
@@ -99,6 +113,9 @@ class _FluxerTimestampPillState extends ConsumerState<FluxerTimestampPill> {
       l10n,
       use12Hour: use12Hour,
     );
+    _l10n = l10n;
+    _use12Hour = use12Hour;
+    _shownRelative = _isRelative ? displayText : null;
 
     final String tooltipText = widget.flag == 'R'
         ? formatMarkdownTimestamp(
