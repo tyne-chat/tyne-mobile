@@ -78,6 +78,28 @@ Future<void> ensureForkSchema(
   }
 }
 
+/// Fork: indexes for the fork's updates across the whole `messages` table,
+/// created on every open, new databases included (tyne-chat/tyne#415).
+///
+/// A persona update rewrites every cached message sent as that persona
+/// (`updatePersonaAttributes`), and a display tag update every persona message
+/// of its account (`updateAuthorDisplayTag`); without these, each one reads
+/// the whole table. They are not declared on upstream's table, so a rebuild of
+/// `messages` (upstream's step 98) drops them, and the next open puts them
+/// back: hence on every open, after the migrations. The author index holds
+/// only persona messages, which are all that update reads. Its names are the
+/// fork's own: upstream dropped an `idx_messages_author` of its own.
+Future<void> ensureForkMessageIndexes(FluxerDatabase database) async {
+  await database.customStatement(
+    'CREATE INDEX IF NOT EXISTS idx_messages_fork_persona '
+    'ON messages (persona_id)',
+  );
+  await database.customStatement(
+    'CREATE INDEX IF NOT EXISTS idx_messages_fork_persona_author '
+    'ON messages (author_id) WHERE persona_id IS NOT NULL',
+  );
+}
+
 /// Fork: adds the persona and command columns to `messages` when they are missing. Also run
 /// by upstream's step 98 before it rebuilds the table from its definition,
 /// which includes these columns (fluxer_database.dart).
