@@ -7,6 +7,8 @@ import 'package:fluxer_app/features/settings/providers/preferences/time_format_p
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_markdown/fluxer_markdown.dart'
+    show FluxerRelativeTimeTick;
 
 import '../../../../../helpers/pump_fluxer_app.dart';
 
@@ -114,5 +116,18 @@ void main() {
 
       expect(log.any((call) => call.method == 'Clipboard.setData'), isTrue);
     });
+
+    testWidgets(
+      'a tick that leaves the relative text as it was does not rebuild it',
+      (tester) async {
+        // Months ago: the text cannot change between two ticks of a test.
+        await tester.pumpWidget(buildTestBed(dateTime: testDt, flag: 'R'));
+        await tester.pumpAndSettle();
+
+        FluxerRelativeTimeTick.instance.notifyListeners();
+
+        expect(tester.element(find.byType(FluxerTimestampPill)).dirty, isFalse);
+      },
+    );
   });
 }
