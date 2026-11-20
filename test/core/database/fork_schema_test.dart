@@ -56,6 +56,19 @@ Set<String> _columns(Database raw, String table) => raw
     .map((Row row) => row['name'] as String)
     .toSet();
 
+/// Takes the persona columns out of a current database, as an install from
+/// before them has it. The fork's indexes on them go first: SQLite does not
+/// drop a column an index uses, and an install without the columns never had
+/// the indexes.
+void _dropPersonaColumns(Database raw) {
+  raw
+    ..execute('DROP INDEX IF EXISTS idx_messages_fork_persona')
+    ..execute('DROP INDEX IF EXISTS idx_messages_fork_persona_author');
+  for (final String column in _personaColumns) {
+    raw.execute('ALTER TABLE messages DROP COLUMN $column');
+  }
+}
+
 Future<int> _open(Database raw) async {
   final FluxerDatabase db = FluxerDatabase.forTesting(
     NativeDatabase.opened(raw, closeUnderlyingOnClose: false),
@@ -119,9 +132,7 @@ void main() {
         final Database raw = sqlite3.openInMemory();
         addTearDown(raw.close);
         final int version = await _open(raw);
-        for (final String column in _personaColumns) {
-          raw.execute('ALTER TABLE messages DROP COLUMN $column');
-        }
+        _dropPersonaColumns(raw);
         expect(
           _columns(raw, 'messages').intersection(_personaColumns.toSet()),
           isEmpty,
@@ -137,6 +148,33 @@ void main() {
         );
       },
     );
+
+    // Moved here from upstream's migration test, whose guarded-column list
+    // carried the persona columns until the fork's indexes on them
+    // (tyne-chat/tyne#415): the upgrade from upstream's guarded baseline
+    // brings them back.
+    test("a database at upstream's guarded baseline gains the fork columns "
+        'and their indexes', () async {
+      final Database raw = sqlite3.openInMemory();
+      addTearDown(raw.close);
+      final int version = await _open(raw);
+      _dropPersonaColumns(raw);
+      raw.execute('PRAGMA user_version = 67');
+
+      await _open(raw);
+
+      expect(_columns(raw, 'messages'), containsAll(_personaColumns));
+      expect(
+        raw
+            .select("SELECT name FROM sqlite_master WHERE type = 'index'")
+            .map((Row row) => row['name'] as String),
+        containsAll(<String>[
+          'idx_messages_fork_persona',
+          'idx_messages_fork_persona_author',
+        ]),
+      );
+      expect(raw.select('PRAGMA user_version').single['user_version'], version);
+    });
 
     test('an earlier fork build that used version 92 for its own column '
         'gains the columns of the upstream step it skipped', () async {
@@ -407,6 +445,63 @@ void main() {
       await _open(raw);
 
       expect(_cachedIds(raw), <String>{'new'});
+    });
+  });
+
+  group('indexes for persona updates across messages (tyne-chat/tyne#415)', () {
+    const String personaIndex = 'idx_messages_fork_persona';
+    const String authorIndex = 'idx_messages_fork_persona_author';
+
+    Set<String> indexes(Database raw) => raw
+        .select("SELECT name FROM sqlite_master WHERE type = 'index'")
+        .map((Row row) => row['name'] as String)
+        .toSet();
+
+    // The WHERE clauses of MessageDao.updatePersonaAttributes and
+    // updateAuthorDisplayTag.
+    String plan(Database raw, String where) => raw
+        .select(
+          'EXPLAIN QUERY PLAN UPDATE messages SET persona_tag = NULL '
+          'WHERE $where',
+        )
+        .map((Row row) => row['detail'] as String)
+        .join('\n');
+
+    test('a new database has them, and both updates use them', () async {
+      final Database raw = sqlite3.openInMemory();
+      addTearDown(raw.close);
+      await _open(raw);
+
+      expect(indexes(raw), containsAll(<String>[personaIndex, authorIndex]));
+      expect(plan(raw, "persona_id = '1'"), contains(personaIndex));
+      expect(
+        plan(raw, "author_id = '1' AND persona_id IS NOT NULL"),
+        contains(authorIndex),
+      );
+    });
+
+    test('an existing database without them gains them', () async {
+      final Database raw = sqlite3.openInMemory();
+      addTearDown(raw.close);
+      await _open(raw);
+      raw
+        ..execute('DROP INDEX $personaIndex')
+        ..execute('DROP INDEX $authorIndex');
+
+      await _open(raw);
+
+      expect(indexes(raw), containsAll(<String>[personaIndex, authorIndex]));
+    });
+
+    test("are back after upstream's step 98 rebuilds the table", () async {
+      final Database raw = sqlite3.openInMemory();
+      addTearDown(raw.close);
+      await _open(raw);
+      raw.execute('PRAGMA user_version = 97');
+
+      await _open(raw);
+
+      expect(indexes(raw), containsAll(<String>[personaIndex, authorIndex]));
     });
   });
 }
