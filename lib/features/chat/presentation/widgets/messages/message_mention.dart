@@ -42,7 +42,6 @@ import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
     show KnownPersona;
 import 'package:fluxer_app/core/router/fluxer_router.dart';
-import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/profile/data/known_personas.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_color.dart';
@@ -346,22 +345,9 @@ class UserMention extends ConsumerWidget {
           .watch(knownPersonaProvider(personaId!))
           .value;
 
-      final Message? recentMsg = ref.watch(
-        chatViewModelProvider.select((s) {
-          for (final m in s.messages) {
-            if (m.personaId == personaId &&
-                (m.personaName?.isNotEmpty ?? false)) {
-              return m;
-            }
-          }
-          return null;
-        }),
-      );
-
       final String personaName =
           myPersona?.name ??
           known?.name ??
-          recentMsg?.personaName ??
           watchMentionUserDisplayName(
             ref: ref,
             userId: userId,
