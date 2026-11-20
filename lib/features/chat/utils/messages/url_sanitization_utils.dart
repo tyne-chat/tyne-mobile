@@ -1,3 +1,6 @@
+// Fork imports.
+import 'package:fluxer_app/features/chat/utils/messages/fork_tracking_url_sanitizer.dart';
+
 final RegExp _urlRegex = RegExp(
   r'''\bhttps?:\/\/[^\s<>'"`)\]]+''',
   caseSensitive: false,
@@ -98,7 +101,8 @@ String _sanitizeUrlsInGap(String text) {
     final String trimmed = suffix.isEmpty
         ? raw
         : raw.substring(0, raw.length - suffix.length);
-    return _cleanSingleUrl(trimmed) + suffix;
+    // Fork: the web app's rules first, then upstream's list (tyne-chat/tyne#844).
+    return _cleanSingleUrl(forkSanitizeTrackingUrl(trimmed)) + suffix;
   });
 }
 
