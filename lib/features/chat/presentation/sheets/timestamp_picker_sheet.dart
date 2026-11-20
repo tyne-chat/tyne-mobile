@@ -154,6 +154,34 @@ class _TimestampPickerBodyState extends ConsumerState<_TimestampPickerBody> {
     return formatUserTime(dt, locale, use12Hour: use12Hour);
   }
 
+  // The time zone menu's items, built once per icon colour rather than on
+  // every build: the field below rebuilds the sheet on each keystroke, and
+  // there are some 300 zones (tyne-chat/tyne#436).
+  List<FluxerSelectItem<String>>? _timezoneItems;
+  Color? _timezoneItemsColor;
+
+  List<FluxerSelectItem<String>> _timezoneItemsFor(Color iconColor) {
+    final List<FluxerSelectItem<String>>? cached = _timezoneItems;
+    if (cached != null && _timezoneItemsColor == iconColor) {
+      return cached;
+    }
+    _timezoneItemsColor = iconColor;
+    return _timezoneItems = kTimezoneOptions
+        .map(
+          (opt) => FluxerSelectItem<String>(
+            value: opt.value,
+            label: opt.label,
+            searchText: opt.searchText,
+            leading: PhosphorIcon(
+              PhosphorIconsBold.globe,
+              size: 18,
+              color: iconColor,
+            ),
+          ),
+        )
+        .toList(growable: false);
+  }
+
   void _handleNlpChange(String text) {
     setState(() {});
     if (text.trim().isEmpty) {
@@ -350,20 +378,9 @@ class _TimestampPickerBodyState extends ConsumerState<_TimestampPickerBody> {
           ),
         ];
 
-    final List<FluxerSelectItem<String>> timezoneItems = kTimezoneOptions
-        .map(
-          (opt) => FluxerSelectItem<String>(
-            value: opt.value,
-            label: opt.label,
-            searchText: opt.searchText,
-            leading: PhosphorIcon(
-              PhosphorIconsBold.globe,
-              size: 18,
-              color: colors.textSecondary,
-            ),
-          ),
-        )
-        .toList(growable: false);
+    final List<FluxerSelectItem<String>> timezoneItems = _timezoneItemsFor(
+      colors.textSecondary,
+    );
 
     return ListView(
       controller: widget.scrollController,
