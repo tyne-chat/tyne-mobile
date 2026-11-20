@@ -107,9 +107,9 @@ void main() {
               fluxerRouterProvider.overrideWithValue(router),
               fluxerDatabaseProvider.overrideWithValue(db),
               dmRepositoryProvider.overrideWithValue(repository),
-              userPresenceProvider(
-                '200',
-              ).overrideWith((Ref ref) => Stream.value(null)),
+              userPresenceProvider('200').overrideWithBuild(
+                (Ref ref, UserPresenceNotifier notifier) => null,
+              ),
               matureContentGateReasonProvider('dm-channel-1').overrideWith(
                 (Ref ref) => Future.value(MatureContentGateReason.none),
               ),
@@ -251,9 +251,9 @@ void main() {
                 collectDateOfBirth: true,
               ),
             ),
-            userPresenceProvider(
-              '200',
-            ).overrideWith((Ref ref) => Stream.value(null)),
+            userPresenceProvider('200').overrideWithBuild(
+              (Ref ref, UserPresenceNotifier notifier) => null,
+            ),
             dmViewModelProvider.overrideWith(
               () => _StaticDmViewModel(
                 const DmViewState(
