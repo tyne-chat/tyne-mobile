@@ -196,6 +196,16 @@ and "React as…" sheets, the timestamp picker, `composer_persona_resolution.dar
 `data/channel_persona_mention_cache.dart`, `data/persona_emoji_usage_store.dart`. When you touch an
 upstream file above, move fork code out of upstream's lines where you can.
 
+**Tracking links.** Before sending, `utils/messages/url_sanitization_utils.dart` (upstream's) passes
+each link through `fork_tracking_url_sanitizer.dart` first: a port of the web app's
+`TrackingUrlSanitizer.ts`, function for function, so a link sent from the phone is cleaned like one
+from the web (tyne-chat/tyne#844). Its rules, `utils/messages/generated/fork_tracking_url_rules.dart`,
+are generated from the web's `TrackingUrlRules.ts` in the `fluxer` submodule by
+`dart run tool/gen_fork_tracking_url_rules.dart` (`--check` compares); the nightly rebase reruns it
+after moving the submodule, and `fork_tracking_url_rules_fresh_test.dart` fails while they differ.
+When upstream changes the web's sanitizer, carry the change into the port; a new rule field makes
+the generator fail until both learn it.
+
 ## Tests
 
 - `flutter test test/features/chat` covers this folder and is in the nightly gate. For layout changes
