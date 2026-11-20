@@ -6,6 +6,8 @@ import 'package:fluxer_app/features/chat/services/timestamp_inline_token.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/time_format_providers.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_markdown/fluxer_markdown.dart'
+    show FluxerRelativeTimeTick;
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../../../../../helpers/pump_fluxer_app.dart';
@@ -158,5 +160,23 @@ void main() {
 
       expect(tappedToken, same(token));
     });
+
+    for (final String style in <String>['R', 'combo']) {
+      testWidgets(
+        'a tick that leaves the "$style" text as it was does not rebuild it',
+        (tester) async {
+          // Months ago: the text cannot change between two ticks of a test.
+          await tester.pumpWidget(buildTestBed(epoch: testEpoch, style: style));
+          await tester.pumpAndSettle();
+
+          FluxerRelativeTimeTick.instance.notifyListeners();
+
+          expect(
+            tester.element(find.byType(ComposerInlineTimestamp)).dirty,
+            isFalse,
+          );
+        },
+      );
+    }
   });
 }

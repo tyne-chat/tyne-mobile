@@ -72,8 +72,27 @@ class _ComposerInlineTimestampState
     super.dispose();
   }
 
+  // What the relative text read at the last build, and what it was built
+  // from: a tick rebuilds only when the text changes (tyne-chat/tyne#436), as
+  // upstream's FluxerLiveTimestamp does.
+  String? _shownRelative;
+  FluxerLocalizations? _l10n;
+  bool _use12Hour = false;
+
+  String _relative(FluxerLocalizations l10n, bool use12Hour) =>
+      formatMarkdownTimestamp(
+        DateTime.fromMillisecondsSinceEpoch(widget.epoch * 1000),
+        'R',
+        l10n,
+        use12Hour: use12Hour,
+      );
+
   void _onTick() {
-    if (mounted) {
+    final FluxerLocalizations? l10n = _l10n;
+    if (!mounted || l10n == null) {
+      return;
+    }
+    if (_relative(l10n, _use12Hour) != _shownRelative) {
       setState(() {});
     }
   }
@@ -89,6 +108,9 @@ class _ComposerInlineTimestampState
       widget.epoch * 1000,
     );
     final DateTime absoluteDt = adjustToViewerTimezone(dt, userTimezone);
+    _l10n = l10n;
+    _use12Hour = use12Hour;
+    _shownRelative = _isRelative ? _relative(l10n, use12Hour) : null;
 
     final String displayText;
     if (widget.style == 'combo') {
