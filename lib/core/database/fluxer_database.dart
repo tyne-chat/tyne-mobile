@@ -163,6 +163,7 @@ class FluxerDatabase extends _$FluxerDatabase {
       if (!details.wasCreated) {
         await ensureForkSchema(this, createMigrator());
       }
+      await ensureForkMessageIndexes(this);
     },
     onUpgrade: (m, from, to) async {
       if (from < 2) {
