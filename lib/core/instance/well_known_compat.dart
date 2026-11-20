@@ -47,19 +47,12 @@ WellKnownFluxerResponse _parseWellKnownFluxer(Map<String, dynamic> json) {
   return response;
 }
 
-// Fork: the SDK types `hidden_built_in_guild_badges` as one enum value, but the
-// server sends a list, so parsing fails on any document that has the key, an
-// empty list included (tyne-chat/tyne#454). Nothing in the app reads the field.
-// Remove this when the SDK's type is a list.
-//
-// [forkOnWellKnownParseFailure] is told about any document that fails to parse
-// (tyne-chat/tyne#458). A hook rather than a call, so this file stays free of
-// Flutter and tool/check_discovery_document.dart can run it with plain Dart.
+// Fork: [forkOnWellKnownParseFailure] is told about any document that fails to
+// parse (tyne-chat/tyne#458). A hook rather than a call, so this file stays free
+// of Flutter and tool/check_discovery_document.dart can run it with plain Dart.
 WellKnownFluxerResponse parseWellKnownFluxer(Map<String, dynamic> json) {
   try {
-    return _parseWellKnownFluxer(
-      Map<String, dynamic>.from(json)..remove('hidden_built_in_guild_badges'),
-    );
+    return _parseWellKnownFluxer(json);
   } on Object catch (error, stackTrace) {
     forkOnWellKnownParseFailure?.call(error, stackTrace);
     rethrow;
