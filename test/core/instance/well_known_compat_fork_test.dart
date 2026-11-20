@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/instance/well_known_compat.dart';
+import 'package:fluxer_dart/export.dart';
 
 import '../../helpers/well_known_fixture.dart';
 
@@ -17,8 +18,9 @@ void main() {
     return jsonDecode(jsonEncode(encoded)) as Map<String, dynamic>;
   }
 
-  // tyne-chat/tyne#454: the server sends a list, and the SDK's type is one enum
-  // value, so these threw and the app could not connect to any instance by name.
+  // tyne-chat/tyne#454: the server sends a list, and the SDK once typed it as one
+  // enum value, so these threw and the app could not connect to any instance by
+  // name. The SDK now types it as a list, which the app parses as it is.
   group('hidden_built_in_guild_badges', () {
     for (final List<String> badges in <List<String>>[
       <String>[],
@@ -28,10 +30,28 @@ void main() {
         final Map<String, dynamic> json = document()
           ..['hidden_built_in_guild_badges'] = badges;
 
-        expect(parseWellKnownFluxer(json).apiCodeVersion, 1);
+        final WellKnownFluxerResponse parsed = parseWellKnownFluxer(json);
+        expect(parsed.apiCodeVersion, 1);
+        expect(
+          parsed.hiddenBuiltInGuildBadges?.map((b) => b.json).toList(),
+          badges,
+        );
         expect(InstanceConfigSnapshot.parseWellKnown(json).apiCodeVersion, 1);
       });
     }
+
+    test('a badge this build does not know parses as unknown', () {
+      final Map<String, dynamic> json = document()
+        ..['hidden_built_in_guild_badges'] = <String>['verified', 'newer'];
+
+      expect(
+        parseWellKnownFluxer(json).hiddenBuiltInGuildBadges,
+        <InstanceHiddenBuiltInGuildBadgesSchemaItem>[
+          InstanceHiddenBuiltInGuildBadgesSchemaItem.verified,
+          InstanceHiddenBuiltInGuildBadgesSchemaItem.$unknown,
+        ],
+      );
+    });
 
     test('a document without the field parses', () {
       final Map<String, dynamic> json = document()
