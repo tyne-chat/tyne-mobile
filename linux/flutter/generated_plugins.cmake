@@ -10,6 +10,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   file_selector_linux
   flutter_inappwebview_linux
   flutter_secure_storage_linux
+  flutter_timezone
   flutter_webrtc
   fluxer_clipboard
   livekit_client
@@ -25,6 +26,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
   jni
+  native_natural_sort
 )
 
 set(PLUGIN_BUNDLED_LIBRARIES)
