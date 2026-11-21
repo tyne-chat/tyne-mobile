@@ -1410,4 +1410,8 @@ class ForkLocalizationsDe extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'Diese Persona erscheint bei niemandem in Erwähnungsvorschlägen';
+
+  @override
+  String get bookmarkRemoveConfirmDescription =>
+      'Dieses Lesezeichen entfernen?';
 }

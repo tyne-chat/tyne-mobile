@@ -1415,4 +1415,7 @@ class ForkLocalizationsHr extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'Nitko ne dobiva ovu personu u prijedlozima za spominjanje';
+
+  @override
+  String get bookmarkRemoveConfirmDescription => 'Ukloniti ovu oznaku?';
 }

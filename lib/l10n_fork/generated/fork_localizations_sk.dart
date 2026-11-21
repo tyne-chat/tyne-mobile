@@ -1433,4 +1433,7 @@ class ForkLocalizationsSk extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'Táto persona sa nikomu nezobrazuje v návrhoch zmienok';
+
+  @override
+  String get bookmarkRemoveConfirmDescription => 'Odstrániť túto záložku?';
 }

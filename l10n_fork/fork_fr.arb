@@ -362,5 +362,6 @@
     "personaBulkNowMentionableBySelf": "Seul votre compte peut désormais mentionner {count, plural, one {{count} persona} other {{count} personas}}",
     "personaBulkNowMentionableByNobody": "Plus personne ne peut mentionner {count, plural, one {{count} persona} other {{count} personas}}",
     "personaBulkNowMentionableByFollowing": "Les mentions de {count, plural, one {{count} persona} other {{count} personas}} suivent désormais la visibilité",
-    "personaNotMentionable": "Personne ne voit cette persona dans les suggestions de mention"
+    "personaNotMentionable": "Personne ne voit cette persona dans les suggestions de mention",
+    "bookmarkRemoveConfirmDescription": "Retirer ce message des messages enregistrés ?"
 }

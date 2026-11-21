@@ -362,5 +362,6 @@
     "personaBulkNowMentionableBySelf": "Πλέον μόνο εσείς μπορείτε να αναφέρετε {count, plural, one {{count} persona} other {{count} persona}}",
     "personaBulkNowMentionableByNobody": "Πλέον κανείς δεν μπορεί να αναφέρει {count, plural, one {{count} persona} other {{count} persona}}",
     "personaBulkNowMentionableByFollowing": "Οι αναφορές σε {count, plural, one {{count} persona} other {{count} persona}} ακολουθούν πλέον την ορατότητα",
-    "personaNotMentionable": "Κανείς δεν βλέπει αυτή την persona στις προτάσεις αναφοράς"
+    "personaNotMentionable": "Κανείς δεν βλέπει αυτή την persona στις προτάσεις αναφοράς",
+    "bookmarkRemoveConfirmDescription": "Κατάργηση αυτού του σελιδοδείκτη;"
 }

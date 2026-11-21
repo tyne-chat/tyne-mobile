@@ -1410,6 +1410,10 @@ class ForkLocalizationsEs extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'Nadie ve esta persona en las sugerencias de menciones';
+
+  @override
+  String get bookmarkRemoveConfirmDescription =>
+      '¿Quitar este mensaje de guardados?';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -2817,4 +2821,8 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
   @override
   String get personaNotMentionable =>
       'Nadie ve esta persona en las sugerencias de menciones';
+
+  @override
+  String get bookmarkRemoveConfirmDescription =>
+      '¿Quitar este mensaje de guardados?';
 }

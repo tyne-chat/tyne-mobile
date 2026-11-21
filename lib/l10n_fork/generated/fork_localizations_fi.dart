@@ -1400,4 +1400,8 @@ class ForkLocalizationsFi extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'Tämä persoona ei näy kenenkään mainintaehdotuksissa';
+
+  @override
+  String get bookmarkRemoveConfirmDescription =>
+      'Poistetaanko tämä kirjanmerkki?';
 }

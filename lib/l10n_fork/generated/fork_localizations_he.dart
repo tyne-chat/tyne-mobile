@@ -1399,4 +1399,7 @@ class ForkLocalizationsHe extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'אף אחד לא מקבל את הפרסונה הזו בהצעות אזכור';
+
+  @override
+  String get bookmarkRemoveConfirmDescription => 'להסיר את הסימנייה הזו?';
 }

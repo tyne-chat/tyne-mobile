@@ -1399,4 +1399,8 @@ class ForkLocalizationsArt extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'jan ala li lukin e jan insa ni lon sona pi nimi @';
+
+  @override
+  String get bookmarkRemoveConfirmDescription =>
+      'sina wile ala wile weka e toki awen ni?';
 }

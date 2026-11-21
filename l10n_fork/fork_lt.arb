@@ -362,5 +362,6 @@
     "personaBulkNowMentionableBySelf": "{count, plural, one {{count} personą dabar galite paminėti tik jūs} few {{count} personas dabar galite paminėti tik jūs} many {{count} personos dabar galite paminėti tik jūs} other {{count} personų dabar galite paminėti tik jūs}}",
     "personaBulkNowMentionableByNobody": "{count, plural, one {{count} personos dabar niekas negali paminėti} few {{count} personų dabar niekas negali paminėti} many {{count} personos dabar niekas negali paminėti} other {{count} personų dabar niekas negali paminėti}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, one {{count} personos paminėjimai dabar priklauso nuo matomumo} few {{count} personų paminėjimai dabar priklauso nuo matomumo} many {{count} personos paminėjimai dabar priklauso nuo matomumo} other {{count} personų paminėjimai dabar priklauso nuo matomumo}}",
-    "personaNotMentionable": "Niekas negauna šios personos paminėjimų pasiūlymuose"
+    "personaNotMentionable": "Niekas negauna šios personos paminėjimų pasiūlymuose",
+    "bookmarkRemoveConfirmDescription": "Pašalinti šią žymę?"
 }
