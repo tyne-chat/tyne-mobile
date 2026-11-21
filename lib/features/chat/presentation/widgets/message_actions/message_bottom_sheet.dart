@@ -171,7 +171,9 @@ Future<void> dispatchMessageAction({
           PersonaPickerSheet.show(
             context,
             showModes: false,
-            selectedPersonaId: message.personaId,
+            // '' marks the account: a message sent as the account is not one
+            // sent as the composer's persona (tyne-chat/tyne#420).
+            selectedPersonaId: message.personaId ?? '',
             title: l10n.fork.chatMessageChangePersona,
             onSelectPersona: (p) =>
                 chat.changeMessagePersona(message: message, persona: p),
