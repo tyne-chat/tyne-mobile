@@ -44,6 +44,7 @@ import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 
 // Fork imports.
 // ignore: directives_ordering
+import 'package:fluxer_app/features/bookmarks/utils/fork_bookmark_removal.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/persona_picker_sheet.dart';
 import 'package:fluxer_app/features/emoji/domain/emoji_info_data.dart';
 import 'package:fluxer_app/features/emoji/presentation/sheets/emoji_info_bottom_sheet.dart';
@@ -209,6 +210,15 @@ Future<void> dispatchMessageAction({
         ),
       );
     case MessageAction.bookmark:
+      // Fork: removing a bookmark asks first, as Unpin does (tyne-chat/tyne#742).
+      final bool goAhead = await confirmBookmarkRemovalIfSaved(
+        context,
+        ref,
+        messageId: message.id,
+      );
+      if (!goAhead || !context.mounted) {
+        return;
+      }
       await toggleSavedMessageBookmark(
         ref: ref,
         l10n: FluxerLocalizations.of(context),

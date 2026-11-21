@@ -1431,4 +1431,8 @@ class ForkLocalizationsCa extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'Ningú no veu aquesta persona als suggeriments de mencions';
+
+  @override
+  String get bookmarkRemoveConfirmDescription =>
+      'Vols suprimir aquest marcador?';
 }

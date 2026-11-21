@@ -362,5 +362,6 @@
     "personaBulkNowMentionableBySelf": "{count, plural, one {Згадувати {count} персону тепер можете лише ви} few {Згадувати {count} персони тепер можете лише ви} many {Згадувати {count} персон тепер можете лише ви} other {Згадувати {count} персони тепер можете лише ви}}",
     "personaBulkNowMentionableByNobody": "{count, plural, one {Згадувати {count} персону тепер не може ніхто} few {Згадувати {count} персони тепер не може ніхто} many {Згадувати {count} персон тепер не може ніхто} other {Згадувати {count} персони тепер не може ніхто}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, one {Згадки {count} персони тепер визначаються видимістю} few {Згадки {count} персон тепер визначаються видимістю} many {Згадки {count} персон тепер визначаються видимістю} other {Згадки {count} персони тепер визначаються видимістю}}",
-    "personaNotMentionable": "Ця персона ні в кого не з’являється в підказках згадок"
+    "personaNotMentionable": "Ця персона ні в кого не з’являється в підказках згадок",
+    "bookmarkRemoveConfirmDescription": "Видалити це повідомлення із закладок?"
 }

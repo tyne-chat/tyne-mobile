@@ -362,5 +362,6 @@
     "personaBulkNowMentionableBySelf": "{count, plural, one {Artık {count} personadan yalnızca sen bahsedebilirsin} other {Artık {count} personadan yalnızca sen bahsedebilirsin}}",
     "personaBulkNowMentionableByNobody": "{count, plural, one {Artık kimse {count} personadan bahsedemez} other {Artık kimse {count} personadan bahsedemez}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, one {{count} personanın bahsetme ayarı artık Görünürlüğe uyuyor} other {{count} personanın bahsetme ayarı artık Görünürlüğe uyuyor}}",
-    "personaNotMentionable": "Bu persona bahsetme önerilerinde kimseye görünmez"
+    "personaNotMentionable": "Bu persona bahsetme önerilerinde kimseye görünmez",
+    "bookmarkRemoveConfirmDescription": "Bu yer işareti kaldırılsın mı?"
 }

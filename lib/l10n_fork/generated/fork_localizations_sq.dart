@@ -1402,4 +1402,7 @@ class ForkLocalizationsSq extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'Kjo personë nuk i shfaqet askujt te sugjerimet e përmendjeve';
+
+  @override
+  String get bookmarkRemoveConfirmDescription => 'Të hiqet ky faqerojtës?';
 }

@@ -1400,4 +1400,7 @@ class ForkLocalizationsSv extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'Ingen får den här personan i förslag för omnämnanden';
+
+  @override
+  String get bookmarkRemoveConfirmDescription => 'Ta bort det här bokmärket?';
 }

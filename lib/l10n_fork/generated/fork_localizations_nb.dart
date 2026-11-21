@@ -1397,4 +1397,8 @@ class ForkLocalizationsNb extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'Ingen får denne personaen i omtaleforslag';
+
+  @override
+  String get bookmarkRemoveConfirmDescription =>
+      'Fjerne denne meldingen fra lagrede meldinger?';
 }

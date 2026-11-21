@@ -362,5 +362,6 @@
     "personaBulkNowMentionableBySelf": "{count, plural, one {{count} persono lahko zdaj omenite samo vi} two {{count} personi lahko zdaj omenite samo vi} few {{count} persone lahko zdaj omenite samo vi} other {{count} person lahko zdaj omenite samo vi}}",
     "personaBulkNowMentionableByNobody": "{count, plural, one {{count} persone zdaj ne more omeniti nihče} two {{count} person zdaj ne more omeniti nihče} few {{count} person zdaj ne more omeniti nihče} other {{count} person zdaj ne more omeniti nihče}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, one {Omembe {count} persone zdaj sledijo vidnosti} two {Omembe {count} person zdaj sledijo vidnosti} few {Omembe {count} person zdaj sledijo vidnosti} other {Omembe {count} person zdaj sledijo vidnosti}}",
-    "personaNotMentionable": "Ta persona se nikomur ne prikaže v predlogih omemb"
+    "personaNotMentionable": "Ta persona se nikomur ne prikaže v predlogih omemb",
+    "bookmarkRemoveConfirmDescription": "Želite odstraniti ta zaznamek?"
 }

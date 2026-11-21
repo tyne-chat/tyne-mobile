@@ -1424,4 +1424,8 @@ class ForkLocalizationsFr extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'Personne ne voit cette persona dans les suggestions de mention';
+
+  @override
+  String get bookmarkRemoveConfirmDescription =>
+      'Retirer ce message des messages enregistrés ?';
 }

@@ -1340,6 +1340,9 @@ class ForkLocalizationsZh extends ForkLocalizations {
 
   @override
   String get personaNotMentionable => '任何人的提及建议中都不会出现此人格';
+
+  @override
+  String get bookmarkRemoveConfirmDescription => '要移除此书签吗？';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -2678,4 +2681,7 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get personaNotMentionable => '任何人的提及建議中都不會出現此人格';
+
+  @override
+  String get bookmarkRemoveConfirmDescription => '要移除此書籤嗎？';
 }

@@ -362,5 +362,6 @@
     "personaBulkNowMentionableBySelf": "{count, plural, one {רק אתם יכולים עכשיו לאזכר פרסונה אחת} two {רק אתם יכולים עכשיו לאזכר {count} פרסונות} other {רק אתם יכולים עכשיו לאזכר {count} פרסונות}}",
     "personaBulkNowMentionableByNobody": "{count, plural, one {אף אחד לא יכול עכשיו לאזכר פרסונה אחת} two {אף אחד לא יכול עכשיו לאזכר {count} פרסונות} other {אף אחד לא יכול עכשיו לאזכר {count} פרסונות}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, one {אזכורים של פרסונה אחת נקבעים עכשיו לפי הנראות} two {אזכורים של {count} פרסונות נקבעים עכשיו לפי הנראות} other {אזכורים של {count} פרסונות נקבעים עכשיו לפי הנראות}}",
-    "personaNotMentionable": "אף אחד לא מקבל את הפרסונה הזו בהצעות אזכור"
+    "personaNotMentionable": "אף אחד לא מקבל את הפרסונה הזו בהצעות אזכור",
+    "bookmarkRemoveConfirmDescription": "להסיר את הסימנייה הזו?"
 }
