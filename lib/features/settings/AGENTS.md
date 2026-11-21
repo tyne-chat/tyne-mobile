@@ -163,10 +163,11 @@ empty state, with no error or retry (tyne-chat/tyne#350). Every card is built (a
   of the "your account" lists, the tab in the deep-link set.
 - **Updater** (`user_settings_modal.dart`, Android only): a "Check for updates" item through a new
   `onCheckForUpdates` parameter on upstream's `buildUserSettingsMobileNavGroups`; a link in
-  `_SettingsBuildInfoFooter`, whose returns became `Column`s; two identical check methods; a
-  `ref.listen(appUpdateProvider)` in `_MobileSettingsNavBodyState.build` that toasts the result, so
-  wide layouts get none. A fork widget and listener handed one line each would shrink these edits in
-  upstream's most-changed file here.
+  `_SettingsBuildInfoFooter`, whose returns became `Column`s; two identical check methods. The
+  result's toast (up to date, or the check failed) comes from the shell's update listener
+  (`toastManualUpdateCheck`, `lib/features/updater/presentation/app_update_check_toast.dart`), so
+  both layouts get it once (tyne-chat/tyne#352). A fork widget handed one line would shrink these
+  edits in upstream's most-changed file here.
 - **Push clean-up:** both `_logout` methods await `forkPushSignOutCleanupProvider` before upstream's
   invalidations, which reset the user id it reads.
 - **Quick-switcher button:** a `Notifier<bool>` over the SharedPreferences key
@@ -225,7 +226,7 @@ empty state, with no error or retry (tyne-chat/tyne#350). Every card is built (a
 | Profile Save | `PATCH /users/@me`, then `GET /users/@me` | error shown; edits kept |
 | A user-settings toggle | 1 `PATCH /users/@me/settings` | reverted, rethrown |
 | A synced preference | none here; the store sends a debounced `PATCH` | |
-| Check for updates | 1 GitHub releases request | reported as up to date |
+| Check for updates | 1 GitHub releases request | toast saying the check failed |
 
 Each request answers a tap; nothing runs per item or per build, and the pages retry nothing.
 

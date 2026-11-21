@@ -262,7 +262,8 @@ void main() {
       expect(result, isNull);
     });
 
-    test('returns null when response data is not a Map', () async {
+    // tyne-chat/tyne#352: a check that cannot tell is not "up to date".
+    test('throws when the answer is not a release', () async {
       AppUpdateService.platformOverride = true;
       final dio = Dio()
         ..httpClientAdapter = _MockDioAdapter((options) {
@@ -276,11 +277,13 @@ void main() {
         });
 
       final service = AppUpdateService(dio: dio);
-      final result = await service.checkForUpdate();
-      expect(result, isNull);
+      await expectLater(
+        service.checkForUpdate(),
+        throwsA(isA<AppUpdateCheckException>()),
+      );
     });
 
-    test('returns null when assets do not contain an .apk file', () async {
+    test('throws when the release has no .apk file', () async {
       AppUpdateService.platformOverride = true;
       final dio = Dio()
         ..httpClientAdapter = _MockDioAdapter((options) {
@@ -309,8 +312,10 @@ void main() {
         });
 
       final service = AppUpdateService(dio: dio);
-      final result = await service.checkForUpdate();
-      expect(result, isNull);
+      await expectLater(
+        service.checkForUpdate(),
+        throwsA(isA<AppUpdateCheckException>()),
+      );
     });
 
     test(
@@ -326,8 +331,11 @@ void main() {
               'assets': [
                 {
                   'name': 'fluxer.apk',
-                  'browser_download_url': 'https://example.com/fluxer.apk',
+                  // A verifiable asset, so that only the version decides
+                  // (tyne-chat/tyne#352).
+                  'browser_download_url': _releaseUrl,
                   'size': 123456,
+                  'digest': 'sha256:${'ab' * 32}',
                 },
               ],
             };
@@ -346,7 +354,7 @@ void main() {
       },
     );
 
-    test('returns null when dio throws an error', () async {
+    test('throws when the request fails', () async {
       AppUpdateService.platformOverride = true;
       final dio = Dio()
         ..httpClientAdapter = _MockDioAdapter((options) {
@@ -357,8 +365,35 @@ void main() {
         });
 
       final service = AppUpdateService(dio: dio);
-      final result = await service.checkForUpdate();
-      expect(result, isNull);
+      await expectLater(
+        service.checkForUpdate(),
+        throwsA(
+          isA<AppUpdateCheckException>().having(
+            (AppUpdateCheckException e) => e.cause,
+            'cause',
+            isA<DioException>(),
+          ),
+        ),
+      );
+    });
+
+    test('throws when GitHub refuses the request', () async {
+      AppUpdateService.platformOverride = true;
+      final dio = Dio()
+        ..httpClientAdapter = _MockDioAdapter((options) {
+          return ResponseBody.fromString(
+            jsonEncode({'message': 'API rate limit exceeded'}),
+            403,
+            headers: {
+              Headers.contentTypeHeader: [Headers.jsonContentType],
+            },
+          );
+        });
+
+      await expectLater(
+        AppUpdateService(dio: dio).checkForUpdate(),
+        throwsA(isA<AppUpdateCheckException>()),
+      );
     });
 
     test(
@@ -439,20 +474,28 @@ void main() {
       expect(await check({}), isNotNull);
     });
 
-    test('ignores a release whose APK is hosted elsewhere', () async {
-      expect(
-        await check({
-          'browser_download_url': 'https://example.com/tyne-v2.0.0.apk',
-        }),
-        isNull,
+    // Not offered, and not "up to date" either: the check failed
+    // (tyne-chat/tyne#352).
+    test('fails on a release whose APK is hosted elsewhere', () async {
+      await expectLater(
+        check({'browser_download_url': 'https://example.com/tyne-v2.0.0.apk'}),
+        throwsA(isA<AppUpdateCheckException>()),
       );
     });
 
-    test('ignores a release without a usable digest or size', () async {
-      expect(await check({'digest': null}), isNull);
-      expect(await check({'digest': 'sha256:abcd'}), isNull);
-      expect(await check({'digest': 'md5:${'ab' * 32}'}), isNull);
-      expect(await check({'size': 0}), isNull);
+    test('fails on a release without a usable digest or size', () async {
+      for (final Map<String, Object?> asset in <Map<String, Object?>>[
+        {'digest': null},
+        {'digest': 'sha256:abcd'},
+        {'digest': 'md5:${'ab' * 32}'},
+        {'size': 0},
+      ]) {
+        await expectLater(
+          check(asset),
+          throwsA(isA<AppUpdateCheckException>()),
+          reason: '$asset',
+        );
+      }
     });
 
     test(

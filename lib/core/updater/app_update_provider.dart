@@ -74,7 +74,14 @@ class AppUpdateNotifier extends Notifier<AppUpdateState> {
       isManualCheck: manual,
     );
 
-    final AppUpdateInfo? info = await _service.checkForUpdate();
+    final AppUpdateInfo? info;
+    try {
+      info = await _service.checkForUpdate();
+    } on Object {
+      // A check that could not tell is not "up to date" (tyne-chat/tyne#352).
+      state = state.copyWith(status: AppUpdateStatus.error);
+      return;
+    }
     if (info != null) {
       state = state.copyWith(
         status: AppUpdateStatus.available,
