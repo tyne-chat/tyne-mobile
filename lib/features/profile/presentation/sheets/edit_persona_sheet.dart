@@ -1817,7 +1817,10 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
           description: l10n.fork.personaAutoTagDisabledDescription,
           value: _autoTagDisabled,
           enabled: !_isSaving,
-          onChanged: (bool value) => setState(() => _autoTagDisabled = value),
+          onChanged: (bool value) {
+            setState(() => _autoTagDisabled = value);
+            _onFieldChanged();
+          },
         ),
         SizedBox(height: layout.s3),
 
