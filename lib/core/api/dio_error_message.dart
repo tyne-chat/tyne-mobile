@@ -31,9 +31,11 @@ String? apiMessageFromDioException(DioException error) {
         return fieldMessage;
       }
     }
-    // Fork: the first validation error with its field, for the response shapes
+    // Fork: the first validation error's message, for the response shapes
     // upstream's INVALID_FORM_BODY message above does not read (errors nested
-    // under data, or under another code).
+    // under data, or under another code). Like upstream's, it leaves out the
+    // field's path (`display_tag_text`), which means nothing to the reader
+    // (tyne-chat/tyne#445).
     final dynamic nestedData = data['data'];
     final dynamic errors = nestedData is Map
         ? nestedData['errors']
@@ -42,11 +44,7 @@ String? apiMessageFromDioException(DioException error) {
       final firstError = errors.first;
       if (firstError is Map) {
         final dynamic firstMsg = firstError['message'];
-        final dynamic firstField = firstError['path'] ?? firstError['field'];
         if (firstMsg is String && firstMsg.isNotEmpty) {
-          if (firstField is String && firstField.isNotEmpty) {
-            return '$firstField: $firstMsg';
-          }
           return firstMsg;
         }
       }
