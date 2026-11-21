@@ -331,6 +331,26 @@ class _TimestampPickerBodyState extends ConsumerState<_TimestampPickerBody> {
               use12Hour: use12Hour,
             ),
           ),
+          // A chip written as `s` or `S` opens on its own style
+          // (tyne-chat/tyne#435).
+          FluxerSelectItem<String>(
+            value: 's',
+            label: formatMarkdownTimestamp(
+              wallClockDateTime,
+              's',
+              l10n,
+              use12Hour: use12Hour,
+            ),
+          ),
+          FluxerSelectItem<String>(
+            value: 'S',
+            label: formatMarkdownTimestamp(
+              wallClockDateTime,
+              'S',
+              l10n,
+              use12Hour: use12Hour,
+            ),
+          ),
           FluxerSelectItem<String>(
             value: 'R',
             label: formatMarkdownTimestamp(
