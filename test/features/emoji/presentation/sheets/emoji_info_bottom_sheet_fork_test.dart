@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/emoji/presentation/sheets/emoji_info_bottom_
 import 'package:fluxer_app/features/emoji/providers/emoji_pins_provider.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
@@ -244,6 +245,26 @@ void main() {
 
       expect(find.text(testL10n.fork.emojiPin), findsOneWidget);
       expect(find.text(testL10n.fork.emojiPinForPersona), findsNothing);
+    });
+
+    // tyne-chat/tyne#818: upstream's favourites button ran into the divider
+    // over the fork's actions.
+    testWidgets('leaves space under the favourites button', (tester) async {
+      await openSheet(tester, pins: EmojiPins.empty);
+
+      final Rect button = tester.getRect(
+        find
+            .ancestor(
+              of: find.text(testL10n.emojiInfoAddToFavorites),
+              matching: find.byType(FluxerButton),
+            )
+            .first,
+      );
+      final Rect divider = tester.getRect(find.byType(Divider).last);
+      final Rect pin = tester.getRect(find.text(testL10n.fork.emojiPin));
+      expect(button.bottom, lessThan(divider.top));
+      expect(divider.bottom, lessThan(pin.top));
+      expect(divider.top - button.bottom, greaterThanOrEqualTo(8));
     });
   });
 }

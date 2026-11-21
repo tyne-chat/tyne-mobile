@@ -266,6 +266,9 @@ class _EmojiInfoBottomSheetContent extends ConsumerWidget {
     final EmojiPins pins =
         ref.watch(emojiPinsProvider).value ?? EmojiPins.empty;
     return [
+      // Upstream's content leaves no space under its last row, usually the
+      // favourites button (tyne-chat/tyne#818).
+      SizedBox(height: context.layout.s4),
       Divider(color: context.colors.borderColor, height: 1),
       SizedBox(height: context.layout.s1),
       if (emojiKey != null) ...[
