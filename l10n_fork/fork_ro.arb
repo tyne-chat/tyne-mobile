@@ -362,5 +362,6 @@
     "personaBulkNowMentionableBySelf": "{count, plural, one {{count} persona poate fi menționată acum doar de tine} few {{count} personas pot fi menționate acum doar de tine} other {{count} de personas pot fi menționate acum doar de tine}}",
     "personaBulkNowMentionableByNobody": "{count, plural, one {{count} persona nu mai poate fi menționată de nimeni} few {{count} personas nu mai pot fi menționate de nimeni} other {{count} de personas nu mai pot fi menționate de nimeni}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, one {Mențiunile pentru {count} persona urmează acum Vizibilitatea} few {Mențiunile pentru {count} personas urmează acum Vizibilitatea} other {Mențiunile pentru {count} de personas urmează acum Vizibilitatea}}",
-    "personaNotMentionable": "Această persona nu apare nimănui în sugestiile de mențiuni"
+    "personaNotMentionable": "Această persona nu apare nimănui în sugestiile de mențiuni",
+    "bookmarkRemoveConfirmDescription": "Elimini acest mesaj din mesajele salvate?"
 }

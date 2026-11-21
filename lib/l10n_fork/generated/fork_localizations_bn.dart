@@ -1400,4 +1400,7 @@ class ForkLocalizationsBn extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'এই পারসোনা কারও মেনশন পরামর্শে দেখা যায় না';
+
+  @override
+  String get bookmarkRemoveConfirmDescription => 'এই বুকমার্কটি সরিয়ে ফেলবেন?';
 }

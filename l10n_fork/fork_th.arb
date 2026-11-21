@@ -362,5 +362,6 @@
     "personaBulkNowMentionableBySelf": "{count, plural, other {มีเพียงคุณที่กล่าวถึง Persona {count} รายการได้แล้ว}}",
     "personaBulkNowMentionableByNobody": "{count, plural, other {ไม่มีใครกล่าวถึง Persona {count} รายการได้แล้ว}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, other {การกล่าวถึง Persona {count} รายการเป็นไปตามการมองเห็นแล้ว}}",
-    "personaNotMentionable": "ไม่มีใครเห็น Persona นี้ในคำแนะนำการกล่าวถึง"
+    "personaNotMentionable": "ไม่มีใครเห็น Persona นี้ในคำแนะนำการกล่าวถึง",
+    "bookmarkRemoveConfirmDescription": "ลบบุ๊กมาร์กนี้ใช่ไหม"
 }

@@ -1450,4 +1450,8 @@ class ForkLocalizationsAr extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'لا تظهر هذه الشخصية لأحد في اقتراحات الإشارة';
+
+  @override
+  String get bookmarkRemoveConfirmDescription =>
+      'هل تريد إزالة هذه الإشارة المرجعية؟';
 }

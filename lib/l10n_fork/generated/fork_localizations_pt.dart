@@ -1414,6 +1414,9 @@ class ForkLocalizationsPt extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'Esta persona não aparece a ninguém nas sugestões de menção';
+
+  @override
+  String get bookmarkRemoveConfirmDescription => 'Remover este marcador?';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -2826,4 +2829,8 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
   @override
   String get personaNotMentionable =>
       'Ninguém recebe esta persona nas sugestões de menção';
+
+  @override
+  String get bookmarkRemoveConfirmDescription =>
+      'Remover esta mensagem das mensagens salvas?';
 }

@@ -362,5 +362,6 @@
     "personaBulkNowMentionableBySelf": "Ahora solo tú puedes mencionar {count, plural, one {{count} persona} other {{count} personas}}",
     "personaBulkNowMentionableByNobody": "Ahora nadie puede mencionar {count, plural, one {{count} persona} other {{count} personas}}",
     "personaBulkNowMentionableByFollowing": "Las menciones de {count, plural, one {{count} persona} other {{count} personas}} ahora siguen la visibilidad",
-    "personaNotMentionable": "Nadie ve esta persona en las sugerencias de menciones"
+    "personaNotMentionable": "Nadie ve esta persona en las sugerencias de menciones",
+    "bookmarkRemoveConfirmDescription": "¿Quitar este mensaje de guardados?"
 }

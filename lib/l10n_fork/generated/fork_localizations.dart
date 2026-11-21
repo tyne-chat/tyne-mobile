@@ -2362,6 +2362,12 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'Nobody gets this persona in mention suggestions'**
   String get personaNotMentionable;
+
+  /// Body of the confirmation before a bookmark is removed, as unpinning a message asks first (tyne-chat/tyne#742). Its title and button are upstream’s "Remove bookmark". Same wording as the web app’s.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove this bookmark?'**
+  String get bookmarkRemoveConfirmDescription;
 }
 
 class _ForkLocalizationsDelegate

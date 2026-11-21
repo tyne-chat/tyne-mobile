@@ -1382,4 +1382,7 @@ class ForkLocalizationsId extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'Tidak ada yang mendapat persona ini di saran sebutan';
+
+  @override
+  String get bookmarkRemoveConfirmDescription => 'Hapus bookmark ini?';
 }

@@ -362,5 +362,6 @@
     "personaBulkNowMentionableBySelf": "Vain sinä voit nyt mainita {count, plural, one {{count} persoonan} other {{count} persoonaa}}",
     "personaBulkNowMentionableByNobody": "Kukaan ei voi nyt mainita {count, plural, one {{count} persoonaa} other {{count} persoonaa}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, one {{count} persoonan} other {{count} persoonan}} maininnat seuraavat nyt näkyvyyttä",
-    "personaNotMentionable": "Tämä persoona ei näy kenenkään mainintaehdotuksissa"
+    "personaNotMentionable": "Tämä persoona ei näy kenenkään mainintaehdotuksissa",
+    "bookmarkRemoveConfirmDescription": "Poistetaanko tämä kirjanmerkki?"
 }

@@ -1371,4 +1371,7 @@ class ForkLocalizationsTh extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'ไม่มีใครเห็น Persona นี้ในคำแนะนำการกล่าวถึง';
+
+  @override
+  String get bookmarkRemoveConfirmDescription => 'ลบบุ๊กมาร์กนี้ใช่ไหม';
 }

@@ -362,5 +362,6 @@
     "personaBulkNowMentionableBySelf": "{count, plural, one {{count} persona ora è menzionabile solo da te} other {{count} persona ora sono menzionabili solo da te}}",
     "personaBulkNowMentionableByNobody": "{count, plural, one {{count} persona ora non è menzionabile da nessuno} other {{count} persona ora non sono menzionabili da nessuno}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, one {Le menzioni di {count} persona ora seguono Visibilità} other {Le menzioni di {count} persona ora seguono Visibilità}}",
-    "personaNotMentionable": "Nessuno riceve questa persona nei suggerimenti di menzione"
+    "personaNotMentionable": "Nessuno riceve questa persona nei suggerimenti di menzione",
+    "bookmarkRemoveConfirmDescription": "Rimuovere questo messaggio dai messaggi salvati?"
 }

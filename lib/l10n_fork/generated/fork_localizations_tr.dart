@@ -1391,4 +1391,8 @@ class ForkLocalizationsTr extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'Bu persona bahsetme önerilerinde kimseye görünmez';
+
+  @override
+  String get bookmarkRemoveConfirmDescription =>
+      'Bu yer işareti kaldırılsın mı?';
 }

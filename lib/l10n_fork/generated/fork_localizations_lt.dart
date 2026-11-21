@@ -1432,4 +1432,7 @@ class ForkLocalizationsLt extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'Niekas negauna šios personos paminėjimų pasiūlymuose';
+
+  @override
+  String get bookmarkRemoveConfirmDescription => 'Pašalinti šią žymę?';
 }

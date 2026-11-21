@@ -362,5 +362,6 @@
     "personaBulkNowMentionableBySelf": "{count, plural, one {{count} persona kan nu bara omnämnas av dig} other {{count} personas kan nu bara omnämnas av dig}}",
     "personaBulkNowMentionableByNobody": "{count, plural, one {{count} persona kan nu inte omnämnas av någon} other {{count} personas kan nu inte omnämnas av någon}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, one {Omnämnanden av {count} persona följer nu Synlighet} other {Omnämnanden av {count} personas följer nu Synlighet}}",
-    "personaNotMentionable": "Ingen får den här personan i förslag för omnämnanden"
+    "personaNotMentionable": "Ingen får den här personan i förslag för omnämnanden",
+    "bookmarkRemoveConfirmDescription": "Ta bort det här bokmärket?"
 }

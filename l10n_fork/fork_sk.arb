@@ -362,5 +362,6 @@
     "personaBulkNowMentionableBySelf": "{count, plural, one {{count} personu teraz môžete spomenúť len vy} few {{count} persony teraz môžete spomenúť len vy} many {{count} persony teraz môžete spomenúť len vy} other {{count} persón teraz môžete spomenúť len vy}}",
     "personaBulkNowMentionableByNobody": "{count, plural, one {{count} personu teraz nemôže spomenúť nikto} few {{count} persony teraz nemôže spomenúť nikto} many {{count} persony teraz nemôže spomenúť nikto} other {{count} persón teraz nemôže spomenúť nikto}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, one {Zmienky {count} persony sa teraz riadia viditeľnosťou} few {Zmienky {count} persón sa teraz riadia viditeľnosťou} many {Zmienky {count} persony sa teraz riadia viditeľnosťou} other {Zmienky {count} persón sa teraz riadia viditeľnosťou}}",
-    "personaNotMentionable": "Táto persona sa nikomu nezobrazuje v návrhoch zmienok"
+    "personaNotMentionable": "Táto persona sa nikomu nezobrazuje v návrhoch zmienok",
+    "bookmarkRemoveConfirmDescription": "Odstrániť túto záložku?"
 }
