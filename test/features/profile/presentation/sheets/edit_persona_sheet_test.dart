@@ -636,6 +636,27 @@ void main() {
       await tester.pumpAndSettle();
       expect(isSaveBarVisible(tester), isFalse);
     });
+
+    // tyne-chat/tyne#600: the switch alone was an unsaved change Back
+    // dropped without a word.
+    testWidgets('turning it on keeps Back from closing the editor', (
+      tester,
+    ) async {
+      await openWithApi(
+        tester,
+        const PublicPersona(id: 'existing_p1', name: 'Existing Alter'),
+      );
+
+      await toggle(tester);
+      await tester.binding.handlePopRoute();
+      await tester.pumpAndSettle();
+      expect(find.text(label), findsOneWidget);
+
+      await toggle(tester);
+      await tester.binding.handlePopRoute();
+      await tester.pumpAndSettle();
+      expect(find.text(label), findsNothing);
+    });
   });
 
   // "Allow mentions by" (tyne-chat/tyne#652): null follows the visibility
