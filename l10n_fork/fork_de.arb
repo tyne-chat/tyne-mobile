@@ -362,5 +362,6 @@
     "personaBulkNowMentionableBySelf": "Erwähnen von {count, plural, one {{count} Persona} other {{count} Personas}} jetzt nur für dich erlaubt",
     "personaBulkNowMentionableByNobody": "Erwähnen von {count, plural, one {{count} Persona} other {{count} Personas}} jetzt für niemanden erlaubt",
     "personaBulkNowMentionableByFollowing": "Erwähnen von {count, plural, one {{count} Persona} other {{count} Personas}} folgt jetzt der Sichtbarkeit",
-    "personaNotMentionable": "Diese Persona erscheint bei niemandem in Erwähnungsvorschlägen"
+    "personaNotMentionable": "Diese Persona erscheint bei niemandem in Erwähnungsvorschlägen",
+    "bookmarkRemoveConfirmDescription": "Dieses Lesezeichen entfernen?"
 }

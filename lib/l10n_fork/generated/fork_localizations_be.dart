@@ -1436,4 +1436,7 @@ class ForkLocalizationsBe extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'Ніхто не бачыць гэту персону ў падказках згадак';
+
+  @override
+  String get bookmarkRemoveConfirmDescription => 'Выдаліць гэтую закладку?';
 }

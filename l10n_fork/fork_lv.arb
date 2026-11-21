@@ -362,5 +362,6 @@
     "personaBulkNowMentionableBySelf": "{count, plural, zero {{count} personas tagad varat pieminēt tikai jūs} one {{count} personu tagad varat pieminēt tikai jūs} other {{count} personas tagad varat pieminēt tikai jūs}}",
     "personaBulkNowMentionableByNobody": "{count, plural, zero {{count} personas tagad nevar pieminēt neviens} one {{count} personu tagad nevar pieminēt neviens} other {{count} personas tagad nevar pieminēt neviens}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, zero {{count} personu pieminējumi tagad atbilst redzamībai} one {{count} personas pieminējumi tagad atbilst redzamībai} other {{count} personu pieminējumi tagad atbilst redzamībai}}",
-    "personaNotMentionable": "Neviens neredz šo personu pieminējumu ieteikumos"
+    "personaNotMentionable": "Neviens neredz šo personu pieminējumu ieteikumos",
+    "bookmarkRemoveConfirmDescription": "Noņemt šo grāmatzīmi?"
 }

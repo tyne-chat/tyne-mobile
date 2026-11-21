@@ -1413,4 +1413,7 @@ class ForkLocalizationsFil extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'Walang nakakakita sa personang ito sa mga mungkahi ng mention';
+
+  @override
+  String get bookmarkRemoveConfirmDescription => 'Alisin ang bookmark na ito?';
 }

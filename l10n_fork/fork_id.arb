@@ -362,5 +362,6 @@
     "personaBulkNowMentionableBySelf": "{count, plural, other {{count} persona kini hanya bisa disebut olehmu}}",
     "personaBulkNowMentionableByNobody": "{count, plural, other {{count} persona kini tidak bisa disebut oleh siapa pun}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, other {Sebutan {count} persona kini mengikuti Visibilitas}}",
-    "personaNotMentionable": "Tidak ada yang mendapat persona ini di saran sebutan"
+    "personaNotMentionable": "Tidak ada yang mendapat persona ini di saran sebutan",
+    "bookmarkRemoveConfirmDescription": "Hapus bookmark ini?"
 }

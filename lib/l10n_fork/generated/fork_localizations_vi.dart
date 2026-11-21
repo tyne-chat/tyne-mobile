@@ -1381,4 +1381,7 @@ class ForkLocalizationsVi extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'Không ai thấy persona này trong gợi ý nhắc đến';
+
+  @override
+  String get bookmarkRemoveConfirmDescription => 'Bỏ lưu tin nhắn này?';
 }

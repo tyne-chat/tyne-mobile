@@ -1415,4 +1415,8 @@ class ForkLocalizationsBg extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'Никой не вижда тази персона в предложенията за споменаване';
+
+  @override
+  String get bookmarkRemoveConfirmDescription =>
+      'Да се премахне ли тази отметка?';
 }

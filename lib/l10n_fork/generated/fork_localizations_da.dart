@@ -1395,4 +1395,8 @@ class ForkLocalizationsDa extends ForkLocalizations {
 
   @override
   String get personaNotMentionable => 'Ingen får denne persona i omtaleforslag';
+
+  @override
+  String get bookmarkRemoveConfirmDescription =>
+      'Fjern denne besked fra gemte beskeder?';
 }
