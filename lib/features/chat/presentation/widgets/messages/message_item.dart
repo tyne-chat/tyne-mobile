@@ -430,11 +430,12 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                   value.value?.isThreadOnly ?? false,
             ),
           ),
-          // Fork: an empty id never matches, so the tag only shows when the persona rule allows it.
-          authorId: _forkOpTagApplies(msg) ? msg.authorId : '',
+          authorId: msg.authorId,
         )) {
       tags.add(FluxerUserTag(isSystem: false, label: l10n.userTagOp));
     }
+    // Fork: the OP tag only for the identity the post was started as.
+    _forkKeepOpTagOnlyWhenItApplies(tags, msg, l10n.userTagOp);
     return tags;
   }
 
@@ -519,6 +520,19 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           .watch(threadOwnerPersonaIdProvider(msg.channelId))
           .value,
     );
+  }
+
+  /// Fork: drops upstream's "OP" tag from [tags] unless [_forkOpTagApplies]. Asked
+  /// only when upstream gave the message the tag, so no other message watches more.
+  void _forkKeepOpTagOnlyWhenItApplies(
+    List<Widget> tags,
+    Message msg,
+    String opLabel,
+  ) {
+    bool isOpTag(Widget tag) => tag is FluxerUserTag && tag.label == opLabel;
+    if (tags.any(isOpTag) && !_forkOpTagApplies(msg)) {
+      tags.removeWhere(isOpTag);
+    }
   }
 
   /// Fork: the "OP" tag for a persona message, shown next to the persona badge.
