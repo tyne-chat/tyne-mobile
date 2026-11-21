@@ -142,7 +142,6 @@ class _TypingAvatarStack extends ConsumerWidget {
         accountDisplayName: subprofile.name,
         avatarUrl: personaImageHash(subprofile.avatar) ?? baseDisplay.avatarUrl,
         avatarColor: subprofile.avatarColor ?? baseDisplay.avatarColor,
-        pronouns: subprofile.displayTagText ?? baseDisplay.pronouns,
       );
     }
     return baseDisplay;
@@ -238,7 +237,6 @@ class _TypingTooltipText extends ConsumerWidget {
         accountDisplayName: subprofile.name,
         avatarUrl: personaImageHash(subprofile.avatar) ?? baseDisplay.avatarUrl,
         avatarColor: subprofile.avatarColor ?? baseDisplay.avatarColor,
-        pronouns: subprofile.displayTagText ?? baseDisplay.pronouns,
       );
     }
     return baseDisplay;
