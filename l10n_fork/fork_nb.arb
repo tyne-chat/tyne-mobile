@@ -362,5 +362,6 @@
     "personaBulkNowMentionableBySelf": "{count, plural, one {{count} persona kan nå bare omtales av deg} other {{count} personaer kan nå bare omtales av deg}}",
     "personaBulkNowMentionableByNobody": "{count, plural, one {{count} persona kan nå ikke omtales av noen} other {{count} personaer kan nå ikke omtales av noen}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, one {Omtaler av {count} persona følger nå Synlighet} other {Omtaler av {count} personaer følger nå Synlighet}}",
-    "personaNotMentionable": "Ingen får denne personaen i omtaleforslag"
+    "personaNotMentionable": "Ingen får denne personaen i omtaleforslag",
+    "bookmarkRemoveConfirmDescription": "Fjerne denne meldingen fra lagrede meldinger?"
 }

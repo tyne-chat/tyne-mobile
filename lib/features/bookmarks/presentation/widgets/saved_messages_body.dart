@@ -23,6 +23,10 @@ import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/bookmarks/utils/fork_bookmark_removal.dart';
+
 const double _kLoadMoreScrollThreshold = 0.8;
 
 class SavedMessagesBody extends ConsumerStatefulWidget {
@@ -135,6 +139,11 @@ class _SavedMessagesBodyState extends ConsumerState<SavedMessagesBody> {
   }
 
   Future<void> _removeBookmark(String messageId) async {
+    // Fork: removing a bookmark asks first, as unpinning does (tyne-chat/tyne#742).
+    final bool confirmed = await confirmBookmarkRemovalFromMenu(context);
+    if (!confirmed || !mounted) {
+      return;
+    }
     await unsaveMessageBookmark(
       ref: ref,
       l10n: FluxerLocalizations.of(context),

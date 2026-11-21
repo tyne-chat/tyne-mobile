@@ -1412,4 +1412,8 @@ class ForkLocalizationsIt extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'Nessuno riceve questa persona nei suggerimenti di menzione';
+
+  @override
+  String get bookmarkRemoveConfirmDescription =>
+      'Rimuovere questo messaggio dai messaggi salvati?';
 }

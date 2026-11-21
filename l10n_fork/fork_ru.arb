@@ -362,5 +362,6 @@
     "personaBulkNowMentionableBySelf": "{count, plural, one {Упоминать {count} персону теперь можете только вы} few {Упоминать {count} персоны теперь можете только вы} many {Упоминать {count} персон теперь можете только вы} other {Упоминать {count} персоны теперь можете только вы}}",
     "personaBulkNowMentionableByNobody": "{count, plural, one {Упоминать {count} персону теперь не может никто} few {Упоминать {count} персоны теперь не может никто} many {Упоминать {count} персон теперь не может никто} other {Упоминать {count} персоны теперь не может никто}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, one {Упоминания {count} персоны теперь определяются видимостью} few {Упоминания {count} персон теперь определяются видимостью} many {Упоминания {count} персон теперь определяются видимостью} other {Упоминания {count} персоны теперь определяются видимостью}}",
-    "personaNotMentionable": "Эта персона ни у кого не появляется в подсказках упоминаний"
+    "personaNotMentionable": "Эта персона ни у кого не появляется в подсказках упоминаний",
+    "bookmarkRemoveConfirmDescription": "Удалить это сообщение из закладок?"
 }

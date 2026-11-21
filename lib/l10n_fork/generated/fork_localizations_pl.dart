@@ -1434,4 +1434,7 @@ class ForkLocalizationsPl extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'Nikt nie dostaje tej persony w podpowiedziach wzmianek';
+
+  @override
+  String get bookmarkRemoveConfirmDescription => 'Usunąć tę zakładkę?';
 }
