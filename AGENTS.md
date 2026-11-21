@@ -184,7 +184,7 @@ Their regression tests (`test/features/chat/presentation/widgets/messages/messag
 them after touching this code, and add one when fixing a new case.
 
 **Android keyboard (IME) insets.** Insets can go stale when the window loses and regains focus,
-leaving the composer raised over a blank band. The fork's fix is in `MainActivity.kt`, which replays
+leaving the composer raised over a blank band. The fork's fix is in `ForkMainActivity.kt`, which replays
 the window insets when the window regains focus (`android/AGENTS.md`); the Dart side is upstream's
 (`lib/features/chat/AGENTS.md`). Unit tests cannot confirm it.
 
