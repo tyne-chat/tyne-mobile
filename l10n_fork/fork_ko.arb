@@ -362,5 +362,6 @@
     "personaBulkNowMentionableBySelf": "{count, plural, other {이제 나만 페르소나 {count}개를 멘션할 수 있음}}",
     "personaBulkNowMentionableByNobody": "{count, plural, other {이제 아무도 페르소나 {count}개를 멘션할 수 없음}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, other {페르소나 {count}개의 멘션이 이제 공개 범위를 따름}}",
-    "personaNotMentionable": "아무에게도 멘션 추천에 이 페르소나가 표시되지 않음"
+    "personaNotMentionable": "아무에게도 멘션 추천에 이 페르소나가 표시되지 않음",
+    "bookmarkRemoveConfirmDescription": "이 북마크를 삭제할까요?"
 }

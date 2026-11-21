@@ -1435,4 +1435,8 @@ class ForkLocalizationsRu extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'Эта персона ни у кого не появляется в подсказках упоминаний';
+
+  @override
+  String get bookmarkRemoveConfirmDescription =>
+      'Удалить это сообщение из закладок?';
 }

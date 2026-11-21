@@ -1430,4 +1430,8 @@ class ForkLocalizationsSl extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'Ta persona se nikomur ne prikaže v predlogih omemb';
+
+  @override
+  String get bookmarkRemoveConfirmDescription =>
+      'Želite odstraniti ta zaznamek?';
 }

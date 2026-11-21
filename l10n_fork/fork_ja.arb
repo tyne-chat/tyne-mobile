@@ -362,5 +362,6 @@
     "personaBulkNowMentionableBySelf": "{count, plural, other {{count} 件のペルソナを自分だけがメンションできるようにしました}}",
     "personaBulkNowMentionableByNobody": "{count, plural, other {{count} 件のペルソナを誰もメンションできないようにしました}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, other {{count} 件のペルソナのメンションを公開範囲に従うようにしました}}",
-    "personaNotMentionable": "このペルソナはメンション候補に誰にも表示されません"
+    "personaNotMentionable": "このペルソナはメンション候補に誰にも表示されません",
+    "bookmarkRemoveConfirmDescription": "このブックマークを削除しますか？"
 }

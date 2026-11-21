@@ -1353,4 +1353,7 @@ class ForkLocalizationsJa extends ForkLocalizations {
 
   @override
   String get personaNotMentionable => 'このペルソナはメンション候補に誰にも表示されません';
+
+  @override
+  String get bookmarkRemoveConfirmDescription => 'このブックマークを削除しますか？';
 }

@@ -1351,4 +1351,7 @@ class ForkLocalizationsKo extends ForkLocalizations {
 
   @override
   String get personaNotMentionable => '아무에게도 멘션 추천에 이 페르소나가 표시되지 않음';
+
+  @override
+  String get bookmarkRemoveConfirmDescription => '이 북마크를 삭제할까요?';
 }

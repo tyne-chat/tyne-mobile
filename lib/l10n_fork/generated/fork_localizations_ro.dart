@@ -1429,4 +1429,8 @@ class ForkLocalizationsRo extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'Această persona nu apare nimănui în sugestiile de mențiuni';
+
+  @override
+  String get bookmarkRemoveConfirmDescription =>
+      'Elimini acest mesaj din mesajele salvate?';
 }

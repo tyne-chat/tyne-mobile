@@ -1398,4 +1398,7 @@ class ForkLocalizationsHi extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'मेंशन सुझावों में यह परसोना किसी को नहीं दिखता';
+
+  @override
+  String get bookmarkRemoveConfirmDescription => 'यह बुकमार्क हटाएँ?';
 }

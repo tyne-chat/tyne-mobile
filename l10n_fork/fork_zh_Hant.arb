@@ -362,5 +362,6 @@
     "personaBulkNowMentionableBySelf": "{count, plural, other {現在僅你可以提及 {count} 個人格}}",
     "personaBulkNowMentionableByNobody": "{count, plural, other {現在任何人都不能提及 {count} 個人格}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, other {{count} 個人格的提及設定現已跟隨可見度}}",
-    "personaNotMentionable": "任何人的提及建議中都不會出現此人格"
+    "personaNotMentionable": "任何人的提及建議中都不會出現此人格",
+    "bookmarkRemoveConfirmDescription": "要移除此書籤嗎？"
 }

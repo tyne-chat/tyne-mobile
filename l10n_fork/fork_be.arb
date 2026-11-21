@@ -362,5 +362,6 @@
     "personaBulkNowMentionableBySelf": "Цяпер толькі вы можаце згадваць {count, plural, one {{count} персону} few {{count} персоны} many {{count} персон} other {{count} персоны}}",
     "personaBulkNowMentionableByNobody": "Цяпер ніхто не можа згадваць {count, plural, one {{count} персону} few {{count} персоны} many {{count} персон} other {{count} персоны}}",
     "personaBulkNowMentionableByFollowing": "Згадкі {count, plural, one {{count} персоны} few {{count} персон} many {{count} персон} other {{count} персоны}} цяпер залежаць ад бачнасці",
-    "personaNotMentionable": "Ніхто не бачыць гэту персону ў падказках згадак"
+    "personaNotMentionable": "Ніхто не бачыць гэту персону ў падказках згадак",
+    "bookmarkRemoveConfirmDescription": "Выдаліць гэтую закладку?"
 }

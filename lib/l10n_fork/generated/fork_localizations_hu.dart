@@ -1404,4 +1404,8 @@ class ForkLocalizationsHu extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'Ez a persona senkinek sem jelenik meg az említési javaslatokban';
+
+  @override
+  String get bookmarkRemoveConfirmDescription =>
+      'Eltávolítod ezt az üzenetet a mentett üzenetek közül?';
 }
