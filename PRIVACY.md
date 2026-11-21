@@ -1,6 +1,6 @@
 # Privacy Policy
 
-*Tyne apps and the HyperSystem.xyz server. Last updated: 15 October 2026.*
+*Tyne apps and the HyperSystem.xyz server. Last updated: 21 November 2026.*
 
 Tyne is a chat app built on the open-source Fluxer client. By default it connects to
 **HyperSystem.xyz** (`temple.hypersystem.xyz`), a small community server that runs on a
@@ -18,9 +18,18 @@ Questions or requests: **support@tyne.chat**.
 
 ## 1. The Tyne apps
 
-The apps (iOS, Android, desktop and web) talk to the server you sign in to and to nothing else of
-ours. They contain no analytics, usage tracking or advertising code, and they do not send crash
-reports to us.
+The apps (iOS, Android, desktop and web) talk to the server you sign in to, and to nothing else of
+ours except the optional crash reports below. They contain no analytics, usage tracking or
+advertising code.
+
+**Crash reports (optional, off by default).** The mobile app can send crash and error reports and
+performance data to our own crash-report server, which runs on the same machine as
+HyperSystem.xyz. It does so only if you turn it on: the app asks after a crash, and you can turn it
+on or off at any time under Settings → Advanced → "Send crash and performance reports". This
+applies whichever server you use Tyne with. A report includes the device model, operating system
+and app version, which screens were open, how long the app's requests took, error messages, and
+the IP address it was sent from with an approximate country. Reports are not linked to your
+account and are deleted after 30 days.
 
 A few things go through other companies because the platforms require it:
 
@@ -36,8 +45,8 @@ A few things go through other companies because the platforms require it:
 ## 2. What the HyperSystem.xyz server stores
 
 **Account information.** Your email address, username, password (stored only as a strong
-one-way hash), date of birth (to check the minimum age), and anything you add to your profile
-or personas: display names, avatars, bios and similar.
+one-way hash), and anything you add to your profile or personas: display names, avatars, bios and
+similar. HyperSystem.xyz does not ask for your date of birth.
 
 **Your content.** Messages, files, images, reactions, the servers and channels you create or
 join, and your settings. Messages are **not end-to-end encrypted**: they are encrypted while
@@ -53,12 +62,16 @@ need to: to handle a report, to fix a problem, or when the law requires it.
 - Basic reports about how voice and video calls connected, which may include your IP
   address and an approximate country.
 - Bans, which can include an IP address or email address.
+- Server logs: the records the server's programs write as they run, such as which requests
+  were made and how they ended, errors, and sessions being signed out. They can include your
+  user id, part of a session identifier, your app or browser version and the addresses
+  requested, but not your IP address.
 
 We use these to keep accounts and the server secure, to stop abuse and to fix problems.
 
-**What we do not keep.** We do not keep web access logs of the pages and API requests you make,
-and we do not use your data for analytics, profiling or advertising. We do not collect phone
-numbers or payment information.
+**What we do not keep.** Our server logs do not record IP addresses, and we do not use your data
+for analytics, profiling or advertising. We do not ask for your date of birth or phone number,
+and we do not collect payment information.
 
 ## 3. Who else is involved
 
@@ -86,6 +99,8 @@ We do not share your data with anyone else unless you ask us to, or the law requ
 | IP address your account was last active from | Replaced each time you are active; deleted with your account |
 | File upload records | 30 days |
 | Server audit logs | 45 days |
+| Server logs | 30 days |
+| Crash reports from the mobile app (if you turned them on) | 30 days |
 | Call connection reports | 180 days |
 | Notification registrations | Until you sign out of the device, or 90 days after the device was last seen |
 | Reports you submit about messages | Up to 1 year |
@@ -93,7 +108,8 @@ We do not share your data with anyone else unless you ask us to, or the law requ
 | Backups | Up to 30 days |
 
 When you delete a message, file or your account, it is removed from the live server straight away,
-and from backups within 30 days.
+and from backups within 30 days. Server logs and crash reports are not searched and edited when
+you delete something; they are deleted as a whole when they reach 30 days.
 
 ## 5. Your choices and rights
 
@@ -109,11 +125,11 @@ Email **support@tyne.chat** for any request, preferably from the address on your
 reply within 30 days. Depending on where you live, you may also have the right to complain to your
 local data protection authority.
 
-## 6. Children
+## 6. Minimum age
 
-You must be at least 13 years old (or the minimum age where you live, if that is higher) to use
-HyperSystem.xyz. We do not knowingly collect information from younger children; if you believe a
-child under that age has an account, tell us and we will delete it.
+You must be at least 18 years old, and an adult where you live, to use HyperSystem.xyz. We do not
+knowingly let anyone younger have an account or collect information about them; if you believe
+someone under that age has an account, tell us and we will delete it.
 
 ## 7. Security
 
