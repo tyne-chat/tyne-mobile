@@ -13,6 +13,9 @@ import 'package:go_router/go_router.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/core/providers/instance/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
+import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 String settingsTargetPath(QuickSwitcherSettingsTarget target) =>
     switch (target) {
@@ -48,23 +51,33 @@ Future<void> openDmWithUserFromQuickSwitcher({
   bool isPersonalNotes = false,
 }) async {
   if (ref.read(instanceRuntimeConfigProvider).directMessagesDisabled) {
+    // Say why nothing opens, and close the switcher as a pick does
+    // (tyne-chat/tyne#441).
+    ref
+        .read(toastProvider.notifier)
+        .show(
+          FluxerToast(
+            message: FluxerLocalizations.of(context).assistantDmsDisabled,
+          ),
+        );
+    onClose();
     return;
   }
   String? resolvedChannelId = dmChannelId;
-  if (isPersonalNotes) {
-    resolvedChannelId = userId;
-    await ref.read(dmRepositoryProvider).ensurePersonalNotesChannel(userId);
-  } else if (resolvedChannelId == null || resolvedChannelId.isEmpty) {
-    try {
+  try {
+    if (isPersonalNotes) {
+      resolvedChannelId = userId;
+      await ref.read(dmRepositoryProvider).ensurePersonalNotesChannel(userId);
+    } else if (resolvedChannelId == null || resolvedChannelId.isEmpty) {
       resolvedChannelId = await ref
           .read(dmRepositoryProvider)
           .ensureDmChannel(userId);
-    } on Object catch (e) {
-      if (context.mounted) {
-        await showApiError(context, ApiErrorAction.openDm, e);
-      }
-      return;
     }
+  } on Object catch (e) {
+    if (context.mounted) {
+      await showApiError(context, ApiErrorAction.openDm, e);
+    }
+    return;
   }
   if (!context.mounted) {
     return;
