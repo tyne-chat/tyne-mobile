@@ -271,5 +271,57 @@ void main() {
 
       expect(zoneItems(), same(before));
     });
+
+    // tyne-chat/tyne#435: the composer's chips accept `s` and `S`, which the
+    // format menu did not offer, so it opened blank.
+    for (final String style in <String>['s', 'S']) {
+      testWidgets('a chip written as $style opens on its own format', (
+        tester,
+      ) async {
+        String? inserted;
+        await openPicker(
+          tester,
+          initialEpoch: 1774008000,
+          initialStyle: style,
+          onInsert: (int epoch, String insertedStyle) =>
+              inserted = insertedStyle,
+        );
+        final FluxerSelect<String> format = tester
+            .widgetList<FluxerSelect<String>>(find.byType(FluxerSelect<String>))
+            .singleWhere(
+              (FluxerSelect<String> select) => select.items.any(
+                (FluxerSelectItem<String> item) => item.value == 'combo',
+              ),
+            );
+
+        expect(format.value, style);
+        final FluxerSelectItem<String> item = format.items.singleWhere(
+          (FluxerSelectItem<String> item) => item.value == style,
+        );
+        expect(item.label, isNotEmpty);
+        expect(find.text(item.label), findsWidgets);
+
+        await tester.ensureVisible(find.text('Insert'));
+        await tester.tap(find.text('Insert'));
+        await tester.pumpAndSettle();
+        expect(inserted, style);
+      });
+    }
+
+    testWidgets('offers the date-and-time formats together', (tester) async {
+      await openPicker(tester, initialEpoch: 1774008000);
+      final FluxerSelect<String> format = tester
+          .widgetList<FluxerSelect<String>>(find.byType(FluxerSelect<String>))
+          .singleWhere(
+            (FluxerSelect<String> select) => select.items.any(
+              (FluxerSelectItem<String> item) => item.value == 'combo',
+            ),
+          );
+
+      expect(
+        format.items.map((FluxerSelectItem<String> item) => item.value),
+        <String>['combo', 'f', 'F', 's', 'S', 'R', 'd', 'D', 't', 'T'],
+      );
+    });
   });
 }
