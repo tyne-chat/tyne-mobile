@@ -4,7 +4,7 @@ The Gradle project that wraps the Flutter app: the build script, the manifests, 
 twenty small Kotlin classes in package `com.fluxer`, most of them bridges that each give Dart one
 platform capability. It is upstream's project. The fork ships one variant, `canaryUnifiedpush` in
 release mode, as Tyne: its own application ID, link scheme and artwork, plus an APK installer bridge for
-the in-app updater, a keyboard inset fix in `MainActivity` and an extra push library.
+the in-app updater, a keyboard inset fix in `MainActivity`'s fork base class and an extra push library.
 
 ## Where things are
 
@@ -15,7 +15,8 @@ Kotlin files are in `app/src/main/kotlin/com/fluxer/`.
 | Flavours, application IDs, manifest placeholders, signing, dependencies | `app/build.gradle.kts` (plugin versions: `settings.gradle.kts`) |
 | Permissions, activities, link filters, launcher aliases, services | `app/src/main/AndroidManifest.xml`; per variant `app/src/{canary,debug,profile,fcm,unifiedpush}/` |
 | Tyne's launcher and notification icons (fork) | `app/src/canary/res/` |
-| The activity, bridge registration, OAuth link deferral, the inset fix | `MainActivity.kt` |
+| The activity, bridge registration, OAuth link deferral | `MainActivity.kt` |
+| The fork's hooks into the activity: push engine hand-over, the installer bridge, the inset fix (fork) | `ForkMainActivity.kt`, `MainActivity`'s base class |
 | Process start: Measure, stale Firebase alarms | `FluxerApplication.kt` |
 | Reply from a notification without starting Flutter | `NotificationReplyBridge.kt`, `FluxerNotificationReplyReceiver.kt`, `NotificationReply.kt`, `HttpNotificationReplyPoster.kt`, `SecureAuthTokenReader.kt` |
 | SSO return, Custom Tab clean-up | `SsoCallbackActivity.kt`, `SsoAuthSessionTasks.kt`, `InAppBrowserTasks.kt` |
@@ -41,7 +42,8 @@ Kotlin files are in `app/src/main/kotlin/com/fluxer/`.
 
 ## Bridges to Dart
 
-`MainActivity.configureFlutterEngine` registers them. Channel and method names are strings on both
+`MainActivity.configureFlutterEngine` registers them (the fork's `app_install` in
+`ForkMainActivity.configureFlutterEngine`, which runs first). Channel and method names are strings on both
 sides: a rename on one side compiles and fails only at run time (`MissingPluginException` or
 `notImplemented`), which several Dart callers swallow.
 
@@ -101,7 +103,8 @@ things upstream does not do (a fork block at the end of `FluxerUnifiedPushServic
   end keeps the engine (and its ledger, which counts over the engine's life as Dart's handled count
   does); the next session reuses it.
 - **An idle push engine goes before the app's engine registers its plugins**
-  (`forkBeforeAppEngine()`, called first in `MainActivity.onCreate`), while that is still safe.
+  (`forkBeforeAppEngine()`, called in `ForkMainActivity.onCreate` before `super.onCreate`), while that is
+  still safe.
 - `ForkPushEngine` empties the UnifiedPush plugin's replay when it starts (above).
 
 Known differences from the fork's earlier fix, left as upstream has them until tested on a phone:
@@ -128,11 +131,12 @@ reply path for iOS sends the same).
 |---|---|
 | ID, label, link scheme | `canary` flavour and `defaultConfig` in `app/build.gradle.kts`, under `// Fork:` comments; `${deepLinkScheme}` in the seven `<data>` lines of the manifest's custom-scheme filter |
 | Artwork | fork-owned, generated files in `app/src/canary/res/` that replace `main`'s by resource name (`drawable/ic_stat_fluxer.xml` points at `tyne_notification_glyph`); do not edit them by hand. A file there that matches no name in `main/res` replaces nothing, and upstream's artwork ships: when upstream renames one, rename ours in `brand_icons.py` and regenerate (`test/build/android_canary_resources_fork_test.dart` checks it; tyne-chat/tyne#532). One upstream line changed: the colour in `values/ic_launcher_background.xml` |
-| APK installer | fork-owned `AppInstallBridge.kt` and `file_paths.xml`; a `REQUEST_INSTALL_PACKAGES` line; the `FileProvider` appended to `<application>` (no fork comment); registered first in `configureFlutterEngine` |
+| APK installer | fork-owned `AppInstallBridge.kt` and `file_paths.xml`; a `REQUEST_INSTALL_PACKAGES` line; the `FileProvider` appended to `<application>` (no fork comment); registered in `ForkMainActivity.configureFlutterEngine` |
 | Push engine without audio_service (tyne-chat/tyne#210) | fork-owned `ForkPushEngine.kt`, created by one line in `FluxerUnifiedPushService.createBackgroundEngine` (below) |
-| Push engine kept while the app's engine exists (tyne-chat/tyne#474) | a fork block at the end of `FluxerUnifiedPushService.kt`'s companion, reached by one `// Fork:` line in `closeBackgroundSession`; one line in `MainActivity.onCreate`; `ForkPushEngine`'s replay reset |
-| No restore of the Flutter fragment (tyne-chat/tyne#634) | fork-owned `ForkFreshStartActivity.kt`, which `MainActivity` extends in place of `AudioServiceFragmentActivity` (one `// Fork:` line above the class). Flutter takes its view ids from `View.generateViewId()`, in an order that differs between a process started from the launcher and one started by a push, so a fragment restored across the two found no container and Tyne opened black. Keep the base class when upstream changes `MainActivity`'s |
-| Keyboard inset fix | in `MainActivity.kt`, unmarked: `onWindowFocusChanged`, `insetResync`, `scheduleInsetResync`, `resyncFlutterInsets`, two companion constants, a line in `onDestroy`, five imports in upstream's list |
+| Push engine kept while the app's engine exists (tyne-chat/tyne#474) | a fork block at the end of `FluxerUnifiedPushService.kt`'s companion, reached by one `// Fork:` line in `closeBackgroundSession`; one line in `ForkMainActivity.onCreate`; `ForkPushEngine`'s replay reset |
+| The fork's base class (tyne-chat/tyne#845) | fork-owned `ForkMainActivity.kt`, which `MainActivity` extends in place of `AudioServiceFragmentActivity` (one `// Fork:` line above the class): the fork's lines in `MainActivity` stopped six rebases in 30 days, so its hooks into the activity live there. It calls each where it was: `onCreate` before `super`, `configureFlutterEngine` after. Keep `MainActivity` on it when upstream changes the class header, and add new hooks to it, not to `MainActivity` |
+| No restore of the Flutter fragment (tyne-chat/tyne#634) | fork-owned `ForkFreshStartActivity.kt`, `ForkMainActivity`'s base class, in place of `AudioServiceFragmentActivity`. Flutter takes its view ids from `View.generateViewId()`, in an order that differs between a process started from the launcher and one started by a push, so a fragment restored across the two found no container and Tyne opened black |
+| Keyboard inset fix | in `ForkMainActivity.kt`: `onWindowFocusChanged`, `insetResync`, `scheduleInsetResync`, `resyncFlutterInsets`, two companion constants, `onDestroy` |
 | Push library | `embedded-fcm-distributor` for every flavour, its keep rule last in `app/proguard-rules.pro`, and the google-services plugin applied whenever `app/google-services.json` exists (upstream: `fcm` tasks only) |
 | SDK level | `compileSdk = 37` in place of Flutter's value, with null-safe `taskInfo` in `InAppBrowserTasks` and `SsoAuthSessionTasks`; nothing records why |
 
@@ -140,7 +144,7 @@ Upstream changes the main manifest, `MainActivity.kt` and `app/build.gradle.kts`
 conflicts land there; keep the lines above. New fork work: Kotlin in a fork-owned class reached by one
 line (Kotlin has no fork-imports rule, and this keeps imports out of upstream's files), resources in the
 `canary` source set or under fork names, manifest entries at the end of `<application>` under
-`<!-- Fork: … -->`, Gradle lines under `// Fork:`. The inset fix would conflict less as such a class.
+`<!-- Fork: … -->`, Gradle lines under `// Fork:`. A hook into `MainActivity` goes in `ForkMainActivity`.
 
 ## The keyboard inset fix
 
@@ -148,7 +152,7 @@ line (Kotlin has no fork-imports rule, and this keeps imports out of upstream's 
   a keyboard animation runs and dispatches them when it ends. Switching apps mid-animation can cancel it
   without that dispatch, leaving Flutter laid out for a keyboard that is gone: the composer raised over
   a blank band.
-- **Fix:** on each window focus gain, `MainActivity` posts `insetResync` 500 ms later (a new post
+- **Fix:** on each window focus gain, `ForkMainActivity` posts `insetResync` 500 ms later (a new post
   replaces a pending one; `onDestroy` removes it). If the keyboard is not visible, it passes the view's
   root insets to `flutterView.onApplyWindowInsets` directly, past the stuck listener, and logs
   `FluxerInsets` at debug level. It runs on every focus gain (dialogs, the notification shade, returning
@@ -224,9 +228,10 @@ if the user opted in and the build has a Measure key and URL.
 
 ## Tests
 
-- **Kotlin:** fifteen JUnit files in `app/src/test/kotlin/com/fluxer/`. Ten are upstream's; five are
+- **Kotlin:** fifteen JUnit files in `app/src/test/kotlin/com/fluxer/`. Nine are upstream's; six are
   the fork's: `AppInstallBridgeTest.kt` (the installer's package, signer and path checks),
   `ForkFreshStartActivityTest.kt` (that `MainActivity` still extends the fresh-start base class),
+  `ForkMainActivityTest.kt` (that `MainActivity` extends `ForkMainActivity` and it holds the hooks),
   `ForkPushEngineTest.kt` (the plugins the push engine leaves out),
   `FluxerUnifiedPushServiceForkTest.kt` (when the service destroys the push engine, with a stand-in
   engine, since a real one needs Flutter's native library) and `NotificationReplyForkTest.kt` (a reply
