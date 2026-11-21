@@ -13,6 +13,8 @@ import 'package:fluxer_app/core/updater/app_update_service.dart';
 
 class _FakeAppUpdateService extends AppUpdateService {
   AppUpdateInfo? updateInfoResult;
+  Exception? checkError;
+  int checks = 0;
   File? downloadFileResult;
   bool canRequestPackageInstallsResult = true;
   bool openSettingsCalled = false;
@@ -20,7 +22,13 @@ class _FakeAppUpdateService extends AppUpdateService {
   bool installUpdateResult = true;
 
   @override
-  Future<AppUpdateInfo?> checkForUpdate() async => updateInfoResult;
+  Future<AppUpdateInfo?> checkForUpdate() async {
+    checks++;
+    if (checkError case final Exception error) {
+      throw error;
+    }
+    return updateInfoResult;
+  }
 
   @override
   Future<File?> downloadUpdate(
@@ -156,6 +164,35 @@ void main() {
         expect(state.updateInfo, isNull);
       },
     );
+
+    // tyne-chat/tyne#352: a failed check said "up to date".
+    test('a check that fails ends in error, not up to date', () async {
+      final fakeService = _FakeAppUpdateService()
+        ..checkError = const AppUpdateCheckException('the check failed');
+      final container = ProviderContainer(
+        overrides: [appUpdateServiceProvider.overrideWithValue(fakeService)],
+      );
+      addTearDown(container.dispose);
+
+      await container
+          .read(appUpdateProvider.notifier)
+          .checkForUpdate(manual: true);
+      final state = container.read(appUpdateProvider);
+      expect(state.status, AppUpdateStatus.error);
+      expect(state.isManualCheck, isTrue);
+      expect(fakeService.checks, 1);
+
+      // Asking again checks again, once.
+      fakeService.checkError = null;
+      await container
+          .read(appUpdateProvider.notifier)
+          .checkForUpdate(manual: true);
+      expect(
+        container.read(appUpdateProvider).status,
+        AppUpdateStatus.upToDate,
+      );
+      expect(fakeService.checks, 2);
+    });
 
     test('startDownload does nothing when updateInfo is null', () async {
       final fakeService = _FakeAppUpdateService();

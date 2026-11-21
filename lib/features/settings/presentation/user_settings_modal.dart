@@ -861,33 +861,6 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
     final bool showJoinFluxerLabs = userSettingsShowJoinFluxerLabsNav(ref);
     final bool isTouchPrimary = isTouchPrimaryInput(ref);
 
-    ref.listen<AppUpdateState>(appUpdateProvider, (previous, next) {
-      if (!next.isManualCheck) {
-        return;
-      }
-      if (next.status == AppUpdateStatus.upToDate &&
-          previous?.status != AppUpdateStatus.upToDate) {
-        ref
-            .read(toastProvider.notifier)
-            .show(
-              FluxerToast(
-                message: l10n.fork.userSettingsAppUpToDate,
-                variant: FluxerToastVariant.success,
-              ),
-            );
-      } else if (next.status == AppUpdateStatus.error &&
-          previous?.status != AppUpdateStatus.error) {
-        ref
-            .read(toastProvider.notifier)
-            .show(
-              FluxerToast(
-                message: l10n.fork.userSettingsUpdateFailed,
-                variant: FluxerToastVariant.danger,
-              ),
-            );
-      }
-    });
-
     final List<UserSettingsSearchHit> hits = searchVisibleUserSettings(
       l10n: l10n,
       query: debouncedSearchQuery,

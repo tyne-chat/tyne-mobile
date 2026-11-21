@@ -60,6 +60,7 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/core/updater/app_update_provider.dart';
 import 'package:fluxer_app/core/updater/app_update_service.dart';
 import 'package:fluxer_app/features/quick_switcher/providers/recent_channel_visits_provider.dart';
+import 'package:fluxer_app/features/updater/presentation/app_update_check_toast.dart';
 import 'package:fluxer_app/features/updater/presentation/app_update_sheet.dart';
 
 class ShellRouteListeners extends ConsumerStatefulWidget {
@@ -250,6 +251,12 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
         AppUpdateState? previous,
         AppUpdateState next,
       ) {
+        toastManualUpdateCheck(
+          ref,
+          FluxerLocalizations.of(context),
+          previous,
+          next,
+        );
         if (next.status == AppUpdateStatus.available &&
             previous?.status != AppUpdateStatus.available &&
             next.updateInfo != null) {

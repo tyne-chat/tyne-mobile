@@ -9,6 +9,21 @@ import 'package:fluxer_app/core/updater/app_update_info.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 
+/// A check for updates that could not tell whether a newer release exists:
+/// the request failed, the answer was not a release, or the release has no
+/// APK the updater can verify. Not "up to date" (tyne-chat/tyne#352).
+class AppUpdateCheckException implements Exception {
+  const AppUpdateCheckException(this.reason, [this.cause]);
+
+  final String reason;
+  final Object? cause;
+
+  @override
+  String toString() => cause == null
+      ? 'AppUpdateCheckException: $reason'
+      : 'AppUpdateCheckException: $reason ($cause)';
+}
+
 class AppUpdateService {
   AppUpdateService({Dio? dio}) : _dio = dio ?? Dio();
 
@@ -41,6 +56,9 @@ class AppUpdateService {
   @visibleForTesting
   static bool? platformOverride;
 
+  /// The latest release when it is newer than this build, or null when it is
+  /// not (or the platform has no updater). Throws [AppUpdateCheckException]
+  /// when the check cannot tell.
   Future<AppUpdateInfo?> checkForUpdate() async {
     if (!isSupportedPlatform()) {
       return null;
@@ -61,7 +79,7 @@ class AppUpdateService {
 
       final dynamic responseData = response.data;
       if (responseData is! Map<String, dynamic>) {
-        return null;
+        throw const AppUpdateCheckException('the answer is not a release');
       }
       final Map<String, dynamic> data = responseData;
 
@@ -87,7 +105,7 @@ class AppUpdateService {
       }
 
       if (apkAsset == null || tagName.isEmpty) {
-        return null;
+        throw AppUpdateCheckException('release "$tagName" has no APK');
       }
 
       final String downloadUrl =
@@ -103,13 +121,10 @@ class AppUpdateService {
       if (!isTrustedDownloadUrl(downloadUrl) ||
           fileSize <= 0 ||
           sha256 == null) {
-        if (kDebugMode) {
-          debugPrint(
-            '[AppUpdateService] ignoring $tagName: unverifiable asset '
-            '(url: $downloadUrl, size: $fileSize, digest: ${apkAsset['digest']})',
-          );
-        }
-        return null;
+        throw AppUpdateCheckException(
+          'release $tagName has an unverifiable APK (url: $downloadUrl, '
+          'size: $fileSize, digest: ${apkAsset['digest']})',
+        );
       }
 
       final (String latestVersion, int? latestBuild) = _parseTagVersion(
@@ -144,7 +159,13 @@ class AppUpdateService {
       if (kDebugMode) {
         debugPrint('[AppUpdateService] check for update error: $e\n$st');
       }
-      return null;
+      if (e is AppUpdateCheckException) {
+        rethrow;
+      }
+      Error.throwWithStackTrace(
+        AppUpdateCheckException('the check failed', e),
+        st,
+      );
     }
   }
 
