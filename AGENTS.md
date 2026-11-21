@@ -229,5 +229,4 @@ the working tree, untracked files included:
   all, infos included;
 - upstream's code is held to upstream's CI (formatted, no errors).
 
-A few tests are skipped by the nightly gate, each tied to an audit finding that removes it. Never add
-a test to that list to get a change through.
+The nightly gate skips no test; never skip or weaken one to get a change through.
