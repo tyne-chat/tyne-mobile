@@ -362,5 +362,6 @@
     "personaBulkNowMentionableBySelf": "{count, plural, one {{count} personát mostantól csak te említheted meg} other {{count} personát mostantól csak te említheted meg}}",
     "personaBulkNowMentionableByNobody": "{count, plural, one {{count} personát mostantól senki sem említheti meg} other {{count} personát mostantól senki sem említheti meg}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, one {{count} persona említései mostantól a Láthatóságot követik} other {{count} persona említései mostantól a Láthatóságot követik}}",
-    "personaNotMentionable": "Ez a persona senkinek sem jelenik meg az említési javaslatokban"
+    "personaNotMentionable": "Ez a persona senkinek sem jelenik meg az említési javaslatokban",
+    "bookmarkRemoveConfirmDescription": "Eltávolítod ezt az üzenetet a mentett üzenetek közül?"
 }

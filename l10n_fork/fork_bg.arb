@@ -362,5 +362,6 @@
     "personaBulkNowMentionableBySelf": "Вече само вие можете да споменавате {count, plural, one {{count} персона} other {{count} персони}}",
     "personaBulkNowMentionableByNobody": "Вече никой не може да споменава {count, plural, one {{count} персона} other {{count} персони}}",
     "personaBulkNowMentionableByFollowing": "Споменаванията на {count, plural, one {{count} персона} other {{count} персони}} вече следват видимостта",
-    "personaNotMentionable": "Никой не вижда тази персона в предложенията за споменаване"
+    "personaNotMentionable": "Никой не вижда тази персона в предложенията за споменаване",
+    "bookmarkRemoveConfirmDescription": "Да се премахне ли тази отметка?"
 }

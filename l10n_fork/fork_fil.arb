@@ -362,5 +362,6 @@
     "personaBulkNowMentionableBySelf": "Ikaw na lang ang puwedeng mag-mention sa {count, plural, one {{count} persona} other {{count} persona}}",
     "personaBulkNowMentionableByNobody": "Hindi na puwedeng i-mention ng sinuman ang {count, plural, one {{count} persona} other {{count} persona}}",
     "personaBulkNowMentionableByFollowing": "Sinusunod na ng mga mention ng {count, plural, one {{count} persona} other {{count} persona}} ang visibility",
-    "personaNotMentionable": "Walang nakakakita sa personang ito sa mga mungkahi ng mention"
+    "personaNotMentionable": "Walang nakakakita sa personang ito sa mga mungkahi ng mention",
+    "bookmarkRemoveConfirmDescription": "Alisin ang bookmark na ito?"
 }

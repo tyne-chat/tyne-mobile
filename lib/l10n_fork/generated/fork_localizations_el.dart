@@ -1414,4 +1414,8 @@ class ForkLocalizationsEl extends ForkLocalizations {
   @override
   String get personaNotMentionable =>
       'Κανείς δεν βλέπει αυτή την persona στις προτάσεις αναφοράς';
+
+  @override
+  String get bookmarkRemoveConfirmDescription =>
+      'Κατάργηση αυτού του σελιδοδείκτη;';
 }
