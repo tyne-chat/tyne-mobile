@@ -1417,6 +1417,9 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get bookmarkRemoveConfirmDescription => 'Remover este marcador?';
+
+  @override
+  String get chatAudioViewCover => 'Ver capa';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -2833,4 +2836,7 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
   @override
   String get bookmarkRemoveConfirmDescription =>
       'Remover esta mensagem das mensagens salvas?';
+
+  @override
+  String get chatAudioViewCover => 'Ver capa';
 }

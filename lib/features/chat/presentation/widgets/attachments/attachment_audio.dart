@@ -13,6 +13,10 @@ import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/widgets/playback_seek_gesture_target.dart';
 import 'package:fluxer_app/shared/widgets/volume_popout_control.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_audio_card_fork.dart';
+
 class AttachmentAudio extends StatefulWidget {
   const AttachmentAudio({required this.attachment, super.key});
 
@@ -88,7 +92,8 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
     return ListenableBuilder(
       listenable: _controller,
       builder: (BuildContext context, Widget? child) {
-        return _AttachmentAudioBody(
+        // Fork: the card with cover art and a waveform (tyne-chat/tyne#873).
+        return ForkAttachmentAudioCard(
           controller: _controller,
           attachment: widget.attachment,
           onTogglePlayback: _togglePlayback,
@@ -99,6 +104,8 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
   }
 }
 
+// Fork: upstream's card body, which the fork's card replaces (tyne-chat/tyne#873).
+// ignore: unused_element
 class _AttachmentAudioBody extends StatelessWidget {
   const _AttachmentAudioBody({
     required this.controller,

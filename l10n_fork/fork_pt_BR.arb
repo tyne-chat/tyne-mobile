@@ -363,5 +363,6 @@
     "personaBulkNowMentionableByNobody": "{count, plural, one {{count} persona agora não pode ser mencionada por ninguém} other {{count} personas agora não podem ser mencionadas por ninguém}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, one {Menções de {count} persona agora seguem Visibilidade} other {Menções de {count} personas agora seguem Visibilidade}}",
     "personaNotMentionable": "Ninguém recebe esta persona nas sugestões de menção",
-    "bookmarkRemoveConfirmDescription": "Remover esta mensagem das mensagens salvas?"
+    "bookmarkRemoveConfirmDescription": "Remover esta mensagem das mensagens salvas?",
+    "chatAudioViewCover": "Ver capa"
 }

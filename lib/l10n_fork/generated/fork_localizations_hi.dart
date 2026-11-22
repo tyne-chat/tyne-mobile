@@ -1401,4 +1401,7 @@ class ForkLocalizationsHi extends ForkLocalizations {
 
   @override
   String get bookmarkRemoveConfirmDescription => 'यह बुकमार्क हटाएँ?';
+
+  @override
+  String get chatAudioViewCover => 'कवर देखें';
 }

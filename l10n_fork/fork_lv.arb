@@ -363,5 +363,6 @@
     "personaBulkNowMentionableByNobody": "{count, plural, zero {{count} personas tagad nevar pieminēt neviens} one {{count} personu tagad nevar pieminēt neviens} other {{count} personas tagad nevar pieminēt neviens}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, zero {{count} personu pieminējumi tagad atbilst redzamībai} one {{count} personas pieminējumi tagad atbilst redzamībai} other {{count} personu pieminējumi tagad atbilst redzamībai}}",
     "personaNotMentionable": "Neviens neredz šo personu pieminējumu ieteikumos",
-    "bookmarkRemoveConfirmDescription": "Noņemt šo grāmatzīmi?"
+    "bookmarkRemoveConfirmDescription": "Noņemt šo grāmatzīmi?",
+    "chatAudioViewCover": "Skatīt vāciņu"
 }

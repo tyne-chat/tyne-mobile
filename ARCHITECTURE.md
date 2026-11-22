@@ -184,6 +184,14 @@ its media service from any engine (tyne-chat/tyne#210).
   per connection, as the web does (`core/gateway/fork_member_confirmation.dart`, guide in
   `lib/core/gateway/AGENTS.md`). A community profile stores the member it brings
   (`shared/providers/fork_profile_member.dart`).
+- **Audio player** (tyne-chat/tyne#873): audio attachments play in the fork's card
+  (`features/chat/presentation/widgets/attachments/attachment_audio_card_fork.dart`, one hand-over line
+  in upstream's `attachment_audio.dart`): the name with its extension always shown, the server's
+  waveform as the seek bar, and the embedded cover the server kept (flag `HAS_COVER`, served with
+  `cover=1`; `features/chat/utils/attachments/attachment_cover_fork.dart`), which opens in a viewer and
+  is the lock-screen artwork (`core/audio/chat_attachment/chat_attachment_audio_media_item.dart`). A
+  pasted link to an audio file (an embed) loads the linked file's waveform once, with `waveform=1`
+  (`attachment_linked_waveform_fork.dart`). The server side is in tyne's `ARCHITECTURE.md`.
 - **Instance defaults:** Tyne's instance as the default, upstream's hosts treated as ordinary instances,
   the server-list buttons.
 - **Updater** (`core/updater`), **inline timestamps** (picker sheet, composer chips, message pills),

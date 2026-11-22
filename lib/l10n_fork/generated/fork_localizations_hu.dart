@@ -1408,4 +1408,7 @@ class ForkLocalizationsHu extends ForkLocalizations {
   @override
   String get bookmarkRemoveConfirmDescription =>
       'Eltávolítod ezt az üzenetet a mentett üzenetek közül?';
+
+  @override
+  String get chatAudioViewCover => 'Borító megtekintése';
 }

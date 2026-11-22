@@ -1434,4 +1434,7 @@ class ForkLocalizationsSl extends ForkLocalizations {
   @override
   String get bookmarkRemoveConfirmDescription =>
       'Želite odstraniti ta zaznamek?';
+
+  @override
+  String get chatAudioViewCover => 'Prikaži naslovnico';
 }
