@@ -84,7 +84,10 @@ froze the panel on the previous conversation.
 - **Wire text, not display text.** The field shows inline tokens (mentions, emoji, timestamp chips);
   `ComposerMentionController.toWireText()` is what is measured, stored as the draft and sent.
 - **The send order** in `_onSendPressed` matters: commands → slowmode → a lone `\\` → persona →
-  `_confirmMentionsIfNeeded` (@everyone, large roles) → reset → `sendMessage`.
+  `_confirmMentionsIfNeeded` (@everyone, large roles) → reset → `sendMessage`. Until the reset the
+  composer still holds the text, so a second tap on Send reads it and sends it again: nothing
+  before the reset may wait for a request (tyne-chat/tyne#882). The fork's steps change state on
+  the device and leave their saves running.
 - **Outside widgets reach the composer only through the pending providers**
   (`pendingEmojiInsertProvider`, `pendingGifSelectionProvider`, `pendingStickerSelectionProvider`,
   `pendingFavoriteMemeSelectionProvider`, `pendingTimestampInsertProvider`), which `ChannelTextarea`
@@ -122,7 +125,8 @@ froze the panel on the previous conversation.
   and forum-post creation. It matches tags against the persona selected for the channel
   (`latchedIdFor`), applies the side effects (moving the selection in `last` mode, clearing it on
   `\\`, re-pointing the channel's signals) and returns the text without its tag plus a local
-  `personaData` map. Only the persona's id goes on the wire (`persona_id`); the map just draws the
+  `personaData` map. A selection it moves changes on the device at once; its save
+  (`PUT …/personas/channel-states/:id` with personas per channel) is not waited for. Only the persona's id goes on the wire (`persona_id`); the map just draws the
   pending row. Voice messages use the selection only.
 - **Before the personas load** (tyne-chat/tyne#30): when the persona list, or with the per-channel
   scope the per-channel selections, has not loaded, a message that could go out as a persona waits
