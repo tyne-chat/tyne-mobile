@@ -6,8 +6,8 @@
 		{
 			"layers": [
 				{
-					"image-name": "tyne-glyph.svg",
-					"name": "Glyph"
+					"image-name": "Vector.svg",
+					"name": "Vector"
 				}
 			],
 			"shadow": {
@@ -15,15 +15,13 @@
 				"opacity": 0.5
 			},
 			"translucency": {
-				"enabled": false,
+				"enabled": true,
 				"value": 0.5
 			}
 		}
 	],
 	"supported-platforms": {
-		"circles": [
-			"watchOS"
-		],
+		"circles": ["watchOS"],
 		"squares": "shared"
 	}
 }
