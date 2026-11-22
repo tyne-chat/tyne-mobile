@@ -1418,4 +1418,7 @@ class ForkLocalizationsHr extends ForkLocalizations {
 
   @override
   String get bookmarkRemoveConfirmDescription => 'Ukloniti ovu oznaku?';
+
+  @override
+  String get chatAudioViewCover => 'Prikaži omot';
 }

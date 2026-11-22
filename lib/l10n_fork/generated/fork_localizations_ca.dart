@@ -1435,4 +1435,7 @@ class ForkLocalizationsCa extends ForkLocalizations {
   @override
   String get bookmarkRemoveConfirmDescription =>
       'Vols suprimir aquest marcador?';
+
+  @override
+  String get chatAudioViewCover => 'Mostra la portada';
 }

@@ -1403,4 +1403,7 @@ class ForkLocalizationsSv extends ForkLocalizations {
 
   @override
   String get bookmarkRemoveConfirmDescription => 'Ta bort det här bokmärket?';
+
+  @override
+  String get chatAudioViewCover => 'Visa omslag';
 }

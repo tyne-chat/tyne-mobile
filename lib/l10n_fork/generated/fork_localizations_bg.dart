@@ -1419,4 +1419,7 @@ class ForkLocalizationsBg extends ForkLocalizations {
   @override
   String get bookmarkRemoveConfirmDescription =>
       'Да се премахне ли тази отметка?';
+
+  @override
+  String get chatAudioViewCover => 'Преглед на обложката';
 }

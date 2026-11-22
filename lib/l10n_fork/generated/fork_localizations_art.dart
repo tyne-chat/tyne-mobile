@@ -1403,4 +1403,7 @@ class ForkLocalizationsArt extends ForkLocalizations {
   @override
   String get bookmarkRemoveConfirmDescription =>
       'sina wile ala wile weka e toki awen ni?';
+
+  @override
+  String get chatAudioViewCover => 'lukin e sitelen lawa';
 }

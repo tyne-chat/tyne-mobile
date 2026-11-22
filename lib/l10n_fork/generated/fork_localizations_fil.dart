@@ -1416,4 +1416,7 @@ class ForkLocalizationsFil extends ForkLocalizations {
 
   @override
   String get bookmarkRemoveConfirmDescription => 'Alisin ang bookmark na ito?';
+
+  @override
+  String get chatAudioViewCover => 'Tingnan ang cover';
 }

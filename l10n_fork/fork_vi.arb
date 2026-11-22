@@ -363,5 +363,6 @@
     "personaBulkNowMentionableByNobody": "{count, plural, other {Giờ không ai có thể nhắc đến {count} persona}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, other {Việc nhắc đến {count} persona giờ theo Độ rõ}}",
     "personaNotMentionable": "Không ai thấy persona này trong gợi ý nhắc đến",
-    "bookmarkRemoveConfirmDescription": "Bỏ lưu tin nhắn này?"
+    "bookmarkRemoveConfirmDescription": "Bỏ lưu tin nhắn này?",
+    "chatAudioViewCover": "Xem ảnh bìa"
 }

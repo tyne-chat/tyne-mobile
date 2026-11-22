@@ -363,5 +363,6 @@
     "personaBulkNowMentionableByNobody": "{count, plural, one {{count} परसोना को अब कोई मेंशन नहीं कर सकता} other {{count} परसोना को अब कोई मेंशन नहीं कर सकता}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, one {{count} परसोना के मेंशन अब दृश्यता के अनुसार हैं} other {{count} परसोना के मेंशन अब दृश्यता के अनुसार हैं}}",
     "personaNotMentionable": "मेंशन सुझावों में यह परसोना किसी को नहीं दिखता",
-    "bookmarkRemoveConfirmDescription": "यह बुकमार्क हटाएँ?"
+    "bookmarkRemoveConfirmDescription": "यह बुकमार्क हटाएँ?",
+    "chatAudioViewCover": "कवर देखें"
 }

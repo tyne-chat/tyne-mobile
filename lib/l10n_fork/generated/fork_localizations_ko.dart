@@ -1354,4 +1354,7 @@ class ForkLocalizationsKo extends ForkLocalizations {
 
   @override
   String get bookmarkRemoveConfirmDescription => '이 북마크를 삭제할까요?';
+
+  @override
+  String get chatAudioViewCover => '커버 보기';
 }

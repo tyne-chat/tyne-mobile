@@ -1428,4 +1428,7 @@ class ForkLocalizationsFr extends ForkLocalizations {
   @override
   String get bookmarkRemoveConfirmDescription =>
       'Retirer ce message des messages enregistrés ?';
+
+  @override
+  String get chatAudioViewCover => 'Afficher la pochette';
 }
