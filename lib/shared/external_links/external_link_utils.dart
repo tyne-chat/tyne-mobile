@@ -1,5 +1,8 @@
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
+// Fork imports.
+import 'package:fluxer_app/shared/external_links/external_link_utils_fork.dart';
+
 const implicitlyTrustedDomains = <String>[
   'fluxer.com',
   '*.fluxer.com',
@@ -32,6 +35,11 @@ bool isTrustedDomain(
   }
 
   if (currentHostname.isNotEmpty && hostname == currentHostname) {
+    return true;
+  }
+
+  // Fork: the instance's own hosts, as the web app trusts them (tyne-chat/tyne#875).
+  if (forkIsInstanceHost(hostname)) {
     return true;
   }
 
