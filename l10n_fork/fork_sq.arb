@@ -363,5 +363,6 @@
     "personaBulkNowMentionableByNobody": "{count, plural, one {{count} personë nuk mund të përmendet më nga askush} other {{count} persona nuk mund të përmenden më nga askush}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, one {Për përmendjet, {count} personë tani ndjek dukshmërinë} other {Për përmendjet, {count} persona tani ndjekin dukshmërinë}}",
     "personaNotMentionable": "Kjo personë nuk i shfaqet askujt te sugjerimet e përmendjeve",
-    "bookmarkRemoveConfirmDescription": "Të hiqet ky faqerojtës?"
+    "bookmarkRemoveConfirmDescription": "Të hiqet ky faqerojtës?",
+    "chatAudioViewCover": "Shikimi i kopertinës"
 }

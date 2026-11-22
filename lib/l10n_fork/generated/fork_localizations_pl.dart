@@ -1437,4 +1437,7 @@ class ForkLocalizationsPl extends ForkLocalizations {
 
   @override
   String get bookmarkRemoveConfirmDescription => 'Usunąć tę zakładkę?';
+
+  @override
+  String get chatAudioViewCover => 'Pokaż okładkę';
 }

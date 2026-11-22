@@ -1441,4 +1441,7 @@ class ForkLocalizationsUk extends ForkLocalizations {
   @override
   String get bookmarkRemoveConfirmDescription =>
       'Видалити це повідомлення із закладок?';
+
+  @override
+  String get chatAudioViewCover => 'Переглянути обкладинку';
 }

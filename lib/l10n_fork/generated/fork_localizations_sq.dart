@@ -1405,4 +1405,7 @@ class ForkLocalizationsSq extends ForkLocalizations {
 
   @override
   String get bookmarkRemoveConfirmDescription => 'Të hiqet ky faqerojtës?';
+
+  @override
+  String get chatAudioViewCover => 'Shikimi i kopertinës';
 }

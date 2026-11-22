@@ -363,5 +363,6 @@
     "personaBulkNowMentionableByNobody": "{count, plural, one {{count} persona já não pode ser mencionada por ninguém} many {{count} personas já não podem ser mencionadas por ninguém} other {{count} personas já não podem ser mencionadas por ninguém}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, one {As menções de {count} persona seguem agora a Visibilidade} many {As menções de {count} personas seguem agora a Visibilidade} other {As menções de {count} personas seguem agora a Visibilidade}}",
     "personaNotMentionable": "Esta persona não aparece a ninguém nas sugestões de menção",
-    "bookmarkRemoveConfirmDescription": "Remover este marcador?"
+    "bookmarkRemoveConfirmDescription": "Remover este marcador?",
+    "chatAudioViewCover": "Ver capa"
 }

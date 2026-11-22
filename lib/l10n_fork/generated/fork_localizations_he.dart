@@ -1402,4 +1402,7 @@ class ForkLocalizationsHe extends ForkLocalizations {
 
   @override
   String get bookmarkRemoveConfirmDescription => 'להסיר את הסימנייה הזו?';
+
+  @override
+  String get chatAudioViewCover => 'הצגת העטיפה';
 }

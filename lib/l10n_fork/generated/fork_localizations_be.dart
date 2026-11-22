@@ -1439,4 +1439,7 @@ class ForkLocalizationsBe extends ForkLocalizations {
 
   @override
   String get bookmarkRemoveConfirmDescription => 'Выдаліць гэтую закладку?';
+
+  @override
+  String get chatAudioViewCover => 'Паказаць вокладку';
 }

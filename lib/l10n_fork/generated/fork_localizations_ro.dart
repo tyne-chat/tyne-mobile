@@ -1433,4 +1433,7 @@ class ForkLocalizationsRo extends ForkLocalizations {
   @override
   String get bookmarkRemoveConfirmDescription =>
       'Elimini acest mesaj din mesajele salvate?';
+
+  @override
+  String get chatAudioViewCover => 'Vezi coperta';
 }

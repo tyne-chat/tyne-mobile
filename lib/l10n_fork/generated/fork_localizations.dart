@@ -2368,6 +2368,12 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'Remove this bookmark?'**
   String get bookmarkRemoveConfirmDescription;
+
+  /// Accessible label of the cover art in an audio attachment player; tapping it opens the cover large (tyne-chat/tyne#873). Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'View cover'**
+  String get chatAudioViewCover;
 }
 
 class _ForkLocalizationsDelegate
