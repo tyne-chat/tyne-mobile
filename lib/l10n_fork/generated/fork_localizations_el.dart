@@ -1418,4 +1418,7 @@ class ForkLocalizationsEl extends ForkLocalizations {
   @override
   String get bookmarkRemoveConfirmDescription =>
       'Κατάργηση αυτού του σελιδοδείκτη;';
+
+  @override
+  String get chatAudioViewCover => 'Προβολή εξωφύλλου';
 }

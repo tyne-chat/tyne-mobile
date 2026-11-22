@@ -1436,4 +1436,7 @@ class ForkLocalizationsSk extends ForkLocalizations {
 
   @override
   String get bookmarkRemoveConfirmDescription => 'Odstrániť túto záložku?';
+
+  @override
+  String get chatAudioViewCover => 'Zobraziť obal';
 }

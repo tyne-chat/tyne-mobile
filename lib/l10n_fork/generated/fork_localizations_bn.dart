@@ -1403,4 +1403,7 @@ class ForkLocalizationsBn extends ForkLocalizations {
 
   @override
   String get bookmarkRemoveConfirmDescription => 'এই বুকমার্কটি সরিয়ে ফেলবেন?';
+
+  @override
+  String get chatAudioViewCover => 'কভার দেখুন';
 }

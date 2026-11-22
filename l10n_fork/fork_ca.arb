@@ -363,5 +363,6 @@
     "personaBulkNowMentionableByNobody": "Ara ningú no pot esmentar {count, plural, one {{count} persona} many {{count} persones} other {{count} persones}}",
     "personaBulkNowMentionableByFollowing": "Les mencions de {count, plural, one {{count} persona} many {{count} persones} other {{count} persones}} ara segueixen la visibilitat",
     "personaNotMentionable": "Ningú no veu aquesta persona als suggeriments de mencions",
-    "bookmarkRemoveConfirmDescription": "Vols suprimir aquest marcador?"
+    "bookmarkRemoveConfirmDescription": "Vols suprimir aquest marcador?",
+    "chatAudioViewCover": "Mostra la portada"
 }

@@ -1416,4 +1416,7 @@ class ForkLocalizationsIt extends ForkLocalizations {
   @override
   String get bookmarkRemoveConfirmDescription =>
       'Rimuovere questo messaggio dai messaggi salvati?';
+
+  @override
+  String get chatAudioViewCover => 'Visualizza copertina';
 }

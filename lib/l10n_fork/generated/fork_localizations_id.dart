@@ -1385,4 +1385,7 @@ class ForkLocalizationsId extends ForkLocalizations {
 
   @override
   String get bookmarkRemoveConfirmDescription => 'Hapus bookmark ini?';
+
+  @override
+  String get chatAudioViewCover => 'Lihat sampul';
 }

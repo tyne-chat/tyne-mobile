@@ -1404,4 +1404,7 @@ class ForkLocalizationsFi extends ForkLocalizations {
   @override
   String get bookmarkRemoveConfirmDescription =>
       'Poistetaanko tämä kirjanmerkki?';
+
+  @override
+  String get chatAudioViewCover => 'Näytä kansikuva';
 }

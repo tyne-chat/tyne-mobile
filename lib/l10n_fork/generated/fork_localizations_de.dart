@@ -1414,4 +1414,7 @@ class ForkLocalizationsDe extends ForkLocalizations {
   @override
   String get bookmarkRemoveConfirmDescription =>
       'Dieses Lesezeichen entfernen?';
+
+  @override
+  String get chatAudioViewCover => 'Cover anzeigen';
 }

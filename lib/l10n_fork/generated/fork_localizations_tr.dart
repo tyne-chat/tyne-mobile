@@ -1395,4 +1395,7 @@ class ForkLocalizationsTr extends ForkLocalizations {
   @override
   String get bookmarkRemoveConfirmDescription =>
       'Bu yer işareti kaldırılsın mı?';
+
+  @override
+  String get chatAudioViewCover => 'Kapağı görüntüle';
 }

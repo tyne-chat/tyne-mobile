@@ -363,5 +363,6 @@
     "personaBulkNowMentionableByNobody": "Mentions of {count, plural, one {{count} persona} other {{count} personas}} now allowed by nobody",
     "personaBulkNowMentionableByFollowing": "Mentions of {count, plural, one {{count} persona} other {{count} personas}} now follow Visibility",
     "personaNotMentionable": "Nobody gets this persona in mention suggestions",
-    "bookmarkRemoveConfirmDescription": "Remove this bookmark?"
+    "bookmarkRemoveConfirmDescription": "Remove this bookmark?",
+    "chatAudioViewCover": "View cover"
 }

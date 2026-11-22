@@ -1417,4 +1417,7 @@ class ForkLocalizationsLv extends ForkLocalizations {
 
   @override
   String get bookmarkRemoveConfirmDescription => 'Noņemt šo grāmatzīmi?';
+
+  @override
+  String get chatAudioViewCover => 'Skatīt vāciņu';
 }

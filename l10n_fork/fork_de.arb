@@ -363,5 +363,6 @@
     "personaBulkNowMentionableByNobody": "Erwähnen von {count, plural, one {{count} Persona} other {{count} Personas}} jetzt für niemanden erlaubt",
     "personaBulkNowMentionableByFollowing": "Erwähnen von {count, plural, one {{count} Persona} other {{count} Personas}} folgt jetzt der Sichtbarkeit",
     "personaNotMentionable": "Diese Persona erscheint bei niemandem in Erwähnungsvorschlägen",
-    "bookmarkRemoveConfirmDescription": "Dieses Lesezeichen entfernen?"
+    "bookmarkRemoveConfirmDescription": "Dieses Lesezeichen entfernen?",
+    "chatAudioViewCover": "Cover anzeigen"
 }

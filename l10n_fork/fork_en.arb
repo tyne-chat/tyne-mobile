@@ -1850,5 +1850,9 @@
     "bookmarkRemoveConfirmDescription": "Remove this bookmark?",
     "@bookmarkRemoveConfirmDescription": {
         "description": "Body of the confirmation before a bookmark is removed, as unpinning a message asks first (tyne-chat/tyne#742). Its title and button are upstream’s \"Remove bookmark\". Same wording as the web app’s."
+    },
+    "chatAudioViewCover": "View cover",
+    "@chatAudioViewCover": {
+        "description": "Accessible label of the cover art in an audio attachment player; tapping it opens the cover large (tyne-chat/tyne#873). Same wording as the web app's."
     }
 }
