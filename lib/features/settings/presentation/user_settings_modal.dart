@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/app_diagnostic_clipboard_text.dart';
+// ignore: unused_import // Fork: upstream's import, unused since the fork's changes.
 import 'package:fluxer_app/core/constants/external_urls.dart';
 import 'package:fluxer_app/core/deep_links/user_settings_deep_link.dart';
 import 'package:fluxer_app/core/instance/instance_constants.dart';
@@ -75,6 +76,7 @@ import 'package:fluxer_app/shared/utils/relative_time.dart';
 import 'package:fluxer_app/core/push/fork_push_sign_out_cleanup.dart';
 import 'package:fluxer_app/core/updater/app_update_provider.dart';
 import 'package:fluxer_app/core/updater/app_update_service.dart';
+import 'package:fluxer_app/core/updater/fork_whats_new_url.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_persona_settings.dart';
 import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 
@@ -642,7 +644,12 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
   }
 
   Future<void> _openWhatsNew() async {
-    await handleExternalLinkTap(context, ExternalUrls.fluxerPatchNotes);
+    // Fork: Tyne's release notes, not Fluxer's patch notes (tyne-chat/tyne#737).
+    final String whatsNewUrl = await forkWhatsNewUrl();
+    if (!mounted) {
+      return;
+    }
+    await handleExternalLinkTap(context, whatsNewUrl);
   }
 
   Future<void> _openLegalUrl(String? url) async {
@@ -1004,7 +1011,12 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
   }
 
   Future<void> _openWhatsNew() async {
-    await handleExternalLinkTap(context, ExternalUrls.fluxerPatchNotes);
+    // Fork: Tyne's release notes, not Fluxer's patch notes (tyne-chat/tyne#737).
+    final String whatsNewUrl = await forkWhatsNewUrl();
+    if (!mounted) {
+      return;
+    }
+    await handleExternalLinkTap(context, whatsNewUrl);
   }
 
   Future<void> _openLegalUrl(String? url) async {
