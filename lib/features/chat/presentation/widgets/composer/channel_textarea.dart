@@ -2391,9 +2391,13 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         final String clearedMessage = FluxerLocalizations.of(
           context,
         ).fork.personaActiveCleared;
-        await ref
-            .read(activePersonaProvider.notifier)
-            .unlatch(channelId: channelId);
+        // Not waited for: a second tap would find `\\` still there and send
+        // it (tyne-chat/tyne#882).
+        unawaited(
+          ref
+              .read(activePersonaProvider.notifier)
+              .unlatch(channelId: channelId),
+        );
         _clearSlashSession();
         _controller.clear();
         vm.updateMessageText('');
