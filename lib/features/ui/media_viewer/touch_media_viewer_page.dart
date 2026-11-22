@@ -2,9 +2,15 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:fluxer_app/features/ui/media_viewer/media_viewer_dismissible.dart';
+// ignore: unused_import // Fork: upstream's import, unused since the fork's changes.
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
+
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/ui/media_viewer/media_viewer_interactive_viewer_fork.dart';
+import 'package:fluxer_app/features/ui/media_viewer/media_viewer_page_gestures_fork.dart';
 
 class TouchMediaViewerPage extends StatefulWidget {
   const TouchMediaViewerPage({
@@ -181,7 +187,7 @@ class _TouchMediaViewerPageState extends State<TouchMediaViewerPage>
 
   @override
   Widget build(BuildContext context) {
-    return FluxerGestureDetector(
+    return ForkMediaViewerPageGestures(
       behavior: HitTestBehavior.translucent,
       onDoubleTapDown: _handleDoubleTapDown,
       onLongPress: widget.onLongPress == null ? null : _handleLongPress,
@@ -190,7 +196,7 @@ class _TouchMediaViewerPageState extends State<TouchMediaViewerPage>
         onDismissProgress: _handleDismissProgress,
         onDismissAnimatingChanged: _handleDismissAnimatingChanged,
         onClose: widget.onClose,
-        child: InteractiveViewer(
+        child: ForkMediaViewerInteractiveViewer(
           transformationController: widget.transformationController,
           minScale: 1,
           maxScale: widget.maxScale,
