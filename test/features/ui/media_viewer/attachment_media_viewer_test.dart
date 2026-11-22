@@ -706,3 +706,16 @@ List<bool> _disableAnimations(WidgetTester tester, BoxFit fit) {
       .map(MediaQuery.disableAnimationsOf)
       .toList();
 }
+
+// Fork: upstream's helpers that attachment_media_viewer_fork_test.dart uses,
+// named here so they stay private and are not copied.
+// ignore: unreachable_from_main // Fork: used by attachment_media_viewer_fork_test.dart.
+typedef ForkUpstreamHelpers = ({
+  Widget Function(Widget child) touchApp,
+  AttachmentMediaViewerItem landscapePhoto,
+});
+// ignore: unreachable_from_main // Fork: used by attachment_media_viewer_fork_test.dart.
+const ForkUpstreamHelpers forkUpstream = (
+  touchApp: _touchApp,
+  landscapePhoto: _landscapePhoto,
+);
