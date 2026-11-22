@@ -1439,4 +1439,7 @@ class ForkLocalizationsRu extends ForkLocalizations {
   @override
   String get bookmarkRemoveConfirmDescription =>
       'Удалить это сообщение из закладок?';
+
+  @override
+  String get chatAudioViewCover => 'Показать обложку';
 }

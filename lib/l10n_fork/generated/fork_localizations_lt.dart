@@ -1435,4 +1435,7 @@ class ForkLocalizationsLt extends ForkLocalizations {
 
   @override
   String get bookmarkRemoveConfirmDescription => 'Pašalinti šią žymę?';
+
+  @override
+  String get chatAudioViewCover => 'Rodyti viršelį';
 }

@@ -1399,4 +1399,7 @@ class ForkLocalizationsDa extends ForkLocalizations {
   @override
   String get bookmarkRemoveConfirmDescription =>
       'Fjern denne besked fra gemte beskeder?';
+
+  @override
+  String get chatAudioViewCover => 'Vis cover';
 }

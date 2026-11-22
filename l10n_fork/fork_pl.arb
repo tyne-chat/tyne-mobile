@@ -363,5 +363,6 @@
     "personaBulkNowMentionableByNobody": "{count, plural, one {{count} persony nie może teraz wspominać nikt} few {{count} person nie może teraz wspominać nikt} many {{count} person nie może teraz wspominać nikt} other {{count} persony nie może teraz wspominać nikt}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, one {Wzmianki {count} persony zależą teraz od Widoczności} few {Wzmianki {count} person zależą teraz od Widoczności} many {Wzmianki {count} person zależą teraz od Widoczności} other {Wzmianki {count} persony zależą teraz od Widoczności}}",
     "personaNotMentionable": "Nikt nie dostaje tej persony w podpowiedziach wzmianek",
-    "bookmarkRemoveConfirmDescription": "Usunąć tę zakładkę?"
+    "bookmarkRemoveConfirmDescription": "Usunąć tę zakładkę?",
+    "chatAudioViewCover": "Pokaż okładkę"
 }

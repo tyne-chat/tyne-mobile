@@ -1405,4 +1405,7 @@ class ForkLocalizationsNl extends ForkLocalizations {
   @override
   String get bookmarkRemoveConfirmDescription =>
       'Dit bericht verwijderen uit opgeslagen berichten?';
+
+  @override
+  String get chatAudioViewCover => 'Hoes bekijken';
 }

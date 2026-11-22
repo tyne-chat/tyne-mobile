@@ -1343,6 +1343,9 @@ class ForkLocalizationsZh extends ForkLocalizations {
 
   @override
   String get bookmarkRemoveConfirmDescription => '要移除此书签吗？';
+
+  @override
+  String get chatAudioViewCover => '查看封面';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -2684,4 +2687,7 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get bookmarkRemoveConfirmDescription => '要移除此書籤嗎？';
+
+  @override
+  String get chatAudioViewCover => '檢視封面';
 }

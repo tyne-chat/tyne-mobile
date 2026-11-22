@@ -1356,4 +1356,7 @@ class ForkLocalizationsJa extends ForkLocalizations {
 
   @override
   String get bookmarkRemoveConfirmDescription => 'このブックマークを削除しますか？';
+
+  @override
+  String get chatAudioViewCover => 'ジャケットを表示';
 }

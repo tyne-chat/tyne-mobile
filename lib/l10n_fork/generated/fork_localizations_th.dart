@@ -1374,4 +1374,7 @@ class ForkLocalizationsTh extends ForkLocalizations {
 
   @override
   String get bookmarkRemoveConfirmDescription => 'ลบบุ๊กมาร์กนี้ใช่ไหม';
+
+  @override
+  String get chatAudioViewCover => 'ดูภาพปก';
 }

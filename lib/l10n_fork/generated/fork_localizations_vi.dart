@@ -1384,4 +1384,7 @@ class ForkLocalizationsVi extends ForkLocalizations {
 
   @override
   String get bookmarkRemoveConfirmDescription => 'Bỏ lưu tin nhắn này?';
+
+  @override
+  String get chatAudioViewCover => 'Xem ảnh bìa';
 }
