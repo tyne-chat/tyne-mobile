@@ -1454,4 +1454,7 @@ class ForkLocalizationsAr extends ForkLocalizations {
   @override
   String get bookmarkRemoveConfirmDescription =>
       'هل تريد إزالة هذه الإشارة المرجعية؟';
+
+  @override
+  String get chatAudioViewCover => 'عرض الغلاف';
 }

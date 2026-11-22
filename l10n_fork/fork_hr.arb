@@ -363,5 +363,6 @@
     "personaBulkNowMentionableByNobody": "{count, plural, one {{count} personu sada ne može spominjati nitko} few {{count} persone sada ne može spominjati nitko} other {{count} persona sada ne može spominjati nitko}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, one {Spominjanja {count} persone sada prate Vidljivost} few {Spominjanja {count} persone sada prate Vidljivost} other {Spominjanja {count} persona sada prate Vidljivost}}",
     "personaNotMentionable": "Nitko ne dobiva ovu personu u prijedlozima za spominjanje",
-    "bookmarkRemoveConfirmDescription": "Ukloniti ovu oznaku?"
+    "bookmarkRemoveConfirmDescription": "Ukloniti ovu oznaku?",
+    "chatAudioViewCover": "Prikaži omot"
 }

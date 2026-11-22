@@ -1393,6 +1393,9 @@ class ForkLocalizationsEn extends ForkLocalizations {
 
   @override
   String get bookmarkRemoveConfirmDescription => 'Remove this bookmark?';
+
+  @override
+  String get chatAudioViewCover => 'View cover';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -2784,6 +2787,9 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
 
   @override
   String get bookmarkRemoveConfirmDescription => 'Remove this bookmark?';
+
+  @override
+  String get chatAudioViewCover => 'View cover';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -4175,4 +4181,7 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
 
   @override
   String get bookmarkRemoveConfirmDescription => 'Remove this bookmark?';
+
+  @override
+  String get chatAudioViewCover => 'View cover';
 }

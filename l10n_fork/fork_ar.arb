@@ -363,5 +363,6 @@
     "personaBulkNowMentionableByNobody": "أصبحت الإشارة إلى {count, plural, zero {{count} شخصية} one {شخصية واحدة} two {شخصيتين} few {{count} شخصيات} many {{count} شخصية} other {{count} شخصية}} ممنوعة على الجميع",
     "personaBulkNowMentionableByFollowing": "أصبحت الإشارة إلى {count, plural, zero {{count} شخصية} one {شخصية واحدة} two {شخصيتين} few {{count} شخصيات} many {{count} شخصية} other {{count} شخصية}} تتبع الظهور",
     "personaNotMentionable": "لا تظهر هذه الشخصية لأحد في اقتراحات الإشارة",
-    "bookmarkRemoveConfirmDescription": "هل تريد إزالة هذه الإشارة المرجعية؟"
+    "bookmarkRemoveConfirmDescription": "هل تريد إزالة هذه الإشارة المرجعية؟",
+    "chatAudioViewCover": "عرض الغلاف"
 }

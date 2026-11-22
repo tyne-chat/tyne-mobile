@@ -1401,4 +1401,7 @@ class ForkLocalizationsNb extends ForkLocalizations {
   @override
   String get bookmarkRemoveConfirmDescription =>
       'Fjerne denne meldingen fra lagrede meldinger?';
+
+  @override
+  String get chatAudioViewCover => 'Vis omslag';
 }

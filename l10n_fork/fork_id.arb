@@ -363,5 +363,6 @@
     "personaBulkNowMentionableByNobody": "{count, plural, other {{count} persona kini tidak bisa disebut oleh siapa pun}}",
     "personaBulkNowMentionableByFollowing": "{count, plural, other {Sebutan {count} persona kini mengikuti Visibilitas}}",
     "personaNotMentionable": "Tidak ada yang mendapat persona ini di saran sebutan",
-    "bookmarkRemoveConfirmDescription": "Hapus bookmark ini?"
+    "bookmarkRemoveConfirmDescription": "Hapus bookmark ini?",
+    "chatAudioViewCover": "Lihat sampul"
 }
