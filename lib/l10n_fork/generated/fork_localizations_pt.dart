@@ -20,7 +20,7 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Substitui o botão de mensagem de voz na entrada de texto por um seletor rápido para navegação veloz';
+      'Substitui o botão de mensagem de voz na caixa de mensagem por um botão do seletor rápido, para navegares mais depressa';
 
   @override
   String get userSettingsCheckForUpdates => 'Procurar atualizações';
@@ -53,7 +53,7 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String get personaSelectTitle => 'Selecionar persona';
 
   @override
-  String get personaSettingsHeader => 'Configurações de personas';
+  String get personaSettingsHeader => 'Definições de personas';
 
   @override
   String get personaManageAction => 'Gerir';
@@ -112,7 +112,7 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String get personaPronounsLabel => 'Pronomes';
 
   @override
-  String get personaPronounsHint => 'ex. ela/ele';
+  String get personaPronounsHint => 'ex.: ela/ele';
 
   @override
   String get personaAliasesLabel => 'Alcunhas';
@@ -132,7 +132,7 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String get personaRemoveAlias => 'Remover alcunha';
 
   @override
-  String get personaBioHint => 'Conta aos outros sobre esta persona...';
+  String get personaBioHint => 'Conta aos outros algo sobre esta persona...';
 
   @override
   String get personaUpdatedToast => 'Persona atualizada';
@@ -150,36 +150,36 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String personaSendingAsTag(String name) {
-    return 'Enviando como $name (Correspondência por tag)';
+    return 'A enviar como $name (correspondência por tag)';
   }
 
   @override
   String personaSendingAsLatched(String name) {
-    return 'Enviando como $name (Fixada)';
+    return 'A enviar como $name (fixada)';
   }
 
   @override
   String personaSendingAs(String name) {
-    return 'Enviando como $name';
+    return 'A enviar como $name';
   }
 
   @override
   String personaPostingAs(String name) {
-    return 'Publicando como $name';
+    return 'A publicar como $name';
   }
 
   @override
   String personaSendingAsRoot(String username) {
-    return 'Enviando como @$username';
+    return 'A enviar como @$username';
   }
 
   @override
   String get personaSendHeldNotLoaded =>
-      'Não enviado: suas personas ainda não foram carregadas.';
+      'Não enviada: as tuas personas ainda não foram carregadas.';
 
   @override
   String personaSendHeldAskAccount(String username) {
-    return 'Não enviado: suas personas ainda não foram carregadas. Enviar como @$username?';
+    return 'Não enviada: as tuas personas ainda não foram carregadas. Enviar antes como @$username?';
   }
 
   @override
@@ -196,7 +196,7 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get personaSettingsDescription =>
-      'Configura o teu modo de persona ativo, a tua tag de exibição personalizada e gere personas individuais.';
+      'Configura o teu modo de persona ativa e a tua tag de exibição personalizada, e gere cada uma das tuas personas.';
 
   @override
   String get personaDisplayTagSection => 'Tag de exibição';
@@ -209,7 +209,7 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String get personaDisplayTagLabel => 'Texto da tag de exibição';
 
   @override
-  String get personaDisplayTagHint => 'ex. SYS';
+  String get personaDisplayTagHint => 'ex.: SYS';
 
   @override
   String get personaDisplayTagIconLabel => 'Ícone da tag de exibição';
@@ -237,7 +237,7 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String get personaAddButton => 'Adicionar persona';
 
   @override
-  String get personaActiveBadge => 'Ativo';
+  String get personaActiveBadge => 'Ativa';
 
   @override
   String get personaMakeActive => 'Tornar ativa';
@@ -247,7 +247,7 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Tens a certeza de que desejas eliminar \"$name\"? Podes restaurar personas eliminadas mais tarde em Configurações › Personas, em Personas eliminadas.';
+    return 'Tens a certeza de que desejas eliminar \"$name\"? Podes restaurar personas eliminadas mais tarde em Definições › Personas, em Personas eliminadas.';
   }
 
   @override
@@ -304,11 +304,11 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get personaNameRequired =>
-      'Introduza um nome de exibição para a persona';
+      'Introduz um nome de exibição para a persona';
 
   @override
   String get personaNameTooLong =>
-      'O nome da persona deve ter 100 carateres ou menos';
+      'O nome de exibição da persona deve ter 100 carateres ou menos';
 
   @override
   String get personaTagPrefixTooLong =>
@@ -351,11 +351,11 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String get timestampPickerTimezoneLabel => 'FUSO HORÁRIO';
 
   @override
-  String get timestampPickerFormatPreviewLabel => 'PRÉVIA DO FORMATO';
+  String get timestampPickerFormatPreviewLabel => 'PRÉ-VISUALIZAÇÃO DO FORMATO';
 
   @override
   String get timestampPickerNlpPlaceholder =>
-      'ex.: amanhã às 15h, em 2 horas, agora';
+      'ex.: tomorrow at 3pm, in 2 hours, now';
 
   @override
   String get timestampPickerSearchTimezones => 'Pesquisar fusos horários...';
@@ -365,7 +365,7 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get userProfileTimezoneSettingDescription =>
-      'Usado para mostrar sua hora local em seu perfil.';
+      'Usado para mostrar a tua hora local no teu perfil.';
 
   @override
   String get userProfileTimezoneNone => 'Nenhum';
@@ -431,7 +431,7 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String get signalBarNobody => 'Ninguém está com este sinal ligado';
 
   @override
-  String get signalBarReset => 'Redefinir sinal para todos';
+  String get signalBarReset => 'Repor o sinal para todos';
 
   @override
   String signalBarTurnOff(String name) {
@@ -440,17 +440,17 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String instanceUrlHelperDefault(String domain) {
-    return 'Use $domain para a instância predefinida ou o URL exato de outra instância.';
+    return 'Usa $domain para a instância predefinida ou o URL exato de outra instância.';
   }
 
   @override
   String get instanceResetToDefault => 'Repor a instância predefinida';
 
   @override
-  String get personaScopeTitle => 'A persona se aplica a';
+  String get personaScopeTitle => 'A persona aplica-se a';
 
   @override
-  String get personaScopeGlobal => 'Em todo lugar';
+  String get personaScopeGlobal => 'Em todo o lado';
 
   @override
   String get personaScopeGlobalDescription =>
@@ -461,17 +461,17 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get personaScopeChannelDescription =>
-      'Cada canal mantém sua própria persona. Canais novos começam como sua conta.';
+      'Cada canal mantém a sua própria persona. Os canais novos começam como a tua conta.';
 
   @override
-  String get personaPickerChannelOnly => 'Somente para este canal';
+  String get personaPickerChannelOnly => 'Apenas para este canal';
 
   @override
   String get personaProfilePrivate => 'O perfil desta persona é privado.';
 
   @override
   String imageFileTooLargeMaxSize(String maxSize) {
-    return 'O arquivo de imagem é muito grande. Por favor, escolha um arquivo menor que $maxSize.';
+    return 'O ficheiro de imagem é demasiado grande. Escolhe um ficheiro com menos de $maxSize.';
   }
 
   @override
@@ -515,11 +515,11 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get crashReportingSectionDescription =>
-      'Ajude a corrigir erros no Tyne partilhando dados de falhas e desempenho. Está desativado por predefinição.';
+      'Ajuda a corrigir erros no Tyne ao partilhar dados de falhas e de desempenho. Está desativado por predefinição.';
 
   @override
   String get crashReportingDescription =>
-      'Os relatórios são enviados para o sistema de registo de erros do próprio Tyne, mesmo quando tem sessão iniciada noutro servidor. Não incluem nomes de servidores, IDs nem o conteúdo das mensagens.';
+      'Os relatórios são enviados para o sistema de registo de erros do próprio Tyne, mesmo quando tens sessão iniciada noutra instância. Não incluem nomes de instâncias, IDs nem o conteúdo das mensagens.';
 
   @override
   String get instanceOfflineTitle => 'O Tyne está offline!';
@@ -529,7 +529,7 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get instanceStatusSignalLink =>
-      'Junte-se ao nosso chat do Signal para receber novidades';
+      'Junta-te ao nosso chat do Signal para receberes novidades';
 
   @override
   String get convertEmoticonsLabel =>
@@ -545,25 +545,25 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String guildCommandOneLine(String name) {
-    return 'O que você digitar depois de /$name precisa caber em uma linha.';
+    return 'O que escreveres depois de /$name tem de caber numa linha.';
   }
 
   @override
   String get permissionCreateCommands => 'Criar comandos';
 
   @override
-  String get permissionManageCommands => 'Gerenciar comandos';
+  String get permissionManageCommands => 'Gerir comandos';
 
   @override
   String get permissionUseExternalCommands => 'Usar comandos externos';
 
   @override
   String get permissionCreateCommandsDescription =>
-      'Criar comandos para esta comunidade e editar ou excluir os seus.';
+      'Criar comandos para esta comunidade e editar ou eliminar os próprios.';
 
   @override
   String get permissionManageCommandsDescription =>
-      'Editar ou excluir os comandos de qualquer pessoa nesta comunidade.';
+      'Editar ou eliminar os comandos de qualquer pessoa nesta comunidade.';
 
   @override
   String get permissionUseExternalCommandsDescription =>
@@ -585,7 +585,7 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get guildCommandsSubtitle =>
-      'Mensagens que os membros podem publicar digitando /name.';
+      'Mensagens que os membros podem publicar ao escrever /name.';
 
   @override
   String get guildCommandsSlots => 'Espaços para comandos';
@@ -604,11 +604,11 @@ class ForkLocalizationsPt extends ForkLocalizations {
       'Esta comunidade ainda não tem comandos.';
 
   @override
-  String get guildCommandsSaved => 'Comandos salvos';
+  String get guildCommandsSaved => 'Comandos guardados';
 
   @override
   String guildCommandSaveFailed(String name, String detail) {
-    return 'Não foi possível salvar /$name: $detail';
+    return 'Não foi possível guardar /$name: $detail';
   }
 
   @override
@@ -618,18 +618,18 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String guildCommandDeleteTitle(String name) {
-    return 'Excluir /$name?';
+    return 'Eliminar /$name?';
   }
 
   @override
   String get guildCommandDeleteBody =>
-      'Isso não pode ser desfeito. As mensagens feitas com ele continuam mostrando qual comando as fez.';
+      'Isto não pode ser anulado. As mensagens feitas com ele continuam a mostrar que comando as fez.';
 
   @override
-  String get guildCommandDelete => 'Excluir';
+  String get guildCommandDelete => 'Eliminar';
 
   @override
-  String get guildCommandDeleteCommand => 'Excluir comando';
+  String get guildCommandDeleteCommand => 'Eliminar comando';
 
   @override
   String get guildCommandSectionCommand => 'Comando';
@@ -639,11 +639,11 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get guildCommandNameInvalid =>
-      'Use letras minúsculas, números, - e _, até 32 caracteres.';
+      'Usa letras minúsculas, números, - e _, até 32 carateres.';
 
   @override
   String get guildCommandNameTaken =>
-      'Outro comando ou um comando integrado já tem esse nome.';
+      'Outro comando ou um comando integrado já tem este nome.';
 
   @override
   String get guildCommandDescription => 'Descrição';
@@ -661,7 +661,7 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String get guildCommandInputRequired => 'Obrigatório';
 
   @override
-  String get guildCommandHint => 'Dica';
+  String get guildCommandHint => 'Sugestão';
 
   @override
   String get guildCommandMessage => 'Mensagem';
@@ -673,10 +673,10 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String get guildCommandInsertPerson => 'Quem usa';
 
   @override
-  String get guildCommandInsertInput => 'O que digitam';
+  String get guildCommandInsertInput => 'O que escrevem';
 
   @override
-  String get guildCommandPreview => 'Prévia';
+  String get guildCommandPreview => 'Pré-visualização';
 
   @override
   String get guildCommandSampleInput => 'Texto de exemplo';
@@ -688,12 +688,12 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String guildCommandClearBox(String name) {
-    return 'Esvazie a caixa de mensagem para usar /$name';
+    return 'Esvazia a caixa de mensagem para usar /$name';
   }
 
   @override
   String get guildCommandEmptyMessage =>
-      'Isso não publicaria nada, então o comando falharia.';
+      'Isto não publicaria nada, por isso o comando falharia.';
 
   @override
   String get guildCommandUseScriptEditor => 'Usar o editor de scripts';
@@ -723,14 +723,14 @@ class ForkLocalizationsPt extends ForkLocalizations {
   }
 
   @override
-  String get guildCommandIssueTooLong => 'O script é longo demais.';
+  String get guildCommandIssueTooLong => 'O script é demasiado longo.';
 
   @override
-  String get guildCommandIssueTooLarge => 'O script gera texto demais.';
+  String get guildCommandIssueTooLarge => 'O script gera demasiado texto.';
 
   @override
   String get guildCommandIssueTooSlow =>
-      'O script demorou demais para ser executado.';
+      'O script demorou demasiado tempo a ser executado.';
 
   @override
   String get guildCommandIssueInvalid => 'Não é possível ler esta parte.';
@@ -770,7 +770,7 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get guildCommandExampleDepends =>
-      'Mudar a mensagem conforme o que digitaram';
+      'Mudar a mensagem conforme o que escreveram';
 
   @override
   String get guildCommandExampleOneWord => 'Escolher uma palavra ao acaso';
@@ -808,20 +808,20 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String get guildCommandCounterRemove => 'Remover contador';
 
   @override
-  String get guildCommandCounterReset => 'Redefinir contagens';
+  String get guildCommandCounterReset => 'Repor contagens';
 
   @override
   String guildCommandCounterResetConfirm(String name) {
-    return 'Redefinir as contagens de $name? Isso não pode ser desfeito.';
+    return 'Repor as contagens de $name? Isto não pode ser anulado.';
   }
 
   @override
   String get guildCommandCounterNameInvalid =>
-      'Use letras minúsculas, números e _, comece com uma letra e não use um nome que os scripts já usam.';
+      'Usa letras minúsculas, números e _, a começar por uma letra, e não um nome que os scripts já usem.';
 
   @override
   String guildCommandCounterHowToUse(String variable) {
-    return 'Use em um script como $variable. Cada execução soma um primeiro, então a primeira lê 1.';
+    return 'Usa-o num script como $variable. Cada execução soma um primeiro, por isso a primeira dá 1.';
   }
 
   @override
@@ -829,7 +829,7 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get notificationsAlertEveryMessageDescription =>
-      'Quando desativado, uma conversa movimentada alerta apenas uma vez e depois é atualizada em silêncio até ser lida ou dispensada.';
+      'Quando está desativado, uma conversa movimentada alerta apenas uma vez e depois atualiza-se em silêncio até a leres ou dispensares.';
 
   @override
   String personaGalleryTitle(int count) {
@@ -984,7 +984,7 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get personaBulkConfirmDeleteBody =>
-      'Podes restaurar personas eliminadas mais tarde em Configurações › Personas, em Personas eliminadas.';
+      'Podes restaurar personas eliminadas mais tarde em Definições › Personas, em Personas eliminadas.';
 
   @override
   String personaBulkNowPublic(int count) {
