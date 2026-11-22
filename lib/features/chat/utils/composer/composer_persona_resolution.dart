@@ -159,7 +159,7 @@ Future<OutgoingMessageResolution?> _resolveOutgoingPersona(
     return OutgoingMessageResolution(text: rawText, personaData: null);
   }
   if (!_personasReady(read)) {
-    final OutgoingMessageResolution? escaped = await _escapeWithoutPersonas(
+    final OutgoingMessageResolution? escaped = _escapeWithoutPersonas(
       read,
       rawText,
       selectionChannelId,
@@ -208,21 +208,29 @@ Future<OutgoingMessageResolution?> _resolveOutgoingPersona(
     matchResult.matched ? matchResult.persona : null,
   );
 
+  // A selection the send moves changes on the device at once; its save goes
+  // on in the background. The send must not wait for it: until the caller
+  // clears the composer, a second tap on Send reads the same text and sends
+  // it again (tyne-chat/tyne#882). The message names its persona itself.
   if (matchResult.clearedLatch ||
       (matchResult.wasEscaped && activeState.mode == PersonaMode.last)) {
-    await read(
-      activePersonaProvider.notifier,
-    ).unlatch(channelId: selectionChannelId);
+    unawaited(
+      read(
+        activePersonaProvider.notifier,
+      ).unlatch(channelId: selectionChannelId),
+    );
   } else if (matchResult.matched && matchResult.persona != null) {
     unawaited(
       read(activePersonaProvider.notifier).recordUsage(matchResult.persona!.id),
     );
     if (activeState.mode == PersonaMode.last &&
         latchedId != matchResult.persona!.id) {
-      await read(activePersonaProvider.notifier).setActivePersona(
-        matchResult.persona!.id,
-        mode: PersonaMode.last,
-        channelId: selectionChannelId,
+      unawaited(
+        read(activePersonaProvider.notifier).setActivePersona(
+          matchResult.persona!.id,
+          mode: PersonaMode.last,
+          channelId: selectionChannelId,
+        ),
       );
     }
   }
@@ -335,12 +343,13 @@ Future<bool> _waitForPersonas(SignalProviderReader read) async {
 
 /// A leading backslash with a persona selected means "as the account", which
 /// needs no persona list, so it neither waits nor is held. As in the matcher,
-/// `\\` also deselects the persona, and so does `\` in "last" mode.
-Future<OutgoingMessageResolution?> _escapeWithoutPersonas(
+/// `\\` also deselects the persona, and so does `\` in "last" mode, without
+/// waiting for the save (tyne-chat/tyne#882).
+OutgoingMessageResolution? _escapeWithoutPersonas(
   SignalProviderReader read,
   String rawText,
   String selectionChannelId,
-) async {
+) {
   final ActivePersonaState activeState = read(activePersonaProvider);
   if (!rawText.startsWith(r'\') ||
       activeState.latchedIdFor(selectionChannelId) == null) {
@@ -349,9 +358,11 @@ Future<OutgoingMessageResolution?> _escapeWithoutPersonas(
   final bool clearsLatch = rawText.startsWith(r'\\');
   final String rest = rawText.substring(clearsLatch ? 2 : 1);
   if (clearsLatch || activeState.mode == PersonaMode.last) {
-    await read(
-      activePersonaProvider.notifier,
-    ).unlatch(channelId: selectionChannelId);
+    unawaited(
+      read(
+        activePersonaProvider.notifier,
+      ).unlatch(channelId: selectionChannelId),
+    );
   }
   return OutgoingMessageResolution(
     text: rest.startsWith(' ') ? rest.substring(1) : rest,
