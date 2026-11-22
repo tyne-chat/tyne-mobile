@@ -90,6 +90,13 @@ froze the panel on the previous conversation.
   `pendingFavoriteMemeSelectionProvider`, `pendingTimestampInsertProvider`), which `ChannelTextarea`
   consumes.
 - **Autocomplete** re-checks its generation after every `await`; keep that when adding a source.
+- **Stickers and saved media in the `:` list** (tyne-chat/tyne#777): with "Show stickers" and "Show
+  saved media in expression autocomplete" on, up to five of each follow the emojis, as on the web.
+  The rules are in `utils/composer/fork_expression_autocomplete_media.dart`, the rows in
+  `composer_autocomplete_expression_media_fork.dart` (a `part`, called once from `_syncEmoji`). A
+  pick sends at once and empties the composer, so they are listed only while it holds nothing but
+  the query or a persona tag the send uses up, checked again on the pick, which takes the query out
+  and hands over to the `/sticker` and `/saved` handlers. Local data only: no request per keystroke.
 - **Uploads:** `CloudUploadController(channelId)` stages attachments; `claimForMessage` hands them to
   the send, which falls back to multipart if a pre-upload failed.
 - **Files in an edit** (tyne-chat/tyne#293): an edit happens in the composer, so its files are the
