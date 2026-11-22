@@ -195,6 +195,14 @@ its media service from any engine (tyne-chat/tyne#210).
   (`attachment_linked_waveform_fork.dart`). Saved audio in the Media tab shows its cover or else its
   waveform (`saved_audio_preview_fork.dart`, tyne-chat/tyne#879). The server side is in tyne's
   `ARCHITECTURE.md`.
+- **Media viewer swipes** (tyne-chat/tyne#865): on touch, a swipe's direction decides it at any
+  speed. While the media is not zoomed, `ForkMediaViewerInteractiveViewer` (in the place of one
+  `InteractiveViewer` call in upstream's `touch_media_viewer_page.dart`) keeps the zoom recognizer
+  off one-finger gestures, and the page swipe and swipe-to-close recognizers only accept a gesture
+  that moves mainly along their axis (`media_viewer_drag_recognizers_fork.dart`, mixed into
+  upstream's recognizers). The long press gives way to a second finger as the drags do
+  (`ForkMediaViewerPageGestures` in `media_viewer_page_gestures_fork.dart`, in the place of the
+  page's `FluxerGestureDetector` call).
 - **Instance defaults:** Tyne's instance as the default, upstream's hosts treated as ordinary instances,
   the server-list buttons.
 - **Updater** (`core/updater`), **inline timestamps** (picker sheet, composer chips, message pills),

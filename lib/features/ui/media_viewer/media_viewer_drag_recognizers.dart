@@ -1,5 +1,8 @@
 import 'package:flutter/gestures.dart';
 
+// Fork imports.
+import 'package:fluxer_app/features/ui/media_viewer/media_viewer_drag_recognizers_fork.dart';
+
 mixin _YieldsToPinch on OneSequenceGestureRecognizer {
   final Set<int> _trackedPointers = <int>{};
   bool _accepted = false;
@@ -35,15 +38,27 @@ mixin _YieldsToPinch on OneSequenceGestureRecognizer {
 
 class MediaViewerVerticalDragGestureRecognizer
     extends VerticalDragGestureRecognizer
-    with _YieldsToPinch {
+    with ForkMediaViewerVerticalAxisLock, _YieldsToPinch {
   MediaViewerVerticalDragGestureRecognizer({super.debugOwner});
 }
 
 class MediaViewerHorizontalDragGestureRecognizer
     extends HorizontalDragGestureRecognizer
-    with _YieldsToPinch {
+    with ForkMediaViewerHorizontalAxisLock, _YieldsToPinch {
   MediaViewerHorizontalDragGestureRecognizer({
     super.debugOwner,
     super.supportedDevices,
   });
+}
+
+// Fork: tyne-chat/tyne#865. The viewer's long press gives way to a pinch as the
+// drags above do: a second finger down before the long press is accepted means
+// a pinch. Without it, two fingers resting on unzoomed media, or one turning
+// round the other (which zooms nothing), opened the options sheet after
+// 500 ms. Used by media_viewer_page_gestures_fork.dart; it lives here to share
+// _YieldsToPinch.
+class ForkMediaViewerLongPressGestureRecognizer
+    extends LongPressGestureRecognizer
+    with _YieldsToPinch {
+  ForkMediaViewerLongPressGestureRecognizer({super.debugOwner});
 }
