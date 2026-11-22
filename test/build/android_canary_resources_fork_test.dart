@@ -48,27 +48,54 @@ void main() {
       reason:
           'These canary resources match nothing in main/res, so upstream '
           'renamed or removed what they replaced. Give them the new name '
-          '(in tyne-tools scripts/brand_icons.py for the generated ones).',
+          '(in tyne-tools scripts/install_icon_kit.py for the generated ones).',
     );
   });
 
-  test("the notification icon upstream asks for is Tyne's", () {
-    final String channels = File(
-      '${root.path}/lib/core/push/android/channels.dart',
-    ).readAsStringSync();
-    final RegExpMatch? match = RegExp(
-      r"kAndroidPushNotificationIcon\s*=\s*'@drawable/([a-z0-9_]+)'",
-    ).firstMatch(channels);
-    expect(match, isNotNull, reason: 'kAndroidPushNotificationIcon not found');
-    final File alias = File(
-      '${canaryRes.path}/drawable/${match!.group(1)}.xml',
-    );
-    expect(alias.existsSync(), isTrue, reason: '${alias.path} is missing');
-    expect(
-      alias.readAsStringSync(),
-      contains('@drawable/tyne_notification_glyph'),
-    );
-  });
+  // Tyne's icons have the format and size of upstream's; only the artwork is
+  // Tyne's. The notification icon was a bitmap where upstream's is a vector
+  // (tyne-chat/tyne#870).
+  test(
+    "the notification icon upstream asks for is Tyne's, in upstream's form",
+    () {
+      final String channels = File(
+        '${root.path}/lib/core/push/android/channels.dart',
+      ).readAsStringSync();
+      final RegExpMatch? match = RegExp(
+        r"kAndroidPushNotificationIcon\s*=\s*'@drawable/([a-z0-9_]+)'",
+      ).firstMatch(channels);
+      expect(
+        match,
+        isNotNull,
+        reason: 'kAndroidPushNotificationIcon not found',
+      );
+      final String name = match!.group(1)!;
+      final File ours = File('${canaryRes.path}/drawable/$name.xml');
+      final File upstreams = File('${mainRes.path}/drawable/$name.xml');
+      expect(ours.existsSync(), isTrue, reason: '${ours.path} is missing');
+      expect(
+        upstreams.existsSync(),
+        isTrue,
+        reason: '${upstreams.path} is gone',
+      );
+      final String tyne = ours.readAsStringSync();
+      final String upstream = upstreams.readAsStringSync();
+      expect(tyne, contains('installed from the icon kit'));
+      expect(_rootElement(tyne), _rootElement(upstream));
+      for (final String attribute in <String>[
+        'android:width',
+        'android:height',
+        'android:viewportWidth',
+        'android:viewportHeight',
+      ]) {
+        expect(
+          _attribute(tyne, attribute),
+          _attribute(upstream, attribute),
+          reason: "$attribute of $name differs from upstream's",
+        );
+      }
+    },
+  );
 
   // Upstream's launch screens (e46d14911, 2026-11) name their mark in the
   // splash styles and in launch_background.xml, under names the canary source
@@ -128,6 +155,12 @@ String _resourceName(File file) => file.uri.pathSegments.last.split('.').first;
 Iterable<String> _valueNames(File file) => RegExp(
   r'<(?!resources)[a-z-]+\s+name="([^"]+)"',
 ).allMatches(file.readAsStringSync()).map((RegExpMatch m) => m.group(1)!);
+
+String? _rootElement(String xml) =>
+    RegExp(r'<([a-z-]+)\s+xmlns:android').firstMatch(xml)?.group(1);
+
+String? _attribute(String xml, String attribute) =>
+    RegExp('$attribute="([^"]*)"').firstMatch(xml)?.group(1);
 
 String _relative(Directory base, File file) =>
     file.path.substring(base.path.length + 1);
