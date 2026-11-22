@@ -287,3 +287,19 @@ if (project.hasProperty("tynePlayTest")) {
         manifestPlaceholders["appLabel"] = "Tyne Test"
     }
 }
+
+// Fork: without android/key.properties the release build type above falls back to the debug key,
+// and the APK could not update an installed release (tyne-chat/tyne#344). Stop such a build instead.
+// F-Droid signs its builds elsewhere; debug builds, `--config-only` and the unit tests never run a
+// release task, so they are not affected.
+gradle.taskGraph.whenReady {
+    val releaseTask = Regex("(assemble|bundle|package)\\w*Release")
+    if (!fdroidBuild && !hasKeystoreProperties &&
+        allTasks.any { it.project == project && releaseTask.matches(it.name) }
+    ) {
+        throw GradleException(
+            "Release build without android/key.properties: it would be signed with the debug key. " +
+                "Add key.properties (see the release runbook) or build a debug APK."
+        )
+    }
+}
