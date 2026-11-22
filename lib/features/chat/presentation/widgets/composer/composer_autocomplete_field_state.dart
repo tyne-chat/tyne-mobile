@@ -1370,6 +1370,10 @@ class ComposerAutocompleteFieldState
           ),
         },
     ];
+    // Fork: matching stickers and saved media follow (tyne-chat/tyne#777).
+    if (await _forkWithExpressionMedia(trigger, generation, rows)) {
+      return;
+    }
     _setRows(rows, heading: l10n.composerAutocompleteEmojisHeading);
   }
 
