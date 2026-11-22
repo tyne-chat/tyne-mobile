@@ -9,10 +9,11 @@ MediaItem buildChatAttachmentAudioMediaItem({
   Duration? duration,
 }) {
   final String mediaId = attachmentEffectiveUrl(attachment);
+  // Fork: an attachment's duration is in seconds, as the API documents it (tyne-chat/tyne#874).
   final Duration? resolvedDuration =
       duration ??
       (attachment.duration != null && attachment.duration! > 0
-          ? Duration(milliseconds: attachment.duration!)
+          ? Duration(seconds: attachment.duration!)
           : null);
   return MediaItem(
     id: mediaId.isNotEmpty ? mediaId : attachment.filename,
