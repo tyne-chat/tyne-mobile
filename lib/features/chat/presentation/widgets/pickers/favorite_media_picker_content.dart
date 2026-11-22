@@ -30,6 +30,10 @@ import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart' as mkv;
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/saved_audio_preview_fork.dart';
+
 const _kGridGap = 8.0;
 const _kGridHorizontalPadding = 10.0;
 const _kMaxColumnWidth = 227.0;
@@ -927,7 +931,8 @@ class _FavoriteMediaPreview extends StatelessWidget {
           allowPlayback: allowVideoPlayback,
         );
       case FavoriteMemeMediaType.audio:
-        return _AudioPreview(meme: meme);
+        // Fork: the cover or the waveform of a saved audio file (tyne-chat/tyne#879).
+        return ForkSavedAudioPreview(meme: meme, isVisible: isVisible);
       case FavoriteMemeMediaType.image:
         if (meme.isVideoLike) {
           return _IconPreview(
@@ -1126,6 +1131,7 @@ class _FavoriteMediaVideoPreviewState
   }
 }
 
+// ignore: unused_element // Fork: upstream's tile, replaced by ForkSavedAudioPreview (tyne-chat/tyne#879).
 class _AudioPreview extends StatelessWidget {
   const _AudioPreview({required this.meme});
 
