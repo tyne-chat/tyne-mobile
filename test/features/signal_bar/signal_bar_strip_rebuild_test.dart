@@ -76,6 +76,12 @@ class _Repository implements SignalBarRepository {
 
   @override
   Future<void> setDmEnabled(String channelId, {required bool enabled}) async {}
+
+  @override
+  Future<List<String>> setPersona(
+    List<String> channelIds, {
+    String? personaId,
+  }) async => channelIds;
 }
 
 void main() {

@@ -43,6 +43,15 @@ class _FakeRepository implements SignalBarRepository {
   Future<void> setDmEnabled(String channelId, {required bool enabled}) async {}
 
   @override
+  Future<List<String>> setPersona(
+    List<String> channelIds, {
+    String? personaId,
+  }) async {
+    calls.add('PERSONA ${channelIds.join(',')} ${personaId ?? '-'}');
+    return channelIds;
+  }
+
+  @override
   Future<UserSignalsSummary> fetchMySignals() async => const UserSignalsSummary(
     chats: <UserSignalChat>[],
     restoreAvailable: false,
@@ -114,7 +123,7 @@ void main() {
       'avatar': 'hash',
     });
 
-    expect(repository.calls, ['PUT c reading 9']);
+    expect(repository.calls, ['PERSONA c 9']);
     expect(entries('c').single.personaId, '9');
     expect(entries('c').single.displayName, 'Kitsune');
   });
@@ -125,7 +134,7 @@ void main() {
 
     affirmSignalPersonaData(container.read, 'c', null);
 
-    expect(repository.calls, ['PUT c reading -']);
+    expect(repository.calls, ['PERSONA c -']);
     expect(entries('c').single.personaId, isNull);
   });
 
@@ -139,7 +148,7 @@ void main() {
       const Persona(id: '9', name: 'Kitsune'),
     );
 
-    expect(repository.calls, ['PUT c reading 9']);
+    expect(repository.calls, ['PERSONA c 9']);
   });
 
   test(

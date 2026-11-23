@@ -95,6 +95,9 @@ typedef _WantedSignal = ({bool on, String? personaId});
 /// accepted: lit as the persona, or off.
 typedef _ExpectedSignal = ({bool on, String? personaId});
 
+/// A re-point of a chat's signals to a persona that did not take, and when.
+typedef _RefusedRepoint = ({String? personaId, DateTime at});
+
 /// Entering a channel asks for it again once this long has passed since its
 /// last request, so switching back and forth between chats sends at most one
 /// request per chat in this time (tyne-chat/tyne#447). The same as the web's
@@ -104,6 +107,11 @@ const Duration kSignalChannelRefetchCooldown = Duration(seconds: 10);
 /// How long after the server accepted a write the strip may go on without
 /// showing it before the channel is asked for again (tyne-chat/tyne#729).
 const Duration kSignalWriteEventWait = Duration(seconds: 2);
+
+/// How long a re-point that did not take is not sent again for the same chat
+/// and persona (tyne-chat/tyne#310): the channel's answer that follows it
+/// brings the old persona back, and every change of text would send it again.
+const Duration kSignalRepointRetryDelay = Duration(seconds: 10);
 
 /// Active signal entries for every channel loaded this session, and the
 /// device's copy of the chats loaded last (tyne-chat/tyne#645).
@@ -136,6 +144,11 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
   /// write.
   final Map<String, Timer> _checks = <String, Timer>{};
 
+  /// Per channel, the last re-point that did not take, which is not sent
+  /// again for [kSignalRepointRetryDelay] (tyne-chat/tyne#310).
+  final Map<String, _RefusedRepoint> _refusedRepoints =
+      <String, _RefusedRepoint>{};
+
   /// Bumped by every READY and account change: an answer to a request sent
   /// before is not current.
   int _session = 0;
@@ -165,6 +178,7 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
     _recent.clear();
     _wanted.clear();
     _askedAt.clear();
+    _refusedRepoints.clear();
     _dropChecks();
     _session++;
     _account++;
@@ -388,6 +402,7 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
     _loading.clear();
     // Every channel is asked for again anyway: no cooldown, no checks.
     _askedAt.clear();
+    _refusedRepoints.clear();
     _dropChecks();
     _session++;
     state = <String, List<SignalEntry>>{...state};
@@ -447,7 +462,13 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
       return;
     }
     // Lighting still waits for the event, which is then checked for.
-    _expect(account, channelId, signalId, on: true, personaId: personaId);
+    _expect(
+      account,
+      channelId,
+      <String>[signalId],
+      on: true,
+      personaId: personaId,
+    );
   }
 
   Future<void> deactivate(
@@ -480,10 +501,10 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
       return;
     }
     // An answer to a request sent before the DELETE can bring it back.
-    _expect(account, channelId, signalId, on: false);
+    _expect(account, channelId, <String>[signalId], on: false);
   }
 
-  /// Remembers what the server now holds for the account's [signalId] in
+  /// Remembers what the server now holds for the account's [signalIds] in
   /// [channelId], and checks [kSignalWriteEventWait] after the channel's last
   /// accepted write that the strip shows it.
   ///
@@ -495,17 +516,18 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
   void _expect(
     int account,
     String channelId,
-    String signalId, {
+    Iterable<String> signalIds, {
     required bool on,
     String? personaId,
   }) {
     if (!ref.mounted || account != _account) {
       return;
     }
-    (_expected[channelId] ??= <String, _ExpectedSignal>{})[signalId] = (
-      on: on,
-      personaId: personaId,
-    );
+    final Map<String, _ExpectedSignal> expected = _expected[channelId] ??=
+        <String, _ExpectedSignal>{};
+    for (final String signalId in signalIds) {
+      expected[signalId] = (on: on, personaId: personaId);
+    }
     _checks[channelId]?.cancel();
     _checks[channelId] = Timer(kSignalWriteEventWait, () => _check(channelId));
   }
@@ -690,13 +712,18 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
 
   /// Shows the account's lit signals in [channelId] as [persona], or as the
   /// account itself when it is null, and updates the badge locally straight
-  /// away.
+  /// away. One request re-points them all on the server
+  /// (tyne-chat/tyne#310).
   ///
   /// Call it only for something the person did in that channel: typing there,
   /// picking a persona in its composer, sending a message. Everyone in the
   /// channel sees a signal, so it must not change because the active persona
   /// changed in another channel or on another device, or because the channel
   /// was opened.
+  ///
+  /// A re-point that did not take is not tried again for the same persona in
+  /// that channel for [kSignalRepointRetryDelay], and the strip keeps what
+  /// the channel's answer showed meanwhile.
   void affirmPersona(
     String channelId, {
     required String userId,
@@ -712,7 +739,7 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
       for (final SignalEntry entry in current)
         if (entry.userId == userId && entry.personaId != persona?.id) entry,
     ];
-    if (stale.isEmpty) {
+    if (stale.isEmpty || _refusedLately(channelId, persona?.id)) {
       return;
     }
     _setChannel(channelId, <SignalEntry>[
@@ -726,8 +753,66 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
         else
           entry,
     ]);
-    for (final SignalEntry entry in stale) {
-      unawaited(activate(channelId, entry.signalId, personaId: persona?.id));
+    unawaited(
+      _repoint(channelId, <String>[
+        for (final SignalEntry entry in stale) entry.signalId,
+      ], personaId: persona?.id),
+    );
+  }
+
+  /// Whether re-pointing [channelId] to [personaId] did not take less than
+  /// [kSignalRepointRetryDelay] ago.
+  bool _refusedLately(String channelId, String? personaId) {
+    final _RefusedRepoint? refused = _refusedRepoints[channelId];
+    return refused != null &&
+        refused.personaId == personaId &&
+        clock.now().difference(refused.at) < kSignalRepointRetryDelay;
+  }
+
+  /// Sends the re-point of the account's [signalIds] in [channelId], shown
+  /// already, as one `PUT /users/@me/signals/persona` for that channel alone.
+  /// Accepted, it is checked for as any accepted write is. Refused, or
+  /// accepted with nothing changed there, the strip may show something the
+  /// server does not hold: the channel is asked for once, and the re-point
+  /// waits.
+  Future<void> _repoint(
+    String channelId,
+    List<String> signalIds, {
+    String? personaId,
+  }) async {
+    final int account = _account;
+    final Map<String, _ExpectedSignal>? expected = _expected[channelId];
+    for (final String signalId in signalIds) {
+      expected?.remove(signalId);
+    }
+    final List<String> changed;
+    try {
+      changed = await ref.read(signalBarRepositoryProvider).setPersona(<String>[
+        channelId,
+      ], personaId: personaId);
+    } on Exception catch (err) {
+      debugPrint('[SignalBar] Failed to re-point signals in $channelId: $err');
+      _repointNotTaken(account, channelId, personaId);
+      return;
+    }
+    if (!changed.contains(channelId)) {
+      // The server already had them so, has them no longer, or will not let
+      // the account light here.
+      debugPrint('[SignalBar] Re-pointing changed nothing in $channelId');
+      _repointNotTaken(account, channelId, personaId);
+      return;
+    }
+    _expect(account, channelId, signalIds, on: true, personaId: personaId);
+  }
+
+  void _repointNotTaken(int account, String channelId, String? personaId) {
+    if (!ref.mounted || account != _account) {
+      return;
+    }
+    _refusedRepoints[channelId] = (personaId: personaId, at: clock.now());
+    // A request for the channel already on its way shows the same.
+    if (!_loading.contains(channelId)) {
+      unawaited(loadChannel(channelId));
     }
   }
 }
