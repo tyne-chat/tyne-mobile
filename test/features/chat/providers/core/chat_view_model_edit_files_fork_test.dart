@@ -30,6 +30,7 @@ import 'package:fluxer_app/features/chat/providers/upload/user_upload_limits_pro
 import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/interface_extras_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/shared/services/guild_member_hydration_service.dart';
 import 'package:fluxer_dart/export.dart';
@@ -69,22 +70,25 @@ class _Personas extends MyPersonasNotifier {
 
 /// Records every edit of the message, and answers as the server does or with a 400.
 class _EditRecorder extends PaginatingAdapter {
-  _EditRecorder({this.existing = const <Map<String, Object?>>[]})
-    : super(
-        messagesByChannel: <String, List<Map<String, Object?>>>{
-          _channelId: <Map<String, Object?>>[
-            <String, Object?>{
-              ...paginationMessageJson(
-                id: _messageId,
-                channelId: _channelId,
-                authorId: 'me',
-              ),
-              'content': 'Test',
-              'attachments': existing,
-            },
-          ],
-        },
-      );
+  _EditRecorder({
+    this.existing = const <Map<String, Object?>>[],
+    List<Map<String, Object?>> stickers = const <Map<String, Object?>>[],
+  }) : super(
+         messagesByChannel: <String, List<Map<String, Object?>>>{
+           _channelId: <Map<String, Object?>>[
+             <String, Object?>{
+               ...paginationMessageJson(
+                 id: _messageId,
+                 channelId: _channelId,
+                 authorId: 'me',
+               ),
+               'content': 'Test',
+               'attachments': existing,
+               'stickers': stickers,
+             },
+           ],
+         },
+       );
 
   final List<Map<String, Object?>> existing;
   final List<Map<String, dynamic>> edits = <Map<String, dynamic>>[];
@@ -105,15 +109,16 @@ class _EditRecorder extends PaginatingAdapter {
     final Map<String, dynamic> body;
     if (data is FormData) {
       multipartEdits.add(data);
-      body =
-          jsonDecode(
-                data.fields
-                    .firstWhere(
-                      (MapEntry<String, String> f) => f.key == 'payload_json',
-                    )
-                    .value,
-              )
-              as Map<String, dynamic>;
+      final MapEntry<String, String>? payload = data.fields
+          .where((MapEntry<String, String> f) => f.key == 'payload_json')
+          .firstOrNull;
+      // An edit without files sends its fields directly (tyne-chat/tyne#904's empty edits).
+      body = payload == null
+          ? <String, dynamic>{
+              for (final MapEntry<String, String> f in data.fields)
+                f.key: f.value,
+            }
+          : jsonDecode(payload.value) as Map<String, dynamic>;
     } else {
       body = data! as Map<String, dynamic>;
     }
@@ -539,4 +544,112 @@ void main() {
       );
     },
   );
+
+  // Fork: tyne-chat/tyne#904. An edit that leaves no text removes the text of a message with
+  // attachments or stickers ("Keep attachments when clearing an edit", on by default in Tyne), and
+  // a persona tag with nothing after it also moves the message to that persona.
+  group('an edit that clears the text (tyne-chat/tyne#904)', () {
+    Future<ChatViewModel> startEditing(ProviderContainer container) async {
+      final ChatViewModel notifier = container.read(
+        chatViewModelProvider.notifier,
+      );
+      await notifier.switchChannel(_channelId);
+      await paginationFlushAsync();
+      notifier.startEdit(
+        container
+            .read(chatViewModelProvider)
+            .messages
+            .firstWhere((Message m) => m.id == _messageId),
+      );
+      // The setting loads from the device's preferences.
+      container
+        ..read(interfaceExtrasPreferencesProvider)
+        ..read(activePersonaProvider);
+      await paginationFlushAsync();
+      return notifier;
+    }
+
+    test('removes the text of a message with attachments by default', () async {
+      SharedPreferences.setMockInitialValues(<String, Object>{});
+      final _EditRecorder adapter = _EditRecorder(
+        existing: <Map<String, Object?>>[_attachmentJson('800', 'old.png')],
+      );
+      final ProviderContainer container = containerWith(adapter);
+      final ChatViewModel notifier = await startEditing(container);
+
+      await notifier.saveEditedMessage(text: '');
+      await paginationFlushAsync();
+
+      expect(adapter.edits, hasLength(1));
+      expect(adapter.edits.single['content'], '');
+    });
+
+    test('keeps the text when the setting is off, as upstream does', () async {
+      SharedPreferences.setMockInitialValues(<String, Object>{
+        'interface_keep_attachments_on_empty_edit': false,
+      });
+      final _EditRecorder adapter = _EditRecorder(
+        existing: <Map<String, Object?>>[_attachmentJson('800', 'old.png')],
+      );
+      final ProviderContainer container = containerWith(adapter);
+      final ChatViewModel notifier = await startEditing(container);
+
+      await notifier.saveEditedMessage(text: '');
+      await paginationFlushAsync();
+
+      expect(adapter.edits, isEmpty);
+      expect(container.read(toastProvider), isNotEmpty);
+    });
+
+    test('removes the text of a message with a sticker', () async {
+      SharedPreferences.setMockInitialValues(<String, Object>{});
+      final _EditRecorder adapter = _EditRecorder(
+        stickers: <Map<String, Object?>>[
+          <String, Object?>{'id': '700', 'name': 'wave', 'animated': false},
+        ],
+      );
+      final ProviderContainer container = containerWith(adapter);
+      final ChatViewModel notifier = await startEditing(container);
+
+      await notifier.saveEditedMessage(text: '');
+      await paginationFlushAsync();
+
+      expect(adapter.edits, hasLength(1));
+      expect(adapter.edits.single['content'], '');
+    });
+
+    test(
+      'a persona tag alone removes the text and moves the message',
+      () async {
+        SharedPreferences.setMockInitialValues(<String, Object>{});
+        final _EditRecorder adapter = _EditRecorder(
+          existing: <Map<String, Object?>>[_attachmentJson('800', 'old.png')],
+        );
+        final ProviderContainer container = containerWith(
+          adapter,
+          personas: const <Persona>[_bao],
+        );
+        final ChatViewModel notifier = await startEditing(container);
+
+        await notifier.saveEditedMessage(text: 'B:');
+        await paginationFlushAsync();
+
+        expect(adapter.edits, hasLength(1));
+        expect(adapter.edits.single['content'], '');
+        expect(adapter.edits.single['persona_id'], _bao.id);
+      },
+    );
+
+    test('never empties a message with nothing else', () async {
+      SharedPreferences.setMockInitialValues(<String, Object>{});
+      final _EditRecorder adapter = _EditRecorder();
+      final ProviderContainer container = containerWith(adapter);
+      final ChatViewModel notifier = await startEditing(container);
+
+      await notifier.saveEditedMessage(text: '');
+      await paginationFlushAsync();
+
+      expect(adapter.edits, isEmpty);
+    });
+  });
 }
