@@ -156,7 +156,11 @@ froze the panel on the previous conversation.
 - **Editing:** `saveEditedMessage` runs `matchEditMessage`; a persona change is a `PATCH` with
   `persona_id` through raw Dio, because the SDK's `editMessage` is multipart. "Change persona" uses
   `MessageRepository.editMessagePersona`, also on a forward (one's own interactive message, not one
-  still sending).
+  still sending). Whether the composer offers Send during an edit is
+  `utils/composer/fork_edit_sendable.dart`, one hook in upstream's `composerHasSendableContent`
+  (tyne-chat/tyne#904): a tag with nothing after it counts as no text, so on a message with nothing
+  else it is not offered, and on one with attachments or stickers an edit that leaves no text is,
+  as it removes the text (and with a tag changes the persona).
 - **Showing:** `Message` carries the persona fields from the server's `subprofile`;
   `MessageItem._buildAuthorHeaderRow` draws the name and the account badge. Persona mention chips read
   your own personas, then the device's `known_personas` table (`knownPersonaProvider`): no request per
