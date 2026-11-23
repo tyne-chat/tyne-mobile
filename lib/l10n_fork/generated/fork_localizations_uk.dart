@@ -1444,4 +1444,10 @@ class ForkLocalizationsUk extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'Переглянути обкладинку';
+
+  @override
+  String get mediaViewerShowControls => 'Показати елементи керування';
+
+  @override
+  String get mediaViewerHideControls => 'Сховати елементи керування';
 }

@@ -1440,4 +1440,10 @@ class ForkLocalizationsPl extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'Pokaż okładkę';
+
+  @override
+  String get mediaViewerShowControls => 'Pokaż kontrolki';
+
+  @override
+  String get mediaViewerHideControls => 'Ukryj kontrolki';
 }

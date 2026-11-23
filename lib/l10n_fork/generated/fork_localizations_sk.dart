@@ -1439,4 +1439,10 @@ class ForkLocalizationsSk extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'Zobraziť obal';
+
+  @override
+  String get mediaViewerShowControls => 'Zobraziť ovládacie prvky';
+
+  @override
+  String get mediaViewerHideControls => 'Skryť ovládacie prvky';
 }

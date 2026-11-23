@@ -364,5 +364,7 @@
     "personaBulkNowMentionableByFollowing": "Sinusunod na ng mga mention ng {count, plural, one {{count} persona} other {{count} persona}} ang visibility",
     "personaNotMentionable": "Walang nakakakita sa personang ito sa mga mungkahi ng mention",
     "bookmarkRemoveConfirmDescription": "Alisin ang bookmark na ito?",
-    "chatAudioViewCover": "Tingnan ang cover"
+    "chatAudioViewCover": "Tingnan ang cover",
+    "mediaViewerShowControls": "Ipakita ang mga kontrol",
+    "mediaViewerHideControls": "Itago ang mga kontrol"
 }

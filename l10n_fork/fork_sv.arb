@@ -364,5 +364,7 @@
     "personaBulkNowMentionableByFollowing": "{count, plural, one {Omnämnanden av {count} persona följer nu Synlighet} other {Omnämnanden av {count} personas följer nu Synlighet}}",
     "personaNotMentionable": "Ingen får den här personan i förslag för omnämnanden",
     "bookmarkRemoveConfirmDescription": "Ta bort det här bokmärket?",
-    "chatAudioViewCover": "Visa omslag"
+    "chatAudioViewCover": "Visa omslag",
+    "mediaViewerShowControls": "Visa kontroller",
+    "mediaViewerHideControls": "Dölj kontroller"
 }

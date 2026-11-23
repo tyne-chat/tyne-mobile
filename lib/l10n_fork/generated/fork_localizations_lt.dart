@@ -1438,4 +1438,10 @@ class ForkLocalizationsLt extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'Rodyti viršelį';
+
+  @override
+  String get mediaViewerShowControls => 'Rodyti valdiklius';
+
+  @override
+  String get mediaViewerHideControls => 'Slėpti valdiklius';
 }

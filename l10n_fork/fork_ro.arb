@@ -364,5 +364,7 @@
     "personaBulkNowMentionableByFollowing": "{count, plural, one {Mențiunile pentru {count} persona urmează acum Vizibilitatea} few {Mențiunile pentru {count} personas urmează acum Vizibilitatea} other {Mențiunile pentru {count} de personas urmează acum Vizibilitatea}}",
     "personaNotMentionable": "Această persona nu apare nimănui în sugestiile de mențiuni",
     "bookmarkRemoveConfirmDescription": "Elimini acest mesaj din mesajele salvate?",
-    "chatAudioViewCover": "Vezi coperta"
+    "chatAudioViewCover": "Vezi coperta",
+    "mediaViewerShowControls": "Afișează controalele",
+    "mediaViewerHideControls": "Ascunde controalele"
 }

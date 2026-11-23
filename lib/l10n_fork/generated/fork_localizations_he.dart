@@ -1405,4 +1405,10 @@ class ForkLocalizationsHe extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'הצגת העטיפה';
+
+  @override
+  String get mediaViewerShowControls => 'הצגת הפקדים';
+
+  @override
+  String get mediaViewerHideControls => 'הסתרת הפקדים';
 }

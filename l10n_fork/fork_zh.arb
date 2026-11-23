@@ -364,5 +364,7 @@
     "personaBulkNowMentionableByFollowing": "{count, plural, other {{count} 个人格的提及设置现已跟随可见性}}",
     "personaNotMentionable": "任何人的提及建议中都不会出现此人格",
     "bookmarkRemoveConfirmDescription": "要移除此书签吗？",
-    "chatAudioViewCover": "查看封面"
+    "chatAudioViewCover": "查看封面",
+    "mediaViewerShowControls": "显示控件",
+    "mediaViewerHideControls": "隐藏控件"
 }

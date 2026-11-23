@@ -203,6 +203,13 @@ its media service from any engine (tyne-chat/tyne#210).
   upstream's recognizers). The long press gives way to a second finger as the drags do
   (`ForkMediaViewerPageGestures` in `media_viewer_page_gestures_fork.dart`, in the place of the
   page's `FluxerGestureDetector` call).
+- **Media viewer controls** (tyne-chat/tyne#866): on touch, the image viewer opens with its controls
+  hidden and a single tap on the media shows or hides them; a screen reader starts with them shown
+  (`media_viewer_controls_fork.dart`). `ForkMediaViewerControlsStack`, in the place of the
+  `Stack` call in upstream's `AttachmentMediaViewerShell`, holds the choice for the viewer;
+  `ForkMediaViewerTouchControls`, in the place of the touch layout's `TabletopHingeColumn` call,
+  hides them, and the system bars with them; the tap is `ForkMediaViewerPageGestures`', beside the
+  double tap.
 - **Instance defaults:** Tyne's instance as the default, upstream's hosts treated as ordinary instances,
   the server-list buttons.
 - **Updater** (`core/updater`), **inline timestamps** (picker sheet, composer chips, message pills),

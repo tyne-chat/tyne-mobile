@@ -1407,4 +1407,10 @@ class ForkLocalizationsFi extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'Näytä kansikuva';
+
+  @override
+  String get mediaViewerShowControls => 'Näytä ohjaimet';
+
+  @override
+  String get mediaViewerHideControls => 'Piilota ohjaimet';
 }

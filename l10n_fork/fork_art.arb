@@ -365,5 +365,7 @@
     "personaBulkNowMentionableByFollowing": "{count, plural, one {ken lukin li lawa e nimi @ pi jan insa {count}} other {ken lukin li lawa e nimi @ pi jan insa {count}}}",
     "personaNotMentionable": "jan ala li lukin e jan insa ni lon sona pi nimi @",
     "bookmarkRemoveConfirmDescription": "sina wile ala wile weka e toki awen ni?",
-    "chatAudioViewCover": "lukin e sitelen lawa"
+    "chatAudioViewCover": "lukin e sitelen lawa",
+    "mediaViewerShowControls": "o lukin e ilo",
+    "mediaViewerHideControls": "o len e ilo"
 }

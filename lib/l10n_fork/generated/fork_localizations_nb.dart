@@ -1404,4 +1404,10 @@ class ForkLocalizationsNb extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'Vis omslag';
+
+  @override
+  String get mediaViewerShowControls => 'Vis kontroller';
+
+  @override
+  String get mediaViewerHideControls => 'Skjul kontroller';
 }
