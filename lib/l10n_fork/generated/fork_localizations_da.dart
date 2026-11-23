@@ -1402,4 +1402,10 @@ class ForkLocalizationsDa extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'Vis cover';
+
+  @override
+  String get mediaViewerShowControls => 'Vis kontroller';
+
+  @override
+  String get mediaViewerHideControls => 'Skjul kontroller';
 }

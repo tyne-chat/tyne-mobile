@@ -1404,4 +1404,10 @@ class ForkLocalizationsHi extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'कवर देखें';
+
+  @override
+  String get mediaViewerShowControls => 'कंट्रोल दिखाएँ';
+
+  @override
+  String get mediaViewerHideControls => 'कंट्रोल छिपाएँ';
 }

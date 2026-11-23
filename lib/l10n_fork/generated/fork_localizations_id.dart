@@ -1388,4 +1388,10 @@ class ForkLocalizationsId extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'Lihat sampul';
+
+  @override
+  String get mediaViewerShowControls => 'Tampilkan kontrol';
+
+  @override
+  String get mediaViewerHideControls => 'Sembunyikan kontrol';
 }

@@ -364,5 +364,7 @@
     "personaBulkNowMentionableByFollowing": "{count, plural, one {{count} personanın bahsetme ayarı artık Görünürlüğe uyuyor} other {{count} personanın bahsetme ayarı artık Görünürlüğe uyuyor}}",
     "personaNotMentionable": "Bu persona bahsetme önerilerinde kimseye görünmez",
     "bookmarkRemoveConfirmDescription": "Bu yer işareti kaldırılsın mı?",
-    "chatAudioViewCover": "Kapağı görüntüle"
+    "chatAudioViewCover": "Kapağı görüntüle",
+    "mediaViewerShowControls": "Kontrolleri göster",
+    "mediaViewerHideControls": "Kontrolleri gizle"
 }

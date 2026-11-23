@@ -1406,4 +1406,10 @@ class ForkLocalizationsBn extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'কভার দেখুন';
+
+  @override
+  String get mediaViewerShowControls => 'নিয়ন্ত্রণগুলি দেখান';
+
+  @override
+  String get mediaViewerHideControls => 'নিয়ন্ত্রণগুলি লুকান';
 }

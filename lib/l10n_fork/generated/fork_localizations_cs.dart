@@ -1439,4 +1439,10 @@ class ForkLocalizationsCs extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'Zobrazit obal';
+
+  @override
+  String get mediaViewerShowControls => 'Zobrazit ovládací prvky';
+
+  @override
+  String get mediaViewerHideControls => 'Skrýt ovládací prvky';
 }

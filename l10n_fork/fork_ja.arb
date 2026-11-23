@@ -364,5 +364,7 @@
     "personaBulkNowMentionableByFollowing": "{count, plural, other {{count} 件のペルソナのメンションを公開範囲に従うようにしました}}",
     "personaNotMentionable": "このペルソナはメンション候補に誰にも表示されません",
     "bookmarkRemoveConfirmDescription": "このブックマークを削除しますか？",
-    "chatAudioViewCover": "ジャケットを表示"
+    "chatAudioViewCover": "ジャケットを表示",
+    "mediaViewerShowControls": "コントロールを表示",
+    "mediaViewerHideControls": "コントロールを隠す"
 }

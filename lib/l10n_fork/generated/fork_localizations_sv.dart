@@ -1406,4 +1406,10 @@ class ForkLocalizationsSv extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'Visa omslag';
+
+  @override
+  String get mediaViewerShowControls => 'Visa kontroller';
+
+  @override
+  String get mediaViewerHideControls => 'Dölj kontroller';
 }

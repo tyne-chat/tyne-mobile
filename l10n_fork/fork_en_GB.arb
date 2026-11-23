@@ -364,5 +364,7 @@
     "personaBulkNowMentionableByFollowing": "Mentions of {count, plural, one {{count} persona} other {{count} personas}} now follow Visibility",
     "personaNotMentionable": "Nobody gets this persona in mention suggestions",
     "bookmarkRemoveConfirmDescription": "Remove this bookmark?",
-    "chatAudioViewCover": "View cover"
+    "chatAudioViewCover": "View cover",
+    "mediaViewerShowControls": "Show controls",
+    "mediaViewerHideControls": "Hide controls"
 }

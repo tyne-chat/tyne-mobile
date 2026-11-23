@@ -1408,4 +1408,10 @@ class ForkLocalizationsSq extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'Shikimi i kopertinës';
+
+  @override
+  String get mediaViewerShowControls => 'Shfaq kontrollet';
+
+  @override
+  String get mediaViewerHideControls => 'Fshih kontrollet';
 }

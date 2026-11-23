@@ -1421,4 +1421,10 @@ class ForkLocalizationsEl extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'Προβολή εξωφύλλου';
+
+  @override
+  String get mediaViewerShowControls => 'Εμφάνιση στοιχείων ελέγχου';
+
+  @override
+  String get mediaViewerHideControls => 'Απόκρυψη στοιχείων ελέγχου';
 }

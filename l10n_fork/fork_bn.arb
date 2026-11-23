@@ -364,5 +364,7 @@
     "personaBulkNowMentionableByFollowing": "{count, plural, one {{count}টি পারসোনার} other {{count}টি পারসোনার}} মেনশন এখন দৃশ্যমানতা অনুসরণ করে",
     "personaNotMentionable": "এই পারসোনা কারও মেনশন পরামর্শে দেখা যায় না",
     "bookmarkRemoveConfirmDescription": "এই বুকমার্কটি সরিয়ে ফেলবেন?",
-    "chatAudioViewCover": "কভার দেখুন"
+    "chatAudioViewCover": "কভার দেখুন",
+    "mediaViewerShowControls": "নিয়ন্ত্রণগুলি দেখান",
+    "mediaViewerHideControls": "নিয়ন্ত্রণগুলি লুকান"
 }
