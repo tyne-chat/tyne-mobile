@@ -1420,6 +1420,12 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'Ver capa';
+
+  @override
+  String get mediaViewerShowControls => 'Mostrar controlos';
+
+  @override
+  String get mediaViewerHideControls => 'Ocultar controlos';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -2839,4 +2845,10 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
 
   @override
   String get chatAudioViewCover => 'Ver capa';
+
+  @override
+  String get mediaViewerShowControls => 'Mostrar controles';
+
+  @override
+  String get mediaViewerHideControls => 'Ocultar controles';
 }

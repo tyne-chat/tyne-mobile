@@ -364,5 +364,7 @@
     "personaBulkNowMentionableByFollowing": "{count, plural, one {Vermeldingen van {count} persona volgen nu Zichtbaarheid} other {Vermeldingen van {count} persona's volgen nu Zichtbaarheid}}",
     "personaNotMentionable": "Niemand krijgt deze persona in vermeldingssuggesties",
     "bookmarkRemoveConfirmDescription": "Dit bericht verwijderen uit opgeslagen berichten?",
-    "chatAudioViewCover": "Hoes bekijken"
+    "chatAudioViewCover": "Hoes bekijken",
+    "mediaViewerShowControls": "Bedieningselementen tonen",
+    "mediaViewerHideControls": "Bedieningselementen verbergen"
 }

@@ -364,5 +364,7 @@
     "personaBulkNowMentionableByFollowing": "Omtale af {count, plural, one {{count} persona} other {{count} personaer}} følger nu synligheden",
     "personaNotMentionable": "Ingen får denne persona i omtaleforslag",
     "bookmarkRemoveConfirmDescription": "Fjern denne besked fra gemte beskeder?",
-    "chatAudioViewCover": "Vis cover"
+    "chatAudioViewCover": "Vis cover",
+    "mediaViewerShowControls": "Vis kontroller",
+    "mediaViewerHideControls": "Skjul kontroller"
 }

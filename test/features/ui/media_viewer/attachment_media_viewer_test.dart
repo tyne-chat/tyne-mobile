@@ -712,10 +712,12 @@ List<bool> _disableAnimations(WidgetTester tester, BoxFit fit) {
 // ignore: unreachable_from_main // Fork: used by attachment_media_viewer_fork_test.dart.
 typedef ForkUpstreamHelpers = ({
   Widget Function(Widget child) touchApp,
+  Widget Function(Widget child) mouseApp,
   AttachmentMediaViewerItem landscapePhoto,
 });
 // ignore: unreachable_from_main // Fork: used by attachment_media_viewer_fork_test.dart.
 const ForkUpstreamHelpers forkUpstream = (
   touchApp: _touchApp,
+  mouseApp: _mouseApp,
   landscapePhoto: _landscapePhoto,
 );

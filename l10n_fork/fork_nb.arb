@@ -364,5 +364,7 @@
     "personaBulkNowMentionableByFollowing": "{count, plural, one {Omtaler av {count} persona følger nå Synlighet} other {Omtaler av {count} personaer følger nå Synlighet}}",
     "personaNotMentionable": "Ingen får denne personaen i omtaleforslag",
     "bookmarkRemoveConfirmDescription": "Fjerne denne meldingen fra lagrede meldinger?",
-    "chatAudioViewCover": "Vis omslag"
+    "chatAudioViewCover": "Vis omslag",
+    "mediaViewerShowControls": "Vis kontroller",
+    "mediaViewerHideControls": "Skjul kontroller"
 }

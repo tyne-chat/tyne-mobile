@@ -364,5 +364,7 @@
     "personaBulkNowMentionableByFollowing": "{count, plural, other {Sebutan {count} persona kini mengikuti Visibilitas}}",
     "personaNotMentionable": "Tidak ada yang mendapat persona ini di saran sebutan",
     "bookmarkRemoveConfirmDescription": "Hapus bookmark ini?",
-    "chatAudioViewCover": "Lihat sampul"
+    "chatAudioViewCover": "Lihat sampul",
+    "mediaViewerShowControls": "Tampilkan kontrol",
+    "mediaViewerHideControls": "Sembunyikan kontrol"
 }

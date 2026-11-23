@@ -1406,4 +1406,10 @@ class ForkLocalizationsArt extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'lukin e sitelen lawa';
+
+  @override
+  String get mediaViewerShowControls => 'o lukin e ilo';
+
+  @override
+  String get mediaViewerHideControls => 'o len e ilo';
 }

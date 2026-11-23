@@ -1387,4 +1387,10 @@ class ForkLocalizationsVi extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'Xem ảnh bìa';
+
+  @override
+  String get mediaViewerShowControls => 'Hiện các nút điều khiển';
+
+  @override
+  String get mediaViewerHideControls => 'Ẩn các nút điều khiển';
 }

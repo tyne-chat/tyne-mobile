@@ -1359,4 +1359,10 @@ class ForkLocalizationsJa extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'ジャケットを表示';
+
+  @override
+  String get mediaViewerShowControls => 'コントロールを表示';
+
+  @override
+  String get mediaViewerHideControls => 'コントロールを隠す';
 }

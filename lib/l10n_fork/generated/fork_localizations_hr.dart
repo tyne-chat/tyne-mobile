@@ -1421,4 +1421,10 @@ class ForkLocalizationsHr extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'Prikaži omot';
+
+  @override
+  String get mediaViewerShowControls => 'Prikaži kontrole';
+
+  @override
+  String get mediaViewerHideControls => 'Sakrij kontrole';
 }

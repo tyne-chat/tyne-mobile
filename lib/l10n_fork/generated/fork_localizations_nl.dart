@@ -1408,4 +1408,10 @@ class ForkLocalizationsNl extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'Hoes bekijken';
+
+  @override
+  String get mediaViewerShowControls => 'Bedieningselementen tonen';
+
+  @override
+  String get mediaViewerHideControls => 'Bedieningselementen verbergen';
 }

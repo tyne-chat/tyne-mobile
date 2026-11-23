@@ -1457,4 +1457,10 @@ class ForkLocalizationsAr extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'عرض الغلاف';
+
+  @override
+  String get mediaViewerShowControls => 'إظهار عناصر التحكم';
+
+  @override
+  String get mediaViewerHideControls => 'إخفاء عناصر التحكم';
 }

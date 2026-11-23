@@ -22,6 +22,7 @@ import 'package:fluxer_app/features/forum/providers/media_download_policy_provid
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
+// ignore: unused_import // Fork: upstream's import, unused since the fork's changes.
 import 'package:fluxer_app/features/shell/foldable/tabletop_hinge_column.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
@@ -34,6 +35,10 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
+
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/ui/media_viewer/media_viewer_controls_fork.dart';
 
 class AttachmentMediaViewerItem {
   const AttachmentMediaViewerItem({
@@ -740,7 +745,7 @@ class _AttachmentMediaViewerShellState
       },
       child: Material(
         color: Colors.transparent,
-        child: Stack(
+        child: ForkMediaViewerControlsStack(
           fit: StackFit.expand,
           children: [
             FluxerGestureDetector(
@@ -773,7 +778,7 @@ class _AttachmentMediaViewerShellState
               ),
             SafeArea(
               child: useTouchGestures
-                  ? TabletopHingeColumn(
+                  ? ForkMediaViewerTouchControls(
                       upper: Column(
                         children: <Widget>[
                           _buildTopBar(

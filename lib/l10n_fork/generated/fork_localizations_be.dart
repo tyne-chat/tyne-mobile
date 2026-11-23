@@ -1442,4 +1442,10 @@ class ForkLocalizationsBe extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'Паказаць вокладку';
+
+  @override
+  String get mediaViewerShowControls => 'Паказаць кіраванне';
+
+  @override
+  String get mediaViewerHideControls => 'Схаваць кіраванне';
 }

@@ -1419,4 +1419,10 @@ class ForkLocalizationsFil extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'Tingnan ang cover';
+
+  @override
+  String get mediaViewerShowControls => 'Ipakita ang mga kontrol';
+
+  @override
+  String get mediaViewerHideControls => 'Itago ang mga kontrol';
 }
