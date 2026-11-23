@@ -49,6 +49,9 @@ abstract final class LocalSettingKeys {
   );
   static const DeviceFlag keepAttachmentsOnEmptyEdit = DeviceFlag(
     'interface_keep_attachments_on_empty_edit',
+    // Fork: on by default in Tyne; upstream's default is off
+    // (tyne-chat/tyne#904).
+    defaultValue: true,
   );
   static const DeviceFlag sequentialFileSend = DeviceFlag(
     'interface_sequential_file_send',

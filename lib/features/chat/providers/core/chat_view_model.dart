@@ -122,6 +122,7 @@ import 'package:fluxer_app/features/chat/providers/core/fork_around_page.dart';
 import 'package:fluxer_app/features/chat/providers/core/fork_detached_send.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
+import 'package:fluxer_app/features/chat/utils/composer/fork_edit_sendable.dart';
 import 'package:fluxer_app/features/chat/utils/reactions/own_reactions.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
@@ -7707,6 +7708,13 @@ class ChatViewModel extends _$ChatViewModel {
         editedContent.isEmpty &&
         contentChanged &&
         !keepAttachmentsOnly &&
+        !forkStickersKeepEmptyEdit(
+          editing: editingMessage,
+          editedContent: editedContent,
+          keepAttachments: ref.read(
+            interfaceExtrasPreferencesProvider,
+          )[InterfaceExtraFlag.keepAttachmentsOnEmptyEdit],
+        ) &&
         editFiles.isEmpty;
 
     if ((!contentChanged && !personaChanged && editFiles.isEmpty) ||
