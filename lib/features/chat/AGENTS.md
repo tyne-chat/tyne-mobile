@@ -100,6 +100,11 @@ froze the panel on the previous conversation.
   pick sends at once and empties the composer, so they are listed only while it holds nothing but
   the query or a persona tag the send uses up, checked again on the pick, which takes the query out
   and hands over to the `/sticker` and `/saved` handlers. Local data only: no request per keystroke.
+- **`:` straight after an emoji** (tyne-chat/tyne#650): upstream opens the `:` list only at the start
+  or after a space. `services/composer_emoji_trigger_after_emoji_fork.dart`, called once from
+  `ComposerAutocompleteTrigger.detect` after upstream's emoji rule, opens it after an emoji too (an
+  inline token, an emoji the app knows, a typed `:name:`), as the web app does. A token's character
+  does not say what it is, so a `:` straight after a mention or timestamp chip opens it as well.
 - **Uploads:** `CloudUploadController(channelId)` stages attachments; `claimForMessage` hands them to
   the send, which falls back to multipart if a pre-upload failed.
 - **Files in an edit** (tyne-chat/tyne#293): an edit happens in the composer, so its files are the

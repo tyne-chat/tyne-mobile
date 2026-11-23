@@ -1,5 +1,8 @@
 import 'package:flutter/foundation.dart';
 
+// Fork imports.
+import 'package:fluxer_app/features/chat/services/composer_emoji_trigger_after_emoji_fork.dart';
+
 enum ComposerAutocompleteTriggerKind {
   emojiReaction,
   commandArgMention,
@@ -142,6 +145,14 @@ class ComposerAutocompleteTrigger {
         matchEnd: m.end,
         matchedText: namePart,
       );
+    }
+
+    // Fork: a `:` straight after an emoji starts the search too
+    // (tyne-chat/tyne#650).
+    final ComposerAutocompleteTrigger? forkAfterEmoji =
+        forkEmojiTriggerAfterEmoji(textUpToCursor);
+    if (forkAfterEmoji != null) {
+      return forkAfterEmoji;
     }
 
     m = _memeSearch.firstMatch(textUpToCursor);
