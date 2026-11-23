@@ -63,6 +63,33 @@ class SignalBarRepository {
     await _dio.delete<void>('/channels/$channelId/signals/$signalId');
   }
 
+  /// Re-points the account's lit signals in each of [channelIds] whose persona
+  /// differs to [personaId], or to the account when it is null, in place and
+  /// in one request (tyne-chat/tyne#310). Lights nothing, and leaves chats
+  /// where the account may not light as they are. Returns the chats where
+  /// something changed, each of which gets its `CHANNEL_SIGNAL_UPDATE`.
+  /// `persona_id` is always sent, null for the account: the route requires
+  /// the key.
+  Future<List<String>> setPersona(
+    List<String> channelIds, {
+    String? personaId,
+  }) async {
+    final Response<Map<String, dynamic>> response = await _dio
+        .put<Map<String, dynamic>>(
+          '/users/@me/signals/persona',
+          data: <String, dynamic>{
+            'persona_id': personaId,
+            'channel_ids': channelIds,
+          },
+        );
+    return <String>[
+      for (final Object? id
+          in response.data?['changed_channel_ids'] as List<dynamic>? ??
+              const [])
+        id! as String,
+    ];
+  }
+
   /// Switches the bar on or off in a DM or group DM, which anyone in it may
   /// do (tyne-chat/tyne#265, #743). Turning it off clears its signals.
   Future<void> setDmEnabled(String channelId, {required bool enabled}) async {

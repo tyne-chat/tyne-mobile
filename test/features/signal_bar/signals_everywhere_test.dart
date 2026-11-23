@@ -139,6 +139,15 @@ class _RecordingRepository implements SignalBarRepository {
 
   @override
   Future<void> setDmEnabled(String channelId, {required bool enabled}) async {}
+
+  @override
+  Future<List<String>> setPersona(
+    List<String> channelIds, {
+    String? personaId,
+  }) async {
+    calls.add('PUT persona ${channelIds.join(',')} ${personaId ?? '-'}');
+    return channelIds;
+  }
 }
 
 class DioLikeFailure implements Exception {}
