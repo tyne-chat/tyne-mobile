@@ -54,6 +54,17 @@ class SignalBarTestServer implements HttpClientAdapter {
   bool failReads = false;
   bool failWrites = false;
 
+  /// Personas the account does not own: re-pointing to one answers 400
+  /// `UNKNOWN_PERSONA` (tyne-chat/tyne#310).
+  final Set<String> unknownPersonas = <String>{};
+
+  /// Chats where the account may no longer light, which re-pointing leaves
+  /// as they are.
+  final Set<String> unlightable = <String>{};
+
+  /// The body of each `PUT /users/@me/signals/persona`.
+  final List<Map<String, Object?>> repointBodies = <Map<String, Object?>>[];
+
   /// The real repository, talking to this server.
   SignalBarRepository repository() => SignalBarRepository(
     Dio(BaseOptions(baseUrl: 'https://api.example.invalid'))
@@ -70,6 +81,12 @@ class SignalBarTestServer implements HttpClientAdapter {
   List<String> get writes => <String>[
     for (final String request in requests)
       if (request.startsWith('PUT') || request.startsWith('DELETE')) request,
+  ];
+
+  /// The `PUT /users/@me/signals/persona` requests sent.
+  List<String> get repoints => <String>[
+    for (final String request in requests)
+      if (request == 'PUT /users/@me/signals/persona') request,
   ];
 
   /// The account's signal [signalId] in [channelId] goes off on the server,
@@ -100,6 +117,9 @@ class SignalBarTestServer implements HttpClientAdapter {
         'chats': <Object?>[],
         'restore_available': false,
       });
+    }
+    if (method == 'PUT' && path == '/users/@me/signals/persona') {
+      return _repoint(options.data as Map<String, dynamic>);
     }
     if (parts.length < 4 || parts[1] != 'channels') {
       return _json(<String, Object?>{}, status: 404);
@@ -140,6 +160,55 @@ class SignalBarTestServer implements HttpClientAdapter {
       dropMine(channelId, parts[4]);
     }
     return ResponseBody.fromString('', 204);
+  }
+
+  /// As the API does: in each chat listed, every lit entry of the account's
+  /// whose persona differs takes the new one in place, except where the
+  /// account may not light.
+  ResponseBody _repoint(Map<String, dynamic> body) {
+    repointBodies.add(body);
+    if (failWrites) {
+      return _json(<String, Object?>{}, status: 500);
+    }
+    // `persona_id` is required, null for the account.
+    if (!body.containsKey('persona_id')) {
+      return _json(<String, Object?>{
+        'code': 'INVALID_FORM_BODY',
+        'message': 'persona_id is required',
+      }, status: 400);
+    }
+    final String? personaId = body['persona_id'] as String?;
+    if (personaId != null && unknownPersonas.contains(personaId)) {
+      return _json(<String, Object?>{
+        'code': 'UNKNOWN_PERSONA',
+        'message': 'Unknown persona',
+      }, status: 400);
+    }
+    final List<String> changed = <String>[];
+    for (final Object? id in body['channel_ids']! as List<Object?>) {
+      final String channelId = id! as String;
+      final List<Map<String, Object?>>? entries = lit[channelId];
+      if (entries == null || unlightable.contains(channelId)) {
+        continue;
+      }
+      bool any = false;
+      for (int i = 0; i < entries.length; i++) {
+        final Map<String, Object?> entry = entries[i];
+        if ((entry['user']! as Map<String, Object?>)['id'] == kSignalTestMe &&
+            entry['persona_id'] != personaId) {
+          entries[i] = signalEntryJson(
+            entry['signal_id']! as String,
+            kSignalTestMe,
+            personaId: personaId,
+          );
+          any = true;
+        }
+      }
+      if (any) {
+        changed.add(channelId);
+      }
+    }
+    return _json(<String, Object?>{'changed_channel_ids': changed});
   }
 
   ResponseBody _json(Object? body, {int status = 200}) =>

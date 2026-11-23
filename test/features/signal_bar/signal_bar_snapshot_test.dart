@@ -115,6 +115,15 @@ class _Server implements SignalBarRepository {
       calls.add('DELETE $signalId');
 
   @override
+  Future<List<String>> setPersona(
+    List<String> channelIds, {
+    String? personaId,
+  }) async {
+    calls.add('PUT persona ${personaId ?? '-'}');
+    return channelIds;
+  }
+
+  @override
   Future<UserSignalsSummary> fetchMySignals() async {
     calls.add('GET summary');
     return const UserSignalsSummary(
