@@ -182,7 +182,8 @@ void main() {
         sanitizeUrlsInContent(
           'https://www.youtube.com/redirect?q=https%3A%2F%2Fwww.youtube.com%2Fredirect%3Fq%3Dhttps%253A%252F%252Fwww.youtube.com%252Fredirect%253Fq%253Dhttps%25253A%25252F%25252Fexample.com%25252F',
         ),
-        'https://www.youtube.com/redirect?q=https%3A%2F%2Fexample.com%2F',
+        // Fork: the fork unwraps nested redirects fully, as the web app does.
+        'https://example.com/',
       );
     });
 
