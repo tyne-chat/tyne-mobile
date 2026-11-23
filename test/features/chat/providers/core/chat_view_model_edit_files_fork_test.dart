@@ -523,6 +523,10 @@ void main() {
         personas: const <Persona>[_bao],
       );
       final ChatViewModel notifier = await editWithFile(container);
+      // As in the app, the personas' stored use has loaded before an edit: a load still running
+      // would replace the use the save records.
+      container.read(activePersonaProvider);
+      await paginationFlushAsync();
 
       await notifier.saveEditedMessage(text: 'B: Test 2');
       await paginationFlushAsync();
