@@ -7,15 +7,24 @@
 // these tests swipe with an 8 px slop in steps of up to 50 px. Upstream's
 // tester.fling moves in 6 px steps with Flutter's default 18 px slop, which
 // never showed the problem.
+//
+// tyne-chat/tyne#866: on touch the viewer opens with its controls hidden, and
+// a single tap on the media shows or hides them.
 import 'dart:async';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
+import 'package:flutter/gestures.dart' show kDoubleTapTimeout;
+import 'package:flutter/semantics.dart' show SemanticsNode;
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
 import 'package:fluxer_app/features/ui/media_viewer/attachment_media_viewer.dart';
+import 'package:fluxer_app/features/ui/media_viewer/media_viewer_controls_fork.dart';
 import 'package:fluxer_app/features/ui/media_viewer/media_viewer_dismissible.dart';
 import 'package:fluxer_app/features/ui/media_viewer/touch_media_viewer_page.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 import 'attachment_media_viewer_test.dart' hide main;
@@ -191,6 +200,112 @@ Future<int> _longPressesWhileHolding(
   await first.up();
   await tester.pumpAndSettle();
   return longPresses;
+}
+
+FluxerLocalizations _l10n(WidgetTester tester) => FluxerLocalizations.of(
+  tester.element(find.byType(AttachmentMediaViewerShell)),
+);
+
+/// Taps the media once, at the middle of the viewer unless [at] is given, and
+/// waits until the tap counts as a single tap (the double-tap time has passed
+/// without a second tap) and the controls have faded in or out.
+Future<void> _tapMedia(WidgetTester tester, {Offset? at}) async {
+  await tester.tapAt(at ?? tester.getCenter(find.byType(PageView)));
+  await tester.pump(kDoubleTapTimeout);
+  await tester.pumpAndSettle();
+}
+
+/// Expects the touch viewer's controls to be drawn and tappable, or neither.
+void _expectControls(WidgetTester tester, {required bool shown}) {
+  final AnimatedOpacity fade = tester.widget<AnimatedOpacity>(
+    find
+        .descendant(
+          of: find.byType(ForkMediaViewerTouchControls),
+          matching: find.byType(AnimatedOpacity),
+        )
+        .first,
+  );
+  expect(fade.opacity, shown ? 1 : 0);
+  final FluxerLocalizations l10n = _l10n(tester);
+  for (final String tooltip in <String>[
+    l10n.mediaViewerClose,
+    l10n.mediaViewerOptions,
+    l10n.mediaViewerNextAttachment,
+  ]) {
+    expect(
+      find.byTooltip(tooltip).hitTestable(),
+      shown ? findsOneWidget : findsNothing,
+      reason: tooltip,
+    );
+  }
+}
+
+/// The semantics node whose label starts with [label].
+FinderBase<SemanticsNode> _semanticsLabelled(String label) => find.semantics
+    .byPredicate((SemanticsNode node) => node.label.startsWith(label));
+
+FinderBase<SemanticsNode> _semanticsWithTooltip(String tooltip) =>
+    find.semantics.byPredicate((SemanticsNode node) => node.tooltip == tooltip);
+
+/// Shows one TouchMediaViewerPage under a ForkMediaViewerControlsStack, as
+/// the viewer has it, and returns its zoom controller.
+Future<TransformationController> _pumpPageUnderControls(
+  WidgetTester tester, {
+  required VoidCallback onLongPress,
+}) async {
+  _useAndroidSurface(tester, touchSlop: _androidTouchSlop);
+  final TransformationController controller = TransformationController();
+  addTearDown(controller.dispose);
+  await tester.pumpWidget(
+    forkUpstream.touchApp(
+      ForkMediaViewerControlsStack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          TouchMediaViewerPage(
+            transformationController: controller,
+            isCurrentPage: true,
+            onDismissProgress: (_) {},
+            onClose: () {},
+            onZoomChanged: (_) {},
+            onLongPress: onLongPress,
+            child: const SizedBox.expand(),
+          ),
+        ],
+      ),
+    ),
+  );
+  return controller;
+}
+
+bool _controlsVisible(WidgetTester tester) => tester
+    .widget<ForkMediaViewerControls>(find.byType(ForkMediaViewerControls))
+    .visible;
+
+// Records each SystemChrome.setEnabledSystemUIMode call as its mode, with
+// " all" when every overlay is asked for.
+List<String> _recordSystemUiModes(WidgetTester tester) {
+  final List<String> modes = <String>[];
+  tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+    SystemChannels.platform,
+    (MethodCall call) async {
+      if (call.method == 'SystemChrome.setEnabledSystemUIMode') {
+        modes.add(call.arguments as String);
+      } else if (call.method == 'SystemChrome.setEnabledSystemUIOverlays') {
+        final List<Object?> overlays = call.arguments as List<Object?>;
+        modes.add(
+          'SystemUiMode.manual${overlays.length == SystemUiOverlay.values.length ? ' all' : ''}',
+        );
+      }
+      return null;
+    },
+  );
+  addTearDown(
+    () => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+      SystemChannels.platform,
+      null,
+    ),
+  );
+  return modes;
 }
 
 void main() {
@@ -423,6 +538,257 @@ void main() {
         ),
         0,
       );
+    });
+  });
+
+  group('controls hidden until a tap (tyne-chat/tyne#866)', () {
+    testWidgets('the controls start hidden', (WidgetTester tester) async {
+      await _openViewer(tester);
+      _expectControls(tester, shown: false);
+    });
+
+    testWidgets('a single tap shows them and the next one hides them', (
+      WidgetTester tester,
+    ) async {
+      await _openViewer(tester);
+      await _tapMedia(tester);
+      _expectControls(tester, shown: true);
+      await _tapMedia(tester);
+      _expectControls(tester, shown: false);
+      expect(_viewerOpen(), isTrue);
+      expect(_zoomScale(tester), 1);
+    });
+
+    testWidgets('they do not hide again by themselves', (
+      WidgetTester tester,
+    ) async {
+      await _openViewer(tester);
+      await _tapMedia(tester);
+      await tester.pump(const Duration(minutes: 1));
+      await tester.pumpAndSettle();
+      _expectControls(tester, shown: true);
+    });
+
+    testWidgets('a tap where a hidden button is shows the controls and does '
+        'not press it', (WidgetTester tester) async {
+      await _openViewer(tester);
+      final Finder close = find.byTooltip(_l10n(tester).mediaViewerClose);
+      await _tapMedia(tester, at: tester.getCenter(close));
+      expect(_viewerOpen(), isTrue);
+      _expectControls(tester, shown: true);
+
+      await tester.tap(close);
+      await tester.pumpAndSettle();
+      expect(_viewerOpen(), isFalse);
+    });
+
+    testWidgets('a double tap zooms and leaves the controls as they are', (
+      WidgetTester tester,
+    ) async {
+      await _openViewer(tester);
+      await _doubleTap(tester);
+      await tester.pump(kDoubleTapTimeout);
+      await tester.pumpAndSettle();
+      expect(_zoomScale(tester), greaterThan(2));
+      _expectControls(tester, shown: false);
+
+      await _tapMedia(tester);
+      _expectControls(tester, shown: true);
+
+      await _doubleTap(tester);
+      await tester.pump(kDoubleTapTimeout);
+      await tester.pumpAndSettle();
+      expect(_zoomScale(tester), 1);
+      _expectControls(tester, shown: true);
+    });
+
+    testWidgets('paging keeps the choice, and swipes do not toggle', (
+      WidgetTester tester,
+    ) async {
+      await _openViewer(tester);
+      await _swipe(tester, const Offset(-30, 0));
+      expect(_page(tester), 1);
+      _expectControls(tester, shown: false);
+
+      await _tapMedia(tester);
+      await _swipe(tester, const Offset(30, 0));
+      expect(_page(tester), 0);
+      _expectControls(tester, shown: true);
+
+      await tester.tap(find.byTooltip(_l10n(tester).mediaViewerNextAttachment));
+      await tester.pumpAndSettle();
+      expect(_page(tester), 1);
+      _expectControls(tester, shown: true);
+
+      // A short drag down that snaps back.
+      await _swipe(tester, const Offset(0, 4), distance: 40);
+      expect(_viewerOpen(), isTrue);
+      _expectControls(tester, shown: true);
+    });
+
+    testWidgets('every viewer starts with the controls hidden', (
+      WidgetTester tester,
+    ) async {
+      await _openViewer(tester);
+      await _tapMedia(tester);
+      await tester.tap(find.byTooltip(_l10n(tester).mediaViewerClose));
+      await tester.pumpAndSettle();
+      expect(_viewerOpen(), isFalse);
+
+      await _openViewer(tester);
+      _expectControls(tester, shown: false);
+    });
+
+    testWidgets('a long press opens the options and does not toggle', (
+      WidgetTester tester,
+    ) async {
+      int longPresses = 0;
+      await _pumpPageUnderControls(tester, onLongPress: () => longPresses++);
+      await tester.longPress(find.byType(TouchMediaViewerPage));
+      await tester.pump(kDoubleTapTimeout);
+      await tester.pumpAndSettle();
+      expect(longPresses, 1);
+      expect(_controlsVisible(tester), isFalse);
+
+      await tester.tap(find.byType(TouchMediaViewerPage));
+      await tester.pump(kDoubleTapTimeout);
+      expect(_controlsVisible(tester), isTrue);
+    });
+
+    testWidgets('a pinch zooms and does not toggle', (
+      WidgetTester tester,
+    ) async {
+      final TransformationController zoom = await _pumpPageUnderControls(
+        tester,
+        onLongPress: () {},
+      );
+      final Offset center = tester.getCenter(find.byType(TouchMediaViewerPage));
+      final TestGesture anchor = await tester.startGesture(
+        center - const Offset(30, 0),
+        pointer: 1,
+      );
+      final TestGesture mover = await tester.startGesture(
+        center + const Offset(30, 0),
+        pointer: 2,
+      );
+      for (int i = 0; i < 6; i++) {
+        await mover.moveBy(const Offset(15, 0));
+        await tester.pump(const Duration(milliseconds: 16));
+      }
+      final double scale = zoom.value.getMaxScaleOnAxis();
+      await mover.up();
+      await anchor.up();
+      await tester.pump(kDoubleTapTimeout);
+      await tester.pumpAndSettle();
+      expect(scale, greaterThan(1.2));
+      expect(_controlsVisible(tester), isFalse);
+    });
+
+    testWidgets('screen readers read the media as "Show controls" or "Hide '
+        'controls", and its tap action toggles them', (
+      WidgetTester tester,
+    ) async {
+      final SemanticsHandle semantics = tester.ensureSemantics();
+      await _openViewer(tester);
+      final FluxerLocalizations l10n = _l10n(tester);
+      expect(_semanticsLabelled(l10n.fork.mediaViewerShowControls), findsOne);
+      expect(_semanticsWithTooltip(l10n.mediaViewerClose), findsNothing);
+
+      tester.semantics.tap(
+        _semanticsLabelled(l10n.fork.mediaViewerShowControls),
+      );
+      await tester.pumpAndSettle();
+      _expectControls(tester, shown: true);
+      expect(_semanticsLabelled(l10n.fork.mediaViewerHideControls), findsOne);
+      expect(_semanticsWithTooltip(l10n.mediaViewerClose), findsOne);
+
+      tester.semantics.tap(
+        _semanticsLabelled(l10n.fork.mediaViewerHideControls),
+      );
+      await tester.pumpAndSettle();
+      _expectControls(tester, shown: false);
+      semantics.dispose();
+    });
+
+    testWidgets('with the controls hidden, screen readers can still close the '
+        'viewer', (WidgetTester tester) async {
+      final SemanticsHandle semantics = tester.ensureSemantics();
+      await _openViewer(tester);
+      _expectControls(tester, shown: false);
+      tester.semantics.tap(
+        _semanticsLabelled(_l10n(tester).mediaViewerDismissBackdrop),
+      );
+      await tester.pumpAndSettle();
+      expect(_viewerOpen(), isFalse);
+      semantics.dispose();
+    });
+
+    testWidgets('with a screen reader on, the controls start shown', (
+      WidgetTester tester,
+    ) async {
+      tester.platformDispatcher.accessibilityFeaturesTestValue =
+          const FakeAccessibilityFeatures(accessibleNavigation: true);
+      addTearDown(
+        tester.platformDispatcher.clearAccessibilityFeaturesTestValue,
+      );
+      await _openViewer(tester);
+      _expectControls(tester, shown: true);
+      await _tapMedia(tester);
+      _expectControls(tester, shown: false);
+    });
+
+    testWidgets('the system bars hide with the controls and come back with '
+        'them and on closing', (WidgetTester tester) async {
+      final List<String> modes = _recordSystemUiModes(tester);
+      await _openViewer(tester);
+      expect(modes, <String>['SystemUiMode.immersiveSticky']);
+      await _tapMedia(tester);
+      expect(modes.last, 'SystemUiMode.manual all');
+      await _tapMedia(tester);
+      expect(modes.last, 'SystemUiMode.immersiveSticky');
+      // Closed while the controls are hidden, through the backdrop's action.
+      final SemanticsHandle semantics = tester.ensureSemantics();
+      tester.semantics.tap(
+        _semanticsLabelled(_l10n(tester).mediaViewerDismissBackdrop),
+      );
+      await tester.pumpAndSettle();
+      semantics.dispose();
+      expect(_viewerOpen(), isFalse);
+      expect(modes.last, 'SystemUiMode.manual all');
+      expect(modes, hasLength(4));
+    });
+
+    testWidgets('with the mouse as the main input, nothing is hidden', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1400, 900);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(
+        forkUpstream.mouseApp(
+          AttachmentMediaViewerShell(
+            items: <AttachmentMediaViewerItem>[
+              forkUpstream.landscapePhoto,
+              forkUpstream.landscapePhoto,
+            ],
+            initialIndex: 0,
+          ),
+        ),
+      );
+      await tester.pump();
+      expect(find.byType(ForkMediaViewerTouchControls), findsNothing);
+      final FluxerLocalizations l10n = _l10n(tester);
+      for (final String tooltip in <String>[
+        l10n.mediaViewerClose,
+        l10n.mediaViewerOptions,
+        l10n.mediaViewerNextAttachment,
+      ]) {
+        expect(
+          find.byTooltip(tooltip).hitTestable(),
+          findsOneWidget,
+          reason: tooltip,
+        );
+      }
     });
   });
 }

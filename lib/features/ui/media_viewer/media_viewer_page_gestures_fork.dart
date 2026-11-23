@@ -3,9 +3,18 @@
 // long press goes to ForkMediaViewerLongPressGestureRecognizer, which gives way
 // to a second finger (a pinch) as the viewer's drags do. Screen readers get the
 // same long-press action GestureDetector gave them.
+//
+// tyne-chat/tyne#866: under a ForkMediaViewerControlsStack, a single tap shows
+// or hides the viewer's controls (media_viewer_controls_fork.dart). It sits on
+// the same detector as the double tap, so it fires once the double-tap time
+// has passed without a second tap, and never for a double tap. Screen readers
+// read the page as "Show controls" or "Hide controls", with that tap action.
 import 'package:flutter/gestures.dart';
+import 'package:fluxer_app/features/ui/media_viewer/media_viewer_controls_fork.dart';
 import 'package:fluxer_app/features/ui/media_viewer/media_viewer_drag_recognizers.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class ForkMediaViewerPageGestures extends StatelessWidget {
@@ -27,8 +36,12 @@ class ForkMediaViewerPageGestures extends StatelessWidget {
     final VoidCallback? onLongPress = this.onLongPress;
     final DeviceGestureSettings? gestureSettings =
         MediaQuery.maybeGestureSettingsOf(context);
-    return FluxerGestureDetector(
+    final ForkMediaViewerControls? controls = ForkMediaViewerControls.maybeOf(
+      context,
+    );
+    final Widget gestures = FluxerGestureDetector(
       behavior: behavior,
+      onTap: controls?.toggle,
       onDoubleTapDown: onDoubleTapDown,
       child: RawGestureDetector(
         behavior: behavior,
@@ -51,6 +64,18 @@ class ForkMediaViewerPageGestures extends StatelessWidget {
         },
         child: child,
       ),
+    );
+    if (controls == null) {
+      return gestures;
+    }
+    final ForkLocalizations l10n = FluxerLocalizations.of(context).fork;
+    return Semantics(
+      container: true,
+      button: true,
+      label: controls.visible
+          ? l10n.mediaViewerHideControls
+          : l10n.mediaViewerShowControls,
+      child: gestures,
     );
   }
 }

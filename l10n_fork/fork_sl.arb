@@ -364,5 +364,7 @@
     "personaBulkNowMentionableByFollowing": "{count, plural, one {Omembe {count} persone zdaj sledijo vidnosti} two {Omembe {count} person zdaj sledijo vidnosti} few {Omembe {count} person zdaj sledijo vidnosti} other {Omembe {count} person zdaj sledijo vidnosti}}",
     "personaNotMentionable": "Ta persona se nikomur ne prikaže v predlogih omemb",
     "bookmarkRemoveConfirmDescription": "Želite odstraniti ta zaznamek?",
-    "chatAudioViewCover": "Prikaži naslovnico"
+    "chatAudioViewCover": "Prikaži naslovnico",
+    "mediaViewerShowControls": "Pokaži kontrolnike",
+    "mediaViewerHideControls": "Skrij kontrolnike"
 }

@@ -2374,6 +2374,18 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'View cover'**
   String get chatAudioViewCover;
+
+  /// Accessible label of the media in the phone's full-screen image viewer while its controls (close, favourite and options buttons, thumbnails, arrows, count) are hidden; tapping the media shows them (tyne-chat/tyne#866).
+  ///
+  /// In en, this message translates to:
+  /// **'Show controls'**
+  String get mediaViewerShowControls;
+
+  /// Accessible label of the media in the phone's full-screen image viewer while its controls are shown; tapping the media hides them (tyne-chat/tyne#866).
+  ///
+  /// In en, this message translates to:
+  /// **'Hide controls'**
+  String get mediaViewerHideControls;
 }
 
 class _ForkLocalizationsDelegate

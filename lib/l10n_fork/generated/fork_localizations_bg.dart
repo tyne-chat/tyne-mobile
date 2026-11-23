@@ -1422,4 +1422,10 @@ class ForkLocalizationsBg extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'Преглед на обложката';
+
+  @override
+  String get mediaViewerShowControls => 'Показване на контролите';
+
+  @override
+  String get mediaViewerHideControls => 'Скриване на контролите';
 }

@@ -364,5 +364,7 @@
     "personaBulkNowMentionableByFollowing": "{count, plural, one {As menções de {count} persona seguem agora a Visibilidade} many {As menções de {count} personas seguem agora a Visibilidade} other {As menções de {count} personas seguem agora a Visibilidade}}",
     "personaNotMentionable": "Esta persona não aparece a ninguém nas sugestões de menção",
     "bookmarkRemoveConfirmDescription": "Remover este marcador?",
-    "chatAudioViewCover": "Ver capa"
+    "chatAudioViewCover": "Ver capa",
+    "mediaViewerShowControls": "Mostrar controlos",
+    "mediaViewerHideControls": "Ocultar controlos"
 }

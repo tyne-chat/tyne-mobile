@@ -364,5 +364,7 @@
     "personaBulkNowMentionableByFollowing": "{count, plural, one {{count} personos paminėjimai dabar priklauso nuo matomumo} few {{count} personų paminėjimai dabar priklauso nuo matomumo} many {{count} personos paminėjimai dabar priklauso nuo matomumo} other {{count} personų paminėjimai dabar priklauso nuo matomumo}}",
     "personaNotMentionable": "Niekas negauna šios personos paminėjimų pasiūlymuose",
     "bookmarkRemoveConfirmDescription": "Pašalinti šią žymę?",
-    "chatAudioViewCover": "Rodyti viršelį"
+    "chatAudioViewCover": "Rodyti viršelį",
+    "mediaViewerShowControls": "Rodyti valdiklius",
+    "mediaViewerHideControls": "Slėpti valdiklius"
 }

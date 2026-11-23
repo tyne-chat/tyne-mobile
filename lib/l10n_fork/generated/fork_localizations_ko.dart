@@ -1357,4 +1357,10 @@ class ForkLocalizationsKo extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => '커버 보기';
+
+  @override
+  String get mediaViewerShowControls => '컨트롤 표시';
+
+  @override
+  String get mediaViewerHideControls => '컨트롤 숨기기';
 }

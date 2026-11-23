@@ -364,5 +364,7 @@
     "personaBulkNowMentionableByFollowing": "{count, plural, one {{count} persoonan} other {{count} persoonan}} maininnat seuraavat nyt näkyvyyttä",
     "personaNotMentionable": "Tämä persoona ei näy kenenkään mainintaehdotuksissa",
     "bookmarkRemoveConfirmDescription": "Poistetaanko tämä kirjanmerkki?",
-    "chatAudioViewCover": "Näytä kansikuva"
+    "chatAudioViewCover": "Näytä kansikuva",
+    "mediaViewerShowControls": "Näytä ohjaimet",
+    "mediaViewerHideControls": "Piilota ohjaimet"
 }

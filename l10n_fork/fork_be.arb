@@ -364,5 +364,7 @@
     "personaBulkNowMentionableByFollowing": "Згадкі {count, plural, one {{count} персоны} few {{count} персон} many {{count} персон} other {{count} персоны}} цяпер залежаць ад бачнасці",
     "personaNotMentionable": "Ніхто не бачыць гэту персону ў падказках згадак",
     "bookmarkRemoveConfirmDescription": "Выдаліць гэтую закладку?",
-    "chatAudioViewCover": "Паказаць вокладку"
+    "chatAudioViewCover": "Паказаць вокладку",
+    "mediaViewerShowControls": "Паказаць кіраванне",
+    "mediaViewerHideControls": "Схаваць кіраванне"
 }

@@ -1377,4 +1377,10 @@ class ForkLocalizationsTh extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'ดูภาพปก';
+
+  @override
+  String get mediaViewerShowControls => 'แสดงตัวควบคุม';
+
+  @override
+  String get mediaViewerHideControls => 'ซ่อนตัวควบคุม';
 }
