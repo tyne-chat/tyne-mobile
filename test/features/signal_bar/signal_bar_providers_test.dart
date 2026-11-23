@@ -54,6 +54,15 @@ class _FakeRepository implements SignalBarRepository {
       calls.add('SWITCH $channelId $enabled');
 
   @override
+  Future<List<String>> setPersona(
+    List<String> channelIds, {
+    String? personaId,
+  }) async {
+    calls.add('PERSONA ${channelIds.join(',')} ${personaId ?? '-'}');
+    return channelIds;
+  }
+
+  @override
   Future<UserSignalsSummary> fetchMySignals() async => const UserSignalsSummary(
     chats: <UserSignalChat>[],
     restoreAvailable: false,
@@ -262,7 +271,7 @@ void main() {
         userId: '1',
         persona: const SignalPersona(id: '9', name: 'Kitsune', avatar: 'hash'),
       );
-      expect(repository.calls, ['PUT c reading 9']);
+      expect(repository.calls, ['PERSONA c 9']);
       expect(entries('c').first.personaId, '9');
       expect(entries('c').first.displayName, 'Kitsune');
       // Another account's signal, and the same account's in another channel,
@@ -279,7 +288,7 @@ void main() {
       expect(repository.calls, hasLength(1));
 
       signals().affirmPersona('c', userId: '1', persona: null);
-      expect(repository.calls.last, 'PUT c reading -');
+      expect(repository.calls.last, 'PERSONA c -');
       expect(entries('c').first.personaId, isNull);
     },
   );
