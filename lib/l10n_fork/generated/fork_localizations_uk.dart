@@ -440,6 +440,12 @@ class ForkLocalizationsUk extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'Увімкнути панель сигналів';
+
+  @override
+  String get signalBarDmTurnOff => 'Вимкнути панель сигналів';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'Використовуйте $domain для інстансу за замовчуванням або точну URL-адресу іншого інстансу.';
   }

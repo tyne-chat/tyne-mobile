@@ -438,6 +438,12 @@ class ForkLocalizationsCs extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'Zapnout lištu signálů';
+
+  @override
+  String get signalBarDmTurnOff => 'Vypnout lištu signálů';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'Pro výchozí instanci použijte $domain, nebo zadejte přesnou adresu URL jiné instance.';
   }

@@ -124,6 +124,8 @@
     "signalBarNobody": "Senkinél sincs bekapcsolva ez a jelzés",
     "signalBarReset": "Jelzés visszaállítása mindenkinél",
     "signalBarTurnOff": "{name} kikapcsolása",
+    "signalBarDmTurnOn": "Jelzősáv bekapcsolása",
+    "signalBarDmTurnOff": "Jelzősáv kikapcsolása",
     "instanceUrlHelperDefault": "Az alapértelmezett példányhoz használd ezt: {domain}, vagy add meg egy másik példány pontos URL-címét.",
     "instanceResetToDefault": "Visszaállítás az alapértelmezett példányra",
     "personaScopeTitle": "A persona érvényessége",

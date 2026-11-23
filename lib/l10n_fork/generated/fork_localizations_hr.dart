@@ -438,6 +438,12 @@ class ForkLocalizationsHr extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'Uključi traku signala';
+
+  @override
+  String get signalBarDmTurnOff => 'Isključi traku signala';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'Upotrijebite $domain za zadanu instancu ili točan URL druge instance.';
   }

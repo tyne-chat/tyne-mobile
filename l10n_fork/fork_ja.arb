@@ -124,6 +124,8 @@
     "signalBarNobody": "このシグナルをオンにしている人はいません",
     "signalBarReset": "全員のシグナルをリセット",
     "signalBarTurnOff": "{name} をオフにする",
+    "signalBarDmTurnOn": "シグナルバーをオンにする",
+    "signalBarDmTurnOff": "シグナルバーをオフにする",
     "instanceUrlHelperDefault": "デフォルトのインスタンスには {domain} を使用するか、別のインスタンスの正確なURLを入力してください。",
     "instanceResetToDefault": "デフォルトのインスタンスにリセット",
     "personaScopeTitle": "ペルソナの適用範囲",

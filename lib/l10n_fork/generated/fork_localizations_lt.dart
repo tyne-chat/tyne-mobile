@@ -437,6 +437,12 @@ class ForkLocalizationsLt extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'Įjungti signalų juostą';
+
+  @override
+  String get signalBarDmTurnOff => 'Išjungti signalų juostą';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'Numatytajam egzemplioriui naudokite $domain arba įveskite tikslų kito egzemplioriaus URL.';
   }

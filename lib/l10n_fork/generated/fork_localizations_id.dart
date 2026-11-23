@@ -436,6 +436,12 @@ class ForkLocalizationsId extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'Nyalakan bilah sinyal';
+
+  @override
+  String get signalBarDmTurnOff => 'Matikan bilah sinyal';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'Gunakan $domain untuk instans default, atau URL persis dari instans lain.';
   }

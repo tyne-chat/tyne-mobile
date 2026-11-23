@@ -124,6 +124,8 @@
     "signalBarNobody": "Personne n’a activé ce signal",
     "signalBarReset": "Réinitialiser le signal pour tout le monde",
     "signalBarTurnOff": "Désactiver {name}",
+    "signalBarDmTurnOn": "Activer la barre de signaux",
+    "signalBarDmTurnOff": "Désactiver la barre de signaux",
     "instanceUrlHelperDefault": "Utilisez {domain} pour l’instance par défaut, ou l’URL exacte d’une autre instance.",
     "instanceResetToDefault": "Réinitialiser à l’instance par défaut",
     "personaScopeTitle": "Le persona s’applique à",

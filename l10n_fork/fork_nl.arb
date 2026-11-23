@@ -124,6 +124,8 @@
     "signalBarNobody": "Niemand heeft dit signaal aan staan",
     "signalBarReset": "Signaal voor iedereen resetten",
     "signalBarTurnOff": "{name} uitzetten",
+    "signalBarDmTurnOn": "Signaalbalk aanzetten",
+    "signalBarDmTurnOff": "Signaalbalk uitzetten",
     "instanceUrlHelperDefault": "Gebruik {domain} voor de standaardinstantie, of de exacte URL van een andere instantie.",
     "instanceResetToDefault": "Terugzetten naar standaardinstantie",
     "personaScopeTitle": "Persona geldt voor",

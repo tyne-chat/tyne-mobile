@@ -124,6 +124,8 @@
     "signalBarNobody": "Nitko nema uključen ovaj signal",
     "signalBarReset": "Poništi signal za sve",
     "signalBarTurnOff": "Isključi {name}",
+    "signalBarDmTurnOn": "Uključi traku signala",
+    "signalBarDmTurnOff": "Isključi traku signala",
     "instanceUrlHelperDefault": "Upotrijebite {domain} za zadanu instancu ili točan URL druge instance.",
     "instanceResetToDefault": "Vrati na zadanu instancu",
     "personaScopeTitle": "Persona vrijedi za",

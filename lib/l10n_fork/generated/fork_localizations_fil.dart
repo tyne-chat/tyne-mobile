@@ -439,6 +439,12 @@ class ForkLocalizationsFil extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'I-on ang hanay ng signal';
+
+  @override
+  String get signalBarDmTurnOff => 'I-off ang hanay ng signal';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'Gamitin ang $domain para sa default na instance, o ang eksaktong URL ng ibang instance.';
   }

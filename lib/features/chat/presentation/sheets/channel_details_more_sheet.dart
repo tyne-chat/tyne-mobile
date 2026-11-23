@@ -98,6 +98,8 @@ Future<void> _showDetailsMoreSheet(
             icon: PhosphorIconsBold.pushPin,
             onTap: () => run(() => onToggleDmPin(isPinned: isDmPinned)),
           ),
+        // Fork: the DM's signal bar switch (tyne-chat/tyne#743).
+        ...signalBarDmMenuItems(ref, dm, showIcon: true, close: close),
         if (canOfferAnnouncementFollow(
           channel,
           ref.read(guildPermissionsProvider(readAccountUserId(ref))),

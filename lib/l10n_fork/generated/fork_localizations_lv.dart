@@ -436,6 +436,12 @@ class ForkLocalizationsLv extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'Ieslēgt signālu joslu';
+
+  @override
+  String get signalBarDmTurnOff => 'Izslēgt signālu joslu';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'Noklusējuma serverim izmantojiet $domain vai ievadiet precīzu cita servera URL.';
   }

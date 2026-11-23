@@ -929,6 +929,18 @@ abstract class ForkLocalizations {
   /// **'Turn off {name}'**
   String signalBarTurnOff(String name);
 
+  /// Item in the menu of a direct message or group DM (long press in the list, or More in its details) that shows the signal bar above the message box there, for everyone in it. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on signal bar'**
+  String get signalBarDmTurnOn;
+
+  /// Item in the menu of a direct message or group DM (long press in the list, or More in its details) that hides the signal bar there for everyone in it and clears its signals. Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off signal bar'**
+  String get signalBarDmTurnOff;
+
   /// Helper text under the instance URL field on the login screen. domain is the host of this build's default instance.
   ///
   /// In en, this message translates to:

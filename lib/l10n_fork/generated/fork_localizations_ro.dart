@@ -438,6 +438,12 @@ class ForkLocalizationsRo extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'Pornește bara de semnale';
+
+  @override
+  String get signalBarDmTurnOff => 'Oprește bara de semnale';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'Folosește $domain pentru instanța implicită sau adresa URL exactă a altei instanțe.';
   }
