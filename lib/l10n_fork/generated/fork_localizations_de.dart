@@ -1417,4 +1417,10 @@ class ForkLocalizationsDe extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'Cover anzeigen';
+
+  @override
+  String get mediaViewerShowControls => 'Steuerelemente einblenden';
+
+  @override
+  String get mediaViewerHideControls => 'Steuerelemente ausblenden';
 }

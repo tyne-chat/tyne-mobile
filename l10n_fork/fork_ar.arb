@@ -364,5 +364,7 @@
     "personaBulkNowMentionableByFollowing": "أصبحت الإشارة إلى {count, plural, zero {{count} شخصية} one {شخصية واحدة} two {شخصيتين} few {{count} شخصيات} many {{count} شخصية} other {{count} شخصية}} تتبع الظهور",
     "personaNotMentionable": "لا تظهر هذه الشخصية لأحد في اقتراحات الإشارة",
     "bookmarkRemoveConfirmDescription": "هل تريد إزالة هذه الإشارة المرجعية؟",
-    "chatAudioViewCover": "عرض الغلاف"
+    "chatAudioViewCover": "عرض الغلاف",
+    "mediaViewerShowControls": "إظهار عناصر التحكم",
+    "mediaViewerHideControls": "إخفاء عناصر التحكم"
 }

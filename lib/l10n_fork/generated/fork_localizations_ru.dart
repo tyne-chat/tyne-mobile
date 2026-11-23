@@ -1442,4 +1442,10 @@ class ForkLocalizationsRu extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'Показать обложку';
+
+  @override
+  String get mediaViewerShowControls => 'Показать элементы управления';
+
+  @override
+  String get mediaViewerHideControls => 'Скрыть элементы управления';
 }

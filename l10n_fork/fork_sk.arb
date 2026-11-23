@@ -364,5 +364,7 @@
     "personaBulkNowMentionableByFollowing": "{count, plural, one {Zmienky {count} persony sa teraz riadia viditeľnosťou} few {Zmienky {count} persón sa teraz riadia viditeľnosťou} many {Zmienky {count} persony sa teraz riadia viditeľnosťou} other {Zmienky {count} persón sa teraz riadia viditeľnosťou}}",
     "personaNotMentionable": "Táto persona sa nikomu nezobrazuje v návrhoch zmienok",
     "bookmarkRemoveConfirmDescription": "Odstrániť túto záložku?",
-    "chatAudioViewCover": "Zobraziť obal"
+    "chatAudioViewCover": "Zobraziť obal",
+    "mediaViewerShowControls": "Zobraziť ovládacie prvky",
+    "mediaViewerHideControls": "Skryť ovládacie prvky"
 }

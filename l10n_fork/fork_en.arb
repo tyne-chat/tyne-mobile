@@ -1854,5 +1854,13 @@
     "chatAudioViewCover": "View cover",
     "@chatAudioViewCover": {
         "description": "Accessible label of the cover art in an audio attachment player; tapping it opens the cover large (tyne-chat/tyne#873). Same wording as the web app's."
+    },
+    "mediaViewerShowControls": "Show controls",
+    "@mediaViewerShowControls": {
+        "description": "Accessible label of the media in the phone's full-screen image viewer while its controls (close, favourite and options buttons, thumbnails, arrows, count) are hidden; tapping the media shows them (tyne-chat/tyne#866)."
+    },
+    "mediaViewerHideControls": "Hide controls",
+    "@mediaViewerHideControls": {
+        "description": "Accessible label of the media in the phone's full-screen image viewer while its controls are shown; tapping the media hides them (tyne-chat/tyne#866)."
     }
 }

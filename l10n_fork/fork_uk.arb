@@ -364,5 +364,7 @@
     "personaBulkNowMentionableByFollowing": "{count, plural, one {Згадки {count} персони тепер визначаються видимістю} few {Згадки {count} персон тепер визначаються видимістю} many {Згадки {count} персон тепер визначаються видимістю} other {Згадки {count} персони тепер визначаються видимістю}}",
     "personaNotMentionable": "Ця персона ні в кого не з’являється в підказках згадок",
     "bookmarkRemoveConfirmDescription": "Видалити це повідомлення із закладок?",
-    "chatAudioViewCover": "Переглянути обкладинку"
+    "chatAudioViewCover": "Переглянути обкладинку",
+    "mediaViewerShowControls": "Показати елементи керування",
+    "mediaViewerHideControls": "Сховати елементи керування"
 }

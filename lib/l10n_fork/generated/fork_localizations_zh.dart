@@ -1346,6 +1346,12 @@ class ForkLocalizationsZh extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => '查看封面';
+
+  @override
+  String get mediaViewerShowControls => '显示控件';
+
+  @override
+  String get mediaViewerHideControls => '隐藏控件';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -2690,4 +2696,10 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get chatAudioViewCover => '檢視封面';
+
+  @override
+  String get mediaViewerShowControls => '顯示控制項';
+
+  @override
+  String get mediaViewerHideControls => '隱藏控制項';
 }

@@ -1438,4 +1438,10 @@ class ForkLocalizationsCa extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'Mostra la portada';
+
+  @override
+  String get mediaViewerShowControls => 'Mostra els controls';
+
+  @override
+  String get mediaViewerHideControls => 'Amaga els controls';
 }

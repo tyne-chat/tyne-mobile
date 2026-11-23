@@ -1411,4 +1411,10 @@ class ForkLocalizationsHu extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'Borító megtekintése';
+
+  @override
+  String get mediaViewerShowControls => 'Vezérlők megjelenítése';
+
+  @override
+  String get mediaViewerHideControls => 'Vezérlők elrejtése';
 }

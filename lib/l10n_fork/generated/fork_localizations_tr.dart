@@ -1398,4 +1398,10 @@ class ForkLocalizationsTr extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'Kapağı görüntüle';
+
+  @override
+  String get mediaViewerShowControls => 'Kontrolleri göster';
+
+  @override
+  String get mediaViewerHideControls => 'Kontrolleri gizle';
 }

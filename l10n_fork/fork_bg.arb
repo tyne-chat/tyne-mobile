@@ -364,5 +364,7 @@
     "personaBulkNowMentionableByFollowing": "Споменаванията на {count, plural, one {{count} персона} other {{count} персони}} вече следват видимостта",
     "personaNotMentionable": "Никой не вижда тази персона в предложенията за споменаване",
     "bookmarkRemoveConfirmDescription": "Да се премахне ли тази отметка?",
-    "chatAudioViewCover": "Преглед на обложката"
+    "chatAudioViewCover": "Преглед на обложката",
+    "mediaViewerShowControls": "Показване на контролите",
+    "mediaViewerHideControls": "Скриване на контролите"
 }

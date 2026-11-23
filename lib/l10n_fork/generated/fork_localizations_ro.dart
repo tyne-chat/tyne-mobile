@@ -1436,4 +1436,10 @@ class ForkLocalizationsRo extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'Vezi coperta';
+
+  @override
+  String get mediaViewerShowControls => 'Afișează controalele';
+
+  @override
+  String get mediaViewerHideControls => 'Ascunde controalele';
 }

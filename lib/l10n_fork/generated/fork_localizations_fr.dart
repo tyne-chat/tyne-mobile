@@ -1431,4 +1431,10 @@ class ForkLocalizationsFr extends ForkLocalizations {
 
   @override
   String get chatAudioViewCover => 'Afficher la pochette';
+
+  @override
+  String get mediaViewerShowControls => 'Afficher les commandes';
+
+  @override
+  String get mediaViewerHideControls => 'Masquer les commandes';
 }

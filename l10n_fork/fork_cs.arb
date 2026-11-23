@@ -364,5 +364,7 @@
     "personaBulkNowMentionableByFollowing": "Zmínky {count, plural, one {{count} persony} few {{count} person} many {{count} persony} other {{count} person}} se teď řídí viditelností",
     "personaNotMentionable": "Tuto personu nikdo nevidí v návrzích zmínek",
     "bookmarkRemoveConfirmDescription": "Odebrat tuto záložku?",
-    "chatAudioViewCover": "Zobrazit obal"
+    "chatAudioViewCover": "Zobrazit obal",
+    "mediaViewerShowControls": "Zobrazit ovládací prvky",
+    "mediaViewerHideControls": "Skrýt ovládací prvky"
 }
