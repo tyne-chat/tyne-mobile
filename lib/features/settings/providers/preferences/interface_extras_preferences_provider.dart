@@ -11,7 +11,8 @@ enum InterfaceExtraFlag {
   messageDoubleClickActions('interface_message_double_click_actions', false),
   animateGifPicker('interface_animate_gif_picker', true),
   hideBlockedMessages('interface_hide_blocked_messages', false),
-  keepAttachmentsOnEmptyEdit('interface_keep_attachments_on_empty_edit', false),
+  // Fork: on by default in Tyne; upstream's default is off (tyne-chat/tyne#904).
+  keepAttachmentsOnEmptyEdit('interface_keep_attachments_on_empty_edit', true),
   sequentialFileSend('interface_sequential_file_send', false);
 
   const InterfaceExtraFlag(this.storageKey, this.defaultValue);

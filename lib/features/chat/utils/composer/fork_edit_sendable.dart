@@ -61,3 +61,16 @@ bool forkEditHasSendableContentFromParts({
   }
   return hasVisibleContent(editing.content) || match.shouldUpdatePersona;
 }
+
+/// Whether an edit that clears the text of a message with stickers keeps the message, as upstream's
+/// "Keep attachments when clearing an edit" does for attachments: the fork counts stickers as
+/// attachments here (tyne-chat/tyne#904).
+bool forkStickersKeepEmptyEdit({
+  required Message editing,
+  required String editedContent,
+  required bool keepAttachments,
+}) =>
+    keepAttachments &&
+    editedContent.isEmpty &&
+    editing.content.isNotEmpty &&
+    editing.hasStickers;
