@@ -124,6 +124,8 @@
     "signalBarNobody": "Κανείς δεν έχει ενεργό αυτό το σήμα",
     "signalBarReset": "Επαναφορά σήματος για όλους",
     "signalBarTurnOff": "Απενεργοποίηση {name}",
+    "signalBarDmTurnOn": "Ενεργοποίηση γραμμής σημάτων",
+    "signalBarDmTurnOff": "Απενεργοποίηση γραμμής σημάτων",
     "instanceUrlHelperDefault": "Χρησιμοποιήστε το {domain} για την προεπιλεγμένη εγκατάσταση ή την ακριβή διεύθυνση URL μιας άλλης εγκατάστασης.",
     "instanceResetToDefault": "Επαναφορά στην προεπιλεγμένη εγκατάσταση",
     "personaScopeTitle": "Η persona ισχύει για",

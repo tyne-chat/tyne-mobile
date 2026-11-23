@@ -124,6 +124,8 @@
     "signalBarNobody": "Chưa ai bật tín hiệu này",
     "signalBarReset": "Đặt lại tín hiệu cho mọi người",
     "signalBarTurnOff": "Tắt {name}",
+    "signalBarDmTurnOn": "Bật thanh tín hiệu",
+    "signalBarDmTurnOff": "Tắt thanh tín hiệu",
     "instanceUrlHelperDefault": "Dùng {domain} cho máy chủ mặc định, hoặc URL chính xác của một máy chủ khác.",
     "instanceResetToDefault": "Đặt lại về máy chủ mặc định",
     "personaScopeTitle": "Persona áp dụng cho",

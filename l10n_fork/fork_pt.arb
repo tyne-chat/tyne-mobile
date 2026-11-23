@@ -124,6 +124,8 @@
     "signalBarNobody": "Ninguém está com este sinal ligado",
     "signalBarReset": "Repor o sinal para todos",
     "signalBarTurnOff": "Desligar {name}",
+    "signalBarDmTurnOn": "Ligar barra de sinais",
+    "signalBarDmTurnOff": "Desligar barra de sinais",
     "instanceUrlHelperDefault": "Usa {domain} para a instância predefinida ou o URL exato de outra instância.",
     "instanceResetToDefault": "Repor a instância predefinida",
     "personaScopeTitle": "A persona aplica-se a",

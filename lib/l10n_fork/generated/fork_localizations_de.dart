@@ -438,6 +438,12 @@ class ForkLocalizationsDe extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'Signalleiste einschalten';
+
+  @override
+  String get signalBarDmTurnOff => 'Signalleiste ausschalten';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'Verwende $domain für die Standardinstanz oder die genaue URL einer anderen Instanz.';
   }

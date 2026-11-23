@@ -124,6 +124,8 @@
     "signalBarNobody": "Nimeni nu are acest semnal activat",
     "signalBarReset": "Resetează semnalul pentru toți",
     "signalBarTurnOff": "Dezactivează {name}",
+    "signalBarDmTurnOn": "Pornește bara de semnale",
+    "signalBarDmTurnOff": "Oprește bara de semnale",
     "instanceUrlHelperDefault": "Folosește {domain} pentru instanța implicită sau adresa URL exactă a altei instanțe.",
     "instanceResetToDefault": "Resetează la instanța implicită",
     "personaScopeTitle": "Persona se aplică pentru",

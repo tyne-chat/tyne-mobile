@@ -437,6 +437,12 @@ class ForkLocalizationsSq extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'Aktivizo shiritin e sinjaleve';
+
+  @override
+  String get signalBarDmTurnOff => 'Çaktivizo shiritin e sinjaleve';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'Përdor $domain për instancën e parazgjedhur, ose URL-në e saktë të një instance tjetër.';
   }

@@ -438,6 +438,12 @@ class ForkLocalizationsHu extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'Jelzősáv bekapcsolása';
+
+  @override
+  String get signalBarDmTurnOff => 'Jelzősáv kikapcsolása';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'Az alapértelmezett példányhoz használd ezt: $domain, vagy add meg egy másik példány pontos URL-címét.';
   }

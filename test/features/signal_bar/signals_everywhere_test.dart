@@ -136,6 +136,9 @@ class _RecordingRepository implements SignalBarRepository {
 
   @override
   Future<void> reset(String channelId, String signalId) async {}
+
+  @override
+  Future<void> setDmEnabled(String channelId, {required bool enabled}) async {}
 }
 
 class DioLikeFailure implements Exception {}

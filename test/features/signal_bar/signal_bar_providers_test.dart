@@ -50,6 +50,10 @@ class _FakeRepository implements SignalBarRepository {
       calls.add('RESET $channelId $signalId');
 
   @override
+  Future<void> setDmEnabled(String channelId, {required bool enabled}) async =>
+      calls.add('SWITCH $channelId $enabled');
+
+  @override
   Future<UserSignalsSummary> fetchMySignals() async => const UserSignalsSummary(
     chats: <UserSignalChat>[],
     restoreAvailable: false,

@@ -438,6 +438,12 @@ class ForkLocalizationsTr extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'Sinyal çubuğunu aç';
+
+  @override
+  String get signalBarDmTurnOff => 'Sinyal çubuğunu kapat';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'Varsayılan sunucu için $domain adresini veya başka bir sunucunun tam URL’sini kullanın.';
   }

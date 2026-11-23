@@ -438,6 +438,12 @@ class ForkLocalizationsDa extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'Slå signalbjælke til';
+
+  @override
+  String get signalBarDmTurnOff => 'Slå signalbjælke fra';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'Brug $domain til standardinstansen, eller den nøjagtige URL til en anden instans.';
   }

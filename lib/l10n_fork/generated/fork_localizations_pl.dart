@@ -437,6 +437,12 @@ class ForkLocalizationsPl extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'Włącz pasek sygnałów';
+
+  @override
+  String get signalBarDmTurnOff => 'Wyłącz pasek sygnałów';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'Użyj $domain dla domyślnej instancji lub podaj dokładny adres URL innej instancji.';
   }

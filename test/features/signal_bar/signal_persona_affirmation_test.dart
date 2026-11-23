@@ -40,6 +40,9 @@ class _FakeRepository implements SignalBarRepository {
   Future<void> reset(String channelId, String signalId) async {}
 
   @override
+  Future<void> setDmEnabled(String channelId, {required bool enabled}) async {}
+
+  @override
   Future<UserSignalsSummary> fetchMySignals() async => const UserSignalsSummary(
     chats: <UserSignalChat>[],
     restoreAvailable: false,

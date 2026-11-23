@@ -71,6 +71,7 @@ import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/features/quick_switcher/presentation/widgets/quick_switcher_fab.dart';
+import 'package:fluxer_app/features/signal_bar/presentation/signal_bar_dm_menu_item.dart';
 import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_widgets.dart';
 
 class DMList extends ConsumerStatefulWidget {
@@ -2146,6 +2147,9 @@ class _DmBottomSheet extends ConsumerWidget {
               label: l10n.dmMuteConversation,
               onTap: () => _openMuteSheet(context),
             ),
+          // Fork: the DM's signal bar switch, after Mute as on the web
+          // (tyne-chat/tyne#743).
+          ...signalBarDmMenuItems(ref, convo),
         ],
       ),
     );

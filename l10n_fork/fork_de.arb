@@ -124,6 +124,8 @@
     "signalBarNobody": "Niemand hat dieses Signal eingeschaltet",
     "signalBarReset": "Signal für alle zurücksetzen",
     "signalBarTurnOff": "{name} ausschalten",
+    "signalBarDmTurnOn": "Signalleiste einschalten",
+    "signalBarDmTurnOff": "Signalleiste ausschalten",
     "instanceUrlHelperDefault": "Verwende {domain} für die Standardinstanz oder die genaue URL einer anderen Instanz.",
     "instanceResetToDefault": "Auf Standardinstanz zurücksetzen",
     "personaScopeTitle": "Persona gilt für",

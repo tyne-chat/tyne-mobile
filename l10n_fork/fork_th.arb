@@ -124,6 +124,8 @@
     "signalBarNobody": "ยังไม่มีใครเปิดสัญญาณนี้",
     "signalBarReset": "รีเซ็ตสัญญาณสำหรับทุกคน",
     "signalBarTurnOff": "ปิด {name}",
+    "signalBarDmTurnOn": "เปิดแถบสัญญาณ",
+    "signalBarDmTurnOff": "ปิดแถบสัญญาณ",
     "instanceUrlHelperDefault": "ใช้ {domain} สำหรับอินสแตนซ์เริ่มต้น หรือใส่ URL ที่ถูกต้องของอินสแตนซ์อื่น",
     "instanceResetToDefault": "รีเซ็ตเป็นอินสแตนซ์เริ่มต้น",
     "personaScopeTitle": "Persona มีผลกับ",

@@ -434,6 +434,12 @@ class ForkLocalizationsTh extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'เปิดแถบสัญญาณ';
+
+  @override
+  String get signalBarDmTurnOff => 'ปิดแถบสัญญาณ';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'ใช้ $domain สำหรับอินสแตนซ์เริ่มต้น หรือใส่ URL ที่ถูกต้องของอินสแตนซ์อื่น';
   }
