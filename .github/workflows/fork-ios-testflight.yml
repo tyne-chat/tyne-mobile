@@ -12,9 +12,12 @@ name: Tyne iOS TestFlight
 # The runner and Xcode are read from upstream's iOS workflow, which the nightly rebase keeps
 # current, and Flutter is the latest stable, as in upstream's workflow. So none of them need
 # bumping here. If upstream renames its workflow, the `toolchain` job says so and stops.
-# The repository variable TYNE_IOS_RUNNER (a JSON label list, e.g. ["cherry-ios"]) runs both
-# jobs on a Mac of the maintainers' instead, with the Xcode at TYNE_IOS_DEVELOPER_DIR, or
-# /Applications/Xcode.app when that is not set (tyne-chat/tyne#892).
+# The repository variable TYNE_IOS_RUNNER (a JSON label list, e.g. ["cherry-ios"]) runs the
+# build on a Mac of the maintainers' instead, with the Xcode at TYNE_IOS_DEVELOPER_DIR, or
+# /Applications/Xcode.app when that is not set (tyne-chat/tyne#892). The upload runs on
+# TYNE_IOS_UPLOAD_RUNNER when set, else on upstream's runner, never on the build's runner: the
+# build runs third-party code, and on a Mac of our own its account persists between runs, so
+# the App Store Connect key goes to a runner in a separate account (tyne-chat/tyne#893).
 #
 # The `build` job keeps the signed IPA as an artifact for a day, and the `upload` job sends it
 # to App Store Connect. When only the upload fails (Apple refused it on 2026-11-19 until a new
@@ -335,11 +338,11 @@ jobs:
   upload:
     name: Upload to TestFlight
     needs: [toolchain, build]
-    runs-on: ${{ vars.TYNE_IOS_RUNNER && fromJSON(vars.TYNE_IOS_RUNNER) || needs.toolchain.outputs.runner }}
+    runs-on: ${{ vars.TYNE_IOS_UPLOAD_RUNNER && fromJSON(vars.TYNE_IOS_UPLOAD_RUNNER) || needs.toolchain.outputs.runner }}
     timeout-minutes: 30
     environment: tyne-testflight
     env:
-      DEVELOPER_DIR: ${{ vars.TYNE_IOS_RUNNER && (vars.TYNE_IOS_DEVELOPER_DIR || '/Applications/Xcode.app/Contents/Developer') || needs.toolchain.outputs.developer_dir }}
+      DEVELOPER_DIR: ${{ vars.TYNE_IOS_UPLOAD_RUNNER && (vars.TYNE_IOS_DEVELOPER_DIR || '/Applications/Xcode.app/Contents/Developer') || needs.toolchain.outputs.developer_dir }}
       BUILD_NAME: ${{ needs.build.outputs.build_name }}
       BUILD_NUMBER: ${{ needs.build.outputs.build_number }}
     steps:
