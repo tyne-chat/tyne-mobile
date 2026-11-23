@@ -124,6 +124,8 @@
     "signalBarNobody": "Ingen har dette signal slået til",
     "signalBarReset": "Nulstil signal for alle",
     "signalBarTurnOff": "Slå {name} fra",
+    "signalBarDmTurnOn": "Slå signalbjælke til",
+    "signalBarDmTurnOff": "Slå signalbjælke fra",
     "instanceUrlHelperDefault": "Brug {domain} til standardinstansen, eller den nøjagtige URL til en anden instans.",
     "instanceResetToDefault": "Nulstil til standardinstansen",
     "personaScopeTitle": "Persona gælder for",

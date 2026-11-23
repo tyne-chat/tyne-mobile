@@ -436,6 +436,12 @@ class ForkLocalizationsArt extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'o open e linja suno';
+
+  @override
+  String get signalBarDmTurnOff => 'o pini e linja suno';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'o sitelen e $domain tawa ma pi ilo ni. ma ante la o sitelen e URL ona ale.';
   }

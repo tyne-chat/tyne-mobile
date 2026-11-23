@@ -436,6 +436,12 @@ class ForkLocalizationsSl extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'Vklopi vrstico signalov';
+
+  @override
+  String get signalBarDmTurnOff => 'Izklopi vrstico signalov';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'Za privzeto instanco uporabite $domain, za drugo instanco pa njen točen URL.';
   }

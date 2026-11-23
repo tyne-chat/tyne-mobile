@@ -437,6 +437,12 @@ class ForkLocalizationsFi extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'Ota signaalipalkki käyttöön';
+
+  @override
+  String get signalBarDmTurnOff => 'Poista signaalipalkki käytöstä';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'Käytä oletusinstanssille osoitetta $domain tai anna toisen instanssin tarkka URL-osoite.';
   }

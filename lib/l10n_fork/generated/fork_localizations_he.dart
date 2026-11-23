@@ -434,6 +434,12 @@ class ForkLocalizationsHe extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'הפעלת סרגל האותות';
+
+  @override
+  String get signalBarDmTurnOff => 'כיבוי סרגל האותות';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'השתמשו ב-$domain עבור המופע שמוגדר כברירת מחדל, או בכתובת ה-URL המדויקת של מופע אחר.';
   }

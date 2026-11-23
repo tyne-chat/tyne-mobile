@@ -439,6 +439,12 @@ class ForkLocalizationsBe extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'Уключыць панэль сігналаў';
+
+  @override
+  String get signalBarDmTurnOff => 'Выключыць панэль сігналаў';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'Увядзіце $domain для сервера па змаўчанні або дакладны URL іншага сервера.';
   }

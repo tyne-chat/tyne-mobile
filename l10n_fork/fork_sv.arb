@@ -124,6 +124,8 @@
     "signalBarNobody": "Ingen har den här signalen på",
     "signalBarReset": "Återställ signalen för alla",
     "signalBarTurnOff": "Stäng av {name}",
+    "signalBarDmTurnOn": "Slå på signalfältet",
+    "signalBarDmTurnOff": "Stäng av signalfältet",
     "instanceUrlHelperDefault": "Använd {domain} för standardinstansen, eller den exakta URL:en till en annan instans.",
     "instanceResetToDefault": "Återställ till standardinstansen",
     "personaScopeTitle": "Persona gäller för",

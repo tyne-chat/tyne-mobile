@@ -435,6 +435,12 @@ class ForkLocalizationsVi extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'Bật thanh tín hiệu';
+
+  @override
+  String get signalBarDmTurnOff => 'Tắt thanh tín hiệu';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'Dùng $domain cho máy chủ mặc định, hoặc URL chính xác của một máy chủ khác.';
   }

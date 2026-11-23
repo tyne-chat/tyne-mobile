@@ -124,6 +124,8 @@
     "signalBarNobody": "Nadie tiene esta señal activada",
     "signalBarReset": "Restablecer señal para todos",
     "signalBarTurnOff": "Desactivar {name}",
+    "signalBarDmTurnOn": "Activar barra de señales",
+    "signalBarDmTurnOff": "Desactivar barra de señales",
     "instanceUrlHelperDefault": "Usa {domain} para la instancia predeterminada o la URL exacta de otra instancia.",
     "instanceResetToDefault": "Restablecer a la instancia predeterminada",
     "personaScopeTitle": "La persona se aplica a",

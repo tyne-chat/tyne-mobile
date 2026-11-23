@@ -590,6 +590,14 @@
             }
         }
     },
+    "signalBarDmTurnOn": "Turn on signal bar",
+    "@signalBarDmTurnOn": {
+        "description": "Item in the menu of a direct message or group DM (long press in the list, or More in its details) that shows the signal bar above the message box there, for everyone in it. Same wording as the web app's."
+    },
+    "signalBarDmTurnOff": "Turn off signal bar",
+    "@signalBarDmTurnOff": {
+        "description": "Item in the menu of a direct message or group DM (long press in the list, or More in its details) that hides the signal bar there for everyone in it and clears its signals. Same wording as the web app's."
+    },
     "instanceUrlHelperDefault": "Use {domain} for the default instance, or the exact URL of another instance.",
     "@instanceUrlHelperDefault": {
         "description": "Helper text under the instance URL field on the login screen. domain is the host of this build's default instance.",

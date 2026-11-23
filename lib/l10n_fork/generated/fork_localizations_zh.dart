@@ -421,6 +421,12 @@ class ForkLocalizationsZh extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => '开启信号栏';
+
+  @override
+  String get signalBarDmTurnOff => '关闭信号栏';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return '默认实例请使用 $domain，或输入其他实例的准确 URL。';
   }
@@ -1769,6 +1775,12 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
   String signalBarTurnOff(String name) {
     return '關閉 $name';
   }
+
+  @override
+  String get signalBarDmTurnOn => '開啟訊號列';
+
+  @override
+  String get signalBarDmTurnOff => '關閉訊號列';
 
   @override
   String instanceUrlHelperDefault(String domain) {

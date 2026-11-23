@@ -99,6 +99,10 @@ import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
 import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/signal_bar/presentation/signal_bar_dm_menu_item.dart';
+
 part '../pages/channel_search_page.dart';
 part 'channel_details_dm_members.dart';
 part 'channel_details_identity.dart';

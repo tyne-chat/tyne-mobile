@@ -124,6 +124,8 @@
     "signalBarNobody": "Niekas neįjungė šio signalo",
     "signalBarReset": "Atstatyti signalą visiems",
     "signalBarTurnOff": "Išjungti {name}",
+    "signalBarDmTurnOn": "Įjungti signalų juostą",
+    "signalBarDmTurnOff": "Išjungti signalų juostą",
     "instanceUrlHelperDefault": "Numatytajam egzemplioriui naudokite {domain} arba įveskite tikslų kito egzemplioriaus URL.",
     "instanceResetToDefault": "Atstatyti numatytąjį egzempliorių",
     "personaScopeTitle": "Persona taikoma",
