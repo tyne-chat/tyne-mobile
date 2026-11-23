@@ -126,6 +126,36 @@ void main() {
     ]);
   });
 
+  test('re-points the own signals of the chats it names in one request, '
+      'the account as null (tyne-chat/tyne#310)', () async {
+    final SignalBarRepository signals = repository();
+
+    answer = <String, dynamic>{
+      'changed_channel_ids': <dynamic>['c1'],
+    };
+    final List<String> changed = await signals.setPersona(<String>[
+      'c1',
+      'c2',
+    ], personaId: 'p1');
+    answer = <String, dynamic>{'changed_channel_ids': <dynamic>[]};
+    final List<String> none = await signals.setPersona(<String>['c1']);
+
+    expect(requests.map((r) => (r.method, r.path)), [
+      ('PUT', '/users/@me/signals/persona'),
+      ('PUT', '/users/@me/signals/persona'),
+    ]);
+    expect(requests[0].data, <String, dynamic>{
+      'persona_id': 'p1',
+      'channel_ids': <String>['c1', 'c2'],
+    });
+    expect(requests[1].data, <String, dynamic>{
+      'persona_id': null,
+      'channel_ids': <String>['c1'],
+    });
+    expect(changed, <String>['c1']);
+    expect(none, isEmpty);
+  });
+
   test("switches a DM's bar on and off (tyne-chat/tyne#743)", () async {
     final SignalBarRepository signals = repository();
 

@@ -14,7 +14,7 @@ tyne-chat/tyne `fluxer_app/src/features/signal_bar/`.
 
 | Concern | File |
 |---|---|
-| REST: eleven raw Dio calls | `data/signal_bar_repository.dart` |
+| REST: twelve raw Dio calls | `data/signal_bar_repository.dart` |
 | The device's copy: what is kept, the store, the start-up read (tyne-chat/tyne#645) | `data/signal_bar_snapshot.dart`; written by `providers/signal_bar_snapshot_writer.dart` |
 | Models, hand-written parsers, `applySignalUpdate`, the summary's `withChannelUpdate` | `domain/signal_bar_models.dart` |
 | The bar, each channel's entries, event routing, `affirmPersona`; the account's signals everywhere (`mySignalsProvider`) | `providers/signal_bar_providers.dart` |
@@ -46,7 +46,7 @@ use them and parses every shape by hand.
 | Provider | Holds |
 |---|---|
 | `signalBarConfigProvider` (`SignalBarConfigNotifier`) | `SignalBarConfig`: `version` (-1 until known), `signals`, and the unused `guildId` and `canManage`; starts from the device's copy. `refresh()` shares the request in flight; `ensureLoaded()` (until the server has answered once since start) and `ensureVersion(v)` call it; a failure keeps the old state |
-| `channelSignalsProvider` (`ChannelSignalsNotifier`) | every channel loaded this session or kept on the device, id to entries; instance fields outside `state`: `_disabledChannels`, `_confirmed` (answered since the last READY), `_loading` (requests sent since then), `_askedAt` (when each was last asked for since then, for the cooldown), `_recent` (load order, for the copy), `_wanted` (taps waiting for an answer), `_expected` and `_checks` (accepted writes to see on the strip, and one timer per channel) |
+| `channelSignalsProvider` (`ChannelSignalsNotifier`) | every channel loaded this session or kept on the device, id to entries; instance fields outside `state`: `_disabledChannels`, `_confirmed` (answered since the last READY), `_loading` (requests sent since then), `_askedAt` (when each was last asked for since then, for the cooldown), `_recent` (load order, for the copy), `_wanted` (taps waiting for an answer), `_expected` and `_checks` (accepted writes to see on the strip, and one timer per channel), `_refusedRepoints` (per channel, the last re-point that did not take and when) |
 | `mySignalsProvider` (`MySignalsNotifier`) | `MySignalsState`: the summary from `GET /users/@me/signals` (from the device's copy, or null, until loaded) and `busy`. `ensureLoaded()` loads once, again after READY (`markStale()`, which `ChannelSignalsNotifier.invalidate()` calls), and after a failure not again for a minute (`kMySignalsRetryDelay`); `refresh()` shares the request in flight |
 | `signalBarCollapsedProvider` (`signal_bar_collapsed_provider.dart`) | the caret: one value per account on this device, for every channel, in `SharedPreferences`, not synced. It watches the account, and the strip watches it before it has anything to show, so the value is in before a collapsed bar could appear open |
 
@@ -88,15 +88,17 @@ use them and parses every shape by hand.
   channel off and empties it; on marks it on and stores an empty list for a channel never loaded,
   which then counts as loaded. `SIGNAL_BAR_UPDATE`: `ensureVersion`.
 - **Writes.** Lighting is not optimistic. `deactivate` and `removeUser` remove the entry first;
-  `reset` waits for the event. A failure (`on Exception`) refetches the channel once.
-- **Checking accepted writes** (tyne-chat/tyne#729). After the server accepts `activate` or
-  `deactivate`, the notifier remembers what it now holds for that signal (`_expected`) and,
-  `kSignalWriteEventWait` (2 s) after the channel's last accepted write, compares it with what the
-  strip shows. If the entry is missing, names another persona, or is still there after turning off,
-  it loads the channel once, unless a GET is on its way. A write sent for the same signal drops the
-  older expectation; a channel not loaded, a READY or an account change drops the checks. Without
-  this, a missed `CHANNEL_SIGNAL_UPDATE` left the signal unlit, and every further tap was a PUT for a
-  signal already lit as that persona, which the server answers with no event.
+  `reset` waits for the event. A failure (`on Exception`) refetches the channel once. Re-pointing
+  shows at once ("Signals and personas").
+- **Checking accepted writes** (tyne-chat/tyne#729). After the server accepts `activate`,
+  `deactivate` or a re-point that changed the channel, the notifier remembers what it now holds for
+  each signal written (`_expected`; after a re-point, every signal it sent, lit as the new persona)
+  and, `kSignalWriteEventWait` (2 s) after the channel's last accepted write, compares it with what
+  the strip shows. If the entry is missing, names another persona, or is still there after turning
+  off, it loads the channel once, unless a GET is on its way. A write sent for the same signal drops
+  the older expectation; a channel not loaded, a READY or an account change drops the checks.
+  Without this, a missed `CHANNEL_SIGNAL_UPDATE` left the signal unlit, and every further tap was a
+  PUT for a signal already lit as that persona, which the server answers with no event.
 - **The DM switch** (`setDmEnabled`, tyne-chat/tyne#743): `PUT /channels/:id/signal-bar`. The 204 is
   the switch's new state, so it shows at once through `handleEnabledUpdate`, as its
   `CHANNEL_SIGNAL_BAR_UPDATE` would (the web waits for that event; the server sends none when the
@@ -158,9 +160,24 @@ has the same panel.
 ## Signals and personas
 
 `ChannelSignalsNotifier.affirmPersona` is the one place that re-points: the account's own entries in
-a loaded channel whose persona differs change locally at once and get one PUT each. Callers go through
-`affirmSignalPersona` or `affirmSignalPersonaData`, which take a `SignalProviderReader` (the `ref.read`
-of a widget or of a notifier).
+a confirmed channel whose persona differs change locally at once, and one
+`PUT /users/@me/signals/persona` with `channel_ids: [channelId]` re-points them all on the server,
+in place (tyne-chat/tyne#310). It names only the channel where the person did something, though the
+route takes up to 200. `persona_id` is always in the body, null for the account: the server answers
+400 without the key. The route counts toward the toggle bucket. Callers go through
+`affirmSignalPersona` or `affirmSignalPersonaData`, which take a `SignalProviderReader` (the
+`ref.read` of a widget or of a notifier).
+
+- **Accepted** (the channel in `changed_channel_ids`): checked for as any accepted write; the event
+  carries the entries under `added`, the persona the strip already shows.
+- **Did not take**: refused (400, 404, 429, offline), or accepted with the channel not in
+  `changed_channel_ids` (the server already had them so, has them no longer, or the account may not
+  light there). The strip may then show what the server does not hold: the channel is asked for
+  once (not when a GET for it is on its way), and that channel and persona go in `_refusedRepoints`.
+  For `kSignalRepointRetryDelay` (10 s, by `clock`) a change of text as that persona there sends
+  nothing and re-points nothing locally, so the answer, which brings the old persona back, stays on
+  screen. A different persona, or the same after 10 s, is sent. READY and an account change forget
+  it.
 
 | Action | Caller |
 |---|---|
@@ -217,7 +234,7 @@ counts as off meanwhile. A tap closes the menu, then sends the switch.
 | Start | none for the device's copy (read from the preferences start-up loads); the strip then asks as on a first mount |
 | A tap on an unconfirmed channel | nothing until the channel's answer, and 1 channel GET if none is on its way; then 1 PUT or DELETE per signal only if the answer differs (as it is after a failed answer) |
 | Opening a channel | 1 GET, bar on or off, unless a GET for it is on its way or went out less than 10 s ago (whatever its answer): switching A → B → A → B within 10 s is 2, and each chat entered again after 10 s is 1 more (tyne-chat/tyne#447). A thread or forum post: 1 failing GET at most every 10 s |
-| Typing, a pick, a send, a voice message | none, unless own lit signals in that channel name another persona: 1 PUT each, all at once |
+| Typing, a pick, a send, a voice message | none, unless own lit signals in that channel name another persona: 1 `PUT /users/@me/signals/persona` for all of them. If it does not take, 1 channel GET (none while one is on its way), and nothing for that channel and persona for 10 s; with every request failing, nothing more until the persona changes, as the strip keeps showing it. Accepted, the 2 s check as for a tap |
 | Tapping a signal | 1 PUT or DELETE, and 1 channel GET if it fails; if it succeeds and the strip does not show it 2 s after the last such write in that channel, 1 channel GET for all of them (none with the event in time; none if that GET fails) |
 | Opening a DM's long-press menu or its More sheet | with a bar: 1 channel GET for the DM, by the opening-a-channel rule (none within 10 s of the last) |
 | "Turn on/off signal bar" | 1 PUT; 1 channel GET if it fails, or when switching on a chat not loaded; nothing more after a failure |
@@ -256,9 +273,11 @@ tried again at the next mount or bar change at least 10 s after it was sent, or 
 - A GET answer sent before one's own write and arriving after it can show the old state; the 2 s
   check corrects one's own signals, not other people's.
 - Threads and forum posts mount the strip and send a GET the API refuses with 400 (tyne-chat/tyne#309).
-- `affirmPersona` has no batch route and no cooldown: one PUT per own lit signal at once, and a
-  re-point the server refuses is sent again at the next text change, because the failure refetch
-  puts the old persona back (tyne-chat/tyne#310).
+- Re-pointing needs a server with `PUT /users/@me/signals/persona` (tyne-chat/tyne#310). One
+  without it answers 404, so every re-point there costs 1 PUT and 1 GET, at most every 10 s per
+  channel and persona, and never sticks.
+- A re-point that did not take, with its GET failing too, leaves the strip showing the new persona,
+  which the server does not hold, until the channel is next answered.
 - A selected persona with `auto_tag_disabled` is dropped by the matcher (tyne-chat/tyne#130), so
   signals light and re-point as the account.
 - A malformed event payload throws out of the hand parsers, and the gateway handler does not catch
@@ -307,13 +326,19 @@ tried again at the next mount or bar change at least 10 s after it was sent, or 
   strips switched back and forth counting GETs, also with every request failing. Requests go through
   the real repository to `signal_bar_server_fixture.dart`, a recording Dio adapter that answers the
   routes and sends no events.
+- `test/features/signal_bar/signal_bar_repoint_test.dart` (tyne-chat/tyne#310): one PUT for forty
+  own signals, the body, nothing when nothing is stale, a refusal (one GET, then nothing for 10 s
+  for that persona, another persona sent), every request failing, accepted with nothing changed,
+  READY and an account change, and the 2 s check after an accepted re-point. Through the real
+  repository to `signal_bar_server_fixture.dart`, which answers the route as the API does.
 - `test/features/signal_bar/signal_bar_dm_switch_test.dart` (tyne-chat/tyne#743): `setDmEnabled`
   (on, off, the event as well, a chat not loaded, failures) and the menu item (when it is left out, a
   group DM, the GET on opening and its cooldown, the tap, every request failing), counting requests.
 - `test/features/signal_bar/`: `signal_bar_providers_test.dart` (a fake repository that records
   calls: parsing, in-place replacement, version refetch, the enabled flag, local removal, the scope of
   `affirmPersona`, loading never re-pointing); `signal_persona_affirmation_test.dart`;
-  `signal_bar_repository_test.dart` (each call's method, path and body);
+  `signal_bar_repository_test.dart` (each call's method, path and body; the re-point's null
+  persona);
   `signal_bar_collapsed_provider_test.dart` (restarts, accounts, a read that lands late); `signal_bar_view_test.dart`
   (`SignalBarView`, `SignalDetailsSheet`, the size table).
 - `test/core/gateway/gateway_event_handler_missing_events_fork_test.dart`: the three events reach
