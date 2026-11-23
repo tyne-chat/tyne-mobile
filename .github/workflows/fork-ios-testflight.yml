@@ -25,6 +25,16 @@ name: Tyne iOS TestFlight
 # with the same build number, instead of the whole 40-minute build. The artifact can be
 # downloaded by anyone who can see this public repository; an App Store-signed IPA installs
 # only through TestFlight or the App Store.
+#
+# On a Mac of our own (`runner.environment` self-hosted), the build skips GitHub's cache for
+# Flutter and pub and downloads from Google and pub.dev instead, and the upload job takes the
+# IPA from a folder on the same Mac instead of the artifact: GitHub's artifact and cache storage
+# reaches that Mac at about 2 MB/s (tyne-chat/tyne#892).
+#
+# `destination: phone` builds a test build for the registered test iPhones instead: Ad Hoc
+# profiles (TYNE_IOS_ADHOC_PROFILE_*, made with the maintainers' make_adhoc_profiles.py), no
+# upload and no artifact. It needs TYNE_IOS_RUNNER: the IPA is left on that Mac, where an agent
+# installs it on the phone over the network (tyne-chat/tyne#896).
 
 on:
   workflow_dispatch:
@@ -33,6 +43,14 @@ on:
         description: "Version shown in TestFlight (CFBundleShortVersionString). Empty: pubspec.yaml's version."
         required: false
         default: ""
+      destination:
+        description: "testflight: upload to App Store Connect. phone: an Ad Hoc build installed on the test iPhone from the maintainers' Mac."
+        required: false
+        default: testflight
+        type: choice
+        options:
+          - testflight
+          - phone
 
 concurrency:
   group: fork-ios-testflight
@@ -51,8 +69,15 @@ jobs:
 
       - name: Read the runner and Xcode
         id: read
+        env:
+          DESTINATION: ${{ inputs.destination }}
+          OWN_RUNNER: ${{ vars.TYNE_IOS_RUNNER }}
         run: |
           set -euo pipefail
+          if [ "$DESTINATION" = phone ] && [ -z "$OWN_RUNNER" ]; then
+            echo "::error::A phone build installs from the maintainers' Mac; set TYNE_IOS_RUNNER first"
+            exit 1
+          fi
           workflow=.github/workflows/ios-canary-testflight.yml
           runner="$(sed -n 's/^ *runs-on: *//p' "$workflow" | head -n 1)"
           developer_dir="$(sed -n 's/^ *DEVELOPER_DIR: *//p' "$workflow" | head -n 1)"
@@ -65,7 +90,7 @@ jobs:
           echo "developer_dir=$developer_dir" >> "$GITHUB_OUTPUT"
 
   build:
-    name: Build for TestFlight
+    name: ${{ inputs.destination == 'phone' && 'Build for the test iPhone' || 'Build for TestFlight' }}
     needs: toolchain
     runs-on: ${{ vars.TYNE_IOS_RUNNER && fromJSON(vars.TYNE_IOS_RUNNER) || needs.toolchain.outputs.runner }}
     timeout-minutes: 120
@@ -91,9 +116,12 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          cache: true
+          # Fork: GitHub's cache storage is slow from a Mac of our own; download from Google there.
+          cache: ${{ runner.environment != 'self-hosted' }}
 
+      # Fork: on a Mac of our own pub downloads from pub.dev, faster than GitHub's cache storage.
       - name: Restore pub cache
+        if: runner.environment != 'self-hosted'
         uses: actions/cache@v4
         with:
           path: ~/.pub-cache
@@ -161,10 +189,10 @@ jobs:
 
       - name: Install the provisioning profiles
         env:
-          PROFILE_APP: ${{ secrets.TYNE_IOS_PROFILE_APP }}
-          PROFILE_NOTIFICATION_SERVICE: ${{ secrets.TYNE_IOS_PROFILE_NOTIFICATION_SERVICE }}
-          PROFILE_SHARE_EXTENSION: ${{ secrets.TYNE_IOS_PROFILE_SHARE_EXTENSION }}
-          PROFILE_BROADCAST_EXTENSION: ${{ secrets.TYNE_IOS_PROFILE_BROADCAST_EXTENSION }}
+          PROFILE_APP: ${{ inputs.destination == 'phone' && secrets.TYNE_IOS_ADHOC_PROFILE_APP || secrets.TYNE_IOS_PROFILE_APP }}
+          PROFILE_NOTIFICATION_SERVICE: ${{ inputs.destination == 'phone' && secrets.TYNE_IOS_ADHOC_PROFILE_NOTIFICATION_SERVICE || secrets.TYNE_IOS_PROFILE_NOTIFICATION_SERVICE }}
+          PROFILE_SHARE_EXTENSION: ${{ inputs.destination == 'phone' && secrets.TYNE_IOS_ADHOC_PROFILE_SHARE_EXTENSION || secrets.TYNE_IOS_PROFILE_SHARE_EXTENSION }}
+          PROFILE_BROADCAST_EXTENSION: ${{ inputs.destination == 'phone' && secrets.TYNE_IOS_ADHOC_PROFILE_BROADCAST_EXTENSION || secrets.TYNE_IOS_PROFILE_BROADCAST_EXTENSION }}
           TEAM_ID: ${{ secrets.TYNE_APPLE_TEAM_ID }}
         shell: bash
         run: |
@@ -270,18 +298,21 @@ jobs:
       - name: Export the IPA
         env:
           TEAM_ID: ${{ secrets.TYNE_APPLE_TEAM_ID }}
+          # Fork: Ad Hoc ("release-testing") for the test iPhones, App Store Connect otherwise.
+          EXPORT_METHOD: ${{ inputs.destination == 'phone' && 'release-testing' || 'app-store-connect' }}
+          UPLOAD_SYMBOLS: ${{ inputs.destination == 'phone' && 'false' || 'true' }}
         run: |
           cat > "$RUNNER_TEMP/ExportOptions.plist" <<EOF
           <?xml version="1.0" encoding="UTF-8"?>
           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
           <plist version="1.0">
           <dict>
-            <key>method</key><string>app-store-connect</string>
+            <key>method</key><string>$EXPORT_METHOD</string>
             <key>destination</key><string>export</string>
             <key>teamID</key><string>$TEAM_ID</string>
             <key>signingStyle</key><string>manual</string>
             <key>signingCertificate</key><string>Apple Distribution</string>
-            <key>uploadSymbols</key><true/>
+            <key>uploadSymbols</key><$UPLOAD_SYMBOLS/>
             <key>manageAppVersionAndBuildNumber</key><false/>
             <key>provisioningProfiles</key>
             <dict>
@@ -322,12 +353,45 @@ jobs:
           fi
 
       - name: Keep the IPA for the upload job
+        if: inputs.destination != 'phone'
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           name: tyne-ios-ipa
           path: ${{ env.IPA }}
           if-no-files-found: error
           retention-days: 1
+
+      # Fork: on a Mac of our own, leave the IPA in a folder only this runner's account can write:
+      # for the upload runner on the same Mac (saving the slow artifact download), or, for a phone
+      # build, for the agent there that installs it on the test iPhone (tyne-chat/tyne#892, #896).
+      - name: Leave the IPA on this Mac
+        if: runner.environment == 'self-hosted'
+        env:
+          DESTINATION: ${{ inputs.destination }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          if [ "$DESTINATION" = phone ]; then
+            drop=/Users/Shared/tyne-ios-builds
+            if [ ! -d "$drop" ] || [ ! -w "$drop" ]; then
+              echo "::error::No folder $drop for the phone install on this runner"
+              exit 1
+            fi
+            rm -f "$drop"/*.ipa
+            cp "$IPA" "$drop/Tyne-$BUILD_NAME-$BUILD_NUMBER.ipa"
+            ls -l "$drop"
+            echo "::notice::Left Tyne $BUILD_NAME ($BUILD_NUMBER) for the test iPhone."
+          else
+            handoff=/Users/Shared/tyne-handoff-ios
+            if [ -d "$handoff" ] && [ -w "$handoff" ]; then
+              find "$handoff" -mindepth 1 -maxdepth 1 ! -name "$RUN_ID" -exec rm -rf {} +
+              rm -rf "${handoff:?}/$RUN_ID"
+              mkdir "$handoff/$RUN_ID"
+              cp "$IPA" "$handoff/$RUN_ID/"
+              ls -l "$handoff/$RUN_ID"
+            else
+              echo "::notice::No handoff folder on this runner; the upload job downloads the artifact."
+            fi
+          fi
 
       - name: Clean up signing material
         if: always()
@@ -338,6 +402,7 @@ jobs:
   upload:
     name: Upload to TestFlight
     needs: [toolchain, build]
+    if: inputs.destination != 'phone'
     runs-on: ${{ vars.TYNE_IOS_UPLOAD_RUNNER && fromJSON(vars.TYNE_IOS_UPLOAD_RUNNER) || needs.toolchain.outputs.runner }}
     timeout-minutes: 30
     environment: tyne-testflight
@@ -346,7 +411,26 @@ jobs:
       BUILD_NAME: ${{ needs.build.outputs.build_name }}
       BUILD_NUMBER: ${{ needs.build.outputs.build_number }}
     steps:
+      # Fork: when the build ran on the same Mac, take the IPA it left there (tyne-chat/tyne#892).
+      - name: Take the IPA from this Mac
+        id: local
+        if: runner.environment == 'self-hosted'
+        env:
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          from="/Users/Shared/tyne-handoff-ios/$RUN_ID"
+          if ls "$from"/*.ipa >/dev/null 2>&1; then
+            mkdir -p "$RUNNER_TEMP/export"
+            rm -f "$RUNNER_TEMP"/export/*.ipa
+            cp "$from"/*.ipa "$RUNNER_TEMP/export/"
+            ls -l "$RUNNER_TEMP/export"
+            echo "found=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::No IPA of this run on this Mac; downloading the artifact."
+          fi
+
       - name: Fetch the IPA from the build job
+        if: steps.local.outputs.found != 'true'
         uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
         with:
           name: tyne-ios-ipa
