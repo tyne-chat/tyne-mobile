@@ -438,6 +438,12 @@ class ForkLocalizationsRu extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'Включить панель сигналов';
+
+  @override
+  String get signalBarDmTurnOff => 'Выключить панель сигналов';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'Используйте $domain для инстанса по умолчанию или точный URL другого инстанса.';
   }

@@ -124,6 +124,8 @@
     "signalBarNobody": "لم يُفعّل أحد هذه الإشارة",
     "signalBarReset": "إعادة تعيين الإشارة للجميع",
     "signalBarTurnOff": "إيقاف {name}",
+    "signalBarDmTurnOn": "تشغيل شريط الإشارات",
+    "signalBarDmTurnOff": "إيقاف شريط الإشارات",
     "instanceUrlHelperDefault": "استخدم {domain} للمثيل الافتراضي، أو عنوان URL الدقيق لمثيل آخر.",
     "instanceResetToDefault": "إعادة الضبط إلى المثيل الافتراضي",
     "personaScopeTitle": "الشخصية تنطبق على",

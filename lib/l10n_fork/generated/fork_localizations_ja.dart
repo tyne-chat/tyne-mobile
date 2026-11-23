@@ -426,6 +426,12 @@ class ForkLocalizationsJa extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'シグナルバーをオンにする';
+
+  @override
+  String get signalBarDmTurnOff => 'シグナルバーをオフにする';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'デフォルトのインスタンスには $domain を使用するか、別のインスタンスの正確なURLを入力してください。';
   }

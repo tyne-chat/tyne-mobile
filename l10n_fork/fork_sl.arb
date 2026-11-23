@@ -124,6 +124,8 @@
     "signalBarNobody": "Nihče nima vklopljenega tega signala",
     "signalBarReset": "Ponastavi signal za vse",
     "signalBarTurnOff": "Izklopi signal za {name}",
+    "signalBarDmTurnOn": "Vklopi vrstico signalov",
+    "signalBarDmTurnOff": "Izklopi vrstico signalov",
     "instanceUrlHelperDefault": "Za privzeto instanco uporabite {domain}, za drugo instanco pa njen točen URL.",
     "instanceResetToDefault": "Ponastavi na privzeto instanco",
     "personaScopeTitle": "Kje velja persona",

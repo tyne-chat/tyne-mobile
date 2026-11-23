@@ -2,8 +2,9 @@
 
 The mobile half of the signal bar: a strip of emoji at the top of the composer. A tap lights a signal
 or turns it off, as the account or as the persona the composer writes as; a long press lists who has
-it on and lets managers turn one off or reset it. Mobile only shows, toggles and moderates: the bar,
-the community switches and the DM switch are edited on the web. Every file here is the fork's. What
+it on and lets managers turn one off or reset it. Mobile shows, toggles and moderates, and switches
+the bar on or off in a DM (tyne-chat/tyne#743); the bar and the community switches are edited on
+the web. Every file here is the fork's. What
 the signal bar is, its data and events, the rules every client follows and where the web and mobile
 clients differ are in the server guide, tyne-chat/tyne `fluxer_api/src/api/signal_bar/AGENTS.md`
 (also under `fluxer/` when that submodule is checked out); read it first. The web client is
@@ -13,7 +14,7 @@ tyne-chat/tyne `fluxer_app/src/features/signal_bar/`.
 
 | Concern | File |
 |---|---|
-| REST: ten raw Dio calls | `data/signal_bar_repository.dart` |
+| REST: eleven raw Dio calls | `data/signal_bar_repository.dart` |
 | The device's copy: what is kept, the store, the start-up read (tyne-chat/tyne#645) | `data/signal_bar_snapshot.dart`; written by `providers/signal_bar_snapshot_writer.dart` |
 | Models, hand-written parsers, `applySignalUpdate`, the summary's `withChannelUpdate` | `domain/signal_bar_models.dart` |
 | The bar, each channel's entries, event routing, `affirmPersona`; the account's signals everywhere (`mySignalsProvider`) | `providers/signal_bar_providers.dart` |
@@ -21,6 +22,7 @@ tyne-chat/tyne `fluxer_app/src/features/signal_bar/`.
 | "Signals" in the profile menu and on your own profile | `presentation/signals_profile_menu_item.dart` (in upstream's `profile_tab_menu_sheet.dart`; `watchSignalsProfileEntryShown`), `presentation/signals_profile_row.dart` (under "Personas (N)" in the fork's `profile/presentation/widgets/persona_gallery_entry.dart`) |
 | Hand-overs from the composer, the picker and sends | `providers/signal_persona_affirmation.dart` |
 | The strip, rights, loading on entry, the details sheet, sizing | `presentation/signal_bar_strip.dart` |
+| The DM switch in DM menus (tyne-chat/tyne#743) | `presentation/signal_bar_dm_menu_item.dart` (`signalBarDmMenuItems`), `ChannelSignalsNotifier.setDmEnabled` |
 | Event routing by name | the `UnknownGatewayEvent` case of `core/gateway/gateway_event_handler.dart`, then `onSignalBarEvent` in `core/providers/gateway_provider.dart` |
 | Strings | `signalBar*` and `signals*` keys in `l10n_fork/fork_*.arb` |
 
@@ -44,7 +46,7 @@ use them and parses every shape by hand.
 | Provider | Holds |
 |---|---|
 | `signalBarConfigProvider` (`SignalBarConfigNotifier`) | `SignalBarConfig`: `version` (-1 until known), `signals`, and the unused `guildId` and `canManage`; starts from the device's copy. `refresh()` shares the request in flight; `ensureLoaded()` (until the server has answered once since start) and `ensureVersion(v)` call it; a failure keeps the old state |
-| `channelSignalsProvider` (`ChannelSignalsNotifier`) | every channel loaded this session or kept on the device, id to entries; instance fields outside `state`: `_disabledChannels`, `_confirmed` (answered since the last READY), `_loading` (requests sent since then), `_recent` (load order, for the copy), `_wanted` (taps waiting for an answer) |
+| `channelSignalsProvider` (`ChannelSignalsNotifier`) | every channel loaded this session or kept on the device, id to entries; instance fields outside `state`: `_disabledChannels`, `_confirmed` (answered since the last READY), `_loading` (requests sent since then), `_askedAt` (when each was last asked for since then, for the cooldown), `_recent` (load order, for the copy), `_wanted` (taps waiting for an answer), `_expected` and `_checks` (accepted writes to see on the strip, and one timer per channel) |
 | `mySignalsProvider` (`MySignalsNotifier`) | `MySignalsState`: the summary from `GET /users/@me/signals` (from the device's copy, or null, until loaded) and `busy`. `ensureLoaded()` loads once, again after READY (`markStale()`, which `ChannelSignalsNotifier.invalidate()` calls), and after a failure not again for a minute (`kMySignalsRetryDelay`); `refresh()` shares the request in flight |
 | `signalBarCollapsedProvider` (`signal_bar_collapsed_provider.dart`) | the caret: one value per account on this device, for every channel, in `SharedPreferences`, not synced. It watches the account, and the strip watches it before it has anything to show, so the value is in before a collapsed bar could appear open |
 
@@ -69,10 +71,14 @@ use them and parses every shape by hand.
 
 ## Flows
 
-- **Loading.** `_loadChannelIfNeeded` runs after the first frame, on a channel change, on any change
-  of the bar, and when the channel stops being confirmed (READY). It sends nothing while the bar has
-  no signals, while a GET for that channel sent since the last READY is in flight, or once the
-  channel is confirmed: each channel is fetched once per session, and once more after each READY.
+- **Loading.** `_loadChannelIfNeeded` runs after the first frame and on a channel change (both
+  *entering* the channel), on any change of the bar, and when the channel stops being confirmed
+  (READY). It asks `shouldLoad`, which sends nothing while the bar has no signals, while a GET for
+  that channel sent since the last READY is in flight, or when one went out less than
+  `kSignalChannelRefetchCooldown` (10 s, the web's `FRESH_CHANNEL_ANSWER_MS`) ago, whatever its
+  answer. Otherwise it loads a channel that is not confirmed, and, on entering, one that is: a
+  session can miss events (tyne-chat/tyne#313), so a chat entered again is asked for again
+  (tyne-chat/tyne#447). READY clears the cooldown.
   `loadChannel` replaces the entries and the flag and calls `ensureVersion(bar_version)`, and answers
   `current`, `outdated` or `failed`. An answer to a request sent before the last READY updates the
   copy without confirming it (the strip asks again), and is dropped if a newer answer already
@@ -83,6 +89,19 @@ use them and parses every shape by hand.
   which then counts as loaded. `SIGNAL_BAR_UPDATE`: `ensureVersion`.
 - **Writes.** Lighting is not optimistic. `deactivate` and `removeUser` remove the entry first;
   `reset` waits for the event. A failure (`on Exception`) refetches the channel once.
+- **Checking accepted writes** (tyne-chat/tyne#729). After the server accepts `activate` or
+  `deactivate`, the notifier remembers what it now holds for that signal (`_expected`) and,
+  `kSignalWriteEventWait` (2 s) after the channel's last accepted write, compares it with what the
+  strip shows. If the entry is missing, names another persona, or is still there after turning off,
+  it loads the channel once, unless a GET is on its way. A write sent for the same signal drops the
+  older expectation; a channel not loaded, a READY or an account change drops the checks. Without
+  this, a missed `CHANNEL_SIGNAL_UPDATE` left the signal unlit, and every further tap was a PUT for a
+  signal already lit as that persona, which the server answers with no event.
+- **The DM switch** (`setDmEnabled`, tyne-chat/tyne#743): `PUT /channels/:id/signal-bar`. The 204 is
+  the switch's new state, so it shows at once through `handleEnabledUpdate`, as its
+  `CHANNEL_SIGNAL_BAR_UPDATE` would (the web waits for that event; the server sends none when the
+  switch was already so). Switching on a chat not loaded loads it instead, since it may already have
+  signals lit. A failure loads the chat once. No toast, as on the web.
 - **Lighting.** A tap on an unlit signal lights it as `composerSignalPersona`: `previewPersona` over
   the open composer's text and attachments, with the channel's selected persona (`latchedIdFor`).
   Before personas load, that is the account.
@@ -152,6 +171,21 @@ of a widget or of a notifier).
 
 Opening or loading a channel re-points nothing, and neither does a selection made elsewhere.
 
+## The DM switch
+
+`signalBarDmMenuItems(ref, dm)` returns `SignalBarDmMenuItem` ("Turn on signal bar" / "Turn off
+signal bar", the web's `SignalBarDMMenuItem` wording) as a list to spread into a menu group, so a
+hidden item leaves no empty row and divider. Shown, as on the web, to anyone in a DM or group DM
+(tyne-chat/tyne#265) while the instance has a bar; not in personal notes or the system DM, where no
+composer shows the strip. The bar is read when the menu builds. The item asks for the chat as
+entering it would (`shouldLoad(entering: true)`) so its label follows the server; a chat not loaded
+counts as off meanwhile. A tap closes the menu, then sends the switch.
+
+| Menu | Where |
+|---|---|
+| The DM list's long-press sheet | `_DmBottomSheet` in `features/dm/presentation/widgets/dm_list.dart`, after Mute, as on the web; no icon, like the Mute row |
+| More in the DM's details (the chat header) | `_showDetailsMoreSheet` in `features/chat/presentation/sheets/channel_details_more_sheet.dart`, after Pin, with a switch icon (`showIcon`) like its neighbours, closed through the sheet's `close` |
+
 ## The strip
 
 - **Visible** when the bar has signals and the channel is loaded and on.
@@ -182,17 +216,20 @@ Opening or loading a channel re-points nothing, and neither does a selection mad
 | READY | 1 bar GET and 1 `GET /channels/:id/signals` for the open channel; others are fetched when next opened. The strip keeps showing what it had meanwhile |
 | Start | none for the device's copy (read from the preferences start-up loads); the strip then asks as on a first mount |
 | A tap on an unconfirmed channel | nothing until the channel's answer, and 1 channel GET if none is on its way; then 1 PUT or DELETE per signal only if the answer differs (as it is after a failed answer) |
-| Opening a channel | 1 GET the first time this session, bar on or off; none after (A → B → A is 2). A thread or forum post: 1 failing GET every time |
+| Opening a channel | 1 GET, bar on or off, unless a GET for it is on its way or went out less than 10 s ago (whatever its answer): switching A → B → A → B within 10 s is 2, and each chat entered again after 10 s is 1 more (tyne-chat/tyne#447). A thread or forum post: 1 failing GET at most every 10 s |
 | Typing, a pick, a send, a voice message | none, unless own lit signals in that channel name another persona: 1 PUT each, all at once |
-| Tapping a signal | 1 PUT or DELETE, and 1 channel GET if it fails |
+| Tapping a signal | 1 PUT or DELETE, and 1 channel GET if it fails; if it succeeds and the strip does not show it 2 s after the last such write in that channel, 1 channel GET for all of them (none with the event in time; none if that GET fails) |
+| Opening a DM's long-press menu or its More sheet | with a bar: 1 channel GET for the DM, by the opening-a-channel rule (none within 10 s of the last) |
+| "Turn on/off signal bar" | 1 PUT; 1 channel GET if it fails, or when switching on a chat not loaded; nothing more after a failure |
 | Long press | none; "Turn off" or "Reset": 1 DELETE, and 1 channel GET if it fails |
 | READY, then the first strip | 1 `GET /users/@me/signals`; after a failure, none for a minute |
 | Opening the signals sheet | 1 summary GET; a tile or Turn all off: 1 PUT, Restore: 1 preview GET and, confirmed, 1 POST; 1 summary GET after a failed change. Nothing is sent while a change is on its way |
 | A row's "Turn off signals" | 1 DELETE per own signal in that chat, all at once; if any fails, 1 summary GET and 1 channel GET (when loaded) |
 | `SIGNAL_BAR_UPDATE` (one copy per community) | 1 bar GET when the version is newer; later copies share it or find it current |
 
-A failed bar GET is tried again by the next strip mounted, a failed channel GET at the next mount or
-bar change. Neither has a cooldown, and neither repeats on rebuilds.
+A failed bar GET is tried again by the next strip mounted, with no cooldown. A failed channel GET is
+tried again at the next mount or bar change at least 10 s after it was sent, or by a tap
+(`want`). Neither repeats on rebuilds.
 
 ## Rules and traps
 
@@ -214,7 +251,10 @@ bar change. Neither has a cooldown, and neither repeats on rebuilds.
 - `canReset` treats every DM, group DMs included, and any channel missing from the channel list as
   manageable. The server refuses a group DM member who is not its owner: the entry vanishes, then
   comes back with the refetch (tyne-chat/tyne#312).
-- A loaded channel is not fetched again before READY, so an event the session misses stays missed (tyne-chat/tyne#447).
+- An event the session misses stays missed while the chat stays open: only entering it again (after
+  10 s), a READY or one's own write (the 2 s check) asks for it again (tyne-chat/tyne#447, #313).
+- A GET answer sent before one's own write and arriving after it can show the old state; the 2 s
+  check corrects one's own signals, not other people's.
 - Threads and forum posts mount the strip and send a GET the API refuses with 400 (tyne-chat/tyne#309).
 - `affirmPersona` has no batch route and no cooldown: one PUT per own lit signal at once, and a
   re-point the server refuses is sent again at the next text change, because the failure refetch
@@ -241,6 +281,13 @@ bar change. Neither has a cooldown, and neither repeats on rebuilds.
   the fork's persona blocks.
 - `profile/presentation/sheets/profile_tab_menu_sheet.dart`: the fork import and one
   `SignalsProfileMenuItem` line after the status item.
+- `features/dm/presentation/widgets/dm_list.dart`: the import in its fork group and one
+  `...signalBarDmMenuItems(ref, convo)` line, under a `// Fork:` comment, after Mute in
+  `_DmBottomSheet`.
+- `features/chat/presentation/sheets/channel_details_sheet.dart`: a `// Fork imports.` group with the
+  import (before the `part` lines); its part `channel_details_more_sheet.dart`: one
+  `...signalBarDmMenuItems(ref, dm, showIcon: true, close: close)` line, under a `// Fork:` comment,
+  after the DM's Pin item.
 - Fork-owned files: `composer_persona_resolution.dart`, `persona_picker_sheet.dart`,
   `persona_composer_pill.dart`.
 
@@ -254,6 +301,15 @@ bar change. Neither has a cooldown, and neither repeats on rebuilds.
 - `test/features/signal_bar/signals_everywhere_test.dart`: the summary's parsing and events, one
   request per action, the busy guard, the minute's wait, READY, where the globe goes, the badge, the
   collapsed strip, the sheet's tiles, rows, columns and taps.
+- `test/features/signal_bar/signal_bar_refetch_test.dart` (tyne-chat/tyne#729, #447): the check after
+  accepted writes (a missed event, a PUT the server answers with no event, a burst, failures, a
+  channel not loaded, READY, a turned-off signal brought back), `shouldLoad` and its cooldown, and
+  strips switched back and forth counting GETs, also with every request failing. Requests go through
+  the real repository to `signal_bar_server_fixture.dart`, a recording Dio adapter that answers the
+  routes and sends no events.
+- `test/features/signal_bar/signal_bar_dm_switch_test.dart` (tyne-chat/tyne#743): `setDmEnabled`
+  (on, off, the event as well, a chat not loaded, failures) and the menu item (when it is left out, a
+  group DM, the GET on opening and its cooldown, the tap, every request failing), counting requests.
 - `test/features/signal_bar/`: `signal_bar_providers_test.dart` (a fake repository that records
   calls: parsing, in-place replacement, version refetch, the enabled flag, local removal, the scope of
   `affirmPersona`, loading never re-pointing); `signal_persona_affirmation_test.dart`;

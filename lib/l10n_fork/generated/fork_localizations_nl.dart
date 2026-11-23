@@ -437,6 +437,12 @@ class ForkLocalizationsNl extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'Signaalbalk aanzetten';
+
+  @override
+  String get signalBarDmTurnOff => 'Signaalbalk uitzetten';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'Gebruik $domain voor de standaardinstantie, of de exacte URL van een andere instantie.';
   }

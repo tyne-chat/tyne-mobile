@@ -439,6 +439,12 @@ class ForkLocalizationsBg extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'Включване на лентата със сигнали';
+
+  @override
+  String get signalBarDmTurnOff => 'Изключване на лентата със сигнали';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'Използвайте $domain за инстанцията по подразбиране или точния URL адрес на друга инстанция.';
   }

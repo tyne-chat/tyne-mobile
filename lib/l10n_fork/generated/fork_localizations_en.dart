@@ -434,6 +434,12 @@ class ForkLocalizationsEn extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'Turn on signal bar';
+
+  @override
+  String get signalBarDmTurnOff => 'Turn off signal bar';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'Use $domain for the default instance, or the exact URL of another instance.';
   }
@@ -1834,6 +1840,12 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   }
 
   @override
+  String get signalBarDmTurnOn => 'Turn on signal bar';
+
+  @override
+  String get signalBarDmTurnOff => 'Turn off signal bar';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'Use $domain for the default instance, or the exact URL of another instance.';
   }
@@ -3232,6 +3244,12 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
   String signalBarTurnOff(String name) {
     return 'Turn off $name';
   }
+
+  @override
+  String get signalBarDmTurnOn => 'Turn on signal bar';
+
+  @override
+  String get signalBarDmTurnOff => 'Turn off signal bar';
 
   @override
   String instanceUrlHelperDefault(String domain) {

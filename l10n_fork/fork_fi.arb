@@ -124,6 +124,8 @@
     "signalBarNobody": "Kenelläkään ei ole tätä signaalia päällä",
     "signalBarReset": "Nollaa signaali kaikilta",
     "signalBarTurnOff": "Kytke {name} pois",
+    "signalBarDmTurnOn": "Ota signaalipalkki käyttöön",
+    "signalBarDmTurnOff": "Poista signaalipalkki käytöstä",
     "instanceUrlHelperDefault": "Käytä oletusinstanssille osoitetta {domain} tai anna toisen instanssin tarkka URL-osoite.",
     "instanceResetToDefault": "Palauta oletusinstanssi",
     "personaScopeTitle": "Persoona koskee",

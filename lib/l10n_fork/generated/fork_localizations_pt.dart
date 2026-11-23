@@ -439,6 +439,12 @@ class ForkLocalizationsPt extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'Ligar barra de sinais';
+
+  @override
+  String get signalBarDmTurnOff => 'Desligar barra de sinais';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'Usa $domain para a instância predefinida ou o URL exato de outra instância.';
   }
@@ -1861,6 +1867,12 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
   String signalBarTurnOff(String name) {
     return 'Desligar $name';
   }
+
+  @override
+  String get signalBarDmTurnOn => 'Ligar barra de sinais';
+
+  @override
+  String get signalBarDmTurnOff => 'Desligar barra de sinais';
 
   @override
   String instanceUrlHelperDefault(String domain) {

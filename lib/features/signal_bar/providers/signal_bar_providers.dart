@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:clock/clock.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -90,6 +91,20 @@ enum SignalChannelLoad {
 /// persona to light it as.
 typedef _WantedSignal = ({bool on, String? personaId});
 
+/// What the server holds for one of the account's signals after a write it
+/// accepted: lit as the persona, or off.
+typedef _ExpectedSignal = ({bool on, String? personaId});
+
+/// Entering a channel asks for it again once this long has passed since its
+/// last request, so switching back and forth between chats sends at most one
+/// request per chat in this time (tyne-chat/tyne#447). The same as the web's
+/// `FRESH_CHANNEL_ANSWER_MS`.
+const Duration kSignalChannelRefetchCooldown = Duration(seconds: 10);
+
+/// How long after the server accepted a write the strip may go on without
+/// showing it before the channel is asked for again (tyne-chat/tyne#729).
+const Duration kSignalWriteEventWait = Duration(seconds: 2);
+
 /// Active signal entries for every channel loaded this session, and the
 /// device's copy of the chats loaded last (tyne-chat/tyne#645).
 ///
@@ -108,6 +123,19 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
   final Map<String, Map<String, _WantedSignal>> _wanted =
       <String, Map<String, _WantedSignal>>{};
 
+  /// When each channel was last asked for since the last READY
+  /// (tyne-chat/tyne#447).
+  final Map<String, DateTime> _askedAt = <String, DateTime>{};
+
+  /// The account's writes the server accepted, per channel and signal, that
+  /// the strip is to show by the time [_checks] runs (tyne-chat/tyne#729).
+  final Map<String, Map<String, _ExpectedSignal>> _expected =
+      <String, Map<String, _ExpectedSignal>>{};
+
+  /// One check per channel, [kSignalWriteEventWait] after its last accepted
+  /// write.
+  final Map<String, Timer> _checks = <String, Timer>{};
+
   /// Bumped by every READY and account change: an answer to a request sent
   /// before is not current.
   int _session = 0;
@@ -118,12 +146,14 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
 
   @override
   Map<String, List<SignalEntry>> build() {
-    ref.listen<String?>(currentUserIdProvider, (String? before, String? now) {
-      if (before != now) {
-        _clear();
-        state = _seed(now);
-      }
-    });
+    ref
+      ..listen<String?>(currentUserIdProvider, (String? before, String? now) {
+        if (before != now) {
+          _clear();
+          state = _seed(now);
+        }
+      })
+      ..onDispose(_dropChecks);
     _clear();
     return _seed(ref.read(currentUserIdProvider));
   }
@@ -134,8 +164,18 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
     _loading.clear();
     _recent.clear();
     _wanted.clear();
+    _askedAt.clear();
+    _dropChecks();
     _session++;
     _account++;
+  }
+
+  void _dropChecks() {
+    for (final Timer check in _checks.values) {
+      check.cancel();
+    }
+    _checks.clear();
+    _expected.clear();
   }
 
   Map<String, List<SignalEntry>> _seed(String? userId) {
@@ -184,6 +224,7 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
     final int session = _session;
     final int account = _account;
     _loading.add(channelId);
+    _askedAt[channelId] = clock.now();
     try {
       final result = await ref
           .read(signalBarRepositoryProvider)
@@ -314,6 +355,24 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
   /// Whether a request for [channelId] sent since the last READY is on its way.
   bool isLoading(String channelId) => _loading.contains(channelId);
 
+  /// Whether something showing [channelId] should ask for it now: not while a
+  /// request for it is on its way or one went out less than
+  /// [kSignalChannelRefetchCooldown] ago, whatever its answer; then while it
+  /// is not confirmed, or, when [entering] it, also when it is
+  /// (tyne-chat/tyne#447): a session can miss its events (tyne-chat/tyne#313),
+  /// so a chat is not trusted until the next READY.
+  bool shouldLoad(String channelId, {required bool entering}) {
+    if (_loading.contains(channelId)) {
+      return false;
+    }
+    final DateTime? askedAt = _askedAt[channelId];
+    if (askedAt != null &&
+        clock.now().difference(askedAt) < kSignalChannelRefetchCooldown) {
+      return false;
+    }
+    return entering || !_confirmed.contains(channelId);
+  }
+
   /// [isConfirmed] for selectors, which must not read `state`; a change of
   /// what is confirmed always comes with a new state.
   bool isConfirmedIn(
@@ -327,6 +386,9 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
   void invalidate() {
     _confirmed.clear();
     _loading.clear();
+    // Every channel is asked for again anyway: no cooldown, no checks.
+    _askedAt.clear();
+    _dropChecks();
     _session++;
     state = <String, List<SignalEntry>>{...state};
     ref.read(mySignalsProvider.notifier).markStale();
@@ -373,6 +435,8 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
     String signalId, {
     String? personaId,
   }) async {
+    final int account = _account;
+    _expected[channelId]?.remove(signalId);
     try {
       await ref
           .read(signalBarRepositoryProvider)
@@ -380,7 +444,10 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
     } on Exception catch (err) {
       debugPrint('[SignalBar] Failed to give signal: $err');
       unawaited(loadChannel(channelId));
+      return;
     }
+    // Lighting still waits for the event, which is then checked for.
+    _expect(account, channelId, signalId, on: true, personaId: personaId);
   }
 
   Future<void> deactivate(
@@ -388,6 +455,8 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
     String signalId, {
     required String userId,
   }) async {
+    final int account = _account;
+    _expected[channelId]?.remove(signalId);
     final List<SignalEntry>? current = state[channelId];
     if (current != null) {
       _setChannel(
@@ -408,7 +477,102 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
     } on Exception catch (err) {
       debugPrint('[SignalBar] Failed to withdraw signal: $err');
       unawaited(loadChannel(channelId));
+      return;
     }
+    // An answer to a request sent before the DELETE can bring it back.
+    _expect(account, channelId, signalId, on: false);
+  }
+
+  /// Remembers what the server now holds for the account's [signalId] in
+  /// [channelId], and checks [kSignalWriteEventWait] after the channel's last
+  /// accepted write that the strip shows it.
+  ///
+  /// Lighting shows only with its `CHANNEL_SIGNAL_UPDATE`. A session can miss
+  /// that event (tyne-chat/tyne#313), and the server sends none for a signal
+  /// already lit as that persona, so once the strip had missed one, every
+  /// further tap was accepted and nothing ever showed it until a restart
+  /// (tyne-chat/tyne#729).
+  void _expect(
+    int account,
+    String channelId,
+    String signalId, {
+    required bool on,
+    String? personaId,
+  }) {
+    if (!ref.mounted || account != _account) {
+      return;
+    }
+    (_expected[channelId] ??= <String, _ExpectedSignal>{})[signalId] = (
+      on: on,
+      personaId: personaId,
+    );
+    _checks[channelId]?.cancel();
+    _checks[channelId] = Timer(kSignalWriteEventWait, () => _check(channelId));
+  }
+
+  /// Asks for [channelId] once when the strip does not show what the
+  /// account's accepted writes there left on the server; a request on its way
+  /// will show it instead. A channel not loaded shows nothing to correct.
+  void _check(String channelId) {
+    _checks.remove(channelId);
+    final Map<String, _ExpectedSignal>? expected = _expected.remove(channelId);
+    if (!ref.mounted || expected == null || _loading.contains(channelId)) {
+      return;
+    }
+    final String? userId = ref.read(currentUserIdProvider);
+    final List<SignalEntry>? shown = state[channelId];
+    if (userId == null || shown == null) {
+      return;
+    }
+    final bool differs = expected.entries.any((
+      MapEntry<String, _ExpectedSignal> want,
+    ) {
+      final SignalEntry? mine = shown
+          .where(
+            (SignalEntry e) => e.signalId == want.key && e.userId == userId,
+          )
+          .firstOrNull;
+      return want.value.on
+          ? mine == null || mine.personaId != want.value.personaId
+          : mine != null;
+    });
+    if (differs) {
+      debugPrint('[SignalBar] No event for a write in $channelId; reloading');
+      unawaited(loadChannel(channelId));
+    }
+  }
+
+  /// Switches the bar on or off in a DM or group DM (tyne-chat/tyne#743).
+  /// The server's answer is the switch's new state, so it shows at once, as
+  /// its `CHANNEL_SIGNAL_BAR_UPDATE` would: the server sends none when the
+  /// switch was already so, and a session can miss one. Switching on a chat
+  /// not loaded asks for it, since it may already have signals lit. A failure
+  /// asks for the chat once. Returns whether the server accepted it.
+  Future<bool> setDmEnabled(String channelId, {required bool enabled}) async {
+    final int account = _account;
+    try {
+      await ref
+          .read(signalBarRepositoryProvider)
+          .setDmEnabled(channelId, enabled: enabled);
+    } on Exception catch (err) {
+      debugPrint('[SignalBar] Failed to switch the bar in $channelId: $err');
+      if (ref.mounted && account == _account) {
+        unawaited(loadChannel(channelId));
+      }
+      return false;
+    }
+    if (!ref.mounted || account != _account) {
+      return true;
+    }
+    if (enabled && !state.containsKey(channelId)) {
+      unawaited(loadChannel(channelId));
+    } else {
+      handleEnabledUpdate(<String, dynamic>{
+        'channel_id': channelId,
+        'enabled': enabled,
+      });
+    }
+    return true;
   }
 
   /// Turns off the account's [signalIds] in [channelId] at once, locally if the

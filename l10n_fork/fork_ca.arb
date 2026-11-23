@@ -124,6 +124,8 @@
     "signalBarNobody": "Ningú no té aquest senyal activat",
     "signalBarReset": "Desactiva el senyal per a tothom",
     "signalBarTurnOff": "Desactiva per a {name}",
+    "signalBarDmTurnOn": "Activa la barra de senyals",
+    "signalBarDmTurnOff": "Desactiva la barra de senyals",
     "instanceUrlHelperDefault": "Fes servir {domain} per a la instància per defecte, o l’adreça exacta d’una altra instància.",
     "instanceResetToDefault": "Torna a la instància per defecte",
     "personaScopeTitle": "La persona s’aplica a",

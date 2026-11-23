@@ -73,6 +73,9 @@ class _Repository implements SignalBarRepository {
 
   @override
   Future<void> reset(String channelId, String signalId) async {}
+
+  @override
+  Future<void> setDmEnabled(String channelId, {required bool enabled}) async {}
 }
 
 void main() {

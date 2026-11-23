@@ -63,6 +63,15 @@ class SignalBarRepository {
     await _dio.delete<void>('/channels/$channelId/signals/$signalId');
   }
 
+  /// Switches the bar on or off in a DM or group DM, which anyone in it may
+  /// do (tyne-chat/tyne#265, #743). Turning it off clears its signals.
+  Future<void> setDmEnabled(String channelId, {required bool enabled}) async {
+    await _dio.put<void>(
+      '/channels/$channelId/signal-bar',
+      data: <String, dynamic>{'enabled': enabled},
+    );
+  }
+
   /// Every chat where the account has a signal on.
   Future<UserSignalsSummary> fetchMySignals() async {
     final Response<Map<String, dynamic>> response = await _dio

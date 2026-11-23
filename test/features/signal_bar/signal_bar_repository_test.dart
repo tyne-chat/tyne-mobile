@@ -126,6 +126,20 @@ void main() {
     ]);
   });
 
+  test("switches a DM's bar on and off (tyne-chat/tyne#743)", () async {
+    final SignalBarRepository signals = repository();
+
+    await signals.setDmEnabled('d1', enabled: true);
+    await signals.setDmEnabled('d1', enabled: false);
+
+    expect(requests.map((r) => (r.method, r.path)), [
+      ('PUT', '/channels/d1/signal-bar'),
+      ('PUT', '/channels/d1/signal-bar'),
+    ]);
+    expect(requests[0].data, <String, dynamic>{'enabled': true});
+    expect(requests[1].data, <String, dynamic>{'enabled': false});
+  });
+
   test('reads, sets and restores signals everywhere', () async {
     answer = <String, dynamic>{
       'restore_available': true,

@@ -439,6 +439,12 @@ class ForkLocalizationsNb extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'Slå på signallinje';
+
+  @override
+  String get signalBarDmTurnOff => 'Slå av signallinje';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'Bruk $domain for standardinstansen, eller den nøyaktige URL-en til en annen instans.';
   }
