@@ -124,6 +124,8 @@
     "signalBarNobody": "Askush nuk e ka ndezur këtë sinjal",
     "signalBarReset": "Rivendos sinjalin për të gjithë",
     "signalBarTurnOff": "Fik sinjalin për {name}",
+    "signalBarDmTurnOn": "Aktivizo shiritin e sinjaleve",
+    "signalBarDmTurnOff": "Çaktivizo shiritin e sinjaleve",
     "instanceUrlHelperDefault": "Përdor {domain} për instancën e parazgjedhur, ose URL-në e saktë të një instance tjetër.",
     "instanceResetToDefault": "Kthehu te instanca e parazgjedhur",
     "personaScopeTitle": "Ku vlen persona",

@@ -433,6 +433,12 @@ class ForkLocalizationsAr extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'تشغيل شريط الإشارات';
+
+  @override
+  String get signalBarDmTurnOff => 'إيقاف شريط الإشارات';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'استخدم $domain للمثيل الافتراضي، أو عنوان URL الدقيق لمثيل آخر.';
   }

@@ -438,6 +438,12 @@ class ForkLocalizationsEl extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'Ενεργοποίηση γραμμής σημάτων';
+
+  @override
+  String get signalBarDmTurnOff => 'Απενεργοποίηση γραμμής σημάτων';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'Χρησιμοποιήστε το $domain για την προεπιλεγμένη εγκατάσταση ή την ακριβή διεύθυνση URL μιας άλλης εγκατάστασης.';
   }

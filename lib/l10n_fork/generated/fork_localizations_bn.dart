@@ -434,6 +434,12 @@ class ForkLocalizationsBn extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'সিগন্যাল বার চালু করুন';
+
+  @override
+  String get signalBarDmTurnOff => 'সিগন্যাল বার বন্ধ করুন';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'ডিফল্ট ইনস্ট্যান্সের জন্য $domain ব্যবহার করুন, অথবা অন্য কোনো ইনস্ট্যান্সের সঠিক URL দিন।';
   }

@@ -124,6 +124,8 @@
     "signalBarNobody": "Neviens nav ieslēdzis šo signālu",
     "signalBarReset": "Atiestatīt signālu visiem",
     "signalBarTurnOff": "Izslēgt signālu: {name}",
+    "signalBarDmTurnOn": "Ieslēgt signālu joslu",
+    "signalBarDmTurnOff": "Izslēgt signālu joslu",
     "instanceUrlHelperDefault": "Noklusējuma serverim izmantojiet {domain} vai ievadiet precīzu cita servera URL.",
     "instanceResetToDefault": "Atjaunot noklusējuma serveri",
     "personaScopeTitle": "Izvēlētā persona darbojas",

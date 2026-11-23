@@ -124,6 +124,8 @@
     "signalBarNobody": "কেউ এই সিগন্যাল চালু করেনি",
     "signalBarReset": "সবার জন্য সিগন্যাল রিসেট করুন",
     "signalBarTurnOff": "{name}-এর জন্য বন্ধ করুন",
+    "signalBarDmTurnOn": "সিগন্যাল বার চালু করুন",
+    "signalBarDmTurnOff": "সিগন্যাল বার বন্ধ করুন",
     "instanceUrlHelperDefault": "ডিফল্ট ইনস্ট্যান্সের জন্য {domain} ব্যবহার করুন, অথবা অন্য কোনো ইনস্ট্যান্সের সঠিক URL দিন।",
     "instanceResetToDefault": "ডিফল্ট ইনস্ট্যান্সে ফিরে যান",
     "personaScopeTitle": "পারসোনা কোথায় প্রযোজ্য",

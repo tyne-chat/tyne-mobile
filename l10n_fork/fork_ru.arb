@@ -124,6 +124,8 @@
     "signalBarNobody": "Никто не включил этот сигнал",
     "signalBarReset": "Сбросить сигнал для всех",
     "signalBarTurnOff": "Выключить {name}",
+    "signalBarDmTurnOn": "Включить панель сигналов",
+    "signalBarDmTurnOff": "Выключить панель сигналов",
     "instanceUrlHelperDefault": "Используйте {domain} для инстанса по умолчанию или точный URL другого инстанса.",
     "instanceResetToDefault": "Сбросить до инстанса по умолчанию",
     "personaScopeTitle": "Персона действует",

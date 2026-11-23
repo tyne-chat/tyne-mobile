@@ -124,6 +124,8 @@
     "signalBarNobody": "Walang naka-on ng signal na ito",
     "signalBarReset": "I-reset ang signal para sa lahat",
     "signalBarTurnOff": "I-off para kay {name}",
+    "signalBarDmTurnOn": "I-on ang hanay ng signal",
+    "signalBarDmTurnOff": "I-off ang hanay ng signal",
     "instanceUrlHelperDefault": "Gamitin ang {domain} para sa default na instance, o ang eksaktong URL ng ibang instance.",
     "instanceResetToDefault": "Bumalik sa default na instance",
     "personaScopeTitle": "Saklaw ng Persona",

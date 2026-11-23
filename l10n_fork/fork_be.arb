@@ -124,6 +124,8 @@
     "signalBarNobody": "Гэты сігнал ні ў кога не ўключаны",
     "signalBarReset": "Скінуць сігнал для ўсіх",
     "signalBarTurnOff": "Выключыць для {name}",
+    "signalBarDmTurnOn": "Уключыць панэль сігналаў",
+    "signalBarDmTurnOff": "Выключыць панэль сігналаў",
     "instanceUrlHelperDefault": "Увядзіце {domain} для сервера па змаўчанні або дакладны URL іншага сервера.",
     "instanceResetToDefault": "Вярнуцца да сервера па змаўчанні",
     "personaScopeTitle": "Дзе дзейнічае персона",

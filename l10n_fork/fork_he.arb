@@ -124,6 +124,8 @@
     "signalBarNobody": "אף אחד לא הפעיל את האות הזה",
     "signalBarReset": "איפוס האות לכולם",
     "signalBarTurnOff": "כיבוי {name}",
+    "signalBarDmTurnOn": "הפעלת סרגל האותות",
+    "signalBarDmTurnOff": "כיבוי סרגל האותות",
     "instanceUrlHelperDefault": "השתמשו ב-{domain} עבור המופע שמוגדר כברירת מחדל, או בכתובת ה-URL המדויקת של מופע אחר.",
     "instanceResetToDefault": "איפוס למופע ברירת המחדל",
     "personaScopeTitle": "הפרסונה חלה על",

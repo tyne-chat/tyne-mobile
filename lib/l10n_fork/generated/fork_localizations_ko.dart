@@ -425,6 +425,12 @@ class ForkLocalizationsKo extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => '시그널 바 켜기';
+
+  @override
+  String get signalBarDmTurnOff => '시그널 바 끄기';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return '기본 인스턴스에는 $domain 주소를 사용하고, 다른 인스턴스는 정확한 URL을 입력하세요.';
   }

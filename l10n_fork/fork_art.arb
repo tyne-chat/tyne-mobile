@@ -125,6 +125,8 @@
     "signalBarNobody": "jan ala li open e suno ni",
     "signalBarReset": "o pini e suno ni tawa jan ale",
     "signalBarTurnOff": "o pini e suno pi {name}",
+    "signalBarDmTurnOn": "o open e linja suno",
+    "signalBarDmTurnOff": "o pini e linja suno",
     "instanceUrlHelperDefault": "o sitelen e {domain} tawa ma pi ilo ni. ma ante la o sitelen e URL ona ale.",
     "instanceResetToDefault": "o kepeken sin e ma pi ilo ni",
     "personaScopeTitle": "jan insa li lon seme?",

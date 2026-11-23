@@ -92,7 +92,7 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
         return;
       }
       _config.ensureLoaded();
-      _loadChannelIfNeeded();
+      _loadChannelIfNeeded(entering: true);
       _ensureMySignals();
     });
   }
@@ -120,15 +120,17 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
     if (oldWidget.channelId != widget.channelId) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
-          _loadChannelIfNeeded();
+          _loadChannelIfNeeded(entering: true);
         }
       });
     }
   }
 
   /// Asks for the channel until the server has answered for it since the
-  /// last READY; what the device kept is shown meanwhile.
-  void _loadChannelIfNeeded() {
+  /// last READY, and again on [entering] it (tyne-chat/tyne#447); what is
+  /// already there is shown meanwhile. At most one request per channel in
+  /// [kSignalChannelRefetchCooldown], whatever its answer.
+  void _loadChannelIfNeeded({bool entering = false}) {
     final String channelId = widget.channelId;
     // A DM thread has no signals: the server refuses the request (a thread is
     // not one of its text channel types), and the strip stays hidden, as on
@@ -136,8 +138,7 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
     if (channelId.isEmpty ||
         forkDmThreadParentOf(channelId) != null ||
         ref.read(signalBarConfigProvider).signals.isEmpty ||
-        _signals.isConfirmed(channelId) ||
-        _signals.isLoading(channelId)) {
+        !_signals.shouldLoad(channelId, entering: entering)) {
       return;
     }
     unawaited(

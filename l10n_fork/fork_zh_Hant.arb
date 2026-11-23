@@ -124,6 +124,8 @@
     "signalBarNobody": "還沒有人開啟此訊號",
     "signalBarReset": "為所有人重設訊號",
     "signalBarTurnOff": "關閉 {name}",
+    "signalBarDmTurnOn": "開啟訊號列",
+    "signalBarDmTurnOff": "關閉訊號列",
     "instanceUrlHelperDefault": "預設執行個體請使用 {domain}，或輸入其他執行個體的確切 URL。",
     "instanceResetToDefault": "重設為預設執行個體",
     "personaScopeTitle": "人格適用範圍",

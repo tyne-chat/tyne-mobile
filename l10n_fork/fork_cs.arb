@@ -124,6 +124,8 @@
     "signalBarNobody": "Tento signál nemá nikdo zapnutý",
     "signalBarReset": "Resetovat signál pro všechny",
     "signalBarTurnOff": "Vypnout {name}",
+    "signalBarDmTurnOn": "Zapnout lištu signálů",
+    "signalBarDmTurnOff": "Vypnout lištu signálů",
     "instanceUrlHelperDefault": "Pro výchozí instanci použijte {domain}, nebo zadejte přesnou adresu URL jiné instance.",
     "instanceResetToDefault": "Obnovit výchozí instanci",
     "personaScopeTitle": "Persona platí pro",

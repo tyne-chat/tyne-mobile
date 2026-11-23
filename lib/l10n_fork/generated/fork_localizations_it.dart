@@ -439,6 +439,12 @@ class ForkLocalizationsIt extends ForkLocalizations {
   }
 
   @override
+  String get signalBarDmTurnOn => 'Attiva barra dei segnali';
+
+  @override
+  String get signalBarDmTurnOff => 'Disattiva barra dei segnali';
+
+  @override
   String instanceUrlHelperDefault(String domain) {
     return 'Usa $domain per l’istanza predefinita, oppure l’URL esatto di un’altra istanza.';
   }
