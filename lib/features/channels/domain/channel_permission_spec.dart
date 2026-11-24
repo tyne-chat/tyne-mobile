@@ -47,7 +47,6 @@ List<GuildPermissionCategorySpec> generateChannelPermissionSpec(
         _channelEntry(l10n, Permission.readMessageHistory),
         _channelEntry(l10n, Permission.mentionEveryone),
         _channelEntry(l10n, Permission.useExternalEmojis),
-        _channelEntry(l10n, Permission.useExternalCommands),
         _channelEntry(l10n, Permission.useExternalStickers),
         _channelEntry(l10n, Permission.addReactions),
         _channelEntry(l10n, Permission.bypassSlowmode),
@@ -73,6 +72,7 @@ List<GuildPermissionCategorySpec> generateChannelPermissionSpec(
           _channelEntry(l10n, Permission.updateRtcRegion),
         ],
       ),
+    forkChannelCommandsCategory(l10n),
   ];
 }
 
@@ -112,4 +112,18 @@ String? channelPermissionDescription(
       l10n.fork.permissionUseExternalCommandsChannelDescription,
     _ => permissionDescription(l10n, permission),
   };
+}
+
+// Fork: the server commands permission gets a section of its own, after
+// upstream's. Upstream's tests pin the exact rows of "Messages & media", so a
+// fork row there fails them wherever it sits (tyne-chat/tyne#915).
+GuildPermissionCategorySpec forkChannelCommandsCategory(
+  FluxerLocalizations l10n,
+) {
+  return GuildPermissionCategorySpec(
+    title: l10n.fork.guildSettingsCommands,
+    permissions: <GuildPermissionEntry>[
+      _channelEntry(l10n, Permission.useExternalCommands),
+    ],
+  );
 }
