@@ -14,6 +14,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
+import 'package:fluxer_app/core/local_settings/local_setting_keys.dart';
+import 'package:fluxer_app/core/local_settings/local_settings_store_provider.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/providers/app/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -561,7 +563,7 @@ void main() {
             .messages
             .firstWhere((Message m) => m.id == _messageId),
       );
-      // The setting loads from the device's preferences.
+      // The setting loads from the device's local settings.
       container
         ..read(interfaceExtrasPreferencesProvider)
         ..read(activePersonaProvider);
@@ -585,13 +587,14 @@ void main() {
     });
 
     test('keeps the text when the setting is off, as upstream does', () async {
-      SharedPreferences.setMockInitialValues(<String, Object>{
-        'interface_keep_attachments_on_empty_edit': false,
-      });
+      SharedPreferences.setMockInitialValues(<String, Object>{});
       final _EditRecorder adapter = _EditRecorder(
         existing: <Map<String, Object?>>[_attachmentJson('800', 'old.png')],
       );
       final ProviderContainer container = containerWith(adapter);
+      container
+          .read(localSettingsStoreProvider)
+          .write(LocalSettingKeys.keepAttachmentsOnEmptyEdit, false);
       final ChatViewModel notifier = await startEditing(container);
 
       await notifier.saveEditedMessage(text: '');
