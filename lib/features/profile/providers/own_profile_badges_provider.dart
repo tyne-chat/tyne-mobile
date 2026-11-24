@@ -6,6 +6,10 @@ import 'package:fluxer_app/shared/providers/user_profile.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 part 'own_profile_badges_provider.g.dart';
 
 const Duration _kProfileBadgesPreviewDebounce = Duration(milliseconds: 250);
@@ -39,15 +43,21 @@ class OwnProfileBadgesSettingsPreview
     extends _$OwnProfileBadgesSettingsPreview {
   @override
   Future<ProfileBadgePreviewResponse?> build() async {
-    final UserSettingsViewState settings = ref.watch(
-      userSettingsViewModelProvider,
+    // Fork: watch only badge-preview inputs and cancel superseded rebuilds
+    // via onDispose (ref.mounted stays true across AsyncNotifier rebuilds,
+    // tyne-chat/tyne#909).
+    final _ForkBadgePreviewKey key = ref.watch(
+      userSettingsViewModelProvider.select(_forkBadgePreviewKeyFrom),
     );
-    if (settings.userId.isEmpty || !settings.isProfileLoaded) {
+    if (key.userId.isEmpty || !key.isProfileLoaded) {
       return null;
     }
 
+    var cancelled = false;
+    ref.onDispose(() => cancelled = true);
+
     await Future<void>.delayed(_kProfileBadgesPreviewDebounce);
-    if (!ref.mounted) {
+    if (cancelled || !ref.mounted) {
       return null;
     }
 
@@ -84,4 +94,32 @@ class OwnProfileBadgesPreview extends _$OwnProfileBadgesPreview {
     return settingsPreview.value?.profileBadges ??
         const <ProfileBadgeResponse>[];
   }
+}
+
+// Fork: value-equal key of only the settings fields that affect the badge
+// preview request (tyne-chat/tyne#909).
+typedef _ForkBadgePreviewKey = ({
+  String userId,
+  bool isProfileLoaded,
+  String hiddenProfileBadgesKey,
+  bool premiumBadgeMasked,
+  bool premiumBadgeTimestampHidden,
+  bool operatorPassBadgeTimestampHidden,
+  bool operatorPassBadgeCountHidden,
+});
+
+_ForkBadgePreviewKey _forkBadgePreviewKeyFrom(UserSettingsViewState settings) {
+  return (
+    userId: settings.userId,
+    isProfileLoaded: settings.isProfileLoaded,
+    hiddenProfileBadgesKey: sortedProfileBadgeKeys(
+      settings.effectiveHiddenProfileBadges,
+    ).join(','),
+    premiumBadgeMasked: settings.effectivePremiumBadgeMasked,
+    premiumBadgeTimestampHidden: settings.effectivePremiumBadgeTimestampHidden,
+    operatorPassBadgeTimestampHidden:
+        settings.effectiveOperatorPassBadgeTimestampHidden,
+    operatorPassBadgeCountHidden:
+        settings.effectiveOperatorPassBadgeCountHidden,
+  );
 }
