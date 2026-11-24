@@ -6,10 +6,10 @@ name: Nightly Rebase & AI Conflict Resolver
 # platform level. Since this repo is a public fork of fluxerapp/flutter_client,
 # cron schedules defined here will NEVER fire regardless of workflow state.
 #
-# Nightly runs are instead triggered by a cron schedule in the standalone
-# (non-fork) repository: chiaracoetzee/workflow-scheduler
-# That repo dispatches this workflow daily at 4:35 AM PDT (11:35 UTC) via
-# `gh workflow run`.
+# Nightly runs are instead dispatched by the host crontab on Nyx at 01:00 Pacific: this
+# repository's link and, beside it, the SDK's, which starts the app's. The monorepo's link
+# then starts the SDK and the app again as refresh-only runs (tyne-tools
+# runbooks/nightly-rebase.md, "Running it").
 
 on:
   workflow_dispatch:
@@ -49,6 +49,10 @@ on:
         type: boolean
       skip_baseline:
         description: 'Skip the baseline gates before the rebase, for a branch whose baseline already passed, such as a run started again after one that stopped later. The gates after the rebase still run, and the run publishes as usual.'
+        required: false
+        default: false
+      refresh_only:
+        description: 'Refresh only: move what this branch takes from the repository before it in the chain and check it with a short gate. Never rebases and skips the baseline. The monorepo''s link starts the SDK this way once it has published, and the SDK passes it on to the app.'
         required: false
         default: false
         type: boolean
@@ -194,6 +198,9 @@ jobs:
           if [ "${{ inputs.skip_baseline }}" = "true" ]; then
             FLAGS="$FLAGS --skip-baseline"
           fi
+          if [ "${{ inputs.refresh_only }}" = "true" ]; then
+            FLAGS="$FLAGS --refresh-only"
+          fi
           echo "REBASE_ARGS=--profile flutter --time-budget-minutes 170 --result-dir /tmp/rebase_result $FLAGS" >> "$GITHUB_ENV"
 
       # Only the agent steps (3a, 4a, ...) get the model credentials: the other steps run upstream's
@@ -317,6 +324,8 @@ jobs:
     # the model its issues name and for starting the next repository with the same agent.
     env:
       REBASE_AGENT_PROVIDER: ${{ inputs.agent }}
+      # The next link is started as a refresh-only run too (publish_result.py).
+      REBASE_REFRESH_ONLY: ${{ inputs.refresh_only }}
     steps:
       # Escalations and the absorbed-commits issue are opened as tyne-rebase[bot] (the Tyne Rebase
       # App: Issues only, installed on tyne-chat/tyne), not as WORKFLOW_TOKEN's account. If this
