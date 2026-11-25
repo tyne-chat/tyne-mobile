@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "هل تريد إزالة هذه الإشارة المرجعية؟",
     "chatAudioViewCover": "عرض الغلاف",
     "mediaViewerShowControls": "إظهار عناصر التحكم",
-    "mediaViewerHideControls": "إخفاء عناصر التحكم"
+    "mediaViewerHideControls": "إخفاء عناصر التحكم",
+    "personaBlockButton": "حظر",
+    "personaUnblockButton": "إلغاء الحظر",
+    "personaBlockConfirmTitle": "حظر الشخصية",
+    "personaBlockConfirmDescription": "هل تريد حظر {personaName}؟ ستُطوى رسائلها كما تُطوى رسائل المستخدم المحظور. لن تتأثر شخصيات {ownerName} الأخرى.",
+    "personaUnblockConfirmTitle": "إلغاء حظر الشخصية",
+    "personaUnblockConfirmDescription": "هل تريد إلغاء حظر {personaName}؟",
+    "personaBlockFailed": "تعذّر حظر الشخصية. حاول مرة أخرى.",
+    "personaUnblockFailed": "تعذّر إلغاء حظر الشخصية. حاول مرة أخرى."
 }

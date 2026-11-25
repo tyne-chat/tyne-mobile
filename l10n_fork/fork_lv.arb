@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "Noņemt šo grāmatzīmi?",
     "chatAudioViewCover": "Skatīt vāciņu",
     "mediaViewerShowControls": "Rādīt vadīklas",
-    "mediaViewerHideControls": "Paslēpt vadīklas"
+    "mediaViewerHideControls": "Paslēpt vadīklas",
+    "personaBlockButton": "Bloķēt",
+    "personaUnblockButton": "Atbloķēt",
+    "personaBlockConfirmTitle": "Bloķēt personu",
+    "personaBlockConfirmDescription": "Bloķēt {personaName}? Tās ziņas tiks sakļautas kā bloķēta lietotāja ziņas. Pārējās {ownerName} personas tas neietekmēs.",
+    "personaUnblockConfirmTitle": "Atbloķēt personu",
+    "personaUnblockConfirmDescription": "Atbloķēt {personaName}?",
+    "personaBlockFailed": "Neizdevās bloķēt personu. Mēģini vēlreiz.",
+    "personaUnblockFailed": "Neizdevās atbloķēt personu. Mēģini vēlreiz."
 }

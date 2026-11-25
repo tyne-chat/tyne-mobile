@@ -369,5 +369,13 @@
     "bookmarkRemoveConfirmDescription": "sina wile ala wile weka e toki awen ni?",
     "chatAudioViewCover": "lukin e sitelen lawa",
     "mediaViewerShowControls": "o lukin e ilo",
-    "mediaViewerHideControls": "o len e ilo"
+    "mediaViewerHideControls": "o len e ilo",
+    "personaBlockButton": "o weka",
+    "personaUnblockButton": "o kama jo sin",
+    "personaBlockConfirmTitle": "o weka e jan insa",
+    "personaBlockConfirmDescription": "sina wile ala lukin e {personaName} anu seme? toki ona li lon poki pini, sama toki pi jan weka. jan insa ante pi {ownerName} li ante ala.",
+    "personaUnblockConfirmTitle": "o kama jo sin e jan insa",
+    "personaUnblockConfirmDescription": "sina wile lukin sin e {personaName} anu seme?",
+    "personaBlockFailed": "mi ken ala weka e jan insa. o pali sin.",
+    "personaUnblockFailed": "mi ken ala kama jo sin e jan insa. o pali sin."
 }

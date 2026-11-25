@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "Fjern denne besked fra gemte beskeder?",
     "chatAudioViewCover": "Vis cover",
     "mediaViewerShowControls": "Vis kontroller",
-    "mediaViewerHideControls": "Skjul kontroller"
+    "mediaViewerHideControls": "Skjul kontroller",
+    "personaBlockButton": "Bloker",
+    "personaUnblockButton": "Fjern blokering",
+    "personaBlockConfirmTitle": "Bloker persona",
+    "personaBlockConfirmDescription": "Bloker {personaName}? Deres beskeder bliver foldet sammen, som en blokeret brugers. {ownerName}s andre personaer påvirkes ikke.",
+    "personaUnblockConfirmTitle": "Fjern blokering af persona",
+    "personaUnblockConfirmDescription": "Fjern blokering af {personaName}?",
+    "personaBlockFailed": "Personaen kunne ikke blokeres. Prøv igen.",
+    "personaUnblockFailed": "Personaens blokering kunne ikke fjernes. Prøv igen."
 }

@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "要移除此书签吗？",
     "chatAudioViewCover": "查看封面",
     "mediaViewerShowControls": "显示控件",
-    "mediaViewerHideControls": "隐藏控件"
+    "mediaViewerHideControls": "隐藏控件",
+    "personaBlockButton": "屏蔽",
+    "personaUnblockButton": "取消屏蔽",
+    "personaBlockConfirmTitle": "屏蔽人格",
+    "personaBlockConfirmDescription": "要屏蔽{personaName}吗？其消息将像已屏蔽用户的消息一样被折叠。{ownerName}的其他人格不受影响。",
+    "personaUnblockConfirmTitle": "解除屏蔽人格",
+    "personaUnblockConfirmDescription": "要解除屏蔽{personaName}吗？",
+    "personaBlockFailed": "无法屏蔽该人格。请重试。",
+    "personaUnblockFailed": "无法解除屏蔽该人格。请重试。"
 }

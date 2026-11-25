@@ -1451,4 +1451,34 @@ class ForkLocalizationsCs extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'Skrýt ovládací prvky';
+
+  @override
+  String get personaBlockButton => 'Blokovat';
+
+  @override
+  String get personaUnblockButton => 'Odblokovat';
+
+  @override
+  String get personaBlockConfirmTitle => 'Zablokovat personu';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'Zablokovat $personaName? Její zprávy se sbalí jako zprávy zablokovaného uživatele. Ostatních person uživatele $ownerName se to nedotkne.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'Odblokovat personu';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'Odblokovat $personaName?';
+  }
+
+  @override
+  String get personaBlockFailed =>
+      'Personu se nepodařilo zablokovat. Zkus to znovu.';
+
+  @override
+  String get personaUnblockFailed =>
+      'Personu se nepodařilo odblokovat. Zkus to znovu.';
 }

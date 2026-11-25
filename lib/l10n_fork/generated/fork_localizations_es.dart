@@ -1429,6 +1429,36 @@ class ForkLocalizationsEs extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'Ocultar controles';
+
+  @override
+  String get personaBlockButton => 'Bloquear';
+
+  @override
+  String get personaUnblockButton => 'Desbloquear';
+
+  @override
+  String get personaBlockConfirmTitle => 'Bloquear persona';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return '¿Bloquear a $personaName? Sus mensajes se contraerán, como los de un usuario bloqueado. Las demás personas de $ownerName no se verán afectadas.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'Desbloquear persona';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return '¿Desbloquear a $personaName?';
+  }
+
+  @override
+  String get personaBlockFailed =>
+      'No se ha podido bloquear la persona. Inténtalo de nuevo.';
+
+  @override
+  String get personaUnblockFailed =>
+      'No se ha podido desbloquear la persona. Inténtalo de nuevo.';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -2855,4 +2885,34 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
 
   @override
   String get mediaViewerHideControls => 'Ocultar controles';
+
+  @override
+  String get personaBlockButton => 'Bloquear';
+
+  @override
+  String get personaUnblockButton => 'Desbloquear';
+
+  @override
+  String get personaBlockConfirmTitle => 'Bloquear persona';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return '¿Bloquear a $personaName? Sus mensajes se contraerán, como los de un usuario bloqueado. Las demás personas de $ownerName no se verán afectadas.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'Desbloquear persona';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return '¿Desbloquear a $personaName?';
+  }
+
+  @override
+  String get personaBlockFailed =>
+      'No se pudo bloquear la persona. Inténtalo de nuevo.';
+
+  @override
+  String get personaUnblockFailed =>
+      'No se pudo desbloquear la persona. Inténtalo de nuevo.';
 }

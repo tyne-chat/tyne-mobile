@@ -1433,4 +1433,34 @@ class ForkLocalizationsEl extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'Απόκρυψη στοιχείων ελέγχου';
+
+  @override
+  String get personaBlockButton => 'Μπλοκάρισμα';
+
+  @override
+  String get personaUnblockButton => 'Ξεμπλοκάρισμα';
+
+  @override
+  String get personaBlockConfirmTitle => 'Αποκλεισμός persona';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'Αποκλεισμός της $personaName; Τα μηνύματά της θα συμπτύσσονται, όπως ενός αποκλεισμένου χρήστη. Οι άλλες persona του $ownerName δεν θα επηρεαστούν.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'Άρση αποκλεισμού persona';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'Άρση αποκλεισμού της $personaName;';
+  }
+
+  @override
+  String get personaBlockFailed =>
+      'Δεν ήταν δυνατός ο αποκλεισμός της persona. Δοκίμασε ξανά.';
+
+  @override
+  String get personaUnblockFailed =>
+      'Δεν ήταν δυνατή η άρση αποκλεισμού της persona. Δοκίμασε ξανά.';
 }

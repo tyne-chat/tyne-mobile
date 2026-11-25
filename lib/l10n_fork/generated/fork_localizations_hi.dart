@@ -1416,4 +1416,34 @@ class ForkLocalizationsHi extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'कंट्रोल छिपाएँ';
+
+  @override
+  String get personaBlockButton => 'ब्लॉक करें';
+
+  @override
+  String get personaUnblockButton => 'अनब्लॉक करें';
+
+  @override
+  String get personaBlockConfirmTitle => 'परसोना ब्लॉक करें';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return '$personaName को ब्लॉक करें? इसके संदेश किसी ब्लॉक किए गए उपयोगकर्ता की तरह समेट दिए जाएँगे। $ownerName के बाकी परसोना पर कोई असर नहीं होगा।';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'परसोना अनब्लॉक करें';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return '$personaName को अनब्लॉक करें?';
+  }
+
+  @override
+  String get personaBlockFailed =>
+      'परसोना ब्लॉक नहीं हो सका। फिर से कोशिश करें।';
+
+  @override
+  String get personaUnblockFailed =>
+      'परसोना अनब्लॉक नहीं हो सका। फिर से कोशिश करें।';
 }

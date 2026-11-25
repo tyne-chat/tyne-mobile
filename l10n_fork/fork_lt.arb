@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "Pašalinti šią žymę?",
     "chatAudioViewCover": "Rodyti viršelį",
     "mediaViewerShowControls": "Rodyti valdiklius",
-    "mediaViewerHideControls": "Slėpti valdiklius"
+    "mediaViewerHideControls": "Slėpti valdiklius",
+    "personaBlockButton": "Blokuoti",
+    "personaUnblockButton": "Atblokuoti",
+    "personaBlockConfirmTitle": "Blokuoti personą",
+    "personaBlockConfirmDescription": "Blokuoti {personaName}? Jos žinutės bus suskleistos, kaip užblokuoto naudotojo. Kitų {ownerName} personų tai nepalies.",
+    "personaUnblockConfirmTitle": "Atblokuoti personą",
+    "personaUnblockConfirmDescription": "Atblokuoti {personaName}?",
+    "personaBlockFailed": "Nepavyko užblokuoti personos. Bandyk dar kartą.",
+    "personaUnblockFailed": "Nepavyko atblokuoti personos. Bandyk dar kartą."
 }

@@ -1432,6 +1432,36 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'Ocultar controlos';
+
+  @override
+  String get personaBlockButton => 'Bloquear';
+
+  @override
+  String get personaUnblockButton => 'Desbloquear';
+
+  @override
+  String get personaBlockConfirmTitle => 'Bloquear persona';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'Bloquear $personaName? As mensagens dela vão ficar recolhidas, como as de um utilizador bloqueado. As outras personas de $ownerName não serão afetadas.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'Desbloquear persona';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'Desbloquear $personaName?';
+  }
+
+  @override
+  String get personaBlockFailed =>
+      'Não foi possível bloquear a persona. Tenta novamente.';
+
+  @override
+  String get personaUnblockFailed =>
+      'Não foi possível desbloquear a persona. Tenta novamente.';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -2863,4 +2893,34 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
 
   @override
   String get mediaViewerHideControls => 'Ocultar controles';
+
+  @override
+  String get personaBlockButton => 'Bloquear';
+
+  @override
+  String get personaUnblockButton => 'Desbloquear';
+
+  @override
+  String get personaBlockConfirmTitle => 'Bloquear persona';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'Bloquear $personaName? As mensagens dela vão ficar recolhidas, como as de um usuário bloqueado. As outras personas de $ownerName não serão afetadas.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'Desbloquear persona';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'Desbloquear $personaName?';
+  }
+
+  @override
+  String get personaBlockFailed =>
+      'Não foi possível bloquear a persona. Tente de novo.';
+
+  @override
+  String get personaUnblockFailed =>
+      'Não foi possível desbloquear a persona. Tente de novo.';
 }

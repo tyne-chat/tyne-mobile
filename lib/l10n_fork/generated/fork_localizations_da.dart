@@ -1414,4 +1414,33 @@ class ForkLocalizationsDa extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'Skjul kontroller';
+
+  @override
+  String get personaBlockButton => 'Bloker';
+
+  @override
+  String get personaUnblockButton => 'Fjern blokering';
+
+  @override
+  String get personaBlockConfirmTitle => 'Bloker persona';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'Bloker $personaName? Deres beskeder bliver foldet sammen, som en blokeret brugers. ${ownerName}s andre personaer påvirkes ikke.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'Fjern blokering af persona';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'Fjern blokering af $personaName?';
+  }
+
+  @override
+  String get personaBlockFailed => 'Personaen kunne ikke blokeres. Prøv igen.';
+
+  @override
+  String get personaUnblockFailed =>
+      'Personaens blokering kunne ikke fjernes. Prøv igen.';
 }

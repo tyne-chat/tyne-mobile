@@ -1423,4 +1423,34 @@ class ForkLocalizationsHu extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'Vezérlők elrejtése';
+
+  @override
+  String get personaBlockButton => 'Letiltás';
+
+  @override
+  String get personaUnblockButton => 'Tiltás feloldása';
+
+  @override
+  String get personaBlockConfirmTitle => 'Persona letiltása';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'Letiltod: $personaName? Az üzenetei össze lesznek csukva, mint egy letiltott felhasználóéi. $ownerName többi personáját ez nem érinti.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'Persona letiltásának feloldása';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'Feloldod $personaName letiltását?';
+  }
+
+  @override
+  String get personaBlockFailed =>
+      'Nem sikerült letiltani a personát. Próbáld újra.';
+
+  @override
+  String get personaUnblockFailed =>
+      'Nem sikerült feloldani a persona letiltását. Próbáld újra.';
 }

@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "Usunąć tę zakładkę?",
     "chatAudioViewCover": "Pokaż okładkę",
     "mediaViewerShowControls": "Pokaż kontrolki",
-    "mediaViewerHideControls": "Ukryj kontrolki"
+    "mediaViewerHideControls": "Ukryj kontrolki",
+    "personaBlockButton": "Zablokuj",
+    "personaUnblockButton": "Odblokuj",
+    "personaBlockConfirmTitle": "Zablokuj personę",
+    "personaBlockConfirmDescription": "Zablokować {personaName}? Jej wiadomości będą zwinięte, jak wiadomości zablokowanego użytkownika. Nie wpłynie to na pozostałe persony użytkownika {ownerName}.",
+    "personaUnblockConfirmTitle": "Odblokuj personę",
+    "personaUnblockConfirmDescription": "Odblokować {personaName}?",
+    "personaBlockFailed": "Nie udało się zablokować persony. Spróbuj ponownie.",
+    "personaUnblockFailed": "Nie udało się odblokować persony. Spróbuj ponownie."
 }

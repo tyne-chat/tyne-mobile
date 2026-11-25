@@ -1399,4 +1399,32 @@ class ForkLocalizationsVi extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'Ẩn các nút điều khiển';
+
+  @override
+  String get personaBlockButton => 'Chặn';
+
+  @override
+  String get personaUnblockButton => 'Bỏ chặn';
+
+  @override
+  String get personaBlockConfirmTitle => 'Chặn persona';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'Chặn $personaName? Tin nhắn của persona này sẽ được thu gọn, như của người dùng bị chặn. Các persona khác của $ownerName không bị ảnh hưởng.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'Bỏ chặn persona';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'Bỏ chặn $personaName?';
+  }
+
+  @override
+  String get personaBlockFailed => 'Không thể chặn persona. Hãy thử lại.';
+
+  @override
+  String get personaUnblockFailed => 'Không thể bỏ chặn persona. Hãy thử lại.';
 }

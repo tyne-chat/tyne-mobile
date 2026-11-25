@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "Ta bort det här bokmärket?",
     "chatAudioViewCover": "Visa omslag",
     "mediaViewerShowControls": "Visa kontroller",
-    "mediaViewerHideControls": "Dölj kontroller"
+    "mediaViewerHideControls": "Dölj kontroller",
+    "personaBlockButton": "Blockera",
+    "personaUnblockButton": "Avblockera",
+    "personaBlockConfirmTitle": "Blockera persona",
+    "personaBlockConfirmDescription": "Blockera {personaName}? Deras meddelanden fälls ihop, som för en blockerad användare. {ownerName}s andra personas påverkas inte.",
+    "personaUnblockConfirmTitle": "Avblockera persona",
+    "personaUnblockConfirmDescription": "Avblockera {personaName}?",
+    "personaBlockFailed": "Det gick inte att blockera personan. Försök igen.",
+    "personaUnblockFailed": "Det gick inte att avblockera personan. Försök igen."
 }

@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "Ukloniti ovu oznaku?",
     "chatAudioViewCover": "Prikaži omot",
     "mediaViewerShowControls": "Prikaži kontrole",
-    "mediaViewerHideControls": "Sakrij kontrole"
+    "mediaViewerHideControls": "Sakrij kontrole",
+    "personaBlockButton": "Blokiraj",
+    "personaUnblockButton": "Deblokiraj",
+    "personaBlockConfirmTitle": "Blokiraj personu",
+    "personaBlockConfirmDescription": "Blokirati {personaName}? Njezine poruke bit će sažete, kao poruke blokiranog korisnika. Ostale persone korisnika {ownerName} neće biti pogođene.",
+    "personaUnblockConfirmTitle": "Odblokiraj personu",
+    "personaUnblockConfirmDescription": "Odblokirati {personaName}?",
+    "personaBlockFailed": "Personu nije bilo moguće blokirati. Pokušaj ponovno.",
+    "personaUnblockFailed": "Personu nije bilo moguće odblokirati. Pokušaj ponovno."
 }

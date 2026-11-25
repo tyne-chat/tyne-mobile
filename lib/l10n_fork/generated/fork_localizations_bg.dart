@@ -1434,4 +1434,34 @@ class ForkLocalizationsBg extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'Скриване на контролите';
+
+  @override
+  String get personaBlockButton => 'Блокиране';
+
+  @override
+  String get personaUnblockButton => 'Отблокиране';
+
+  @override
+  String get personaBlockConfirmTitle => 'Блокиране на персона';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'Да блокираш $personaName? Съобщенията ѝ ще бъдат свити, както тези на блокиран потребител. Другите персони на $ownerName няма да бъдат засегнати.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'Отблокиране на персона';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'Да отблокираш $personaName?';
+  }
+
+  @override
+  String get personaBlockFailed =>
+      'Персоната не можа да бъде блокирана. Опитай отново.';
+
+  @override
+  String get personaUnblockFailed =>
+      'Персоната не можа да бъде отблокирана. Опитай отново.';
 }

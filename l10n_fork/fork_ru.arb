@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "Удалить это сообщение из закладок?",
     "chatAudioViewCover": "Показать обложку",
     "mediaViewerShowControls": "Показать элементы управления",
-    "mediaViewerHideControls": "Скрыть элементы управления"
+    "mediaViewerHideControls": "Скрыть элементы управления",
+    "personaBlockButton": "Заблокировать",
+    "personaUnblockButton": "Разблокировать",
+    "personaBlockConfirmTitle": "Заблокировать персону",
+    "personaBlockConfirmDescription": "Заблокировать {personaName}? Её сообщения будут свёрнуты, как у заблокированного пользователя. Другие персоны {ownerName} это не затронет.",
+    "personaUnblockConfirmTitle": "Разблокировать персону",
+    "personaUnblockConfirmDescription": "Разблокировать {personaName}?",
+    "personaBlockFailed": "Не удалось заблокировать персону. Попробуй ещё раз.",
+    "personaUnblockFailed": "Не удалось разблокировать персону. Попробуй ещё раз."
 }

@@ -1469,4 +1469,32 @@ class ForkLocalizationsAr extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'إخفاء عناصر التحكم';
+
+  @override
+  String get personaBlockButton => 'حظر';
+
+  @override
+  String get personaUnblockButton => 'إلغاء الحظر';
+
+  @override
+  String get personaBlockConfirmTitle => 'حظر الشخصية';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'هل تريد حظر $personaName؟ ستُطوى رسائلها كما تُطوى رسائل المستخدم المحظور. لن تتأثر شخصيات $ownerName الأخرى.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'إلغاء حظر الشخصية';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'هل تريد إلغاء حظر $personaName؟';
+  }
+
+  @override
+  String get personaBlockFailed => 'تعذّر حظر الشخصية. حاول مرة أخرى.';
+
+  @override
+  String get personaUnblockFailed => 'تعذّر إلغاء حظر الشخصية. حاول مرة أخرى.';
 }
