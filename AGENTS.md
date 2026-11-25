@@ -193,12 +193,12 @@ as untested on device.
 
 ## Network calls
 
-The server revokes a session that goes over 50 requests per second, so a burst of requests signs the
-user out (details and the questions to answer before adding a call: the server repository's
-`AGENTS.md`, "Network calls"). Code that runs per channel, message or member, in a loop, from a
-widget's `build` or from a widely watched provider must share overlapping requests and must not retry
-a failed one on the next build. Such a change needs a test that counts the requests with the data
-missing and with the request failing, using a recording Dio adapter as in
+Over 50 requests a second the server refuses a user's requests on all devices for a while (it signed
+them out before fluxerapp/fluxer#4295; details and what to answer before adding a call: the server
+repository's `AGENTS.md`, "Network calls"). Code that runs per channel, message or member, in a
+loop, from a widget's `build` or from a widely watched provider must share overlapping requests and
+must not retry a failed one on the next build. Such a change needs a test that counts the requests
+with the data missing and with the request failing, using a recording Dio adapter as in
 `test/core/permissions/channel_effective_permissions_fork_test.dart`.
 
 ## Before committing
