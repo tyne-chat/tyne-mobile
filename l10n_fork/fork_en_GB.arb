@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "Remove this bookmark?",
     "chatAudioViewCover": "View cover",
     "mediaViewerShowControls": "Show controls",
-    "mediaViewerHideControls": "Hide controls"
+    "mediaViewerHideControls": "Hide controls",
+    "personaBlockButton": "Block",
+    "personaUnblockButton": "Unblock",
+    "personaBlockConfirmTitle": "Block persona",
+    "personaBlockConfirmDescription": "Block {personaName}? Their messages will be collapsed, like a blocked user's. {ownerName}'s other personas won't be affected.",
+    "personaUnblockConfirmTitle": "Unblock persona",
+    "personaUnblockConfirmDescription": "Unblock {personaName}?",
+    "personaBlockFailed": "Couldn't block the persona. Try again.",
+    "personaUnblockFailed": "Couldn't unblock the persona. Try again."
 }

@@ -1454,4 +1454,34 @@ class ForkLocalizationsRu extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'Скрыть элементы управления';
+
+  @override
+  String get personaBlockButton => 'Заблокировать';
+
+  @override
+  String get personaUnblockButton => 'Разблокировать';
+
+  @override
+  String get personaBlockConfirmTitle => 'Заблокировать персону';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'Заблокировать $personaName? Её сообщения будут свёрнуты, как у заблокированного пользователя. Другие персоны $ownerName это не затронет.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'Разблокировать персону';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'Разблокировать $personaName?';
+  }
+
+  @override
+  String get personaBlockFailed =>
+      'Не удалось заблокировать персону. Попробуй ещё раз.';
+
+  @override
+  String get personaUnblockFailed =>
+      'Не удалось разблокировать персону. Попробуй ещё раз.';
 }

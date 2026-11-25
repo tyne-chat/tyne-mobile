@@ -1418,4 +1418,33 @@ class ForkLocalizationsArt extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'o len e ilo';
+
+  @override
+  String get personaBlockButton => 'o weka';
+
+  @override
+  String get personaUnblockButton => 'o kama jo sin';
+
+  @override
+  String get personaBlockConfirmTitle => 'o weka e jan insa';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'sina wile ala lukin e $personaName anu seme? toki ona li lon poki pini, sama toki pi jan weka. jan insa ante pi $ownerName li ante ala.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'o kama jo sin e jan insa';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'sina wile lukin sin e $personaName anu seme?';
+  }
+
+  @override
+  String get personaBlockFailed => 'mi ken ala weka e jan insa. o pali sin.';
+
+  @override
+  String get personaUnblockFailed =>
+      'mi ken ala kama jo sin e jan insa. o pali sin.';
 }

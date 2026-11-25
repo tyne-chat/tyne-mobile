@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "Выдаліць гэтую закладку?",
     "chatAudioViewCover": "Паказаць вокладку",
     "mediaViewerShowControls": "Паказаць кіраванне",
-    "mediaViewerHideControls": "Схаваць кіраванне"
+    "mediaViewerHideControls": "Схаваць кіраванне",
+    "personaBlockButton": "Заблакіраваць",
+    "personaUnblockButton": "Разблакіраваць",
+    "personaBlockConfirmTitle": "Заблакаваць персону",
+    "personaBlockConfirmDescription": "Заблакаваць {personaName}? Яе паведамленні будуць згорнутыя, як у заблакаванага карыстальніка. Іншыя персоны {ownerName} гэта не закране.",
+    "personaUnblockConfirmTitle": "Разблакаваць персону",
+    "personaUnblockConfirmDescription": "Разблакаваць {personaName}?",
+    "personaBlockFailed": "Не ўдалося заблакаваць персону. Паспрабуй яшчэ раз.",
+    "personaUnblockFailed": "Не ўдалося разблакаваць персону. Паспрабуй яшчэ раз."
 }

@@ -1418,4 +1418,34 @@ class ForkLocalizationsSv extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'Dölj kontroller';
+
+  @override
+  String get personaBlockButton => 'Blockera';
+
+  @override
+  String get personaUnblockButton => 'Avblockera';
+
+  @override
+  String get personaBlockConfirmTitle => 'Blockera persona';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'Blockera $personaName? Deras meddelanden fälls ihop, som för en blockerad användare. ${ownerName}s andra personas påverkas inte.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'Avblockera persona';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'Avblockera $personaName?';
+  }
+
+  @override
+  String get personaBlockFailed =>
+      'Det gick inte att blockera personan. Försök igen.';
+
+  @override
+  String get personaUnblockFailed =>
+      'Det gick inte att avblockera personan. Försök igen.';
 }

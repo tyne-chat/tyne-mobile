@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "Bu yer işareti kaldırılsın mı?",
     "chatAudioViewCover": "Kapağı görüntüle",
     "mediaViewerShowControls": "Kontrolleri göster",
-    "mediaViewerHideControls": "Kontrolleri gizle"
+    "mediaViewerHideControls": "Kontrolleri gizle",
+    "personaBlockButton": "Engelle",
+    "personaUnblockButton": "Engeli kaldır",
+    "personaBlockConfirmTitle": "Personayı engelle",
+    "personaBlockConfirmDescription": "{personaName} engellensin mi? Mesajları, engellenen bir kullanıcınınki gibi daraltılır. {ownerName} adlı kullanıcının diğer personaları etkilenmez.",
+    "personaUnblockConfirmTitle": "Personanın engelini kaldır",
+    "personaUnblockConfirmDescription": "{personaName} adlı personanın engeli kaldırılsın mı?",
+    "personaBlockFailed": "Persona engellenemedi. Tekrar dene.",
+    "personaUnblockFailed": "Personanın engeli kaldırılamadı. Tekrar dene."
 }

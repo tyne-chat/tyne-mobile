@@ -1450,4 +1450,34 @@ class ForkLocalizationsLt extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'Slėpti valdiklius';
+
+  @override
+  String get personaBlockButton => 'Blokuoti';
+
+  @override
+  String get personaUnblockButton => 'Atblokuoti';
+
+  @override
+  String get personaBlockConfirmTitle => 'Blokuoti personą';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'Blokuoti $personaName? Jos žinutės bus suskleistos, kaip užblokuoto naudotojo. Kitų $ownerName personų tai nepalies.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'Atblokuoti personą';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'Atblokuoti $personaName?';
+  }
+
+  @override
+  String get personaBlockFailed =>
+      'Nepavyko užblokuoti personos. Bandyk dar kartą.';
+
+  @override
+  String get personaUnblockFailed =>
+      'Nepavyko atblokuoti personos. Bandyk dar kartą.';
 }

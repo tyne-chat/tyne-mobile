@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "Dieses Lesezeichen entfernen?",
     "chatAudioViewCover": "Cover anzeigen",
     "mediaViewerShowControls": "Steuerelemente einblenden",
-    "mediaViewerHideControls": "Steuerelemente ausblenden"
+    "mediaViewerHideControls": "Steuerelemente ausblenden",
+    "personaBlockButton": "Blockieren",
+    "personaUnblockButton": "Blockierung aufheben",
+    "personaBlockConfirmTitle": "Persona blockieren",
+    "personaBlockConfirmDescription": "{personaName} blockieren? Ihre Nachrichten werden eingeklappt, wie die eines blockierten Nutzers. Die anderen Personas von {ownerName} sind nicht betroffen.",
+    "personaUnblockConfirmTitle": "Persona entblockieren",
+    "personaUnblockConfirmDescription": "{personaName} entblockieren?",
+    "personaBlockFailed": "Die Persona konnte nicht blockiert werden. Versuch es noch einmal.",
+    "personaUnblockFailed": "Die Blockierung der Persona konnte nicht aufgehoben werden. Versuch es noch einmal."
 }

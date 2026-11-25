@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "ลบบุ๊กมาร์กนี้ใช่ไหม",
     "chatAudioViewCover": "ดูภาพปก",
     "mediaViewerShowControls": "แสดงตัวควบคุม",
-    "mediaViewerHideControls": "ซ่อนตัวควบคุม"
+    "mediaViewerHideControls": "ซ่อนตัวควบคุม",
+    "personaBlockButton": "บล็อก",
+    "personaUnblockButton": "เลิกบล็อก",
+    "personaBlockConfirmTitle": "บล็อก Persona",
+    "personaBlockConfirmDescription": "บล็อก {personaName} ไหม ข้อความของ Persona นี้จะถูกยุบไว้ เหมือนผู้ใช้ที่ถูกบล็อก Persona อื่นของ {ownerName} จะไม่ได้รับผลกระทบ",
+    "personaUnblockConfirmTitle": "เลิกบล็อก Persona",
+    "personaUnblockConfirmDescription": "เลิกบล็อก {personaName} ไหม",
+    "personaBlockFailed": "บล็อก Persona ไม่สำเร็จ ลองอีกครั้ง",
+    "personaUnblockFailed": "เลิกบล็อก Persona ไม่สำเร็จ ลองอีกครั้ง"
 }

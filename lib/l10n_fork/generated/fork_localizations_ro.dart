@@ -1448,4 +1448,34 @@ class ForkLocalizationsRo extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'Ascunde controalele';
+
+  @override
+  String get personaBlockButton => 'Blochează';
+
+  @override
+  String get personaUnblockButton => 'Deblochează';
+
+  @override
+  String get personaBlockConfirmTitle => 'Blochează persona';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'Blochezi $personaName? Mesajele ei vor fi restrânse, ca ale unui utilizator blocat. Celelalte personas ale lui $ownerName nu vor fi afectate.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'Deblochează persona';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'Deblochezi $personaName?';
+  }
+
+  @override
+  String get personaBlockFailed =>
+      'Persona nu a putut fi blocată. Încearcă din nou.';
+
+  @override
+  String get personaUnblockFailed =>
+      'Persona nu a putut fi deblocată. Încearcă din nou.';
 }

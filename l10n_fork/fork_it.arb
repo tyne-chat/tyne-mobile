@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "Rimuovere questo messaggio dai messaggi salvati?",
     "chatAudioViewCover": "Visualizza copertina",
     "mediaViewerShowControls": "Mostra controlli",
-    "mediaViewerHideControls": "Nascondi controlli"
+    "mediaViewerHideControls": "Nascondi controlli",
+    "personaBlockButton": "Blocca",
+    "personaUnblockButton": "Sblocca",
+    "personaBlockConfirmTitle": "Blocca persona",
+    "personaBlockConfirmDescription": "Bloccare {personaName}? I suoi messaggi verranno compressi, come quelli di un utente bloccato. Le altre persona di {ownerName} non saranno coinvolte.",
+    "personaUnblockConfirmTitle": "Sblocca persona",
+    "personaUnblockConfirmDescription": "Sbloccare {personaName}?",
+    "personaBlockFailed": "Impossibile bloccare la persona. Riprova.",
+    "personaUnblockFailed": "Impossibile sbloccare la persona. Riprova."
 }

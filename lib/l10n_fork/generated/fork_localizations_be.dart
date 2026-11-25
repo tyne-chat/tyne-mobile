@@ -1454,4 +1454,34 @@ class ForkLocalizationsBe extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'Схаваць кіраванне';
+
+  @override
+  String get personaBlockButton => 'Заблакіраваць';
+
+  @override
+  String get personaUnblockButton => 'Разблакіраваць';
+
+  @override
+  String get personaBlockConfirmTitle => 'Заблакаваць персону';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'Заблакаваць $personaName? Яе паведамленні будуць згорнутыя, як у заблакаванага карыстальніка. Іншыя персоны $ownerName гэта не закране.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'Разблакаваць персону';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'Разблакаваць $personaName?';
+  }
+
+  @override
+  String get personaBlockFailed =>
+      'Не ўдалося заблакаваць персону. Паспрабуй яшчэ раз.';
+
+  @override
+  String get personaUnblockFailed =>
+      'Не ўдалося разблакаваць персону. Паспрабуй яшчэ раз.';
 }

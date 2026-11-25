@@ -1358,6 +1358,34 @@ class ForkLocalizationsZh extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => '隐藏控件';
+
+  @override
+  String get personaBlockButton => '屏蔽';
+
+  @override
+  String get personaUnblockButton => '取消屏蔽';
+
+  @override
+  String get personaBlockConfirmTitle => '屏蔽人格';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return '要屏蔽$personaName吗？其消息将像已屏蔽用户的消息一样被折叠。$ownerName的其他人格不受影响。';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => '解除屏蔽人格';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return '要解除屏蔽$personaName吗？';
+  }
+
+  @override
+  String get personaBlockFailed => '无法屏蔽该人格。请重试。';
+
+  @override
+  String get personaUnblockFailed => '无法解除屏蔽该人格。请重试。';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -2714,4 +2742,32 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get mediaViewerHideControls => '隱藏控制項';
+
+  @override
+  String get personaBlockButton => '封鎖';
+
+  @override
+  String get personaUnblockButton => '解除封鎖';
+
+  @override
+  String get personaBlockConfirmTitle => '封鎖人格';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return '要封鎖$personaName嗎？其訊息會像已封鎖使用者的訊息一樣被收合。$ownerName的其他人格不受影響。';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => '解除封鎖人格';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return '要解除封鎖$personaName嗎？';
+  }
+
+  @override
+  String get personaBlockFailed => '無法封鎖此人格。請再試一次。';
+
+  @override
+  String get personaUnblockFailed => '無法解除封鎖此人格。請再試一次。';
 }

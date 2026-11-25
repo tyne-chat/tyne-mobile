@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "Želite odstraniti ta zaznamek?",
     "chatAudioViewCover": "Prikaži naslovnico",
     "mediaViewerShowControls": "Pokaži kontrolnike",
-    "mediaViewerHideControls": "Skrij kontrolnike"
+    "mediaViewerHideControls": "Skrij kontrolnike",
+    "personaBlockButton": "Blokiraj",
+    "personaUnblockButton": "Odblokiraj",
+    "personaBlockConfirmTitle": "Blokiraj persono",
+    "personaBlockConfirmDescription": "Želiš blokirati {personaName}? Njena sporočila bodo strnjena, kot sporočila blokiranega uporabnika. Drugih person uporabnika {ownerName} to ne bo prizadelo.",
+    "personaUnblockConfirmTitle": "Odblokiraj persono",
+    "personaUnblockConfirmDescription": "Želiš odblokirati {personaName}?",
+    "personaBlockFailed": "Persone ni bilo mogoče blokirati. Poskusi znova.",
+    "personaUnblockFailed": "Persone ni bilo mogoče odblokirati. Poskusi znova."
 }

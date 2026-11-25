@@ -1450,4 +1450,34 @@ class ForkLocalizationsCa extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'Amaga els controls';
+
+  @override
+  String get personaBlockButton => 'Bloqueja';
+
+  @override
+  String get personaUnblockButton => 'Desbloqueja';
+
+  @override
+  String get personaBlockConfirmTitle => 'Bloqueja la persona';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'Vols bloquejar $personaName? Els seus missatges es plegaran com els d’un usuari bloquejat. Les altres persones de $ownerName no es veuran afectades.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'Desbloqueja la persona';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'Vols desbloquejar $personaName?';
+  }
+
+  @override
+  String get personaBlockFailed =>
+      'No s’ha pogut bloquejar la persona. Torna-ho a provar.';
+
+  @override
+  String get personaUnblockFailed =>
+      'No s’ha pogut desbloquejar la persona. Torna-ho a provar.';
 }

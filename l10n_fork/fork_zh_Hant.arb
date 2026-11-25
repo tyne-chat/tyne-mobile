@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "要移除此書籤嗎？",
     "chatAudioViewCover": "檢視封面",
     "mediaViewerShowControls": "顯示控制項",
-    "mediaViewerHideControls": "隱藏控制項"
+    "mediaViewerHideControls": "隱藏控制項",
+    "personaBlockButton": "封鎖",
+    "personaUnblockButton": "解除封鎖",
+    "personaBlockConfirmTitle": "封鎖人格",
+    "personaBlockConfirmDescription": "要封鎖{personaName}嗎？其訊息會像已封鎖使用者的訊息一樣被收合。{ownerName}的其他人格不受影響。",
+    "personaUnblockConfirmTitle": "解除封鎖人格",
+    "personaUnblockConfirmDescription": "要解除封鎖{personaName}嗎？",
+    "personaBlockFailed": "無法封鎖此人格。請再試一次。",
+    "personaUnblockFailed": "無法解除封鎖此人格。請再試一次。"
 }

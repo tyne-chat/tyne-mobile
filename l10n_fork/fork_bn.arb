@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "এই বুকমার্কটি সরিয়ে ফেলবেন?",
     "chatAudioViewCover": "কভার দেখুন",
     "mediaViewerShowControls": "নিয়ন্ত্রণগুলি দেখান",
-    "mediaViewerHideControls": "নিয়ন্ত্রণগুলি লুকান"
+    "mediaViewerHideControls": "নিয়ন্ত্রণগুলি লুকান",
+    "personaBlockButton": "ব্লক করুন",
+    "personaUnblockButton": "আনব্লক করুন",
+    "personaBlockConfirmTitle": "পারসোনা ব্লক করুন",
+    "personaBlockConfirmDescription": "{personaName} ব্লক করবেন? এর বার্তাগুলো ব্লক করা ব্যবহারকারীর মতো ভাঁজ করে রাখা হবে। {ownerName}-এর অন্য পারসোনাগুলোর কিছু হবে না।",
+    "personaUnblockConfirmTitle": "পারসোনা আনব্লক করুন",
+    "personaUnblockConfirmDescription": "{personaName} আনব্লক করবেন?",
+    "personaBlockFailed": "পারসোনা ব্লক করা যায়নি। আবার চেষ্টা করুন।",
+    "personaUnblockFailed": "পারসোনা আনব্লক করা যায়নি। আবার চেষ্টা করুন।"
 }

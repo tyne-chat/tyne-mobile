@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "Eltávolítod ezt az üzenetet a mentett üzenetek közül?",
     "chatAudioViewCover": "Borító megtekintése",
     "mediaViewerShowControls": "Vezérlők megjelenítése",
-    "mediaViewerHideControls": "Vezérlők elrejtése"
+    "mediaViewerHideControls": "Vezérlők elrejtése",
+    "personaBlockButton": "Letiltás",
+    "personaUnblockButton": "Tiltás feloldása",
+    "personaBlockConfirmTitle": "Persona letiltása",
+    "personaBlockConfirmDescription": "Letiltod: {personaName}? Az üzenetei össze lesznek csukva, mint egy letiltott felhasználóéi. {ownerName} többi personáját ez nem érinti.",
+    "personaUnblockConfirmTitle": "Persona letiltásának feloldása",
+    "personaUnblockConfirmDescription": "Feloldod {personaName} letiltását?",
+    "personaBlockFailed": "Nem sikerült letiltani a personát. Próbáld újra.",
+    "personaUnblockFailed": "Nem sikerült feloldani a persona letiltását. Próbáld újra."
 }

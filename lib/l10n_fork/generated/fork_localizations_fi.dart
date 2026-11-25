@@ -1419,4 +1419,34 @@ class ForkLocalizationsFi extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'Piilota ohjaimet';
+
+  @override
+  String get personaBlockButton => 'Estä';
+
+  @override
+  String get personaUnblockButton => 'Poista esto';
+
+  @override
+  String get personaBlockConfirmTitle => 'Estä persoona';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'Estetäänkö $personaName? Sen viestit kutistetaan kuten estetyn käyttäjän viestit. Tämä ei vaikuta käyttäjän $ownerName muihin persooniin.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'Poista persoonan esto';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'Poistetaanko persoonan $personaName esto?';
+  }
+
+  @override
+  String get personaBlockFailed =>
+      'Persoonan estäminen epäonnistui. Yritä uudelleen.';
+
+  @override
+  String get personaUnblockFailed =>
+      'Persoonan eston poistaminen epäonnistui. Yritä uudelleen.';
 }

@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "Dit bericht verwijderen uit opgeslagen berichten?",
     "chatAudioViewCover": "Hoes bekijken",
     "mediaViewerShowControls": "Bedieningselementen tonen",
-    "mediaViewerHideControls": "Bedieningselementen verbergen"
+    "mediaViewerHideControls": "Bedieningselementen verbergen",
+    "personaBlockButton": "Blokkeren",
+    "personaUnblockButton": "Deblokkeren",
+    "personaBlockConfirmTitle": "Persona blokkeren",
+    "personaBlockConfirmDescription": "{personaName} blokkeren? Hun berichten worden ingeklapt, zoals die van een geblokkeerde gebruiker. De andere persona's van {ownerName} blijven ongemoeid.",
+    "personaUnblockConfirmTitle": "Blokkering persona opheffen",
+    "personaUnblockConfirmDescription": "Blokkering van {personaName} opheffen?",
+    "personaBlockFailed": "Kan de persona niet blokkeren. Probeer het opnieuw.",
+    "personaUnblockFailed": "Kan de blokkering van de persona niet opheffen. Probeer het opnieuw."
 }

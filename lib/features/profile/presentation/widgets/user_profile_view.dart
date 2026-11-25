@@ -79,6 +79,7 @@ import 'package:fluxer_app/features/profile/presentation/sheets/edit_persona_she
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/imported_conversation_button.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/imported_user_tag.dart';
+import 'package:fluxer_app/features/profile/presentation/widgets/persona_block_button.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/persona_gallery_entry.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_list_provider.dart';
@@ -1428,17 +1429,31 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                     ),
                   )
                 else if (!imported)
-                  SizedBox(
-                    width: double.infinity,
-                    child: FluxerButton.primary(
-                      label: l10n.userProfileMessage,
-                      icon: PhosphorIconsFill.chatTeardrop,
-                      onPressed: () => _handleMessage(
-                        effectiveUserId,
-                        false,
-                        rootDisplayName,
+                  // Fork: Message and Block (tyne-chat/tyne#921), half the
+                  // row each.
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: FluxerButton.primary(
+                          label: l10n.userProfileMessage,
+                          icon: PhosphorIconsFill.chatTeardrop,
+                          onPressed: () => _handleMessage(
+                            effectiveUserId,
+                            false,
+                            rootDisplayName,
+                          ),
+                        ),
                       ),
-                    ),
+                      SizedBox(width: layout.s2),
+                      Expanded(
+                        child: PersonaBlockButton(
+                          userId: effectiveUserId,
+                          personaId: effectivePersonaId,
+                          personaName: displayName,
+                          ownerName: rootDisplayName,
+                        ),
+                      ),
+                    ],
                   )
                 // Fork: a placeholder's imported DM (tyne-chat/tyne#696).
                 else
