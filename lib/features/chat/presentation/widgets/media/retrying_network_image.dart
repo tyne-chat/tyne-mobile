@@ -30,6 +30,9 @@ class RetryingNetworkImage extends StatefulWidget {
   const RetryingNetworkImage({
     required this.imageUrl,
     required this.errorPlaceholder,
+    this.forkOnImageLoaded,
+    this.forkOnLoadFailure,
+    this.forkMaxRetries,
     this.placeholder,
     this.width,
     this.height,
@@ -44,6 +47,9 @@ class RetryingNetworkImage extends StatefulWidget {
     super.key,
   });
 
+  final VoidCallback? forkOnImageLoaded;
+  final ForkImageLoadFailureCallback? forkOnLoadFailure;
+  final int? forkMaxRetries;
   final String imageUrl;
   final Widget errorPlaceholder;
   final Widget? placeholder;
@@ -73,6 +79,7 @@ class _RetryingNetworkImageState extends State<RetryingNetworkImage> {
   ImageStreamListener? _seenListener;
 
   Object? _watchedConfig;
+  Object? _forkLoadedReportedConfig;
 
   @override
   void initState() {
@@ -89,6 +96,7 @@ class _RetryingNetworkImageState extends State<RetryingNetworkImage> {
       _failures = 0;
       _failedAttempt = null;
       _permanent = false;
+      _forkLoadedReportedConfig = null;
       _seen = SeenMediaUrls.contains(widget.imageUrl);
     }
   }
@@ -147,11 +155,27 @@ class _RetryingNetworkImageState extends State<RetryingNetworkImage> {
         final ImageStream stream = provider.resolve(ImageConfiguration.empty);
         final ImageStreamListener listener = ImageStreamListener((
           ImageInfo image,
-          bool _,
+          bool synchronousCall,
         ) {
           image.dispose();
           SeenMediaUrls.mark(url);
           _stopWatchingCompletion();
+          // Fork: notify viewer of capped full-res image readiness post-frame.
+          if (_forkLoadedReportedConfig != config) {
+            _forkLoadedReportedConfig = config;
+            final VoidCallback? onLoaded = widget.forkOnImageLoaded;
+            if (onLoaded != null) {
+              if (synchronousCall) {
+                WidgetsBinding.instance.addPostFrameCallback((Duration _) {
+                  if (mounted && _watchedConfig == config) {
+                    onLoaded();
+                  }
+                });
+              } else {
+                onLoaded();
+              }
+            }
+          }
         }, onError: (Object _, StackTrace? _) {});
         _seenStream = stream;
         _seenListener = listener;
@@ -175,12 +199,39 @@ class _RetryingNetworkImageState extends State<RetryingNetworkImage> {
     }
     _failedAttempt = _attempt;
     _failures += 1;
-    if (error is UnsupportedImageFormatException) {
+    final int? maxRetries = widget.forkMaxRetries;
+    final bool forkUndecodable = error is UnsupportedImageFormatException;
+    if (forkUndecodable || (maxRetries != null && _failures > maxRetries)) {
       _permanent = true;
+      _notifyForkFailure(undecodable: forkUndecodable);
       return;
     }
+    _notifyForkFailure(undecodable: false);
     _retryTimer?.cancel();
     _retryTimer = Timer(mediaLoadRetryDelay(_failures), _retry);
+  }
+
+  void _notifyForkFailure({required bool undecodable}) {
+    final ForkImageLoadFailureCallback? onFailure = widget.forkOnLoadFailure;
+    if (onFailure == null) {
+      return;
+    }
+    final int failures = _failures;
+    final bool permanent = _permanent;
+    final String url = widget.imageUrl;
+    final int attempt = _attempt;
+    WidgetsBinding.instance.addPostFrameCallback((Duration _) {
+      if (!mounted || widget.imageUrl != url || _attempt != attempt) {
+        return;
+      }
+      onFailure(
+        ForkImageLoadFailure(
+          failures: failures,
+          isPermanent: permanent,
+          undecodable: undecodable,
+        ),
+      );
+    });
   }
 
   void _retry() {
@@ -226,4 +277,28 @@ class _RetryingNetworkImageState extends State<RetryingNetworkImage> {
           _failureChild(error),
     );
   }
+}
+
+// Fork: how a full-screen viewer page learns that its image failed.
+typedef ForkImageLoadFailureCallback =
+    void Function(ForkImageLoadFailure failure);
+
+/// Fork: one failed load of a viewer image.
+@immutable
+class ForkImageLoadFailure {
+  const ForkImageLoadFailure({
+    required this.failures,
+    required this.isPermanent,
+    required this.undecodable,
+  });
+
+  /// Failed attempts so far for this URL.
+  final int failures;
+
+  /// No more retries will run.
+  final bool isPermanent;
+
+  /// The bytes arrived but cannot be decoded (or are too large to load), so
+  /// retrying cannot help, unlike a network or HTTP error.
+  final bool undecodable;
 }

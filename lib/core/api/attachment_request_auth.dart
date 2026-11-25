@@ -5,6 +5,9 @@ import 'package:fluxer_app/core/api/fluxer_api_features.dart';
 import 'package:fluxer_app/core/api/session_auth_interceptor.dart';
 import 'package:fluxer_app/core/api/session_authorization_header.dart';
 
+// Fork imports.
+import 'package:fluxer_app/features/chat/utils/media/fork_rendered_thumbnail_registry.dart';
+
 typedef AttachmentTokenMinter =
     Future<AttachmentMediaToken?> Function({required String url});
 
@@ -79,6 +82,8 @@ class AttachmentRequestAuth {
       _session += 1;
       _fileTokens.clear();
       _pendingFileTokens.clear();
+      // Fork: clear thumbnail descriptor registry on every auth/session change.
+      ForkRenderedThumbnailRegistry.clear();
     }
   }
 

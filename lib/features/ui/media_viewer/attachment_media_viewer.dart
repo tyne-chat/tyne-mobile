@@ -6,11 +6,13 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+// ignore: unused_import // Fork: upstream's import, unused since the fork's changes.
 import 'package:fluxer_app/features/accessibility/presentation/allow_image_frame_animation.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/media_options_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/mobile_media_options_sheet.dart';
+// ignore: unused_import // Fork: upstream's import, unused since the fork's changes.
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_network_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
@@ -20,6 +22,7 @@ import 'package:fluxer_app/features/chat/utils/media/hdr_aware_image_url.dart';
 import 'package:fluxer_app/features/chat/utils/media/save_message_media_favorite.dart';
 import 'package:fluxer_app/features/forum/providers/media_download_policy_provider.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
+// ignore: unused_import // Fork: upstream's import, unused since the fork's changes.
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 // ignore: unused_import // Fork: upstream's import, unused since the fork's changes.
@@ -38,12 +41,18 @@ import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 // Fork imports.
 // ignore: directives_ordering
+import 'package:fluxer_app/features/chat/utils/media/fork_rendered_thumbnail_registry.dart';
+import 'package:fluxer_app/features/ui/media_viewer/fork_media_viewer_preloader.dart';
+import 'package:fluxer_app/features/ui/media_viewer/fork_viewer_items.dart';
+import 'package:fluxer_app/features/ui/media_viewer/fork_viewer_progressive_image.dart';
 import 'package:fluxer_app/features/ui/media_viewer/media_viewer_controls_fork.dart';
 
 class AttachmentMediaViewerItem {
   const AttachmentMediaViewerItem({
     required this.url,
     required this.filename,
+    this.forkPreview,
+    this.forkSizeBytes,
     this.width,
     this.height,
     this.isMatureMedia = false,
@@ -79,6 +88,8 @@ class AttachmentMediaViewerItem {
     );
   }
 
+  final ForkThumbnailDescriptor? forkPreview;
+  final int? forkSizeBytes;
   final String url;
   final String filename;
   final int? width;
@@ -150,6 +161,7 @@ class AttachmentMediaViewerShell extends ConsumerStatefulWidget {
   const AttachmentMediaViewerShell({
     required this.items,
     required this.initialIndex,
+    this.forkPreloader,
     this.channelId,
     this.onForward,
     this.actionScope,
@@ -158,6 +170,7 @@ class AttachmentMediaViewerShell extends ConsumerStatefulWidget {
     super.key,
   });
 
+  final ForkMediaViewerPreloader? forkPreloader;
   final List<AttachmentMediaViewerItem> items;
   final int initialIndex;
   final String? channelId;
@@ -195,23 +208,184 @@ class _AttachmentMediaViewerShellState
 
   int? _pageDecodeCap;
 
+  // Fork: settled-page gating, retained readiness, reveal sync, and preloader.
+  late int _forkSettledIndex;
+  int? _forkProgrammaticTargetIndex;
+  bool _forkIsActive = true;
+  bool _forkIsUserDragging = false;
+  bool _forkIsTouchHolding = false;
+  final Map<int, String> _forkLoadedFullResUrlByIndex = <int, String>{};
+  final Set<int> _forkRevealedMatureIndices = <int>{};
+  late final ForkMediaViewerPreloader _forkPreloader;
+  late final bool _forkOwnsPreloader;
+
+  String? get _forkViewerChannelId =>
+      widget.channelId ?? widget.actionScope?.message.channelId;
+
   @override
   void initState() {
     super.initState();
     _currentIndex = widget.initialIndex;
+    _forkSettledIndex = widget.initialIndex;
     _pageController = PageController(initialPage: widget.initialIndex);
     _touchControllers = widget.items
         .map((AttachmentMediaViewerItem _) => TransformationController())
         .toList();
+    _forkOwnsPreloader = widget.forkPreloader == null;
+    _forkPreloader =
+        widget.forkPreloader ??
+        ForkMediaViewerPreloader(
+          items: widget.items,
+          readHdrDisplayMode: () =>
+              ref.read(appearancePreferencesProvider).hdrDisplayMode,
+        );
+  }
+
+  @override
+  void activate() {
+    super.activate();
+    _forkIsActive = true;
+  }
+
+  @override
+  void deactivate() {
+    _forkIsActive = false;
+    _forkIsTouchHolding = false;
+    super.deactivate();
   }
 
   @override
   void dispose() {
+    _forkIsActive = false;
+    _forkIsTouchHolding = false;
+    _touchPageHold = null;
+    if (_forkOwnsPreloader) {
+      _forkPreloader.dispose();
+    }
     _pageController.dispose();
     for (final TransformationController controller in _touchControllers) {
       controller.dispose();
     }
     super.dispose();
+  }
+
+  void _forkMaybeStartPreloadForSettledPage() {
+    if (!mounted ||
+        !_forkIsActive ||
+        _forkIsUserDragging ||
+        _forkIsTouchHolding ||
+        _forkProgrammaticTargetIndex != null) {
+      return;
+    }
+    if (_forkSettledIndex < 0 || _forkSettledIndex >= widget.items.length) {
+      return;
+    }
+    final HdrDisplayMode mode = ref
+        .read(appearancePreferencesProvider)
+        .hdrDisplayMode;
+    final String expectedUrl = forkViewerImageUrl(
+      widget.items[_forkSettledIndex],
+      mode,
+    );
+    if (_forkLoadedFullResUrlByIndex[_forkSettledIndex] == expectedUrl) {
+      _forkPreloader.scheduleAround(_forkSettledIndex);
+    }
+  }
+
+  void _forkHandleFullResReady(int index, String imageUrl) {
+    if (!mounted || !_forkIsActive) {
+      return;
+    }
+    _forkLoadedFullResUrlByIndex[index] = imageUrl;
+    _forkMaybeStartPreloadForSettledPage();
+  }
+
+  int? _forkReadAlignedSettledPage() {
+    if (_forkIsTouchHolding || !_forkIsActive) {
+      return null;
+    }
+    if (!_pageController.hasClients ||
+        !_pageController.position.hasContentDimensions) {
+      return null;
+    }
+    final double? page = _pageController.page;
+    if (page == null || !page.isFinite) {
+      return null;
+    }
+    final int rounded = page.round();
+    if ((page - rounded).abs() > 0.01) {
+      return null;
+    }
+    return rounded;
+  }
+
+  void _forkHandleTouchHoldStart() {
+    _forkIsTouchHolding = true;
+    if (_forkProgrammaticTargetIndex != null) {
+      setState(() => _forkProgrammaticTargetIndex = null);
+    }
+  }
+
+  void _forkHandleTouchHoldReleased() {
+    if (!_forkIsTouchHolding) {
+      return;
+    }
+    _forkIsTouchHolding = false;
+    if (!mounted || !_forkIsActive || _forkIsUserDragging) {
+      return;
+    }
+    final int? aligned = _forkReadAlignedSettledPage();
+    if (aligned != null) {
+      _forkHandlePageSettled(aligned);
+    }
+  }
+
+  void _forkHandleUserDragStart() {
+    _forkIsTouchHolding = false;
+    if (_forkIsUserDragging) {
+      return;
+    }
+    _forkIsUserDragging = true;
+    if (_forkProgrammaticTargetIndex != null) {
+      setState(() => _forkProgrammaticTargetIndex = null);
+    }
+    _forkPreloader.pauseSpeculation();
+  }
+
+  void _forkHandlePageSettled(int page) {
+    final int clamped = page.clamp(0, widget.items.length - 1);
+    final bool wasDragging = _forkIsUserDragging;
+    _forkIsUserDragging = false;
+    final int previousSettled = _forkSettledIndex;
+    if (clamped != previousSettled) {
+      _forkLoadedFullResUrlByIndex.remove(previousSettled);
+    }
+    if (wasDragging && clamped != previousSettled) {
+      final HdrDisplayMode mode = ref
+          .read(appearancePreferencesProvider)
+          .hdrDisplayMode;
+      _forkPreloader.onNavigationStarted(
+        nextTargetUrl: forkViewerImageUrl(widget.items[clamped], mode),
+      );
+    }
+    if (_forkSettledIndex != clamped || _forkProgrammaticTargetIndex != null) {
+      setState(() {
+        _forkSettledIndex = clamped;
+        _forkProgrammaticTargetIndex = null;
+      });
+    }
+    _forkMaybeStartPreloadForSettledPage();
+  }
+
+  void _forkBeginProgrammaticJump(int index) {
+    final HdrDisplayMode mode = ref
+        .read(appearancePreferencesProvider)
+        .hdrDisplayMode;
+    _forkPreloader.onNavigationStarted(
+      nextTargetUrl: forkViewerImageUrl(widget.items[index], mode),
+    );
+    // The page settles through ForkViewerPageSettleObserver's scroll end.
+    setState(() => _forkProgrammaticTargetIndex = index);
   }
 
   void _executeClose() {
@@ -250,6 +424,7 @@ class _AttachmentMediaViewerShellState
       return;
     }
     _resetZoomState();
+    _forkBeginProgrammaticJump(index);
     _pageController.animateToPage(
       index,
       duration: const Duration(milliseconds: 180),
@@ -304,12 +479,14 @@ class _AttachmentMediaViewerShellState
   }
 
   void _handleTouchPageDragDown(DragDownDetails details) {
+    _forkHandleTouchHoldStart();
     _touchPageHold = _pageController.position.hold(() {
       _touchPageHold = null;
     });
   }
 
   void _handleTouchPageDragStart(DragStartDetails details) {
+    _forkHandleUserDragStart();
     _touchPageDrag = _pageController.position.drag(details, () {
       _touchPageDrag = null;
     });
@@ -326,6 +503,7 @@ class _AttachmentMediaViewerShellState
   void _handleTouchPageDragCancel() {
     _touchPageHold?.cancel();
     _touchPageDrag?.cancel();
+    _forkHandleTouchHoldReleased();
   }
 
   void _handleTouchZoomChanged(bool isZoomed) {
@@ -418,7 +596,13 @@ class _AttachmentMediaViewerShellState
                   },
                 ),
         },
-        child: _buildPageView(useTouchGestures: useTouchGestures),
+        // Fork: observe horizontal page drags and settles from outside upstream's PageView.
+        child: ForkViewerPageSettleObserver(
+          onUserDragStart: _forkHandleUserDragStart,
+          onPageSettled: _forkHandlePageSettled,
+          readSettledPage: _forkReadAlignedSettledPage,
+          child: _buildPageView(useTouchGestures: useTouchGestures),
+        ),
       ),
     );
   }
@@ -563,7 +747,7 @@ class _AttachmentMediaViewerShellState
               ),
               const SizedBox(width: 8),
             ],
-            if (showOptionsButton)
+            if (showOptionsButton && !matureMediaHidden)
               Tooltip(
                 message: l10n.mediaViewerOptions,
                 child: FluxerButton.mediaOverlay(
@@ -691,15 +875,13 @@ class _AttachmentMediaViewerShellState
             widget.actionScope!.message,
             currentItem.attachmentId,
           );
-    final String? viewerChannelId =
-        widget.channelId ?? widget.actionScope?.message.channelId;
-    final bool matureMediaHidden =
-        viewerChannelId != null &&
-        watchMatureMediaHidden(
-          ref,
-          channelId: viewerChannelId,
-          isMatureMedia: currentItem.isMatureMedia,
-        );
+    final String? viewerChannelId = _forkViewerChannelId;
+    final bool matureMediaHidden = forkWatchViewerMatureHidden(
+      ref,
+      channelId: viewerChannelId,
+      isMatureMedia: currentItem.isMatureMedia,
+      revealed: _forkRevealedMatureIndices.contains(_currentIndex),
+    );
     final MessageMediaFavoriteTarget? favoriteTarget = matureMediaHidden
         ? null
         : favoriteTargetForMessageMedia(
@@ -866,13 +1048,14 @@ class _AttachmentMediaViewerShellState
         (AppearancePreferencesState state) => state.hdrDisplayMode,
       ),
     );
-    final String imageUrl = buildHdrAwareDisplayImageUrl(
-      url: item.url,
-      proxyUrl: item.proxyUrl,
-      mode: hdrDisplayMode,
-      contentType: item.contentType,
-      animated: item.animated,
+    final String? viewerChannelId = _forkViewerChannelId;
+    final bool pageMatureHidden = forkWatchViewerMatureHidden(
+      ref,
+      channelId: viewerChannelId,
+      isMatureMedia: item.isMatureMedia,
+      revealed: _forkRevealedMatureIndices.contains(index),
     );
+    final String imageUrl = forkViewerImageUrl(item, hdrDisplayMode);
     const Widget errorPlaceholder = MediaLoadErrorPlaceholder();
     final int? decodeCap = _mayBeAnimated(item)
         ? null
@@ -882,20 +1065,39 @@ class _AttachmentMediaViewerShellState
                       _pageDecodeScreenFactor)
                   .ceil();
     final bool isPortrait = (item.height ?? 0) > (item.width ?? 0);
-    final Widget image = imageUrl.isEmpty
-        ? errorPlaceholder
-        : AllowImageFrameAnimation(
-            child: ChatNetworkImage(
-              imageUrl: imageUrl,
-              filename: item.filename,
-              contentType: item.contentType,
-              memCacheWidth: isPortrait ? null : decodeCap,
-              memCacheHeight: isPortrait ? decodeCap : null,
-              errorPlaceholder: errorPlaceholder,
+    final bool shouldLoadFullRes =
+        index == _forkSettledIndex || index == _forkProgrammaticTargetIndex;
+    final Widget image = (item.isMatureMedia && viewerChannelId == null)
+        ? SizedBox(
+            width: 200,
+            height: 120,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: context.colors.spoilerBackground,
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
+          )
+        : ForkViewerPageImage(
+            item: item,
+            imageUrl: imageUrl,
+            decodeCap: decodeCap,
+            isPortrait: isPortrait,
+            shouldLoadFullRes: shouldLoadFullRes,
+            errorPlaceholder: errorPlaceholder,
+            preloader: _forkPreloader,
+            onFullResLoaded: () => _forkHandleFullResReady(index, imageUrl),
+            onFullResUnrecoverable: () =>
+                _forkHandleFullResReady(index, imageUrl),
           );
     final Widget media = MatureMediaOverlay(
-      channelId: widget.channelId,
+      forkRevealed: _forkRevealedMatureIndices.contains(index),
+      forkOnRevealChanged: (bool revealed) {
+        if (revealed && !_forkRevealedMatureIndices.contains(index)) {
+          setState(() => _forkRevealedMatureIndices.add(index));
+        }
+      },
+      channelId: viewerChannelId,
       isMatureMedia: item.isMatureMedia,
       child: image,
     );
@@ -906,7 +1108,9 @@ class _AttachmentMediaViewerShellState
         onDismissProgress: _handleTouchDismissProgress,
         onClose: _executeClose,
         onZoomChanged: _handleTouchZoomChanged,
-        onLongPress: _hasOptionsMenu(item) ? _openOptions : null,
+        onLongPress: _hasOptionsMenu(item) && !pageMatureHidden
+            ? _openOptions
+            : null,
         child: media,
       );
     }
@@ -1097,8 +1301,7 @@ class _MediaViewerThumbnailStrip extends ConsumerWidget {
         itemBuilder: (BuildContext context, int index) {
           final bool isSelected = index == currentIndex;
           final AttachmentMediaViewerItem item = items[index];
-          final bool hideMatureThumbnail =
-              item.isMatureMedia && channelId != null;
+          final bool hideMatureThumbnail = item.isMatureMedia;
           final FluxerLocalizations l10n = FluxerLocalizations.of(context);
           return Semantics(
             button: true,
@@ -1127,6 +1330,7 @@ class _MediaViewerThumbnailStrip extends ConsumerWidget {
                             child: const SizedBox.expand(),
                           )
                         : _thumbnailImage(
+                            context,
                             item,
                             hdrDisplayMode,
                             thumbnailDecodeSide,
@@ -1144,32 +1348,19 @@ class _MediaViewerThumbnailStrip extends ConsumerWidget {
   }
 
   Widget _thumbnailImage(
+    BuildContext context,
     AttachmentMediaViewerItem item,
     HdrDisplayMode hdrDisplayMode,
     int decodeSide,
   ) {
-    final String imageUrl = buildHdrAwareDisplayImageUrl(
-      url: item.url,
-      proxyUrl: item.proxyUrl,
-      mode: hdrDisplayMode,
-      contentType: item.contentType,
-    );
-    if (imageUrl.isEmpty) {
-      return const MediaLoadErrorPlaceholder(showLabel: false);
-    }
-    const Widget errorPlaceholder = MediaLoadErrorPlaceholder(showLabel: false);
     final int? decodeCap = _mayBeAnimated(item) ? null : decodeSide;
     final bool isLandscape = (item.width ?? 0) > (item.height ?? 0);
-    return ChatNetworkImage(
-      imageUrl: imageUrl,
-      filename: item.filename,
-      contentType: item.contentType,
-      fit: BoxFit.cover,
-      width: double.infinity,
-      height: double.infinity,
-      memCacheWidth: isLandscape ? null : decodeCap,
-      memCacheHeight: isLandscape ? decodeCap : null,
-      errorPlaceholder: errorPlaceholder,
+    return ForkViewerStripThumbnail(
+      item: item,
+      hdrDisplayMode: hdrDisplayMode,
+      decodeCap: decodeCap,
+      isLandscape: isLandscape,
+      devicePixelRatio: MediaQuery.devicePixelRatioOf(context),
     );
   }
 }

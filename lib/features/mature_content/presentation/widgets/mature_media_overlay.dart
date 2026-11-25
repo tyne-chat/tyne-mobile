@@ -11,11 +11,15 @@ class MatureMediaOverlay extends ConsumerStatefulWidget {
     required this.child,
     required this.channelId,
     required this.isMatureMedia,
+    this.forkRevealed,
+    this.forkOnRevealChanged,
     this.borderRadius = const BorderRadius.all(Radius.circular(8)),
     this.placeholderSize,
     super.key,
   });
 
+  final bool? forkRevealed;
+  final ValueChanged<bool>? forkOnRevealChanged;
   final Widget child;
   final String? channelId;
   final bool isMatureMedia;
@@ -65,7 +69,7 @@ class _MatureMediaOverlayState extends ConsumerState<MatureMediaOverlay> {
     if (!policy.shouldBlur) {
       return true;
     }
-    return _revealed && policy.canReveal;
+    return (widget.forkRevealed ?? _revealed) && policy.canReveal;
   }
 
   Widget _buildWithPolicy(BuildContext context, MatureMediaPolicy policy) {
@@ -134,7 +138,10 @@ class _MatureMediaOverlayState extends ConsumerState<MatureMediaOverlay> {
                         button: true,
                         label: l10n.matureMediaRevealLabel,
                         child: TextButton(
-                          onPressed: () => setState(() => _revealed = true),
+                          onPressed: () {
+                            setState(() => _revealed = true);
+                            widget.forkOnRevealChanged?.call(true);
+                          },
                           style: TextButton.styleFrom(
                             backgroundColor: context.colors.backgroundSecondary,
                             foregroundColor: context.colors.textPrimary,

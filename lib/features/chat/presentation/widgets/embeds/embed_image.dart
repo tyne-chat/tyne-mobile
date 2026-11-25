@@ -18,6 +18,11 @@ import 'package:fluxer_app/features/settings/providers/preferences/chat_preferen
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/utils/media/fork_media_proxy_sizing.dart';
+import 'package:fluxer_app/features/chat/utils/media/fork_rendered_thumbnail_registry.dart';
+
 class EmbedImage extends ConsumerWidget {
   final Embed embed;
   final MediaDimensionSize dimensionSize;
@@ -75,6 +80,40 @@ class EmbedImage extends ConsumerWidget {
     final bool animate = embed.type == EmbedType.gifv || media.isAnimated;
     final double cellWidth = displaySize.width;
     final double cellHeight = displaySize.height;
+    // Fork: snap static embed images to a single-width WebP and hand the exact
+    // cached thumbnail descriptor into the full-screen viewer.
+    final double forkDpr = MediaQuery.devicePixelRatioOf(context);
+    final String forkEffectiveUrl = embedMediaEffectiveUrl(media);
+    final String forkStaticUrl = buildForkSizedThumbnailUrl(
+      url: forkEffectiveUrl,
+      fallbackUrl: buildHdrAwareImageUrl(
+        url: forkEffectiveUrl,
+        mode: hdrDisplayMode,
+        contentType: media.contentType,
+      ),
+      layoutWidth: cellWidth,
+      layoutHeight: cellHeight,
+      devicePixelRatio: forkDpr,
+      sourceWidth: media.width,
+      sourceHeight: media.height,
+      contentType: media.contentType,
+      animated: animate,
+    );
+    final ({int? width, int? height}) forkCache = coverDecodeCacheSize(
+      cellWidth: cellWidth,
+      cellHeight: cellHeight,
+      devicePixelRatio: forkDpr,
+      sourceWidth: media.width,
+      sourceHeight: media.height,
+    );
+    final ForkThumbnailDescriptor? forkPreview = animate
+        ? null
+        : ForkThumbnailDescriptor(
+            url: forkStaticUrl,
+            memCacheWidth: forkCache.width,
+            memCacheHeight: forkCache.height,
+            thumbHash: media.placeholder,
+          );
     final Widget placeholder = ColoredBox(
       color: context.colors.backgroundSecondaryAlt,
       child: MediaThumbHashPlaceholder(thumbHash: media.placeholder),
@@ -97,6 +136,8 @@ class EmbedImage extends ConsumerWidget {
               onTap: canOpenEmbedMediaViewer(media)
                   ? () => openEmbedMediaViewer(
                       context,
+                      forkIsMatureMedia: embed.isMatureMedia,
+                      forkTappedPreview: forkPreview,
                       media: media,
                       title: embed.title,
                       embedPageUrl: embed.url,
@@ -123,11 +164,7 @@ class EmbedImage extends ConsumerWidget {
                       ),
                     )
                   : _EmbedStaticImage(
-                      imageUrl: buildHdrAwareImageUrl(
-                        url: embedMediaEffectiveUrl(media),
-                        mode: hdrDisplayMode,
-                        contentType: media.contentType,
-                      ),
+                      imageUrl: forkStaticUrl,
                       contentType: media.contentType,
                       cellWidth: cellWidth,
                       cellHeight: cellHeight,
