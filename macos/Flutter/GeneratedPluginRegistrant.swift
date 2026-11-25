@@ -20,6 +20,7 @@ import file_selector_macos
 import flutter_inappwebview_macos
 import flutter_local_notifications
 import flutter_secure_storage_darwin
+import flutter_timezone
 import flutter_webrtc
 import fluxer_clipboard
 import fluxer_voice
@@ -29,6 +30,7 @@ import livekit_client
 import local_auth_darwin
 import local_translation
 import media_kit_libs_macos_video
+import native_natural_sort
 import package_info_plus
 import passkeys_darwin
 import photo_manager
@@ -61,6 +63,7 @@ func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   InAppWebViewFlutterPlugin.register(with: registry.registrar(forPlugin: "InAppWebViewFlutterPlugin"))
   FlutterLocalNotificationsPlugin.register(with: registry.registrar(forPlugin: "FlutterLocalNotificationsPlugin"))
   FlutterSecureStorageDarwinPlugin.register(with: registry.registrar(forPlugin: "FlutterSecureStorageDarwinPlugin"))
+  FlutterTimezonePlugin.register(with: registry.registrar(forPlugin: "FlutterTimezonePlugin"))
   FlutterWebRTCPlugin.register(with: registry.registrar(forPlugin: "FlutterWebRTCPlugin"))
   FluxerClipboardPlugin.register(with: registry.registrar(forPlugin: "FluxerClipboardPlugin"))
   FluxerVoicePlugin.register(with: registry.registrar(forPlugin: "FluxerVoicePlugin"))
@@ -70,6 +73,7 @@ func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   LocalAuthPlugin.register(with: registry.registrar(forPlugin: "LocalAuthPlugin"))
   LocalTranslationPlugin.register(with: registry.registrar(forPlugin: "LocalTranslationPlugin"))
   MediaKitLibsMacosVideoPlugin.register(with: registry.registrar(forPlugin: "MediaKitLibsMacosVideoPlugin"))
+  NativeNaturalSortPlugin.register(with: registry.registrar(forPlugin: "NativeNaturalSortPlugin"))
   FPPPackageInfoPlusPlugin.register(with: registry.registrar(forPlugin: "FPPPackageInfoPlusPlugin"))
   PasskeysPlugin.register(with: registry.registrar(forPlugin: "PasskeysPlugin"))
   PhotoManagerPlugin.register(with: registry.registrar(forPlugin: "PhotoManagerPlugin"))
