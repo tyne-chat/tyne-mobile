@@ -1410,4 +1410,33 @@ class ForkLocalizationsTr extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'Kontrolleri gizle';
+
+  @override
+  String get personaBlockButton => 'Engelle';
+
+  @override
+  String get personaUnblockButton => 'Engeli kaldır';
+
+  @override
+  String get personaBlockConfirmTitle => 'Personayı engelle';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return '$personaName engellensin mi? Mesajları, engellenen bir kullanıcınınki gibi daraltılır. $ownerName adlı kullanıcının diğer personaları etkilenmez.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'Personanın engelini kaldır';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return '$personaName adlı personanın engeli kaldırılsın mı?';
+  }
+
+  @override
+  String get personaBlockFailed => 'Persona engellenemedi. Tekrar dene.';
+
+  @override
+  String get personaUnblockFailed =>
+      'Personanın engeli kaldırılamadı. Tekrar dene.';
 }

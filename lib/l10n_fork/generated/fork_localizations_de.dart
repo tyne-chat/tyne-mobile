@@ -1429,4 +1429,34 @@ class ForkLocalizationsDe extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'Steuerelemente ausblenden';
+
+  @override
+  String get personaBlockButton => 'Blockieren';
+
+  @override
+  String get personaUnblockButton => 'Blockierung aufheben';
+
+  @override
+  String get personaBlockConfirmTitle => 'Persona blockieren';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return '$personaName blockieren? Ihre Nachrichten werden eingeklappt, wie die eines blockierten Nutzers. Die anderen Personas von $ownerName sind nicht betroffen.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'Persona entblockieren';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return '$personaName entblockieren?';
+  }
+
+  @override
+  String get personaBlockFailed =>
+      'Die Persona konnte nicht blockiert werden. Versuch es noch einmal.';
+
+  @override
+  String get personaUnblockFailed =>
+      'Die Blockierung der Persona konnte nicht aufgehoben werden. Versuch es noch einmal.';
 }

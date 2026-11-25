@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "Të hiqet ky faqerojtës?",
     "chatAudioViewCover": "Shikimi i kopertinës",
     "mediaViewerShowControls": "Shfaq kontrollet",
-    "mediaViewerHideControls": "Fshih kontrollet"
+    "mediaViewerHideControls": "Fshih kontrollet",
+    "personaBlockButton": "Blloko",
+    "personaUnblockButton": "Zhblloko",
+    "personaBlockConfirmTitle": "Blloko personën",
+    "personaBlockConfirmDescription": "Ta bllokosh {personaName}? Mesazhet e saj do të palosen, si ato të një përdoruesi të bllokuar. Personat e tjera të {ownerName} nuk preken.",
+    "personaUnblockConfirmTitle": "Zhblloko personën",
+    "personaUnblockConfirmDescription": "Ta zhbllokosh {personaName}?",
+    "personaBlockFailed": "Persona nuk u bllokua dot. Provo sërish.",
+    "personaUnblockFailed": "Persona nuk u zhbllokua dot. Provo sërish."
 }

@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "Retirer ce message des messages enregistrés ?",
     "chatAudioViewCover": "Afficher la pochette",
     "mediaViewerShowControls": "Afficher les commandes",
-    "mediaViewerHideControls": "Masquer les commandes"
+    "mediaViewerHideControls": "Masquer les commandes",
+    "personaBlockButton": "Bloquer",
+    "personaUnblockButton": "Débloquer",
+    "personaBlockConfirmTitle": "Bloquer la persona",
+    "personaBlockConfirmDescription": "Bloquer {personaName} ? Ses messages seront repliés, comme ceux d’un utilisateur bloqué. Les autres personas de {ownerName} ne seront pas concernées.",
+    "personaUnblockConfirmTitle": "Débloquer la persona",
+    "personaUnblockConfirmDescription": "Débloquer {personaName} ?",
+    "personaBlockFailed": "Impossible de bloquer la persona. Réessaie.",
+    "personaUnblockFailed": "Impossible de débloquer la persona. Réessaie."
 }

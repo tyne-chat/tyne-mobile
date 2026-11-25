@@ -1369,4 +1369,32 @@ class ForkLocalizationsKo extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => '컨트롤 숨기기';
+
+  @override
+  String get personaBlockButton => '차단';
+
+  @override
+  String get personaUnblockButton => '차단 해제';
+
+  @override
+  String get personaBlockConfirmTitle => '페르소나 차단';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return '$personaName을(를) 차단할까요? 차단한 사용자처럼 이 페르소나의 메시지가 접힙니다. $ownerName의 다른 페르소나에는 영향이 없습니다.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => '페르소나 차단 해제';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return '$personaName의 차단을 해제할까요?';
+  }
+
+  @override
+  String get personaBlockFailed => '페르소나를 차단하지 못했습니다. 다시 시도해 주세요.';
+
+  @override
+  String get personaUnblockFailed => '페르소나 차단을 해제하지 못했습니다. 다시 시도해 주세요.';
 }

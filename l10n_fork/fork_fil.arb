@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "Alisin ang bookmark na ito?",
     "chatAudioViewCover": "Tingnan ang cover",
     "mediaViewerShowControls": "Ipakita ang mga kontrol",
-    "mediaViewerHideControls": "Itago ang mga kontrol"
+    "mediaViewerHideControls": "Itago ang mga kontrol",
+    "personaBlockButton": "I-block",
+    "personaUnblockButton": "I-unblock",
+    "personaBlockConfirmTitle": "I-block ang persona",
+    "personaBlockConfirmDescription": "I-block si {personaName}? Itatago ang mga mensahe nila, gaya ng sa naka-block na user. Hindi maaapektuhan ang ibang persona ni {ownerName}.",
+    "personaUnblockConfirmTitle": "I-unblock ang persona",
+    "personaUnblockConfirmDescription": "I-unblock si {personaName}?",
+    "personaBlockFailed": "Hindi ma-block ang persona. Subukan ulit.",
+    "personaUnblockFailed": "Hindi ma-unblock ang persona. Subukan ulit."
 }

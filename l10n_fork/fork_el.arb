@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "Κατάργηση αυτού του σελιδοδείκτη;",
     "chatAudioViewCover": "Προβολή εξωφύλλου",
     "mediaViewerShowControls": "Εμφάνιση στοιχείων ελέγχου",
-    "mediaViewerHideControls": "Απόκρυψη στοιχείων ελέγχου"
+    "mediaViewerHideControls": "Απόκρυψη στοιχείων ελέγχου",
+    "personaBlockButton": "Μπλοκάρισμα",
+    "personaUnblockButton": "Ξεμπλοκάρισμα",
+    "personaBlockConfirmTitle": "Αποκλεισμός persona",
+    "personaBlockConfirmDescription": "Αποκλεισμός της {personaName}; Τα μηνύματά της θα συμπτύσσονται, όπως ενός αποκλεισμένου χρήστη. Οι άλλες persona του {ownerName} δεν θα επηρεαστούν.",
+    "personaUnblockConfirmTitle": "Άρση αποκλεισμού persona",
+    "personaUnblockConfirmDescription": "Άρση αποκλεισμού της {personaName};",
+    "personaBlockFailed": "Δεν ήταν δυνατός ο αποκλεισμός της persona. Δοκίμασε ξανά.",
+    "personaUnblockFailed": "Δεν ήταν δυνατή η άρση αποκλεισμού της persona. Δοκίμασε ξανά."
 }

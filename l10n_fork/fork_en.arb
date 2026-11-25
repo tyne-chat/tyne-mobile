@@ -1870,5 +1870,50 @@
     "mediaViewerHideControls": "Hide controls",
     "@mediaViewerHideControls": {
         "description": "Accessible label of the media in the phone's full-screen image viewer while its controls are shown; tapping the media hides them (tyne-chat/tyne#866)."
+    },
+    "personaBlockButton": "Block",
+    "@personaBlockButton": {
+        "description": "Blocking one persona of another account (tyne-chat/tyne#921). Same wording as the web app's. Button beside Message on a persona's profile that blocks this persona only; its messages then collapse like a blocked user's."
+    },
+    "personaUnblockButton": "Unblock",
+    "@personaUnblockButton": {
+        "description": "Blocking one persona of another account (tyne-chat/tyne#921). Same wording as the web app's. Button beside Message on the profile of a persona that is blocked."
+    },
+    "personaBlockConfirmTitle": "Block persona",
+    "@personaBlockConfirmTitle": {
+        "description": "Blocking one persona of another account (tyne-chat/tyne#921). Same wording as the web app's. Title of the confirmation before blocking a persona."
+    },
+    "personaBlockConfirmDescription": "Block {personaName}? Their messages will be collapsed, like a blocked user's. {ownerName}'s other personas won't be affected.",
+    "@personaBlockConfirmDescription": {
+        "description": "Blocking one persona of another account (tyne-chat/tyne#921). Same wording as the web app's. Body of the confirmation before blocking a persona. {personaName} is the persona, {ownerName} the account it belongs to.",
+        "placeholders": {
+            "personaName": {
+                "type": "String"
+            },
+            "ownerName": {
+                "type": "String"
+            }
+        }
+    },
+    "personaUnblockConfirmTitle": "Unblock persona",
+    "@personaUnblockConfirmTitle": {
+        "description": "Blocking one persona of another account (tyne-chat/tyne#921). Same wording as the web app's. Title of the confirmation before unblocking a persona."
+    },
+    "personaUnblockConfirmDescription": "Unblock {personaName}?",
+    "@personaUnblockConfirmDescription": {
+        "description": "Blocking one persona of another account (tyne-chat/tyne#921). Same wording as the web app's. Body of the confirmation before unblocking a persona. {personaName} is the persona.",
+        "placeholders": {
+            "personaName": {
+                "type": "String"
+            }
+        }
+    },
+    "personaBlockFailed": "Couldn't block the persona. Try again.",
+    "@personaBlockFailed": {
+        "description": "Blocking one persona of another account (tyne-chat/tyne#921). Same wording as the web app's. Toast when blocking a persona fails."
+    },
+    "personaUnblockFailed": "Couldn't unblock the persona. Try again.",
+    "@personaUnblockFailed": {
+        "description": "Blocking one persona of another account (tyne-chat/tyne#921). Same wording as the web app's. Toast when unblocking a persona fails."
     }
 }

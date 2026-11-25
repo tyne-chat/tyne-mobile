@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "להסיר את הסימנייה הזו?",
     "chatAudioViewCover": "הצגת העטיפה",
     "mediaViewerShowControls": "הצגת הפקדים",
-    "mediaViewerHideControls": "הסתרת הפקדים"
+    "mediaViewerHideControls": "הסתרת הפקדים",
+    "personaBlockButton": "חסימה",
+    "personaUnblockButton": "בטל חסימה",
+    "personaBlockConfirmTitle": "חסימת פרסונה",
+    "personaBlockConfirmDescription": "לחסום את {personaName}? ההודעות שלה יקופלו, כמו של משתמש חסום. הפרסונות האחרות של {ownerName} לא יושפעו.",
+    "personaUnblockConfirmTitle": "ביטול חסימת פרסונה",
+    "personaUnblockConfirmDescription": "לבטל את החסימה של {personaName}?",
+    "personaBlockFailed": "לא ניתן היה לחסום את הפרסונה. אפשר לנסות שוב.",
+    "personaUnblockFailed": "לא ניתן היה לבטל את חסימת הפרסונה. אפשר לנסות שוב."
 }

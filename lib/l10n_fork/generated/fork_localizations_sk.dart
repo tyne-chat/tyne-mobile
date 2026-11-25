@@ -1451,4 +1451,34 @@ class ForkLocalizationsSk extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'Skryť ovládacie prvky';
+
+  @override
+  String get personaBlockButton => 'Zablokovať';
+
+  @override
+  String get personaUnblockButton => 'Odblokovať';
+
+  @override
+  String get personaBlockConfirmTitle => 'Zablokovať personu';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'Zablokovať $personaName? Jej správy sa zbalia ako správy zablokovaného používateľa. Ostatných person používateľa $ownerName sa to nedotkne.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'Odblokovať personu';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'Odblokovať $personaName?';
+  }
+
+  @override
+  String get personaBlockFailed =>
+      'Personu sa nepodarilo zablokovať. Skús to znova.';
+
+  @override
+  String get personaUnblockFailed =>
+      'Personu sa nepodarilo odblokovať. Skús to znova.';
 }

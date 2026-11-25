@@ -1400,4 +1400,33 @@ class ForkLocalizationsId extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'Sembunyikan kontrol';
+
+  @override
+  String get personaBlockButton => 'Blokir';
+
+  @override
+  String get personaUnblockButton => 'Buka blokir';
+
+  @override
+  String get personaBlockConfirmTitle => 'Blokir persona';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'Blokir $personaName? Pesannya akan diciutkan, seperti pesan pengguna yang diblokir. Persona lain milik $ownerName tidak terpengaruh.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'Buka blokir persona';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'Buka blokir $personaName?';
+  }
+
+  @override
+  String get personaBlockFailed => 'Tidak dapat memblokir persona. Coba lagi.';
+
+  @override
+  String get personaUnblockFailed =>
+      'Tidak dapat membuka blokir persona. Coba lagi.';
 }

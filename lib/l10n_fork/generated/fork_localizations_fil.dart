@@ -1431,4 +1431,33 @@ class ForkLocalizationsFil extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'Itago ang mga kontrol';
+
+  @override
+  String get personaBlockButton => 'I-block';
+
+  @override
+  String get personaUnblockButton => 'I-unblock';
+
+  @override
+  String get personaBlockConfirmTitle => 'I-block ang persona';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'I-block si $personaName? Itatago ang mga mensahe nila, gaya ng sa naka-block na user. Hindi maaapektuhan ang ibang persona ni $ownerName.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'I-unblock ang persona';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'I-unblock si $personaName?';
+  }
+
+  @override
+  String get personaBlockFailed => 'Hindi ma-block ang persona. Subukan ulit.';
+
+  @override
+  String get personaUnblockFailed =>
+      'Hindi ma-unblock ang persona. Subukan ulit.';
 }

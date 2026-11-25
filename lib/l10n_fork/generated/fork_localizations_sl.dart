@@ -1449,4 +1449,34 @@ class ForkLocalizationsSl extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'Skrij kontrolnike';
+
+  @override
+  String get personaBlockButton => 'Blokiraj';
+
+  @override
+  String get personaUnblockButton => 'Odblokiraj';
+
+  @override
+  String get personaBlockConfirmTitle => 'Blokiraj persono';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'Želiš blokirati $personaName? Njena sporočila bodo strnjena, kot sporočila blokiranega uporabnika. Drugih person uporabnika $ownerName to ne bo prizadelo.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'Odblokiraj persono';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'Želiš odblokirati $personaName?';
+  }
+
+  @override
+  String get personaBlockFailed =>
+      'Persone ni bilo mogoče blokirati. Poskusi znova.';
+
+  @override
+  String get personaUnblockFailed =>
+      'Persone ni bilo mogoče odblokirati. Poskusi znova.';
 }

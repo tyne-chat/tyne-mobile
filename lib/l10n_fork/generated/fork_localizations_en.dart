@@ -1408,6 +1408,35 @@ class ForkLocalizationsEn extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'Hide controls';
+
+  @override
+  String get personaBlockButton => 'Block';
+
+  @override
+  String get personaUnblockButton => 'Unblock';
+
+  @override
+  String get personaBlockConfirmTitle => 'Block persona';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'Block $personaName? Their messages will be collapsed, like a blocked user\'s. $ownerName\'s other personas won\'t be affected.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'Unblock persona';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'Unblock $personaName?';
+  }
+
+  @override
+  String get personaBlockFailed => 'Couldn\'t block the persona. Try again.';
+
+  @override
+  String get personaUnblockFailed =>
+      'Couldn\'t unblock the persona. Try again.';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -2814,6 +2843,35 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
 
   @override
   String get mediaViewerHideControls => 'Hide controls';
+
+  @override
+  String get personaBlockButton => 'Block';
+
+  @override
+  String get personaUnblockButton => 'Unblock';
+
+  @override
+  String get personaBlockConfirmTitle => 'Block persona';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'Block $personaName? Their messages will be collapsed, like a blocked user\'s. $ownerName\'s other personas won\'t be affected.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'Unblock persona';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'Unblock $personaName?';
+  }
+
+  @override
+  String get personaBlockFailed => 'Couldn\'t block the persona. Try again.';
+
+  @override
+  String get personaUnblockFailed =>
+      'Couldn\'t unblock the persona. Try again.';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -4220,4 +4278,33 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
 
   @override
   String get mediaViewerHideControls => 'Hide controls';
+
+  @override
+  String get personaBlockButton => 'Block';
+
+  @override
+  String get personaUnblockButton => 'Unblock';
+
+  @override
+  String get personaBlockConfirmTitle => 'Block persona';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'Block $personaName? Their messages will be collapsed, like a blocked user\'s. $ownerName\'s other personas won\'t be affected.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'Unblock persona';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'Unblock $personaName?';
+  }
+
+  @override
+  String get personaBlockFailed => 'Couldn\'t block the persona. Try again.';
+
+  @override
+  String get personaUnblockFailed =>
+      'Couldn\'t unblock the persona. Try again.';
 }

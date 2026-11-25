@@ -2,6 +2,10 @@ import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_grouping_utils.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/utils/messages/fork_blocked_persona.dart';
+
 enum ChannelStreamType {
   message,
   messageGroupBlocked,
@@ -48,6 +52,9 @@ class ChannelCollapseContext {
     required this.currentUserId,
     required this.blockedUserIds,
     required this.isUserMarkedAsSpammer,
+    // Fork: the personas this account blocked (tyne-chat/tyne#921). Last, as
+    // the lint wants required parameters first.
+    this.forkBlockedPersonaKeys = const <String>{},
   });
 
   final bool treatSpam;
@@ -55,8 +62,17 @@ class ChannelCollapseContext {
   final Set<String> blockedUserIds;
   final IsUserMarkedAsSpammer isUserMarkedAsSpammer;
 
+  /// Fork: keys (`personaBlockKey`) of the personas this account blocked
+  /// (tyne-chat/tyne#921), whose messages collapse as a blocked account's do.
+  final Set<String> forkBlockedPersonaKeys;
+
   ChannelStreamType? collapsedTypeFor(Message message) {
     if (message.isUserMessage && blockedUserIds.contains(message.authorId)) {
+      return ChannelStreamType.messageGroupBlocked;
+    }
+    // Fork: a message sent as a blocked persona (tyne-chat/tyne#921).
+    if (message.isUserMessage &&
+        isMessageFromBlockedPersona(forkBlockedPersonaKeys, message)) {
       return ChannelStreamType.messageGroupBlocked;
     }
     final String? userId = currentUserId;

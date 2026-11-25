@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "Да се премахне ли тази отметка?",
     "chatAudioViewCover": "Преглед на обложката",
     "mediaViewerShowControls": "Показване на контролите",
-    "mediaViewerHideControls": "Скриване на контролите"
+    "mediaViewerHideControls": "Скриване на контролите",
+    "personaBlockButton": "Блокиране",
+    "personaUnblockButton": "Отблокиране",
+    "personaBlockConfirmTitle": "Блокиране на персона",
+    "personaBlockConfirmDescription": "Да блокираш {personaName}? Съобщенията ѝ ще бъдат свити, както тези на блокиран потребител. Другите персони на {ownerName} няма да бъдат засегнати.",
+    "personaUnblockConfirmTitle": "Отблокиране на персона",
+    "personaUnblockConfirmDescription": "Да отблокираш {personaName}?",
+    "personaBlockFailed": "Персоната не можа да бъде блокирана. Опитай отново.",
+    "personaUnblockFailed": "Персоната не можа да бъде отблокирана. Опитай отново."
 }

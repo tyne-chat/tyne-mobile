@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "このブックマークを削除しますか？",
     "chatAudioViewCover": "ジャケットを表示",
     "mediaViewerShowControls": "コントロールを表示",
-    "mediaViewerHideControls": "コントロールを隠す"
+    "mediaViewerHideControls": "コントロールを隠す",
+    "personaBlockButton": "ブロック",
+    "personaUnblockButton": "ブロックを解除",
+    "personaBlockConfirmTitle": "ペルソナをブロック",
+    "personaBlockConfirmDescription": "{personaName}をブロックしますか？このペルソナのメッセージは、ブロックしたユーザーと同じように折りたたまれます。{ownerName}のほかのペルソナには影響しません。",
+    "personaUnblockConfirmTitle": "ペルソナのブロックを解除",
+    "personaUnblockConfirmDescription": "{personaName}のブロックを解除しますか？",
+    "personaBlockFailed": "ペルソナをブロックできませんでした。もう一度お試しください。",
+    "personaUnblockFailed": "ペルソナのブロックを解除できませんでした。もう一度お試しください。"
 }

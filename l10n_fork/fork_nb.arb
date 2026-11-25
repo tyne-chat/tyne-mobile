@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "Fjerne denne meldingen fra lagrede meldinger?",
     "chatAudioViewCover": "Vis omslag",
     "mediaViewerShowControls": "Vis kontroller",
-    "mediaViewerHideControls": "Skjul kontroller"
+    "mediaViewerHideControls": "Skjul kontroller",
+    "personaBlockButton": "Blokker",
+    "personaUnblockButton": "Opphev blokkering",
+    "personaBlockConfirmTitle": "Blokker persona",
+    "personaBlockConfirmDescription": "Blokkere {personaName}? Meldingene deres blir slått sammen, som for en blokkert bruker. De andre personaene til {ownerName} blir ikke berørt.",
+    "personaUnblockConfirmTitle": "Opphev blokkering av persona",
+    "personaUnblockConfirmDescription": "Oppheve blokkeringen av {personaName}?",
+    "personaBlockFailed": "Kunne ikke blokkere personaen. Prøv igjen.",
+    "personaUnblockFailed": "Kunne ikke oppheve blokkeringen av personaen. Prøv igjen."
 }
