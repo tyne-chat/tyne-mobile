@@ -214,7 +214,12 @@ void main() {
         for (final InterfaceExtraFlag flag in InterfaceExtraFlag.values)
           if (extras[flag]) flag,
       ],
-      <InterfaceExtraFlag>[InterfaceExtraFlag.animateGifPicker],
+      // Fork: "Keep attachments when clearing an edit" is on by default in
+      // Tyne (tyne-chat/tyne#904), so it is on in an empty store too.
+      <InterfaceExtraFlag>[
+        InterfaceExtraFlag.animateGifPicker,
+        InterfaceExtraFlag.keepAttachmentsOnEmptyEdit,
+      ],
     );
 
     final SyncedExtrasState synced = container.read(
