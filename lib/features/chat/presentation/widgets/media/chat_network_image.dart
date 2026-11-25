@@ -5,9 +5,16 @@ import 'package:fluxer_app/features/chat/presentation/widgets/media/retrying_net
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
 import 'package:fluxer_app/material_ui.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/ui/media_viewer/fork_observable_svg_image.dart';
+
 class ChatNetworkImage extends StatelessWidget {
   const ChatNetworkImage({
     required this.imageUrl,
+    this.forkOnImageLoaded,
+    this.forkOnLoadFailure,
+    this.forkMaxRetries,
     this.filename,
     this.contentType,
     this.width,
@@ -20,6 +27,9 @@ class ChatNetworkImage extends StatelessWidget {
     super.key,
   });
 
+  final VoidCallback? forkOnImageLoaded;
+  final ForkImageLoadFailureCallback? forkOnLoadFailure;
+  final int? forkMaxRetries;
   final String imageUrl;
   final String? filename;
   final String? contentType;
@@ -42,6 +52,19 @@ class ChatNetworkImage extends StatelessWidget {
       filename: filename,
       contentType: contentType,
     )) {
+      // Fork: single-GET decode-verified SVG path when viewer readiness is observed.
+      if (forkOnImageLoaded != null || forkOnLoadFailure != null) {
+        return ForkObservableSvgNetworkImage(
+          imageUrl: imageUrl,
+          width: width,
+          height: height,
+          fit: fit,
+          placeholder: boxedPlaceholder,
+          errorPlaceholder: errorPlaceholder,
+          onLoaded: forkOnImageLoaded,
+          onLoadFailure: forkOnLoadFailure,
+        );
+      }
       return SvgPicture.network(
         imageUrl,
         headers: AttachmentRequestAuth.headersFor(imageUrl),
@@ -55,6 +78,9 @@ class ChatNetworkImage extends StatelessWidget {
       );
     }
     return RetryingNetworkImage(
+      forkOnImageLoaded: forkOnImageLoaded,
+      forkOnLoadFailure: forkOnLoadFailure,
+      forkMaxRetries: forkMaxRetries,
       imageUrl: imageUrl,
       width: width,
       height: height,

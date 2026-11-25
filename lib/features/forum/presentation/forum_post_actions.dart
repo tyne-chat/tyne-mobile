@@ -31,6 +31,10 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/ui/media_viewer/fork_viewer_items.dart';
+
 Future<void> openForumPost(BuildContext context, WidgetRef ref, Channel post) =>
     openThread(context, ref, post, fromParent: true);
 
@@ -64,7 +68,11 @@ void openForumPostMedia(
   unawaited(
     showAttachmentMediaViewer(
       context,
-      items: images.map(AttachmentMediaViewerItem.fromAttachment).toList(),
+      // Fork: reuse rendered forum tile thumbnail descriptors and original download URLs.
+      items: forkViewerItemsFromAttachments(
+        images,
+        registryScope: 'forum:${post.id}',
+      ),
       initialIndex: index < 0 ? 0 : index,
       channelId: post.id,
       downloadsHidden: forumHidesMediaDownloads(forum),

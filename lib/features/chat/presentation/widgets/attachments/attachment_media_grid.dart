@@ -28,6 +28,12 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/utils/media/fork_media_proxy_sizing.dart';
+import 'package:fluxer_app/features/chat/utils/media/fork_rendered_thumbnail_registry.dart';
+import 'package:fluxer_app/features/ui/media_viewer/fork_viewer_items.dart';
+
 class AttachmentMediaGrid extends ConsumerWidget {
   const AttachmentMediaGrid({
     required this.attachments,
@@ -73,7 +79,8 @@ class AttachmentMediaGrid extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildLayout(context),
+          // Fork: per-grid scope records each tile's rendered thumbnail for viewer handoff.
+          ForkGalleryPreviewScope(child: Builder(builder: _buildLayout)),
           if (_hasExpiry && showExpiryIndicator)
             AttachmentExpiryFootnote(text: _buildExpiryText(context)),
         ],
@@ -285,13 +292,27 @@ class AttachmentMediaGrid extends ConsumerWidget {
     final FluxerMediaDimensions dimensions = mediaDimensionsForSize(
       dimensionSize,
     );
+    final String forkEffectiveUrl = attachmentEffectiveUrl(attachment);
     final String displayUrl = isVideo
         ? (ChatVideoSource.fromAttachment(attachment, dimensions).posterUrl ??
               '')
-        : buildHdrAwareImageUrl(
-            url: attachmentEffectiveUrl(attachment),
-            mode: hdrDisplayMode,
+        : buildForkSizedThumbnailUrl(
+            url: forkEffectiveUrl,
+            fallbackUrl: buildHdrAwareImageUrl(
+              url: forkEffectiveUrl,
+              mode: hdrDisplayMode,
+              contentType: attachment.contentType,
+            ),
+            layoutWidth: cellWidth,
+            layoutHeight: cellHeight,
+            devicePixelRatio: devicePixelRatio,
+            sourceWidth: attachment.width,
+            sourceHeight: attachment.height,
             contentType: attachment.contentType,
+            filename: attachment.filename,
+            animated: attachment.isAnimated,
+            cover: true,
+            maxCoverAspectMultiplier: 2,
           );
     final ({int? width, int? height}) cache = coverDecodeCacheSize(
       cellWidth: cellWidth,
@@ -300,6 +321,19 @@ class AttachmentMediaGrid extends ConsumerWidget {
       sourceWidth: attachment.width,
       sourceHeight: attachment.height,
     );
+    // Fork: record this tile's exact rendered thumbnail for viewer handoff.
+    if (!isVideo && !attachment.isAnimated && displayUrl.isNotEmpty) {
+      ForkGalleryPreviewScope.maybeRegister(
+        context,
+        forkEffectiveUrl,
+        ForkThumbnailDescriptor(
+          url: displayUrl,
+          memCacheWidth: cache.width,
+          memCacheHeight: cache.height,
+          thumbHash: attachment.placeholder,
+        ),
+      );
+    }
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
       child: SpoilerOverlay(
@@ -371,7 +405,12 @@ class AttachmentMediaGrid extends ConsumerWidget {
     unawaited(
       showAttachmentMediaViewer(
         context,
-        items: images.map(AttachmentMediaViewerItem.fromAttachment).toList(),
+        // Fork: attach per-tile thumbnail descriptors and original download URLs.
+        items: forkViewerItemsFromAttachments(
+          images,
+          tileDescriptors: ForkGalleryPreviewScope.maybeRead(context),
+          tappedIndex: initialIndex < 0 ? 0 : initialIndex,
+        ),
         initialIndex: initialIndex < 0 ? 0 : initialIndex,
         channelId: channelId,
         onForward: (channelId != null && messageId != null)

@@ -2,6 +2,9 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_media_viewer_utils.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_youtube_utils.dart';
 
+// Fork imports.
+import 'package:fluxer_app/features/chat/utils/media/fork_media_proxy_sizing.dart';
+
 const int kMaxEmbedGalleryMedia = 10;
 
 String? normalizeEmbedUrl(String? url) {
@@ -104,6 +107,11 @@ _EmbedListRenderMetadata _buildEmbedListRenderMetadata(List<Embed> embedList) {
     if (firstIndex == null) {
       continue;
     }
+    _forkRecordGalleryMediaNsfw(
+      galleryImagesByFirstIndex[firstIndex],
+      galleryMediaForEmbed(embedList[index]),
+      embedList[index].nsfw,
+    );
     tryAddGalleryMedia(firstIndex, galleryMediaForEmbed(embedList[index]));
   }
   return _EmbedListRenderMetadata(
@@ -220,7 +228,7 @@ List<Attachment> buildGalleryAttachments({
   int? embedIndex,
 }) {
   final String idPrefix = embedIndex?.toString() ?? 'embed';
-  return images
+  final List<Attachment> forkAttachments = images
       .asMap()
       .entries
       .map(
@@ -234,8 +242,52 @@ List<Attachment> buildGalleryAttachments({
           height: entry.value.height,
           contentType: entry.value.contentType,
           flags: entry.value.flags,
-          nsfw: embed.nsfw,
+          nsfw: _forkGalleryMediaNsfw[entry.value] ?? embed.nsfw,
         ),
       )
       .toList();
+  return _forkAttachGalleryOriginalUrls(forkAttachments, images);
+}
+
+// Fork: each grouped embed's own NSFW flag, kept on its gallery image so a
+// safe image is not hidden, and a mature one not shown, because of the embed
+// that groups them. Keyed by the image object, which survives the copies
+// `EmbedGalleryIndex` hands out.
+final Expando<bool> _forkGalleryMediaNsfw = Expando<bool>(
+  'forkGalleryMediaNsfw',
+);
+
+void _forkRecordGalleryMediaNsfw(
+  List<EmbedMedia>? galleryImages,
+  EmbedMedia? media,
+  bool? nsfw,
+) {
+  if (media == null || nsfw == null) {
+    return;
+  }
+  _forkGalleryMediaNsfw[media] = nsfw;
+  if (!nsfw || galleryImages == null) {
+    return;
+  }
+  // A mature embed whose image duplicates one already in the gallery makes
+  // that image mature too.
+  final String mediaKey = embedMediaEffectiveUrl(media);
+  for (final EmbedMedia existing in galleryImages) {
+    if (embedMediaEffectiveUrl(existing) == mediaKey) {
+      _forkGalleryMediaNsfw[existing] = true;
+    }
+  }
+}
+
+List<Attachment> _forkAttachGalleryOriginalUrls(
+  List<Attachment> attachments,
+  List<EmbedMedia> images,
+) {
+  final int count = attachments.length < images.length
+      ? attachments.length
+      : images.length;
+  for (int i = 0; i < count; i++) {
+    forkAttachOriginalDownloadUrl(attachments[i], images[i].url);
+  }
+  return attachments;
 }
