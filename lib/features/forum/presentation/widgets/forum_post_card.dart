@@ -25,6 +25,8 @@ import 'package:intl/intl.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/features/chat/utils/media/fork_media_proxy_sizing.dart';
+import 'package:fluxer_app/features/chat/utils/media/fork_rendered_thumbnail_registry.dart';
 import 'package:fluxer_app/features/threads/providers/thread_owner_persona_provider.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 
@@ -258,6 +260,8 @@ class ForumPostCard extends StatelessWidget {
                   ClipRRect(
                     borderRadius: layout.radiusMd,
                     child: _ForumPreviewImage(
+                      forkAttachment: preview,
+                      forkPostId: post.id,
                       url: previewUrl,
                       width: forumCardThumbnailSize(context),
                       height: forumCardThumbnailSize(context),
@@ -363,26 +367,108 @@ class ForumPostTile extends StatelessWidget {
   ) {
     final ValueChanged<Attachment>? onOpenMedia = this.onOpenMedia;
     if (onOpenMedia == null) {
-      return _ForumPreviewImage(url: previewUrl);
+      return _ForumPreviewImage(
+        forkAttachment: preview,
+        forkPostId: data.post.id,
+        url: previewUrl,
+      );
     }
     return FluxerTappable(
       onTap: () => onOpenMedia(preview),
       onLongPress: onLongPress,
       semanticLabel: _previewSemanticLabel(preview, l10n),
-      builder: (_, _) => _ForumPreviewImage(url: previewUrl),
+      builder: (_, _) => _ForumPreviewImage(
+        forkAttachment: preview,
+        forkPostId: data.post.id,
+        url: previewUrl,
+      ),
     );
   }
 }
 
 class _ForumPreviewImage extends StatelessWidget {
-  const _ForumPreviewImage({required this.url, this.width, this.height});
+  const _ForumPreviewImage({
+    required this.url,
+    this.forkAttachment,
+    this.forkPostId,
+    this.width,
+    this.height,
+  });
 
+  final Attachment? forkAttachment;
+  final String? forkPostId;
   final String url;
   final double? width;
   final double? height;
 
   @override
   Widget build(BuildContext context) {
+    // Fork: snap non-video forum preview thumbnails to a DPR-sharp single-width
+    // WebP URL with finite decode caps and register them for viewer handoff.
+    final Attachment? attachment = forkAttachment;
+    if (attachment != null && !attachment.isVideo) {
+      return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          final double layoutWidth =
+              width ??
+              (constraints.hasBoundedWidth && constraints.maxWidth > 0
+                  ? constraints.maxWidth
+                  : _previewDimensions.maxWidth);
+          final double layoutHeight =
+              height ??
+              (constraints.hasBoundedHeight && constraints.maxHeight > 0
+                  ? constraints.maxHeight
+                  : _previewDimensions.maxHeight);
+          final double dpr = MediaQuery.devicePixelRatioOf(context);
+          final String rawUrl = attachmentEffectiveUrl(attachment);
+          final String resolvedUrl = buildForkSizedThumbnailUrl(
+            url: rawUrl,
+            fallbackUrl: url,
+            layoutWidth: layoutWidth,
+            layoutHeight: layoutHeight,
+            devicePixelRatio: dpr,
+            sourceWidth: attachment.width,
+            sourceHeight: attachment.height,
+            contentType: attachment.contentType,
+            filename: attachment.filename,
+            animated: attachment.isAnimated,
+            cover: true,
+            maxCoverAspectMultiplier: 2,
+          );
+          final ({int? width, int? height}) cache = coverDecodeCacheSize(
+            cellWidth: layoutWidth,
+            cellHeight: layoutHeight,
+            devicePixelRatio: dpr,
+            sourceWidth: attachment.width,
+            sourceHeight: attachment.height,
+          );
+          final String? postId = forkPostId;
+          if (postId != null && !attachment.isAnimated) {
+            ForkRenderedThumbnailRegistry.register(
+              scopeToken: 'forum:$postId',
+              sourceKey: rawUrl,
+              descriptor: ForkThumbnailDescriptor(
+                url: resolvedUrl,
+                memCacheWidth: cache.width,
+                memCacheHeight: cache.height,
+                thumbHash: attachment.placeholder,
+              ),
+            );
+          }
+          return CachedNetworkImage(
+            imageUrl: resolvedUrl,
+            httpHeaders: AttachmentRequestAuth.headersFor(resolvedUrl),
+            width: width ?? double.infinity,
+            height: height ?? double.infinity,
+            memCacheWidth: cache.width,
+            memCacheHeight: cache.height,
+            fit: BoxFit.cover,
+            errorBuilder: (_, _, _) =>
+                ColoredBox(color: context.colors.backgroundTertiary),
+          );
+        },
+      );
+    }
     return CachedNetworkImage(
       imageUrl: url,
       httpHeaders: AttachmentRequestAuth.headersFor(url),

@@ -20,6 +20,11 @@ import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/utils/media/fork_media_proxy_sizing.dart';
+import 'package:fluxer_app/features/chat/utils/media/fork_rendered_thumbnail_registry.dart';
+
 class EmbedRich extends StatelessWidget {
   final Embed embed;
   final EmbedGalleryIndex galleryIndex;
@@ -90,6 +95,33 @@ class EmbedRich extends StatelessWidget {
         );
         final bool shouldRenderInlineThumbnail =
             hasThumbnail && !gallery.showGallery;
+        // Fork: compute single-width WebP thumbnail and descriptor for inline
+        // rich-embed thumbnails.
+        final double forkThumbDpr = MediaQuery.devicePixelRatioOf(context);
+        final int forkThumbCacheWidth = (72 * forkThumbDpr).round();
+        final String? forkInlineThumbUrl = shouldRenderInlineThumbnail
+            ? buildForkSizedThumbnailUrl(
+                url: embedMediaEffectiveUrl(embed.thumbnail!),
+                fallbackUrl: embedMediaEffectiveUrl(embed.thumbnail!),
+                layoutWidth: 72,
+                layoutHeight: 72,
+                devicePixelRatio: forkThumbDpr,
+                sourceWidth: embed.thumbnail!.width,
+                sourceHeight: embed.thumbnail!.height,
+                contentType: embed.thumbnail!.contentType,
+                animated: embed.thumbnail!.isAnimated,
+                cover: true,
+                maxCoverAspectMultiplier: 2,
+              )
+            : null;
+        final ForkThumbnailDescriptor? forkInlineThumbPreview =
+            forkInlineThumbUrl == null
+            ? null
+            : ForkThumbnailDescriptor(
+                url: forkInlineThumbUrl,
+                memCacheWidth: forkThumbCacheWidth,
+                thumbHash: embed.thumbnail!.placeholder,
+              );
 
         return Container(
           margin: const EdgeInsets.only(top: 4),
@@ -190,6 +222,7 @@ class EmbedRich extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(top: 4, bottom: 4),
                           child: _EmbedMediaImage(
+                            forkIsMatureMedia: embed.isMatureMedia,
                             media: embed.image!,
                             dimensionSize: dimensionSize,
                             title: embed.title,
@@ -219,6 +252,8 @@ class EmbedRich extends StatelessWidget {
                       onTap: canOpenEmbedMediaViewer(embed.thumbnail!)
                           ? () => openEmbedMediaViewer(
                               context,
+                              forkIsMatureMedia: embed.isMatureMedia,
+                              forkTappedPreview: forkInlineThumbPreview,
                               media: embed.thumbnail!,
                               title: embed.title,
                               embedPageUrl: embed.url,
@@ -231,13 +266,11 @@ class EmbedRich extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(4),
                         child: ChatNetworkImage(
-                          imageUrl: embedMediaEffectiveUrl(embed.thumbnail!),
+                          imageUrl: forkInlineThumbUrl!,
                           contentType: embed.thumbnail!.contentType,
                           width: 72,
                           height: 72,
-                          memCacheWidth:
-                              (72 * MediaQuery.devicePixelRatioOf(context))
-                                  .round(),
+                          memCacheWidth: forkThumbCacheWidth,
                           fit: BoxFit.cover,
                           placeholder: MediaThumbHashPlaceholder(
                             thumbHash: embed.thumbnail!.placeholder,
@@ -360,6 +393,7 @@ class _EmbedFieldTile extends StatelessWidget {
 }
 
 class _EmbedMediaImage extends StatelessWidget {
+  final bool forkIsMatureMedia;
   final EmbedMedia media;
   final MediaDimensionSize dimensionSize;
   final String? title;
@@ -373,6 +407,7 @@ class _EmbedMediaImage extends StatelessWidget {
     required this.media,
     required this.dimensionSize,
     required this.embedIndex,
+    this.forkIsMatureMedia = false,
     this.title,
     this.embedPageUrl,
     this.channelId,
@@ -400,12 +435,31 @@ class _EmbedMediaImage extends StatelessWidget {
       width: media.width,
       height: media.height,
     )!;
+    final double forkDpr = MediaQuery.devicePixelRatioOf(context);
     final ({int? width, int? height}) cache = coverDecodeCacheSize(
       cellWidth: size.width,
       cellHeight: size.height,
-      devicePixelRatio: MediaQuery.devicePixelRatioOf(context),
+      devicePixelRatio: forkDpr,
       sourceWidth: media.width,
       sourceHeight: media.height,
+    );
+    final String forkRawUrl = embedMediaEffectiveUrl(media);
+    final String forkImageUrl = buildForkSizedThumbnailUrl(
+      url: forkRawUrl,
+      fallbackUrl: forkRawUrl,
+      layoutWidth: size.width,
+      layoutHeight: size.height,
+      devicePixelRatio: forkDpr,
+      sourceWidth: media.width,
+      sourceHeight: media.height,
+      contentType: media.contentType,
+      animated: media.isAnimated,
+    );
+    final ForkThumbnailDescriptor forkPreview = ForkThumbnailDescriptor(
+      url: forkImageUrl,
+      memCacheWidth: cache.width,
+      memCacheHeight: cache.height,
+      thumbHash: media.placeholder,
     );
     final Widget image = ClipRRect(
       borderRadius: BorderRadius.circular(4),
@@ -413,7 +467,7 @@ class _EmbedMediaImage extends StatelessWidget {
         width: size.width,
         height: size.height,
         child: ChatNetworkImage(
-          imageUrl: embedMediaEffectiveUrl(media),
+          imageUrl: forkImageUrl,
           contentType: media.contentType,
           width: size.width,
           height: size.height,
@@ -430,6 +484,8 @@ class _EmbedMediaImage extends StatelessWidget {
         onTap: canOpenEmbedMediaViewer(media)
             ? () => openEmbedMediaViewer(
                 context,
+                forkIsMatureMedia: forkIsMatureMedia,
+                forkTappedPreview: forkPreview,
                 media: media,
                 title: title,
                 embedPageUrl: embedPageUrl,

@@ -15,6 +15,11 @@ import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/utils/media/fork_media_proxy_sizing.dart';
+import 'package:fluxer_app/features/chat/utils/media/fork_rendered_thumbnail_registry.dart';
+
 class EmbedLink extends StatelessWidget {
   final Embed embed;
   final EmbedGalleryIndex galleryIndex;
@@ -53,6 +58,9 @@ class EmbedLink extends StatelessWidget {
               embed.image != null ||
               embed.video != null,
         );
+        // Fork: the thumbnail's builder records what it rendered, for the tap.
+        final ForkRenderedPreviewSlot forkPreviewSlot =
+            ForkRenderedPreviewSlot();
 
         return Container(
           margin: const EdgeInsets.only(top: 4),
@@ -120,6 +128,8 @@ class EmbedLink extends StatelessWidget {
                       onTap: canOpenEmbedMediaViewer(embed.thumbnail!)
                           ? () => openEmbedMediaViewer(
                               context,
+                              forkIsMatureMedia: embed.isMatureMedia,
+                              forkTappedPreview: forkPreviewSlot.descriptor,
                               media: embed.thumbnail!,
                               title: embed.title,
                               embedPageUrl: embed.url,
@@ -136,6 +146,7 @@ class EmbedLink extends StatelessWidget {
                                 BuildContext context,
                                 BoxConstraints constraints,
                               ) => _thumbnailBox(
+                                forkPreviewSlot: forkPreviewSlot,
                                 context: context,
                                 thumbnail: embed.thumbnail!,
                                 dimensions: mediaDimensionsWithinWidth(
@@ -167,20 +178,39 @@ class EmbedLink extends StatelessWidget {
     required BuildContext context,
     required EmbedMedia thumbnail,
     required FluxerMediaDimensions dimensions,
+    ForkRenderedPreviewSlot? forkPreviewSlot,
   }) {
     final Size displaySize = constrainMediaSize(
       dimensions: dimensions,
       width: thumbnail.width,
       height: thumbnail.height,
     )!;
+    final double forkDpr = MediaQuery.devicePixelRatioOf(context);
     final ({int? width, int? height}) cache = coverDecodeCacheSize(
       cellWidth: displaySize.width,
       cellHeight: displaySize.height,
-      devicePixelRatio: MediaQuery.devicePixelRatioOf(context),
+      devicePixelRatio: forkDpr,
       sourceWidth: thumbnail.width,
       sourceHeight: thumbnail.height,
     );
-    final String imageUrl = embedMediaEffectiveUrl(thumbnail);
+    final String forkRawUrl = embedMediaEffectiveUrl(thumbnail);
+    final String imageUrl = buildForkSizedThumbnailUrl(
+      url: forkRawUrl,
+      fallbackUrl: forkRawUrl,
+      layoutWidth: displaySize.width,
+      layoutHeight: displaySize.height,
+      devicePixelRatio: forkDpr,
+      sourceWidth: thumbnail.width,
+      sourceHeight: thumbnail.height,
+      contentType: thumbnail.contentType,
+      animated: thumbnail.isAnimated,
+    );
+    forkPreviewSlot?.descriptor = ForkThumbnailDescriptor(
+      url: imageUrl,
+      memCacheWidth: cache.width,
+      memCacheHeight: cache.height,
+      thumbHash: thumbnail.placeholder,
+    );
     final Widget image = ChatNetworkImage(
       imageUrl: imageUrl,
       contentType: thumbnail.contentType,

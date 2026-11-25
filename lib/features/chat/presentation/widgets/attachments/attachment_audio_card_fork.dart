@@ -18,6 +18,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/attachment_request_auth.dart';
 import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_controller.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -27,6 +28,8 @@ import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_ut
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_linked_waveform_fork.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/voice_message_constants.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/voice_message_waveform.dart';
+import 'package:fluxer_app/features/chat/utils/media/fork_media_proxy_sizing.dart';
+import 'package:fluxer_app/features/chat/utils/media/fork_rendered_thumbnail_registry.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
@@ -420,10 +423,18 @@ class _ForkAudioCover extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final double pixelRatio = MediaQuery.devicePixelRatioOf(context);
+    final String fullCoverUrl = forkAttachmentCoverUrl(attachment);
+    final bool isApiRoute = AttachmentRequestAuth.isApiAttachmentUrl(
+      fullCoverUrl,
+    );
+    final int? snappedWidth = isApiRoute
+        ? null
+        : forkSnapMediaProxyImageSize(_kCoverSize, pixelRatio);
     final String thumbnail = forkAttachmentCoverUrl(
       attachment,
-      width: (_kCoverSize * pixelRatio).ceil(),
+      width: snappedWidth,
     );
+    final int memCacheWidth = (_kCoverSize * pixelRatio).ceil();
     return Semantics(
       button: true,
       label: FluxerLocalizations.of(context).fork.chatAudioViewCover,
@@ -435,7 +446,13 @@ class _ForkAudioCover extends StatelessWidget {
               context,
               items: [
                 AttachmentMediaViewerItem(
-                  url: forkAttachmentCoverUrl(attachment),
+                  forkPreview: isApiRoute
+                      ? null
+                      : ForkThumbnailDescriptor(
+                          url: thumbnail,
+                          memCacheWidth: memCacheWidth,
+                        ),
+                  url: fullCoverUrl,
                   filename: attachment.filename,
                   contentType: 'image/webp',
                 ),
@@ -456,7 +473,7 @@ class _ForkAudioCover extends StatelessWidget {
                 width: _kCoverSize,
                 height: _kCoverSize,
                 fit: BoxFit.cover,
-                memCacheWidth: (_kCoverSize * pixelRatio).ceil(),
+                memCacheWidth: memCacheWidth,
               ),
             ),
           ),

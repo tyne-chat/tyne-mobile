@@ -22,6 +22,12 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/utils/media/fork_media_proxy_sizing.dart';
+import 'package:fluxer_app/features/chat/utils/media/fork_rendered_thumbnail_registry.dart';
+import 'package:fluxer_app/features/ui/media_viewer/fork_viewer_items.dart';
+
 class AttachmentImage extends ConsumerWidget {
   final Attachment attachment;
   final MediaDimensionSize dimensionSize;
@@ -84,6 +90,36 @@ class AttachmentImage extends ConsumerWidget {
     final List<Attachment> gallery = _buildGallery();
     final bool animate = attachment.isAnimated;
     final String effectiveUrl = attachmentEffectiveUrl(attachment);
+    // Fork: snap static chat thumbnails to a single-width WebP and pass the
+    // exact rendered descriptor into the full-screen viewer.
+    final double forkDpr = MediaQuery.devicePixelRatioOf(context);
+    final String forkStaticUrl = buildForkSizedThumbnailUrl(
+      url: effectiveUrl,
+      fallbackUrl: buildHdrAwareImageUrl(
+        url: effectiveUrl,
+        mode: hdrDisplayMode,
+        contentType: attachment.contentType,
+      ),
+      layoutWidth: displaySize.width,
+      layoutHeight: displaySize.height,
+      devicePixelRatio: forkDpr,
+      sourceWidth: attachment.width,
+      sourceHeight: attachment.height,
+      contentType: attachment.contentType,
+      filename: attachment.filename,
+      animated: animate,
+    );
+    final ForkThumbnailDescriptor? forkPreview = animate
+        ? null
+        : ForkThumbnailDescriptor(
+            url: forkStaticUrl,
+            memCacheWidth: (displaySize.width * forkDpr).round(),
+            memCacheHeight: (displaySize.height * forkDpr).round(),
+            thumbHash: attachment.placeholder,
+          );
+    final int forkInitialIndex = gallery.isEmpty
+        ? 0
+        : imageGalleryIndex.clamp(0, gallery.length - 1);
     final Widget image = Padding(
       padding: const EdgeInsets.only(top: 4, bottom: 3),
       child: MediaAltText(
@@ -106,13 +142,12 @@ class AttachmentImage extends ConsumerWidget {
                           ? null
                           : () => showAttachmentMediaViewer(
                               context,
-                              items: gallery
-                                  .map(AttachmentMediaViewerItem.fromAttachment)
-                                  .toList(),
-                              initialIndex: imageGalleryIndex.clamp(
-                                0,
-                                gallery.length - 1,
+                              items: forkViewerItemsFromAttachments(
+                                gallery,
+                                tappedIndex: forkInitialIndex,
+                                tappedPreview: forkPreview,
                               ),
+                              initialIndex: forkInitialIndex,
                               channelId: channelId,
                               onForward:
                                   (channelId != null && messageId != null)
@@ -139,11 +174,7 @@ class AttachmentImage extends ConsumerWidget {
                                     const MediaLoadErrorPlaceholder(),
                               )
                             : _AttachmentStaticImage(
-                                imageUrl: buildHdrAwareImageUrl(
-                                  url: effectiveUrl,
-                                  mode: hdrDisplayMode,
-                                  contentType: attachment.contentType,
-                                ),
+                                imageUrl: forkStaticUrl,
                                 filename: attachment.filename,
                                 contentType: attachment.contentType,
                                 displaySize: displaySize,

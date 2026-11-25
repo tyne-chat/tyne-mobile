@@ -4,6 +4,9 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
 import 'package:fluxer_app/features/ui/media_viewer/attachment_media_viewer.dart';
 
+// Fork imports.
+import 'package:fluxer_app/features/ui/media_viewer/fork_viewer_items.dart';
+
 class MediaOptionsLaunchContext {
   const MediaOptionsLaunchContext({
     required this.fallbackUrl,
@@ -49,7 +52,7 @@ class MediaOptionsLaunchContext {
       filename: item.filename,
       downloadUrl: item.downloadUrl,
       contentHash: item.contentHash,
-      reverseImageSearchUrl: item.downloadUrl ?? item.url,
+      reverseImageSearchUrl: forkResolveReverseImageSearchUrl(item),
       downloadsHidden: downloadsHidden,
       onViewPost: onViewPost,
     );

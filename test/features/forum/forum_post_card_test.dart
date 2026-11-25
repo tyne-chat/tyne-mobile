@@ -15,6 +15,10 @@ import 'package:fluxer_dart/export.dart' show ForumTagResponse;
 
 import '../../helpers/test_l10n.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/instance/instance_endpoints.dart';
+
 Widget _app(Widget child, {required double width, double? height}) {
   final colorTheme = buildDarkColorTheme();
   return MaterialApp(
@@ -73,12 +77,15 @@ ForumPostCardData _data({int unreadCount = 4, bool thumbnail = false}) {
       timestamp: twoDaysAgo,
       reactions: const <Reaction>[Reaction(emoji: '👍', count: 17)],
       attachments: thumbnail
-          ? const <Attachment>[
+          ? <Attachment>[
               Attachment(
                 id: '300',
                 filename: 'photo.png',
-                url: 'https://media.invalid/photo.png',
-                proxyUrl: 'https://media.invalid/attachments/100/300/photo.png',
+                // Fork: compare against InstanceEndpoints.media so single-width
+                // proxy resizing applies under the active instance host.
+                url: '${InstanceEndpoints.media}/photo.png',
+                proxyUrl:
+                    '${InstanceEndpoints.media}/attachments/100/300/photo.png',
                 contentType: 'image/png',
                 width: 800,
                 height: 600,
@@ -208,10 +215,13 @@ void main() {
           .widget<CachedNetworkImage>(find.byType(CachedNetworkImage))
           .imageUrl,
     );
-    expect(thumbnail.path, '/attachments/100/300/photo.png');
+    // Fork: InstanceEndpoints.media may carry a path prefix (e.g. /media).
+    expect(thumbnail.path, endsWith('/attachments/100/300/photo.png'));
     expect(thumbnail.queryParameters['format'], 'webp');
     expect(thumbnail.queryParameters['width'], isNotNull);
-    expect(thumbnail.queryParameters['height'], isNotNull);
+    // Fork: single-width requests avoid media-proxy cover-crop while keeping
+    // forum thumbnails DPR-sharp (tyne-chat/tyne#887).
+    expect(thumbnail.queryParameters['height'], isNull);
   });
 
   testWidgets('the footer spans the card under the thumbnail', (

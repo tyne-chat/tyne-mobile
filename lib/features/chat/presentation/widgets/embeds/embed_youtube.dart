@@ -16,6 +16,10 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/utils/media/fork_media_proxy_sizing.dart';
+
 class EmbedYouTube extends StatelessWidget {
   const EmbedYouTube({
     required this.embed,
@@ -110,8 +114,22 @@ class _YouTubeThumbnail extends StatelessWidget {
                 sourceWidth: thumbnail.width,
                 sourceHeight: thumbnail.height,
               );
+              // Fork: snap YouTube poster thumbnails to a single-width WebP.
+              final String forkPosterUrl = buildForkSizedThumbnailUrl(
+                url: posterUrl,
+                fallbackUrl: posterUrl,
+                layoutWidth: constraints.maxWidth,
+                layoutHeight: constraints.maxHeight,
+                devicePixelRatio: dpr,
+                sourceWidth: thumbnail.width,
+                sourceHeight: thumbnail.height,
+                contentType: thumbnail.contentType,
+                animated: thumbnail.isAnimated,
+                cover: true,
+                maxCoverAspectMultiplier: 2,
+              );
               return ChatNetworkImage(
-                imageUrl: posterUrl,
+                imageUrl: forkPosterUrl,
                 fit: BoxFit.cover,
                 memCacheWidth: cache.width,
                 memCacheHeight: cache.height,

@@ -9,6 +9,10 @@ import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/utils/media/fork_rendered_thumbnail_registry.dart';
+
 const int kDesktopImageCacheMaxBytes = 100 << 20;
 const int kMobileImageCacheMaxBytes = 40 << 20;
 const int kLowMemoryImageCacheMaxBytes = 20 << 20;
@@ -85,6 +89,8 @@ void clearFluxerImageCache() {
 }
 
 Future<void> clearFluxerNetworkImageCaches() async {
+  // Fork: clear thumbnail descriptor registry alongside disk cache (never on RAM trims).
+  ForkRenderedThumbnailRegistry.clear();
   clearFluxerImageCache();
   await CachedNetworkImageProvider.defaultCacheManager.emptyCache();
 }
