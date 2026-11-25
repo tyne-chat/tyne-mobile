@@ -1443,4 +1443,34 @@ class ForkLocalizationsFr extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'Masquer les commandes';
+
+  @override
+  String get personaBlockButton => 'Bloquer';
+
+  @override
+  String get personaUnblockButton => 'Débloquer';
+
+  @override
+  String get personaBlockConfirmTitle => 'Bloquer la persona';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'Bloquer $personaName ? Ses messages seront repliés, comme ceux d’un utilisateur bloqué. Les autres personas de $ownerName ne seront pas concernées.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'Débloquer la persona';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'Débloquer $personaName ?';
+  }
+
+  @override
+  String get personaBlockFailed =>
+      'Impossible de bloquer la persona. Réessaie.';
+
+  @override
+  String get personaUnblockFailed =>
+      'Impossible de débloquer la persona. Réessaie.';
 }

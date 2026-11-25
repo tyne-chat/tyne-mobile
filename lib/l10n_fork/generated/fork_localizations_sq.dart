@@ -1420,4 +1420,33 @@ class ForkLocalizationsSq extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'Fshih kontrollet';
+
+  @override
+  String get personaBlockButton => 'Blloko';
+
+  @override
+  String get personaUnblockButton => 'Zhblloko';
+
+  @override
+  String get personaBlockConfirmTitle => 'Blloko personën';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'Ta bllokosh $personaName? Mesazhet e saj do të palosen, si ato të një përdoruesi të bllokuar. Personat e tjera të $ownerName nuk preken.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'Zhblloko personën';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'Ta zhbllokosh $personaName?';
+  }
+
+  @override
+  String get personaBlockFailed => 'Persona nuk u bllokua dot. Provo sërish.';
+
+  @override
+  String get personaUnblockFailed =>
+      'Persona nuk u zhbllokua dot. Provo sërish.';
 }

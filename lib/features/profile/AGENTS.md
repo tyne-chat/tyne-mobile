@@ -25,6 +25,7 @@ reaches most of the app. The server side is tyne-chat/tyne `fluxer_api/src/api/p
 | Changing the visibility or mention setting of, or deleting, many own personas at once (tyne-chat/tyne#542, #652) | `providers/persona_bulk_actions.dart` (the settings page's select mode uses it) |
 | Who gets a persona in mention suggestions (tyne-chat/tyne#652) | `domain/persona_mention_setting.dart` |
 | Own deleted personas and Restore (tyne-chat/tyne#610) | `providers/deleted_personas.dart` (the settings page's Deleted personas section uses it) |
+| Blocked personas (tyne-chat/tyne#921): the list and its requests; Block or Unblock beside Message with the confirmations; the collapse rule | `providers/persona_blocks_provider.dart`, `presentation/widgets/persona_block_button.dart`, `lib/features/chat/utils/messages/fork_blocked_persona.dart` |
 | Own persona groups (tyne-chat/tyne#829): model, sections and changes; the list and its requests; folds on this device; the editor's Groups field and the name dialog | `domain/persona_group.dart`, `providers/persona_groups_provider.dart`, `providers/persona_group_folds_provider.dart`, `presentation/widgets/persona_groups_field.dart`, `presentation/widgets/persona_group_name_dialog.dart` (the settings page's part is in `lib/features/settings`) |
 | An account's public personas: the "Personas (N)" pill, row and gallery (tyne-chat/tyne#189) | `providers/public_persona_list_provider.dart`, `domain/persona_gallery.dart`, `presentation/widgets/persona_gallery_entry.dart`, `presentation/sheets/persona_gallery_sheet.dart`, `presentation/sheets/persona_profile_pager.dart`, `providers/persona_gallery_view_provider.dart` |
 
@@ -149,6 +150,8 @@ event's guild, then:
   holds none; it also invalidates the profiles. Every one, deletes included, also asks
   `PublicPersonaListRefresher` to drop that account's public list once the burst of copies is over.
 - `USER_PERSONA_CHANNEL_STATE_UPDATE`, `USER_PERSONA_SETTINGS_UPDATE`: apply the change.
+- `USER_PERSONA_BLOCKS_UPDATE` (tyne-chat/tyne#921): the whole list of blocked personas replaces the
+  one held, with no request, where something already reads it (`applyPersonaBlocksEvent`).
 - `USER_PERSONA_GROUPS_UPDATE` (tyne-chat/tyne#829): the whole list of the account's groups replaces
   the one held, with no request, and only where something already reads the groups
   (`applyPersonaGroupsEvent`).
@@ -214,6 +217,13 @@ name counts the API's limit in UTF-16 code units and is cut only between whole c
   keeps the notifier across those builds, so a counter that only grows (`_epoch`) drops the answers to
   requests made for the previous account, and the folds check their key after reading storage. Each change is one request, never retried; the server's
   `USER_PERSONA_GROUPS_UPDATE` replaces the list with no request.
+- **Blocked personas** (tyne-chat/tyne#921): one `GET /users/@me/personas/blocks` (through the SDK)
+  when something first reads the list, which the message list does as soon as a channel opens,
+  shared while it runs; at each READY once it is read (`reloadPersonaBlocksIfLoaded`); a failure is
+  asked again only then or at an account change, never per build. Block and Unblock are one request
+  each, after a confirmation, never retried; a failure shows a toast. Only the messages change: the
+  list feeds `ChannelCollapseContext.forkBlockedPersonaKeys`, so a blocked persona's messages fold into
+  upstream's blocked row (hidden with "Hide messages from blocked users") and nothing else.
 - **Many at once**: one `PATCH /users/@me/personas/visibility`, `PATCH /users/@me/personas/mentions` or `POST /users/@me/personas/bulk-delete`
   per 250 personas, nothing when none would change, never retried; Undo is one more `PATCH`. The
   server's `USER_PERSONAS_UPDATE` then reloads the own list once per mobile session, as one change
@@ -245,6 +255,8 @@ display tag and pill through one more element in its name `Wrap`.
   `domain/persona_image_urls_test.dart`, `domain/persona_gallery_test.dart`,
   `providers/public_persona_list_provider_test.dart`, `presentation/widgets/persona_gallery_entry_test.dart`;
   `test/fork_support/wait_until.dart` instead of sleeps.
+- Blocked personas: `providers/persona_blocks_provider_test.dart` (request counts, a failed load,
+  the event) and `test/features/chat/utils/messages/channel_message_stream_fork_test.dart` (the collapse).
 - Groups: `domain/persona_group_test.dart`, `providers/persona_groups_provider_test.dart` (request
   counts, the event, folds), `presentation/sheets/edit_persona_sheet_groups_test.dart`.
 - Request counts: `presentation/sheets/persona_profile_pager_test.dart`, `providers/persona_bulk_actions_test.dart`, `providers/deleted_personas_test.dart`, `data/persona_lookup_test.dart`, the "without naming one" group of

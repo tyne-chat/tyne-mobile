@@ -1371,4 +1371,32 @@ class ForkLocalizationsJa extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'コントロールを隠す';
+
+  @override
+  String get personaBlockButton => 'ブロック';
+
+  @override
+  String get personaUnblockButton => 'ブロックを解除';
+
+  @override
+  String get personaBlockConfirmTitle => 'ペルソナをブロック';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return '$personaNameをブロックしますか？このペルソナのメッセージは、ブロックしたユーザーと同じように折りたたまれます。$ownerNameのほかのペルソナには影響しません。';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'ペルソナのブロックを解除';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return '$personaNameのブロックを解除しますか？';
+  }
+
+  @override
+  String get personaBlockFailed => 'ペルソナをブロックできませんでした。もう一度お試しください。';
+
+  @override
+  String get personaUnblockFailed => 'ペルソナのブロックを解除できませんでした。もう一度お試しください。';
 }

@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "¿Quitar este mensaje de guardados?",
     "chatAudioViewCover": "Ver portada",
     "mediaViewerShowControls": "Mostrar controles",
-    "mediaViewerHideControls": "Ocultar controles"
+    "mediaViewerHideControls": "Ocultar controles",
+    "personaBlockButton": "Bloquear",
+    "personaUnblockButton": "Desbloquear",
+    "personaBlockConfirmTitle": "Bloquear persona",
+    "personaBlockConfirmDescription": "¿Bloquear a {personaName}? Sus mensajes se contraerán, como los de un usuario bloqueado. Las demás personas de {ownerName} no se verán afectadas.",
+    "personaUnblockConfirmTitle": "Desbloquear persona",
+    "personaUnblockConfirmDescription": "¿Desbloquear a {personaName}?",
+    "personaBlockFailed": "No se pudo bloquear la persona. Inténtalo de nuevo.",
+    "personaUnblockFailed": "No se pudo desbloquear la persona. Inténtalo de nuevo."
 }

@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "Hapus bookmark ini?",
     "chatAudioViewCover": "Lihat sampul",
     "mediaViewerShowControls": "Tampilkan kontrol",
-    "mediaViewerHideControls": "Sembunyikan kontrol"
+    "mediaViewerHideControls": "Sembunyikan kontrol",
+    "personaBlockButton": "Blokir",
+    "personaUnblockButton": "Buka blokir",
+    "personaBlockConfirmTitle": "Blokir persona",
+    "personaBlockConfirmDescription": "Blokir {personaName}? Pesannya akan diciutkan, seperti pesan pengguna yang diblokir. Persona lain milik {ownerName} tidak terpengaruh.",
+    "personaUnblockConfirmTitle": "Buka blokir persona",
+    "personaUnblockConfirmDescription": "Buka blokir {personaName}?",
+    "personaBlockFailed": "Tidak dapat memblokir persona. Coba lagi.",
+    "personaUnblockFailed": "Tidak dapat membuka blokir persona. Coba lagi."
 }

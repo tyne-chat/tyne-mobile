@@ -1389,4 +1389,32 @@ class ForkLocalizationsTh extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'ซ่อนตัวควบคุม';
+
+  @override
+  String get personaBlockButton => 'บล็อก';
+
+  @override
+  String get personaUnblockButton => 'เลิกบล็อก';
+
+  @override
+  String get personaBlockConfirmTitle => 'บล็อก Persona';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'บล็อก $personaName ไหม ข้อความของ Persona นี้จะถูกยุบไว้ เหมือนผู้ใช้ที่ถูกบล็อก Persona อื่นของ $ownerName จะไม่ได้รับผลกระทบ';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'เลิกบล็อก Persona';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'เลิกบล็อก $personaName ไหม';
+  }
+
+  @override
+  String get personaBlockFailed => 'บล็อก Persona ไม่สำเร็จ ลองอีกครั้ง';
+
+  @override
+  String get personaUnblockFailed => 'เลิกบล็อก Persona ไม่สำเร็จ ลองอีกครั้ง';
 }

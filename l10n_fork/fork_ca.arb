@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "Vols suprimir aquest marcador?",
     "chatAudioViewCover": "Mostra la portada",
     "mediaViewerShowControls": "Mostra els controls",
-    "mediaViewerHideControls": "Amaga els controls"
+    "mediaViewerHideControls": "Amaga els controls",
+    "personaBlockButton": "Bloqueja",
+    "personaUnblockButton": "Desbloqueja",
+    "personaBlockConfirmTitle": "Bloqueja la persona",
+    "personaBlockConfirmDescription": "Vols bloquejar {personaName}? Els seus missatges es plegaran com els d’un usuari bloquejat. Les altres persones de {ownerName} no es veuran afectades.",
+    "personaUnblockConfirmTitle": "Desbloqueja la persona",
+    "personaUnblockConfirmDescription": "Vols desbloquejar {personaName}?",
+    "personaBlockFailed": "No s’ha pogut bloquejar la persona. Torna-ho a provar.",
+    "personaUnblockFailed": "No s’ha pogut desbloquejar la persona. Torna-ho a provar."
 }

@@ -2398,6 +2398,54 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'Hide controls'**
   String get mediaViewerHideControls;
+
+  /// Blocking one persona of another account (tyne-chat/tyne#921). Same wording as the web app's. Button beside Message on a persona's profile that blocks this persona only; its messages then collapse like a blocked user's.
+  ///
+  /// In en, this message translates to:
+  /// **'Block'**
+  String get personaBlockButton;
+
+  /// Blocking one persona of another account (tyne-chat/tyne#921). Same wording as the web app's. Button beside Message on the profile of a persona that is blocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Unblock'**
+  String get personaUnblockButton;
+
+  /// Blocking one persona of another account (tyne-chat/tyne#921). Same wording as the web app's. Title of the confirmation before blocking a persona.
+  ///
+  /// In en, this message translates to:
+  /// **'Block persona'**
+  String get personaBlockConfirmTitle;
+
+  /// Blocking one persona of another account (tyne-chat/tyne#921). Same wording as the web app's. Body of the confirmation before blocking a persona. {personaName} is the persona, {ownerName} the account it belongs to.
+  ///
+  /// In en, this message translates to:
+  /// **'Block {personaName}? Their messages will be collapsed, like a blocked user\'s. {ownerName}\'s other personas won\'t be affected.'**
+  String personaBlockConfirmDescription(String personaName, String ownerName);
+
+  /// Blocking one persona of another account (tyne-chat/tyne#921). Same wording as the web app's. Title of the confirmation before unblocking a persona.
+  ///
+  /// In en, this message translates to:
+  /// **'Unblock persona'**
+  String get personaUnblockConfirmTitle;
+
+  /// Blocking one persona of another account (tyne-chat/tyne#921). Same wording as the web app's. Body of the confirmation before unblocking a persona. {personaName} is the persona.
+  ///
+  /// In en, this message translates to:
+  /// **'Unblock {personaName}?'**
+  String personaUnblockConfirmDescription(String personaName);
+
+  /// Blocking one persona of another account (tyne-chat/tyne#921). Same wording as the web app's. Toast when blocking a persona fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t block the persona. Try again.'**
+  String get personaBlockFailed;
+
+  /// Blocking one persona of another account (tyne-chat/tyne#921). Same wording as the web app's. Toast when unblocking a persona fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t unblock the persona. Try again.'**
+  String get personaUnblockFailed;
 }
 
 class _ForkLocalizationsDelegate

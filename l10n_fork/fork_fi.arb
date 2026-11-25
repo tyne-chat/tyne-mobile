@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "Poistetaanko tämä kirjanmerkki?",
     "chatAudioViewCover": "Näytä kansikuva",
     "mediaViewerShowControls": "Näytä ohjaimet",
-    "mediaViewerHideControls": "Piilota ohjaimet"
+    "mediaViewerHideControls": "Piilota ohjaimet",
+    "personaBlockButton": "Estä",
+    "personaUnblockButton": "Poista esto",
+    "personaBlockConfirmTitle": "Estä persoona",
+    "personaBlockConfirmDescription": "Estetäänkö {personaName}? Sen viestit kutistetaan kuten estetyn käyttäjän viestit. Tämä ei vaikuta käyttäjän {ownerName} muihin persooniin.",
+    "personaUnblockConfirmTitle": "Poista persoonan esto",
+    "personaUnblockConfirmDescription": "Poistetaanko persoonan {personaName} esto?",
+    "personaBlockFailed": "Persoonan estäminen epäonnistui. Yritä uudelleen.",
+    "personaUnblockFailed": "Persoonan eston poistaminen epäonnistui. Yritä uudelleen."
 }

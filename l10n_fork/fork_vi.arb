@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "Bỏ lưu tin nhắn này?",
     "chatAudioViewCover": "Xem ảnh bìa",
     "mediaViewerShowControls": "Hiện các nút điều khiển",
-    "mediaViewerHideControls": "Ẩn các nút điều khiển"
+    "mediaViewerHideControls": "Ẩn các nút điều khiển",
+    "personaBlockButton": "Chặn",
+    "personaUnblockButton": "Bỏ chặn",
+    "personaBlockConfirmTitle": "Chặn persona",
+    "personaBlockConfirmDescription": "Chặn {personaName}? Tin nhắn của persona này sẽ được thu gọn, như của người dùng bị chặn. Các persona khác của {ownerName} không bị ảnh hưởng.",
+    "personaUnblockConfirmTitle": "Bỏ chặn persona",
+    "personaUnblockConfirmDescription": "Bỏ chặn {personaName}?",
+    "personaBlockFailed": "Không thể chặn persona. Hãy thử lại.",
+    "personaUnblockFailed": "Không thể bỏ chặn persona. Hãy thử lại."
 }

@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "Odstrániť túto záložku?",
     "chatAudioViewCover": "Zobraziť obal",
     "mediaViewerShowControls": "Zobraziť ovládacie prvky",
-    "mediaViewerHideControls": "Skryť ovládacie prvky"
+    "mediaViewerHideControls": "Skryť ovládacie prvky",
+    "personaBlockButton": "Zablokovať",
+    "personaUnblockButton": "Odblokovať",
+    "personaBlockConfirmTitle": "Zablokovať personu",
+    "personaBlockConfirmDescription": "Zablokovať {personaName}? Jej správy sa zbalia ako správy zablokovaného používateľa. Ostatných person používateľa {ownerName} sa to nedotkne.",
+    "personaUnblockConfirmTitle": "Odblokovať personu",
+    "personaUnblockConfirmDescription": "Odblokovať {personaName}?",
+    "personaBlockFailed": "Personu sa nepodarilo zablokovať. Skús to znova.",
+    "personaUnblockFailed": "Personu sa nepodarilo odblokovať. Skús to znova."
 }

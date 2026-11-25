@@ -1417,4 +1417,34 @@ class ForkLocalizationsHe extends ForkLocalizations {
 
   @override
   String get mediaViewerHideControls => 'הסתרת הפקדים';
+
+  @override
+  String get personaBlockButton => 'חסימה';
+
+  @override
+  String get personaUnblockButton => 'בטל חסימה';
+
+  @override
+  String get personaBlockConfirmTitle => 'חסימת פרסונה';
+
+  @override
+  String personaBlockConfirmDescription(String personaName, String ownerName) {
+    return 'לחסום את $personaName? ההודעות שלה יקופלו, כמו של משתמש חסום. הפרסונות האחרות של $ownerName לא יושפעו.';
+  }
+
+  @override
+  String get personaUnblockConfirmTitle => 'ביטול חסימת פרסונה';
+
+  @override
+  String personaUnblockConfirmDescription(String personaName) {
+    return 'לבטל את החסימה של $personaName?';
+  }
+
+  @override
+  String get personaBlockFailed =>
+      'לא ניתן היה לחסום את הפרסונה. אפשר לנסות שוב.';
+
+  @override
+  String get personaUnblockFailed =>
+      'לא ניתן היה לבטל את חסימת הפרסונה. אפשר לנסות שוב.';
 }

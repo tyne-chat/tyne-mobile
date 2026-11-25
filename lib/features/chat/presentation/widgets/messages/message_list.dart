@@ -122,6 +122,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 // Fork imports.
 // ignore: directives_ordering
+import 'package:fluxer_app/features/profile/providers/persona_blocks_provider.dart';
 import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_providers.dart';
 
 part 'message_list_settings_layer.dart';
@@ -576,6 +577,15 @@ class _MessageListState extends ConsumerState<MessageList> {
           _holdReadingRowAcrossRegroup();
         }
       })
+      // Fork: blocked personas regroup the list too (tyne-chat/tyne#921).
+      ..listen<Set<String>>(blockedPersonaKeysProvider, (
+        Set<String>? previous,
+        Set<String> next,
+      ) {
+        if (previous != null && !setEquals(previous, next)) {
+          _holdReadingRowAcrossRegroup();
+        }
+      })
       ..listen<(String, int)?>(
         chatViewModelProvider.select(
           (ChatViewState s) => s.scrollToMessageSignal,
@@ -629,6 +639,8 @@ class _MessageListState extends ConsumerState<MessageList> {
       ),
     );
     final Set<String> blockedUserIds = ref.watch(blockedUserIdsProvider);
+    // Fork: rebuild when the blocked personas change (tyne-chat/tyne#921).
+    ref.watch(blockedPersonaKeysProvider);
     _hideBlockedMessages = ref.watch(
       interfaceExtrasPreferencesProvider.select(
         (InterfaceExtrasState state) =>
@@ -3151,6 +3163,8 @@ class _MessageListState extends ConsumerState<MessageList> {
         : null;
     final ChannelCollapseContext collapse = _collapseContext();
     final Object key = (
+      // Fork: a new list of blocked personas regroups (tyne-chat/tyne#921).
+      collapse.forkBlockedPersonaKeys,
       messages,
       oldestUnreadMessageId,
       boundaryId,
@@ -3177,6 +3191,8 @@ class _MessageListState extends ConsumerState<MessageList> {
 
   ChannelCollapseContext _collapseContext() {
     return ChannelCollapseContext(
+      // Fork: blocked personas collapse too (tyne-chat/tyne#921).
+      forkBlockedPersonaKeys: ref.read(blockedPersonaKeysProvider),
       treatSpam: true,
       currentUserId: ref.read(currentUserIdProvider),
       blockedUserIds: ref.read(blockedUserIdsProvider),

@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/profile/data/known_personas.dart';
 import 'package:fluxer_app/features/profile/data/persona_refresh.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/providers/persona_blocks_provider.dart';
 import 'package:fluxer_app/features/profile/providers/persona_groups_provider.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_list_provider.dart';
@@ -74,6 +75,13 @@ void handlePersonaGatewayEvent(
         ref.read(personaRefresherProvider).request(userId);
       }
     }
+    return;
+  }
+
+  if (eventType == 'USER_PERSONA_BLOCKS_UPDATE') {
+    // The account blocked or unblocked a persona (tyne-chat/tyne#921): the
+    // event carries the whole list, so nothing is fetched.
+    applyPersonaBlocksEvent(ref, data);
     return;
   }
 

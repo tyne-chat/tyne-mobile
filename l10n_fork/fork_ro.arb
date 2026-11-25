@@ -368,5 +368,13 @@
     "bookmarkRemoveConfirmDescription": "Elimini acest mesaj din mesajele salvate?",
     "chatAudioViewCover": "Vezi coperta",
     "mediaViewerShowControls": "Afișează controalele",
-    "mediaViewerHideControls": "Ascunde controalele"
+    "mediaViewerHideControls": "Ascunde controalele",
+    "personaBlockButton": "Blochează",
+    "personaUnblockButton": "Deblochează",
+    "personaBlockConfirmTitle": "Blochează persona",
+    "personaBlockConfirmDescription": "Blochezi {personaName}? Mesajele ei vor fi restrânse, ca ale unui utilizator blocat. Celelalte personas ale lui {ownerName} nu vor fi afectate.",
+    "personaUnblockConfirmTitle": "Deblochează persona",
+    "personaUnblockConfirmDescription": "Deblochezi {personaName}?",
+    "personaBlockFailed": "Persona nu a putut fi blocată. Încearcă din nou.",
+    "personaUnblockFailed": "Persona nu a putut fi deblocată. Încearcă din nou."
 }
