@@ -26,6 +26,10 @@ import 'package:fluxer_app/features/shell/providers/layout/shell_popup_overlay_p
 import 'package:fluxer_app/features/voice/presentation/widgets/dm_call_e2ee_footer.dart';
 import 'package:fluxer_app/material_ui.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/presentation/widgets/channel/fork_channel_chat_jump_dedup.dart';
+
 void _logChannelChatContentDebug(void Function() log) {
   assert(() {
     log();
@@ -133,6 +137,18 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
   bool _shouldDedupSwitchRequest(
     ({String channelId, String? targetMessageId, bool loadMessages}) request,
   ) {
+    // Fork: adopt a consumed/superseded jump target on the same loaded channel
+    // so sheet/popup dismissal does not kick off a spurious resync (tyne#940).
+    if (forkShouldAdoptConsumedJumpTarget(
+      lastRequest: _lastSwitchRequest,
+      request: request,
+      routeTarget: widget.targetMessageId,
+      consumption: ref.read(channelJumpTargetLedgerProvider),
+      state: ref.read(chatViewModelProvider),
+    )) {
+      _lastSwitchRequest = request;
+      return true;
+    }
     return shouldDedupChannelChatSwitchRequest(
       lastRequest: _lastSwitchRequest,
       request: request,
@@ -183,6 +199,12 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
           channelId: widget.channelId,
           messageId: widget.targetMessageId!,
         );
+    // Fork: align _lastSwitchRequest with buildChannelChatSyncRequest once consumed.
+    _lastSwitchRequest = forkNormalizeConsumedSwitchRequest(
+      _lastSwitchRequest,
+      channelId: widget.channelId,
+      messageId: widget.targetMessageId!,
+    );
   }
 
   void _maybeResyncChannelMismatch(ChatViewState state) {
