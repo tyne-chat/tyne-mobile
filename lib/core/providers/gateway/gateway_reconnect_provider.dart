@@ -505,6 +505,7 @@ class GatewayReconnectBanner extends _$GatewayReconnectBanner {
 
   @override
   GatewayReconnectBannerPhase build() {
+    _cancelSuccessHide();
     ref.onDispose(_cancelSuccessHide);
     ref.listen<bool>(appUiForegroundProvider, (bool? previous, bool next) {
       if (!next) {

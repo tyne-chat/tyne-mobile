@@ -732,6 +732,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         ? msg.personaTagIcon!.trim()
         : null;
 
+    // safety-lint-ignore: leaf author header row; subtree never holds MessageList
     return LayoutBuilder(
       builder: (context, constraints) {
         final double maxAvailable = constraints.maxWidth;

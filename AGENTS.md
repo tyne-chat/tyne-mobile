@@ -203,6 +203,7 @@ Rust):
 flutter analyze lib test --no-fatal-warnings --no-fatal-infos
 dart run tool/fork_string_lint.dart --upstream upstream/canary
 dart run tool/fork_async_ref_lint.dart --upstream upstream/canary
+dart run tool/fork_safety_lint.dart --upstream upstream/canary
 flutter test test
 flutter build apk --config-only && mkdir -p build/app/intermediates/flutter/canaryUnifiedpushDebug && (cd android && ./gradlew :app:testCanaryUnifiedpushDebugUnitTest -x :app:compileFlutterBuildCanaryUnifiedpushDebug --tests 'com.fluxer.Fork*' --tests 'com.fluxer.*ForkTest' --tests 'com.fluxer.AppInstallBridgeTest')
 ```
