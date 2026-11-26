@@ -12,6 +12,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   file_selector_windows
   flutter_inappwebview_windows
   flutter_secure_storage_windows
+  flutter_timezone
   flutter_webrtc
   fluxer_clipboard
   fluxer_voice
@@ -19,6 +20,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   livekit_client
   local_auth_windows
   media_kit_libs_windows_video
+  native_natural_sort
   passkeys_windows
   permission_handler_windows
   record_windows
