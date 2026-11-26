@@ -115,6 +115,7 @@ Future<MessageAction?> showMessageBottomSheet(
     isSendDisabled: isSendDisabled,
     canPublish: canPublish,
   );
+  final BuildContext forkHostContext = forkResolveActionHostContext(context);
   return FluxerBottomSheet.showScrollable<MessageAction>(
     context,
     initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
@@ -128,7 +129,7 @@ Future<MessageAction?> showMessageBottomSheet(
       onQuickReaction: forkGuardedQuickReaction(onQuickReaction),
       attachmentCallbacks: attachmentCallbacks,
       scrollController: scrollController,
-      hostContext: context,
+      hostContext: forkHostContext,
       linkUrl: linkUrl,
     ),
   );

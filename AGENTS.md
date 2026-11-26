@@ -44,35 +44,28 @@ code that hands over to fork code elsewhere. Rewriting or reordering upstream's 
 - **Tests** go in `<upstream name>_fork_test.dart` next to upstream's test. Never add a test or an
   assertion to an upstream test file (the exception: a fixture line upstream's test needs in order
   to compile against a fork type).
-- **Upstream's private test helpers are not copied.** Dart cannot reach another file's private
-  names, so append a block after `main` in upstream's test file that names the ones the fork test
-  uses: a typed `forkUpstream` record for functions, `const`, typedef or getter aliases for the rest,
-  each under `// ignore: unreachable_from_main // Fork: used by <fork test>.` The fork test imports
-  upstream's file with `hide main` (`message_dao_test.dart` and `message_dao_fork_test.dart` show the
-  shape). Exceptions: code inside upstream's `main` (`setUp` statements, local variables) cannot be
-  named, so it is copied; a helper the fork needs in another shape is wrapped in the fork file around
-  upstream's; and when upstream removes or reshapes a helper the block names, move a copy into the
-  fork test instead of keeping the old version in upstream's file.
-- **Upstream test expectations** that hard-code upstream's hosts must compare against
-  `InstanceConstants` / `InstanceEndpoints`, so they hold for the fork's defaults. Other expectations
-  where the fork deliberately differs may be changed in place with a `// Fork:` comment saying why,
-  after asking a maintainer.
-- **Imports:** leave upstream's imports exactly as upstream writes them. Fork imports go after them,
-  under a `// Fork imports.` line (before any `part` line). When the analyzer flags the group's first
-  import (`directives_ordering`), put `// ignore: directives_ordering` directly under
-  `// Fork imports.`; when it flags several (`dart:` imports, or `package:` imports after upstream's
-  relative ones in a test), use `// ignore_for_file: directives_ordering` there instead, under a
-  `// Fork:` comment saying why. Add an ignore only where the lint fires: an unneeded one is itself
-  reported (`unnecessary_ignore`).
-- **Upstream imports the fork leaves unused** stay as they are. Ignore them per line, never with
-  `ignore_for_file`, with the reason:
+- **Upstream's private test helpers are not copied.** Append a block after `main` in upstream's test
+  file naming what the fork test uses (`forkUpstream` record for functions, `const`/typedef/getter
+  aliases for the rest, each under `// ignore: unreachable_from_main // Fork: used by <fork test>.`),
+  and import with `hide main` (see `message_dao_test.dart` / `message_dao_fork_test.dart`). Copy
+  code inside `main` (`setUp`, locals), wrap helpers needed in a new shape in the fork file, and if
+  upstream removes or reshapes a named helper, move a copy into the fork test rather than keeping the
+  old version in upstream's file.
+- **Upstream test expectations** hard-coding upstream's hosts must compare against
+  `InstanceConstants` / `InstanceEndpoints`. Other deliberate differences may be changed in place
+  with a `// Fork:` comment after asking a maintainer.
+- **Imports:** leave upstream's imports untouched. Fork imports go below them under `// Fork imports.`
+  (before any `part` line). Put `// ignore: directives_ordering` directly under `// Fork imports.`
+  when the first import is flagged, or `// ignore_for_file: directives_ordering` under a `// Fork:`
+  comment when several are (`dart:` imports, or `package:` after relative in tests). Add ignores
+  only where the lint fires (`unnecessary_ignore` fails too).
+- **Upstream imports the fork leaves unused** stay; ignore per line (never `ignore_for_file`):
   `// ignore: unused_import // Fork: upstream's import, unused since the fork's changes.`
-- **Formatting:** every Dart file is formatted (`dart format`), upstream's included. Place fork code so
-  the formatter leaves upstream's lines alone: do not wrap upstream's code in a provider or a new
-  widget (put a small fork widget in the place of one upstream call, or wrap from outside), do not
-  lengthen upstream's signatures past the line limit, no comments inside upstream's expressions, and
-  add fork behaviour as a separate statement rather than a cascade on upstream's expression. After
-  formatting an upstream file, check that only fork lines moved.
+- **Formatting:** every Dart file is formatted (`dart format`), upstream's included. Keep upstream's
+  lines unmoved: do not wrap upstream's widgets in a provider or parent widget (swap one call for a
+  small fork widget, or wrap from outside), do not push signatures past the line limit, put no
+  comments inside upstream's expressions, and add fork behaviour as a separate statement rather than
+  a cascade. Check after formatting that only fork lines moved.
 - **An `// ignore:`** always has a comment above it (or after it) saying why.
 - **Lists and objects:** fork entries go first in upstream's lists, maps and argument lists, not
   last where upstream appends, unless the order shows on screen.
@@ -157,9 +150,10 @@ Never edit upstream's catalogues (`lib/l10n/*.arb`, `lib/l10n/generated/`). Deta
   and leaves orphaned elements that break later builds (`No ProviderScope found`, the
   `FluxerRenderErrorPlaceholder` "An error occurred" screen). Cache the provider or coordinator in a
   field in `initState` and clean up through that field in `dispose()`.
-- **Guard route and stream listeners with `mounted`.** Listeners on routing or active-channel
-  providers (`activeChannelIdProvider`, `chatViewModelProvider`) check `if (!mounted) return;` before
-  reading providers.
+- **Guard route, stream, and post-`await` reads.** Listeners on routing or active-channel providers
+  (`activeChannelIdProvider`, `chatViewModelProvider`) check `if (!mounted) return;`, and `async`
+  widget code must pre-capture providers before `await` or check `mounted` / `context.mounted` /
+  `ref.context.mounted` (`tool/fork_async_ref_lint.dart`).
 - **Reset instance fields in kept-alive notifiers.** In a `@Riverpod(keepAlive: true)` notifier,
   `ref.invalidate(...)` re-runs `build()` on the same instance, so tracking fields (`_currentGuildId`,
   `_subscription`, caches) survive unless cleared in `build()`, `onDispose()` and user-change
@@ -168,56 +162,48 @@ Never edit upstream's catalogues (`lib/l10n/*.arb`, `lib/l10n/generated/`). Deta
 
 ## Fragile areas
 
-**Message list mutations during layout.** Changing state or notifying listeners while the message
-list is mid-layout has caused frozen subtrees and wrong scroll positions. Read the existing guards and
-use them rather than working around them:
+**Message list mutations during layout.** Changing state or notifying listeners mid-layout has
+caused frozen subtrees and wrong scroll positions. Use the existing guards:
 
 - `lib/features/chat/presentation/widgets/messages/message_list.dart`
 - `lib/features/chat/presentation/widgets/messages/message_list_viewport.dart`
-  (`MessageListScrollViewBuildScope`, which keeps row builds from rebuilding the list's ancestors
-  mid-layout)
-- `lib/shared/widgets/rebuild_safe_layout_builder.dart` (instead of a bare `LayoutBuilder` inside the
-  chat panel)
+  (`MessageListScrollViewBuildScope`, keeping row builds from rebuilding ancestors mid-layout)
+- `lib/shared/widgets/rebuild_safe_layout_builder.dart` (instead of bare `LayoutBuilder` in chat)
 
-Their regression tests (`test/features/chat/presentation/widgets/messages/message_list_build_scope_test.dart`,
-`test/shared/widgets/rebuild_safe_layout_builder_test.dart`) fail on purpose without the guard: run
-them after touching this code, and add one when fixing a new case.
+Run `test/features/chat/presentation/widgets/messages/message_list_build_scope_test.dart` and
+`test/shared/widgets/rebuild_safe_layout_builder_test.dart` after touching this code, and add a
+test when fixing a new case.
 
-**Android keyboard (IME) insets.** Insets can go stale when the window loses and regains focus,
-leaving the composer raised over a blank band. The fork's fix is in `ForkMainActivity.kt`, which replays
-the window insets when the window regains focus (`android/AGENTS.md`); the Dart side is upstream's
-(`lib/features/chat/AGENTS.md`). Unit tests cannot confirm it.
+**Modals opened from message rows.** Keyboard hide and `READY` re-anchoring increment `_anchorEpoch`
+and unmount every `MessageItem` while modals stay open; route row-opened sheets, menus, and media
+actions through `ForkMessageActionHost` (`lib/features/chat/AGENTS.md`).
 
-UI behaviour is verified on a device or emulator by a maintainer. Until then, describe such a change
-as untested on device.
+**Android keyboard (IME) insets.** Insets can go stale on window focus transitions; `ForkMainActivity.kt`
+replays them (`android/AGENTS.md`), and the Dart side is upstream's (`lib/features/chat/AGENTS.md`).
+UI behaviour is verified on a device or emulator by a maintainer; describe it as untested on device
+until confirmed.
 
 ## Network calls
 
-Over 50 requests a second the server refuses a user's requests on all devices for a while (it signed
-them out before fluxerapp/fluxer#4295; details and what to answer before adding a call: the server
-repository's `AGENTS.md`, "Network calls"). Code that runs per channel, message or member, in a
-loop, from a widget's `build` or from a widely watched provider must share overlapping requests and
-must not retry a failed one on the next build. Such a change needs a test that counts the requests
-with the data missing and with the request failing, using a recording Dio adapter as in
-`test/core/permissions/channel_effective_permissions_fork_test.dart`.
+Over 50 requests/s the server refuses a user's requests on all devices (`tyne`'s `AGENTS.md`,
+"Network calls"). Code running per channel, message or member, in a loop, from `build`, or from a
+widely watched provider must share overlapping requests and never retry a failure on the next build.
+Add a request-counting test (with missing data and failing requests) using a recording Dio adapter as
+in `test/core/permissions/channel_effective_permissions_fork_test.dart`.
 
 ## Before committing
 
-Run the checks once the change is done, as the gate before committing. They cover the same tests as
-the nightly rebase gate, whose analysis step is stricter (below). They need the Flutter SDK this
-project pins and Rust (for the markdown package); the maintainers run them in a builder image.
+Run the checks once the change is done (in the builder image, which has the pinned Flutter SDK and
+Rust):
 
 ```bash
 (cd packages/fluxer_markdown_native && dart test)
 (cd packages/fluxer_markdown && flutter test)
 (cd dart_sdk && dart test test/serialization/model_roundtrip_test.dart test/serialization/fork_model_roundtrip_test.dart)
-# Upstream's code carries warnings and infos, so only errors fail here (as in tool/flutter_analyze.sh).
 flutter analyze lib test --no-fatal-warnings --no-fatal-infos
-# No hard-coded user-facing strings on the fork's lines.
 dart run tool/fork_string_lint.dart --upstream upstream/canary
-# Every test under test/.
+dart run tool/fork_async_ref_lint.dart --upstream upstream/canary
 flutter test test
-# The fork's Kotlin unit tests (android/AGENTS.md, "Tests"); needs Java 17 and the Android SDK.
 flutter build apk --config-only && mkdir -p build/app/intermediates/flutter/canaryUnifiedpushDebug && (cd android && ./gradlew :app:testCanaryUnifiedpushDebugUnitTest -x :app:compileFlutterBuildCanaryUnifiedpushDebug --tests 'com.fluxer.Fork*' --tests 'com.fluxer.*ForkTest' --tests 'com.fluxer.AppInstallBridgeTest')
 ```
 

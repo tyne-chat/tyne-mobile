@@ -77,6 +77,26 @@ froze the panel on the previous conversation.
   scrolling while the keyboard opens, opening a DM from a notification, jumping to a reply).
   `[LayoutBuilderRescue]` in the log names a widget written during layout.
 
+## Fragile: modals and `await`s opened from a message row
+
+`MessageListViewport` keys its subtree by `ValueKey<int>(anchorEpoch)`. When the list is anchored
+at a jumped message rather than parked at the live tail (`!_parkedAtLiveTail`), hiding the soft
+keyboard (`_scheduleUnderfillBottomReanchor`) or a `READY` full-recovery resync in Reduced Motion /
+far-from-tail windows calls `_reanchor`, incrementing `_anchorEpoch` and unmounting every
+`MessageItem` in place while sheets, context menus, or fullscreen media viewers opened from that row
+stay mounted (tyne-chat/tyne#942, tyne-chat/tyne#943).
+
+- Never pass a row's `BuildContext` or `WidgetRef` into a modal callback or read it after an
+  `await` without guarding `mounted` / `context.mounted` / `ref.context.mounted`.
+- Route sheets, context menus, chained pickers (`handOffFluxerSheet`), link actions, and fullscreen
+  media reactions through `ForkMessageActionHost`, `ForkMessageActionSession`, and
+  `forkResolveActionHostContext` (`presentation/widgets/message_actions/fork_message_action_host.dart`),
+  which sit above `KeyedSubtree(ValueKey<int>(anchorEpoch))`.
+- `dart run tool/fork_async_ref_lint.dart` checks fork code for unguarded post-`await` `WidgetRef`
+  and `BuildContext` reads; regression and end-to-end storm tests live in
+  `presentation/widgets/messages/message_list_sheet_reanchor_fork_test.dart` and
+  `presentation/widgets/channel/notification_tap_reaction_storm_fork_test.dart`.
+
 ## The composer
 
 - **`ChannelTextarea`** is keyed by channel in `ChatComposerColumn`. When writing is impossible it
@@ -244,7 +264,7 @@ the generator fail until both learn it.
 - Reaction sheets: `presentation/sheets/persona_reaction_sheet_test.dart`,
   `presentation/widgets/messages/message_reactions_bar_fork_test.dart` and
   `utils/reactions/own_reactions_test.dart`, with fakes in `test/helpers/persona_reaction_fakes.dart`.
-- Not covered: `changeMessagePersona`; a failing persona edit or reaction; the autocomplete's persona
+- Not covered: `changeMessagePersona`; a failing persona edit; the autocomplete's persona
   requests per keystroke; persona resolution for stickers, GIFs, memes and drops.
 
 ## Known differences and gaps

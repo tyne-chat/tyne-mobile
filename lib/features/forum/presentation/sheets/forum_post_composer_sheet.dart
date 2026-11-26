@@ -203,6 +203,9 @@ class _ForumPostComposerState extends ConsumerState<_ForumPostComposer> {
       _error = null;
     });
     final Channel forum = widget.forum;
+    final ActivePersonaNotifier activePersonas = ref.read(
+      activePersonaProvider.notifier,
+    );
     final String postId;
     try {
       final ({String postId, Message? firstMessage}) result = await ref
@@ -222,9 +225,10 @@ class _ForumPostComposerState extends ConsumerState<_ForumPostComposer> {
       postId = result.postId;
       // Fork: with a persona remembered per channel, the new post starts as
       // whoever opened it.
-      ref
-          .read(activePersonaProvider.notifier)
-          .startChannelAs(postId, outgoing.personaData?['id'] as String?);
+      activePersonas.startChannelAs(
+        postId,
+        outgoing.personaData?['id'] as String?,
+      );
       final Message? firstMessage = result.firstMessage;
       if (firstMessage != null) {
         ref

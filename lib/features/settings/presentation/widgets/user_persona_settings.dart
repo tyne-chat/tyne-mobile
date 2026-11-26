@@ -216,6 +216,10 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
   ) async {
     final l10n = FluxerLocalizations.of(context);
     final colors = context.colors;
+    final ProviderContainer container = ProviderScope.containerOf(
+      context,
+      listen: false,
+    );
 
     final bool? confirmed = await FluxerModal.show<bool>(
       context,
@@ -235,23 +239,23 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
       builder: (_, _) => const SizedBox.shrink(),
     );
 
-    if (confirmed != true) {
+    if (confirmed != true || !mounted) {
       return;
     }
 
     try {
       final Dio dio = ref.read(fluxerDioProvider);
       await dio.delete<dynamic>('/users/@me/personas/${persona.id}');
-      ref.read(myPersonasProvider.notifier).removePersona(persona.id);
+      container.read(myPersonasProvider.notifier).removePersona(persona.id);
       if (mounted) {
         ref.read(deletedPersonasProvider.notifier).personasDeleted(<Persona>[
           persona,
         ]);
       }
 
-      final active = ref.read(activePersonaProvider);
+      final active = container.read(activePersonaProvider);
       if (active.activePersonaId == persona.id) {
-        await ref.read(activePersonaProvider.notifier).unlatch();
+        await container.read(activePersonaProvider.notifier).unlatch();
       }
 
       if (mounted) {

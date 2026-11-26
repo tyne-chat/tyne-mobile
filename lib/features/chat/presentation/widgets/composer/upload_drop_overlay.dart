@@ -95,7 +95,7 @@ class _UploadDropOverlayState extends ConsumerState<UploadDropOverlay> {
             allowEmptyContent: true,
           );
           // Held until the personas load: the files stay in the composer.
-          if (resolution == null) {
+          if (resolution == null || !mounted) {
             return;
           }
           await ref

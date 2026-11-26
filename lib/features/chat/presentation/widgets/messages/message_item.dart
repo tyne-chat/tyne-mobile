@@ -957,10 +957,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         onMarkAsUnread: widget.onMarkAsUnread,
         onRemoveAllReactions: widget.onRemoveAllReactions,
         onReport: widget.onReport,
-        onAddReaction: () => _openReactionPickerSheet(
-          context,
-          channelId: widget.message.channelId,
-        ),
+        onAddReaction: _forkMediaAddReaction(context),
         onDeleteAttachment: widget.onDeleteAttachment,
         onEditAttachmentAltText: widget.onEditAttachmentAltText,
       ),
@@ -1049,8 +1046,11 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         attachmentCallbacks: _videoActionScope.callbacks,
         linkUrl: linkUrl,
       );
-      if (!mounted) {
-        forkSession.dispatchAfterUnmounted(action, onDelete: onDelete);
+      if (forkSession.dispatch(
+        action,
+        itemMounted: mounted,
+        onDelete: onDelete,
+      )) {
         return;
       }
       _dispatchMenuAction(action, onDelete: onDelete, isMobile: true);
@@ -1092,8 +1092,11 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         openFlag.value = false;
       }
     }
-    if (!mounted) {
-      forkSession.dispatchAfterUnmounted(action, onDelete: onDelete);
+    if (forkSession.dispatch(
+      action,
+      itemMounted: mounted,
+      onDelete: onDelete,
+    )) {
       return;
     }
     _dispatchMenuAction(action, onDelete: onDelete, isMobile: false);
@@ -2010,6 +2013,10 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   }
 
   void _toggleTranslationOriginal(Message msg) {
+    // Fork: keep translation toggle working if row unmounts mid-await (tyne-chat/tyne#943).
+    if (forkToggleTranslationOriginal(context, ref, msg)) {
+      return;
+    }
     unawaited(() async {
       final Message updated = await ref
           .read(messageTranslationServiceProvider)
@@ -3029,7 +3036,15 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     );
   }
 
-  // Fork: tyne-chat/tyne#942.
+  // Fork: tyne-chat/tyne#942, tyne-chat/tyne#943.
+  VoidCallback _forkMediaAddReaction(BuildContext context) {
+    final BuildContext hostContext = forkResolveActionHostContext(context);
+    return () => _openReactionPickerSheet(
+      hostContext,
+      channelId: widget.message.channelId,
+    );
+  }
+
   ForkMessageActionSession _forkCaptureActionSession(BuildContext context) {
     return ForkMessageActionSession(
       itemContext: context,

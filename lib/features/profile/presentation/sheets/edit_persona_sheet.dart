@@ -932,6 +932,10 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
 
     // Read before the images are stored, which clears the pending ones.
     final bool personaChanged = widget.persona == null || _personaFieldsChanged;
+    final ProviderContainer container = ProviderScope.containerOf(
+      context,
+      listen: false,
+    );
     setState(() => _isSaving = true);
     try {
       final Dio dio = ref.read(fluxerDioProvider);
@@ -1008,9 +1012,9 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
             signatureEmojis: _signatureEmojis,
           );
         }
-        final ownUserId = ref.read(userSettingsViewModelProvider).userId;
+        final ownUserId = container.read(userSettingsViewModelProvider).userId;
         if (ownUserId.isNotEmpty) {
-          ref.invalidate(
+          container.invalidate(
             publicPersonaProvider((
               userId: ownUserId,
               personaId: widget.persona!.id,
@@ -1174,27 +1178,31 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     }
 
     setState(() => _isSaving = true);
+    final ProviderContainer container = ProviderScope.containerOf(
+      context,
+      listen: false,
+    );
     try {
       final Dio dio = ref.read(fluxerDioProvider);
       await dio.delete<dynamic>('/users/@me/personas/${persona.id}');
-      final Persona? deleted = ref
+      final Persona? deleted = container
           .read(myPersonasProvider)
           .asData
           ?.value
           .where((Persona p) => p.id == persona.id)
           .firstOrNull;
-      ref.read(myPersonasProvider.notifier).removePersona(persona.id);
+      container.read(myPersonasProvider.notifier).removePersona(persona.id);
       // Into the settings page's deleted list, if it is showing under this
       // sheet.
       if (deleted != null) {
-        ref.read(deletedPersonasProvider.notifier).personasDeleted(<Persona>[
-          deleted,
-        ]);
+        container.read(deletedPersonasProvider.notifier).personasDeleted(
+          <Persona>[deleted],
+        );
       }
 
-      final active = ref.read(activePersonaProvider);
+      final active = container.read(activePersonaProvider);
       if (active.activePersonaId == persona.id) {
-        await ref.read(activePersonaProvider.notifier).unlatch();
+        await container.read(activePersonaProvider.notifier).unlatch();
       }
 
       if (mounted) {
