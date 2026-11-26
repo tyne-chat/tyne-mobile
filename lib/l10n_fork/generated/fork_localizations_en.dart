@@ -1437,6 +1437,16 @@ class ForkLocalizationsEn extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'Couldn\'t unblock the persona. Try again.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel => 'Add a space after emoji';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Turn off to put emoji right next to each other, for pictures made of several emoji.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'emoji spacing';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -2872,6 +2882,16 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   @override
   String get personaUnblockFailed =>
       'Couldn\'t unblock the persona. Try again.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel => 'Add a space after emoji';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Turn off to put emoji right next to each other, for pictures made of several emoji.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'emoji spacing';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -4307,4 +4327,14 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
   @override
   String get personaUnblockFailed =>
       'Couldn\'t unblock the persona. Try again.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel => 'Add a space after emoji';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Turn off to put emoji right next to each other, for pictures made of several emoji.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'emoji spacing';
 }

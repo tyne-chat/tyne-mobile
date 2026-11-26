@@ -1460,4 +1460,15 @@ class ForkLocalizationsIt extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'Impossibile sbloccare la persona. Riprova.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel =>
+      'Aggiungi uno spazio dopo le emoji';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Disattiva per mettere le emoji una accanto all\'altra, per immagini composte da più emoji.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'spazio dopo le emoji';
 }

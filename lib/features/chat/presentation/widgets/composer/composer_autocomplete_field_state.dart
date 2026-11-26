@@ -2242,6 +2242,19 @@ class ComposerAutocompleteFieldState
           .track(usageKey),
     );
     final TextEditingController controller = widget.controller;
+    // Fork: honour "Add a space after emoji" (tyne-chat/tyne#650).
+    if (!ref.read(spaceAfterEmojiPreferenceProvider)) {
+      forkReplaceRangeWithEmojiWithoutSpacing(
+        controller,
+        matchStart: trigger.matchStart,
+        matchEnd: trigger.matchEnd,
+        name: name,
+        wire: wire,
+        maxActualLength: widget.maxActualLength,
+      );
+      _afterApply();
+      return;
+    }
     if (controller is InlineTokenTextEditingController) {
       controller.replaceRangeWithToken(
         trigger.matchStart,

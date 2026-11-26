@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "Odblokuj personę",
     "personaUnblockConfirmDescription": "Odblokować {personaName}?",
     "personaBlockFailed": "Nie udało się zablokować persony. Spróbuj ponownie.",
-    "personaUnblockFailed": "Nie udało się odblokować persony. Spróbuj ponownie."
+    "personaUnblockFailed": "Nie udało się odblokować persony. Spróbuj ponownie.",
+    "advancedSettingSpaceAfterEmojiLabel": "Dodawaj spację po emoji",
+    "advancedSettingSpaceAfterEmojiDescription": "Wyłącz, aby stawiać emoji tuż obok siebie, np. w obrazkach złożonych z kilku emoji.",
+    "advancedSettingSpaceAfterEmojiKeyword": "odstęp po emoji"
 }

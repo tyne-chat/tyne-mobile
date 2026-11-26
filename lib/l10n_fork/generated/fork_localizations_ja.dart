@@ -1399,4 +1399,14 @@ class ForkLocalizationsJa extends ForkLocalizations {
 
   @override
   String get personaUnblockFailed => 'ペルソナのブロックを解除できませんでした。もう一度お試しください。';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel => '絵文字の後にスペースを入れる';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'オフにすると絵文字同士を隙間なく並べられます。複数の絵文字を組み合わせた絵に使えます。';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => '絵文字の間隔';
 }

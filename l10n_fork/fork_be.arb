@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "Разблакаваць персону",
     "personaUnblockConfirmDescription": "Разблакаваць {personaName}?",
     "personaBlockFailed": "Не ўдалося заблакаваць персону. Паспрабуй яшчэ раз.",
-    "personaUnblockFailed": "Не ўдалося разблакаваць персону. Паспрабуй яшчэ раз."
+    "personaUnblockFailed": "Не ўдалося разблакаваць персону. Паспрабуй яшчэ раз.",
+    "advancedSettingSpaceAfterEmojiLabel": "Дадаваць прабел пасля эмодзі",
+    "advancedSettingSpaceAfterEmojiDescription": "Выключыце, каб ставіць эмодзі ўпрытык адно да аднаго, для малюнкаў з некалькіх эмодзі.",
+    "advancedSettingSpaceAfterEmojiKeyword": "прабел пасля эмодзі"
 }

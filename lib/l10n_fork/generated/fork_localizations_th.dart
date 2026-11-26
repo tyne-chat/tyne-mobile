@@ -1417,4 +1417,14 @@ class ForkLocalizationsTh extends ForkLocalizations {
 
   @override
   String get personaUnblockFailed => 'เลิกบล็อก Persona ไม่สำเร็จ ลองอีกครั้ง';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel => 'เว้นวรรคหลังอีโมจิ';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'ปิดเพื่อวางอีโมจิติดกัน สำหรับภาพที่ประกอบจากอีโมจิหลายตัว';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'ระยะห่างอีโมจิ';
 }

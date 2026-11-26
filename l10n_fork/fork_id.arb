@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "Buka blokir persona",
     "personaUnblockConfirmDescription": "Buka blokir {personaName}?",
     "personaBlockFailed": "Tidak dapat memblokir persona. Coba lagi.",
-    "personaUnblockFailed": "Tidak dapat membuka blokir persona. Coba lagi."
+    "personaUnblockFailed": "Tidak dapat membuka blokir persona. Coba lagi.",
+    "advancedSettingSpaceAfterEmojiLabel": "Tambahkan spasi setelah emoji",
+    "advancedSettingSpaceAfterEmojiDescription": "Matikan untuk menempatkan emoji saling berdempetan, untuk gambar yang tersusun dari beberapa emoji.",
+    "advancedSettingSpaceAfterEmojiKeyword": "spasi setelah emoji"
 }

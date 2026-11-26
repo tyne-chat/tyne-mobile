@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "解除封鎖人格",
     "personaUnblockConfirmDescription": "要解除封鎖{personaName}嗎？",
     "personaBlockFailed": "無法封鎖此人格。請再試一次。",
-    "personaUnblockFailed": "無法解除封鎖此人格。請再試一次。"
+    "personaUnblockFailed": "無法解除封鎖此人格。請再試一次。",
+    "advancedSettingSpaceAfterEmojiLabel": "在表情符號後加入空格",
+    "advancedSettingSpaceAfterEmojiDescription": "關閉後可將表情符號緊貼在一起，用於由多個表情符號組成的圖案。",
+    "advancedSettingSpaceAfterEmojiKeyword": "表情符號間距"
 }

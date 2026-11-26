@@ -1459,6 +1459,18 @@ class ForkLocalizationsEs extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'No se ha podido desbloquear la persona. Inténtalo de nuevo.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel =>
+      'Añadir un espacio después de los emojis';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Desactívalo para poner los emojis pegados entre sí, para imágenes formadas por varios emojis.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword =>
+      'espacio después de emoji';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -2915,4 +2927,16 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
   @override
   String get personaUnblockFailed =>
       'No se pudo desbloquear la persona. Inténtalo de nuevo.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel =>
+      'Agregar un espacio después de los emojis';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Desactívalo para poner los emojis pegados entre sí, para imágenes formadas por varios emojis.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword =>
+      'espacio después de emoji';
 }

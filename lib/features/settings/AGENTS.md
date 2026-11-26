@@ -170,9 +170,13 @@ empty state, with no error or retry (tyne-chat/tyne#350). Every card is built (a
   edits in upstream's most-changed file here.
 - **Push clean-up:** both `_logout` methods await `forkPushSignOutCleanupProvider` before upstream's
   invalidations, which reset the user id it reads.
-- **Quick-switcher button:** a `Notifier<bool>` over the SharedPreferences key
-  `show_quick_switcher_button`, loaded in `main.dart`; its switch is first in the "Chat" section of
-  `user_advanced_settings.dart`. The composer reads it; the sidebars' `QuickSwitcherFab` does not.
+- **Quick-switcher button & "Add a space after emoji":** the quick-switcher button is a `Notifier<bool>`
+  over the SharedPreferences key `show_quick_switcher_button`, loaded in `main.dart`; its switch is first
+  in the "Chat" section of `user_advanced_settings.dart`. The composer reads it; the sidebars'
+  `QuickSwitcherFab` does not. Directly below it sits `ForkSpaceAfterEmojiSwitch`
+  (`presentation/widgets/fork_space_after_emoji_switch.dart`, indexed in `user_settings_search_index.dart`),
+  backed by `spaceAfterEmojiPreferenceProvider` (`providers/preferences/space_after_emoji_preference.dart`,
+  synced via `AccessibilitySyncedField` field 2229, tyne-chat/tyne#650).
 - **Profile page** (`user_profile.dart`, `profile_preview_card.dart`, inside upstream's functions):
   accent colour defaults to the avatar's (`_defaultProfileAccentColor`); bio length from
   `instanceLimitProvider(LimitKeys.maxBioLength)`; image size by `isImageOverUploadLimit`

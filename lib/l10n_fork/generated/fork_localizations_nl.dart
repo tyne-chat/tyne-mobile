@@ -1450,4 +1450,14 @@ class ForkLocalizationsNl extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'Kan de blokkering van de persona niet opheffen. Probeer het opnieuw.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel => 'Spatie toevoegen na emoji';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Zet dit uit om emoji direct naast elkaar te zetten, voor afbeeldingen die uit meerdere emoji bestaan.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'emoji-spatiëring';
 }

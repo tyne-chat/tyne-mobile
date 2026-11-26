@@ -2446,6 +2446,24 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t unblock the persona. Try again.'**
   String get personaUnblockFailed;
+
+  /// Switch in Settings > Advanced > Chat. When on, choosing an emoji in the message box adds a space after it; turn off to let adjacent emoji touch (tyne-chat/tyne#650). Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a space after emoji'**
+  String get advancedSettingSpaceAfterEmojiLabel;
+
+  /// Description under the "Add a space after emoji" switch in Settings > Advanced > Chat (tyne-chat/tyne#650). Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off to put emoji right next to each other, for pictures made of several emoji.'**
+  String get advancedSettingSpaceAfterEmojiDescription;
+
+  /// Search keyword in Settings search for the "Add a space after emoji" switch (tyne-chat/tyne#650). Same wording as the web app's.
+  ///
+  /// In en, this message translates to:
+  /// **'emoji spacing'**
+  String get advancedSettingSpaceAfterEmojiKeyword;
 }
 
 class _ForkLocalizationsDelegate

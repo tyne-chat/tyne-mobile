@@ -1447,4 +1447,15 @@ class ForkLocalizationsArt extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'mi ken ala kama jo sin e jan insa. o pali sin.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel =>
+      'o pana e weka lon monsi pi sitelen pilin';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'o pini e ni la sitelen pilin li ken lon poka pi ona sama. ni li pona tawa sitelen pi sitelen pilin mute.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'weka pi sitelen pilin';
 }

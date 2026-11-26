@@ -1449,4 +1449,15 @@ class ForkLocalizationsSq extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'Persona nuk u zhbllokua dot. Provo sërish.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel =>
+      'Shto një hapësirë pas emoji-t';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Çaktivizoje për t’i vendosur emoji-t ngjitur me njëri-tjetrin, për figura të përbëra nga disa emoji.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'hapësirë pas emoji-t';
 }

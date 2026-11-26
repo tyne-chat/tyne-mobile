@@ -1439,4 +1439,15 @@ class ForkLocalizationsTr extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'Personanın engeli kaldırılamadı. Tekrar dene.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel =>
+      'Emojiden sonra boşluk ekle';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Birden fazla emojiden oluşan resimler için emojileri bitişik koymak istiyorsanız kapatın.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'emoji boşluğu';
 }

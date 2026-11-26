@@ -1429,4 +1429,15 @@ class ForkLocalizationsId extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'Tidak dapat membuka blokir persona. Coba lagi.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel =>
+      'Tambahkan spasi setelah emoji';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Matikan untuk menempatkan emoji saling berdempetan, untuk gambar yang tersusun dari beberapa emoji.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'spasi setelah emoji';
 }

@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "ペルソナのブロックを解除",
     "personaUnblockConfirmDescription": "{personaName}のブロックを解除しますか？",
     "personaBlockFailed": "ペルソナをブロックできませんでした。もう一度お試しください。",
-    "personaUnblockFailed": "ペルソナのブロックを解除できませんでした。もう一度お試しください。"
+    "personaUnblockFailed": "ペルソナのブロックを解除できませんでした。もう一度お試しください。",
+    "advancedSettingSpaceAfterEmojiLabel": "絵文字の後にスペースを入れる",
+    "advancedSettingSpaceAfterEmojiDescription": "オフにすると絵文字同士を隙間なく並べられます。複数の絵文字を組み合わせた絵に使えます。",
+    "advancedSettingSpaceAfterEmojiKeyword": "絵文字の間隔"
 }

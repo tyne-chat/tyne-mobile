@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "Fjern blokering af persona",
     "personaUnblockConfirmDescription": "Fjern blokering af {personaName}?",
     "personaBlockFailed": "Personaen kunne ikke blokeres. Prøv igen.",
-    "personaUnblockFailed": "Personaens blokering kunne ikke fjernes. Prøv igen."
+    "personaUnblockFailed": "Personaens blokering kunne ikke fjernes. Prøv igen.",
+    "advancedSettingSpaceAfterEmojiLabel": "Tilføj et mellemrum efter emoji",
+    "advancedSettingSpaceAfterEmojiDescription": "Slå fra for at sætte emojis lige op ad hinanden, til billeder lavet af flere emojis.",
+    "advancedSettingSpaceAfterEmojiKeyword": "mellemrum efter emoji"
 }

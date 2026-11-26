@@ -1427,4 +1427,16 @@ class ForkLocalizationsVi extends ForkLocalizations {
 
   @override
   String get personaUnblockFailed => 'Không thể bỏ chặn persona. Hãy thử lại.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel =>
+      'Thêm dấu cách sau biểu tượng cảm xúc';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Tắt để đặt các biểu tượng cảm xúc sát nhau, dùng cho hình ghép từ nhiều biểu tượng cảm xúc.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword =>
+      'khoảng cách biểu tượng cảm xúc';
 }

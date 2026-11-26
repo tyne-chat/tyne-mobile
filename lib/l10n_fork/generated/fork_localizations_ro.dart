@@ -1478,4 +1478,15 @@ class ForkLocalizationsRo extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'Persona nu a putut fi deblocată. Încearcă din nou.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel =>
+      'Adaugă un spațiu după emoji';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Dezactivează pentru a pune emoji lipite unul de altul, pentru imagini formate din mai multe emoji.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'spațiu după emoji';
 }

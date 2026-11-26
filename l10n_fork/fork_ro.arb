@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "Deblochează persona",
     "personaUnblockConfirmDescription": "Deblochezi {personaName}?",
     "personaBlockFailed": "Persona nu a putut fi blocată. Încearcă din nou.",
-    "personaUnblockFailed": "Persona nu a putut fi deblocată. Încearcă din nou."
+    "personaUnblockFailed": "Persona nu a putut fi deblocată. Încearcă din nou.",
+    "advancedSettingSpaceAfterEmojiLabel": "Adaugă un spațiu după emoji",
+    "advancedSettingSpaceAfterEmojiDescription": "Dezactivează pentru a pune emoji lipite unul de altul, pentru imagini formate din mai multe emoji.",
+    "advancedSettingSpaceAfterEmojiKeyword": "spațiu după emoji"
 }

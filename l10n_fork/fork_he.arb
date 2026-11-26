@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "ביטול חסימת פרסונה",
     "personaUnblockConfirmDescription": "לבטל את החסימה של {personaName}?",
     "personaBlockFailed": "לא ניתן היה לחסום את הפרסונה. אפשר לנסות שוב.",
-    "personaUnblockFailed": "לא ניתן היה לבטל את חסימת הפרסונה. אפשר לנסות שוב."
+    "personaUnblockFailed": "לא ניתן היה לבטל את חסימת הפרסונה. אפשר לנסות שוב.",
+    "advancedSettingSpaceAfterEmojiLabel": "הוספת רווח אחרי אימוג'י",
+    "advancedSettingSpaceAfterEmojiDescription": "כבו כדי להצמיד אימוג'ים זה לזה, לתמונות שמורכבות מכמה אימוג'ים.",
+    "advancedSettingSpaceAfterEmojiKeyword": "ריווח אימוג'י"
 }

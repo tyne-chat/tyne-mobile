@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "Atblokuoti personą",
     "personaUnblockConfirmDescription": "Atblokuoti {personaName}?",
     "personaBlockFailed": "Nepavyko užblokuoti personos. Bandyk dar kartą.",
-    "personaUnblockFailed": "Nepavyko atblokuoti personos. Bandyk dar kartą."
+    "personaUnblockFailed": "Nepavyko atblokuoti personos. Bandyk dar kartą.",
+    "advancedSettingSpaceAfterEmojiLabel": "Pridėti tarpą po jaustuko",
+    "advancedSettingSpaceAfterEmojiDescription": "Išjunkite, kad jaustukus galėtumėte dėti vieną šalia kito, pavyzdžiui, paveikslėliams iš kelių jaustukų.",
+    "advancedSettingSpaceAfterEmojiKeyword": "tarpas po jaustuko"
 }

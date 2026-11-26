@@ -1449,4 +1449,16 @@ class ForkLocalizationsFi extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'Persoonan eston poistaminen epäonnistui. Yritä uudelleen.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel =>
+      'Lisää välilyönti emojin jälkeen';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Poista käytöstä, jos haluat laittaa emojit kiinni toisiinsa, esimerkiksi useasta emojista koottuja kuvia varten.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword =>
+      'välilyönti emojin jälkeen';
 }

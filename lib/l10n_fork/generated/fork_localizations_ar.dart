@@ -1497,4 +1497,15 @@ class ForkLocalizationsAr extends ForkLocalizations {
 
   @override
   String get personaUnblockFailed => 'تعذّر إلغاء حظر الشخصية. حاول مرة أخرى.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel =>
+      'إضافة مسافة بعد الرمز التعبيري';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'أوقف هذا الخيار لوضع الرموز التعبيرية متلاصقة، للصور المكوّنة من عدة رموز تعبيرية.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'تباعد الرموز التعبيرية';
 }

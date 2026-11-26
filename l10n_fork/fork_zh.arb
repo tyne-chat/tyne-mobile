@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "解除屏蔽人格",
     "personaUnblockConfirmDescription": "要解除屏蔽{personaName}吗？",
     "personaBlockFailed": "无法屏蔽该人格。请重试。",
-    "personaUnblockFailed": "无法解除屏蔽该人格。请重试。"
+    "personaUnblockFailed": "无法解除屏蔽该人格。请重试。",
+    "advancedSettingSpaceAfterEmojiLabel": "在表情后添加空格",
+    "advancedSettingSpaceAfterEmojiDescription": "关闭后可将表情紧挨着放在一起，用于由多个表情组成的图案。",
+    "advancedSettingSpaceAfterEmojiKeyword": "表情间距"
 }

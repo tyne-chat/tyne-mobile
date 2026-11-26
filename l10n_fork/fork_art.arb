@@ -377,5 +377,8 @@
     "personaUnblockConfirmTitle": "o kama jo sin e jan insa",
     "personaUnblockConfirmDescription": "sina wile lukin sin e {personaName} anu seme?",
     "personaBlockFailed": "mi ken ala weka e jan insa. o pali sin.",
-    "personaUnblockFailed": "mi ken ala kama jo sin e jan insa. o pali sin."
+    "personaUnblockFailed": "mi ken ala kama jo sin e jan insa. o pali sin.",
+    "advancedSettingSpaceAfterEmojiLabel": "o pana e weka lon monsi pi sitelen pilin",
+    "advancedSettingSpaceAfterEmojiDescription": "o pini e ni la sitelen pilin li ken lon poka pi ona sama. ni li pona tawa sitelen pi sitelen pilin mute.",
+    "advancedSettingSpaceAfterEmojiKeyword": "weka pi sitelen pilin"
 }

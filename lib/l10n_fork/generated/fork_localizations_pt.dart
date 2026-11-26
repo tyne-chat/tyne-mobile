@@ -1462,6 +1462,17 @@ class ForkLocalizationsPt extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'Não foi possível desbloquear a persona. Tenta novamente.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel =>
+      'Adicionar um espaço depois do emoji';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Desative para colocar emojis encostados uns aos outros, para imagens compostas por vários emojis.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'espaço depois do emoji';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -2923,4 +2934,15 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
   @override
   String get personaUnblockFailed =>
       'Não foi possível desbloquear a persona. Tente de novo.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel =>
+      'Adicionar um espaço depois do emoji';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Desative para colocar emojis grudados um no outro, para imagens formadas por vários emojis.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'espaço depois do emoji';
 }

@@ -1484,4 +1484,15 @@ class ForkLocalizationsBe extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'Не ўдалося разблакаваць персону. Паспрабуй яшчэ раз.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel =>
+      'Дадаваць прабел пасля эмодзі';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Выключыце, каб ставіць эмодзі ўпрытык адно да аднаго, для малюнкаў з некалькіх эмодзі.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'прабел пасля эмодзі';
 }

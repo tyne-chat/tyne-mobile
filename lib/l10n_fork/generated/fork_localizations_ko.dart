@@ -1397,4 +1397,14 @@ class ForkLocalizationsKo extends ForkLocalizations {
 
   @override
   String get personaUnblockFailed => '페르소나 차단을 해제하지 못했습니다. 다시 시도해 주세요.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel => '이모지 뒤에 공백 추가';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      '여러 이모지로 만든 그림처럼 이모지를 서로 붙여 쓰려면 끄세요.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => '이모지 간격';
 }

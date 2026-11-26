@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "Poista persoonan esto",
     "personaUnblockConfirmDescription": "Poistetaanko persoonan {personaName} esto?",
     "personaBlockFailed": "Persoonan estäminen epäonnistui. Yritä uudelleen.",
-    "personaUnblockFailed": "Persoonan eston poistaminen epäonnistui. Yritä uudelleen."
+    "personaUnblockFailed": "Persoonan eston poistaminen epäonnistui. Yritä uudelleen.",
+    "advancedSettingSpaceAfterEmojiLabel": "Lisää välilyönti emojin jälkeen",
+    "advancedSettingSpaceAfterEmojiDescription": "Poista käytöstä, jos haluat laittaa emojit kiinni toisiinsa, esimerkiksi useasta emojista koottuja kuvia varten.",
+    "advancedSettingSpaceAfterEmojiKeyword": "välilyönti emojin jälkeen"
 }

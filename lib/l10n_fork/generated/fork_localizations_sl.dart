@@ -1479,4 +1479,15 @@ class ForkLocalizationsSl extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'Persone ni bilo mogoče odblokirati. Poskusi znova.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel =>
+      'Dodaj presledek za emojijem';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Izklopite, če želite emojije postaviti tik drug ob drugega, za slike iz več emojijev.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'presledek za emojijem';
 }

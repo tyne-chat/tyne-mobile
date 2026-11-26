@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "Atbloķēt personu",
     "personaUnblockConfirmDescription": "Atbloķēt {personaName}?",
     "personaBlockFailed": "Neizdevās bloķēt personu. Mēģini vēlreiz.",
-    "personaUnblockFailed": "Neizdevās atbloķēt personu. Mēģini vēlreiz."
+    "personaUnblockFailed": "Neizdevās atbloķēt personu. Mēģini vēlreiz.",
+    "advancedSettingSpaceAfterEmojiLabel": "Pievienot atstarpi aiz emocijzīmes",
+    "advancedSettingSpaceAfterEmojiDescription": "Izslēdziet, lai liktu emocijzīmes cieši vienu pie otras, attēliem, kas veidoti no vairākām emocijzīmēm.",
+    "advancedSettingSpaceAfterEmojiKeyword": "atstarpe aiz emocijzīmes"
 }

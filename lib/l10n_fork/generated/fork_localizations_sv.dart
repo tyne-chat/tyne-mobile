@@ -1448,4 +1448,15 @@ class ForkLocalizationsSv extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'Det gick inte att avblockera personan. Försök igen.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel =>
+      'Lägg till ett mellanslag efter emoji';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Stäng av för att sätta emojier tätt intill varandra, för bilder som består av flera emojier.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'mellanslag efter emoji';
 }

@@ -1464,4 +1464,15 @@ class ForkLocalizationsBg extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'Персоната не можа да бъде отблокирана. Опитай отново.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel =>
+      'Добавяне на интервал след емоджи';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Изключете, за да слагате емоджита плътно едно до друго – за картинки от няколко емоджита.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'интервал след емоджи';
 }

@@ -1447,4 +1447,14 @@ class ForkLocalizationsHe extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'לא ניתן היה לבטל את חסימת הפרסונה. אפשר לנסות שוב.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel => 'הוספת רווח אחרי אימוג\'י';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'כבו כדי להצמיד אימוג\'ים זה לזה, לתמונות שמורכבות מכמה אימוג\'ים.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'ריווח אימוג\'י';
 }

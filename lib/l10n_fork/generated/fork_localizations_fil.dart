@@ -1460,4 +1460,16 @@ class ForkLocalizationsFil extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'Hindi ma-unblock ang persona. Subukan ulit.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel =>
+      'Magdagdag ng espasyo pagkatapos ng emoji';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'I-off para magkadikit ang mga emoji, para sa mga larawang binubuo ng ilang emoji.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword =>
+      'espasyo pagkatapos ng emoji';
 }

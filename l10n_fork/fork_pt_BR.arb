@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "Desbloquear persona",
     "personaUnblockConfirmDescription": "Desbloquear {personaName}?",
     "personaBlockFailed": "Não foi possível bloquear a persona. Tente de novo.",
-    "personaUnblockFailed": "Não foi possível desbloquear a persona. Tente de novo."
+    "personaUnblockFailed": "Não foi possível desbloquear a persona. Tente de novo.",
+    "advancedSettingSpaceAfterEmojiLabel": "Adicionar um espaço depois do emoji",
+    "advancedSettingSpaceAfterEmojiDescription": "Desative para colocar emojis grudados um no outro, para imagens formadas por vários emojis.",
+    "advancedSettingSpaceAfterEmojiKeyword": "espaço depois do emoji"
 }
