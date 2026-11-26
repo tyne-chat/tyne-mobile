@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "Desbloqueja la persona",
     "personaUnblockConfirmDescription": "Vols desbloquejar {personaName}?",
     "personaBlockFailed": "No s’ha pogut bloquejar la persona. Torna-ho a provar.",
-    "personaUnblockFailed": "No s’ha pogut desbloquejar la persona. Torna-ho a provar."
+    "personaUnblockFailed": "No s’ha pogut desbloquejar la persona. Torna-ho a provar.",
+    "advancedSettingSpaceAfterEmojiLabel": "Afegeix un espai després de l’emoji",
+    "advancedSettingSpaceAfterEmojiDescription": "Desactiva-ho per posar els emojis just l’un al costat de l’altre, per a imatges fetes de diversos emojis.",
+    "advancedSettingSpaceAfterEmojiKeyword": "espai després de l’emoji"
 }

@@ -160,6 +160,17 @@ UserSettingsSearchLabel _lp(
     (l10n, {required String productName}) => label(l10n, productName);
 
 final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
+  // Fork: "Add a space after emoji" (tyne-chat/tyne#650).
+  _UserSettingsSearchOption(
+    id: 'advanced:space-after-emoji',
+    section: UserSettingsSection.advanced,
+    fieldId: 'advanced-settings-chat',
+    label: _l((l10n) => l10n.fork.advancedSettingSpaceAfterEmojiLabel),
+    description: _l(
+      (l10n) => l10n.fork.advancedSettingSpaceAfterEmojiDescription,
+    ),
+    keywords: [_l((l10n) => l10n.fork.advancedSettingSpaceAfterEmojiKeyword)],
+  ),
   _UserSettingsSearchOption(
     id: 'look-and-feel:sync-theme',
     section: UserSettingsSection.lookAndFeel,

@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "Розблокувати персону",
     "personaUnblockConfirmDescription": "Розблокувати {personaName}?",
     "personaBlockFailed": "Не вдалося заблокувати персону. Спробуй ще раз.",
-    "personaUnblockFailed": "Не вдалося розблокувати персону. Спробуй ще раз."
+    "personaUnblockFailed": "Не вдалося розблокувати персону. Спробуй ще раз.",
+    "advancedSettingSpaceAfterEmojiLabel": "Додавати пробіл після емодзі",
+    "advancedSettingSpaceAfterEmojiDescription": "Вимкніть, щоб ставити емодзі впритул одне до одного, — для картинок із кількох емодзі.",
+    "advancedSettingSpaceAfterEmojiKeyword": "пробіл після емодзі"
 }

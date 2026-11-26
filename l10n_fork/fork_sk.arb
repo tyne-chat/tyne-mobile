@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "Odblokovať personu",
     "personaUnblockConfirmDescription": "Odblokovať {personaName}?",
     "personaBlockFailed": "Personu sa nepodarilo zablokovať. Skús to znova.",
-    "personaUnblockFailed": "Personu sa nepodarilo odblokovať. Skús to znova."
+    "personaUnblockFailed": "Personu sa nepodarilo odblokovať. Skús to znova.",
+    "advancedSettingSpaceAfterEmojiLabel": "Pridať medzeru za emoji",
+    "advancedSettingSpaceAfterEmojiDescription": "Vypnite, ak chcete dávať emoji tesne vedľa seba, napríklad pre obrázky zložené z viacerých emoji.",
+    "advancedSettingSpaceAfterEmojiKeyword": "medzery za emoji"
 }

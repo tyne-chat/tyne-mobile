@@ -1463,4 +1463,15 @@ class ForkLocalizationsHr extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'Personu nije bilo moguće odblokirati. Pokušaj ponovno.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel =>
+      'Dodaj razmak nakon emotikona';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Isključite kako biste emotikone stavljali jedan uz drugi, za slike sastavljene od više emotikona.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'razmak nakon emotikona';
 }

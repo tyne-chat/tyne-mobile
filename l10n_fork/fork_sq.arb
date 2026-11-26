@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "Zhblloko personën",
     "personaUnblockConfirmDescription": "Ta zhbllokosh {personaName}?",
     "personaBlockFailed": "Persona nuk u bllokua dot. Provo sërish.",
-    "personaUnblockFailed": "Persona nuk u zhbllokua dot. Provo sërish."
+    "personaUnblockFailed": "Persona nuk u zhbllokua dot. Provo sërish.",
+    "advancedSettingSpaceAfterEmojiLabel": "Shto një hapësirë pas emoji-t",
+    "advancedSettingSpaceAfterEmojiDescription": "Çaktivizoje për t’i vendosur emoji-t ngjitur me njëri-tjetrin, për figura të përbëra nga disa emoji.",
+    "advancedSettingSpaceAfterEmojiKeyword": "hapësirë pas emoji-t"
 }

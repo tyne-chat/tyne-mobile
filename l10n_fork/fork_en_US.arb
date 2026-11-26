@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "Unblock persona",
     "personaUnblockConfirmDescription": "Unblock {personaName}?",
     "personaBlockFailed": "Couldn't block the persona. Try again.",
-    "personaUnblockFailed": "Couldn't unblock the persona. Try again."
+    "personaUnblockFailed": "Couldn't unblock the persona. Try again.",
+    "advancedSettingSpaceAfterEmojiLabel": "Add a space after emoji",
+    "advancedSettingSpaceAfterEmojiDescription": "Turn off to put emoji right next to each other, for pictures made of several emoji.",
+    "advancedSettingSpaceAfterEmojiKeyword": "emoji spacing"
 }

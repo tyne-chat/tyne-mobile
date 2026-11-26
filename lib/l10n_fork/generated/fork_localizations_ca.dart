@@ -1480,4 +1480,16 @@ class ForkLocalizationsCa extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'No s’ha pogut desbloquejar la persona. Torna-ho a provar.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel =>
+      'Afegeix un espai després de l’emoji';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Desactiva-ho per posar els emojis just l’un al costat de l’altre, per a imatges fetes de diversos emojis.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword =>
+      'espai després de l’emoji';
 }

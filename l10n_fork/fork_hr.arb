@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "Odblokiraj personu",
     "personaUnblockConfirmDescription": "Odblokirati {personaName}?",
     "personaBlockFailed": "Personu nije bilo moguće blokirati. Pokušaj ponovno.",
-    "personaUnblockFailed": "Personu nije bilo moguće odblokirati. Pokušaj ponovno."
+    "personaUnblockFailed": "Personu nije bilo moguće odblokirati. Pokušaj ponovno.",
+    "advancedSettingSpaceAfterEmojiLabel": "Dodaj razmak nakon emotikona",
+    "advancedSettingSpaceAfterEmojiDescription": "Isključite kako biste emotikone stavljali jedan uz drugi, za slike sastavljene od više emotikona.",
+    "advancedSettingSpaceAfterEmojiKeyword": "razmak nakon emotikona"
 }

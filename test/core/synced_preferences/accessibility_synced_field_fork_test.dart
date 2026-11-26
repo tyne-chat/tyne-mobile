@@ -80,5 +80,160 @@ void main() {
         expect(merged.messageGroupSpacing, 18);
       },
     );
+
+    test('defaults spaceAfterEmoji to true when omitted from proto', () {
+      final restored = AccessibilitySyncedField.fromProto(
+        accessibility_pb.AccessibilitySettings(fontSize: 14),
+      );
+      expect(restored.spaceAfterEmoji, isTrue);
+      expect(restored.hasSpaceAfterEmojiInProto, isFalse);
+    });
+
+    test('roundtrips spaceAfterEmoji false and true', () {
+      final field = forkUpstream.splashZoomField();
+      for (final bool enabled in <bool>[false, true]) {
+        final local = AccessibilityLocalState(
+          spaceAfterEmoji: enabled,
+          hideKeyboardHints: false,
+          channelTypingIndicatorMode: ChannelTypingIndicatorMode.avatars,
+          showSelectedChannelTypingIndicator: false,
+          showFadedUnreadOnMutedChannels: false,
+          dmMessagePreviewMode: DmMessagePreviewMode.all,
+          showFavorites: true,
+          messageGroupSpacing: 16,
+          compactMessageGroupSpacing: 0,
+          saturationFactor: 1,
+          customThemeCss: null,
+          advanced: forkDefaultAdvancedAccessibility,
+        );
+        final proto = AccessibilitySyncedField.toProto(local);
+        expect(proto.hasSpaceAfterEmoji(), isTrue);
+        expect(proto.spaceAfterEmoji, enabled);
+        final restored = AccessibilitySyncedField.fromProto(proto);
+        expect(restored.spaceAfterEmoji, enabled);
+        expect(restored.hasSpaceAfterEmojiInProto, isTrue);
+        expect(field.verifyRoundtrip(local), isTrue);
+      }
+    });
+
+    test(
+      'toProtoForPush writes spaceAfterEmoji while preserving desktop fields',
+      () {
+        const local = AccessibilityLocalState(
+          spaceAfterEmoji: false,
+          hideKeyboardHints: false,
+          channelTypingIndicatorMode: ChannelTypingIndicatorMode.avatars,
+          showSelectedChannelTypingIndicator: false,
+          showFadedUnreadOnMutedChannels: false,
+          dmMessagePreviewMode: DmMessagePreviewMode.all,
+          showFavorites: true,
+          messageGroupSpacing: 16,
+          compactMessageGroupSpacing: 0,
+          saturationFactor: 1,
+          customThemeCss: null,
+          advanced: forkDefaultAdvancedAccessibility,
+        );
+        final pushed = AccessibilitySyncedField.toProtoForPush(
+          local: local,
+          wireBase: accessibility_pb.AccessibilitySettings(
+            fontSize: 24,
+            showMessageSendButton: true,
+          ),
+        );
+        expect(pushed.hasSpaceAfterEmoji(), isTrue);
+        expect(pushed.spaceAfterEmoji, isFalse);
+        expect(pushed.fontSize, 24);
+        expect(pushed.showMessageSendButton, isTrue);
+      },
+    );
+
+    test(
+      'mergeForMigration keeps local spaceAfterEmoji when remote omits it and takes remote when present',
+      () {
+        final field = forkUpstream.splashZoomField();
+        const localOff = AccessibilityLocalState(
+          spaceAfterEmoji: false,
+          hasSpaceAfterEmojiInProto: true,
+          hideKeyboardHints: false,
+          channelTypingIndicatorMode: ChannelTypingIndicatorMode.avatars,
+          showSelectedChannelTypingIndicator: false,
+          showFadedUnreadOnMutedChannels: false,
+          dmMessagePreviewMode: DmMessagePreviewMode.all,
+          showFavorites: true,
+          messageGroupSpacing: 16,
+          compactMessageGroupSpacing: 0,
+          saturationFactor: 1,
+          customThemeCss: null,
+          advanced: forkDefaultAdvancedAccessibility,
+        );
+        final remoteOmitted = AccessibilitySyncedField.fromProto(
+          accessibility_pb.AccessibilitySettings(fontSize: 14),
+        );
+        final mergedOmitted = field.mergeForMigration(
+          local: localOff,
+          remote: remoteOmitted,
+        );
+        expect(mergedOmitted.spaceAfterEmoji, isFalse);
+        expect(mergedOmitted.hasSpaceAfterEmojiInProto, isTrue);
+
+        final remoteOn = AccessibilitySyncedField.fromProto(
+          accessibility_pb.AccessibilitySettings(spaceAfterEmoji: true),
+        );
+        final mergedOn = field.mergeForMigration(
+          local: localOff,
+          remote: remoteOn,
+        );
+        expect(mergedOn.spaceAfterEmoji, isTrue);
+        expect(mergedOn.hasSpaceAfterEmojiInProto, isTrue);
+      },
+    );
+
+    test('statesEqual detects spaceAfterEmoji changes', () {
+      final field = forkUpstream.splashZoomField();
+      const base = AccessibilityLocalState(
+        hideKeyboardHints: false,
+        channelTypingIndicatorMode: ChannelTypingIndicatorMode.avatars,
+        showSelectedChannelTypingIndicator: false,
+        showFadedUnreadOnMutedChannels: false,
+        dmMessagePreviewMode: DmMessagePreviewMode.all,
+        showFavorites: true,
+        messageGroupSpacing: 16,
+        compactMessageGroupSpacing: 0,
+        saturationFactor: 1,
+        customThemeCss: null,
+        advanced: forkDefaultAdvancedAccessibility,
+      );
+      const sameValueWithFlag = AccessibilityLocalState(
+        hasSpaceAfterEmojiInProto: true,
+        hideKeyboardHints: false,
+        channelTypingIndicatorMode: ChannelTypingIndicatorMode.avatars,
+        showSelectedChannelTypingIndicator: false,
+        showFadedUnreadOnMutedChannels: false,
+        dmMessagePreviewMode: DmMessagePreviewMode.all,
+        showFavorites: true,
+        messageGroupSpacing: 16,
+        compactMessageGroupSpacing: 0,
+        saturationFactor: 1,
+        customThemeCss: null,
+        advanced: forkDefaultAdvancedAccessibility,
+      );
+      const turnedOff = AccessibilityLocalState(
+        spaceAfterEmoji: false,
+        hasSpaceAfterEmojiInProto: true,
+        hideKeyboardHints: false,
+        channelTypingIndicatorMode: ChannelTypingIndicatorMode.avatars,
+        showSelectedChannelTypingIndicator: false,
+        showFadedUnreadOnMutedChannels: false,
+        dmMessagePreviewMode: DmMessagePreviewMode.all,
+        showFavorites: true,
+        messageGroupSpacing: 16,
+        compactMessageGroupSpacing: 0,
+        saturationFactor: 1,
+        customThemeCss: null,
+        advanced: forkDefaultAdvancedAccessibility,
+      );
+      expect(field.statesEqual(base, sameValueWithFlag), isTrue);
+      expect(field.statesEqual(base, turnedOff), isFalse);
+    });
   });
 }

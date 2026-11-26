@@ -1461,4 +1461,16 @@ class ForkLocalizationsLv extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'Neizdevās atbloķēt personu. Mēģini vēlreiz.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel =>
+      'Pievienot atstarpi aiz emocijzīmes';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Izslēdziet, lai liktu emocijzīmes cieši vienu pie otras, attēliem, kas veidoti no vairākām emocijzīmēm.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword =>
+      'atstarpe aiz emocijzīmes';
 }

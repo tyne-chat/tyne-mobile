@@ -1459,4 +1459,15 @@ class ForkLocalizationsDe extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'Die Blockierung der Persona konnte nicht aufgehoben werden. Versuch es noch einmal.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel =>
+      'Leerzeichen nach Emoji einfügen';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Ausschalten, um Emojis direkt aneinanderzusetzen, etwa für Bilder aus mehreren Emojis.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'Emoji-Abstand';
 }

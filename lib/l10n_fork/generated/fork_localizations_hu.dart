@@ -1453,4 +1453,15 @@ class ForkLocalizationsHu extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'Nem sikerült feloldani a persona letiltását. Próbáld újra.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel =>
+      'Szóköz hozzáadása hangulatjel után';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Kapcsold ki, ha a hangulatjeleket közvetlenül egymás mellé szeretnéd tenni, például több hangulatjelből álló képekhez.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'szóköz hangulatjel után';
 }

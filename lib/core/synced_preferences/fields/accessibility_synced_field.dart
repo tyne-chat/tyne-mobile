@@ -15,6 +15,10 @@ import 'package:fluxer_app/features/voice/tts/tts_rate_utils.dart';
 import 'package:fluxer_dart/export.dart' show StickerAnimationOptions;
 import 'package:protobuf/protobuf.dart' as $pb;
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/settings/providers/preferences/space_after_emoji_preference.dart';
+
 class AccessibilityLocalState {
   const AccessibilityLocalState({
     required this.hideKeyboardHints,
@@ -28,6 +32,9 @@ class AccessibilityLocalState {
     required this.saturationFactor,
     required this.customThemeCss,
     required this.advanced,
+    // Fork: "Add a space after emoji" (tyne-chat/tyne#650).
+    this.spaceAfterEmoji = true,
+    this.hasSpaceAfterEmojiInProto = false,
     this.syncThemeColorsFromThemeStudio = true,
     this.syncThemeColorsToThemeStudio = true,
     this.customThemeCssEditedLocally = false,
@@ -68,6 +75,9 @@ class AccessibilityLocalState {
     this.hdrDisplayMode = HdrDisplayMode.full,
   });
 
+  // Fork: "Add a space after emoji" (tyne-chat/tyne#650).
+  final bool spaceAfterEmoji;
+  final bool hasSpaceAfterEmojiInProto;
   final bool hideKeyboardHints;
   final ChannelTypingIndicatorMode channelTypingIndicatorMode;
   final bool showSelectedChannelTypingIndicator;
@@ -153,6 +163,8 @@ class AccessibilitySyncedField
     final advanced = _ref.read(advancedPreferencesProvider);
     final theme = _ref.read(themePreferenceProvider);
     return AccessibilityLocalState(
+      // Fork: "Add a space after emoji" (tyne-chat/tyne#650).
+      spaceAfterEmoji: _ref.read(spaceAfterEmojiPreferenceProvider),
       hideKeyboardHints: appearance.hideKeyboardHints,
       channelTypingIndicatorMode: appearance.channelTypingIndicatorMode,
       showSelectedChannelTypingIndicator:
@@ -245,6 +257,12 @@ class AccessibilitySyncedField
       updateChatFontSize: value.hasMobileFontSizeInProto,
       updateScaleFactor: value.hasZoomLevelInProto,
     );
+    // Fork: "Add a space after emoji" (tyne-chat/tyne#650).
+    if (value.hasSpaceAfterEmojiInProto) {
+      await _ref
+          .read(spaceAfterEmojiPreferenceProvider.notifier)
+          .applySynced(value: value.spaceAfterEmoji);
+    }
   }
 
   @override
@@ -282,6 +300,10 @@ class AccessibilitySyncedField
     AccessibilityLocalState b, {
     bool ignoreCustomThemeCss = false,
   }) {
+    // Fork: "Add a space after emoji" (tyne-chat/tyne#650).
+    if (a.spaceAfterEmoji != b.spaceAfterEmoji) {
+      return false;
+    }
     return a.hideKeyboardHints == b.hideKeyboardHints &&
         a.channelTypingIndicatorMode == b.channelTypingIndicatorMode &&
         a.showSelectedChannelTypingIndicator ==
@@ -395,6 +417,12 @@ class AccessibilitySyncedField
     required String? customThemeCss,
   }) {
     return AccessibilityLocalState(
+      // Fork: "Add a space after emoji" (tyne-chat/tyne#650).
+      spaceAfterEmoji: remote.hasSpaceAfterEmojiInProto
+          ? remote.spaceAfterEmoji
+          : local.spaceAfterEmoji,
+      hasSpaceAfterEmojiInProto:
+          remote.hasSpaceAfterEmojiInProto || local.hasSpaceAfterEmojiInProto,
       hideKeyboardHints: remote.hideKeyboardHints,
       channelTypingIndicatorMode: remote.channelTypingIndicatorMode,
       showSelectedChannelTypingIndicator:
@@ -491,6 +519,9 @@ class AccessibilitySyncedField
 
   static AccessibilityLocalState fromProto(pb.AccessibilitySettings proto) {
     return AccessibilityLocalState(
+      // Fork: "Add a space after emoji" (tyne-chat/tyne#650).
+      spaceAfterEmoji: !proto.hasSpaceAfterEmoji() || proto.spaceAfterEmoji,
+      hasSpaceAfterEmojiInProto: proto.hasSpaceAfterEmoji(),
       hideKeyboardHints: proto.hideKeyboardHints,
       channelTypingIndicatorMode: _fromProtoTypingMode(
         proto.channelTypingIndicatorMode,
@@ -634,6 +665,8 @@ class AccessibilitySyncedField
         (wireBase != null
               ? (pb.AccessibilitySettings()..mergeFromMessage(wireBase))
               : pb.AccessibilitySettings())
+          // Fork: "Add a space after emoji" (tyne-chat/tyne#650).
+          ..spaceAfterEmoji = local.spaceAfterEmoji
           ..hideKeyboardHints = local.hideKeyboardHints
           ..channelTypingIndicatorMode = _toProtoTypingMode(
             local.channelTypingIndicatorMode,
@@ -696,6 +729,8 @@ class AccessibilitySyncedField
   static pb.AccessibilitySettings toProto(AccessibilityLocalState local) {
     final String? effectiveCss = normalizeCustomThemeCss(local.customThemeCss);
     final pb.AccessibilitySettings settings = pb.AccessibilitySettings(
+      // Fork: "Add a space after emoji" (tyne-chat/tyne#650).
+      spaceAfterEmoji: local.spaceAfterEmoji,
       hideKeyboardHints: local.hideKeyboardHints,
       channelTypingIndicatorMode: _toProtoTypingMode(
         local.channelTypingIndicatorMode,

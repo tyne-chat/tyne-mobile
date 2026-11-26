@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "Blokkering persona opheffen",
     "personaUnblockConfirmDescription": "Blokkering van {personaName} opheffen?",
     "personaBlockFailed": "Kan de persona niet blokkeren. Probeer het opnieuw.",
-    "personaUnblockFailed": "Kan de blokkering van de persona niet opheffen. Probeer het opnieuw."
+    "personaUnblockFailed": "Kan de blokkering van de persona niet opheffen. Probeer het opnieuw.",
+    "advancedSettingSpaceAfterEmojiLabel": "Spatie toevoegen na emoji",
+    "advancedSettingSpaceAfterEmojiDescription": "Zet dit uit om emoji direct naast elkaar te zetten, voor afbeeldingen die uit meerdere emoji bestaan.",
+    "advancedSettingSpaceAfterEmojiKeyword": "emoji-spatiëring"
 }

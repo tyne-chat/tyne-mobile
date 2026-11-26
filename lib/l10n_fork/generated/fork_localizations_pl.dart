@@ -1482,4 +1482,14 @@ class ForkLocalizationsPl extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'Nie udało się odblokować persony. Spróbuj ponownie.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel => 'Dodawaj spację po emoji';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Wyłącz, aby stawiać emoji tuż obok siebie, np. w obrazkach złożonych z kilku emoji.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'odstęp po emoji';
 }

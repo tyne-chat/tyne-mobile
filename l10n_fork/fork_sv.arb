@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "Avblockera persona",
     "personaUnblockConfirmDescription": "Avblockera {personaName}?",
     "personaBlockFailed": "Det gick inte att blockera personan. Försök igen.",
-    "personaUnblockFailed": "Det gick inte att avblockera personan. Försök igen."
+    "personaUnblockFailed": "Det gick inte att avblockera personan. Försök igen.",
+    "advancedSettingSpaceAfterEmojiLabel": "Lägg till ett mellanslag efter emoji",
+    "advancedSettingSpaceAfterEmojiDescription": "Stäng av för att sätta emojier tätt intill varandra, för bilder som består av flera emojier.",
+    "advancedSettingSpaceAfterEmojiKeyword": "mellanslag efter emoji"
 }

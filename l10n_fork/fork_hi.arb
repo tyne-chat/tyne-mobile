@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "परसोना अनब्लॉक करें",
     "personaUnblockConfirmDescription": "{personaName} को अनब्लॉक करें?",
     "personaBlockFailed": "परसोना ब्लॉक नहीं हो सका। फिर से कोशिश करें।",
-    "personaUnblockFailed": "परसोना अनब्लॉक नहीं हो सका। फिर से कोशिश करें।"
+    "personaUnblockFailed": "परसोना अनब्लॉक नहीं हो सका। फिर से कोशिश करें।",
+    "advancedSettingSpaceAfterEmojiLabel": "इमोजी के बाद स्पेस जोड़ें",
+    "advancedSettingSpaceAfterEmojiDescription": "कई इमोजी से बनी तस्वीरों के लिए इमोजी को एक-दूसरे से सटाकर रखने के लिए इसे बंद करें।",
+    "advancedSettingSpaceAfterEmojiKeyword": "इमोजी के बाद स्पेस"
 }

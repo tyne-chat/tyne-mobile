@@ -1480,4 +1480,14 @@ class ForkLocalizationsLt extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'Nepavyko atblokuoti personos. Bandyk dar kartą.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel => 'Pridėti tarpą po jaustuko';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Išjunkite, kad jaustukus galėtumėte dėti vieną šalia kito, pavyzdžiui, paveikslėliams iš kelių jaustukų.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'tarpas po jaustuko';
 }

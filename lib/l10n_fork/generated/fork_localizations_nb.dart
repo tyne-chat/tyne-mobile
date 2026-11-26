@@ -1445,4 +1445,15 @@ class ForkLocalizationsNb extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'Kunne ikke oppheve blokkeringen av personaen. Prøv igjen.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel =>
+      'Legg til mellomrom etter emoji';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Slå av for å sette emojier helt inntil hverandre, for bilder laget av flere emojier.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'mellomrom etter emoji';
 }

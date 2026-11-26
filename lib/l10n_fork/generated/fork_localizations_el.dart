@@ -1463,4 +1463,15 @@ class ForkLocalizationsEl extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'Δεν ήταν δυνατή η άρση αποκλεισμού της persona. Δοκίμασε ξανά.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel =>
+      'Προσθήκη κενού μετά από emoji';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Απενεργοποιήστε το για να βάζετε τα emoji το ένα κολλητά στο άλλο, για εικόνες από πολλά emoji.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'κενό μετά από emoji';
 }

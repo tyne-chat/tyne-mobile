@@ -1386,6 +1386,16 @@ class ForkLocalizationsZh extends ForkLocalizations {
 
   @override
   String get personaUnblockFailed => '无法解除屏蔽该人格。请重试。';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel => '在表情后添加空格';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      '关闭后可将表情紧挨着放在一起，用于由多个表情组成的图案。';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => '表情间距';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -2770,4 +2780,14 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get personaUnblockFailed => '無法解除封鎖此人格。請再試一次。';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel => '在表情符號後加入空格';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      '關閉後可將表情符號緊貼在一起，用於由多個表情符號組成的圖案。';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => '表情符號間距';
 }

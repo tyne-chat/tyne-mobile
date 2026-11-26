@@ -21,6 +21,7 @@ import 'package:fluxer_app/shared/utils/mention_display_utils.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/features/chat/services/timestamp_inline_token.dart';
+import 'package:fluxer_app/features/chat/utils/composer/fork_emoji_composer_spacing.dart';
 import 'package:fluxer_app/features/chat/utils/timezone_picker_utils.dart';
 import 'package:fluxer_app/features/profile/data/known_personas.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
@@ -28,6 +29,7 @@ import 'package:fluxer_app/features/profile/domain/persona_color.dart';
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/space_after_emoji_preference.dart';
 
 String _composerMentionUserLabel(
   WidgetRef ref,
@@ -548,6 +550,16 @@ class ComposerMentionController extends InlineTokenTextEditingController {
     int? maxActualLength,
     bool ensureTrailingSpace = true,
   }) {
+    // Fork: honour "Add a space after emoji" (tyne-chat/tyne#650).
+    if (!_ref.read(spaceAfterEmojiPreferenceProvider)) {
+      forkInsertEmojiWithoutSpacing(
+        this,
+        name,
+        surrogates,
+        maxActualLength: maxActualLength,
+      );
+      return;
+    }
     super.insertEmoji(
       name,
       surrogates,

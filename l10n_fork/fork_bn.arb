@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "পারসোনা আনব্লক করুন",
     "personaUnblockConfirmDescription": "{personaName} আনব্লক করবেন?",
     "personaBlockFailed": "পারসোনা ব্লক করা যায়নি। আবার চেষ্টা করুন।",
-    "personaUnblockFailed": "পারসোনা আনব্লক করা যায়নি। আবার চেষ্টা করুন।"
+    "personaUnblockFailed": "পারসোনা আনব্লক করা যায়নি। আবার চেষ্টা করুন।",
+    "advancedSettingSpaceAfterEmojiLabel": "ইমোজির পরে একটি স্পেস যোগ করুন",
+    "advancedSettingSpaceAfterEmojiDescription": "একাধিক ইমোজি দিয়ে তৈরি ছবির জন্য ইমোজিগুলো একেবারে পাশাপাশি বসাতে এটি বন্ধ করুন।",
+    "advancedSettingSpaceAfterEmojiKeyword": "ইমোজির পরে স্পেস"
 }

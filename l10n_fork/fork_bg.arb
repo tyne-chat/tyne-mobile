@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "Отблокиране на персона",
     "personaUnblockConfirmDescription": "Да отблокираш {personaName}?",
     "personaBlockFailed": "Персоната не можа да бъде блокирана. Опитай отново.",
-    "personaUnblockFailed": "Персоната не можа да бъде отблокирана. Опитай отново."
+    "personaUnblockFailed": "Персоната не можа да бъде отблокирана. Опитай отново.",
+    "advancedSettingSpaceAfterEmojiLabel": "Добавяне на интервал след емоджи",
+    "advancedSettingSpaceAfterEmojiDescription": "Изключете, за да слагате емоджита плътно едно до друго – за картинки от няколко емоджита.",
+    "advancedSettingSpaceAfterEmojiKeyword": "интервал след емоджи"
 }

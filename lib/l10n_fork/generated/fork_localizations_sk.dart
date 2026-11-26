@@ -1481,4 +1481,14 @@ class ForkLocalizationsSk extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'Personu sa nepodarilo odblokovať. Skús to znova.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel => 'Pridať medzeru za emoji';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'Vypnite, ak chcete dávať emoji tesne vedľa seba, napríklad pre obrázky zložené z viacerých emoji.';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'medzery za emoji';
 }

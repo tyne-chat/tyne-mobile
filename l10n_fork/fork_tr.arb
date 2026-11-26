@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "Personanın engelini kaldır",
     "personaUnblockConfirmDescription": "{personaName} adlı personanın engeli kaldırılsın mı?",
     "personaBlockFailed": "Persona engellenemedi. Tekrar dene.",
-    "personaUnblockFailed": "Personanın engeli kaldırılamadı. Tekrar dene."
+    "personaUnblockFailed": "Personanın engeli kaldırılamadı. Tekrar dene.",
+    "advancedSettingSpaceAfterEmojiLabel": "Emojiden sonra boşluk ekle",
+    "advancedSettingSpaceAfterEmojiDescription": "Birden fazla emojiden oluşan resimler için emojileri bitişik koymak istiyorsanız kapatın.",
+    "advancedSettingSpaceAfterEmojiKeyword": "emoji boşluğu"
 }

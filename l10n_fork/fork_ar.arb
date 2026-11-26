@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "إلغاء حظر الشخصية",
     "personaUnblockConfirmDescription": "هل تريد إلغاء حظر {personaName}؟",
     "personaBlockFailed": "تعذّر حظر الشخصية. حاول مرة أخرى.",
-    "personaUnblockFailed": "تعذّر إلغاء حظر الشخصية. حاول مرة أخرى."
+    "personaUnblockFailed": "تعذّر إلغاء حظر الشخصية. حاول مرة أخرى.",
+    "advancedSettingSpaceAfterEmojiLabel": "إضافة مسافة بعد الرمز التعبيري",
+    "advancedSettingSpaceAfterEmojiDescription": "أوقف هذا الخيار لوضع الرموز التعبيرية متلاصقة، للصور المكوّنة من عدة رموز تعبيرية.",
+    "advancedSettingSpaceAfterEmojiKeyword": "تباعد الرموز التعبيرية"
 }

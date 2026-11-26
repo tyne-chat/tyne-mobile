@@ -1447,4 +1447,15 @@ class ForkLocalizationsBn extends ForkLocalizations {
   @override
   String get personaUnblockFailed =>
       'পারসোনা আনব্লক করা যায়নি। আবার চেষ্টা করুন।';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiLabel =>
+      'ইমোজির পরে একটি স্পেস যোগ করুন';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiDescription =>
+      'একাধিক ইমোজি দিয়ে তৈরি ছবির জন্য ইমোজিগুলো একেবারে পাশাপাশি বসাতে এটি বন্ধ করুন।';
+
+  @override
+  String get advancedSettingSpaceAfterEmojiKeyword => 'ইমোজির পরে স্পেস';
 }

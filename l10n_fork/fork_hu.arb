@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "Persona letiltásának feloldása",
     "personaUnblockConfirmDescription": "Feloldod {personaName} letiltását?",
     "personaBlockFailed": "Nem sikerült letiltani a personát. Próbáld újra.",
-    "personaUnblockFailed": "Nem sikerült feloldani a persona letiltását. Próbáld újra."
+    "personaUnblockFailed": "Nem sikerült feloldani a persona letiltását. Próbáld újra.",
+    "advancedSettingSpaceAfterEmojiLabel": "Szóköz hozzáadása hangulatjel után",
+    "advancedSettingSpaceAfterEmojiDescription": "Kapcsold ki, ha a hangulatjeleket közvetlenül egymás mellé szeretnéd tenni, például több hangulatjelből álló képekhez.",
+    "advancedSettingSpaceAfterEmojiKeyword": "szóköz hangulatjel után"
 }

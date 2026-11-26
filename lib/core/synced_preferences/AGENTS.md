@@ -85,13 +85,15 @@ two devices saving at once can undo each other's change to another field.
 
 - The server schema's `accessibility.proto` (tyne repository): the `// Fork fields.` block at the top of
   `AccessibilitySettings` holds `mobile_font_size`, `mobile_message_group_spacing`,
-  `mobile_compact_message_group_spacing` (2224–2226), and `show_alt_text_on_images` (2223), which the
-  app no longer syncs (tyne-chat/tyne#821).
-- `fields/accessibility_synced_field.dart`, inside upstream's lines: three `has…InProto` flags on
+  `mobile_compact_message_group_spacing` (2224–2226), `show_alt_text_on_images` (2223, which the
+  app no longer syncs, tyne-chat/tyne#821), and `space_after_emoji` (2229, tyne-chat/tyne#650).
+- `fields/accessibility_synced_field.dart`, inside upstream's lines: `has…InProto` flags on
   `AccessibilityLocalState`; `fromProto`, `toProto`, `toProtoForPush`, `_merge` and `applyRemote` use
   the `mobile_*` fields instead of `font_size` (12), `message_group_spacing` (10) and
-  `compact_message_group_spacing` (60). `_merge` and `AppearancePreferences.applySyncedAccessibility`
-  keep the local value when a mobile field is absent. Upstream's `hasFontSizeInProto` (which
+  `compact_message_group_spacing` (60), and wire `space_after_emoji` to
+  `spaceAfterEmojiPreferenceProvider` (`features/settings/providers/preferences/space_after_emoji_preference.dart`,
+  in memory, defaulting to `true`). `_merge`, `AppearancePreferences.applySyncedAccessibility`, and
+  `applyRemote` keep the local value when a fork field is absent. Upstream's `hasFontSizeInProto` (which
   upstream's tests assert after a round trip) is set from `hasMobileFontSize()`: in the fork it means
   the phone's font size.
 - `synced_theme_hydration.dart`: the chat font size comes from `mobile_font_size`.

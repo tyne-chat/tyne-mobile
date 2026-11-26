@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "I-unblock ang persona",
     "personaUnblockConfirmDescription": "I-unblock si {personaName}?",
     "personaBlockFailed": "Hindi ma-block ang persona. Subukan ulit.",
-    "personaUnblockFailed": "Hindi ma-unblock ang persona. Subukan ulit."
+    "personaUnblockFailed": "Hindi ma-unblock ang persona. Subukan ulit.",
+    "advancedSettingSpaceAfterEmojiLabel": "Magdagdag ng espasyo pagkatapos ng emoji",
+    "advancedSettingSpaceAfterEmojiDescription": "I-off para magkadikit ang mga emoji, para sa mga larawang binubuo ng ilang emoji.",
+    "advancedSettingSpaceAfterEmojiKeyword": "espasyo pagkatapos ng emoji"
 }

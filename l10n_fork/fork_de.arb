@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "Persona entblockieren",
     "personaUnblockConfirmDescription": "{personaName} entblockieren?",
     "personaBlockFailed": "Die Persona konnte nicht blockiert werden. Versuch es noch einmal.",
-    "personaUnblockFailed": "Die Blockierung der Persona konnte nicht aufgehoben werden. Versuch es noch einmal."
+    "personaUnblockFailed": "Die Blockierung der Persona konnte nicht aufgehoben werden. Versuch es noch einmal.",
+    "advancedSettingSpaceAfterEmojiLabel": "Leerzeichen nach Emoji einfügen",
+    "advancedSettingSpaceAfterEmojiDescription": "Ausschalten, um Emojis direkt aneinanderzusetzen, etwa für Bilder aus mehreren Emojis.",
+    "advancedSettingSpaceAfterEmojiKeyword": "Emoji-Abstand"
 }

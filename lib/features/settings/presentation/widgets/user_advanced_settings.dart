@@ -23,6 +23,7 @@ import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 // Fork imports.
 // ignore: directives_ordering
+import 'package:fluxer_app/features/settings/presentation/widgets/fork_space_after_emoji_switch.dart';
 import 'package:fluxer_app/features/settings/providers/quick_switcher_button_preferences_provider.dart';
 import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 
@@ -246,6 +247,8 @@ class UserAdvancedSettings extends ConsumerWidget {
                     .read(quickSwitcherButtonPreferencesProvider.notifier)
                     .setEnabled(value: value),
               ),
+              // Fork: "Add a space after emoji" (tyne-chat/tyne#650).
+              const ForkSpaceAfterEmojiSwitch(),
               FluxerSettingsSwitchItem(
                 label: l10n.advancedSettingAutoSendGifsLabel,
                 description: l10n.advancedSettingAutoSendGifsDescription,

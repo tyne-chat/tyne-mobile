@@ -376,5 +376,8 @@
     "personaUnblockConfirmTitle": "เลิกบล็อก Persona",
     "personaUnblockConfirmDescription": "เลิกบล็อก {personaName} ไหม",
     "personaBlockFailed": "บล็อก Persona ไม่สำเร็จ ลองอีกครั้ง",
-    "personaUnblockFailed": "เลิกบล็อก Persona ไม่สำเร็จ ลองอีกครั้ง"
+    "personaUnblockFailed": "เลิกบล็อก Persona ไม่สำเร็จ ลองอีกครั้ง",
+    "advancedSettingSpaceAfterEmojiLabel": "เว้นวรรคหลังอีโมจิ",
+    "advancedSettingSpaceAfterEmojiDescription": "ปิดเพื่อวางอีโมจิติดกัน สำหรับภาพที่ประกอบจากอีโมจิหลายตัว",
+    "advancedSettingSpaceAfterEmojiKeyword": "ระยะห่างอีโมจิ"
 }
