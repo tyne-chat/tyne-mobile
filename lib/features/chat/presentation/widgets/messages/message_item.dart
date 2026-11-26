@@ -98,6 +98,7 @@ import 'package:fluxer_markdown/fluxer_markdown.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/fork_message_action_host.dart';
 import 'package:fluxer_app/features/guild_commands/presentation/guild_command_chip.dart';
 import 'package:fluxer_app/features/profile/domain/persona_image_urls.dart';
 import 'package:fluxer_app/features/threads/domain/fork_original_poster.dart';
@@ -1023,6 +1024,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       FluxerHaptics.medium();
       final VoidCallback? onDelete = widget.onDelete;
       final String? guildId = _guildIdForMessageActions();
+      final ForkMessageActionSession forkSession = _forkCaptureActionSession(
+        context,
+      );
       final MessageAction? action = await showMessageBottomSheet(
         context,
         message: widget.message,
@@ -1041,10 +1045,14 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         canPublish: _canPublish(widget.message),
         quickReactionChannelId: widget.message.channelId,
         quickReactionGuildId: guildId,
-        onQuickReaction: _dispatchQuickReaction,
+        onQuickReaction: forkSession.dispatchQuickReaction,
         attachmentCallbacks: _videoActionScope.callbacks,
         linkUrl: linkUrl,
       );
+      if (!mounted) {
+        forkSession.dispatchAfterUnmounted(action, onDelete: onDelete);
+        return;
+      }
       _dispatchMenuAction(action, onDelete: onDelete, isMobile: true);
     } finally {
       if (mounted) {
@@ -1060,6 +1068,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   }) async {
     final String? guildId = _guildIdForMessageActions();
     final VoidCallback? onDelete = widget.onDelete;
+    final ForkMessageActionSession forkSession = _forkCaptureActionSession(
+      context,
+    );
     final ValueNotifier<bool> openFlag =
         (anchorRect == null ? _contextMenuOpen : _moreMenuOpen)..value = true;
     MessageAction? action;
@@ -1071,7 +1082,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         message: widget.message,
         permissions: _videoActionScope.permissions,
         callbacks: _videoActionScope.callbacks,
-        onQuickReaction: _dispatchQuickReaction,
+        onQuickReaction: forkSession.dispatchQuickReaction,
         quickReactionChannelId: widget.message.channelId,
         quickReactionGuildId: guildId,
       );
@@ -1082,6 +1093,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       }
     }
     if (!mounted) {
+      forkSession.dispatchAfterUnmounted(action, onDelete: onDelete);
       return;
     }
     _dispatchMenuAction(action, onDelete: onDelete, isMobile: false);
@@ -3014,6 +3026,17 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           child: const PhosphorIcon(PhosphorIconsFill.trash),
         ),
       ],
+    );
+  }
+
+  // Fork: tyne-chat/tyne#942.
+  ForkMessageActionSession _forkCaptureActionSession(BuildContext context) {
+    return ForkMessageActionSession(
+      itemContext: context,
+      message: widget.message,
+      previewRoleGuildId: widget.previewRoleGuildId,
+      onReaction: widget.onReaction,
+      baseCallbacks: _videoActionScope.callbacks,
     );
   }
 }

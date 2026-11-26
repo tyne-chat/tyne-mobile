@@ -122,6 +122,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 // Fork imports.
 // ignore: directives_ordering
+import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/fork_message_action_host.dart';
 import 'package:fluxer_app/features/profile/providers/persona_blocks_provider.dart';
 import 'package:fluxer_app/features/threads/fork_dm_threads/dm_thread_providers.dart';
 
@@ -1204,7 +1205,7 @@ class _MessageListState extends ConsumerState<MessageList> {
                   scrollPosition: _scrollController.listPosition,
                   pinTrailingEdge: _holdsLiveTailEdge(),
                   bottomInset: _statusOverlayInset,
-                  child: MessageListBody(child: body),
+                  child: forkHostBody(MessageListBody(child: body)),
                 ),
                 showUnreadBar: showUnreadBar,
                 unreadCount: unreadCount,

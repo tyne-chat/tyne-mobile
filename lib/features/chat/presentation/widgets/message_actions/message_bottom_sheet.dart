@@ -46,6 +46,7 @@ import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 // ignore: directives_ordering
 import 'package:fluxer_app/features/bookmarks/utils/fork_bookmark_removal.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/persona_picker_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/fork_message_action_host.dart';
 import 'package:fluxer_app/features/emoji/domain/emoji_info_data.dart';
 import 'package:fluxer_app/features/emoji/presentation/sheets/emoji_info_bottom_sheet.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
@@ -124,7 +125,7 @@ Future<MessageAction?> showMessageBottomSheet(
       quickItems: quickItems,
       quickReactionChannelId: quickReactionChannelId,
       quickReactionGuildId: quickReactionGuildId,
-      onQuickReaction: onQuickReaction,
+      onQuickReaction: forkGuardedQuickReaction(onQuickReaction),
       attachmentCallbacks: attachmentCallbacks,
       scrollController: scrollController,
       hostContext: context,
