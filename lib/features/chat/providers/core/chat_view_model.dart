@@ -120,6 +120,7 @@ import 'package:fluxer_app/features/chat/domain/cloud_composer_attachments.dart'
 import 'package:fluxer_app/features/chat/domain/forward_as.dart';
 import 'package:fluxer_app/features/chat/providers/core/fork_around_page.dart';
 import 'package:fluxer_app/features/chat/providers/core/fork_detached_send.dart';
+import 'package:fluxer_app/features/chat/providers/core/fork_pending_reaction_mutations.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
 import 'package:fluxer_app/features/chat/utils/composer/fork_edit_sendable.dart';
@@ -809,6 +810,9 @@ class ChatViewModel extends _$ChatViewModel {
   final Set<int> _outstandingFetchOrdinals = <int>{};
   final Map<String, List<_LocalMutation>> _localMutations =
       <String, List<_LocalMutation>>{};
+  // Fork: tracks in-flight/unretired reaction mutations alongside _localMutations.
+  final ForkPendingReactionMutations _forkReactionMutations =
+      ForkPendingReactionMutations();
   final Map<String, Message> _inFlightOptimisticMessages = <String, Message>{};
   final Map<String, int> _sendsAwaitingReconnect = <String, int>{};
   final Map<String, List<String>> _maybeCreatedSends = <String, List<String>>{};
@@ -840,6 +844,7 @@ class ChatViewModel extends _$ChatViewModel {
     _lastReconciledConnectivityGapGenerationByChannel.clear();
     _lastNetworkRefreshByChannel.clear();
     _localMutations.clear();
+    _forkReactionMutations.clear();
     _inFlightOptimisticMessages.clear();
     _localSends.clear();
     _retrySendOptions.clear();
@@ -1156,6 +1161,10 @@ class ChatViewModel extends _$ChatViewModel {
     (int sum, List<_LocalMutation> ops) => sum + ops.length,
   );
 
+  // Fork: exposes active/unretired reaction mutation count for unit tests.
+  @visibleForTesting
+  int get forkPendingReactionMutationCount => _forkReactionMutations.count;
+
   int _beginPageFetch() {
     final int ordinal = ++_pageFetchOrdinal;
     _outstandingFetchOrdinals.add(ordinal);
@@ -1218,7 +1227,7 @@ class ChatViewModel extends _$ChatViewModel {
   }
 
   void _retireLocalMutations() {
-    if (_localMutations.isEmpty) {
+    if (_localMutations.isEmpty && _forkReactionMutations.isEmpty) {
       return;
     }
     int? oldestOutstanding;
@@ -1243,6 +1252,7 @@ class ChatViewModel extends _$ChatViewModel {
       });
       return ops.isEmpty;
     });
+    _forkReactionMutations.retire(oldestOutstanding: boundary);
   }
 
   List<Message> _applyPendingLocalMutations(
@@ -1306,11 +1316,30 @@ class ChatViewModel extends _$ChatViewModel {
     return collapseDeliveredLocalSends(
       _mergeInFlightSends(
         channelId,
-        _applyPendingLocalMutations(
-          _retainMessagesForChannel(channelId, messages),
-          fetchOrdinal,
+        _forkReactionMutations.apply(
+          _applyPendingLocalMutations(
+            _retainMessagesForChannel(channelId, messages),
+            fetchOrdinal,
+          ),
+          fetchOrdinal: fetchOrdinal,
         ),
       ),
+    );
+  }
+
+  Future<void> _forkSyncOverlaidReactionsToDatabase(
+    String channelId,
+    List<Message> pageMessages,
+    int fetchOrdinal,
+  ) async {
+    if (!ref.mounted || _forkReactionMutations.isEmpty) {
+      return;
+    }
+    await _forkReactionMutations.syncOverlaidToDatabase(
+      dao: ref.read(fluxerDatabaseProvider).messageDao,
+      channelId: channelId,
+      pageMessages: pageMessages,
+      fetchOrdinal: fetchOrdinal,
     );
   }
 
@@ -3569,6 +3598,14 @@ class ChatViewModel extends _$ChatViewModel {
           }
         }
       }
+      await _forkSyncOverlaidReactionsToDatabase(
+        channelId,
+        page.messages,
+        effectiveFetchOrdinal,
+      );
+      if (!stillCurrent() || !ownsSwap()) {
+        return;
+      }
       if (preserveLoadedWindow &&
           !networkPageOverlapsWindow(
             window: state.messages,
@@ -3966,6 +4003,11 @@ class ChatViewModel extends _$ChatViewModel {
         before: requestedBeforeId,
         limit: _kPageSize,
       );
+      await _forkSyncOverlaidReactionsToDatabase(
+        channelId,
+        page.messages,
+        fetchOrdinal,
+      );
       if (isStale()) {
         return older(
           status: PageLoadStatus.superseded,
@@ -4201,6 +4243,11 @@ class ChatViewModel extends _$ChatViewModel {
         channelId: channelId,
         after: requestedAfterId,
         limit: _kPageSize,
+      );
+      await _forkSyncOverlaidReactionsToDatabase(
+        channelId,
+        page.messages,
+        fetchOrdinal,
       );
       if (isStale()) {
         return newer(
@@ -7325,6 +7372,11 @@ class ChatViewModel extends _$ChatViewModel {
             around: messageId,
             limit: aroundLimit,
           );
+      await _forkSyncOverlaidReactionsToDatabase(
+        channelId,
+        page.messages,
+        fetchOrdinal,
+      );
       if (!isCurrentJump()) {
         return;
       }
@@ -8361,6 +8413,16 @@ class ChatViewModel extends _$ChatViewModel {
       animated: animated,
       count: 0,
     );
+    // Fork: retain in-flight/just-acked reactions across concurrent fetches (tyne#940).
+    final int reactionMutationOrdinal = _forkReactionMutations.recordToggle(
+      messageId,
+      startOrdinal: ++_pageFetchOrdinal,
+      emoji: emoji,
+      emojiId: emojiId,
+      animated: animated,
+      isAdd: !hasReactedTarget,
+      personaId: reactionPersonaId,
+    );
 
     try {
       final repo = ref.read(messageRepositoryProvider);
@@ -8379,7 +8441,14 @@ class ChatViewModel extends _$ChatViewModel {
           personaId: isRootTarget ? null : effectivePersonaId,
         );
       }
+      _forkReactionMutations.acknowledge(
+        messageId,
+        reactionMutationOrdinal,
+        ackOrdinal: ++_pageFetchOrdinal,
+      );
+      _retireLocalMutations();
     } on Exception catch (e) {
+      _forkReactionMutations.withdraw(messageId, reactionMutationOrdinal);
       talker.error('[ChatViewModel] Reaction failed', e);
       _restoreMessageReactions(messageId, previousReactions);
       unawaited(
@@ -8430,6 +8499,10 @@ class ChatViewModel extends _$ChatViewModel {
       return;
     }
     final previousReactions = msg.reactions;
+    final int mutationOrdinal = _forkReactionMutations.recordClearAll(
+      messageId,
+      startOrdinal: ++_pageFetchOrdinal,
+    );
     final updatedMessages = List<Message>.from(state.messages);
     updatedMessages[msgIndex] = msg.copyWith(reactions: const <Reaction>[]);
     state = state.copyWith(
@@ -8439,7 +8512,14 @@ class ChatViewModel extends _$ChatViewModel {
       await ref
           .read(messageRepositoryProvider)
           .removeAllReactions(channelId: state.channelId, messageId: messageId);
+      _forkReactionMutations.acknowledge(
+        messageId,
+        mutationOrdinal,
+        ackOrdinal: ++_pageFetchOrdinal,
+      );
+      _retireLocalMutations();
     } on Exception catch (e, st) {
+      _forkReactionMutations.withdraw(messageId, mutationOrdinal);
       talker.error('[ChatViewModel] removeAllReactions failed', e, st);
       final rollbackIndex = state.messages.indexWhere((m) => m.id == messageId);
       if (rollbackIndex != -1) {
@@ -8908,6 +8988,17 @@ class ChatViewModel extends _$ChatViewModel {
       ids: removed,
     );
     _restoreMessageReactions(messageId, without(ids));
+    final List<int> mutationOrdinals = <int>[
+      for (final String? id in ids)
+        _forkReactionMutations.recordToggle(
+          messageId,
+          startOrdinal: ++_pageFetchOrdinal,
+          emoji: emoji,
+          emojiId: emojiId,
+          isAdd: false,
+          personaId: id,
+        ),
+    ];
     final MessageRepository repo = ref.read(messageRepositoryProvider);
     for (int i = 0; i < ids.length; i++) {
       try {
@@ -8917,7 +9008,16 @@ class ChatViewModel extends _$ChatViewModel {
           emoji: reaction.apiParam,
           personaId: ids[i] ?? '0',
         );
+        _forkReactionMutations.acknowledge(
+          messageId,
+          mutationOrdinals[i],
+          ackOrdinal: ++_pageFetchOrdinal,
+        );
+        _retireLocalMutations();
       } on Exception catch (e) {
+        for (int j = i; j < mutationOrdinals.length; j++) {
+          _forkReactionMutations.withdraw(messageId, mutationOrdinals[j]);
+        }
         talker.error('[ChatViewModel] Removing own reactions failed', e);
         if (ref.mounted && state.channelId == channelId) {
           _restoreMessageReactions(messageId, without(ids.take(i)));
