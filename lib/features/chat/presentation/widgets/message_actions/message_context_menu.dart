@@ -23,6 +23,7 @@ import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 // Fork imports.
 // ignore: directives_ordering
+import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/fork_message_action_host.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 
@@ -49,7 +50,7 @@ Future<MessageAction?> showMessageContextMenu(
               message: message,
               permissions: permissions,
               callbacks: callbacks,
-              onQuickReaction: onQuickReaction,
+              onQuickReaction: forkGuardedQuickReaction(onQuickReaction),
               quickItems: quickItems,
               quickReactionChannelId: quickReactionChannelId,
               quickReactionGuildId: quickReactionGuildId,
