@@ -111,7 +111,7 @@ Future<void> showCreateThreadSheetForMessage(
   await handOffFluxerSheet(context);
   final db.Channel? row = await parentRow;
   // Fork: a message in a DM starts a thread in the DM (tyne-chat/tyne#699).
-  final Channel? forkDmParent = row == null
+  final Channel? forkDmParent = row == null && context.mounted
       ? ref.read(forkDmThreadParentProvider(message.channelId))
       : null;
   if (forkDmParent != null && context.mounted) {

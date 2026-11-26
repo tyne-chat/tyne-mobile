@@ -44,6 +44,9 @@ Future<FileUploadValidationResult?> tryPasteClipboardAttachments({
   if (!await readClipboardLikelyHasFileAttachments()) {
     return null;
   }
+  if (!ref.context.mounted) {
+    return null;
+  }
   final List<XFile> files = await readClipboardAttachmentFiles(
     maxFiles: ref.read(
       instanceLimitProvider(LimitKeys.maxAttachmentsPerMessage),

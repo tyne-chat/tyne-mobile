@@ -36,6 +36,9 @@ class GuildCommandChip extends ConsumerWidget {
       guildCommandsProvider.notifier,
     );
     await commands.ensureLoaded();
+    if (!ref.context.mounted) {
+      return null;
+    }
     final GuildCommandResponseSchema? command = commands.resolve(
       message.commandName!,
       channelGuildId: ref
@@ -54,6 +57,9 @@ class GuildCommandChip extends ConsumerWidget {
   Future<void> _onTap(BuildContext context, WidgetRef ref) async {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final GuildCommandResponseSchema? command = await _usable(ref);
+    if (!context.mounted) {
+      return;
+    }
     if (command != null) {
       ref
           .read(pendingGuildCommandInsertProvider.notifier)
@@ -79,10 +85,14 @@ class GuildCommandChip extends ConsumerWidget {
     final GuildCommandsNotifier commands = ref.read(
       guildCommandsProvider.notifier,
     );
+    final permissionsNotifier = ref.read(
+      guildPermissionsProvider(readAccountUserId(ref)).notifier,
+    );
     await commands.ensureLoaded();
-    final int permissions = await ref
-        .read(guildPermissionsProvider(readAccountUserId(ref)).notifier)
-        .getPermissions(guildId);
+    final int permissions = await permissionsNotifier.getPermissions(guildId);
+    if (!context.mounted) {
+      return;
+    }
     final GuildCommandResponseSchema? command = commands.findById(
       message.commandId!,
     );
@@ -91,8 +101,7 @@ class GuildCommandChip extends ConsumerWidget {
           permissions: permissions,
           creatorId: command.creatorId,
           currentUserId: ref.read(currentUserIdProvider),
-        ) ||
-        !context.mounted) {
+        )) {
       return;
     }
     await FluxerActionMenu.show(

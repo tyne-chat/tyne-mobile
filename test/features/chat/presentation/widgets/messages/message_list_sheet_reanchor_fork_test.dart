@@ -7,21 +7,38 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
+import 'package:drift/drift.dart'
+    show ApplyInterceptor, QueryExecutor, QueryInterceptor, Value;
+import 'package:drift/native.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
+import 'package:fluxer_app/core/providers/app/app_startup_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/synced_preferences/usage_frecency.dart';
+import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/chat/data/message_translation_service.dart';
+import 'package:fluxer_app/features/chat/data/message_translation_source.dart';
+import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/domain/message_translation.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_list_renderer.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/message_bottom_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_loader.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_row.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/forwarded_message_content.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_viewport.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_translation_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/saved_message_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
@@ -34,6 +51,8 @@ import 'package:fluxer_app/features/profile/providers/persona_blocks_provider.da
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
 import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
+import 'package:fluxer_dart/export.dart'
+    show FluxerClient, MessageReferenceType;
 
 import '../../../../../helpers/instance_runtime_config_override.dart';
 import '../../../../../helpers/test_l10n.dart';
@@ -45,6 +64,8 @@ class _RecordingChatViewModel extends InstrumentedChatViewModel {
   final List<(String messageId, String emoji)> toggledReactions =
       <(String, String)>[];
   final List<String> repliedMessageIds = <String>[];
+  final List<(String messageId, MessageTranslation? translation)>
+  appliedTranslations = <(String, MessageTranslation?)>[];
 
   @override
   Future<void> toggleReaction(
@@ -62,12 +83,109 @@ class _RecordingChatViewModel extends InstrumentedChatViewModel {
   void startReply(Message message) {
     repliedMessageIds.add(message.id);
   }
+
+  @override
+  void applyMessageTranslation({
+    required String messageId,
+    required MessageTranslation? translation,
+  }) {
+    appliedTranslations.add((messageId, translation));
+    super.applyMessageTranslation(
+      messageId: messageId,
+      translation: translation,
+    );
+  }
+}
+
+class _ControllableTranslationService extends MessageTranslationService {
+  _ControllableTranslationService(db.FluxerDatabase database)
+    : super(
+        messageDao: database.messageDao,
+        sources: const <MessageTranslationSource>[],
+      );
+
+  final Completer<Message> translateCompleter = Completer<Message>();
+  final Completer<Message> showOriginalCompleter = Completer<Message>();
+
+  @override
+  Future<bool> isAvailable() async => true;
+
+  @override
+  Future<String?> detectLanguage(String text) async => 'es';
+
+  @override
+  Future<Message> translateMessage({
+    required Message message,
+    required String targetLanguage,
+  }) => translateCompleter.future;
+
+  @override
+  Future<Message> setShowOriginal({
+    required Message message,
+    required bool showOriginal,
+  }) => showOriginalCompleter.future;
+}
+
+class _DelayedEmojiPins extends EmojiPinsNotifier {
+  _DelayedEmojiPins(this.completer);
+
+  final Completer<EmojiPins> completer;
+
+  @override
+  Future<EmojiPins> build() => completer.future;
+}
+
+class _PauseDmSelectInterceptor extends QueryInterceptor {
+  final Completer<void> paused = Completer<void>();
+  final Completer<void> gate = Completer<void>();
+  bool enabled = false;
+
+  @override
+  Future<List<Map<String, Object?>>> runSelect(
+    QueryExecutor executor,
+    String statement,
+    List<Object?> args,
+  ) async {
+    if (enabled &&
+        statement.contains('dm_channels') &&
+        args.contains('gdm-source')) {
+      enabled = false;
+      if (!paused.isCompleted) {
+        paused.complete();
+      }
+      await gate.future;
+    }
+    return await executor.runSelect(statement, args);
+  }
 }
 
 class _NoPersonas extends MyPersonasNotifier {
   @override
   AsyncValue<List<Persona>> build() =>
       const AsyncData<List<Persona>>(<Persona>[]);
+}
+
+class _IdleAppStartup extends AppStartup {
+  @override
+  Future<void> build() => Future<void>.value();
+}
+
+class _StubAdapter implements HttpClientAdapter {
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) async => ResponseBody.fromString(
+    '[]',
+    200,
+    headers: <String, List<String>>{
+      Headers.contentTypeHeader: <String>['application/json'],
+    },
+  );
+
+  @override
+  void close({bool force = false}) {}
 }
 
 class _NoBlockedPersonas extends PersonaBlocksNotifier {
@@ -167,7 +285,6 @@ _openSheetAndTriggerUnderfillReanchor(WidgetTester tester) async {
     detachedState(seeded, hasMoreNewer: false),
   );
   final _RecordingExpressionUsage usage = _RecordingExpressionUsage();
-  addTearDown(() => tester.runAsync(base.database.close));
 
   await tester.pumpWidget(
     messageListApp(
@@ -422,4 +539,631 @@ void main() {
       await disposeMessageList(tester);
     },
   );
+
+  testWidgets('tapping Copy Link after keyboard-hide reanchor unmounts '
+      'MessageItem still copies the link URL', (WidgetTester tester) async {
+    String? copiedText;
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(SystemChannels.platform, (
+          MethodCall call,
+        ) async {
+          if (call.method == 'Clipboard.setData') {
+            final Map<dynamic, dynamic> args =
+                call.arguments as Map<dynamic, dynamic>;
+            copiedText = args['text'] as String?;
+          }
+          return null;
+        });
+    addTearDown(
+      () => TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(SystemChannels.platform, null),
+    );
+
+    configureMessageListViewport(tester);
+    final ValueNotifier<double> keyboardHeight = ValueNotifier<double>(260);
+    addTearDown(keyboardHeight.dispose);
+    final AroundAckMessageListHarness base =
+        await createBottomMessageListHarness(messageCount: 30);
+
+    final List<Message> seeded = List<Message>.of(base.messages);
+    seeded[seeded.length - 1] = harnessMessage(
+      id: seeded.last.id,
+      content: List<String>.generate(8, (int i) => 'newest line $i').join('\n'),
+      timestamp: seeded.last.timestamp,
+    );
+    final Message rawTarget = seeded[seeded.length - 2];
+    const String url = 'https://tyne.chat/docs';
+    seeded[seeded.length - 2] = harnessMessage(
+      id: rawTarget.id,
+      content: url,
+      timestamp: rawTarget.timestamp,
+    );
+    final String targetId = rawTarget.id;
+    final _RecordingChatViewModel chat = _RecordingChatViewModel(
+      detachedState(seeded, hasMoreNewer: false),
+    );
+
+    final Dio stubDio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+      ..httpClientAdapter = _StubAdapter();
+    final FluxerClient stubClient = FluxerClient(
+      stubDio,
+      baseUrl: 'https://api.fluxer.app/v1',
+    );
+
+    await tester.pumpWidget(
+      messageListApp(
+        database: base.database,
+        chatViewModel: chat,
+        disableMessageListAnimations: false,
+        body: _KeyboardHost(keyboardHeight: keyboardHeight),
+        overrides: [
+          instanceRuntimeConfigOverride(),
+          fluxerDioProvider.overrideWithValue(stubDio),
+          fluxerClientProvider.overrideWithValue(stubClient),
+          appStartupProvider.overrideWith(_IdleAppStartup.new),
+          contextualGuildIdProvider.overrideWithValue(null),
+          channelPermissionCacheProvider(
+            messageListCurrentUserId,
+          ).overrideWithValue(
+            const ChannelPermissionCaches(
+              effective: <String, int>{messageListChannelId: -1},
+            ),
+          ),
+          instanceFeatureEnabledProvider(
+            LimitKeys.featureGlobalExpressions,
+          ).overrideWithValue(false),
+          rankedEmojiUsageKeysProvider.overrideWithValue(
+            const AsyncData<List<String>>(<String>[]),
+          ),
+          emojiPinsProvider.overrideWith(_EmptyEmojiPins.new),
+          myPersonasProvider.overrideWith(_NoPersonas.new),
+          blockedPersonaKeysProvider.overrideWith(_NoBlockedPersonas.new),
+          isMessageSavedProvider(
+            targetId,
+          ).overrideWith((ref) => Stream<bool>.value(false)),
+          favoriteMemesProvider.overrideWith(
+            (ref) => Stream<List<FavoriteMeme>>.value(const <FavoriteMeme>[]),
+          ),
+          messageTranslationAvailableProvider.overrideWith(
+            (ref) => Future<bool>.value(false),
+          ),
+        ],
+      ),
+    );
+    await _pumpAsyncFrames(tester);
+
+    chat.scrollToMessage(targetId);
+    await _pumpAsyncFrames(tester);
+
+    final Element originalItemElement = tester.element(
+      messageItemFor(targetId),
+    );
+    final Finder linkText = find.descendant(
+      of: messageItemFor(targetId),
+      matching: find.textContaining(url, findRichText: true),
+    );
+    await tester.longPressAt(tester.getTopLeft(linkText) + const Offset(12, 8));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 500));
+    await _pumpAsyncFrames(tester, count: 6);
+    expect(find.text(testL10n.chatMessageCopyLink), findsOneWidget);
+
+    keyboardHeight.value = 0;
+    await _pumpAsyncFrames(tester, count: 10);
+    expect(originalItemElement.mounted, isFalse);
+
+    await tester.tap(find.text(testL10n.chatMessageCopyLink));
+    await _pumpAsyncFrames(tester);
+
+    expect(tester.takeException(), isNull);
+    expect(copiedText, url);
+    await disposeMessageList(tester);
+  });
+
+  testWidgets('choosing Translate and unmounting MessageItem while translation '
+      'awaits completes without StateError', (WidgetTester tester) async {
+    configureMessageListViewport(tester);
+    final ValueNotifier<double> keyboardHeight = ValueNotifier<double>(260);
+    addTearDown(keyboardHeight.dispose);
+    final AroundAckMessageListHarness base =
+        await createBottomMessageListHarness(messageCount: 30);
+
+    final _ControllableTranslationService translationService =
+        _ControllableTranslationService(base.database);
+    final List<Message> seeded = List<Message>.of(base.messages);
+    seeded[seeded.length - 1] = harnessMessage(
+      id: seeded.last.id,
+      content: List<String>.generate(8, (int i) => 'newest line $i').join('\n'),
+      timestamp: seeded.last.timestamp,
+    );
+    final Message rawTarget = seeded[seeded.length - 2];
+    const String sourceText = 'Hola mundo desde Tyne';
+    final Message targetMessage = harnessMessage(
+      id: rawTarget.id,
+      content: sourceText,
+      timestamp: rawTarget.timestamp,
+    );
+    seeded[seeded.length - 2] = targetMessage;
+    final String targetId = rawTarget.id;
+    final _RecordingChatViewModel chat = _RecordingChatViewModel(
+      detachedState(seeded, hasMoreNewer: false),
+    );
+
+    final Dio stubDio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+      ..httpClientAdapter = _StubAdapter();
+    final FluxerClient stubClient = FluxerClient(
+      stubDio,
+      baseUrl: 'https://api.fluxer.app/v1',
+    );
+
+    await tester.pumpWidget(
+      messageListApp(
+        database: base.database,
+        chatViewModel: chat,
+        disableMessageListAnimations: false,
+        body: _KeyboardHost(keyboardHeight: keyboardHeight),
+        overrides: [
+          instanceRuntimeConfigOverride(),
+          fluxerDioProvider.overrideWithValue(stubDio),
+          fluxerClientProvider.overrideWithValue(stubClient),
+          appStartupProvider.overrideWith(_IdleAppStartup.new),
+          contextualGuildIdProvider.overrideWithValue(null),
+          channelPermissionCacheProvider(
+            messageListCurrentUserId,
+          ).overrideWithValue(
+            const ChannelPermissionCaches(
+              effective: <String, int>{messageListChannelId: -1},
+            ),
+          ),
+          instanceFeatureEnabledProvider(
+            LimitKeys.featureGlobalExpressions,
+          ).overrideWithValue(false),
+          rankedEmojiUsageKeysProvider.overrideWithValue(
+            const AsyncData<List<String>>(<String>[]),
+          ),
+          emojiPinsProvider.overrideWith(_EmptyEmojiPins.new),
+          myPersonasProvider.overrideWith(_NoPersonas.new),
+          blockedPersonaKeysProvider.overrideWith(_NoBlockedPersonas.new),
+          isMessageSavedProvider(
+            targetId,
+          ).overrideWith((ref) => Stream<bool>.value(false)),
+          favoriteMemesProvider.overrideWith(
+            (ref) => Stream<List<FavoriteMeme>>.value(const <FavoriteMeme>[]),
+          ),
+          messageTranslationServiceProvider.overrideWithValue(
+            translationService,
+          ),
+          messageTranslationAvailableProvider.overrideWith(
+            (ref) => Future<bool>.value(true),
+          ),
+          detectedMessageLanguageProvider(
+            sourceText,
+          ).overrideWith((ref) => Future<String?>.value('es')),
+        ],
+      ),
+    );
+    await _pumpAsyncFrames(tester);
+
+    chat.scrollToMessage(targetId);
+    await _pumpAsyncFrames(tester);
+
+    final Element originalItemElement = tester.element(
+      messageItemFor(targetId),
+    );
+    await tester.longPress(messageItemFor(targetId));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 500));
+    await _pumpAsyncFrames(tester, count: 6);
+    expect(find.text(testL10n.chatMessageTranslate), findsOneWidget);
+
+    // Tap Translate BEFORE unmounting the row so _MessageItemState is still
+    // mounted when showMessageBottomSheet resolves, then unmount it mid-await.
+    await tester.tap(find.text(testL10n.chatMessageTranslate));
+    await _pumpAsyncFrames(tester, count: 4);
+    expect(originalItemElement.mounted, isTrue);
+
+    keyboardHeight.value = 0;
+    await _pumpAsyncFrames(tester, count: 10);
+    expect(originalItemElement.mounted, isFalse);
+
+    const MessageTranslation translated = MessageTranslation(
+      translatedContent: 'Hello world from Tyne',
+      sourceLanguageCode: 'es',
+      sourceContent: sourceText,
+      targetLanguageCode: 'en',
+    );
+    translationService.translateCompleter.complete(
+      targetMessage.copyWith(translation: translated),
+    );
+    await _pumpAsyncFrames(tester, count: 6);
+
+    expect(tester.takeException(), isNull);
+    expect(chat.appliedTranslations, <(String, MessageTranslation?)>[
+      (targetId, translated),
+    ]);
+    await disposeMessageList(tester);
+  });
+
+  testWidgets('invoking media action scope onAddReaction after MessageItem '
+      'unmounts opens reaction picker without throwing on State.context', (
+    WidgetTester tester,
+  ) async {
+    configureMessageListViewport(tester);
+    final ValueNotifier<double> keyboardHeight = ValueNotifier<double>(260);
+    addTearDown(keyboardHeight.dispose);
+    final AroundAckMessageListHarness base =
+        await createBottomMessageListHarness(messageCount: 30);
+
+    final List<Message> seeded = List<Message>.of(base.messages);
+    seeded[seeded.length - 1] = harnessMessage(
+      id: seeded.last.id,
+      content: List<String>.generate(8, (int i) => 'newest line $i').join('\n'),
+      timestamp: seeded.last.timestamp,
+    );
+    final Message rawTarget = seeded[seeded.length - 2];
+    seeded[seeded.length - 2] = rawTarget.copyWith(
+      attachments: const <Attachment>[
+        Attachment(
+          id: 'att-1',
+          filename: 'notes.pdf',
+          url: 'https://cdn.tyne.chat/notes.pdf',
+          proxyUrl: 'https://cdn.tyne.chat/notes.pdf',
+          contentType: 'application/pdf',
+          size: 128,
+        ),
+      ],
+    );
+    final String targetId = rawTarget.id;
+    final _RecordingChatViewModel chat = _RecordingChatViewModel(
+      detachedState(seeded, hasMoreNewer: false),
+    );
+
+    final Dio stubDio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+      ..httpClientAdapter = _StubAdapter();
+    final FluxerClient stubClient = FluxerClient(
+      stubDio,
+      baseUrl: 'https://api.fluxer.app/v1',
+    );
+
+    await tester.pumpWidget(
+      messageListApp(
+        database: base.database,
+        chatViewModel: chat,
+        disableMessageListAnimations: false,
+        body: _KeyboardHost(keyboardHeight: keyboardHeight),
+        overrides: [
+          instanceRuntimeConfigOverride(),
+          fluxerDioProvider.overrideWithValue(stubDio),
+          fluxerClientProvider.overrideWithValue(stubClient),
+          appStartupProvider.overrideWith(_IdleAppStartup.new),
+          contextualGuildIdProvider.overrideWithValue(null),
+          channelPermissionCacheProvider(
+            messageListCurrentUserId,
+          ).overrideWithValue(
+            const ChannelPermissionCaches(
+              effective: <String, int>{messageListChannelId: -1},
+            ),
+          ),
+          instanceFeatureEnabledProvider(
+            LimitKeys.featureGlobalExpressions,
+          ).overrideWithValue(false),
+          rankedEmojiUsageKeysProvider.overrideWithValue(
+            const AsyncData<List<String>>(<String>[]),
+          ),
+          emojiPinsProvider.overrideWith(_EmptyEmojiPins.new),
+          myPersonasProvider.overrideWith(_NoPersonas.new),
+          blockedPersonaKeysProvider.overrideWith(_NoBlockedPersonas.new),
+          favoriteMemesProvider.overrideWith(
+            (ref) => Stream<List<FavoriteMeme>>.value(const <FavoriteMeme>[]),
+          ),
+        ],
+      ),
+    );
+    await _pumpAsyncFrames(tester);
+
+    chat.scrollToMessage(targetId);
+    await _pumpAsyncFrames(tester);
+
+    final Element originalItemElement = tester.element(
+      messageItemFor(targetId),
+    );
+    final MessageMediaActionScope scope = tester
+        .widget<AttachmentListRenderer>(
+          find.descendant(
+            of: messageItemFor(targetId),
+            matching: find.byType(AttachmentListRenderer),
+          ),
+        )
+        .mediaActionScope!;
+
+    keyboardHeight.value = 0;
+    await _pumpAsyncFrames(tester, count: 10);
+    expect(originalItemElement.mounted, isFalse);
+
+    scope.callbacks.onAddReaction!();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 500));
+    await _pumpAsyncFrames(tester, count: 4);
+
+    expect(tester.takeException(), isNull);
+    expect(find.byType(ExpressionPicker), findsOneWidget);
+    Navigator.of(tester.element(find.byType(ExpressionPicker))).pop();
+    await _pumpAsyncFrames(tester);
+    await disposeMessageList(tester);
+    await tester.runAsync(() async {
+      for (int i = 0; i < 4; i++) {
+        await pumpEventQueue();
+      }
+    });
+  });
+
+  testWidgets('closing quick reactions while emojiPinsProvider is still '
+      'pending does not read disposed WidgetRef', (WidgetTester tester) async {
+    talker.cleanHistory();
+    final AroundAckMessageListHarness base =
+        await createBottomMessageListHarness(messageCount: 3);
+    final Completer<EmojiPins> pinsCompleter = Completer<EmojiPins>();
+    final ValueNotifier<bool> showRow = ValueNotifier<bool>(true);
+    addTearDown(showRow.dispose);
+    final _RecordingChatViewModel chat = _RecordingChatViewModel(
+      detachedState(base.messages, hasMoreNewer: false),
+    );
+
+    await tester.pumpWidget(
+      messageListApp(
+        database: base.database,
+        chatViewModel: chat,
+        body: ValueListenableBuilder<bool>(
+          valueListenable: showRow,
+          builder: (BuildContext context, bool visible, Widget? _) {
+            if (!visible) {
+              return const SizedBox.shrink();
+            }
+            return MessageQuickReactionRow(
+              channelId: messageListChannelId,
+              guildId: null,
+              onReaction: (_) {},
+            );
+          },
+        ),
+        overrides: [
+          instanceRuntimeConfigOverride(),
+          appStartupProvider.overrideWith(_IdleAppStartup.new),
+          contextualGuildIdProvider.overrideWithValue(null),
+          channelPermissionCacheProvider(
+            messageListCurrentUserId,
+          ).overrideWithValue(
+            const ChannelPermissionCaches(
+              effective: <String, int>{messageListChannelId: -1},
+            ),
+          ),
+          instanceFeatureEnabledProvider(
+            LimitKeys.featureGlobalExpressions,
+          ).overrideWithValue(false),
+          rankedEmojiUsageKeysProvider.overrideWith(
+            (ref) => Future<List<String>>.value(const <String>[]),
+          ),
+          emojiPinsProvider.overrideWith(
+            () => _DelayedEmojiPins(pinsCompleter),
+          ),
+          myPersonasProvider.overrideWith(_NoPersonas.new),
+        ],
+      ),
+    );
+    await tester.pump();
+    await tester.runAsync(() => Future<void>.delayed(Duration.zero));
+
+    // Unmount MessageQuickReactionItems before emojiPinsProvider resolves.
+    showRow.value = false;
+    await tester.pump();
+
+    pinsCompleter.complete(
+      const EmojiPins(account: <String>['unicode:thumbsup']),
+    );
+    await _pumpAsyncFrames(tester, count: 4);
+
+    expect(tester.takeException(), isNull);
+    final List<Object> stateErrors = <Object>[
+      for (final entry in talker.history)
+        if (entry.exception is StateError) entry.exception!,
+    ];
+    expect(
+      stateErrors,
+      isEmpty,
+      reason:
+          'Unmounting quick reaction loader mid-await must not read dead ref',
+    );
+    await disposeMessageList(tester);
+  });
+
+  testWidgets('toggling Show Original translation and unmounting MessageItem '
+      'mid-await completes without StateError', (WidgetTester tester) async {
+    configureMessageListViewport(tester);
+    final ValueNotifier<double> keyboardHeight = ValueNotifier<double>(260);
+    addTearDown(keyboardHeight.dispose);
+    final AroundAckMessageListHarness base =
+        await createBottomMessageListHarness(messageCount: 30);
+
+    final _ControllableTranslationService translationService =
+        _ControllableTranslationService(base.database);
+    final List<Message> seeded = List<Message>.of(base.messages);
+    seeded[seeded.length - 1] = harnessMessage(
+      id: seeded.last.id,
+      content: List<String>.generate(8, (int i) => 'newest line $i').join('\n'),
+      timestamp: seeded.last.timestamp,
+    );
+    final Message rawTarget = seeded[seeded.length - 2];
+    const String sourceText = 'Hola mundo';
+    const MessageTranslation initialTranslation = MessageTranslation(
+      translatedContent: 'Hello world',
+      sourceLanguageCode: 'es',
+      sourceContent: sourceText,
+      targetLanguageCode: 'en',
+      showOriginal: true,
+    );
+    final Message targetMessage = harnessMessage(
+      id: rawTarget.id,
+      content: sourceText,
+      timestamp: rawTarget.timestamp,
+    ).copyWith(translation: initialTranslation);
+    seeded[seeded.length - 2] = targetMessage;
+    final String targetId = rawTarget.id;
+    final _RecordingChatViewModel chat = _RecordingChatViewModel(
+      detachedState(seeded, hasMoreNewer: false),
+    );
+
+    final Dio stubDio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+      ..httpClientAdapter = _StubAdapter();
+    final FluxerClient stubClient = FluxerClient(
+      stubDio,
+      baseUrl: 'https://api.fluxer.app/v1',
+    );
+
+    await tester.pumpWidget(
+      messageListApp(
+        database: base.database,
+        chatViewModel: chat,
+        disableMessageListAnimations: false,
+        body: _KeyboardHost(keyboardHeight: keyboardHeight),
+        overrides: [
+          instanceRuntimeConfigOverride(),
+          fluxerDioProvider.overrideWithValue(stubDio),
+          fluxerClientProvider.overrideWithValue(stubClient),
+          appStartupProvider.overrideWith(_IdleAppStartup.new),
+          contextualGuildIdProvider.overrideWithValue(null),
+          channelPermissionCacheProvider(
+            messageListCurrentUserId,
+          ).overrideWithValue(
+            const ChannelPermissionCaches(
+              effective: <String, int>{messageListChannelId: -1},
+            ),
+          ),
+          instanceFeatureEnabledProvider(
+            LimitKeys.featureGlobalExpressions,
+          ).overrideWithValue(false),
+          emojiPinsProvider.overrideWith(_EmptyEmojiPins.new),
+          myPersonasProvider.overrideWith(_NoPersonas.new),
+          blockedPersonaKeysProvider.overrideWith(_NoBlockedPersonas.new),
+          messageTranslationServiceProvider.overrideWithValue(
+            translationService,
+          ),
+        ],
+      ),
+    );
+    await _pumpAsyncFrames(tester);
+
+    chat.scrollToMessage(targetId);
+    await _pumpAsyncFrames(tester);
+
+    final Element originalItemElement = tester.element(
+      messageItemFor(targetId),
+    );
+    await tester.tap(find.text(testL10n.chatMessageSeeTranslation));
+    await tester.pump(const Duration(milliseconds: 350));
+
+    keyboardHeight.value = 0;
+    await _pumpAsyncFrames(tester, count: 10);
+    expect(originalItemElement.mounted, isFalse);
+
+    final MessageTranslation updatedTranslation = initialTranslation.copyWith(
+      showOriginal: false,
+    );
+    translationService.showOriginalCompleter.complete(
+      targetMessage.copyWith(translation: updatedTranslation),
+    );
+    await _pumpAsyncFrames(tester, count: 4);
+
+    expect(tester.takeException(), isNull);
+    expect(chat.appliedTranslations, <(String, MessageTranslation?)>[
+      (targetId, updatedTranslation),
+    ]);
+    await disposeMessageList(tester);
+  });
+
+  testWidgets('unmounting a forwarded Group DM message row while source lookup '
+      'awaits does not throw StateError', (WidgetTester tester) async {
+    configureMessageListViewport(tester);
+    final _PauseDmSelectInterceptor interceptor = _PauseDmSelectInterceptor();
+    final db.FluxerDatabase gatedDb = db.FluxerDatabase.forTesting(
+      NativeDatabase.memory().interceptWith(interceptor),
+    );
+    addTearDown(
+      () => gatedDb.close().timeout(
+        const Duration(seconds: 1),
+        onTimeout: gatedDb.executor.close,
+      ),
+    );
+
+    await tester.runAsync(
+      () => gatedDb.dmChannelDao.upsertDmChannels(<db.DmChannelsCompanion>[
+        db.DmChannelsCompanion.insert(
+          id: 'gdm-source',
+          type: Value(ChannelType.groupDm.wireValue),
+          recipientId: 'u2',
+          name: const Value<String?>('Study Group'),
+        ),
+      ]),
+    );
+    interceptor.enabled = true;
+
+    final DateTime ts = DateTime.utc(2026, 11, 26);
+    final List<Message> seeded = <Message>[
+      harnessMessage(id: '1001', content: 'first', timestamp: ts),
+      harnessMessage(
+        id: '1002',
+        content: '',
+        timestamp: ts.add(const Duration(minutes: 1)),
+      ).copyWith(
+        messageReference: const MessageReference(
+          channelId: 'gdm-source',
+          messageId: 'orig-msg-1',
+          type: MessageReferenceType.forward,
+        ),
+        messageSnapshots: <MessageSnapshot>[
+          MessageSnapshot(content: 'Forwarded note', timestamp: ts),
+        ],
+      ),
+    ];
+    final _RecordingChatViewModel chat = _RecordingChatViewModel(
+      detachedState(seeded, hasMoreNewer: false),
+    );
+
+    await tester.pumpWidget(
+      messageListApp(
+        database: gatedDb,
+        chatViewModel: chat,
+        overrides: [
+          instanceRuntimeConfigOverride(),
+          contextualGuildIdProvider.overrideWithValue(null),
+          emojiPinsProvider.overrideWith(_EmptyEmojiPins.new),
+          myPersonasProvider.overrideWith(_NoPersonas.new),
+          blockedPersonaKeysProvider.overrideWith(_NoBlockedPersonas.new),
+        ],
+      ),
+    );
+    await _pumpAsyncFrames(tester, count: 3);
+    await tester.runAsync(() => interceptor.paused.future);
+    final Widget fb = tester.widget(
+      find.descendant(
+        of: find.byType(ForwardedMessageContent),
+        matching: find.byWidgetPredicate((Widget w) => w is FutureBuilder),
+      ),
+    );
+    final Future<Object?> loadFuture =
+        (fb as dynamic).future as Future<Object?>;
+
+    // Unmount while dmChannelDao.getDmChannelById is paused on interceptor.gate.
+    await disposeMessageList(tester);
+    Object? loadError;
+    await tester.runAsync(() async {
+      interceptor.gate.complete();
+      try {
+        await loadFuture;
+      } on Object catch (e) {
+        loadError = e;
+      }
+    });
+    expect(loadError, isNull);
+    expect(tester.takeException(), isNull);
+  });
 }

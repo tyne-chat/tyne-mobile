@@ -79,7 +79,7 @@ Future<void> showThreadBrowserForChannel(
       .channelDao
       .getChannelById(channelId);
   // Fork: a DM is not in channels; its stand-in parent (tyne-chat/tyne#699).
-  final Channel? forkDmParent = row == null
+  final Channel? forkDmParent = row == null && context.mounted
       ? ref.read(forkDmThreadParentProvider(channelId))
       : null;
   if ((row == null && forkDmParent == null) || !context.mounted) {

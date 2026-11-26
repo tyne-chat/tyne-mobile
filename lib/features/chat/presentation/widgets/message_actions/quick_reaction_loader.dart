@@ -111,6 +111,10 @@ Future<List<QuickReactionItem>?> loadQuickReactionItems(
     final keysFuture = ref.read(rankedEmojiUsageKeysProvider.future);
     await EmojiRegistry.ensureLoaded();
     final keys = await keysFuture;
+    // Fork: sheet may close before usage keys finish loading (tyne-chat/tyne#943).
+    if (!ref.context.mounted) {
+      return null;
+    }
     final hasGlobalEmojiAccess =
         ref.read(
           instanceFeatureEnabledProvider(LimitKeys.featureGlobalExpressions),
@@ -336,7 +340,7 @@ Future<List<String>> _withForkEmojiPins(
     talker.error('Failed to read the pinned emojis', e, st);
     return keys;
   }
-  if (pins.isEmpty) {
+  if (pins.isEmpty || !ref.context.mounted) {
     return keys;
   }
   return rankingWithEmojiPins(

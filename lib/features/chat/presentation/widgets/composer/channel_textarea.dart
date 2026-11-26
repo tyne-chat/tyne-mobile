@@ -2411,7 +2411,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
 
     // Fork: a message of only a persona's tags selects that persona instead
     // of being sent (tyne-chat/tyne#628).
-    if (await _forkSelectPersonaByTagsOnly(channelId, baseContent)) {
+    if (await _forkSelectPersonaByTagsOnly(channelId, baseContent) ||
+        !mounted) {
       return;
     }
 

@@ -364,6 +364,10 @@ class _ForwardedSourceButtonState
     }
 
     if (isDmGroupType(dmChannel.type)) {
+      // Fork: row may unmount while DAO queries await (tyne-chat/tyne#943).
+      if (!mounted) {
+        return null;
+      }
       final conversation = await ref
           .read(dmRepositoryProvider)
           .conversationFromChannelRow(dmChannel);

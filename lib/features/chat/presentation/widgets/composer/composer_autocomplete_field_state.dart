@@ -956,6 +956,9 @@ class ComposerAutocompleteFieldState
       }
     }
     // Tier 2: Channel personas (frecency-ranked: recent in-room speakers + channel directory)
+    if (!mounted) {
+      return;
+    }
     final String? currentUserId = ref.read(currentUserIdProvider);
     final UserSettingsViewState userSettings = ref.read(
       userSettingsViewModelProvider,
