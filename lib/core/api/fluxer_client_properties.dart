@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/providers/app_runtime_info.dart';
 
 // Fork imports.
 // ignore: directives_ordering
+import 'package:fluxer_app/core/api/fork_client_name.dart';
 import 'package:fluxer_app/core/instance/instance_constants.dart';
 
 const int fluxerClientPropertiesSchemaVersion = 1;
@@ -156,7 +157,7 @@ String buildFluxerClientUserAgent({
   final String clientName = switch (clientPlatform) {
     'android' => '${InstanceConstants.defaultProductName} Android',
     'ios' => '${InstanceConstants.defaultProductName} iOS',
-    'desktop' => '${InstanceConstants.defaultProductName} Oxygen',
+    'desktop' => forkDesktopClientName(),
     'client' => '${InstanceConstants.defaultProductName} Client',
     _ => '${InstanceConstants.defaultProductName} Client',
   };
