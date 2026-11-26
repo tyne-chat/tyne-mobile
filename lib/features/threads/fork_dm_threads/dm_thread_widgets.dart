@@ -427,12 +427,17 @@ class _ForkDmThreadRouteFetchState
         row.hasValue &&
         row.value == null &&
         _asked.add(channelId)) {
-      unawaited(
-        ref
-            .read(threadsRepositoryProvider)
-            .fetch(guildId: forkDmThreadGuildKey, threadId: channelId)
-            .then<void>((_) {}, onError: (Object _) {}),
-      );
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) {
+          return;
+        }
+        unawaited(
+          ref
+              .read(threadsRepositoryProvider)
+              .fetch(guildId: forkDmThreadGuildKey, threadId: channelId)
+              .then<void>((_) {}, onError: (Object _) {}),
+        );
+      });
     }
     return const SizedBox.shrink();
   }

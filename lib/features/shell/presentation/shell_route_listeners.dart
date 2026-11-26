@@ -251,6 +251,9 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
         AppUpdateState? previous,
         AppUpdateState next,
       ) {
+        if (!mounted) {
+          return;
+        }
         toastManualUpdateCheck(
           ref,
           FluxerLocalizations.of(context),
