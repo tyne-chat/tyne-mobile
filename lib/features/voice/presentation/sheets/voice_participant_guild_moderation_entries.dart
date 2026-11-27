@@ -26,6 +26,9 @@ List<VoiceParticipantMenuEntry> buildVoiceParticipantGuildModerationEntries({
   required String? currentNick,
   required VoidCallback close,
 }) {
+  // Fork: pre-capture container before menu entries await modals so moderation
+  // API calls succeed if the participant sheet unmounts (tyne-chat/tyne#946).
+  final ProviderContainer container = ref.container;
   final List<VoiceParticipantMenuEntry> entries = <VoiceParticipantMenuEntry>[];
 
   if (capabilities.showTimeout) {
@@ -44,13 +47,13 @@ List<VoiceParticipantMenuEntry> buildVoiceParticipantGuildModerationEntries({
             if (seconds == null) {
               return;
             }
-            await UserProfileActionsSheet.runGuildModeration(
-              ref,
+            await UserProfileActionsSheet.runGuildModerationInContainer(
+              container,
               guildId: guildId,
               userId: userId,
               successMessage: l10n.userProfileTimeoutSuccess(username),
               errorAction: ApiErrorAction.timeoutMember,
-              action: () => ref
+              action: () => container
                   .read(fluxerClientProvider)
                   .guilds
                   .updateGuildMember(
@@ -93,13 +96,13 @@ List<VoiceParticipantMenuEntry> buildVoiceParticipantGuildModerationEntries({
             if (!ok) {
               return;
             }
-            await UserProfileActionsSheet.runGuildModeration(
-              ref,
+            await UserProfileActionsSheet.runGuildModerationInContainer(
+              container,
               guildId: guildId,
               userId: userId,
               successMessage: l10n.userProfileRemoveTimeoutSuccess(username),
               errorAction: ApiErrorAction.removeTimeout,
-              action: () => ref
+              action: () => container
                   .read(fluxerClientProvider)
                   .guilds
                   .updateGuildMember(
@@ -136,13 +139,13 @@ List<VoiceParticipantMenuEntry> buildVoiceParticipantGuildModerationEntries({
             if (!ok) {
               return;
             }
-            await UserProfileActionsSheet.runGuildModeration(
-              ref,
+            await UserProfileActionsSheet.runGuildModerationInContainer(
+              container,
               guildId: guildId,
               userId: userId,
               successMessage: l10n.userProfileKickSuccess(username),
               errorAction: ApiErrorAction.kickMember,
-              action: () => ref
+              action: () => container
                   .read(fluxerClientProvider)
                   .guilds
                   .removeGuildMember(guildId: guildId, userId: userId),
@@ -169,13 +172,13 @@ List<VoiceParticipantMenuEntry> buildVoiceParticipantGuildModerationEntries({
             if (result == null) {
               return;
             }
-            await UserProfileActionsSheet.runGuildModeration(
-              ref,
+            await UserProfileActionsSheet.runGuildModerationInContainer(
+              container,
               guildId: guildId,
               userId: userId,
               successMessage: l10n.userProfileBanSuccess(username),
               errorAction: ApiErrorAction.banMember,
-              action: () => ref
+              action: () => container
                   .read(fluxerClientProvider)
                   .guilds
                   .banGuildMember(

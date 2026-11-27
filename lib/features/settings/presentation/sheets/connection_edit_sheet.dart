@@ -113,9 +113,13 @@ class _ConnectionEditBodyState extends ConsumerState<_ConnectionEditBody> {
 
   Future<void> _save() async {
     final l10n = FluxerLocalizations.of(context);
+    // Fork: pre-capture container before awaiting visibility update so failure
+    // toasts work even if the sheet is dismissed mid-request (tyne-chat/tyne#946).
+    final ProviderContainer container = ref.container;
+    final String accountUserId = readAccountUserId(ref);
     try {
-      await ref
-          .read(connectionsViewModelProvider(readAccountUserId(ref)).notifier)
+      await container
+          .read(connectionsViewModelProvider(accountUserId).notifier)
           .updateVisibility(
             widget.connection.type.toJson(),
             widget.connection.id,
@@ -125,7 +129,7 @@ class _ConnectionEditBodyState extends ConsumerState<_ConnectionEditBody> {
         widget.close();
       }
     } on Object catch (_) {
-      ref
+      container
           .read(toastProvider.notifier)
           .show(
             FluxerToast(

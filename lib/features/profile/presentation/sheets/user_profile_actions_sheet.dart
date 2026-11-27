@@ -65,6 +65,9 @@ class UserProfileActionsSheet {
       context,
       position: position,
       builder: (menuContext, close) {
+        // Fork: capture container before async menu actions so moderation and
+        // relationship mutations still succeed after unmount (tyne-chat/tyne#946).
+        final ProviderContainer container = ref.container;
         final l10n = FluxerLocalizations.of(menuContext);
         final tag = formatUserTag(
           user.username,
@@ -159,14 +162,14 @@ class UserProfileActionsSheet {
                   if (!ok) {
                     return;
                   }
-                  await _runGuildModeration(
-                    ref,
+                  await runGuildModerationInContainer(
+                    container,
                     guildId: guildId,
                     userId: user.id,
                     successMessage: l10n.userProfileTransferSuccess,
                     errorAction: ApiErrorAction.transferOwnership,
                     errorSubject: user.username,
-                    action: () => ref
+                    action: () => container
                         .read(fluxerClientProvider)
                         .guilds
                         .transferGuildOwnership(
@@ -256,10 +259,10 @@ class UserProfileActionsSheet {
                     primaryVariant: FluxerButtonVariant.dangerPrimary,
                   );
                   if (ok) {
-                    await _runRepoAction(
-                      ref,
+                    await _runRepoActionInContainer(
+                      container,
                       ApiErrorAction.removeFriend,
-                      () => ref
+                      () => container
                           .read(friendRepositoryProvider)
                           .removeRelationship(user.id),
                     );
@@ -331,10 +334,10 @@ class UserProfileActionsSheet {
                       primaryVariant: FluxerButtonVariant.primary,
                     );
                     if (ok) {
-                      await _runRepoAction(
-                        ref,
+                      await _runRepoActionInContainer(
+                        container,
                         ApiErrorAction.unblockUser,
-                        () => ref
+                        () => container
                             .read(friendRepositoryProvider)
                             .removeRelationship(user.id),
                       );
@@ -360,10 +363,10 @@ class UserProfileActionsSheet {
                       primaryVariant: FluxerButtonVariant.dangerPrimary,
                     );
                     if (ok) {
-                      await _runRepoAction(
-                        ref,
+                      await _runRepoActionInContainer(
+                        container,
                         ApiErrorAction.blockUser,
-                        () => ref
+                        () => container
                             .read(friendRepositoryProvider)
                             .blockUser(user.id),
                       );
@@ -444,15 +447,17 @@ class UserProfileActionsSheet {
     );
   }
 
-  static Future<void> _updateGuildMemberNickname({
-    required WidgetRef ref,
+  // Fork: container-based helpers so menu actions keep working even if the
+  // launching WidgetRef unmounts while a modal is open (tyne-chat/tyne#946).
+  static Future<void> updateGuildMemberNicknameInContainer({
+    required ProviderContainer container,
     required String guildId,
     required String userId,
     required String? nick,
     required bool isCurrentUser,
   }) async {
     if (isCurrentUser) {
-      await ref
+      await container
           .read(fluxerClientProvider)
           .guilds
           .updateCurrentGuildMember(
@@ -461,7 +466,7 @@ class UserProfileActionsSheet {
           );
       return;
     }
-    await ref
+    await container
         .read(fluxerDioProvider)
         .patch<void>(
           '/guilds/$guildId/members/$userId',
@@ -476,8 +481,8 @@ class UserProfileActionsSheet {
     required String successMessage,
     required ApiErrorAction errorAction,
     required Future<void> Function() action,
-  }) => _runGuildModeration(
-    ref,
+  }) => runGuildModerationInContainer(
+    ref.container,
     guildId: guildId,
     userId: userId,
     successMessage: successMessage,
@@ -491,16 +496,16 @@ class UserProfileActionsSheet {
     required String userId,
     required String? nick,
     required bool isCurrentUser,
-  }) => _updateGuildMemberNickname(
-    ref: ref,
+  }) => updateGuildMemberNicknameInContainer(
+    container: ref.container,
     guildId: guildId,
     userId: userId,
     nick: nick,
     isCurrentUser: isCurrentUser,
   );
 
-  static Future<void> _runGuildModeration(
-    WidgetRef ref, {
+  static Future<void> runGuildModerationInContainer(
+    ProviderContainer container, {
     required String guildId,
     required String userId,
     required String successMessage,
@@ -510,7 +515,7 @@ class UserProfileActionsSheet {
   }) async {
     try {
       await action();
-      ref
+      container
           .read(toastProvider.notifier)
           .show(
             FluxerToast(
@@ -518,7 +523,9 @@ class UserProfileActionsSheet {
               variant: FluxerToastVariant.success,
             ),
           );
-      ref.invalidate(userProfileProvider(userId: userId, guildId: guildId));
+      container.invalidate(
+        userProfileProvider(userId: userId, guildId: guildId),
+      );
     } on Object catch (e, st) {
       talker.error('[UserProfileActionsSheet] moderation failed: $e', e, st);
       await showApiErrorFromRoot(
@@ -529,20 +536,17 @@ class UserProfileActionsSheet {
     }
   }
 
-  static Future<void> _runRepoAction(
-    WidgetRef ref,
+  static Future<void> _runRepoActionInContainer(
+    ProviderContainer container,
     ApiErrorAction errorAction,
     Future<void> Function() action,
   ) async {
     try {
       await action();
-      ref.invalidate(friendsListProvider);
+      container.invalidate(friendsListProvider);
     } on Object catch (e, st) {
       talker.error('[UserProfileActionsSheet] action failed: $e', e, st);
-      if (!ref.context.mounted) {
-        return;
-      }
-      await showApiError(ref.context, errorAction, e);
+      await showApiErrorFromRoot(errorAction, e);
     }
   }
 }

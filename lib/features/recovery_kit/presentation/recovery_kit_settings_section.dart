@@ -44,9 +44,12 @@ class _RecoveryKitSettingsSubsectionState
         return;
       }
     }
+    // Fork: pre-capture container before awaiting creation so error toast works
+    // even if this subsection unmounts mid-request (tyne-chat/tyne#946).
+    final ProviderContainer container = ref.container;
     setState(() => _creating = true);
     try {
-      final RecoveryKit kit = await ref
+      final RecoveryKit kit = await container
           .read(pendingRecoveryKitProvider.notifier)
           .create(
             reason: replacing
@@ -61,7 +64,7 @@ class _RecoveryKitSettingsSubsectionState
         return;
       }
       talker.warning('[RecoveryKitSettings] Create failed: $e');
-      ref
+      container
           .read(toastProvider.notifier)
           .show(
             FluxerToast(

@@ -267,17 +267,30 @@ class AppearancePreferencesState {
 class AppearancePreferences extends _$AppearancePreferences {
   String? _userId;
   bool _isApplyingRemote = false;
+  int _forkBuildEpoch = 0;
 
   @override
-  AppearancePreferencesState build() => AppearancePreferencesState(
-    dmMessagePreviewMode: defaultDmMessagePreviewMode(),
-  );
+  AppearancePreferencesState build() {
+    // Fork: reset instance fields on rebuild so stale loads and remote-apply
+    // flags do not survive across invalidation (tyne-chat/tyne#946).
+    _forkResetForBuild();
+    return AppearancePreferencesState(
+      dmMessagePreviewMode: defaultDmMessagePreviewMode(),
+    );
+  }
+
+  void _forkResetForBuild() {
+    _forkBuildEpoch += 1;
+    _userId = null;
+    _isApplyingRemote = false;
+  }
 
   Future<void> load(String userId) async {
     _userId = userId;
+    final int epoch = _forkBuildEpoch;
     final db = ref.read(fluxerDatabaseProvider);
     final prefs = await db.userPreferencesDao.getPreferences(userId);
-    if (_userId != userId) {
+    if (!ref.mounted || epoch != _forkBuildEpoch || _userId != userId) {
       return;
     }
     if (prefs != null) {
@@ -339,7 +352,11 @@ class AppearancePreferences extends _$AppearancePreferences {
   }
 
   Future<void> applySyncedAccessibility(AccessibilityLocalState value) async {
+    final int epoch = _forkBuildEpoch;
     await _adoptCurrentUser();
+    if (!ref.mounted || epoch != _forkBuildEpoch) {
+      return;
+    }
     _isApplyingRemote = true;
     try {
       state = state.copyWith(
@@ -388,7 +405,9 @@ class AppearancePreferences extends _$AppearancePreferences {
       );
       await _persist();
     } finally {
-      _isApplyingRemote = false;
+      if (epoch == _forkBuildEpoch) {
+        _isApplyingRemote = false;
+      }
     }
   }
 
@@ -397,7 +416,11 @@ class AppearancePreferences extends _$AppearancePreferences {
     required bool keepGifAutoPlayUnderReducedMotion,
     required bool keepStickerAnimationUnderReducedMotion,
   }) async {
+    final int epoch = _forkBuildEpoch;
     await _adoptCurrentUser();
+    if (!ref.mounted || epoch != _forkBuildEpoch) {
+      return;
+    }
     _isApplyingRemote = true;
     try {
       state = state.copyWith(
@@ -409,29 +432,43 @@ class AppearancePreferences extends _$AppearancePreferences {
       );
       await _persist();
     } finally {
-      _isApplyingRemote = false;
+      if (epoch == _forkBuildEpoch) {
+        _isApplyingRemote = false;
+      }
     }
   }
 
   Future<void> applySyncedSidebar(SidebarLocalState value) async {
+    final int epoch = _forkBuildEpoch;
     await _adoptCurrentUser();
+    if (!ref.mounted || epoch != _forkBuildEpoch) {
+      return;
+    }
     _isApplyingRemote = true;
     try {
       state = state.copyWith(collapseDMs: value.inlineDmsCollapsed);
       await _persist();
     } finally {
-      _isApplyingRemote = false;
+      if (epoch == _forkBuildEpoch) {
+        _isApplyingRemote = false;
+      }
     }
   }
 
   Future<void> applySyncedPrivacy(PrivacyLocalState value) async {
+    final int epoch = _forkBuildEpoch;
     await _adoptCurrentUser();
+    if (!ref.mounted || epoch != _forkBuildEpoch) {
+      return;
+    }
     _isApplyingRemote = true;
     try {
       state = state.copyWith(showActiveNow: value.showActiveNow);
       await _persist();
     } finally {
-      _isApplyingRemote = false;
+      if (epoch == _forkBuildEpoch) {
+        _isApplyingRemote = false;
+      }
     }
   }
 

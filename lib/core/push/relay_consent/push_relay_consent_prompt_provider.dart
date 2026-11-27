@@ -8,7 +8,13 @@ class PushRelayConsentPrompt extends _$PushRelayConsentPrompt {
   final Set<String> _userIds = <String>{};
 
   @override
-  bool build() => false;
+  bool build() {
+    // Fork: reset in-flight lock and queued user ids on rebuild
+    // (tyne-chat/tyne#946).
+    _presentationInFlight = false;
+    _userIds.clear();
+    return false;
+  }
 
   void requestPrompt({required String userId}) {
     if (_presentationInFlight) {

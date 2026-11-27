@@ -9,14 +9,29 @@ part 'default_apps_preferences_provider.g.dart';
 @Riverpod(keepAlive: true)
 class DefaultAppsPreferences extends _$DefaultAppsPreferences {
   String? _userId;
+  int _forkBuildEpoch = 0;
 
   @override
-  DefaultWebBrowser build() => DefaultWebBrowser.inApp;
+  DefaultWebBrowser build() {
+    // Fork: reset instance fields on rebuild so stale load() completions do not
+    // overwrite fresh state (tyne-chat/tyne#946).
+    _forkResetForBuild();
+    return DefaultWebBrowser.inApp;
+  }
+
+  void _forkResetForBuild() {
+    _forkBuildEpoch += 1;
+    _userId = null;
+  }
 
   Future<void> load(String userId) async {
     _userId = userId;
+    final int epoch = _forkBuildEpoch;
     final db = ref.read(fluxerDatabaseProvider);
     final prefs = await db.userPreferencesDao.getPreferences(userId);
+    if (!ref.mounted || epoch != _forkBuildEpoch || _userId != userId) {
+      return;
+    }
     if (prefs == null) {
       return;
     }

@@ -34,7 +34,11 @@ class ObservabilityReportingPrompt extends _$ObservabilityReportingPrompt {
   bool _presentationInFlight = false;
 
   @override
-  bool build() => false;
+  bool build() {
+    // Fork: reset in-flight presentation lock on rebuild (tyne-chat/tyne#946).
+    _presentationInFlight = false;
+    return false;
+  }
 
   void requestPrompt() {
     if (_presentationInFlight || state) {

@@ -90,19 +90,24 @@ class _ChannelFollowFormState extends ConsumerState<_ChannelFollowForm> {
   }
 
   Future<void> _load() async {
-    final List<Guild> guilds = ref.read(guildListViewModelProvider).guilds;
+    // Fork: pre-capture container before channel stream awaits so closing the
+    // sheet mid-load does not look up a deactivated ancestor (tyne-chat/tyne#946).
+    final ProviderContainer container = ref.container;
+    final List<Guild> guilds = container
+        .read(guildListViewModelProvider)
+        .guilds;
     final AnnouncementFollowRestriction restriction =
         announcementFollowRestriction(
           channel: widget.source,
           guild: guilds
               .where((Guild guild) => guild.id == widget.source.guildId)
               .firstOrNull,
-          parentCategory: await _parentOf(widget.source),
+          parentCategory: await _parentOf(container, widget.source),
         );
     final List<AnnouncementFollowGuildTargets> targets =
         <AnnouncementFollowGuildTargets>[];
     for (final Guild guild in guilds) {
-      final List<Channel> channels = await ref
+      final List<Channel> channels = await container
           .read(channelRepositoryProvider)
           .watchChannels(guild.id)
           .first;
@@ -112,7 +117,7 @@ class _ChannelFollowFormState extends ConsumerState<_ChannelFollowForm> {
           continue;
         }
         final int bits = await readEffectiveGuildChannelPermissionBits(
-          container: ref.container,
+          container: container,
           channelId: channel.id,
         );
         if (!canManageAnnouncementFollow(permissionBits: bits)) {
@@ -152,11 +157,14 @@ class _ChannelFollowFormState extends ConsumerState<_ChannelFollowForm> {
     });
   }
 
-  Future<Channel?> _parentOf(Channel channel) async {
+  Future<Channel?> _parentOf(
+    ProviderContainer container,
+    Channel channel,
+  ) async {
     if (channel.parentId == null) {
       return null;
     }
-    final List<Channel> channels = await ref
+    final List<Channel> channels = await container
         .read(channelRepositoryProvider)
         .watchChannels(channel.guildId)
         .first;

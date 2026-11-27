@@ -130,15 +130,28 @@ class AdvancedPreferencesState {
 class AdvancedPreferences extends _$AdvancedPreferences {
   String? _userId;
   bool _isApplyingRemote = false;
+  int _forkBuildEpoch = 0;
 
   @override
-  AdvancedPreferencesState build() => const AdvancedPreferencesState();
+  AdvancedPreferencesState build() {
+    // Fork: reset instance fields on rebuild so stale loads and remote-apply
+    // flags do not survive across invalidation (tyne-chat/tyne#946).
+    _forkResetForBuild();
+    return const AdvancedPreferencesState();
+  }
+
+  void _forkResetForBuild() {
+    _forkBuildEpoch += 1;
+    _userId = null;
+    _isApplyingRemote = false;
+  }
 
   Future<void> load(String userId) async {
     _userId = userId;
+    final int epoch = _forkBuildEpoch;
     final db = ref.read(fluxerDatabaseProvider);
     final prefs = await db.userPreferencesDao.getPreferences(userId);
-    if (_userId != userId) {
+    if (!ref.mounted || epoch != _forkBuildEpoch || _userId != userId) {
       return;
     }
 
@@ -194,7 +207,11 @@ class AdvancedPreferences extends _$AdvancedPreferences {
   Future<void> applySyncedAccessibility(
     AdvancedAccessibilityLocalState value,
   ) async {
+    final int epoch = _forkBuildEpoch;
     await _adoptCurrentUser();
+    if (!ref.mounted || epoch != _forkBuildEpoch) {
+      return;
+    }
     _isApplyingRemote = true;
     try {
       state = state.copyWith(
@@ -220,12 +237,18 @@ class AdvancedPreferences extends _$AdvancedPreferences {
       );
       await _persist();
     } finally {
-      _isApplyingRemote = false;
+      if (epoch == _forkBuildEpoch) {
+        _isApplyingRemote = false;
+      }
     }
   }
 
   Future<void> applySyncedPrivacy(AdvancedPrivacyLocalState value) async {
+    final int epoch = _forkBuildEpoch;
     await _adoptCurrentUser();
+    if (!ref.mounted || epoch != _forkBuildEpoch) {
+      return;
+    }
     _isApplyingRemote = true;
     try {
       state = state.copyWith(
@@ -234,12 +257,18 @@ class AdvancedPreferences extends _$AdvancedPreferences {
       );
       await _persist();
     } finally {
-      _isApplyingRemote = false;
+      if (epoch == _forkBuildEpoch) {
+        _isApplyingRemote = false;
+      }
     }
   }
 
   Future<void> applySyncedSearchEngines(SearchEnginesState value) async {
+    final int epoch = _forkBuildEpoch;
     await _adoptCurrentUser();
+    if (!ref.mounted || epoch != _forkBuildEpoch) {
+      return;
+    }
     _isApplyingRemote = true;
     try {
       state = state.copyWith(
@@ -251,7 +280,9 @@ class AdvancedPreferences extends _$AdvancedPreferences {
       );
       await _persist();
     } finally {
-      _isApplyingRemote = false;
+      if (epoch == _forkBuildEpoch) {
+        _isApplyingRemote = false;
+      }
     }
   }
 

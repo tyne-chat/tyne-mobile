@@ -58,19 +58,19 @@ class _ConnectionRemoveBody extends ConsumerWidget {
           FluxerButton.dangerPrimary(
             label: l10n.connectionRemoveConfirm,
             onPressedAsync: () async {
+              // Fork: pre-capture container before awaiting removal so failure
+              // toasts work even if dismissed mid-request (tyne-chat/tyne#946).
+              final ProviderContainer container = ref.container;
+              final String accountUserId = readAccountUserId(ref);
               try {
-                await ref
-                    .read(
-                      connectionsViewModelProvider(
-                        readAccountUserId(ref),
-                      ).notifier,
-                    )
+                await container
+                    .read(connectionsViewModelProvider(accountUserId).notifier)
                     .deleteConnection(connection.type.toJson(), connection.id);
                 if (context.mounted) {
                   close();
                 }
               } on Object catch (_) {
-                ref
+                container
                     .read(toastProvider.notifier)
                     .show(
                       FluxerToast(

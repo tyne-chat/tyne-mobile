@@ -26,6 +26,9 @@ Future<void> showUnifiedPushDistributorPickerSheet(
     selected = distributors.first;
   }
 
+  // Fork: pre-capture container before awaiting picker/platform calls so push
+  // details still invalidate if the caller unmounts (tyne-chat/tyne#946).
+  final ProviderContainer container = ref.container;
   await FluxerBottomSheet.show<void>(
     context,
     useRootNavigator: true,
@@ -43,7 +46,7 @@ Future<void> showUnifiedPushDistributorPickerSheet(
               in UnifiedPushService.instance.distributorInstances) {
             await functions.registerApp(instance);
           }
-          ref.invalidate(pushDeliveryDetailsProvider);
+          container.invalidate(pushDeliveryDetailsProvider);
           if (sheetContext.mounted) {
             close();
           }

@@ -11,7 +11,10 @@ Future<bool> toggleMemberRole(
   required String roleId,
   required bool hasRole,
 }) async {
-  final repository = ref.read(guildMemberRoleRepositoryProvider);
+  // Fork: pre-capture container before awaiting role update so profile
+  // invalidation still runs if the caller unmounts (tyne-chat/tyne#946).
+  final ProviderContainer container = ref.container;
+  final repository = container.read(guildMemberRoleRepositoryProvider);
   try {
     if (hasRole) {
       await repository.removeMemberRole(
@@ -26,7 +29,7 @@ Future<bool> toggleMemberRole(
         roleId: roleId,
       );
     }
-    ref.invalidate(userProfileProvider(userId: userId, guildId: guildId));
+    container.invalidate(userProfileProvider(userId: userId, guildId: guildId));
     return true;
   } on Object catch (error, stackTrace) {
     talker.error(

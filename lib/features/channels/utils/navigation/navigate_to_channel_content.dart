@@ -178,7 +178,7 @@ Future<void> openGuildChannelContent({
 
   void recordAndNavigate() => _openGuildChannelRoute(
     context: context,
-    ref: ref,
+    container: ref.container,
     guildId: guildId,
     channel: channel,
     chatPath: chatPath,
@@ -337,6 +337,9 @@ Future<void> _joinGuildVoiceChannelAndOpen({
   bool initialSelfDeaf = false,
   bool skipConfirmation = false,
 }) async {
+  // Fork: pre-capture container before awaiting voice confirmation in case the
+  // caller unmounts before routing finishes (tyne-chat/tyne#946).
+  final ProviderContainer container = ref.container;
   final VoiceJoinResult joinResult = await joinVoiceChannelWithConfirmation(
     ref: ref,
     context: context,
@@ -350,7 +353,7 @@ Future<void> _joinGuildVoiceChannelAndOpen({
   if (joinResult.shouldOpenChannel) {
     _openGuildChannelRoute(
       context: context.mounted ? context : null,
-      ref: ref,
+      container: container,
       guildId: guildId,
       channel: channel,
       chatPath: chatPath,
@@ -360,14 +363,14 @@ Future<void> _joinGuildVoiceChannelAndOpen({
 
 void _openGuildChannelRoute({
   required BuildContext? context,
-  required WidgetRef ref,
+  required ProviderContainer container,
   required String guildId,
   required Channel channel,
   required String chatPath,
   String? targetMessageId,
 }) {
   if (channel.type != ChannelType.guildVoice) {
-    ref.container
+    container
         .read(recentChannelVisitsProvider.notifier)
         .recordVisit(
           channelId: channel.id,
@@ -376,7 +379,7 @@ void _openGuildChannelRoute({
         );
   }
   switchChatAheadOfNavigation(
-    ref.container,
+    container,
     channel,
     targetMessageId: targetMessageId,
   );
@@ -384,7 +387,7 @@ void _openGuildChannelRoute({
     navigateToContent(context, chatPath);
     return;
   }
-  navigateToContentViaContainer(ref.container, chatPath);
+  navigateToContentViaContainer(container, chatPath);
 }
 
 /// Switches the chat window before navigation, for channels with a chat view.

@@ -414,15 +414,20 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
 
   Future<void> _setPasskeyTwoFactor({required bool enabled}) async {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    // Fork: pre-capture container before awaits so profile refresh and failure
+    // toasts still succeed if the section unmounts (tyne-chat/tyne#946).
+    final ProviderContainer container = ref.container;
     setState(() => _updatingPasskeyTwoFactor = true);
     try {
-      final WebAuthnTwoFactorResponse response = await ref
+      final WebAuthnTwoFactorResponse response = await container
           .read(fluxerClientProvider)
           .users
           .setWebauthnTwoFactor(
             body: WebAuthnTwoFactorRequest(enabled: enabled),
           );
-      await ref.read(userSettingsViewModelProvider.notifier).loadProfile();
+      await container
+          .read(userSettingsViewModelProvider.notifier)
+          .loadProfile();
       final List<WebAuthnTwoFactorResponseBackupCodes> codes =
           response.backupCodes ??
           const <WebAuthnTwoFactorResponseBackupCodes>[];
@@ -445,7 +450,7 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
         error,
         stackTrace,
       );
-      ref
+      container
           .read(toastProvider.notifier)
           .show(
             FluxerToast(
@@ -555,6 +560,10 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
     WebAuthnCredentialResponse pk,
     FluxerLocalizations l10n,
   ) async {
+    // Fork: pre-capture container and account user id before confirmation and
+    // delete awaits so credential list reload completes safely (tyne-chat/tyne#946).
+    final ProviderContainer container = ref.container;
+    final String accountUserId = readAccountUserId(ref);
     final confirmed = await FluxerConfirmModal.show(
       context,
       title: l10n.securityPasskeysDeleteTitle,
@@ -568,17 +577,13 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
     }
 
     try {
-      final client = ref.read(fluxerClientProvider);
+      final client = container.read(fluxerClientProvider);
       await client.users.deleteWebauthnCredential(
         credentialId: pk.id,
         body: const SudoVerificationSchema(),
       );
-      await ref
-          .read(
-            webauthnCredentialsViewModelProvider(
-              readAccountUserId(ref),
-            ).notifier,
-          )
+      await container
+          .read(webauthnCredentialsViewModelProvider(accountUserId).notifier)
           .load(silent: true);
     } on Exception catch (error) {
       if (!mounted) {

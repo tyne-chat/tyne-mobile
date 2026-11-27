@@ -10,24 +10,45 @@ part 'chat_wallpaper_provider.g.dart';
 @Riverpod(keepAlive: true)
 class ChatWallpaper extends _$ChatWallpaper {
   String? _userId;
+  int _forkBuildEpoch = 0;
   final ChatWallpaperFileStore _files = const ChatWallpaperFileStore();
 
   @override
-  ChatWallpaperSnapshot build() => const ChatWallpaperSnapshot();
+  ChatWallpaperSnapshot build() {
+    // Fork: reset instance fields on rebuild so stale load() completions do not
+    // overwrite fresh state (tyne-chat/tyne#946).
+    _forkResetForBuild();
+    return const ChatWallpaperSnapshot();
+  }
+
+  void _forkResetForBuild() {
+    _forkBuildEpoch += 1;
+    _userId = null;
+  }
 
   Future<void> load(String userId) async {
     _userId = userId;
+    final int epoch = _forkBuildEpoch;
     final FluxerDatabase db = ref.read(fluxerDatabaseProvider);
     final UserPreferencesTableData? prefs = await db.userPreferencesDao
         .getPreferences(userId);
+    if (!ref.mounted || epoch != _forkBuildEpoch || _userId != userId) {
+      return;
+    }
     final ChatWallpaperState selection = chatWallpaperFromJson(
       prefs?.chatWallpaperJson,
     );
     final String? customPath = await _files.existingPathForUser(userId);
+    if (!ref.mounted || epoch != _forkBuildEpoch || _userId != userId) {
+      return;
+    }
     ChatWallpaperState next = selection;
     if (selection.kind == ChatWallpaperKind.custom &&
         selection.luminance == null) {
       final double? luminance = await _files.sampleExistingLuminance(userId);
+      if (!ref.mounted || epoch != _forkBuildEpoch || _userId != userId) {
+        return;
+      }
       if (luminance != null) {
         next = selection.copyWith(luminance: luminance);
       }
