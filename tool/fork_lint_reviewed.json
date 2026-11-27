@@ -329,6 +329,97 @@
       "file": "lib/features/voice/providers/voice_noise_filter_provider.dart",
       "symbol": "VoiceNoiseFilter._pending",
       "reason": "Checked in source (tyne-chat/tyne#946): Future chain serializing asynchronous native noise-filter backend switches across rebuilds."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/chat/providers/core/chat_view_model.dart",
+      "symbol": "ChatViewModel._sendPreparation",
+      "reason": "Checked in source (tyne-chat/tyne#946): sequential Future chain (`_afterPreparingSends`) serializing outgoing send preparation across rebuilds so attachment claims cannot race."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/chat/providers/core/chat_view_model.dart",
+      "symbol": "ChatViewModel._realtimeWorkerActive",
+      "reason": "Checked in source (tyne-chat/tyne#946): single-worker coroutine guard for `_runRealtimeQueue()`; clearing `_realtimeQueue` and `_swapCommits` on rebuild lets any in-flight worker exit cleanly in `whenComplete` without spawning a second concurrent worker."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/chat/providers/core/chat_view_model.dart",
+      "symbol": "ChatViewModel._realtimeWorkerIdle",
+      "reason": "Checked in source (tyne-chat/tyne#946): completion Future tracking the currently running `_runRealtimeQueue()` worker coroutine across rebuilds."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/voice/providers/voice_session_provider.dart",
+      "symbol": "VoiceSession._togglingVideo",
+      "reason": "Checked in source (tyne-chat/tyne#946): try/finally single-flight hardware guard serializing `setCameraEnabled` and camera flip calls across async gaps."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/voice/providers/voice_session_provider.dart",
+      "symbol": "VoiceSession._togglingScreenShare",
+      "reason": "Checked in source (tyne-chat/tyne#946): try/finally single-flight guard serializing OS screen-capture permission and track publication toggles."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/voice/providers/voice_session_provider.dart",
+      "symbol": "VoiceSession._refreshingScreenShare",
+      "reason": "Checked in source (tyne-chat/tyne#946): try/finally single-flight guard serializing live screen-share codec and quality reapply calls."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/voice/providers/voice_session_provider.dart",
+      "symbol": "VoiceSession._reconcilingSelfStream",
+      "reason": "Checked in source (tyne-chat/tyne#946): try/finally single-flight guard for `_reconcileSelfStreamState` (`_selfStreamReconcileDirty` is cleared in `build()` to stop queued reruns)."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/voice/providers/voice_session_provider.dart",
+      "symbol": "VoiceSession._connectLiveKitInFlight",
+      "reason": "Checked in source (tyne-chat/tyne#946): try/finally Completer mutex serializing `_connectLiveKit` attempts so a new session awaits prior connect teardown."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/voice/providers/voice_session_provider.dart",
+      "symbol": "VoiceSession._regionHotSwapInFlight",
+      "reason": "Checked in source (tyne-chat/tyne#946): try/finally Completer mutex serializing `_regionHotSwapLiveKit` transitions."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/voice/providers/voice_session_provider.dart",
+      "symbol": "VoiceSession._leaveVoiceInFlight",
+      "reason": "Checked in source (tyne-chat/tyne#946): try/finally Completer mutex serializing `leaveVoice` so subsequent `connectToVoiceChannel` calls await prior leave completion."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/voice/providers/voice_session_provider.dart",
+      "symbol": "VoiceSession._ensuringMicrophone",
+      "reason": "Checked in source (tyne-chat/tyne#946): try/finally single-flight guard around `_ensureMicrophoneOnConnect`."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/voice/providers/voice_session_provider.dart",
+      "symbol": "VoiceSession._preJoinPermissionsInFlight",
+      "reason": "Checked in source (tyne-chat/tyne#946): try/finally guard preventing overlapping OS microphone/camera permission dialogs."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/voice/providers/voice_session_provider.dart",
+      "symbol": "VoiceSession._localAudioReconcileInFlight",
+      "reason": "Checked in source (tyne-chat/tyne#946): `whenComplete` single-worker mutex for `_reconcileLocalAudioPublish` (`_localAudioReconcileRerun` is cleared in `build()` to cancel queued reruns)."
     }
   ]
 }

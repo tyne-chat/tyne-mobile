@@ -866,6 +866,7 @@ class ChatViewModel extends _$ChatViewModel {
 
   @override
   ChatViewState build() {
+    _forkResetOnBuild();
     ref.listen<String?>(currentUserIdProvider, (
       String? previous,
       String? next,
@@ -874,6 +875,7 @@ class ChatViewModel extends _$ChatViewModel {
         return;
       }
       _resetAccountLocalState();
+      _forkResetAdditionalState();
       state = ChatViewState.empty;
       if (next != null) {
         unawaited(_restoreLocalSends(next));
@@ -9067,5 +9069,42 @@ class ChatViewModel extends _$ChatViewModel {
       personaId: personaId,
       explicitRoot: personaId == null,
     );
+  }
+
+  // Fork: reset per-session fields and advance monotonic ordinals on build()
+  // and account switches so pre-rebuild timers, flags, and in-flight fetches
+  // cannot leak into the new session (tyne-chat/tyne#946).
+  void _forkResetOnBuild() {
+    _resetAccountLocalState();
+    _forkResetAdditionalState();
+  }
+
+  void _forkResetAdditionalState() {
+    _readAckRetryTimer?.cancel();
+    _readAckRetryTimer = null;
+    _draftSaveTimer?.cancel();
+    _draftSaveTimer = null;
+    _jumpHighlightTimer?.cancel();
+    _jumpHighlightTimer = null;
+    _stickySnapshotArmed = false;
+    _ackRerunRequested = false;
+    _viewportWasAtTail = false;
+    _userScrollActive = false;
+    _autoAckEligible = false;
+    ++_foregroundResyncGeneration;
+    ++_connectivityGapGeneration;
+    _jumpToLatestActive = false;
+    ++_ingressOrdinal;
+    ++_windowSwapToken;
+    ++_windowWrites;
+    ++_pageFetchOrdinal;
+    _endingEdit = null;
+    _loadingMoreOwner = null;
+    _loadingNewerOwner = null;
+    _tailProbeLedger = null;
+    for (final CancelToken stop in _forkEditFileSaves.values) {
+      stop.cancel();
+    }
+    _forkEditFileSaves.clear();
   }
 }
