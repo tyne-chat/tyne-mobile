@@ -387,6 +387,7 @@ Future<void> _showPinnedMessageActions(
       if (confirmed != true || !context.mounted) {
         return;
       }
+      final toast = ref.read(toastProvider.notifier);
       try {
         await ref.read(channelPinsProvider(channelId).notifier).unpin(entry);
       } on Object catch (error) {
@@ -395,14 +396,12 @@ Future<void> _showPinnedMessageActions(
         }
         return;
       }
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: l10n.channelDetailsMessageUnpinned,
-              variant: FluxerToastVariant.success,
-            ),
-          );
+      toast.show(
+        FluxerToast(
+          message: l10n.channelDetailsMessageUnpinned,
+          variant: FluxerToastVariant.success,
+        ),
+      );
     case _PinnedMessageAction.copyMessageId:
       await copyToClipboard(context: context, value: entry.message.id);
     case _PinnedMessageAction.copyMessageLink:

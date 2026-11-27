@@ -1153,6 +1153,7 @@ class _ChannelHeaderSearchFieldState
   }
 
   Future<ChannelSearchParseContext> _parseContext() async {
+    final String? currentUserId = ref.read(currentUserIdProvider);
     List<Member> members = _userResults;
     Map<String, String> discriminators = _userDiscriminators;
     try {
@@ -1177,7 +1178,7 @@ class _ChannelHeaderSearchFieldState
       discriminators = _userDiscriminators;
     }
     return ChannelSearchParseContext(
-      currentUserId: ref.read(currentUserIdProvider),
+      currentUserId: currentUserId,
       resolveChannelByName: _resolveChannelName,
       resolveUserByTag: (String tag) => _resolveUserFromLoaded(
         tag: tag,
@@ -1188,17 +1189,31 @@ class _ChannelHeaderSearchFieldState
   }
 
   Future<void> _submitSearch() async {
+    final ProviderContainer container = ref.container;
+    final headerSearch = ref.read(channelHeaderSearchProvider.notifier);
+    final channelSearch = ref.read(
+      channelSearchProvider(widget.channelId, widget.guildId).notifier,
+    );
+    final String rawQuery = _controller.text;
+    final MessageSearchScopeFilter scope = _effectiveScope;
+    final MessageSearchSortFilter sort = _effectiveSort;
+    final Map<String, String> usersByTag = Map<String, String>.from(
+      _userIdsByTag,
+    );
+    final Map<String, String> channelsByName = Map<String, String>.from(
+      _channelIdsByName,
+    );
     final ChannelSearchParseHints hints = buildChannelSearchHintsFromSegments(
       _resolvedSegments(),
-      usersByTag: _userIdsByTag,
-      channelsByName: _channelIdsByName,
+      usersByTag: usersByTag,
+      channelsByName: channelsByName,
     );
     final MessageSearchQuery query = MessageSearchQuery.build(
       channelId: widget.channelId,
       guildId: widget.guildId,
-      rawQuery: _controller.text,
-      uiScope: _effectiveScope,
-      uiSort: _effectiveSort,
+      rawQuery: rawQuery,
+      uiScope: scope,
+      uiSort: sort,
       hints: hints,
       context: await _parseContext(),
     );
@@ -1206,14 +1221,13 @@ class _ChannelHeaderSearchFieldState
       return;
     }
 
-    ref
-        .read(channelHeaderSearchProvider.notifier)
-        .activateSearch(channelId: widget.channelId, guildId: widget.guildId);
-    await ref
-        .read(channelSearchProvider(widget.channelId, widget.guildId).notifier)
-        .search(query: query);
+    headerSearch.activateSearch(
+      channelId: widget.channelId,
+      guildId: widget.guildId,
+    );
+    await channelSearch.search(query: query);
 
-    final AsyncValue<ChannelSearchHistoryRepository> repoAsync = ref.read(
+    final AsyncValue<ChannelSearchHistoryRepository> repoAsync = container.read(
       channelSearchHistoryRepositoryProvider,
     );
     final ChannelSearchHistoryRepository? repo = repoAsync.value;
@@ -1224,25 +1238,27 @@ class _ChannelHeaderSearchFieldState
             channelId: widget.channelId,
             guildId: widget.guildId,
           ),
-          displayText: _controller.text,
+          displayText: rawQuery,
           authorId: query.authorId,
-          scopeIndex: _effectiveScope.index,
-          sortIndex: _effectiveSort.index,
+          scopeIndex: scope.index,
+          sortIndex: sort.index,
           contentTypeIndices: query.contentTypes
               .map((MessageSearchContentFilter f) => f.index)
               .toList(),
           timestampMs: DateTime.now().millisecondsSinceEpoch,
-          usersByTag: Map<String, String>.from(_userIdsByTag),
-          channelsByName: Map<String, String>.from(_channelIdsByName),
+          usersByTag: usersByTag,
+          channelsByName: channelsByName,
         ),
       );
     }
 
-    setState(() {
-      _suppressAutoOpen = true;
-      _autocompleteMode = _ChannelSearchAutocompleteMode.none;
-    });
-    _hideOverlay();
+    if (mounted) {
+      setState(() {
+        _suppressAutoOpen = true;
+        _autocompleteMode = _ChannelSearchAutocompleteMode.none;
+      });
+      _hideOverlay();
+    }
   }
 
   Future<void> _clearHistory() async {

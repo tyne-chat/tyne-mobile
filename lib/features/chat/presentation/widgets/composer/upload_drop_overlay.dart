@@ -75,9 +75,10 @@ class _UploadDropOverlayState extends ConsumerState<UploadDropOverlay> {
               ).notifier,
             )
             .addFiles(composerUploadFiles(files));
-        if (context.mounted) {
-          _maybeToastValidation(context, ref, result);
+        if (!mounted || !context.mounted) {
+          return;
         }
+        _maybeToastValidation(context, ref, result);
         final bool slowBlocked =
             ref.read(isSlowmodeBlockedProvider(widget.channelId)).value ??
             false;

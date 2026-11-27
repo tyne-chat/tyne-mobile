@@ -50,6 +50,7 @@ class _UnreadChannelInboxCardState
 
   Future<void> _toggleCollapsed() async {
     final drift_db.FluxerDatabase db = ref.read(fluxerDatabaseProvider);
+    final store = ref.read(syncedPreferencesStoreProvider);
     final bool nextCollapsed = !widget.row.collapsed;
     final drift_db.Channel? channel = await db.channelDao.getChannelById(
       _entry.channelId,
@@ -63,9 +64,7 @@ class _UnreadChannelInboxCardState
       channelId: _entry.channelId,
       isCollapsed: nextCollapsed,
     );
-    ref
-        .read(syncedPreferencesStoreProvider)
-        .markDirty(SyncedPreferenceField.unreadChannels);
+    store.markDirty(SyncedPreferenceField.unreadChannels);
   }
 
   Future<void> _markRead() async {

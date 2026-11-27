@@ -233,6 +233,7 @@ class _InboxPopoutState extends ConsumerState<InboxPopout> {
   }
 
   Future<void> _markAllAsRead() async {
+    final ProviderContainer container = ref.container;
     final List<UnreadInboxEntry> entries = await ref.read(
       unreadInboxChannelListProvider.future,
     );
@@ -243,7 +244,7 @@ class _InboxPopoutState extends ConsumerState<InboxPopout> {
       notificationsRepositoryProvider,
     );
     await repo.markAllInboxChannelsAsRead(entries);
-    ref.invalidate(unreadInboxChannelListProvider);
+    container.invalidate(unreadInboxChannelListProvider);
   }
 
   @override

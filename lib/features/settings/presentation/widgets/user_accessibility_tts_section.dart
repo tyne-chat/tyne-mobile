@@ -110,6 +110,9 @@ class _UserAccessibilityTtsSectionState
       return;
     }
     final bool supported = await notifier.isSupported();
+    if (!mounted) {
+      return;
+    }
     if (!supported) {
       if (mounted) {
         setState(() {

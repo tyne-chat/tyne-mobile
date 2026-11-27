@@ -44,6 +44,7 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
   final Set<KeybindAction> _globallyHeldActions = <KeybindAction>{};
   final GlobalShortcutPressDeduper _pressDeduper = GlobalShortcutPressDeduper();
   late final GlobalShortcuts _globalShortcuts;
+  late final KeybindHandlerRegistry _registry;
   bool _handlersRegistered = false;
 
   @override
@@ -57,6 +58,7 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
       (_, KeybindPreferencesState next) => _applyKeybindPreferences(next),
     );
     _globalShortcuts = ref.read(globalShortcutsProvider.notifier);
+    _registry = ref.read(keybindHandlerRegistryProvider);
     ref.listenManual<GlobalShortcutsState>(
       globalShortcutsProvider,
       (_, GlobalShortcutsState next) => _setGlobalRouting(active: next.running),
@@ -125,11 +127,8 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
   }
 
   void _releaseHeldActions() {
-    final KeybindHandlerRegistry registry = ref.read(
-      keybindHandlerRegistryProvider,
-    );
     for (final KeybindAction action in _heldActions) {
-      registry.invokeRelease(action);
+      _registry.invokeRelease(action);
     }
     _heldActions.clear();
   }
@@ -326,6 +325,9 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
     );
     for (final KeybindAction action in actions) {
       final bool handled = await registry.invoke(action);
+      if (!mounted) {
+        return;
+      }
       if (handled && kHoldKeybindActions.contains(action)) {
         _heldActions.add(action);
       }

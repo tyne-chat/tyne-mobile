@@ -853,11 +853,12 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
 }
 
 Future<int> _resolveGuildMenuPermissions(WidgetRef ref, String guildId) async {
-  await ref
-      .read(guildPermissionsProvider(readAccountUserId(ref)).notifier)
+  final ProviderContainer container = ref.container;
+  final String accountUserId = readAccountUserId(ref);
+  await container
+      .read(guildPermissionsProvider(accountUserId).notifier)
       .refreshPermissions(guildId);
-  return ref.read(guildPermissionsProvider(readAccountUserId(ref)))[guildId] ??
-      0;
+  return container.read(guildPermissionsProvider(accountUserId))[guildId] ?? 0;
 }
 
 Future<bool> _resolveGuildCanInvite(WidgetRef ref, String guildId) async {
@@ -880,6 +881,9 @@ Future<void> presentGuildMenuSheet(
   final unread = ref.read(guildReadStateProvider)[guild.id];
   final muteState = ref.read(guildMuteProvider(guild.id)).value;
   final int permissions = await _resolveGuildMenuPermissions(ref, guild.id);
+  if (!context.mounted) {
+    return;
+  }
   final bool canInvite = await _resolveGuildCanInvite(ref, guild.id);
   if (!context.mounted) {
     return;

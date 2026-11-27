@@ -285,6 +285,10 @@ class ChannelNotificationMenuContent extends ConsumerWidget {
 
   Future<void> _openMuteSheet(BuildContext context, WidgetRef ref) async {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final GuildUserSettingsRepository settingsRepo = ref.read(
+      guildUserSettingsRepositoryProvider,
+    );
+    final toast = ref.read(toastProvider.notifier);
     final MuteSelection? selection = await showMuteDurationSheet(
       context,
       muteTitle: l10n.notificationMuteChannel,
@@ -294,21 +298,17 @@ class ChannelNotificationMenuContent extends ConsumerWidget {
       return;
     }
     onClose();
-    await ref
-        .read(guildUserSettingsRepositoryProvider)
-        .updateChannelOverride(
-          guildId: channel.guildId,
-          channelId: channel.id,
-          muted: true,
-          durationSeconds: selection.durationSeconds,
-        );
-    ref
-        .read(toastProvider.notifier)
-        .show(
-          FluxerToast(
-            message: l10n.channelDetailsMutedChannel,
-            variant: FluxerToastVariant.success,
-          ),
-        );
+    await settingsRepo.updateChannelOverride(
+      guildId: channel.guildId,
+      channelId: channel.id,
+      muted: true,
+      durationSeconds: selection.durationSeconds,
+    );
+    toast.show(
+      FluxerToast(
+        message: l10n.channelDetailsMutedChannel,
+        variant: FluxerToastVariant.success,
+      ),
+    );
   }
 }

@@ -52,6 +52,9 @@ class _VoiceEntranceSoundSectionState
       return;
     }
     final Uint8List bytes = await file.readAsBytes();
+    if (!mounted) {
+      return;
+    }
     if (bytes.length > kEntranceSoundMaxBytes) {
       _toast(l10n.entranceSoundTooLarge, FluxerToastVariant.danger);
       return;

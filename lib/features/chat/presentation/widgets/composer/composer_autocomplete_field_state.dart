@@ -626,13 +626,9 @@ class ComposerAutocompleteFieldState
       currentList: list,
       fallbackChannels: fallback,
     );
-    final Set<String> joined = await ref
-        .read(fluxerDatabaseProvider)
-        .threadDao
-        .getJoinedThreadIds();
-    final List<db.Channel> threadRows = await ref
-        .read(fluxerDatabaseProvider)
-        .threadDao
+    final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
+    final Set<String> joined = await database.threadDao.getJoinedThreadIds();
+    final List<db.Channel> threadRows = await database.threadDao
         .getThreadsForGuild(guildId);
     if (generation != _syncGeneration || !mounted) {
       return;
@@ -722,7 +718,7 @@ class ComposerAutocompleteFieldState
     }
     _stopMentionAutocompleteWatches();
     final List<Member> members = await _dmMentionMembers();
-    if (generation != _syncGeneration) {
+    if (generation != _syncGeneration || !mounted) {
       return;
     }
     final Map<String, String> discs = await ref
@@ -872,7 +868,7 @@ class ComposerAutocompleteFieldState
         )
         .toList();
     final int bits = await _channelPermissionBits();
-    if (generation != _syncGeneration) {
+    if (generation != _syncGeneration || !mounted) {
       return;
     }
     final bool canMentionEveryone =
@@ -1190,6 +1186,9 @@ class ComposerAutocompleteFieldState
       return const <Member>[];
     }
     final int bits = await _channelPermissionBits();
+    if (!mounted) {
+      return const <Member>[];
+    }
     String? ownerId;
     for (final Guild guild in ref.read(guildListViewModelProvider).guilds) {
       if (guild.id == guildId) {
@@ -1291,6 +1290,9 @@ class ComposerAutocompleteFieldState
   ) async {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     await EmojiRegistry.ensureLoaded();
+    if (generation != _syncGeneration || !mounted) {
+      return;
+    }
     final bool hasChannel = _channelId.isNotEmpty;
     final String activeGuildId = ref.read(contextualGuildIdProvider) ?? '';
     final bool hasPlutoniumEmojiAccess = ref.read(
@@ -1307,11 +1309,14 @@ class ComposerAutocompleteFieldState
     final List<GuildEmojiEntry> allCustom = await ref.read(
       allGuildEmojisForPickerProvider.future,
     );
+    if (generation != _syncGeneration || !mounted) {
+      return;
+    }
     final Map<String, double> scores = usageScores(
       await ref.read(expressionUsageProvider(ExpressionUsageKind.emoji).future),
       DateTime.now().millisecondsSinceEpoch,
     );
-    if (generation != _syncGeneration) {
+    if (generation != _syncGeneration || !mounted) {
       return;
     }
 

@@ -80,6 +80,13 @@
     },
     {
       "linter": "async-ref",
+      "file": "lib/features/settings/presentation/widgets/guild/overview/guild_message_history_threshold_sheet.dart",
+      "enclosing": "_GuildMessageHistoryThresholdSheetState._save",
+      "target": "ref",
+      "reason": "Checked in source (tyne-chat/tyne#946): short-circuiting `!mounted ||` guard precedes `ref.read(...)` in the same `if (...) return;` condition."
+    },
+    {
+      "linter": "async-ref",
       "file": "lib/features/settings/presentation/widgets/user_notifications_settings.dart",
       "enclosing": "_handleNotificationsEnabledChanged",
       "target": "modalContext",
