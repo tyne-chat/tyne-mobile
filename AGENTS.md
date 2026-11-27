@@ -141,13 +141,14 @@ and failing responses as in `test/core/permissions/channel_effective_permissions
 ## Reviews, fixes and custom lints
 
 Routine alongside every regression test: check whether a bug fix, post-mortem or audit finding has
-an AST-detectable shape (or propose a rule on the issue). Add/tighten a rule in
-`tool/fork_safety_lint.dart`, `tool/fork_async_ref_lint.dart`, or `tool/fork_string_lint.dart`:
-verify it fires on the unfixed file (`git show <fix>^:<file>` for past bugs) and clears with the
-fix, add positive/negative unit tests (`test/tool/`, `test/l10n_fork/`), sweep `--all` (proving real
-siblings with failing tests, recording verified upstream semantic exceptions in
-`tool/fork_lint_reviewed.json` with `--check-reviewed`, and refining AST precision to minimize
-suppressions), and keep enforced prose here to one line.
+an AST-detectable shape (or propose a rule on the issue). Add/tighten a pass in `tool/fork_lint.dart`
++ `tool/fork_lint/` (`safety_pass.dart`, `async_ref_pass.dart`, `string_pass.dart`; legacy
+`tool/fork_*_lint.dart` wrappers delegate to the same pipeline) reusing `DartFileIR`: verify it fires
+on the unfixed file (`git show <fix>^:<file>` for past bugs) and clears with the fix, add
+positive/negative unit tests (`test/tool/`, `test/l10n_fork/`), sweep `--all` (proving real siblings
+with failing tests, recording verified upstream semantic exceptions in `tool/fork_lint_reviewed.json`
+with `--check-reviewed`, and refining AST precision to minimize suppressions), and keep enforced prose
+here to one line.
 
 ## Before committing
 
@@ -159,9 +160,7 @@ Rust):
 (cd packages/fluxer_markdown && flutter test)
 (cd dart_sdk && dart test test/serialization/model_roundtrip_test.dart test/serialization/fork_model_roundtrip_test.dart)
 flutter analyze lib test --no-fatal-warnings --no-fatal-infos
-dart run tool/fork_string_lint.dart --upstream upstream/canary
-dart run tool/fork_async_ref_lint.dart --upstream upstream/canary
-dart run tool/fork_safety_lint.dart --upstream upstream/canary
+dart run tool/fork_lint.dart --upstream upstream/canary
 flutter test test
 flutter build apk --config-only && mkdir -p build/app/intermediates/flutter/canaryUnifiedpushDebug && (cd android && ./gradlew :app:testCanaryUnifiedpushDebugUnitTest -x :app:compileFlutterBuildCanaryUnifiedpushDebug --tests 'com.fluxer.Fork*' --tests 'com.fluxer.*ForkTest' --tests 'com.fluxer.AppInstallBridgeTest')
 ```
@@ -177,6 +176,6 @@ the working tree, untracked files included:
 The nightly gate skips no test; never skip or weaken one to get a change through.
 
 Reviewed upstream `--all` lint exceptions go in `tool/fork_lint_reviewed.json` (`--check-reviewed`,
-`--include-reviewed`), never as `*-ignore:` comments inside untouched upstream files. Changes to the
-linters under `tool/` must also pass `--all`, `--check-reviewed`, and their unit tests under
-`test/tool/` and `test/l10n_fork/`.
+`--include-reviewed`), never as `*-ignore:` comments inside untouched upstream files. Changes under
+`tool/fork_lint*` must also pass `dart run tool/fork_lint.dart --all --check-reviewed` and their
+unit tests under `test/tool/` and `test/l10n_fork/`.
