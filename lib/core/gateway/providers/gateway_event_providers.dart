@@ -147,7 +147,13 @@ class TypingIndicators extends _$TypingIndicators {
 
   @override
   Map<String, Map<String, DateTime>> build(String accountUserId) {
-    ref.onDispose(() => _expiryTimer?.cancel());
+    // Fork: reset and null timer across rebuilds (tyne-chat/tyne#946).
+    _expiryTimer?.cancel();
+    _expiryTimer = null;
+    ref.onDispose(() {
+      _expiryTimer?.cancel();
+      _expiryTimer = null;
+    });
     return const <String, Map<String, DateTime>>{};
   }
 

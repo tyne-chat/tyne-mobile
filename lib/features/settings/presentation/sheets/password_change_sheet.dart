@@ -87,6 +87,9 @@ class _PasswordChangeSheetState extends ConsumerState<PasswordChangeSheet>
       );
 
       _ticket = response.ticket;
+      if (!mounted) {
+        return;
+      }
       startResendTimer(response.resendAvailableAt);
 
       setState(() {
@@ -94,6 +97,9 @@ class _PasswordChangeSheetState extends ConsumerState<PasswordChangeSheet>
         _loading = false;
       });
     } on DioException catch (e) {
+      if (!mounted) {
+        return;
+      }
       setState(() {
         _loading = false;
         _error = _extractErrorMessage(e);
@@ -151,8 +157,14 @@ class _PasswordChangeSheetState extends ConsumerState<PasswordChangeSheet>
       await client.users.resendPasswordChangeCode(
         body: PasswordChangeTicketRequest(ticket: _ticket!),
       );
+      if (!mounted) {
+        return;
+      }
       startResendTimer(null);
     } on DioException catch (e) {
+      if (!mounted) {
+        return;
+      }
       setState(() => _error = _extractErrorMessage(e));
     }
   }
@@ -185,8 +197,12 @@ class _PasswordChangeSheetState extends ConsumerState<PasswordChangeSheet>
       _error = null;
     });
 
+    // Fork: pre-capture container before awaiting password change so dismissing
+    // the sheet mid-request still applies replacement session and recovery kit
+    // (tyne-chat/tyne#946).
+    final ProviderContainer container = ref.container;
     try {
-      final client = ref.read(fluxerClientProvider);
+      final client = container.read(fluxerClientProvider);
       final response = await client.users.completePasswordChange(
         body: PasswordChangeCompleteRequest(
           ticket: _ticket!,
@@ -194,13 +210,13 @@ class _PasswordChangeSheetState extends ConsumerState<PasswordChangeSheet>
           newPassword: newPassword,
         ),
       );
-      await applyReplacementSession(
-        ref,
+      await applyReplacementSessionInContainer(
+        container,
         token: response.token,
         authSessionIdHash: response.authSessionIdHash,
       );
 
-      ref
+      container
           .read(toastProvider.notifier)
           .show(
             FluxerToast(
@@ -209,12 +225,17 @@ class _PasswordChangeSheetState extends ConsumerState<PasswordChangeSheet>
             ),
           );
 
-      await ref.read(userSettingsViewModelProvider.notifier).loadProfile();
+      await container
+          .read(userSettingsViewModelProvider.notifier)
+          .loadProfile();
 
       if (mounted) {
         Navigator.of(context).pop();
       }
     } on DioException catch (e) {
+      if (!mounted) {
+        return;
+      }
       setState(() {
         _loading = false;
         _error = _extractErrorMessage(e);
@@ -229,17 +250,18 @@ class _PasswordChangeSheetState extends ConsumerState<PasswordChangeSheet>
       _error = null;
     });
     final bool mfaEnabled = ref.read(userSettingsViewModelProvider).mfaEnabled;
+    final ProviderContainer container = ref.container;
     try {
-      final client = ref.read(fluxerClientProvider);
+      final client = container.read(fluxerClientProvider);
       final response = await client.users.updateCurrentUserPassword(
         body: UserPasswordUpdateRequest(newPassword: newPassword),
       );
-      await applyReplacementSession(
-        ref,
+      await applyReplacementSessionInContainer(
+        container,
         token: response.token,
         authSessionIdHash: response.authSessionIdHash,
       );
-      ref
+      container
           .read(toastProvider.notifier)
           .show(
             FluxerToast(
@@ -247,9 +269,11 @@ class _PasswordChangeSheetState extends ConsumerState<PasswordChangeSheet>
               variant: FluxerToastVariant.success,
             ),
           );
-      await ref.read(userSettingsViewModelProvider.notifier).loadProfile();
+      await container
+          .read(userSettingsViewModelProvider.notifier)
+          .loadProfile();
       unawaited(
-        ref
+        container
             .read(pendingRecoveryKitProvider.notifier)
             .createAndPresent(
               reason: RecoveryKitReason.replaced,

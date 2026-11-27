@@ -8,9 +8,23 @@ Future<void> applyReplacementSession(
   WidgetRef ref, {
   required String token,
   required String authSessionIdHash,
+}) => applyReplacementSessionInContainer(
+  ref.container,
+  token: token,
+  authSessionIdHash: authSessionIdHash,
+);
+
+// Fork: container-backed session rotation safe after caller sheet/widget
+// unmounts (tyne-chat/tyne#946).
+Future<void> applyReplacementSessionInContainer(
+  ProviderContainer container, {
+  required String token,
+  required String authSessionIdHash,
 }) async {
-  ref.read(gatewayConnectionProvider).setToken(token);
-  ref.read(fluxerAuthTokenProvider.notifier).setToken(token);
-  ref.read(currentAuthSessionIdHashProvider.notifier).update(authSessionIdHash);
-  await ref.read(authRepositoryProvider).persistRotatedToken(token);
+  container.read(gatewayConnectionProvider).setToken(token);
+  container.read(fluxerAuthTokenProvider.notifier).setToken(token);
+  container
+      .read(currentAuthSessionIdHashProvider.notifier)
+      .update(authSessionIdHash);
+  await container.read(authRepositoryProvider).persistRotatedToken(token);
 }

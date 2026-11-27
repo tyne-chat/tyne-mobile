@@ -41,8 +41,22 @@ Future<InvitableChannelMatch?> resolveGuildInvitableChannel({
   required String guildId,
   String? channelId,
   bool preferSelectedChannel = true,
+}) => _resolveGuildInvitableChannelInContainer(
+  container: ref.container,
+  guildId: guildId,
+  channelId: channelId,
+  preferSelectedChannel: preferSelectedChannel,
+);
+
+Future<InvitableChannelMatch?> _resolveGuildInvitableChannelInContainer({
+  required ProviderContainer container,
+  required String guildId,
+  String? channelId,
+  bool preferSelectedChannel = true,
 }) async {
-  final db = ref.read(fluxerDatabaseProvider);
+  // Fork: use pre-captured container across channel/permission DB reads
+  // (tyne-chat/tyne#946).
+  final db = container.read(fluxerDatabaseProvider);
   final channels = await db.channelDao.getChannels(guildId);
   if (channels.isEmpty) {
     return null;
@@ -66,12 +80,12 @@ Future<InvitableChannelMatch?> resolveGuildInvitableChannel({
   final Channel? preferred =
       channelById(channelId) ??
       (preferSelectedChannel
-          ? channelById(ref.read(activeChannelIdProvider))
+          ? channelById(container.read(activeChannelIdProvider))
           : null);
 
   Future<InvitableChannelMatch?> matchChannel(Channel channel) async {
     final int bits = await readEffectiveGuildChannelPermissionBits(
-      container: ref.container,
+      container: container,
       channelId: channel.id,
     );
     return resolveInvitableChannel(
@@ -115,8 +129,25 @@ createChannelInviteLink({
   int maxAge = kDefaultInviteMaxAgeSeconds,
   int maxUses = 0,
   bool temporary = false,
+}) => _createChannelInviteLinkInContainer(
+  container: ref.container,
+  channelId: channelId,
+  channelName: channelName,
+  maxAge: maxAge,
+  maxUses: maxUses,
+  temporary: temporary,
+);
+
+Future<({String url, String channelName, bool useVanityUrl})?>
+_createChannelInviteLinkInContainer({
+  required ProviderContainer container,
+  required String channelId,
+  required String channelName,
+  int maxAge = kDefaultInviteMaxAgeSeconds,
+  int maxUses = 0,
+  bool temporary = false,
 }) async {
-  final InviteMetadataResponseSchema invite = await ref
+  final InviteMetadataResponseSchema invite = await container
       .read(fluxerClientProvider)
       .invites
       .createChannelInvite(
@@ -127,7 +158,7 @@ createChannelInviteLink({
           temporary: temporary,
         ),
       );
-  final String inviteBase = ref.read(instanceInviteBaseUrlProvider);
+  final String inviteBase = container.read(instanceInviteBaseUrlProvider);
   return (
     url: GuildInvitesUtils.buildInviteUrl(
       inviteBaseUrl: inviteBase,
@@ -148,11 +179,13 @@ createGuildInviteLink({
   int maxUses = 0,
   bool temporary = false,
 }) async {
-  final InvitableChannelMatch? match = await resolveGuildInvitableChannel(
-    ref: ref,
-    guildId: guildId,
-    channelId: channelId,
-  );
+  final ProviderContainer container = ref.container;
+  final InvitableChannelMatch? match =
+      await _resolveGuildInvitableChannelInContainer(
+        container: container,
+        guildId: guildId,
+        channelId: channelId,
+      );
   if (match == null) {
     return null;
   }
@@ -161,7 +194,7 @@ createGuildInviteLink({
     if (vanityCode == null || vanityCode.isEmpty) {
       return null;
     }
-    final String inviteBase = ref.read(instanceInviteBaseUrlProvider);
+    final String inviteBase = container.read(instanceInviteBaseUrlProvider);
     return (
       url: GuildInvitesUtils.buildInviteUrl(
         inviteBaseUrl: inviteBase,
@@ -171,8 +204,8 @@ createGuildInviteLink({
       useVanityUrl: true,
     );
   }
-  return await createChannelInviteLink(
-    ref: ref,
+  return await _createChannelInviteLinkInContainer(
+    container: container,
     channelId: match.channel.id,
     channelName: channelName ?? match.channel.name,
     maxAge: maxAge,
@@ -214,16 +247,17 @@ Future<void> sendInviteLinkMessage({
   required String? recipientId,
   required String url,
 }) async {
+  final ProviderContainer container = ref.container;
   String? targetId = channelId;
   if (targetId == null && recipientId != null) {
-    targetId = await ref
+    targetId = await container
         .read(dmRepositoryProvider)
         .ensureDmChannel(recipientId);
   }
   if (targetId == null) {
     return;
   }
-  await ref
+  await container
       .read(messageRepositoryProvider)
       .sendMessage(channelId: targetId, content: url);
 }

@@ -29,8 +29,13 @@ class GiftInventoryNagbar extends ConsumerWidget implements NagbarWidget {
         : l10n.nagbarGiftInventoryMany(count);
 
     Future<void> dismiss() async {
-      await ref.read(nagbarDismissalsProvider.notifier).dismissGiftInventory();
-      await clearUnreadGiftInventoryFlag(ref);
+      // Fork: pre-capture container before dismissing because hiding the
+      // nagbar unmounts this `ref` while clearing the flag (tyne-chat/tyne#946).
+      final ProviderContainer container = ref.container;
+      await container
+          .read(nagbarDismissalsProvider.notifier)
+          .dismissGiftInventory();
+      await clearUnreadGiftInventoryFlagInContainer(container);
     }
 
     return FluxerNagbar(

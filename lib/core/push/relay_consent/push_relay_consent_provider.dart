@@ -25,9 +25,22 @@ class PushRelayConsent extends _$PushRelayConsent {
   Future<void>? _loadInFlight;
   bool _isLoaded = false;
   Set<String> _declinedUserIds = <String>{};
+  int _forkBuildEpoch = 0;
 
   @override
-  bool build() => false;
+  bool build() {
+    // Fork: reset instance fields on rebuild so invalidated keepAlive state
+    // reloads cleanly instead of staying stuck at `false` (tyne-chat/tyne#946).
+    _forkResetForBuild();
+    return false;
+  }
+
+  void _forkResetForBuild() {
+    _forkBuildEpoch += 1;
+    _loadInFlight = null;
+    _isLoaded = false;
+    _declinedUserIds = <String>{};
+  }
 
   Future<void> load() {
     _loadInFlight = _load();
@@ -42,8 +55,9 @@ class PushRelayConsent extends _$PushRelayConsent {
   }
 
   Future<void> _load() async {
+    final int epoch = _forkBuildEpoch;
     final SharedPreferences preferences = await SharedPreferences.getInstance();
-    if (_isLoaded) {
+    if (!ref.mounted || epoch != _forkBuildEpoch || _isLoaded) {
       return;
     }
     _declinedUserIds =

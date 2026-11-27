@@ -24,10 +24,13 @@ class PremiumOnboardingNagbar extends ConsumerWidget implements NagbarWidget {
       instanceRuntimeConfigProvider.select((config) => config.productName),
     );
     Future<void> dismiss() async {
-      await ref
+      // Fork: pre-capture container before dismissing because hiding the
+      // nagbar unmounts this `ref` while clearing the flag (tyne-chat/tyne#946).
+      final ProviderContainer container = ref.container;
+      await container
           .read(nagbarDismissalsProvider.notifier)
           .dismissPremiumOnboarding();
-      await dismissPremiumOnboardingFlag(ref);
+      await dismissPremiumOnboardingFlagInContainer(container);
     }
 
     return FluxerNagbar(

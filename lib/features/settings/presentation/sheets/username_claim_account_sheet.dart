@@ -83,8 +83,12 @@ class _UsernameClaimAccountSheetState
       _error = null;
       _fieldErrors = const <String, String>{};
     });
+    // Fork: pre-capture container before awaiting claim mutation so dismissing
+    // the sheet mid-request still applies replacement session, profile reload,
+    // toast, and recovery kit (tyne-chat/tyne#946).
+    final ProviderContainer container = ref.container;
     try {
-      final UserUpdateResponse response = await ref
+      final UserUpdateResponse response = await container
           .read(fluxerClientProvider)
           .users
           .updateCurrentUser(
@@ -96,14 +100,16 @@ class _UsernameClaimAccountSheetState
       final String? token = response.token;
       final String? authSessionIdHash = response.authSessionIdHash;
       if (token != null && authSessionIdHash != null) {
-        await applyReplacementSession(
-          ref,
+        await applyReplacementSessionInContainer(
+          container,
           token: token,
           authSessionIdHash: authSessionIdHash,
         );
       }
-      await ref.read(userSettingsViewModelProvider.notifier).loadProfile();
-      ref
+      await container
+          .read(userSettingsViewModelProvider.notifier)
+          .loadProfile();
+      container
           .read(toastProvider.notifier)
           .show(
             FluxerToast(
@@ -112,7 +118,7 @@ class _UsernameClaimAccountSheetState
             ),
           );
       unawaited(
-        ref
+        container
             .read(pendingRecoveryKitProvider.notifier)
             .createAndPresent(
               reason: RecoveryKitReason.created,

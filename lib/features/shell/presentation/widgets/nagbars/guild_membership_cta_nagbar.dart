@@ -32,16 +32,19 @@ class _GuildMembershipCtaNagbarState
     }
     setState(() => _isSubmitting = true);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    // Fork: pre-capture container before joining because staging the guild can
+    // hide this nagbar mid-flight (tyne-chat/tyne#946).
+    final ProviderContainer container = ref.container;
     try {
       await joinCommunityViaInvite(
         ref: ref,
         rawInput: kFluxerHqInviteCode,
         l10n: l10n,
       );
-      await ref
+      await container
           .read(nagbarDismissalsProvider.notifier)
           .dismissGuildMembershipCta();
-      ref.invalidate(guildMembershipCtaVisibleProvider);
+      container.invalidate(guildMembershipCtaVisibleProvider);
     } on Object catch (error) {
       if (mounted) {
         await showApiError(context, ApiErrorAction.acceptInvite, error);

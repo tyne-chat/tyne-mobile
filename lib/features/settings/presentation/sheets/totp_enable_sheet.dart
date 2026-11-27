@@ -19,6 +19,10 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/router/fluxer_router.dart';
+
 class TotpEnableSheet extends ConsumerStatefulWidget {
   const TotpEnableSheet({super.key});
 
@@ -79,13 +83,17 @@ class _TotpEnableSheetState extends ConsumerState<TotpEnableSheet> {
       _error = null;
     });
 
+    // Fork: pre-capture container before awaiting TOTP enable so dismissing
+    // the sheet mid-request still shows toast, reloads profile, and opens
+    // BackupCodesSheet on the root navigator (tyne-chat/tyne#946).
+    final ProviderContainer container = ref.container;
     try {
-      final client = ref.read(fluxerClientProvider);
+      final client = container.read(fluxerClientProvider);
       final response = await client.users.enableTotpMfa(
         body: EnableMfaTotpRequest(secret: _encodedSecret, code: code),
       );
 
-      ref
+      container
           .read(toastProvider.notifier)
           .show(
             FluxerToast(
@@ -94,17 +102,31 @@ class _TotpEnableSheetState extends ConsumerState<TotpEnableSheet> {
             ),
           );
 
-      await ref.read(userSettingsViewModelProvider.notifier).loadProfile();
+      await container
+          .read(userSettingsViewModelProvider.notifier)
+          .loadProfile();
 
       if (mounted) {
         Navigator.of(context).pop();
-        await BackupCodesSheet.showWithCodes(
+      }
+      final NavigatorState? rootNavigator = rootNavigatorKey.currentState;
+      if (rootNavigator != null && rootNavigator.mounted) {
+        await _forkShowTotpBackupCodesSheet(
+          rootNavigator.context,
+          l10n,
+          response.backupCodes,
+        );
+      } else if (mounted) {
+        await _forkShowTotpBackupCodesSheet(
           context,
-          ref,
-          codes: response.backupCodes,
+          l10n,
+          response.backupCodes,
         );
       }
     } on DioException catch (e) {
+      if (!mounted) {
+        return;
+      }
       setState(() {
         _loading = false;
         _error = userFacingErrorMessage(e, l10n.invalidCode);
@@ -198,4 +220,19 @@ class _TotpEnableSheetState extends ConsumerState<TotpEnableSheet> {
       ),
     );
   }
+}
+
+// Fork: open backup codes sheet after TOTP enable without depending on a
+// disposed sheet BuildContext (tyne-chat/tyne#946).
+Future<void> _forkShowTotpBackupCodesSheet(
+  BuildContext sheetContext,
+  FluxerLocalizations l10n,
+  List<MfaBackupCodesResponseBackupCodes> codes,
+) {
+  return FluxerBottomSheet.show<void>(
+    sheetContext,
+    title: l10n.backupCodesTitle,
+    useRootNavigator: true,
+    builder: (_, _) => BackupCodesSheet(codes: codes),
+  );
 }

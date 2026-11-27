@@ -21,6 +21,10 @@ Future<void> confirmAndDeleteMyMessagesInChannel(
   final String description = isPrivateConversation
       ? l10n.dmDeleteMyMessagesDescription
       : l10n.channelMenuDeleteMyMessagesDescription;
+  // Fork: pre-capture container before modal/API awaits so leaving the channel
+  // mid-delete still reloads/toasts instead of throwing StateError into the
+  // error toast handler (tyne-chat/tyne#946).
+  final ProviderContainer container = ref.container;
   final bool? confirmed = await FluxerConfirmModal.show(
     context,
     title: title,
@@ -32,17 +36,19 @@ Future<void> confirmAndDeleteMyMessagesInChannel(
   if (confirmed != true) {
     return;
   }
-  final toast = ref.read(toastProvider.notifier);
+  final toast = container.read(toastProvider.notifier);
   try {
-    await ref
+    await container
         .read(fluxerClientProvider)
         .channels
         .bulkDeleteMyMessagesInChannel(
           channelId: channelId,
           body: const SudoVerificationSchema(),
         );
-    if (ref.read(chatViewModelProvider).channelId == channelId) {
-      await ref.read(chatViewModelProvider.notifier).reloadCurrentChannel();
+    if (container.read(chatViewModelProvider).channelId == channelId) {
+      await container
+          .read(chatViewModelProvider.notifier)
+          .reloadCurrentChannel();
     }
     toast.show(
       FluxerToast(

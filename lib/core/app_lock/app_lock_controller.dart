@@ -100,26 +100,42 @@ class AppLockController extends _$AppLockController {
   DateTime? _backgroundedAt;
   bool _loadRequested = false;
   bool _loading = false;
+  int _forkBuildEpoch = 0;
 
   @override
-  AppLockState build() => const AppLockState();
+  AppLockState build() {
+    // Fork: reset instance fields on rebuild and ignore stale in-flight
+    // storage reads across rebuilds (tyne-chat/tyne#946).
+    _forkResetForBuild();
+    return const AppLockState();
+  }
+
+  void _forkResetForBuild() {
+    _forkBuildEpoch += 1;
+    _backgroundedAt = null;
+    _loadRequested = false;
+    _loading = false;
+  }
 
   Future<void> load() async {
     _loadRequested = true;
     if (state.loaded || _loading) {
       return;
     }
+    final int epoch = _forkBuildEpoch;
     _loading = true;
     try {
-      await _load();
+      await _load(epoch);
     } on Object catch (error) {
       talker.warning('[AppLock] Failed to load app lock settings: $error');
     } finally {
-      _loading = false;
+      if (epoch == _forkBuildEpoch) {
+        _loading = false;
+      }
     }
   }
 
-  Future<void> _load() async {
+  Future<void> _load(int epoch) async {
     final AppLockStore store = ref.read(appLockStoreProvider);
     final AppLockInstallMarker marker = ref.read(appLockInstallMarkerProvider);
     if (!await marker.isMarked()) {
@@ -127,6 +143,9 @@ class AppLockController extends _$AppLockController {
       await marker.mark();
     }
     final AppLockSnapshot snapshot = await store.read();
+    if (!ref.mounted || epoch != _forkBuildEpoch) {
+      return;
+    }
     state = AppLockState(
       loaded: true,
       enabled: snapshot.hasPin,

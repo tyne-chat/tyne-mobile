@@ -104,6 +104,7 @@ class QuickSwitcher extends _$QuickSwitcher {
       const <QuickSwitcherUnreadChannel>[];
   List<Channel> _guildChannels = const <Channel>[];
   List<DmConversation> _conversations = const <DmConversation>[];
+  int _forkBuildEpoch = 0;
 
   /// Pre-warmed cache of guild [Channel] objects for channels in the recent
   /// visits list. Populated proactively at boot and on each navigation so
@@ -112,8 +113,12 @@ class QuickSwitcher extends _$QuickSwitcher {
 
   @override
   QuickSwitcherState build() {
+    // Fork: clear stale caches and timers on rebuild so previous workspace/
+    // account entries cannot leak into instant results (tyne-chat/tyne#946).
+    _forkResetForBuild();
     ref.onDispose(() {
       _memberSearchDebounce?.cancel();
+      _memberSearchDebounce = null;
     });
     // Pre-warm channel cache when recents change (fires on _init() load
     // from SharedPreferences and on each recordVisit call).
@@ -192,10 +197,24 @@ class QuickSwitcher extends _$QuickSwitcher {
     state = const QuickSwitcherState();
   }
 
+  // Fork: reset mutable fields when kept-alive notifier rebuilds
+  // (tyne-chat/tyne#946).
+  void _forkResetForBuild() {
+    _forkBuildEpoch += 1;
+    _memberSearchDebounce?.cancel();
+    _memberSearchDebounce = null;
+    _memberSearchResults = const <Member>[];
+    _unreadChannels = const <QuickSwitcherUnreadChannel>[];
+    _guildChannels = const <Channel>[];
+    _conversations = const <DmConversation>[];
+    _recentGuildChannelCache.clear();
+  }
+
   /// Proactively fetch and cache guild [Channel] objects for any recent
   /// visits not yet in [_recentGuildChannelCache]. Only hits the DB when
   /// there are genuinely new channel IDs to resolve.
   Future<void> _warmRecentChannelCache(List<RecentChannelVisit> visits) async {
+    final int epoch = _forkBuildEpoch;
     final Set<String> neededIds = <String>{};
     for (final RecentChannelVisit visit in visits) {
       if (visit.guildId != null &&
@@ -209,6 +228,9 @@ class QuickSwitcher extends _$QuickSwitcher {
     final List<Channel> channels = await ref
         .read(quickSwitcherRepositoryProvider)
         .getGuildChannels();
+    if (!ref.mounted || epoch != _forkBuildEpoch) {
+      return;
+    }
     for (final Channel channel in channels) {
       if (neededIds.contains(channel.id)) {
         _recentGuildChannelCache[channel.id] = channel;
