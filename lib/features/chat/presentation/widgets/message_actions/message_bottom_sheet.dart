@@ -285,10 +285,17 @@ Future<void> dispatchMessageAction({
       unawaited(showMessageDebugSheet(context, message: message));
     case MessageAction.speak:
       final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-      final FluxerTtsService tts = ref.read(fluxerTtsServiceProvider.notifier);
-      if (!ref.read(fluxerTtsServiceProvider).isSpeakingMessage(message.id) &&
+      // Fork: pre-capture container before awaiting tts.isSupported() so later
+      // reads do not throw if the caller widget unmounts (tyne-chat/tyne#946).
+      final ProviderContainer container = ref.container;
+      final FluxerTtsService tts = container.read(
+        fluxerTtsServiceProvider.notifier,
+      );
+      if (!container
+              .read(fluxerTtsServiceProvider)
+              .isSpeakingMessage(message.id) &&
           !await tts.isSupported()) {
-        ref
+        container
             .read(toastProvider.notifier)
             .show(
               FluxerToast(
@@ -298,14 +305,16 @@ Future<void> dispatchMessageAction({
             );
         return;
       }
-      final AppearancePreferencesState appearance = ref.read(
+      final AppearancePreferencesState appearance = container.read(
         appearancePreferencesProvider,
       );
       unawaited(
         tts.speakMessage(
           message: message,
           rate: appearance.ttsRate,
-          locale: formatTtsLocaleTag(ref.read(effectiveAppLocaleProvider)),
+          locale: formatTtsLocaleTag(
+            container.read(effectiveAppLocaleProvider),
+          ),
         ),
       );
     case MessageAction.translate:
@@ -321,15 +330,16 @@ Future<void> dispatchMessageAction({
 
 Future<bool> _openWebTranslationFallback({
   required WidgetRef ref,
+  required ProviderContainer container,
   required BuildContext context,
   required String query,
 }) async {
   if (!isWebMessageTranslationAvailable(
-    ref.read(advancedPreferencesProvider).searchEngines,
+    container.read(advancedPreferencesProvider).searchEngines,
   )) {
     return false;
   }
-  if (!context.mounted) {
+  if (!context.mounted || !ref.context.mounted) {
     return false;
   }
   return await openMessageWebTranslation(
@@ -348,14 +358,17 @@ Future<void> _translateMessage({
   if (query.isEmpty) {
     return;
   }
-  final TranslatingMessageIds translating = ref.read(
+  // Fork: pre-capture container before availability/translation awaits so state
+  // updates and fallback toasts succeed after unmount (tyne-chat/tyne#946).
+  final ProviderContainer container = ref.container;
+  final TranslatingMessageIds translating = container.read(
     translatingMessageIdsProvider.notifier,
   );
-  if (ref.read(translatingMessageIdsProvider).contains(message.id)) {
+  if (container.read(translatingMessageIdsProvider).contains(message.id)) {
     return;
   }
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-  final bool localAvailable = await ref.read(
+  final bool localAvailable = await container.read(
     messageTranslationAvailableProvider.future,
   );
 
@@ -365,10 +378,11 @@ Future<void> _translateMessage({
     }
     if (!await _openWebTranslationFallback(
       ref: ref,
+      container: container,
       context: context,
       query: query,
     )) {
-      ref
+      container
           .read(toastProvider.notifier)
           .show(
             FluxerToast(
@@ -382,13 +396,15 @@ Future<void> _translateMessage({
 
   translating.add(message.id);
   try {
-    final Message updated = await ref
+    final Message updated = await container
         .read(messageTranslationServiceProvider)
         .translateMessage(
           message: message,
-          targetLanguage: ref.read(effectiveAppLocaleProvider).languageCode,
+          targetLanguage: container
+              .read(effectiveAppLocaleProvider)
+              .languageCode,
         );
-    ref
+    container
         .read(chatViewModelProvider.notifier)
         .applyMessageTranslation(
           messageId: updated.id,
@@ -403,12 +419,13 @@ Future<void> _translateMessage({
     }
     if (await _openWebTranslationFallback(
       ref: ref,
+      container: container,
       context: context,
       query: query,
     )) {
       return;
     }
-    ref
+    container
         .read(toastProvider.notifier)
         .show(
           FluxerToast(
@@ -422,12 +439,13 @@ Future<void> _translateMessage({
     }
     if (await _openWebTranslationFallback(
       ref: ref,
+      container: container,
       context: context,
       query: query,
     )) {
       return;
     }
-    ref
+    container
         .read(toastProvider.notifier)
         .show(
           FluxerToast(
@@ -436,7 +454,7 @@ Future<void> _translateMessage({
           ),
         );
   } on MessageTranslationFailedException {
-    ref
+    container
         .read(toastProvider.notifier)
         .show(
           FluxerToast(

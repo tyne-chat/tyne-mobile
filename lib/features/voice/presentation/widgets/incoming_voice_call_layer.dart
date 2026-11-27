@@ -64,6 +64,9 @@ class _IncomingVoiceCallLayerState
       });
       return;
     }
+    // Fork: pre-capture container before awaiting sheet dismissal so finally can
+    // reconcile popup overlay state if the layer unmounts (tyne-chat/tyne#946).
+    final ProviderContainer container = ref.container;
     try {
       final String? result = await showIncomingVoiceCallSheet(
         sheetContext,
@@ -87,7 +90,7 @@ class _IncomingVoiceCallLayerState
       }
     } finally {
       _sheetOpen = false;
-      reconcileShellPopupOverlayForContainer(ref.container);
+      reconcileShellPopupOverlayForContainer(container);
       if (mounted) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _enqueuePresentSheet();

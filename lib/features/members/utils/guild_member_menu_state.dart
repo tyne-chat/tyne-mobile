@@ -39,17 +39,27 @@ Future<GuildMemberMenuState?> resolveGuildMemberMenuState({
   required WidgetRef ref,
   required String guildId,
   required GuildMemberResponse member,
+}) => _resolveGuildMemberMenuStateInContainer(
+  container: ref.container,
+  guildId: guildId,
+  member: member,
+);
+
+Future<GuildMemberMenuState?> _resolveGuildMemberMenuStateInContainer({
+  required ProviderContainer container,
+  required String guildId,
+  required GuildMemberResponse member,
 }) async {
-  final String ownUserId = ref.read(
+  final String ownUserId = container.read(
     userSettingsViewModelProvider.select((settings) => settings.userId),
   );
   if (ownUserId.isEmpty) {
     return null;
   }
 
-  final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
+  final db.FluxerDatabase database = container.read(fluxerDatabaseProvider);
   final Map<String, db.Role> rolesById =
-      ref.read(guildRolesByIdProvider(guildId)).value ??
+      container.read(guildRolesByIdProvider(guildId)).value ??
       <String, db.Role>{
         for (final db.Role role in await database.roleDao.getRoles(guildId))
           role.id: role,
@@ -71,7 +81,7 @@ Future<GuildMemberMenuState?> resolveGuildMemberMenuState({
   final bool isGuildOwner = ownerId != null && ownerId == ownUserId;
   final int everyonePermissions = memberRoleById[guildId]?.permissions ?? 0;
 
-  final String? viewerRoleIdsJson = ref
+  final String? viewerRoleIdsJson = container
       .read(currentUserMemberIdentityProvider(guildId))
       .value
       ?.roleIdsJson;
@@ -93,7 +103,7 @@ Future<GuildMemberMenuState?> resolveGuildMemberMenuState({
     guildMfaRestricted: isGuildMfaRestricted(
       guildMfaLevel: guildInfo?.mfaLevel ?? 0,
       isGuildOwner: isGuildOwner,
-      userLacksMfa: ref.read(userSettingsViewModelProvider).lacksMfa,
+      userLacksMfa: container.read(userSettingsViewModelProvider).lacksMfa,
     ),
   );
   final bool canManageRoles = hasPermission(
@@ -162,7 +172,10 @@ Future<GuildMemberMenuState?> resolveGuildMemberMenuStateForUser({
   required String guildId,
   required String userId,
 }) async {
-  final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
+  // Fork: pre-capture container before SQLite member/user lookups so resolution
+  // still completes if the menu widget unmounts (tyne-chat/tyne#946).
+  final ProviderContainer container = ref.container;
+  final db.FluxerDatabase database = container.read(fluxerDatabaseProvider);
   final db.Member? memberRow = await database.memberDao.getMemberByUserId(
     userId,
     guildId,
@@ -194,8 +207,8 @@ Future<GuildMemberMenuState?> resolveGuildMemberMenuStateForUser({
     mute: false,
     deaf: false,
   );
-  return await resolveGuildMemberMenuState(
-    ref: ref,
+  return await _resolveGuildMemberMenuStateInContainer(
+    container: container,
     guildId: guildId,
     member: member,
   );

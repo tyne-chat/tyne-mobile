@@ -158,10 +158,17 @@ class _AppLockScreenState extends ConsumerState<AppLockScreen> {
     if (confirmed != true || !mounted) {
       return;
     }
+    // Fork: pre-capture account manager state, current user id, and app lock
+    // notifier before awaits unmount AppLockScreen (tyne-chat/tyne#946).
     final AccountManager accounts = ref.read(accountManagerProvider.notifier);
+    final AppLockController appLock = ref.read(
+      appLockControllerProvider.notifier,
+    );
     final String? currentUserId = ref.read(currentUserIdProvider);
-    for (final StoredAccount account
-        in ref.read(accountManagerProvider).accounts) {
+    final List<StoredAccount> storedAccounts = List<StoredAccount>.of(
+      ref.read(accountManagerProvider).accounts,
+    );
+    for (final StoredAccount account in storedAccounts) {
       if (account.userId != currentUserId) {
         await accounts.removeAccount(account.userId);
       }
@@ -169,7 +176,7 @@ class _AppLockScreenState extends ConsumerState<AppLockScreen> {
     if (currentUserId != null) {
       await accounts.signOut(currentUserId);
     }
-    await ref.read(appLockControllerProvider.notifier).disable();
+    await appLock.disable();
   }
 
   String _formatCooldown(Duration remaining) {

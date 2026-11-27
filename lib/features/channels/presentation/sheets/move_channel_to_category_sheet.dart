@@ -21,7 +21,13 @@ Future<void> showMoveChannelToCategorySheet(
   required String guildId,
   required String channelId,
 }) async {
-  final List<Channel> channels = await _loadGuildChannels(ref, guildId);
+  // Fork: pre-capture container before channel lookup and bottom-sheet awaits
+  // so moving a category still runs after caller unmount (tyne-chat/tyne#946).
+  final ProviderContainer container = ref.container;
+  final List<Channel> channels = await _loadGuildChannelsInContainer(
+    container,
+    guildId,
+  );
   final int index = channels.indexWhere(
     (Channel channel) => channel.id == channelId,
   );
@@ -77,8 +83,8 @@ Future<void> showMoveChannelToCategorySheet(
   if (target == null || target.parentId == currentParentId) {
     return;
   }
-  await moveChannelToCategory(
-    ref,
+  await moveChannelToCategoryInContainer(
+    container,
     guildId: guildId,
     channelId: channelId,
     parentId: target.parentId,
@@ -90,9 +96,21 @@ Future<void> moveChannelToCategory(
   required String guildId,
   required String channelId,
   required String? parentId,
+}) => moveChannelToCategoryInContainer(
+  ref.container,
+  guildId: guildId,
+  channelId: channelId,
+  parentId: parentId,
+);
+
+Future<void> moveChannelToCategoryInContainer(
+  ProviderContainer container, {
+  required String guildId,
+  required String channelId,
+  required String? parentId,
 }) async {
   final ChannelMoveComputation? computation = computeChannelMoveToParent(
-    channels: await _loadGuildChannels(ref, guildId),
+    channels: await _loadGuildChannelsInContainer(container, guildId),
     channelId: channelId,
     parentId: parentId,
   );
@@ -100,7 +118,7 @@ Future<void> moveChannelToCategory(
     return;
   }
   try {
-    await ref
+    await container
         .read(channelRepositoryProvider)
         .moveChannel(guildId: guildId, operation: computation.operation);
   } on Object catch (error) {
@@ -108,7 +126,7 @@ Future<void> moveChannelToCategory(
       ApiErrorAction.moveChannel,
       error,
       details: ApiErrorDetails(
-        count: ref.read(
+        count: container.read(
           instanceLimitProvider(LimitKeys.maxChannelsPerCategory),
         ),
       ),
@@ -116,8 +134,11 @@ Future<void> moveChannelToCategory(
   }
 }
 
-Future<List<Channel>> _loadGuildChannels(WidgetRef ref, String guildId) async {
-  final rows = await ref
+Future<List<Channel>> _loadGuildChannelsInContainer(
+  ProviderContainer container,
+  String guildId,
+) async {
+  final rows = await container
       .read(fluxerDatabaseProvider)
       .channelDao
       .getChannels(guildId);

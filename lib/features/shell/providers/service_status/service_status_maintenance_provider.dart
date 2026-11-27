@@ -14,10 +14,14 @@ class ServiceStatusMaintenanceRead extends _$ServiceStatusMaintenanceRead {
   Timer? _pollTimer;
   bool _refreshInFlight = false;
   bool _refreshQueued = false;
+  int _forkBuildEpoch = 0;
   final ServiceStatusClient _client = ServiceStatusClient();
 
   @override
   ServiceStatusMaintenance? build() {
+    // Fork: reset poll timer and refresh flight state before registering the
+    // fireImmediately listener (tyne-chat/tyne#946).
+    _forkResetForBuild();
     ref
       ..onDispose(_cancelPoll)
       ..listen<AsyncValue<WellKnownFluxerResponse>>(wellKnownProvider, (
@@ -29,11 +33,19 @@ class ServiceStatusMaintenanceRead extends _$ServiceStatusMaintenanceRead {
     return null;
   }
 
+  void _forkResetForBuild() {
+    _forkBuildEpoch += 1;
+    _cancelPoll();
+    _refreshInFlight = false;
+    _refreshQueued = false;
+  }
+
   Future<void> refresh() async {
     if (_refreshInFlight) {
       _refreshQueued = true;
       return;
     }
+    final int epoch = _forkBuildEpoch;
     _refreshInFlight = true;
     try {
       final AsyncValue<WellKnownFluxerResponse> wellKnown = ref.read(
@@ -51,13 +63,18 @@ class ServiceStatusMaintenanceRead extends _$ServiceStatusMaintenanceRead {
       }
       final ServiceStatusMaintenance? next = await _client
           .fetchScheduledMaintenance();
+      if (!ref.mounted || epoch != _forkBuildEpoch) {
+        return;
+      }
       state = next;
       _scheduleNextPoll(next);
     } finally {
-      _refreshInFlight = false;
-      if (_refreshQueued && ref.mounted) {
-        _refreshQueued = false;
-        unawaited(refresh());
+      if (epoch == _forkBuildEpoch) {
+        _refreshInFlight = false;
+        if (_refreshQueued && ref.mounted) {
+          _refreshQueued = false;
+          unawaited(refresh());
+        }
       }
     }
   }

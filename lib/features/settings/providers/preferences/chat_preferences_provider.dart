@@ -68,14 +68,29 @@ class ChatPreferencesState {
 @Riverpod(keepAlive: true)
 class ChatPreferences extends _$ChatPreferences {
   String? _userId;
+  int _forkBuildEpoch = 0;
 
   @override
-  ChatPreferencesState build() => const ChatPreferencesState();
+  ChatPreferencesState build() {
+    // Fork: reset instance fields on rebuild so stale load() completions do not
+    // overwrite fresh state (tyne-chat/tyne#946).
+    _forkResetForBuild();
+    return const ChatPreferencesState();
+  }
+
+  void _forkResetForBuild() {
+    _forkBuildEpoch += 1;
+    _userId = null;
+  }
 
   Future<void> load(String userId) async {
     _userId = userId;
+    final int epoch = _forkBuildEpoch;
     final db = ref.read(fluxerDatabaseProvider);
     final prefs = await db.userPreferencesDao.getPreferences(userId);
+    if (!ref.mounted || epoch != _forkBuildEpoch || _userId != userId) {
+      return;
+    }
     if (prefs != null) {
       state = ChatPreferencesState(
         embedMediaDimensionSize: MediaDimensionSize.values.firstWhere(

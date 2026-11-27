@@ -112,10 +112,17 @@ class StreamerModeState {
 class StreamerMode extends _$StreamerMode {
   Timer? _pollTimer;
   bool _pollInFlight = false;
+  int _forkBuildEpoch = 0;
 
   @override
   StreamerModeState build() {
-    ref.onDispose(() => _pollTimer?.cancel());
+    // Fork: reset poll timer and in-flight state across rebuilds
+    // (tyne-chat/tyne#946).
+    _forkResetForBuild();
+    ref.onDispose(() {
+      _pollTimer?.cancel();
+      _pollTimer = null;
+    });
     final LocalSettingsStore store = ref.watch(localSettingsStoreProvider);
     scheduleMicrotask(() {
       if (ref.mounted) {
@@ -201,14 +208,25 @@ class StreamerMode extends _$StreamerMode {
     unawaited(_refreshCaptureApp());
   }
 
+  void _forkResetForBuild() {
+    _forkBuildEpoch += 1;
+    _pollTimer?.cancel();
+    _pollTimer = null;
+    _pollInFlight = false;
+  }
+
   Future<void> _refreshCaptureApp() async {
     if (_pollInFlight || !state.autoEnable) {
       return;
     }
+    final int epoch = _forkBuildEpoch;
     _pollInFlight = true;
     try {
       final bool detected = await detectStreamingCaptureApp();
-      if (ref.mounted && detected != state.captureAppDetected) {
+      if (!ref.mounted || epoch != _forkBuildEpoch) {
+        return;
+      }
+      if (detected != state.captureAppDetected) {
         state = state.copyWith(
           captureAppDetected: detected,
           nagbarDismissed: detected ? false : null,
@@ -217,7 +235,9 @@ class StreamerMode extends _$StreamerMode {
     } on Object {
       return;
     } finally {
-      _pollInFlight = false;
+      if (epoch == _forkBuildEpoch) {
+        _pollInFlight = false;
+      }
     }
   }
 }

@@ -176,7 +176,9 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
         primaryLabel: l10n.userProfileOpenDm,
         primaryVariant: FluxerButtonVariant.primary,
       );
-      if (!ok) {
+      // Fork: guard mounted before reading ref after confirmation sheet await
+      // in case UserProfileView unmounted while open (tyne-chat/tyne#946).
+      if (!ok || !mounted) {
         return;
       }
     }
@@ -212,7 +214,9 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
         primaryLabel: l10n.userProfileOpenDm,
         primaryVariant: FluxerButtonVariant.primary,
       );
-      if (!ok) {
+      // Fork: guard mounted before reading ref after confirmation sheet await
+      // in case UserProfileView unmounted while open (tyne-chat/tyne#946).
+      if (!ok || !mounted) {
         return;
       }
     }

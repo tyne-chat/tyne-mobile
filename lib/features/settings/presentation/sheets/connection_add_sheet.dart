@@ -628,6 +628,9 @@ class _ConnectionAddBodyState extends ConsumerState<_ConnectionAddBody> {
       return;
     }
     final l10n = FluxerLocalizations.of(context);
+    // Fork: pre-capture container before file-picker await so status toasts work
+    // even if the sheet unmounts before saveFile resolves (tyne-chat/tyne#946).
+    final ProviderContainer container = ref.container;
     try {
       final bytes = utf8.encode(_verification!.token);
       final Uri? savedUri = await FilePicker.saveFile(
@@ -645,7 +648,7 @@ class _ConnectionAddBodyState extends ConsumerState<_ConnectionAddBody> {
             await file.writeAsString(_verification!.token);
           }
         }
-        ref
+        container
             .read(toastProvider.notifier)
             .show(
               FluxerToast(
@@ -655,7 +658,7 @@ class _ConnectionAddBodyState extends ConsumerState<_ConnectionAddBody> {
             );
       }
     } on Object catch (_) {
-      ref
+      container
           .read(toastProvider.notifier)
           .show(
             FluxerToast(

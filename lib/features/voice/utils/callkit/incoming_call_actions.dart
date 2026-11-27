@@ -79,6 +79,9 @@ Future<void> executeAcceptIncomingVoiceCall(
   if (!ctx.mounted) {
     return;
   }
+  // Fork: pre-capture container before awaits in case caller WidgetRef
+  // unmounts while ctx stays mounted (tyne-chat/tyne#946).
+  final ProviderContainer container = ref.container;
   final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
   final db.Channel? channelRow = await database.channelDao.getChannelById(
     channelId,
@@ -99,7 +102,7 @@ Future<void> executeAcceptIncomingVoiceCall(
       channel: channel,
     );
     if (result == VoiceJoinResult.failed) {
-      _showIncomingVoiceJoinErrorToast(ref.container, l10n);
+      _showIncomingVoiceJoinErrorToast(container, l10n);
       return;
     }
     if (result == VoiceJoinResult.cancelled) {
@@ -118,7 +121,7 @@ Future<void> executeAcceptIncomingVoiceCall(
       );
     }
   } on Object {
-    _showIncomingVoiceJoinErrorToast(ref.container, l10n);
+    _showIncomingVoiceJoinErrorToast(container, l10n);
   }
 }
 

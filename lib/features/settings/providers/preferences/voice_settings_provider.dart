@@ -12,9 +12,13 @@ class VoiceSettings extends _$VoiceSettings {
   String? _userId;
 
   @override
-  VoiceSettingsState build() => _parse(
-    ref.watch(localSettingsStoreProvider).read(LocalSettingKeys.voiceDevice),
-  );
+  VoiceSettingsState build() {
+    // Fork: reset cached account user id on rebuild (tyne-chat/tyne#946).
+    _userId = null;
+    return _parse(
+      ref.watch(localSettingsStoreProvider).read(LocalSettingKeys.voiceDevice),
+    );
+  }
 
   Future<void> load(String userId) async {
     _userId = userId;

@@ -28,6 +28,9 @@ void appendGuildMemberModerationMenuItems({
   bool includeNickname = false,
   bool includeModerationActions = true,
 }) {
+  // Fork: pre-capture container before menu callbacks await sheets/modals so
+  // moderation API calls survive caller unmount (tyne-chat/tyne#946).
+  final ProviderContainer container = ref.container;
   if (includeNickname && capabilities.canChangeNickname) {
     items.add(
       FluxerMenuItem(
@@ -43,19 +46,20 @@ void appendGuildMemberModerationMenuItems({
           if (result == null) {
             return;
           }
-          await UserProfileActionsSheet.runGuildModeration(
-            ref,
+          await UserProfileActionsSheet.runGuildModerationInContainer(
+            container,
             guildId: guildId,
             userId: userId,
             successMessage: l10n.userProfileNicknameSuccess,
             errorAction: ApiErrorAction.generic,
-            action: () => UserProfileActionsSheet.updateGuildMemberNickname(
-              ref: ref,
-              guildId: guildId,
-              userId: userId,
-              nick: result.nick,
-              isCurrentUser: isCurrentUser,
-            ),
+            action: () =>
+                UserProfileActionsSheet.updateGuildMemberNicknameInContainer(
+                  container: container,
+                  guildId: guildId,
+                  userId: userId,
+                  nick: result.nick,
+                  isCurrentUser: isCurrentUser,
+                ),
           );
         },
       ),
@@ -81,13 +85,13 @@ void appendGuildMemberModerationMenuItems({
           if (seconds == null) {
             return;
           }
-          await UserProfileActionsSheet.runGuildModeration(
-            ref,
+          await UserProfileActionsSheet.runGuildModerationInContainer(
+            container,
             guildId: guildId,
             userId: userId,
             successMessage: l10n.userProfileTimeoutSuccess(username),
             errorAction: ApiErrorAction.timeoutMember,
-            action: () => ref
+            action: () => container
                 .read(fluxerClientProvider)
                 .guilds
                 .updateGuildMember(
@@ -128,13 +132,13 @@ void appendGuildMemberModerationMenuItems({
           if (!ok) {
             return;
           }
-          await UserProfileActionsSheet.runGuildModeration(
-            ref,
+          await UserProfileActionsSheet.runGuildModerationInContainer(
+            container,
             guildId: guildId,
             userId: userId,
             successMessage: l10n.userProfileRemoveTimeoutSuccess(username),
             errorAction: ApiErrorAction.removeTimeout,
-            action: () => ref
+            action: () => container
                 .read(fluxerClientProvider)
                 .guilds
                 .updateGuildMember(
@@ -170,13 +174,13 @@ void appendGuildMemberModerationMenuItems({
           if (!ok) {
             return;
           }
-          await UserProfileActionsSheet.runGuildModeration(
-            ref,
+          await UserProfileActionsSheet.runGuildModerationInContainer(
+            container,
             guildId: guildId,
             userId: userId,
             successMessage: l10n.userProfileKickSuccess(username),
             errorAction: ApiErrorAction.kickMember,
-            action: () => ref
+            action: () => container
                 .read(fluxerClientProvider)
                 .guilds
                 .removeGuildMember(guildId: guildId, userId: userId),
@@ -198,13 +202,13 @@ void appendGuildMemberModerationMenuItems({
           if (result == null) {
             return;
           }
-          await UserProfileActionsSheet.runGuildModeration(
-            ref,
+          await UserProfileActionsSheet.runGuildModerationInContainer(
+            container,
             guildId: guildId,
             userId: userId,
             successMessage: l10n.userProfileBanSuccess(username),
             errorAction: ApiErrorAction.banMember,
-            action: () => ref
+            action: () => container
                 .read(fluxerClientProvider)
                 .guilds
                 .banGuildMember(
