@@ -73,6 +73,7 @@ DmListMessagePreview? resolveDmListMessagePreview({
       conversation: conversation,
       currentUserId: currentUserId,
       authorFriendNickname: authorFriendNickname,
+      l10n: l10n,
     );
     if (authorPrefix == null) {
       return null;
@@ -87,6 +88,7 @@ DmListMessagePreview? resolveDmListMessagePreview({
       conversation: conversation,
       currentUserId: currentUserId,
       authorFriendNickname: authorFriendNickname,
+      l10n: l10n,
     );
     if (authorPrefix == null) {
       return null;
@@ -104,6 +106,7 @@ String? _authorPrefix({
   required DmConversation conversation,
   required String? currentUserId,
   required String? authorFriendNickname,
+  required FluxerLocalizations l10n,
 }) {
   final String? authorName = conversation.lastMessageAuthorName;
   final String? authorId = conversation.lastMessageAuthorId;
@@ -111,7 +114,7 @@ String? _authorPrefix({
     return null;
   }
   final String label = authorId == currentUserId
-      ? 'You'
+      ? l10n.channelDetailsMemberYou
       : (authorFriendNickname ?? authorName);
   return '$label: ';
 }

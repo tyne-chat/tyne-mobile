@@ -420,6 +420,254 @@
       "file": "lib/features/voice/providers/voice_session_provider.dart",
       "symbol": "VoiceSession._localAudioReconcileInFlight",
       "reason": "Checked in source (tyne-chat/tyne#946): `whenComplete` single-worker mutex for `_reconcileLocalAudioPublish` (`_localAudioReconcileRerun` is cleared in `build()` to cancel queued reruns)."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/chat/data/message_repository.dart",
+      "target": "userFacingErrorMessage()",
+      "reason": "Checked in source (tyne-chat/tyne#946): untouched upstream repository fallback strings passed without BuildContext/FluxerLocalizations (`l10n_fork` is strictly for fork-only strings)."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/chat/presentation/widgets/attachments/attachment_audio.dart",
+      "target": "Text()",
+      "code": "playbackRate}x",
+      "reason": "Checked in source (tyne-chat/tyne#946): international audio playback speed multiplier notation (`1x`, `1.5x`, `2x`)."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/chat/presentation/widgets/attachments/attachment_image.dart",
+      "target": "Text()",
+      "code": "'GIF'",
+      "reason": "Checked in source (tyne-chat/tyne#946): standard uppercase media format acronym badge (`GIF`)."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/chat/presentation/widgets/attachments/voice_message_player.dart",
+      "target": "Text()",
+      "code": "playbackRate}x",
+      "reason": "Checked in source (tyne-chat/tyne#946): international voice-message playback speed multiplier notation (`1x`, `1.5x`, `2x`)."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/chat/presentation/widgets/media/alt_text_badge.dart",
+      "target": "Text()",
+      "code": "'ALT'",
+      "reason": "Checked in source (tyne-chat/tyne#946): compact visual ALT badge acronym inside ExcludeSemantics (FluxerAltTextTooltip supplies the actual alt text)."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/chat/providers/channel/channel_details_providers.dart",
+      "target": "argument errorMessage",
+      "reason": "Checked in source (tyne-chat/tyne#946): untouched upstream Riverpod provider fallback errorMessage strings without BuildContext/FluxerLocalizations."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/chat/providers/core/chat_view_model.dart",
+      "target": "argument errorMessage",
+      "code": "'Failed to sync messages'",
+      "reason": "Checked in source (tyne-chat/tyne#946): untouched upstream ChatViewModel error state string asserted directly by upstream test `chat_view_model_unread_test.dart`."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/chat/providers/messages/message_reactors_provider.dart",
+      "target": "argument errorMessage",
+      "code": "'Failed to load reactions'",
+      "reason": "Checked in source (tyne-chat/tyne#946): untouched upstream Riverpod provider fallback errorMessage without BuildContext/FluxerLocalizations."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/discovery/presentation/widgets/discovery_category_tabs.dart",
+      "enclosing": "discoveryCategoryTabsExtent",
+      "target": "argument text",
+      "code": "'Ag'",
+      "reason": "Checked in source (tyne-chat/tyne#946): offscreen TextPainter ascender/descender height measurement sample (`'Ag'`), never rendered on screen."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/favorites/presentation/widgets/favorites_channel_list.dart",
+      "target": "Text()",
+      "code": "'DM'",
+      "reason": "Checked in source (tyne-chat/tyne#946): compact 24px icon badge abbreviation (`DM`) in upstream favorites channel avatar fallback."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/forum/presentation/widgets/forum_tag_chip.dart",
+      "enclosing": "ForumTagChip.rowHeight",
+      "target": "argument text",
+      "code": "'Ag'",
+      "reason": "Checked in source (tyne-chat/tyne#946): offscreen TextPainter ascender/descender height measurement sample (`'Ag'`), never rendered on screen."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/settings/presentation/widgets/fluxer_tag_change_sheet.dart",
+      "target": "argument hint",
+      "code": "'Marty_McFly'",
+      "reason": "Checked in source (tyne-chat/tyne#946): example proper-noun username handle placeholder (`Marty_McFly`)."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/settings/presentation/widgets/guild/roles/guild_role_icon_field.dart",
+      "target": "variable _formatsLabel",
+      "code": "'PNG, JPEG, WebP, AVIF'",
+      "reason": "Checked in source (tyne-chat/tyne#946): standard image file format acronym list (`PNG, JPEG, WebP, AVIF`)."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/settings/presentation/widgets/native_markdown_tester.dart",
+      "target": "argument label",
+      "reason": "Checked in source (tyne-chat/tyne#946): developer-only native Rust markdown AST debug tester widget, intentionally untranslated."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/settings/presentation/widgets/native_markdown_tester.dart",
+      "target": "argument hint",
+      "reason": "Checked in source (tyne-chat/tyne#946): developer-only native Rust markdown AST debug tester widget, intentionally untranslated."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/settings/presentation/widgets/theme_colors/theme_colors_preview_content.dart",
+      "enclosing": "ThemeColorsPreviewContent",
+      "reason": "Checked in source (tyne-chat/tyne#946): static mock community and chat preview fixture strings (`Fluxerverse`, `#general`, `Mateo`, `Erin`)."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/settings/presentation/widgets/user_developer_tools.dart",
+      "target": "variable _emptyMessage",
+      "reason": "Checked in source (tyne-chat/tyne#946): developer-only debug tools screen, intentionally untranslated per AGENTS.md."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/settings/presentation/widgets/user_developer_tools.dart",
+      "target": "variable _invalidMessage",
+      "reason": "Checked in source (tyne-chat/tyne#946): developer-only debug tools screen, intentionally untranslated per AGENTS.md."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/settings/presentation/widgets/user_developer_tools.dart",
+      "target": "variable _unsupportedMessage",
+      "reason": "Checked in source (tyne-chat/tyne#946): developer-only debug tools screen, intentionally untranslated per AGENTS.md."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/settings/presentation/widgets/user_developer_tools.dart",
+      "target": "argument label",
+      "reason": "Checked in source (tyne-chat/tyne#946): developer-only debug tools screen, intentionally untranslated per AGENTS.md."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/settings/presentation/widgets/user_developer_tools.dart",
+      "target": "argument title",
+      "reason": "Checked in source (tyne-chat/tyne#946): developer-only debug tools screen, intentionally untranslated per AGENTS.md."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/settings/presentation/widgets/user_developer_tools.dart",
+      "target": "argument description",
+      "reason": "Checked in source (tyne-chat/tyne#946): developer-only debug tools screen, intentionally untranslated per AGENTS.md."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/settings/presentation/widgets/user_developer_tools.dart",
+      "target": "argument hint",
+      "reason": "Checked in source (tyne-chat/tyne#946): developer-only debug tools screen, intentionally untranslated per AGENTS.md."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/settings/presentation/widgets/user_developer_tools.dart",
+      "target": "Text()",
+      "reason": "Checked in source (tyne-chat/tyne#946): developer-only debug tools screen, intentionally untranslated per AGENTS.md."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/shell/utils/splash_quotes.dart",
+      "target": "argument text",
+      "reason": "Checked in source (tyne-chat/tyne#946): upstream const loading-screen easter-egg quotes, intentionally untranslated."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/ui/color_picker/fluxer_color_picker_field.dart",
+      "target": "argument helperText",
+      "reason": "Checked in source (tyne-chat/tyne#946): untouched upstream FluxerColorPickerField helper text without a key in upstream `lib/l10n` (`l10n_fork` only holds fork-added strings)."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/ui/color_picker/fluxer_color_picker_field.dart",
+      "target": "Text()",
+      "code": "'Invalid color. Try a hex value like #FF5733.'",
+      "reason": "Checked in source (tyne-chat/tyne#946): untouched upstream FluxerColorPickerField error text without a key in upstream `lib/l10n` (`l10n_fork` only holds fork-added strings)."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/ui/preview/fluxer_widget_preview.dart",
+      "target": "argument title",
+      "code": "'Fluxer'",
+      "reason": "Checked in source (tyne-chat/tyne#946): brand name title (`Fluxer`) in upstream Flutter widget preview harness."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/voice/providers/voice_session_provider.dart",
+      "target": "argument label",
+      "reason": "Checked in source (tyne-chat/tyne#946): diagnostic Talker log operation labels passed to `_runVoiceAsync(..., label: ...)`, never displayed in UI."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/voice/providers/voice_session_provider.dart",
+      "enclosing": "VoiceSession._runVoiceAsync",
+      "target": "variable message",
+      "reason": "Checked in source (tyne-chat/tyne#946): internal Talker log message prefix (`'[Voice] $tag: $error'`), never displayed in UI."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/features/voice/providers/voice_session_provider.dart",
+      "target": "argument errorMessage",
+      "reason": "Checked in source (tyne-chat/tyne#946): untouched upstream VoiceSessionState error fallback strings not yet migrated to `kVoiceSessionError*` sentinel codes (`voice_session_errors_test.dart` asserts raw passthrough)."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/shared/widgets/fluxer_render_error_placeholder.dart",
+      "target": "variable _kFallbackErrorMessage",
+      "reason": "Checked in source (tyne-chat/tyne#946): last-resort fallback (`l10n?.genericError ?? _kFallbackErrorMessage`) used only when ErrorWidget renders before or outside Localizations."
+    },
+    {
+      "linter": "string",
+      "rule": "string-lint",
+      "file": "lib/shared/widgets/shared_video_controls.dart",
+      "target": "Text()",
+      "code": "playbackRate}x",
+      "reason": "Checked in source (tyne-chat/tyne#946): international video playback speed multiplier notation (`1x`, `1.5x`, `2x`)."
     }
   ]
 }
