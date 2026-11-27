@@ -34,27 +34,31 @@ Future<void> createCommunity({
   String? iconDataUri,
   TemplateSerializedGuild? template,
 }) async {
+  // Fork: pre-capture container before `createGuild` so dismissing the modal
+  // mid-request still fetches channels and navigates instead of throwing into
+  // `on Object` after the server was already created (tyne-chat/tyne#946).
+  final ProviderContainer container = ref.container;
   try {
-    final GuildResponse guild = await ref
+    final GuildResponse guild = await container
         .read(guildRepositoryProvider)
         .createGuild(name: name, iconDataUri: iconDataUri, template: template);
-    await ref.read(channelRepositoryProvider).getChannels(guild.id);
-    final Guild? localGuild = await ref.read(
+    await container.read(channelRepositoryProvider).getChannels(guild.id);
+    final Guild? localGuild = await container.read(
       guildByIdProvider(guild.id).future,
     );
     if (localGuild != null) {
-      ref
+      container
           .read(channelListViewModelProvider.notifier)
           .loadChannels(guild.id, guild: localGuild);
     }
-    navigateToContentVia(ref, RoutePaths.guild(guild.id));
+    navigateToContentViaContainer(container, RoutePaths.guild(guild.id));
   } on CreateCommunityException {
     rethrow;
   } on DioException catch (e) {
     final String? code = apiErrorCodeFromDioException(e);
     switch (code) {
       case 'UNCLAIMED_ACCOUNT_CANNOT_CREATE_GUILDS':
-        if (context.mounted) {
+        if (context.mounted && ref.context.mounted) {
           await ClaimAccountSheet.show(context, ref);
         }
         throw CreateCommunityException(

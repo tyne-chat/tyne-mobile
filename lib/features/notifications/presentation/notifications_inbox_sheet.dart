@@ -69,6 +69,11 @@ class _NotificationsInboxSheetBodyState
       _,
       NotificationsInboxTab next,
     ) {
+      // Fork: guard against deactivated context in `listenManual` callback
+      // (tyne-chat/tyne#946).
+      if (!mounted) {
+        return;
+      }
       if (_pages.hasClients && _pages.page?.round() != next.index) {
         _pages.animateToPage(
           next.index,

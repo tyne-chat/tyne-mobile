@@ -25,12 +25,19 @@ class ForumFirstMessages extends _$ForumFirstMessages {
 
   @override
   Map<String, Message?> build(String accountUserId) {
+    // Fork: reset instance fields on rebuild so invalidated state can reload
+    // and a cancelled timer never blocks `_flushTimer ??=` (tyne-chat/tyne#946).
+    _flushTimer?.cancel();
+    _flushTimer = null;
+    _pending.clear();
+    _requested.clear();
     final StreamSubscription<MessageRealtimeEvent> subscription = ref
         .watch(messageRealtimeBusProvider)
         .stream
         .listen(_onRealtimeEvent);
     ref.onDispose(() {
       _flushTimer?.cancel();
+      _flushTimer = null;
       unawaited(subscription.cancel());
     });
     return const <String, Message?>{};

@@ -123,9 +123,12 @@ Future<void> toggleForumDefaultReaction(
     add: value,
   );
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+  // Fork: pre-capture container before `await` in case the post card unmounts
+  // while `reactToPost` is in flight (tyne-chat/tyne#946).
+  final ProviderContainer container = ref.container;
   apply(value: add);
   try {
-    await ref
+    await container
         .read(forumRepositoryProvider)
         .reactToPost(
           guildId: forum.guildId,
@@ -135,8 +138,8 @@ Future<void> toggleForumDefaultReaction(
         );
   } on Object catch (error) {
     apply(value: !add);
-    showThreadToast(
-      ref,
+    showThreadToastFromContainer(
+      container,
       threadErrorText(l10n, error),
       variant: FluxerToastVariant.danger,
     );
@@ -151,20 +154,23 @@ Future<bool> updateForumPost(
   String? successMessage,
 }) async {
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+  // Fork: pre-capture container before `await` so closing a menu/sheet
+  // mid-request does not throw StateError on toast (tyne-chat/tyne#946).
+  final ProviderContainer container = ref.container;
   try {
-    await ref
+    await container
         .read(forumRepositoryProvider)
         .updatePost(guildId: post.guildId, postId: post.id, patch: patch);
   } on Object catch (error) {
-    showThreadToast(
-      ref,
+    showThreadToastFromContainer(
+      container,
       threadErrorText(l10n, error),
       variant: FluxerToastVariant.danger,
     );
     return false;
   }
   if (successMessage != null) {
-    showThreadToast(ref, successMessage);
+    showThreadToastFromContainer(container, successMessage);
   }
   return true;
 }

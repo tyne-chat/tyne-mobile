@@ -41,6 +41,11 @@ Future<FileUploadValidationResult?> tryPasteClipboardAttachments({
   if (!isAttachEnabled) {
     return null;
   }
+  // Fork: pre-capture container and account user id before awaiting native
+  // clipboard reads so composer unmount mid-read cannot throw StateError
+  // (tyne-chat/tyne#946).
+  final ProviderContainer container = ref.container;
+  final String accountUserId = readAccountUserId(ref);
   if (!await readClipboardLikelyHasFileAttachments()) {
     return null;
   }
@@ -48,20 +53,15 @@ Future<FileUploadValidationResult?> tryPasteClipboardAttachments({
     return null;
   }
   final List<XFile> files = await readClipboardAttachmentFiles(
-    maxFiles: ref.read(
+    maxFiles: container.read(
       instanceLimitProvider(LimitKeys.maxAttachmentsPerMessage),
     ),
   );
   if (files.isEmpty) {
     return null;
   }
-  return await ref
-      .read(
-        cloudUploadControllerProvider(
-          readAccountUserId(ref),
-          channelId,
-        ).notifier,
-      )
+  return await container
+      .read(cloudUploadControllerProvider(accountUserId, channelId).notifier)
       .addFiles(composerUploadFiles(files));
 }
 
@@ -122,6 +122,9 @@ Future<bool> handleComposerPaste({
         onPasteLostContent: onPasteLostContent,
       )) {
     return true;
+  }
+  if (!ref.context.mounted) {
+    return false;
   }
   final FileUploadValidationResult? attachmentResult =
       await tryPasteClipboardAttachments(

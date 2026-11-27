@@ -26,9 +26,13 @@ Future<void> joinCommunityViaInvite({
   required String rawInput,
   required FluxerLocalizations l10n,
 }) async {
-  final client = ref.read(fluxerClientProvider);
-  await ref.read(wellKnownProvider.future);
-  final String inviteBase = ref.read(instanceInviteBaseUrlProvider);
+  // Fork: pre-capture container before awaiting discovery/invite APIs so
+  // dismissing the modal mid-request still stages the joined guild and
+  // navigates without StateError (tyne-chat/tyne#946).
+  final ProviderContainer container = ref.container;
+  final client = container.read(fluxerClientProvider);
+  await container.read(wellKnownProvider.future);
+  final String inviteBase = container.read(instanceInviteBaseUrlProvider);
   final String? parsedCode = parseInviteCode(
     rawInput,
     inviteUrlBases: <String>[inviteBase],
@@ -41,13 +45,13 @@ Future<void> joinCommunityViaInvite({
   );
   if (inviteResponseIsGuild(schema)) {
     await _joinGuildInvite(
-      ref: ref,
+      container: container,
       invite: schema.toGuildInviteResponse(),
       code: parsedCode,
     );
   } else {
     await _joinGroupDmInvite(
-      ref: ref,
+      container: container,
       invite: schema.toGroupDmInviteResponse(),
       code: parsedCode,
     );
@@ -55,30 +59,32 @@ Future<void> joinCommunityViaInvite({
 }
 
 Future<void> _joinGuildInvite({
-  required WidgetRef ref,
+  required ProviderContainer container,
   required InviteResponseSchemaGuildInviteResponse invite,
   required String code,
 }) async {
   final String guildId = invite.guild.id;
   final String channelId = invite.channel.id;
-  final Guild? existingGuild = await ref.read(
+  final Guild? existingGuild = await container.read(
     guildByIdProvider(guildId).future,
   );
   if (existingGuild == null) {
-    final client = ref.read(fluxerClientProvider);
+    final client = container.read(fluxerClientProvider);
     await client.invites.acceptInvite(inviteCode: code);
-    await ref.read(guildRepositoryProvider).stageGuildJoinFromInvite(invite);
-    final Guild? stagedGuild = await ref.refresh(
+    await container
+        .read(guildRepositoryProvider)
+        .stageGuildJoinFromInvite(invite);
+    final Guild? stagedGuild = await container.refresh(
       guildByIdProvider(guildId).future,
     );
     if (stagedGuild != null) {
-      ref
+      container
           .read(channelListViewModelProvider.notifier)
           .loadChannels(guildId, guild: stagedGuild);
     }
   }
   _navigateToJoinedContent(
-    ref,
+    container,
     guildInviteNavigationPath(
       guildId: guildId,
       channelType: invite.channel.type,
@@ -100,17 +106,16 @@ String guildInviteNavigationPath({
 }
 
 Future<void> _joinGroupDmInvite({
-  required WidgetRef ref,
+  required ProviderContainer container,
   required InviteResponseSchemaGroupDmInviteResponse invite,
   required String code,
 }) async {
-  final client = ref.read(fluxerClientProvider);
+  final client = container.read(fluxerClientProvider);
   await client.invites.acceptInvite(inviteCode: code);
-  _navigateToJoinedContent(ref, RoutePaths.dmChannel(invite.channel.id));
+  _navigateToJoinedContent(container, RoutePaths.dmChannel(invite.channel.id));
 }
 
-void _navigateToJoinedContent(WidgetRef ref, String path) {
-  final ProviderContainer container = ref.container;
+void _navigateToJoinedContent(ProviderContainer container, String path) {
   popShellCoveringPages();
   navigateToContentViaContainer(container, path);
 }
