@@ -17,11 +17,16 @@
 //
 // After an `await`, a tracked target must be guarded (`mounted`,
 // `<ctx>.mounted`, or `<ref>.context.mounted`) before it is read again, and
-// each new `await` invalidates earlier guards. A false positive that is safe
-// for an external reason gets `// async-ref-ignore: <reason>` on its line or
-// the line above on fork lines; reviewed upstream `--all` findings live in
-// `tool/fork_lint_reviewed.json` (`--check-reviewed` validates they still
-// match, `--include-reviewed` lists them too) so upstream files stay untouched.
+// each new `await` invalidates earlier guards. Null comparisons (`ctx == null`,
+// `ctx != null`, `identical(ctx, null)`), simple `=` reassignments (which also
+// clear prior `.mounted` guards on that variable), De Morgan early exits
+// (`if (context != null && !context.mounted) return;`), short-circuit `||`
+// exit conditions, and dead code after unconditional exits are handled in the
+// AST. A false positive that is safe for an external reason gets
+// `// async-ref-ignore: <reason>` on its line or the line above on fork lines;
+// reviewed upstream `--all` findings live in `tool/fork_lint_reviewed.json`
+// (`--check-reviewed` validates they still match, `--include-reviewed` lists
+// them too) so upstream files stay untouched.
 // ignore_for_file: avoid_print, depend_on_referenced_packages
 
 import 'dart:io';
@@ -165,6 +170,21 @@ Set<String> _positivelyGuardedTargets(Expression condition, _ScopeInfo scope) {
   return const <String>{};
 }
 
+String? _nonNullCheckedIdentifier(Expression expr) {
+  final Expression unwrapped = expr.unParenthesized;
+  if (unwrapped is BinaryExpression && unwrapped.operator.lexeme == '!=') {
+    final Expression left = unwrapped.leftOperand.unParenthesized;
+    final Expression right = unwrapped.rightOperand.unParenthesized;
+    if (right is NullLiteral && left is SimpleIdentifier) {
+      return left.name;
+    }
+    if (left is NullLiteral && right is SimpleIdentifier) {
+      return right.name;
+    }
+  }
+  return null;
+}
+
 /// Names guarded for the rest of a block when `if (condition) return;` exits.
 Set<String> _negatedExitGuardedTargets(Expression condition, _ScopeInfo scope) {
   final Expression unwrapped = condition.unParenthesized;
@@ -176,6 +196,30 @@ Set<String> _negatedExitGuardedTargets(Expression condition, _ScopeInfo scope) {
       ..._negatedExitGuardedTargets(unwrapped.leftOperand, scope),
       ..._negatedExitGuardedTargets(unwrapped.rightOperand, scope),
     };
+  }
+  if (unwrapped is BinaryExpression && unwrapped.operator.lexeme == '&&') {
+    final Set<String> result = <String>{};
+    final String? leftNonNull = _nonNullCheckedIdentifier(
+      unwrapped.leftOperand,
+    );
+    if (leftNonNull != null &&
+        _negatedExitGuardedTargets(
+          unwrapped.rightOperand,
+          scope,
+        ).contains(leftNonNull)) {
+      result.add(leftNonNull);
+    }
+    final String? rightNonNull = _nonNullCheckedIdentifier(
+      unwrapped.rightOperand,
+    );
+    if (rightNonNull != null &&
+        _negatedExitGuardedTargets(
+          unwrapped.leftOperand,
+          scope,
+        ).contains(rightNonNull)) {
+      result.add(rightNonNull);
+    }
+    return result;
   }
   if (unwrapped is ConditionalExpression) {
     final Set<String> a = _negatedExitGuardedTargets(
@@ -215,6 +259,7 @@ class _AsyncBodyAnalyzer extends RecursiveAstVisitor<void> {
   final List<String> problems;
 
   bool _seenAwait = false;
+  int _awaitCount = 0;
   final Set<String> _guarded = <String>{};
   final Set<String> _shadowedLocals = <String>{};
 
@@ -273,12 +318,55 @@ class _AsyncBodyAnalyzer extends RecursiveAstVisitor<void> {
     return false;
   }
 
+  bool _isNullCheckOnly(SimpleIdentifier node) {
+    AstNode child = node;
+    AstNode? parent = node.parent;
+    while (parent is ParenthesizedExpression) {
+      child = parent;
+      parent = parent.parent;
+    }
+    if (parent is BinaryExpression &&
+        (parent.operator.lexeme == '==' || parent.operator.lexeme == '!=')) {
+      final Expression? other = identical(parent.leftOperand, child)
+          ? parent.rightOperand
+          : identical(parent.rightOperand, child)
+          ? parent.leftOperand
+          : null;
+      return other != null && other.unParenthesized is NullLiteral;
+    }
+    if (parent is ArgumentList && parent.arguments.length == 2) {
+      final AstNode? call = parent.parent;
+      if (call is MethodInvocation &&
+          call.target == null &&
+          call.methodName.name == 'identical') {
+        final Argument a0 = parent.arguments[0];
+        final Argument a1 = parent.arguments[1];
+        if (identical(a0, child) &&
+            a1 is Expression &&
+            a1.unParenthesized is NullLiteral) {
+          return true;
+        }
+        if (identical(a1, child) &&
+            a0 is Expression &&
+            a0.unParenthesized is NullLiteral) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   bool _isIdentifierRead(SimpleIdentifier node) {
     if (node.inDeclarationContext()) {
       return false;
     }
     final AstNode? parent = node.parent;
     if (parent is Label) {
+      return false;
+    }
+    if (parent is AssignmentExpression &&
+        identical(parent.leftHandSide, node) &&
+        parent.operator.lexeme == '=') {
       return false;
     }
     // Property name on another target (`foo.context` or `foo.ref`), except
@@ -360,25 +448,46 @@ class _AsyncBodyAnalyzer extends RecursiveAstVisitor<void> {
   }
 
   @override
+  void visitBlock(Block node) {
+    for (final Statement stmt in node.statements) {
+      stmt.accept(this);
+      if (_statementAlwaysExits(stmt)) {
+        break;
+      }
+    }
+  }
+
+  @override
+  void visitAssignmentExpression(AssignmentExpression node) {
+    node.rightHandSide.accept(this);
+    node.leftHandSide.accept(this);
+    if (node.leftHandSide is SimpleIdentifier) {
+      _guarded.remove((node.leftHandSide as SimpleIdentifier).name);
+    }
+  }
+
+  @override
   void visitAwaitExpression(AwaitExpression node) {
     // Evaluate operand BEFORE the await suspends!
     node.expression.accept(this);
     _seenAwait = true;
+    _awaitCount++;
     _guarded.clear();
   }
 
   @override
   void visitBinaryExpression(BinaryExpression node) {
-    if (node.operator.lexeme == '&&') {
+    final String op = node.operator.lexeme;
+    if (op == '&&' || op == '||') {
       node.leftOperand.accept(this);
-      final Set<String> added = _positivelyGuardedTargets(
-        node.leftOperand,
-        scope,
-      );
+      final Set<String> added = op == '&&'
+          ? _positivelyGuardedTargets(node.leftOperand, scope)
+          : _negatedExitGuardedTargets(node.leftOperand, scope);
+      final int beforeRightAwait = _awaitCount;
       final Set<String> saved = Set<String>.of(_guarded);
       _guarded.addAll(added);
       node.rightOperand.accept(this);
-      if (_seenAwait) {
+      if (_awaitCount == beforeRightAwait) {
         _guarded
           ..clear()
           ..addAll(saved);
@@ -520,6 +629,9 @@ class _AsyncBodyAnalyzer extends RecursiveAstVisitor<void> {
         ..addAll(savedGuarded);
       for (final Statement stmt in member.statements) {
         stmt.accept(this);
+        if (_statementAlwaysExits(stmt)) {
+          break;
+        }
       }
       final bool caseExits = member.statements.any(_statementAlwaysExits);
       if (!caseExits) {
@@ -555,7 +667,8 @@ class _AsyncBodyAnalyzer extends RecursiveAstVisitor<void> {
   void visitSimpleIdentifier(SimpleIdentifier node) {
     if (!_seenAwait ||
         !_isIdentifierRead(node) ||
-        _isCheckingMountedItself(node)) {
+        _isCheckingMountedItself(node) ||
+        _isNullCheckOnly(node)) {
       return;
     }
     final String name = node.name;
@@ -682,6 +795,16 @@ class _UnitVisitor extends RecursiveAstVisitor<void> {
     super.visitClassDeclaration(node);
     _inStateClass = prevState;
     _inConsumerStateClass = prevConsumer;
+  }
+
+  @override
+  void visitBlock(Block node) {
+    for (final Statement stmt in node.statements) {
+      stmt.accept(this);
+      if (_statementAlwaysExits(stmt)) {
+        break;
+      }
+    }
   }
 
   @override

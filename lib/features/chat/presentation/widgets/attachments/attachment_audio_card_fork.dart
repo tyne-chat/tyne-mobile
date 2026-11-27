@@ -220,7 +220,6 @@ class ForkAttachmentAudioCard extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                       ),
                       child: Text(
-                        // i18n-ignore: the playback rate ("1.5x"), written as upstream's card writes it.
                         '${controller.playbackRate}x',
                         style: context.textStyles.smallText.copyWith(
                           color: colors.textSecondary,

@@ -20,7 +20,10 @@
 //    inside `build()` or `_build*()` widget methods (outside event callbacks),
 //    including inline `FutureBuilder(future: dio.get(...))` (tyne-chat/tyne#114).
 // 5. `keepalive-reset`: `@Riverpod(keepAlive: true)` notifier classes whose
-//    mutable non-final instance fields are not reset in `build()`.
+//    mutable non-final instance fields are not reset in `build()`, excluding
+//    unconditional top-of-`build()` `ref.onDispose(...)` cleanups, pure `++`
+//    monotonic `int` counters, `try`/`finally` single-flight mutexes,
+//    sequential `Future` queues, and `.whenComplete()` single-worker guards.
 //
 // Suppress a deliberate exception on fork lines with
 // `// safety-lint-ignore: <reason>` on its line or the line above; reviewed
@@ -194,6 +197,19 @@ Set<String> _collectAssignedOrResetFields(
   return touched;
 }
 
+String? _fieldTargetName(Expression? expr) {
+  if (expr is SimpleIdentifier) {
+    return expr.name;
+  }
+  if (expr is PropertyAccess && expr.target is ThisExpression) {
+    return expr.propertyName.name;
+  }
+  if (expr is PrefixedIdentifier && expr.prefix.name == 'this') {
+    return expr.identifier.name;
+  }
+  return null;
+}
+
 class _FieldResetCollector extends RecursiveAstVisitor<void> {
   _FieldResetCollector({
     required this.onFieldTouched,
@@ -210,12 +226,9 @@ class _FieldResetCollector extends RecursiveAstVisitor<void> {
   }
 
   void _touchTarget(Expression? expr) {
-    if (expr is SimpleIdentifier) {
-      onFieldTouched(expr.name);
-    } else if (expr is PropertyAccess && expr.target is ThisExpression) {
-      onFieldTouched(expr.propertyName.name);
-    } else if (expr is PrefixedIdentifier && expr.prefix.name == 'this') {
-      onFieldTouched(expr.identifier.name);
+    final String? name = _fieldTargetName(expr);
+    if (name != null) {
+      onFieldTouched(name);
     }
   }
 
@@ -255,6 +268,758 @@ class _FieldResetCollector extends RecursiveAstVisitor<void> {
     }
     super.visitMethodInvocation(node);
   }
+}
+
+class _SyncControlExitOrAwaitFinder extends RecursiveAstVisitor<void> {
+  bool found = false;
+
+  @override
+  void visitFunctionExpression(FunctionExpression node) {
+    // Nested closures do not interrupt synchronous execution of the outer block.
+  }
+
+  @override
+  void visitAwaitExpression(AwaitExpression node) {
+    found = true;
+  }
+
+  @override
+  void visitReturnStatement(ReturnStatement node) {
+    found = true;
+  }
+
+  @override
+  void visitThrowExpression(ThrowExpression node) {
+    found = true;
+  }
+
+  @override
+  void visitBreakStatement(BreakStatement node) {
+    found = true;
+  }
+
+  @override
+  void visitContinueStatement(ContinueStatement node) {
+    found = true;
+  }
+}
+
+bool _containsSyncControlExitOrAwait(AstNode node) {
+  final _SyncControlExitOrAwaitFinder finder = _SyncControlExitOrAwaitFinder();
+  node.accept(finder);
+  return finder.found;
+}
+
+class _ClassFieldUsage {
+  int increments = 0;
+  int decrements = 0;
+  int methodResets = 0;
+  final List<AssignmentExpression> assignments = <AssignmentExpression>[];
+}
+
+class _ClassFieldUsageCollector extends RecursiveAstVisitor<void> {
+  final Map<String, _ClassFieldUsage> byField = <String, _ClassFieldUsage>{};
+
+  _ClassFieldUsage _usage(String name) =>
+      byField.putIfAbsent(name, _ClassFieldUsage.new);
+
+  @override
+  void visitAssignmentExpression(AssignmentExpression node) {
+    final String? name = _fieldTargetName(node.leftHandSide);
+    if (name != null) {
+      _usage(name).assignments.add(node);
+    }
+    super.visitAssignmentExpression(node);
+  }
+
+  @override
+  void visitPrefixExpression(PrefixExpression node) {
+    final String op = node.operator.lexeme;
+    final String? name = _fieldTargetName(node.operand);
+    if (name != null) {
+      if (op == '++') {
+        _usage(name).increments++;
+      } else if (op == '--') {
+        _usage(name).decrements++;
+      }
+    }
+    super.visitPrefixExpression(node);
+  }
+
+  @override
+  void visitPostfixExpression(PostfixExpression node) {
+    final String op = node.operator.lexeme;
+    final String? name = _fieldTargetName(node.operand);
+    if (name != null) {
+      if (op == '++') {
+        _usage(name).increments++;
+      } else if (op == '--') {
+        _usage(name).decrements++;
+      }
+    }
+    super.visitPostfixExpression(node);
+  }
+
+  @override
+  void visitMethodInvocation(MethodInvocation node) {
+    final String method = node.methodName.name;
+    if (method == 'clear' || method == 'reset' || method == 'cancel') {
+      final String? name = _fieldTargetName(node.target);
+      if (name != null) {
+        _usage(name).methodResets++;
+      }
+    }
+    super.visitMethodInvocation(node);
+  }
+}
+
+void _collectOnDisposeInvocationResets(
+  MethodInvocation call,
+  Map<String, MethodDeclaration> methodsByName,
+  Set<String> out,
+) {
+  if (call.methodName.name != 'onDispose' ||
+      call.argumentList.arguments.isEmpty) {
+    return;
+  }
+  final Argument arg = call.argumentList.arguments.first;
+  if (arg is FunctionExpression) {
+    out.addAll(_collectAssignedOrResetFields(arg.body, methodsByName));
+    return;
+  }
+  if (arg is Expression) {
+    final String? methodName = _fieldTargetName(arg.unParenthesized);
+    final MethodDeclaration? helper = methodName == null
+        ? null
+        : methodsByName[methodName];
+    if (helper != null) {
+      out.addAll(_collectAssignedOrResetFields(helper.body, methodsByName));
+    }
+  }
+}
+
+Set<String> _collectUnconditionalOnDisposeResets(
+  FunctionBody buildBody,
+  Map<String, MethodDeclaration> methodsByName,
+) {
+  final Set<String> reset = <String>{};
+  if (buildBody is! BlockFunctionBody) {
+    return reset;
+  }
+  for (final Statement stmt in buildBody.block.statements) {
+    if (_containsSyncControlExitOrAwait(stmt)) {
+      break;
+    }
+    if (stmt is! ExpressionStatement) {
+      continue;
+    }
+    final Expression expr = stmt.expression.unParenthesized;
+    if (expr is MethodInvocation && expr.target?.toSource() == 'ref') {
+      _collectOnDisposeInvocationResets(expr, methodsByName, reset);
+    } else if (expr is CascadeExpression && expr.target.toSource() == 'ref') {
+      for (final Expression section in expr.cascadeSections) {
+        if (section is MethodInvocation) {
+          _collectOnDisposeInvocationResets(section, methodsByName, reset);
+        }
+      }
+    }
+  }
+  return reset;
+}
+
+bool _isFalseLiteral(Expression expr) {
+  final Expression unwrapped = expr.unParenthesized;
+  return unwrapped is BooleanLiteral && !unwrapped.value;
+}
+
+bool _isTrueLiteral(Expression expr) {
+  final Expression unwrapped = expr.unParenthesized;
+  return unwrapped is BooleanLiteral && unwrapped.value;
+}
+
+bool _isNullLiteral(Expression expr) => expr.unParenthesized is NullLiteral;
+
+bool _isResetAssignmentForKind(
+  AssignmentExpression node,
+  String fieldName, {
+  required bool isBool,
+}) {
+  if (_fieldTargetName(node.leftHandSide) != fieldName ||
+      node.operator.lexeme != '=') {
+    return false;
+  }
+  return isBool
+      ? _isFalseLiteral(node.rightHandSide)
+      : _isNullLiteral(node.rightHandSide);
+}
+
+String? _normalizedTypeSource(TypeAnnotation? type) =>
+    type?.toSource().replaceAll(RegExp(r'\s+'), '');
+
+bool _isNullableFutureType(String? typeSrc) =>
+    typeSrc != null &&
+    (typeSrc == 'Future?' ||
+        (typeSrc.startsWith('Future<') && typeSrc.endsWith('?')));
+
+bool _isNonNullFutureType(String? typeSrc) =>
+    typeSrc != null &&
+    (typeSrc == 'Future' ||
+        (typeSrc.startsWith('Future<') && !typeSrc.endsWith('?')));
+
+bool _isFutureValueInitializer(Expression? init) {
+  if (init == null) {
+    return false;
+  }
+  final Expression unwrapped = init.unParenthesized;
+  if (unwrapped is MethodInvocation && unwrapped.methodName.name == 'value') {
+    final String? targetSrc = unwrapped.target?.toSource();
+    return targetSrc != null &&
+        (targetSrc == 'Future' || targetSrc.startsWith('Future<'));
+  }
+  if (unwrapped is InstanceCreationExpression) {
+    final String nameSrc = unwrapped.constructorName.toSource();
+    return nameSrc == 'Future.value' || nameSrc.startsWith('Future<');
+  }
+  return false;
+}
+
+bool _isPureMonotonicIntCounter(
+  VariableDeclaration field,
+  String? typeSrc,
+  _ClassFieldUsage? usage,
+) {
+  if (typeSrc != 'int' || field.initializer is! IntegerLiteral) {
+    return false;
+  }
+  return usage != null &&
+      usage.increments >= 1 &&
+      usage.decrements == 0 &&
+      usage.assignments.isEmpty &&
+      usage.methodResets == 0;
+}
+
+bool _isIdentityComparisonWithField(
+  Expression cond,
+  String fieldName,
+  String localVarName,
+) {
+  final Expression unwrapped = cond.unParenthesized;
+  if (unwrapped is MethodInvocation &&
+      unwrapped.target == null &&
+      unwrapped.methodName.name == 'identical' &&
+      unwrapped.argumentList.arguments.length == 2) {
+    final Argument a0 = unwrapped.argumentList.arguments[0];
+    final Argument a1 = unwrapped.argumentList.arguments[1];
+    if (a0 is Expression && a1 is Expression) {
+      final String? n0 = _fieldTargetName(a0.unParenthesized);
+      final String? n1 = _fieldTargetName(a1.unParenthesized);
+      if ((n0 == fieldName && n1 == localVarName) ||
+          (n1 == fieldName && n0 == localVarName)) {
+        return true;
+      }
+    }
+  }
+  if (unwrapped is BinaryExpression && unwrapped.operator.lexeme == '==') {
+    final String? l = _fieldTargetName(unwrapped.leftOperand.unParenthesized);
+    final String? r = _fieldTargetName(unwrapped.rightOperand.unParenthesized);
+    return (l == fieldName && r == localVarName) ||
+        (r == fieldName && l == localVarName);
+  }
+  return false;
+}
+
+bool _blockUnconditionallyResetsField(
+  Block block,
+  String fieldName, {
+  required bool isBool,
+  String? matchLocalVar,
+}) {
+  for (final Statement stmt in block.statements) {
+    if (stmt is ExpressionStatement) {
+      final Expression expr = stmt.expression.unParenthesized;
+      if (expr is AssignmentExpression &&
+          _isResetAssignmentForKind(expr, fieldName, isBool: isBool)) {
+        return true;
+      }
+    }
+    if (stmt is IfStatement &&
+        !isBool &&
+        matchLocalVar != null &&
+        stmt.elseStatement == null &&
+        _isIdentityComparisonWithField(
+          stmt.expression,
+          fieldName,
+          matchLocalVar,
+        )) {
+      final Statement thenStmt = stmt.thenStatement;
+      if (thenStmt is Block &&
+          _blockUnconditionallyResetsField(
+            thenStmt,
+            fieldName,
+            isBool: false,
+            matchLocalVar: matchLocalVar,
+          )) {
+        return true;
+      }
+      if (thenStmt is ExpressionStatement &&
+          thenStmt.expression.unParenthesized is AssignmentExpression &&
+          _isResetAssignmentForKind(
+            thenStmt.expression.unParenthesized as AssignmentExpression,
+            fieldName,
+            isBool: false,
+          )) {
+        return true;
+      }
+    }
+    if (stmt is TryStatement &&
+        stmt.finallyBlock != null &&
+        _blockUnconditionallyResetsField(
+          stmt.finallyBlock!,
+          fieldName,
+          isBool: isBool,
+          matchLocalVar: matchLocalVar,
+        )) {
+      return true;
+    }
+    if (_containsSyncControlExitOrAwait(stmt)) {
+      return false;
+    }
+  }
+  return false;
+}
+
+bool _isProtectedByFinallyReset(
+  AssignmentExpression assignment,
+  String fieldName, {
+  required bool isBool,
+}) {
+  // Case 1: already inside `try { ... } finally { _field = false/null; }`.
+  AstNode? cur = assignment.parent;
+  AstNode child = assignment;
+  while (cur != null && cur is! FunctionBody && cur is! ClassDeclaration) {
+    if (cur is TryStatement &&
+        identical(cur.body, child) &&
+        cur.finallyBlock != null &&
+        _blockUnconditionallyResetsField(
+          cur.finallyBlock!,
+          fieldName,
+          isBool: isBool,
+        )) {
+      return true;
+    }
+    child = cur;
+    cur = cur.parent;
+  }
+
+  // Case 2: statement `_field = true/future;` immediately followed (before any
+  // control exit or `await`) by `try { ... } finally { _field = false/null; }`.
+  final AstNode? stmt = assignment.parent;
+  final AstNode? block = stmt?.parent;
+  if (stmt is! ExpressionStatement || block is! Block) {
+    return false;
+  }
+  final int index = block.statements.indexOf(stmt);
+  if (index == -1) {
+    return false;
+  }
+  for (int i = index + 1; i < block.statements.length; i++) {
+    final Statement nextStmt = block.statements[i];
+    if (nextStmt is TryStatement &&
+        nextStmt.finallyBlock != null &&
+        _blockUnconditionallyResetsField(
+          nextStmt.finallyBlock!,
+          fieldName,
+          isBool: isBool,
+        )) {
+      return true;
+    }
+    if (_containsSyncControlExitOrAwait(nextStmt)) {
+      return false;
+    }
+  }
+  return false;
+}
+
+bool _isTryFinallyScopedMutex(
+  VariableDeclaration field,
+  String fieldName,
+  String? typeSrc,
+  _ClassFieldUsage? usage,
+) {
+  final bool isBool =
+      typeSrc == 'bool' &&
+      field.initializer != null &&
+      _isFalseLiteral(field.initializer!);
+  final bool isFuture =
+      _isNullableFutureType(typeSrc) &&
+      (field.initializer == null || _isNullLiteral(field.initializer!));
+  if (!isBool && !isFuture) {
+    return false;
+  }
+  if (usage == null ||
+      usage.increments > 0 ||
+      usage.decrements > 0 ||
+      usage.methodResets > 0 ||
+      usage.assignments.isEmpty) {
+    return false;
+  }
+  int nonResetWrites = 0;
+  for (final AssignmentExpression a in usage.assignments) {
+    if (a.operator.lexeme != '=') {
+      return false;
+    }
+    final bool isReset = isBool
+        ? _isFalseLiteral(a.rightHandSide)
+        : _isNullLiteral(a.rightHandSide);
+    if (isReset) {
+      continue;
+    }
+    nonResetWrites++;
+    if (!_isProtectedByFinallyReset(a, fieldName, isBool: isBool)) {
+      return false;
+    }
+  }
+  return nonResetWrites >= 1;
+}
+
+class _LocalVarInitCollector extends RecursiveAstVisitor<void> {
+  final Map<String, Expression> initializers = <String, Expression>{};
+
+  @override
+  void visitFunctionExpression(FunctionExpression node) {
+    // Only collect local variables in the enclosing function body.
+  }
+
+  @override
+  void visitVariableDeclaration(VariableDeclaration node) {
+    if (node.initializer != null) {
+      initializers[node.name.lexeme] = node.initializer!;
+    }
+    super.visitVariableDeclaration(node);
+  }
+}
+
+Map<String, Expression> _collectBodyLocalInitializers(
+  AssignmentExpression node,
+) {
+  final FunctionBody? body = node.thisOrAncestorOfType<FunctionBody>();
+  if (body == null) {
+    return const <String, Expression>{};
+  }
+  final _LocalVarInitCollector collector = _LocalVarInitCollector();
+  body.visitChildren(collector);
+  return collector.initializers;
+}
+
+bool _expressionChainsFromField(
+  Expression expr,
+  String fieldName,
+  Map<String, Expression> localInits,
+  Set<String> visitedLocals, {
+  required bool sawCombinator,
+}) {
+  final Expression unwrapped = expr.unParenthesized;
+  if (unwrapped is MethodInvocation) {
+    final String name = unwrapped.methodName.name;
+    final Expression? target = unwrapped.target;
+    if (target != null &&
+        (name == 'then' || name == 'catchError' || name == 'whenComplete')) {
+      return _expressionChainsFromField(
+        target,
+        fieldName,
+        localInits,
+        visitedLocals,
+        sawCombinator: true,
+      );
+    }
+    return false;
+  }
+  final String? targetName = _fieldTargetName(unwrapped);
+  if (targetName == fieldName && sawCombinator) {
+    return true;
+  }
+  if (unwrapped is SimpleIdentifier &&
+      localInits.containsKey(unwrapped.name) &&
+      visitedLocals.add(unwrapped.name)) {
+    return _expressionChainsFromField(
+      localInits[unwrapped.name]!,
+      fieldName,
+      localInits,
+      visitedLocals,
+      sawCombinator: sawCombinator,
+    );
+  }
+  return false;
+}
+
+bool _isSequentialFutureQueue(
+  VariableDeclaration field,
+  String fieldName,
+  String? typeSrc,
+  _ClassFieldUsage? usage,
+) {
+  if (!_isNonNullFutureType(typeSrc) ||
+      !_isFutureValueInitializer(field.initializer)) {
+    return false;
+  }
+  if (usage == null ||
+      usage.increments > 0 ||
+      usage.decrements > 0 ||
+      usage.methodResets > 0 ||
+      usage.assignments.isEmpty) {
+    return false;
+  }
+  for (final AssignmentExpression a in usage.assignments) {
+    if (a.operator.lexeme != '=') {
+      return false;
+    }
+    final Map<String, Expression> localInits = _collectBodyLocalInitializers(a);
+    if (!_expressionChainsFromField(
+      a.rightHandSide,
+      fieldName,
+      localInits,
+      <String>{},
+      sawCombinator: false,
+    )) {
+      return false;
+    }
+  }
+  return true;
+}
+
+class _WhenCompleteCallFinder extends RecursiveAstVisitor<void> {
+  _WhenCompleteCallFinder({this.requiredTargetName});
+
+  final String? requiredTargetName;
+  final List<MethodInvocation> matches = <MethodInvocation>[];
+
+  @override
+  void visitFunctionExpression(FunctionExpression node) {
+    // Only look for synchronous `.whenComplete(...)` registration in the
+    // sibling statement, not inside an unrelated nested closure.
+  }
+
+  @override
+  void visitMethodInvocation(MethodInvocation node) {
+    if (node.methodName.name == 'whenComplete' &&
+        node.argumentList.arguments.isNotEmpty &&
+        node.argumentList.arguments.first is FunctionExpression) {
+      if (requiredTargetName == null ||
+          _fieldTargetName(node.target?.unParenthesized) ==
+              requiredTargetName) {
+        matches.add(node);
+      }
+    }
+    super.visitMethodInvocation(node);
+  }
+}
+
+bool _whenCompleteClosureResetsField(
+  FunctionExpression callback,
+  String fieldName, {
+  required bool isBool,
+  String? matchLocalVar,
+}) {
+  final FunctionBody body = callback.body;
+  if (body is BlockFunctionBody) {
+    return _blockUnconditionallyResetsField(
+      body.block,
+      fieldName,
+      isBool: isBool,
+      matchLocalVar: matchLocalVar,
+    );
+  }
+  if (body is ExpressionFunctionBody) {
+    final Expression expr = body.expression.unParenthesized;
+    return expr is AssignmentExpression &&
+        _isResetAssignmentForKind(expr, fieldName, isBool: isBool);
+  }
+  return false;
+}
+
+bool _isWhenCompleteWorkerBool(
+  VariableDeclaration field,
+  String fieldName,
+  String? typeSrc,
+  _ClassFieldUsage? usage,
+) {
+  if (typeSrc != 'bool' ||
+      field.initializer == null ||
+      !_isFalseLiteral(field.initializer!)) {
+    return false;
+  }
+  if (usage == null ||
+      usage.increments > 0 ||
+      usage.decrements > 0 ||
+      usage.methodResets > 0 ||
+      usage.assignments.isEmpty) {
+    return false;
+  }
+  int nonResetWrites = 0;
+  for (final AssignmentExpression a in usage.assignments) {
+    if (a.operator.lexeme != '=') {
+      return false;
+    }
+    if (_isFalseLiteral(a.rightHandSide)) {
+      continue;
+    }
+    if (!_isTrueLiteral(a.rightHandSide)) {
+      return false;
+    }
+    nonResetWrites++;
+    final AstNode? stmt = a.parent;
+    final AstNode? block = stmt?.parent;
+    if (stmt is! ExpressionStatement || block is! Block) {
+      return false;
+    }
+    final int idx = block.statements.indexOf(stmt);
+    if (idx == -1) {
+      return false;
+    }
+    bool found = false;
+    for (int i = idx + 1; i < block.statements.length; i++) {
+      final Statement nextStmt = block.statements[i];
+      final _WhenCompleteCallFinder finder = _WhenCompleteCallFinder();
+      nextStmt.accept(finder);
+      for (final MethodInvocation call in finder.matches) {
+        final FunctionExpression cb =
+            call.argumentList.arguments.first as FunctionExpression;
+        if (_whenCompleteClosureResetsField(cb, fieldName, isBool: true)) {
+          found = true;
+          break;
+        }
+      }
+      if (found) {
+        break;
+      }
+      if (_containsSyncControlExitOrAwait(nextStmt)) {
+        return false;
+      }
+    }
+    if (!found) {
+      return false;
+    }
+  }
+  return nonResetWrites >= 1;
+}
+
+bool _isWhenCompleteWorkerField(
+  VariableDeclaration field,
+  String fieldName,
+  String? typeSrc,
+  _ClassFieldUsage? usage,
+  Set<String> verifiedBoolWorkers,
+) {
+  if (_isWhenCompleteWorkerBool(field, fieldName, typeSrc, usage)) {
+    return true;
+  }
+  if (usage == null ||
+      usage.increments > 0 ||
+      usage.decrements > 0 ||
+      usage.methodResets > 0 ||
+      usage.assignments.isEmpty) {
+    return false;
+  }
+
+  // Nullable `Future<T>?` worker cleared via `.whenComplete(() => field = null)`.
+  final bool isNullableFuture =
+      _isNullableFutureType(typeSrc) &&
+      (field.initializer == null || _isNullLiteral(field.initializer!));
+  if (isNullableFuture) {
+    int nonResetWrites = 0;
+    for (final AssignmentExpression a in usage.assignments) {
+      if (a.operator.lexeme != '=') {
+        return false;
+      }
+      if (_isNullLiteral(a.rightHandSide)) {
+        continue;
+      }
+      nonResetWrites++;
+      final Expression rhs = a.rightHandSide.unParenthesized;
+      if (rhs is MethodInvocation &&
+          rhs.methodName.name == 'whenComplete' &&
+          rhs.argumentList.arguments.isNotEmpty &&
+          rhs.argumentList.arguments.first is FunctionExpression) {
+        final FunctionExpression cb =
+            rhs.argumentList.arguments.first as FunctionExpression;
+        if (_whenCompleteClosureResetsField(cb, fieldName, isBool: false)) {
+          continue;
+        }
+      }
+      if (rhs is SimpleIdentifier &&
+          a.parent is ExpressionStatement &&
+          a.parent!.parent is Block) {
+        final Block block = a.parent!.parent! as Block;
+        final int idx = block.statements.indexOf(a.parent! as Statement);
+        if (idx != -1) {
+          bool found = false;
+          for (int i = idx + 1; i < block.statements.length; i++) {
+            final Statement nextStmt = block.statements[i];
+            final _WhenCompleteCallFinder finder = _WhenCompleteCallFinder(
+              requiredTargetName: rhs.name,
+            );
+            nextStmt.accept(finder);
+            for (final MethodInvocation call in finder.matches) {
+              final FunctionExpression cb =
+                  call.argumentList.arguments.first as FunctionExpression;
+              if (_whenCompleteClosureResetsField(
+                cb,
+                fieldName,
+                isBool: false,
+                matchLocalVar: rhs.name,
+              )) {
+                found = true;
+                break;
+              }
+            }
+            if (found) {
+              break;
+            }
+            if (_containsSyncControlExitOrAwait(nextStmt)) {
+              return false;
+            }
+          }
+          if (found) {
+            continue;
+          }
+        }
+      }
+      return false;
+    }
+    return nonResetWrites >= 1;
+  }
+
+  // Non-nullable `Future<void>` idle future paired with a verified bool
+  // worker flag reset inside `.whenComplete(...)` (e.g. `_realtimeWorkerIdle`).
+  final bool isNonNullFuture =
+      _isNonNullFutureType(typeSrc) &&
+      _isFutureValueInitializer(field.initializer);
+  if (isNonNullFuture && verifiedBoolWorkers.isNotEmpty) {
+    for (final AssignmentExpression a in usage.assignments) {
+      if (a.operator.lexeme != '=') {
+        return false;
+      }
+      final Expression rhs = a.rightHandSide.unParenthesized;
+      if (rhs is! MethodInvocation ||
+          rhs.methodName.name != 'whenComplete' ||
+          rhs.argumentList.arguments.isEmpty ||
+          rhs.argumentList.arguments.first is! FunctionExpression) {
+        return false;
+      }
+      final FunctionExpression cb =
+          rhs.argumentList.arguments.first as FunctionExpression;
+      final bool clearsPairedWorker = verifiedBoolWorkers.any(
+        (String flagName) =>
+            _whenCompleteClosureResetsField(cb, flagName, isBool: true),
+      );
+      if (!clearsPairedWorker) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  return false;
 }
 
 class _SafetyVisitor extends RecursiveAstVisitor<void> {
@@ -325,7 +1090,8 @@ class _SafetyVisitor extends RecursiveAstVisitor<void> {
     }
     final Map<String, MethodDeclaration> methods =
         <String, MethodDeclaration>{};
-    final List<VariableDeclaration> mutableFields = <VariableDeclaration>[];
+    final List<({VariableDeclaration field, String? typeSrc})> mutableFields =
+        <({VariableDeclaration field, String? typeSrc})>[];
     for (final ClassMember member
         in node.body.childEntities.whereType<ClassMember>()) {
       if (member is MethodDeclaration) {
@@ -334,7 +1100,10 @@ class _SafetyVisitor extends RecursiveAstVisitor<void> {
           !member.isStatic &&
           !member.fields.isFinal &&
           !member.fields.isConst) {
-        mutableFields.addAll(member.fields.variables);
+        final String? typeSrc = _normalizedTypeSource(member.fields.type);
+        for (final VariableDeclaration variable in member.fields.variables) {
+          mutableFields.add((field: variable, typeSrc: typeSrc));
+        }
       }
     }
     if (mutableFields.isEmpty) {
@@ -347,19 +1116,55 @@ class _SafetyVisitor extends RecursiveAstVisitor<void> {
     final Set<String> resetInBuild = _collectAssignedOrResetFields(
       buildMethod.body,
       methods,
-    );
+    )..addAll(_collectUnconditionalOnDisposeResets(buildMethod.body, methods));
+
+    final List<({VariableDeclaration field, String? typeSrc})> unreset =
+        mutableFields
+            .where((entry) => !resetInBuild.contains(entry.field.name.lexeme))
+            .toList();
+    if (unreset.isEmpty) {
+      return;
+    }
+
+    final _ClassFieldUsageCollector usageCollector =
+        _ClassFieldUsageCollector();
+    node.accept(usageCollector);
+    final Set<String> verifiedBoolWorkers = <String>{
+      for (final entry in unreset)
+        if (_isWhenCompleteWorkerBool(
+          entry.field,
+          entry.field.name.lexeme,
+          entry.typeSrc,
+          usageCollector.byField[entry.field.name.lexeme],
+        ))
+          entry.field.name.lexeme,
+    };
+
     final String className = node.classKeyword.next?.lexeme ?? '<unnamed>';
-    for (final VariableDeclaration field in mutableFields) {
+    for (final entry in unreset) {
+      final VariableDeclaration field = entry.field;
       final String fieldName = field.name.lexeme;
-      if (!resetInBuild.contains(fieldName)) {
-        _report(
-          field,
-          'keepalive-reset',
-          'mutable field `$fieldName` on `@Riverpod(keepAlive: true)` '
-              'notifier `$className` is not reset in `build()`',
-          symbol: '$className.$fieldName',
-        );
+      final String? typeSrc = entry.typeSrc;
+      final _ClassFieldUsage? usage = usageCollector.byField[fieldName];
+      if (_isPureMonotonicIntCounter(field, typeSrc, usage) ||
+          _isTryFinallyScopedMutex(field, fieldName, typeSrc, usage) ||
+          _isSequentialFutureQueue(field, fieldName, typeSrc, usage) ||
+          _isWhenCompleteWorkerField(
+            field,
+            fieldName,
+            typeSrc,
+            usage,
+            verifiedBoolWorkers,
+          )) {
+        continue;
       }
+      _report(
+        field,
+        'keepalive-reset',
+        'mutable field `$fieldName` on `@Riverpod(keepAlive: true)` '
+            'notifier `$className` is not reset in `build()`',
+        symbol: '$className.$fieldName',
+      );
     }
   }
 

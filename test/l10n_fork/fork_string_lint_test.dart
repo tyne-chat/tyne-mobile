@@ -3,6 +3,7 @@
 
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../tool/fork_lint_reviewed.dart';
 import '../../tool/fork_string_lint.dart';
 
 List<String> _lint(String source, [Set<int>? lines]) =>
@@ -111,4 +112,94 @@ void f() => Text('Failed to save persona');
       isEmpty,
     );
   });
+
+  test(
+    'skips talker, diagnostics, offscreen TextPainter metrics, multipliers, and log-only locals/private helpers while flagging UI siblings (tyne-chat/tyne#950)',
+    () {
+      expect(
+        _lint(r'''
+class _Helper {
+  void _runAsync({String? label}) {
+    final String tag = label ?? 'async work';
+    final String message = '[Voice] $tag';
+    talker.warning(message);
+  }
+
+  void run(double playbackRate) {
+    talker.debug('Diagnostics only');
+    FlutterError.reportError(
+      FlutterErrorDetails(
+        exception: 'boom',
+        context: ErrorDescription('while handling a quick reaction'),
+      ),
+    );
+    _runAsync(label: 'start call audio');
+    final TextPainter metrics = TextPainter(
+      text: const TextSpan(text: 'Ag'),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    metrics.dispose();
+    Text('${playbackRate}x');
+  }
+}
+'''),
+        isEmpty,
+      );
+
+      final List<String> uiProblems = _lint(r'''
+class _UiHelper {
+  Widget _chip({required String label}) => Text(label);
+
+  void paint(Canvas canvas, int count) {
+    final String message = 'Visible error';
+    Text(message);
+    _chip(label: 'Mute Category');
+    final TextPainter painted = TextPainter(
+      text: const TextSpan(text: 'Canvas title'),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    painted.paint(canvas, Offset.zero);
+    Text('$count messages');
+  }
+}
+''');
+      expect(uiProblems, <String>[
+        'lib/example.dart:5:28: variable message: "Visible error"',
+        'lib/example.dart:7:18: argument label: "Mute Category"',
+        'lib/example.dart:9:34: argument text: "Canvas title"',
+        'lib/example.dart:13:10: Text(): "messages"',
+      ]);
+    },
+  );
+
+  test(
+    'supports target wildcard "*" in ReviewedLintCatalog (tyne-chat/tyne#950)',
+    () {
+      final ReviewedLintCatalog catalog =
+          ReviewedLintCatalog.fromEntries(const <ReviewedLintEntry>[
+            ReviewedLintEntry(
+              linter: 'string',
+              file: 'lib/dev_tools.dart',
+              target: '*',
+              reason: 'developer-only debug screen',
+            ),
+          ]);
+      expect(
+        lintSource(
+          'lib/dev_tools.dart',
+          '''
+void buildDevTools() {
+  const String _emptyMessage = 'Paste JSON';
+  Text('Phase:');
+  FluxerButton(label: 'Copy', description: _emptyMessage);
+}
+''',
+          null,
+          reviewed: catalog,
+        ),
+        isEmpty,
+      );
+      expect(catalog.unmatchedEntries('string'), isEmpty);
+    },
+  );
 }
