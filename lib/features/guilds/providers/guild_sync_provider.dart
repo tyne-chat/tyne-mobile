@@ -20,7 +20,11 @@ const LazyRequestSubscription kGuildSyncSubscription = LazyRequestSubscription(
 @Riverpod(keepAlive: true)
 class GuildSync extends _$GuildSync {
   @override
-  Set<String> build(String accountUserId) => {};
+  Set<String> build(String accountUserId) {
+    _ownMemberSyncRequested.clear();
+    _pendingGuildId = null;
+    return {};
+  }
 
   final Set<String> _ownMemberSyncRequested = <String>{};
   String? _pendingGuildId;

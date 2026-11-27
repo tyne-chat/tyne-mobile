@@ -129,6 +129,7 @@ class KeybindPreferences extends _$KeybindPreferences {
 
   @override
   KeybindPreferencesState build() {
+    _remote = null;
     final Map<String, Object?> json = ref
         .watch(localSettingsStoreProvider)
         .read(LocalSettingKeys.keybindPreferences);

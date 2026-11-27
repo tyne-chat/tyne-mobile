@@ -60,6 +60,9 @@ class AccountManager extends _$AccountManager {
 
   @override
   AccountManagerState build() {
+    _pendingSwitch = null;
+    _pendingUserId = null;
+    _requestedUserId = null;
     return const AccountManagerState(accounts: [], isSwitching: false);
   }
 

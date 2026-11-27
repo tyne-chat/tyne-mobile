@@ -231,6 +231,104 @@
       "file": "lib/core/providers/instance/active_instance_provider.dart",
       "symbol": "ActiveInstance._connectSeq",
       "reason": "Checked in source (tyne-chat/tyne#946): monotonic `++_connectSeq` request sequence counter intentionally persists across rebuilds so earlier stale discovery calls remain invalidated."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/core/push/unified_push/unified_push_mobile_device_registration.dart",
+      "symbol": "UnifiedPushMobileDeviceRegistration._registerQueue",
+      "reason": "Checked in source (tyne-chat/tyne#946): sequential Future queue intentionally serializes UnifiedPush endpoint register and unregister operations across rebuilds."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/chat/providers/core/chat_read_viewport_provider.dart",
+      "symbol": "ChatReadViewport._channelId",
+      "reason": "Checked in source (tyne-chat/tyne#946): `build()` watches `appUiForegroundProvider` and intentionally retains active channel and scroll viewport tracking across foreground transitions."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/chat/providers/core/chat_read_viewport_provider.dart",
+      "symbol": "ChatReadViewport._visibleChannelId",
+      "reason": "Checked in source (tyne-chat/tyne#946): `build()` watches `appUiForegroundProvider` and intentionally retains active channel and scroll viewport tracking across foreground transitions."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/chat/providers/core/chat_read_viewport_provider.dart",
+      "symbol": "ChatReadViewport._nearLoadedTail",
+      "reason": "Checked in source (tyne-chat/tyne#946): `build()` watches `appUiForegroundProvider` and intentionally retains active channel and scroll viewport tracking across foreground transitions."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/chat/providers/core/chat_read_viewport_provider.dart",
+      "symbol": "ChatReadViewport._distanceFromBottom",
+      "reason": "Checked in source (tyne-chat/tyne#946): `build()` watches `appUiForegroundProvider` and intentionally retains active channel and scroll viewport tracking across foreground transitions."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/chat/providers/core/chat_read_viewport_provider.dart",
+      "symbol": "ChatReadViewport._sampledTailId",
+      "reason": "Checked in source (tyne-chat/tyne#946): `build()` watches `appUiForegroundProvider` and intentionally retains active channel and scroll viewport tracking across foreground transitions."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/chat/providers/core/chat_read_viewport_provider.dart",
+      "symbol": "ChatReadViewport._followsLiveTail",
+      "reason": "Checked in source (tyne-chat/tyne#946): `build()` watches `appUiForegroundProvider` and intentionally retains active channel and scroll viewport tracking across foreground transitions."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/chat/providers/core/chat_read_viewport_provider.dart",
+      "symbol": "ChatReadViewport._pendingViewportUpdates",
+      "reason": "Checked in source (tyne-chat/tyne#946): `build()` watches `appUiForegroundProvider` and intentionally retains active channel and scroll viewport tracking across foreground transitions."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/guilds/providers/guild_drag_provider.dart",
+      "symbol": "GuildDrag._verticalBoundsTop",
+      "reason": "Checked in source (tyne-chat/tyne#946): live rail vertical bounds maintained by mounted GuildRailDragAutoScroll widget lifecycle (`updateVerticalBounds` / `clearVerticalBounds`)."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/guilds/providers/guild_drag_provider.dart",
+      "symbol": "GuildDrag._verticalBoundsBottom",
+      "reason": "Checked in source (tyne-chat/tyne#946): live rail vertical bounds maintained by mounted GuildRailDragAutoScroll widget lifecycle (`updateVerticalBounds` / `clearVerticalBounds`)."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/input/providers/global_shortcuts_provider.dart",
+      "symbol": "GlobalShortcuts._hook",
+      "reason": "Checked in source (tyne-chat/tyne#946): native MacInputHook handle is torn down asynchronously via `_stopHook()` chained on `_queue` so an active native hook is never orphaned mid-teardown."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/input/providers/global_shortcuts_provider.dart",
+      "symbol": "GlobalShortcuts._queue",
+      "reason": "Checked in source (tyne-chat/tyne#946): Future queue serializes asynchronous native MacInputHook start/stop transitions across rebuilds."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/voice/providers/voice_call_overlay_provider.dart",
+      "symbol": "VoiceCallOverlay._phoneExitHosts",
+      "reason": "Checked in source (tyne-chat/tyne#946): ref-count of currently mounted VoiceCallPhoneSurface hosts maintained by registerPhoneExitHost/unregisterPhoneExitHost."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/voice/providers/voice_noise_filter_provider.dart",
+      "symbol": "VoiceNoiseFilter._pending",
+      "reason": "Checked in source (tyne-chat/tyne#946): Future chain serializing asynchronous native noise-filter backend switches across rebuilds."
     }
   ]
 }

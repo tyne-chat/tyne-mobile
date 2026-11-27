@@ -440,6 +440,14 @@ class ThemePreference extends _$ThemePreference {
 
   @override
   ThemePreferenceState build() {
+    _userId = null;
+    _loadingUserId = null;
+    _systemThemeChosenLocally = false;
+    _isApplyingRemote = false;
+    _themeColorPersistTimer?.cancel();
+    _themeColorPersistTimer = null;
+    _lifecycleListener?.dispose();
+    _lifecycleListener = null;
     ref.onDispose(() {
       _themeColorPersistTimer?.cancel();
       _themeColorPersistTimer = null;

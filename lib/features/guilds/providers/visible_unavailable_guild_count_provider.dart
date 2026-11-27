@@ -13,6 +13,8 @@ class VisibleUnavailableGuildCount extends _$VisibleUnavailableGuildCount {
 
   @override
   int build() {
+    _hideTimer?.cancel();
+    _hideTimer = null;
     ref.onDispose(() {
       _hideTimer?.cancel();
     });

@@ -52,6 +52,9 @@ class GlobalShortcuts extends _$GlobalShortcuts {
 
   @override
   GlobalShortcutsState build() {
+    _matcher.releaseAll();
+    _bindings = const <GlobalShortcutBinding>[];
+    _listener = null;
     if (!macPermissions.isSupported) {
       return const GlobalShortcutsState();
     }

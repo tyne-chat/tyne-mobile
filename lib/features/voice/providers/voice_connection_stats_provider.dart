@@ -64,6 +64,11 @@ class VoiceConnectionStatsNotifier extends _$VoiceConnectionStatsNotifier {
 
   @override
   VoiceConnectionStats build() {
+    _latencyTimer?.cancel();
+    _latencyTimer = null;
+    unawaited(_listener?.dispose());
+    _listener = null;
+    _listenedRoom = null;
     ref.onDispose(() {
       _latencyTimer?.cancel();
       unawaited(_listener?.dispose());

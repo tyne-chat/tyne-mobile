@@ -19,6 +19,8 @@ class VoiceNoiseFilter extends _$VoiceNoiseFilter {
 
   @override
   Set<NoiseSuppressionBackend> build() {
+    _failed = const <NoiseSuppressionBackend>{};
+    _attachFailed = false;
     ref.listen<VoiceSettingsState>(voiceSettingsProvider, (
       VoiceSettingsState? previous,
       VoiceSettingsState next,

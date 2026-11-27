@@ -17,6 +17,7 @@ class PendingHomeQuickAction extends _$PendingHomeQuickAction {
 
   @override
   HomeQuickAction? build() {
+    _queued = null;
     ref
       ..listen<bool>(shellDataReadyProvider, (_, bool next) {
         if (next) {

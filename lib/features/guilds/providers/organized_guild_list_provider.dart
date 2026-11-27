@@ -802,6 +802,7 @@ class FolderExpandedState extends _$FolderExpandedState {
 
   @override
   Set<int> build() {
+    _isApplyingRemote = false;
     ref.watch(currentUserIdProvider);
     return {};
   }
