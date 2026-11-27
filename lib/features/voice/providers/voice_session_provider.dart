@@ -197,6 +197,7 @@ class VoiceSession extends _$VoiceSession {
 
   @override
   VoiceSessionState build() {
+    _forkResetOnBuild();
     final String? accountUserId = accountUserIdOrNull(ref, watch: true);
 
     ref.onDispose(_teardownOnDispose);
@@ -4869,5 +4870,71 @@ class VoiceSession extends _$VoiceSession {
       }
       return;
     }
+  }
+
+  // Fork: reset per-session fields and advance _connectGeneration when
+  // VoiceSession rebuilds (e.g. account switch or provider invalidation) so
+  // prior-account expected channels, throttles, timers, and cached audio/E2EE
+  // state do not leak across rebuilds (tyne-chat/tyne#946).
+  void _forkResetOnBuild() {
+    ++_connectGeneration;
+    _expectedGuildId = null;
+    _expectedChannelId = null;
+    _cancelConnectWatchdog();
+    _connectWatchdogArmedGeneration = 0;
+    _cancelLiveKitConnectWatchdog();
+    _liveKitConnectWatchdogArmedGeneration = 0;
+    _lastConnectRequestAt = null;
+    _pendingRingAfterConnect = false;
+    _pendingRingSilently = false;
+    _outboundRingRecipients = null;
+    _selfStreamReconcileDirty = false;
+    _lastReportedSelfStream = null;
+    _handledRoomConnectedAttempt = null;
+    _startWithVideoAfterConnect = false;
+    _lastCameraOrientationRefresh = null;
+    _detachLocalParticipantListener();
+    _observedLocalParticipant = null;
+    _detachRoomEventsListener();
+    final Room? roomToDisconnect = _managedLiveKitRoom;
+    _managedLiveKitRoom = null;
+    if (roomToDisconnect != null) {
+      unawaited(_disconnectAndDisposeRoom(roomToDisconnect));
+    }
+    final VoiceMeshTransport? meshToClose = _managedMesh;
+    _managedMesh = null;
+    if (meshToClose != null) {
+      unawaited(meshToClose.close());
+    }
+    _meshConversionTimer?.cancel();
+    _meshConversionTimer = null;
+    _voiceMovePreviousChannelId = null;
+    _intentionalLiveKitTeardown = false;
+    _lastLoggedE2eeChannelStatus = null;
+    _clearE2eeSyncCache();
+    _cancelRegionHotSwapTimeout();
+    final Room? pendingHotSwapRoom = _regionHotSwapPendingRoom;
+    _regionHotSwapPendingRoom = null;
+    if (pendingHotSwapRoom != null) {
+      unawaited(_abortRegionHotSwap(pendingRoom: pendingHotSwapRoom));
+    }
+    _endCallRequested = false;
+    _leaveChannelId = null;
+    _cancelDeferredServerDisconnect();
+    _pendingSelfMute = false;
+    _pendingSelfDeaf = false;
+    _detachMediaDeviceChangeListener();
+    _channelPermissions = null;
+    _joinTiming = null;
+    _transportRecoveryGeneration = null;
+    _completeTransportRecoveryAttempt(success: false);
+    _localAudioReconcileRerun = null;
+    _lastSelfAudioKey = null;
+    _lastCanPublishAudio = null;
+    _micPublishFailureRetryTimer?.cancel();
+    _micPublishFailureRetryTimer = null;
+    _micPublishFailureRetryCount = 0;
+    _postReadyReassertTimer?.cancel();
+    _postReadyReassertTimer = null;
   }
 }
