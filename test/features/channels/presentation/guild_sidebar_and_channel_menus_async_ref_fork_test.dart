@@ -59,8 +59,9 @@ import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/material_ui.dart' hide SensitiveContent;
-import 'package:fluxer_dart/export.dart' hide ChannelType;
+import 'package:fluxer_dart/export.dart' hide ChannelType, Locale;
 
+import '../../../helpers/open_test_database.dart';
 import '../../../helpers/test_account_user_id.dart';
 import '../../../helpers/test_l10n.dart';
 
@@ -70,13 +71,17 @@ const Channel _testChannel = Channel(
   name: 'general',
 );
 
-Widget _shell({required ProviderContainer container, required Widget child}) {
+Widget _shell({
+  required ProviderContainer container,
+  required Widget child,
+  Locale locale = kTestLocale,
+}) {
   final colorTheme = buildDarkColorTheme();
   return UncontrolledProviderScope(
     container: container,
     child: MaterialApp(
       navigatorKey: rootNavigatorKey,
-      locale: kTestLocale,
+      locale: locale,
       localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
@@ -619,6 +624,118 @@ void main() {
       await tester.pump(const Duration(milliseconds: 50));
 
       expect(tester.takeException(), isNull);
+    },
+  );
+
+  testWidgets(
+    'GuildSidebar category mute sheet uses localized categoryMuteCategory title',
+    (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(1400, 900);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+
+      const Locale esLocale = Locale('es');
+      final FluxerLocalizations esL10n = await FluxerLocalizations.delegate
+          .load(esLocale);
+      expect(esL10n.categoryMuteCategory, isNot('Mute Category'));
+
+      final db.FluxerDatabase mockDb = openTestDatabase();
+      const ChannelCategory category = ChannelCategory(
+        id: 'cat-1',
+        name: 'My Category',
+        channels: <Channel>[_testChannel],
+      );
+      const Guild guild = Guild(id: 'g-menu-1', name: 'Guild One');
+      const ChannelListState channelState = ChannelListState(
+        guild: guild,
+        categories: <ChannelCategory>[category],
+        selectedChannelId: null,
+        hasReceivedInitialChannelList: true,
+      );
+
+      final ProviderContainer container = ProviderContainer(
+        overrides: <Override>[
+          fluxerDatabaseProvider.overrideWithValue(mockDb),
+          currentUserIdProvider.overrideWithValue(kTestAccountUserId),
+          experimentsProvider.overrideWithValue(null),
+          routeStateProvider.overrideWithValue(
+            const RouteState(
+              location: '/channels/g-menu-1',
+              activeBranchLocation: '/channels/g-menu-1',
+              activeBranchIndex: 0,
+              kind: RouteKind.chat,
+              guildId: 'g-menu-1',
+              channelId: null,
+            ),
+          ),
+          guildListViewModelProvider.overrideWithValue(
+            const GuildListViewState(guilds: <Guild>[guild]),
+          ),
+          activeGuildIdProvider.overrideWithValue('g-menu-1'),
+          activeChannelIdProvider.overrideWithValue(null),
+          channelListViewModelProvider.overrideWith(
+            () => _StaticChannelListViewModel(channelState),
+          ),
+          channelPermissionCacheProvider(
+            kTestAccountUserId,
+          ).overrideWith(_StaticPermissionCache.new),
+          guildPermissionsProvider(
+            kTestAccountUserId,
+          ).overrideWith(_StaticGuildPermissions.new),
+          appearancePreferencesProvider.overrideWith(
+            _StaticAppearancePreferences.new,
+          ),
+          userSettingsViewModelProvider.overrideWith(_StaticUserSettings.new),
+          voiceSessionProvider.overrideWith(_StaticVoiceSession.new),
+          sensitiveContentProvider.overrideWith(_StaticSensitiveContent.new),
+          matureContentAgreementsProvider.overrideWith(
+            _StaticMatureAgreements.new,
+          ),
+          guildMuteProvider('g-menu-1').overrideWithValue(
+            const AsyncData<GuildMuteState>(GuildMuteState()),
+          ),
+          mutedChannelIdsProvider(
+            'g-menu-1',
+          ).overrideWithValue(const AsyncData<Set<String>>(<String>{})),
+          guildCollapsedCategoriesProvider(
+            'g-menu-1',
+          ).overrideWithValue(const AsyncData<Set<String>>(<String>{})),
+          guildReadStateProvider.overrideWithValue(
+            const <String, GuildReadStateEntry>{},
+          ),
+          effectiveGuildChannelPermissionBitsProvider(
+            'cat-1',
+          ).overrideWith((Ref ref) => Permission.viewChannel.value),
+          effectiveGuildChannelPermissionBitsProvider(
+            _testChannel.id,
+          ).overrideWith((Ref ref) => Permission.viewChannel.value),
+          channelSidebarIconConnectBitsProvider(
+            _testChannel.id,
+          ).overrideWith((Ref ref) => null),
+          channelUnreadProvider(_testChannel.id).overrideWith(
+            (Ref ref) => Stream<UnreadState>.value(const UnreadState()),
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      await tester.pumpWidget(
+        _shell(
+          container: container,
+          locale: esLocale,
+          child: const Scaffold(body: GuildSidebar()),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('My Category'), buttons: kSecondaryButton);
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text(esL10n.categoryMuteCategory));
+      await tester.pumpAndSettle();
+
+      expect(find.text(esL10n.categoryMuteCategory), findsNWidgets(2));
+      expect(find.text('Mute Category'), findsNothing);
     },
   );
 }

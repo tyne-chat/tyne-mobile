@@ -425,7 +425,7 @@ class _CategoryHeader extends ConsumerWidget {
     }
     final selection = await showMuteDurationSheet(
       context,
-      muteTitle: 'Mute Category',
+      muteTitle: FluxerLocalizations.of(context).categoryMuteCategory,
       useRootNavigator: isMobileLayout(context),
     );
     if (selection == null) {
