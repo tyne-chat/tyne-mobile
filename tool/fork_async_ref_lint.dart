@@ -3,7 +3,7 @@
 // here (`use_build_context_synchronously` is off in upstream's analysis
 // options, and ignores `WidgetRef` altogether) (tyne-chat/tyne#943).
 //
-//   dart run tool/fork_async_ref_lint.dart [--upstream <git ref>] [--all] [<file>...]
+//   dart run tool/fork_async_ref_lint.dart [--upstream <git ref>] [--all] [--include-reviewed] [--check-reviewed] [--reviewed <path>] [<file>...]
 //
 // Checks `async` methods, functions and closures in the fork's files and
 // changed lines under `lib/` against the merge base with `<git ref>` (default
@@ -19,7 +19,9 @@
 // `<ctx>.mounted`, or `<ref>.context.mounted`) before it is read again, and
 // each new `await` invalidates earlier guards. A false positive that is safe
 // for an external reason gets `// async-ref-ignore: <reason>` on its line or
-// the line above.
+// the line above on fork lines; reviewed upstream `--all` findings live in
+// `tool/fork_lint_reviewed.json` (`--check-reviewed` validates they still
+// match, `--include-reviewed` lists them too) so upstream files stay untouched.
 // ignore_for_file: avoid_print, depend_on_referenced_packages
 
 import 'dart:io';
@@ -29,6 +31,8 @@ import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/source/line_info.dart';
+
+import 'fork_lint_reviewed.dart';
 
 final RegExp _generated = RegExp(
   r'(\.(g|freezed|pb|pbenum|pbjson|pbserver|fcm|mocks)\.dart$|/generated/)',
@@ -193,16 +197,20 @@ class _AsyncBodyAnalyzer extends RecursiveAstVisitor<void> {
   _AsyncBodyAnalyzer({
     required this.file,
     required this.lineInfo,
+    required this.sourceLines,
     required this.lines,
     required this.ignored,
+    required this.reviewed,
     required this.scope,
     required this.problems,
   });
 
   final String file;
   final LineInfo lineInfo;
+  final List<String> sourceLines;
   final Set<int>? lines;
   final Set<int> ignored;
+  final ReviewedLintCatalog? reviewed;
   final _ScopeInfo scope;
   final List<String> problems;
 
@@ -298,6 +306,23 @@ class _AsyncBodyAnalyzer extends RecursiveAstVisitor<void> {
     }
     if (ignored.contains(line)) {
       return;
+    }
+    if (reviewed != null) {
+      final String sourceLine = (line >= 1 && line <= sourceLines.length)
+          ? sourceLines[line - 1]
+          : '';
+      if (reviewed!.matches(
+        ReviewedLintCandidate(
+          linter: 'async-ref',
+          rule: 'async-ref',
+          file: file,
+          enclosing: enclosingAstSymbol(node),
+          target: name,
+          sourceLine: sourceLine,
+        ),
+      )) {
+        return;
+      }
     }
     problems.add(
       '$file:$line:${loc.columnNumber}: unguarded $kind `$name` after `await`',
@@ -554,12 +579,21 @@ class _AsyncBodyAnalyzer extends RecursiveAstVisitor<void> {
 }
 
 class _UnitVisitor extends RecursiveAstVisitor<void> {
-  _UnitVisitor(this.file, this.lineInfo, this.lines, this.ignored);
+  _UnitVisitor(
+    this.file,
+    this.lineInfo,
+    this.sourceLines,
+    this.lines,
+    this.ignored,
+    this.reviewed,
+  );
 
   final String file;
   final LineInfo lineInfo;
+  final List<String> sourceLines;
   final Set<int>? lines;
   final Set<int> ignored;
+  final ReviewedLintCatalog? reviewed;
   final List<String> problems = <String>[];
 
   bool _inStateClass = false;
@@ -612,8 +646,10 @@ class _UnitVisitor extends RecursiveAstVisitor<void> {
         _AsyncBodyAnalyzer(
           file: file,
           lineInfo: lineInfo,
+          sourceLines: sourceLines,
           lines: lines,
           ignored: ignored,
+          reviewed: reviewed,
           scope: scope,
           problems: problems,
         ),
@@ -746,8 +782,14 @@ Map<String, Set<int>?> _forkChanges(String upstream) {
 }
 
 /// Returns unguarded post-`await` `WidgetRef` / `BuildContext` uses in [source]
-/// on [lines] (`null` checks every line).
-List<String> lintAsyncRefSource(String file, String source, Set<int>? lines) {
+/// on [lines] (`null` checks every line), excluding entries matched by
+/// [reviewed] when supplied.
+List<String> lintAsyncRefSource(
+  String file,
+  String source,
+  Set<int>? lines, {
+  ReviewedLintCatalog? reviewed,
+}) {
   if (_generatedHeader.hasMatch(
     source.substring(0, source.length.clamp(0, 500)),
   )) {
@@ -768,24 +810,35 @@ List<String> lintAsyncRefSource(String file, String source, Set<int>? lines) {
   final _UnitVisitor visitor = _UnitVisitor(
     file,
     result.lineInfo,
+    sourceLines,
     lines,
     ignored,
+    reviewed,
   );
   result.unit.accept(visitor);
   return visitor.problems;
 }
 
 void main(List<String> args) {
-  final bool all = args.contains('--all');
-  final int upstreamIndex = args.indexOf('--upstream');
+  final ReviewedCliArgs reviewedArgs = extractReviewedCliArgs(args);
+  final List<String> effectiveArgs = reviewedArgs.restArgs;
+  final bool all =
+      effectiveArgs.contains('--all') || reviewedArgs.checkReviewed;
+  final int upstreamIndex = effectiveArgs.indexOf('--upstream');
   final String upstream = upstreamIndex == -1
       ? 'upstream/canary'
-      : args[upstreamIndex + 1];
+      : effectiveArgs[upstreamIndex + 1];
   final List<String> given = <String>[
-    for (int i = 0; i < args.length; i++)
-      if (!args[i].startsWith('--') && (i == 0 || args[i - 1] != '--upstream'))
-        args[i],
+    for (int i = 0; i < effectiveArgs.length; i++)
+      if (!effectiveArgs[i].startsWith('--') &&
+          (i == 0 || effectiveArgs[i - 1] != '--upstream'))
+        effectiveArgs[i],
   ];
+  final ReviewedLintCatalog? catalog = loadReviewedCatalogOrExit(
+    reviewedArgs.reviewedPath,
+    includeReviewed: reviewedArgs.includeReviewed,
+    checkReviewed: reviewedArgs.checkReviewed,
+  );
   final Map<String, Set<int>?> targets;
   if (all) {
     final Iterable<String> files = given.isNotEmpty
@@ -812,16 +865,29 @@ void main(List<String> args) {
       continue;
     }
     problems.addAll(
-      lintAsyncRefSource(file, File(file).readAsStringSync(), targets[file]),
+      lintAsyncRefSource(
+        file,
+        File(file).readAsStringSync(),
+        targets[file],
+        reviewed: catalog,
+      ),
     );
   }
+  finishReviewedCheckOrNotes(
+    linter: 'async-ref',
+    catalog: catalog,
+    checkReviewed: reviewedArgs.checkReviewed,
+    reportAllSummary: all,
+    allFilesScanned: given.isEmpty,
+  );
   problems.forEach(print);
   if (problems.isNotEmpty) {
     stderr.writeln(
       '\n${problems.length} unguarded WidgetRef/BuildContext read(s) after '
       '`await`. Pre-capture providers before `await`, guard with `mounted` / '
-      '`context.mounted` / `ref.context.mounted`, or mark with '
-      '`// async-ref-ignore: <reason>`.',
+      '`context.mounted` / `ref.context.mounted`, mark fork lines with '
+      '`// async-ref-ignore: <reason>`, or record reviewed upstream entries '
+      'in `$kDefaultReviewedLintPath`.',
     );
     exit(1);
   }

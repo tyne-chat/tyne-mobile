@@ -1,0 +1,229 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "linter": "async-ref",
+      "file": "lib/core/system_permissions/system_permission_service.dart",
+      "enclosing": "ensureSystemPermission",
+      "target": "modalContext",
+      "reason": "Checked in source (tyne-chat/tyne#946): nullable `BuildContext? modalContext` is guarded inline via `modalContext != null && modalContext.mounted`."
+    },
+    {
+      "linter": "async-ref",
+      "file": "lib/features/chat/presentation/widgets/messages/message_item.dart",
+      "enclosing": "_MessageItemState._toggleTranslationOriginal",
+      "target": "ref",
+      "reason": "Checked in source (tyne-chat/tyne#943, tyne-chat/tyne#946): unreachable upstream fallback bypassed by `forkToggleTranslationOriginal` early return at the top of `_toggleTranslationOriginal`."
+    },
+    {
+      "linter": "async-ref",
+      "file": "lib/features/chat/providers/core/chat_view_model.dart",
+      "enclosing": "ChatViewModel.saveEditedMessage",
+      "target": "sheetContext",
+      "reason": "Checked in source (tyne-chat/tyne#946): freshly reads `rootNavigatorKey.currentContext` after `await` and guards with `if (sheetContext != null && sheetContext.mounted)`."
+    },
+    {
+      "linter": "async-ref",
+      "file": "lib/features/chat/utils/channel_jump_navigator.dart",
+      "enclosing": "_applyChannelJumpResolution",
+      "target": "context",
+      "reason": "Checked in source (tyne-chat/tyne#946): nullable `BuildContext? context` is guarded inline via `(context != null && context.mounted)` before fallback to `_rootContext()`."
+    },
+    {
+      "linter": "async-ref",
+      "file": "lib/features/chat/utils/channel_jump_navigator.dart",
+      "enclosing": "_applyChannelJumpResolution",
+      "target": "linkContext",
+      "reason": "Checked in source (tyne-chat/tyne#946): freshly assigned local `linkContext` is guarded with `if (linkContext == null || !linkContext.mounted) return;` before use."
+    },
+    {
+      "linter": "async-ref",
+      "file": "lib/features/chat/utils/channel_jump_navigator.dart",
+      "enclosing": "_applyChannelJumpResolution",
+      "target": "gateContext",
+      "reason": "Checked in source (tyne-chat/tyne#946): guarded inline via `(gateContext != null && gateContext.mounted) ? gateContext : null`."
+    },
+    {
+      "linter": "async-ref",
+      "file": "lib/features/chat/utils/channel_jump_navigator.dart",
+      "enclosing": "_navigateToChannelJumpLink",
+      "target": "context",
+      "reason": "Checked in source (tyne-chat/tyne#946): guarded inline via `(context != null && context.mounted) ? context : null`."
+    },
+    {
+      "linter": "async-ref",
+      "file": "lib/features/chat/utils/channel_jump_navigator.dart",
+      "enclosing": "navigateToChannelMessage",
+      "target": "context",
+      "reason": "Checked in source (tyne-chat/tyne#946): guarded with `if (context != null && !context.mounted) return;` right after `getChannelById` await."
+    },
+    {
+      "linter": "async-ref",
+      "file": "lib/features/chat/utils/channel_jump_navigator.dart",
+      "enclosing": "navigateToChannelJumpLinkVia",
+      "target": "context",
+      "reason": "Checked in source (tyne-chat/tyne#946): guarded inline via `(context != null && context.mounted) ? context : null`."
+    },
+    {
+      "linter": "async-ref",
+      "file": "lib/features/mature_content/utils/channel_gate_navigator.dart",
+      "enclosing": "promptForChannelGateIfNeeded",
+      "target": "context",
+      "reason": "Checked in source (tyne-chat/tyne#946): nullable `BuildContext? context` is guarded via `if (context == null || !context.mounted) return false;` before `showChannelAccessGateSheet`."
+    },
+    {
+      "linter": "async-ref",
+      "file": "lib/features/recovery_kit/presentation/recovery_kit_gate.dart",
+      "enclosing": "_RecoveryKitGateState._maybeRemind",
+      "target": "ref",
+      "reason": "Checked in source (tyne-chat/tyne#946): short-circuiting `!mounted ||` guard precedes both `ref.read` operands in the same `if (...) return;` condition."
+    },
+    {
+      "linter": "async-ref",
+      "file": "lib/features/settings/presentation/widgets/user_notifications_settings.dart",
+      "enclosing": "_handleNotificationsEnabledChanged",
+      "target": "modalContext",
+      "reason": "Checked in source (tyne-chat/tyne#946): nullable `modalContext` is guarded with `if (modalContext != null && modalContext.mounted)` while leaving unreviewed `WidgetRef` hits in this file active."
+    },
+    {
+      "linter": "async-ref",
+      "file": "lib/features/voice/providers/voice_p2p_consent_provider.dart",
+      "enclosing": "_agreeToJoin",
+      "target": "ctx",
+      "reason": "Checked in source (tyne-chat/tyne#946): freshly reads `rootNavigatorKey.currentContext` after `await` and guards via `if (ctx == null || !ctx.mounted) return false;`."
+    },
+    {
+      "linter": "async-ref",
+      "file": "lib/features/voice/services/voice_callkit_coordinator.dart",
+      "enclosing": "VoiceCallKitCoordinatorLogic._presentForeignIncomingSheet",
+      "target": "ctx",
+      "reason": "Checked in source (tyne-chat/tyne#946): re-reads `rootNavigatorKey.currentContext` after delay and checks `if (ctx == null || !ctx.mounted) return;` before showing sheet."
+    },
+    {
+      "linter": "async-ref",
+      "file": "lib/features/voice/utils/callkit/incoming_call_actions.dart",
+      "enclosing": "executeAcceptIncomingVoiceCallFromCallKit",
+      "target": "ctx",
+      "reason": "Checked in source (tyne-chat/tyne#946): freshly reads `rootNavigatorKey.currentContext` in `catch` and guards via `if (ctx == null || !ctx.mounted) return;` (unreviewed `WidgetRef` reads remain active)."
+    },
+    {
+      "linter": "async-ref",
+      "file": "lib/features/voice/utils/callkit/incoming_call_actions.dart",
+      "enclosing": "executeDeclineIncomingVoiceCallFromCallKit",
+      "target": "ctx",
+      "reason": "Checked in source (tyne-chat/tyne#946): freshly reads `rootNavigatorKey.currentContext` in `catch` and guards via `if (ctx == null || !ctx.mounted) return;` (unreviewed `WidgetRef` reads remain active)."
+    },
+    {
+      "linter": "async-ref",
+      "file": "lib/features/voice/utils/callkit/incoming_call_actions.dart",
+      "enclosing": "executeIgnoreIncomingVoiceCallFromCallKit",
+      "target": "ctx",
+      "reason": "Checked in source (tyne-chat/tyne#946): freshly reads `rootNavigatorKey.currentContext` in `catch` and guards via `if (ctx == null || !ctx.mounted) return;`."
+    },
+    {
+      "linter": "async-ref",
+      "file": "lib/features/voice/utils/callkit/incoming_call_actions.dart",
+      "enclosing": "_resolveHeadlessJoinP2p",
+      "target": "ctx",
+      "reason": "Checked in source (tyne-chat/tyne#946): returned from `_waitForForegroundNavigatorContext` and guarded via `if (ctx == null || !ctx.mounted) return null;`."
+    },
+    {
+      "linter": "async-ref",
+      "file": "lib/features/voice/utils/connection/connection_actions.dart",
+      "enclosing": "joinVoiceChannelWithConfirmation",
+      "target": "context",
+      "reason": "Checked in source (tyne-chat/tyne#946): nullable `BuildContext? context` is guarded inline via `context != null && context.mounted` and `if (context == null || !context.mounted) return VoiceJoinResult.failed;`."
+    },
+    {
+      "linter": "async-ref",
+      "file": "lib/features/voice/utils/connection/connection_actions.dart",
+      "enclosing": "joinVoiceChannelWithConfirmation",
+      "target": "modalContext",
+      "reason": "Checked in source (tyne-chat/tyne#946): resolved after the `context.mounted` check via `_modalContext(context)` and immediately null-checked before showing modal."
+    },
+    {
+      "linter": "safety",
+      "rule": "chat-layout",
+      "file": "lib/features/chat/presentation/widgets/channel/search/channel_search_field.dart",
+      "enclosing": "_ChannelSearchFieldState.build",
+      "reason": "Checked in source (tyne-chat/tyne#946): leaf `LayoutBuilder` capping horizontal token-chip scroll width in the search input; never wraps `MessageList` or mutates state in builder."
+    },
+    {
+      "linter": "safety",
+      "rule": "chat-layout",
+      "file": "lib/features/chat/presentation/widgets/messages/message_list_skeleton.dart",
+      "enclosing": "MessageListSkeleton.build",
+      "reason": "Checked in source (tyne-chat/tyne#946): pure leaf sizing `LayoutBuilder` rendering placeholder skeleton before `MessageList` mounts; never wraps `MessageList` or mutates state."
+    },
+    {
+      "linter": "safety",
+      "rule": "chat-layout",
+      "file": "lib/features/chat/presentation/widgets/messages/message_list_skeleton.dart",
+      "enclosing": "_MessageListSkeletonGroup.build",
+      "reason": "Checked in source (tyne-chat/tyne#946): leaf skeleton row `LayoutBuilder` sizing placeholder bars; never wraps `MessageList` or mutates state."
+    },
+    {
+      "linter": "safety",
+      "rule": "chat-layout",
+      "file": "lib/features/chat/presentation/widgets/messages/unread_dividers.dart",
+      "enclosing": "UnreadDateSeparator.build",
+      "reason": "Checked in source (tyne-chat/tyne#946): leaf date-divider `LayoutBuilder` inside `MessageListScrollViewBuildScope` constraining date pill width; never wraps `MessageList` or mutates state."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/settings/providers/preferences/time_format_providers.dart",
+      "symbol": "TimeFormatPreference._optimisticOverride",
+      "reason": "Checked in source (tyne-chat/tyne#946): intentional in-flight optimistic preference preserved when `build()` rebuilds from `userSettingsStatusProvider` and cleared on completion/error."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/settings/providers/preferences/time_format_providers.dart",
+      "symbol": "RegionalFormatPreference._hasOverride",
+      "reason": "Checked in source (tyne-chat/tyne#946): intentional in-flight optimistic override flag checked by `build()` and cleared in `setRegionalFormat`'s `finally` block."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/settings/providers/preferences/time_format_providers.dart",
+      "symbol": "RegionalFormatPreference._override",
+      "reason": "Checked in source (tyne-chat/tyne#946): intentional in-flight optimistic override value preserved across `build()` until `setRegionalFormat` finishes."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/settings/providers/preferences/time_format_providers.dart",
+      "symbol": "TimestampFormatPreference._optimisticOverride",
+      "reason": "Checked in source (tyne-chat/tyne#946): intentional in-flight optimistic preference preserved across `build()` and cleared in `setTimestampFormat`'s `finally` block."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/ui/toast/toast_provider.dart",
+      "symbol": "Toast.*",
+      "reason": "Checked in source (tyne-chat/tyne#946): `build()` registers `ref.onDispose(_cancelTimers)` via tear-off cancelling and nulling all toast timers and `_pendingToast`, while `_nextId` is a monotonic ID generator."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/core/desktop/downloads/desktop_downloads_provider.dart",
+      "symbol": "DesktopDownloads._nextId",
+      "reason": "Checked in source (tyne-chat/tyne#946): monotonic integer download ID counter intentionally persists across rebuilds while `_cancelTokens` is cancelled/cleared in `onDispose`."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/features/chat/providers/upload/cloud_upload_controller.dart",
+      "symbol": "CloudUploadController._nextAttachmentId",
+      "reason": "Checked in source (tyne-chat/tyne#946): monotonic integer attachment ID counter intentionally persists across family rebuilds."
+    },
+    {
+      "linter": "safety",
+      "rule": "keepalive-reset",
+      "file": "lib/core/providers/instance/active_instance_provider.dart",
+      "symbol": "ActiveInstance._connectSeq",
+      "reason": "Checked in source (tyne-chat/tyne#946): monotonic `++_connectSeq` request sequence counter intentionally persists across rebuilds so earlier stale discovery calls remain invalidated."
+    }
+  ]
+}

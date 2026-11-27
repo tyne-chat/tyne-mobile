@@ -217,3 +217,6 @@ the working tree, untracked files included:
 - upstream's code is held to upstream's CI (formatted, no errors).
 
 The nightly gate skips no test; never skip or weaken one to get a change through.
+
+Reviewed upstream `--all` lint exceptions go in `tool/fork_lint_reviewed.json` (`--check-reviewed`,
+`--include-reviewed`), never as `*-ignore:` comments inside untouched upstream files.

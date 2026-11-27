@@ -2,7 +2,7 @@
 // `flutter test test/l10n_fork` cannot see because they never reach a fork
 // catalogue (tyne-chat/tyne#184).
 //
-//   dart run tool/fork_string_lint.dart [--upstream <git ref>] [--all] [<file>...]
+//   dart run tool/fork_string_lint.dart [--upstream <git ref>] [--all] [--include-reviewed] [--check-reviewed] [--reviewed <path>] [<file>...]
 //
 // Reports string literals in places users read them (`Text(...)`, user-facing
 // named arguments such as `label:` or `errorMessage:`, toasts and error
@@ -11,7 +11,10 @@
 // are checked, working tree and untracked files included; --all checks every
 // line of the files given (or of every file under lib/). A literal that really
 // is not to be translated gets `// i18n-ignore: <reason>` on its line or the
-// line above (or above the statement, declaration or argument it is part of).
+// line above (or above the statement, declaration or argument it is part of) on
+// fork lines; reviewed upstream `--all` findings live in
+// `tool/fork_lint_reviewed.json` (`--check-reviewed` validates they still
+// match, `--include-reviewed` lists them too) so upstream files stay untouched.
 // ignore_for_file: avoid_print, depend_on_referenced_packages
 
 import 'dart:io';
@@ -21,6 +24,8 @@ import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/source/line_info.dart';
+
+import 'fork_lint_reviewed.dart';
 
 final RegExp _generated = RegExp(
   r'(\.(g|freezed|pb|pbenum|pbjson|pbserver|fcm|mocks)\.dart$|/generated/)',
@@ -232,12 +237,21 @@ bool _isExcluded(StringLiteral literal) {
 }
 
 class _Visitor extends RecursiveAstVisitor<void> {
-  _Visitor(this.file, this.lineInfo, this.lines, this.ignored);
+  _Visitor(
+    this.file,
+    this.lineInfo,
+    this.sourceLines,
+    this.lines,
+    this.ignored,
+    this.reviewed,
+  );
 
   final String file;
   final LineInfo lineInfo;
+  final List<String> sourceLines;
   final Set<int>? lines;
   final Set<int> ignored;
+  final ReviewedLintCatalog? reviewed;
   final List<String> problems = <String>[];
 
   void _check(StringLiteral node) {
@@ -271,6 +285,23 @@ class _Visitor extends RecursiveAstVisitor<void> {
     }
     if (_isExcluded(node)) {
       return;
+    }
+    if (reviewed != null) {
+      final String sourceLine = (line >= 1 && line <= sourceLines.length)
+          ? sourceLines[line - 1]
+          : '';
+      if (reviewed!.matches(
+        ReviewedLintCandidate(
+          linter: 'string',
+          rule: 'string-lint',
+          file: file,
+          enclosing: enclosingAstSymbol(node),
+          target: sink,
+          sourceLine: sourceLine,
+        ),
+      )) {
+        return;
+      }
     }
     final String shown = text.trim().replaceAll(RegExp(r'\s+'), ' ');
     problems.add('$file:$line:${location.columnNumber}: $sink: "$shown"');
@@ -357,8 +388,13 @@ Map<String, Set<int>?> _forkChanges(String upstream) {
 }
 
 /// The problems in one file's [source], on the given [lines] (null for every
-/// line).
-List<String> lintSource(String file, String source, Set<int>? lines) {
+/// line), excluding entries matched by [reviewed] when supplied.
+List<String> lintSource(
+  String file,
+  String source,
+  Set<int>? lines, {
+  ReviewedLintCatalog? reviewed,
+}) {
   if (_generatedHeader.hasMatch(
     source.substring(0, source.length.clamp(0, 500)),
   )) {
@@ -376,22 +412,38 @@ List<String> lintSource(String file, String source, Set<int>? lines) {
       ignored.addAll(<int>[i + 1, i + 2]);
     }
   }
-  final _Visitor visitor = _Visitor(file, result.lineInfo, lines, ignored);
+  final _Visitor visitor = _Visitor(
+    file,
+    result.lineInfo,
+    sourceLines,
+    lines,
+    ignored,
+    reviewed,
+  );
   result.unit.accept(visitor);
   return visitor.problems;
 }
 
 void main(List<String> args) {
-  final bool all = args.contains('--all');
-  final int upstreamIndex = args.indexOf('--upstream');
+  final ReviewedCliArgs reviewedArgs = extractReviewedCliArgs(args);
+  final List<String> effectiveArgs = reviewedArgs.restArgs;
+  final bool all =
+      effectiveArgs.contains('--all') || reviewedArgs.checkReviewed;
+  final int upstreamIndex = effectiveArgs.indexOf('--upstream');
   final String upstream = upstreamIndex == -1
       ? 'upstream/canary'
-      : args[upstreamIndex + 1];
+      : effectiveArgs[upstreamIndex + 1];
   final List<String> given = <String>[
-    for (int i = 0; i < args.length; i++)
-      if (!args[i].startsWith('--') && (i == 0 || args[i - 1] != '--upstream'))
-        args[i],
+    for (int i = 0; i < effectiveArgs.length; i++)
+      if (!effectiveArgs[i].startsWith('--') &&
+          (i == 0 || effectiveArgs[i - 1] != '--upstream'))
+        effectiveArgs[i],
   ];
+  final ReviewedLintCatalog? catalog = loadReviewedCatalogOrExit(
+    reviewedArgs.reviewedPath,
+    includeReviewed: reviewedArgs.includeReviewed,
+    checkReviewed: reviewedArgs.checkReviewed,
+  );
   final Map<String, Set<int>?> targets;
   if (all) {
     final Iterable<String> files = given.isNotEmpty
@@ -418,15 +470,28 @@ void main(List<String> args) {
       continue;
     }
     problems.addAll(
-      lintSource(file, File(file).readAsStringSync(), targets[file]),
+      lintSource(
+        file,
+        File(file).readAsStringSync(),
+        targets[file],
+        reviewed: catalog,
+      ),
     );
   }
+  finishReviewedCheckOrNotes(
+    linter: 'string',
+    catalog: catalog,
+    checkReviewed: reviewedArgs.checkReviewed,
+    reportAllSummary: all,
+    allFilesScanned: given.isEmpty,
+  );
   problems.forEach(print);
   if (problems.isNotEmpty) {
     stderr.writeln(
       '\n${problems.length} hard-coded user-facing string(s). Move each into '
-      'l10n_fork (see l10n_fork/README.md), or mark it '
-      '`// i18n-ignore: <reason>`.',
+      'l10n_fork (see l10n_fork/README.md), mark fork lines with '
+      '`// i18n-ignore: <reason>`, or record reviewed upstream entries in '
+      '`$kDefaultReviewedLintPath`.',
     );
     exit(1);
   }

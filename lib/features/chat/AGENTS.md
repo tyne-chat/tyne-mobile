@@ -92,8 +92,10 @@ stay mounted (tyne-chat/tyne#942, tyne-chat/tyne#943).
   media reactions through `ForkMessageActionHost`, `ForkMessageActionSession`, and
   `forkResolveActionHostContext` (`presentation/widgets/message_actions/fork_message_action_host.dart`),
   which sit above `KeyedSubtree(ValueKey<int>(anchorEpoch))`.
-- `dart run tool/fork_async_ref_lint.dart` checks fork code for unguarded post-`await` `WidgetRef`
-  and `BuildContext` reads; regression and end-to-end storm tests live in
+- `dart run tool/fork_async_ref_lint.dart` and `tool/fork_safety_lint.dart` check fork code for
+  unguarded post-`await` `WidgetRef`/`BuildContext` reads and widget/provider safety rules (reviewed
+  upstream `--all` exceptions live in `tool/fork_lint_reviewed.json`); regression and end-to-end
+  storm tests live in
   `presentation/widgets/messages/message_list_sheet_reanchor_fork_test.dart` and
   `presentation/widgets/channel/notification_tap_reaction_storm_fork_test.dart`.
 
