@@ -2,7 +2,9 @@
 
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../tool/fork_lint_reviewed.dart';
 import '../../tool/fork_safety_lint.dart';
+import '../../tool/fork_string_lint.dart' as string_lint;
 
 List<String> _lint(
   String source, {
@@ -176,4 +178,125 @@ class _ExampleState extends ConsumerState<ExampleWidget> {
       ],
     );
   });
+
+  test('treats ++/-- increments in keepAlive build() as field resets', () {
+    expect(
+      _lint(r'''
+@Riverpod(keepAlive: true)
+class MyCounterNotifier extends _$MyCounterNotifier {
+  int _prefixGen = 0;
+  int _postfixToken = 0;
+  int _decremented = 10;
+  int _thisPrefixed = 0;
+
+  @override
+  int build() {
+    ++_prefixGen;
+    _postfixToken++;
+    --_decremented;
+    this._thisPrefixed++;
+    return _prefixGen;
+  }
+}
+'''),
+      isEmpty,
+    );
+  });
+
+  test(
+    'suppresses reviewed chat-layout, keepalive-reset, and string-lint entries across line shifts',
+    () {
+      final ReviewedLintCatalog
+      catalog = ReviewedLintCatalog.fromEntries(<ReviewedLintEntry>[
+        const ReviewedLintEntry(
+          linter: 'safety',
+          rule: 'chat-layout',
+          file: 'lib/features/chat/presentation/widgets/messages/skeleton.dart',
+          enclosing: 'LeafSkeleton.build',
+          reason: 'pure leaf sizing builder',
+        ),
+        const ReviewedLintEntry(
+          linter: 'safety',
+          rule: 'keepalive-reset',
+          file: 'lib/features/example_provider.dart',
+          symbol: 'ReviewedNotifier.*',
+          reason: 'onDispose tear-off cleans timers and monotonic counter',
+        ),
+        const ReviewedLintEntry(
+          linter: 'string',
+          file: 'lib/features/example_widget.dart',
+          enclosing: 'ExampleWidget.build',
+          target: 'Text()',
+          reason: 'reviewed literal',
+        ),
+      ]);
+
+      const String chatSource = '''
+class LeafSkeleton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) => LayoutBuilder(builder: (_, _) => const SizedBox());
+}
+''';
+      expect(
+        lintSafetySource(
+          'lib/features/chat/presentation/widgets/messages/skeleton.dart',
+          '\n\n$chatSource',
+          null,
+          reviewed: catalog,
+        ),
+        isEmpty,
+      );
+
+      const String providerSource = r'''
+@Riverpod(keepAlive: true)
+class ReviewedNotifier extends _$ReviewedNotifier {
+  int _nextId = 0;
+  @override
+  int build() => 0;
+}
+
+@Riverpod(keepAlive: true)
+class UnreviewedNotifier extends _$UnreviewedNotifier {
+  String? _leaked;
+  @override
+  int build() => 0;
+}
+''';
+      expect(
+        lintSafetySource(
+          'lib/features/example_provider.dart',
+          providerSource,
+          null,
+          reviewed: catalog,
+        ),
+        <String>[
+          'lib/features/example_provider.dart:10:11: [keepalive-reset] mutable field `_leaked` on `@Riverpod(keepAlive: true)` notifier `UnreviewedNotifier` is not reset in `build()`',
+        ],
+      );
+
+      expect(
+        string_lint.lintSource(
+          'lib/features/example_widget.dart',
+          '''
+class ExampleWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) => const Text('Upstream brand');
+}
+''',
+          null,
+          reviewed: catalog,
+        ),
+        isEmpty,
+      );
+
+      expect(catalog.unmatchedEntries('safety'), isEmpty);
+      expect(catalog.unmatchedEntries('string'), isEmpty);
+      expect(
+        () => ReviewedLintCatalog.fromJsonString(
+          '{"version":1,"entries":[{"linter":"safety","file":"lib/a.dart","enclosing":"Foo.build","reason":"missing rule"}]}',
+        ),
+        throwsFormatException,
+      );
+    },
+  );
 }

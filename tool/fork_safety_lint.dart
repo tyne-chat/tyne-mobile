@@ -1,7 +1,7 @@
 // Fork: AST safety checks for the mobile rules in AGENTS.md and
 // lib/features/chat/AGENTS.md (tyne-chat/tyne#945):
 //
-//   dart run tool/fork_safety_lint.dart [--upstream <git ref>] [--all] [--rule <r1,r2>] [<file>...]
+//   dart run tool/fork_safety_lint.dart [--upstream <git ref>] [--all] [--include-reviewed] [--check-reviewed] [--reviewed <path>] [--rule <r1,r2>] [<file>...]
 //
 // Rules (all run in a single AST parse pass per file unless `--rule` filters):
 // 1. `dispose-ref`: reading `WidgetRef` (`ref`) or `BuildContext` (`context`)
@@ -22,8 +22,11 @@
 // 5. `keepalive-reset`: `@Riverpod(keepAlive: true)` notifier classes whose
 //    mutable non-final instance fields are not reset in `build()`.
 //
-// Suppress a deliberate exception with `// safety-lint-ignore: <reason>` on its
-// line or the line above.
+// Suppress a deliberate exception on fork lines with
+// `// safety-lint-ignore: <reason>` on its line or the line above; reviewed
+// upstream `--all` findings live in `tool/fork_lint_reviewed.json`
+// (`--check-reviewed` validates they still match, `--include-reviewed` lists
+// them too) so upstream files stay untouched.
 // ignore_for_file: avoid_print, depend_on_referenced_packages
 
 import 'dart:io';
@@ -33,6 +36,8 @@ import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/source/line_info.dart';
+
+import 'fork_lint_reviewed.dart';
 
 const Set<String> kAllSafetyRules = <String>{
   'dispose-ref',
@@ -57,9 +62,9 @@ final RegExp _consumerStateSuperclass = RegExp(r'^(ConsumerState)\b');
 final RegExp _widgetSuperclass = RegExp(
   r'^(StatelessWidget|StatefulWidget|ConsumerWidget|ConsumerStatefulWidget|HookWidget|HookConsumerWidget)\b',
 );
-final RegExp _chatPath = RegExp(r'(^|/)lib/features/chat/');
+final RegExp _chatPath = RegExp('(^|/)lib/features/chat/');
 final RegExp _chatPanelOrListPath = RegExp(
-  r'(^|/)lib/features/chat/presentation/(pages/|widgets/(channel|messages)/)',
+  '(^|/)lib/features/chat/presentation/(pages/|widgets/(channel|messages)/)',
 );
 final RegExp _httpMethod = RegExp(
   r'^(get|post|put|patch|delete|head|fetch|request|getUri|postUri|putUri|patchUri|deleteUri)$',
@@ -204,17 +209,38 @@ class _FieldResetCollector extends RecursiveAstVisitor<void> {
     // do NOT run synchronously when `build()` re-runs!
   }
 
+  void _touchTarget(Expression? expr) {
+    if (expr is SimpleIdentifier) {
+      onFieldTouched(expr.name);
+    } else if (expr is PropertyAccess && expr.target is ThisExpression) {
+      onFieldTouched(expr.propertyName.name);
+    } else if (expr is PrefixedIdentifier && expr.prefix.name == 'this') {
+      onFieldTouched(expr.identifier.name);
+    }
+  }
+
   @override
   void visitAssignmentExpression(AssignmentExpression node) {
-    final Expression lhs = node.leftHandSide;
-    if (lhs is SimpleIdentifier) {
-      onFieldTouched(lhs.name);
-    } else if (lhs is PropertyAccess && lhs.target is ThisExpression) {
-      onFieldTouched(lhs.propertyName.name);
-    } else if (lhs is PrefixedIdentifier && lhs.prefix.name == 'this') {
-      onFieldTouched(lhs.identifier.name);
-    }
+    _touchTarget(node.leftHandSide);
     super.visitAssignmentExpression(node);
+  }
+
+  @override
+  void visitPrefixExpression(PrefixExpression node) {
+    final String op = node.operator.lexeme;
+    if (op == '++' || op == '--') {
+      _touchTarget(node.operand);
+    }
+    super.visitPrefixExpression(node);
+  }
+
+  @override
+  void visitPostfixExpression(PostfixExpression node) {
+    final String op = node.operator.lexeme;
+    if (op == '++' || op == '--') {
+      _touchTarget(node.operand);
+    }
+    super.visitPostfixExpression(node);
   }
 
   @override
@@ -222,13 +248,7 @@ class _FieldResetCollector extends RecursiveAstVisitor<void> {
     final String method = node.methodName.name;
     final Expression? target = node.target;
     if (method == 'clear' || method == 'reset' || method == 'cancel') {
-      if (target is SimpleIdentifier) {
-        onFieldTouched(target.name);
-      } else if (target is PropertyAccess && target.target is ThisExpression) {
-        onFieldTouched(target.propertyName.name);
-      } else if (target is PrefixedIdentifier && target.prefix.name == 'this') {
-        onFieldTouched(target.identifier.name);
-      }
+      _touchTarget(target);
     }
     if (target == null || target is ThisExpression) {
       onHelperCalled(method);
@@ -241,15 +261,19 @@ class _SafetyVisitor extends RecursiveAstVisitor<void> {
   _SafetyVisitor({
     required this.file,
     required this.lineInfo,
+    required this.sourceLines,
     required this.lines,
     required this.ignored,
+    required this.reviewed,
     required this.enabledRules,
   });
 
   final String file;
   final LineInfo lineInfo;
+  final List<String> sourceLines;
   final Set<int>? lines;
   final Set<int> ignored;
+  final ReviewedLintCatalog? reviewed;
   final Set<String> enabledRules;
   final List<String> problems = <String>[];
 
@@ -260,7 +284,7 @@ class _SafetyVisitor extends RecursiveAstVisitor<void> {
   bool _inDidChangeDependencies = false;
   bool _inBuildMethod = false;
 
-  void _report(AstNode node, String rule, String message) {
+  void _report(AstNode node, String rule, String message, {String? symbol}) {
     if (!enabledRules.contains(rule)) {
       return;
     }
@@ -271,6 +295,23 @@ class _SafetyVisitor extends RecursiveAstVisitor<void> {
     }
     if (ignored.contains(line)) {
       return;
+    }
+    if (reviewed != null) {
+      final String sourceLine = (line >= 1 && line <= sourceLines.length)
+          ? sourceLines[line - 1]
+          : '';
+      if (reviewed!.matches(
+        ReviewedLintCandidate(
+          linter: 'safety',
+          rule: rule,
+          file: file,
+          enclosing: enclosingAstSymbol(node),
+          symbol: symbol,
+          sourceLine: sourceLine,
+        ),
+      )) {
+        return;
+      }
     }
     problems.add('$file:$line:${loc.columnNumber}: [$rule] $message');
   }
@@ -316,6 +357,7 @@ class _SafetyVisitor extends RecursiveAstVisitor<void> {
           'keepalive-reset',
           'mutable field `$fieldName` on `@Riverpod(keepAlive: true)` '
               'notifier `$className` is not reset in `build()`',
+          symbol: '$className.$fieldName',
         );
       }
     }
@@ -840,12 +882,14 @@ Map<String, Set<int>?> _forkChanges(String upstream) {
 }
 
 /// Runs the mobile AST safety checks on [source], filtered to [lines] (`null`
-/// checks every line) and [rules] (defaults to [kAllSafetyRules]).
+/// checks every line), [rules] (defaults to [kAllSafetyRules]), and
+/// optional [reviewed] exceptions.
 List<String> lintSafetySource(
   String file,
   String source,
   Set<int>? lines, {
   Set<String> rules = kAllSafetyRules,
+  ReviewedLintCatalog? reviewed,
 }) {
   if (_generatedHeader.hasMatch(
     source.substring(0, source.length.clamp(0, 500)),
@@ -867,8 +911,10 @@ List<String> lintSafetySource(
   final _SafetyVisitor visitor = _SafetyVisitor(
     file: file,
     lineInfo: result.lineInfo,
+    sourceLines: sourceLines,
     lines: lines,
     ignored: ignored,
+    reviewed: reviewed,
     enabledRules: rules,
   );
   result.unit.accept(visitor);
@@ -876,25 +922,35 @@ List<String> lintSafetySource(
 }
 
 void main(List<String> args) {
-  final bool all = args.contains('--all');
-  final int upstreamIndex = args.indexOf('--upstream');
+  final ReviewedCliArgs reviewedArgs = extractReviewedCliArgs(args);
+  final List<String> effectiveArgs = reviewedArgs.restArgs;
+  final bool all =
+      effectiveArgs.contains('--all') || reviewedArgs.checkReviewed;
+  final int upstreamIndex = effectiveArgs.indexOf('--upstream');
   final String upstream = upstreamIndex == -1
       ? 'upstream/canary'
-      : args[upstreamIndex + 1];
-  final int ruleIndex = args.indexOf('--rule');
+      : effectiveArgs[upstreamIndex + 1];
+  final int ruleIndex = effectiveArgs.indexOf('--rule');
   final Set<String> rules = ruleIndex == -1
       ? kAllSafetyRules
-      : args[ruleIndex + 1]
+      : effectiveArgs[ruleIndex + 1]
             .split(',')
             .map((String s) => s.trim())
             .where((String s) => s.isNotEmpty)
             .toSet();
   final List<String> given = <String>[
-    for (int i = 0; i < args.length; i++)
-      if (!args[i].startsWith('--') &&
-          (i == 0 || (args[i - 1] != '--upstream' && args[i - 1] != '--rule')))
-        args[i],
+    for (int i = 0; i < effectiveArgs.length; i++)
+      if (!effectiveArgs[i].startsWith('--') &&
+          (i == 0 ||
+              (effectiveArgs[i - 1] != '--upstream' &&
+                  effectiveArgs[i - 1] != '--rule')))
+        effectiveArgs[i],
   ];
+  final ReviewedLintCatalog? catalog = loadReviewedCatalogOrExit(
+    reviewedArgs.reviewedPath,
+    includeReviewed: reviewedArgs.includeReviewed,
+    checkReviewed: reviewedArgs.checkReviewed,
+  );
   final Map<String, Set<int>?> targets;
   if (all) {
     final Iterable<String> files = given.isNotEmpty
@@ -926,15 +982,24 @@ void main(List<String> args) {
         File(file).readAsStringSync(),
         targets[file],
         rules: rules,
+        reviewed: catalog,
       ),
     );
   }
+  finishReviewedCheckOrNotes(
+    linter: 'safety',
+    catalog: catalog,
+    checkReviewed: reviewedArgs.checkReviewed,
+    reportAllSummary: all,
+    allFilesScanned: given.isEmpty,
+    rules: rules,
+  );
   problems.forEach(print);
   if (problems.isNotEmpty) {
     stderr.writeln(
       '\n${problems.length} fork safety lint violation(s). Fix the code per '
-      'AGENTS.md, or mark a deliberate exception with '
-      '`// safety-lint-ignore: <reason>`.',
+      'AGENTS.md, mark fork lines with `// safety-lint-ignore: <reason>`, or '
+      'record reviewed upstream entries in `$kDefaultReviewedLintPath`.',
     );
     exit(1);
   }

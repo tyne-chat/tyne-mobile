@@ -5,6 +5,7 @@
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../tool/fork_async_ref_lint.dart';
+import '../../tool/fork_lint_reviewed.dart';
 
 List<String> _lint(String source, [Set<int>? lines]) =>
     lintAsyncRefSource('lib/example.dart', source, lines);
@@ -165,4 +166,79 @@ class _SettingsState extends ConsumerState<SettingsWidget> {
       );
     },
   );
+
+  test(
+    'suppresses reviewed upstream findings across line shifts while keeping unreviewed siblings',
+    () {
+      final ReviewedLintCatalog catalog =
+          ReviewedLintCatalog.fromEntries(<ReviewedLintEntry>[
+            const ReviewedLintEntry(
+              linter: 'async-ref',
+              file: 'lib/example.dart',
+              enclosing: 'safeFlow',
+              target: 'ctx',
+              reason: 'guarded inline',
+            ),
+          ]);
+      const String source = '''
+Future<void> safeFlow(BuildContext? ctx) async {
+  await Future<void>.delayed(Duration.zero);
+  if (ctx != null && ctx.mounted) {}
+}
+
+Future<void> unreviewedSibling(WidgetRef ref) async {
+  await Future<void>.delayed(Duration.zero);
+  ref.read(someProvider);
+}
+''';
+      final List<String> problems = lintAsyncRefSource(
+        'lib/example.dart',
+        source,
+        null,
+        reviewed: catalog,
+      );
+      expect(problems, <String>[
+        'lib/example.dart:8:3: unguarded WidgetRef `ref` after `await`',
+      ]);
+      expect(catalog.unmatchedEntries('async-ref'), isEmpty);
+
+      // Simulate an upstream rebase shifting line numbers downward.
+      final ReviewedLintCatalog shiftedCatalog =
+          ReviewedLintCatalog.fromEntries(catalog.entries);
+      final List<String> shiftedProblems = lintAsyncRefSource(
+        'lib/example.dart',
+        '\n\n\n$source',
+        null,
+        reviewed: shiftedCatalog,
+      );
+      expect(shiftedProblems, <String>[
+        'lib/example.dart:11:3: unguarded WidgetRef `ref` after `await`',
+      ]);
+      expect(shiftedCatalog.unmatchedEntries('async-ref'), isEmpty);
+    },
+  );
+
+  test('validates reviewed catalog schema and loads checked-in catalog', () {
+    expect(
+      () => ReviewedLintCatalog.fromJsonString(
+        '{"version":1,"entries":[{"linter":"async-ref","file":"lib/a.dart","enclosing":"fn","target":"ctx","reason":"   "}]}',
+      ),
+      throwsFormatException,
+    );
+    expect(
+      () => ReviewedLintCatalog.fromJsonString(
+        '{"version":1,"entries":[{"linter":"async-ref","file":"lib/a.dart","reason":"missing selector"}]}',
+      ),
+      throwsFormatException,
+    );
+    expect(
+      () => ReviewedLintCatalog.fromJsonString(
+        '{"version":1,"entries":[{"linter":"async-ref","file":"lib/a.dart","enclosing":"fn","enclosingMethod":"typo","reason":"bad key"}]}',
+      ),
+      throwsFormatException,
+    );
+
+    final ReviewedLintCatalog checkedIn = ReviewedLintCatalog.load();
+    expect(checkedIn.entries, isNotEmpty);
+  });
 }
