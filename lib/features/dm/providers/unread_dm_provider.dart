@@ -73,6 +73,7 @@ class UnreadDmChannels extends _$UnreadDmChannels {
     _readStateSubscription = null;
     _readStateIds = const {};
     _reconcileGeneration++;
+    _drainingGeneration = null;
     _latestRows = const [];
     _rowsById = const {};
     _lastMessages.clear();

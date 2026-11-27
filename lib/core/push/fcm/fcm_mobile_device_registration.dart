@@ -47,6 +47,13 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
 
   @override
   int build() {
+    _lastRegisteredUserId = null;
+    _lastRegisteredRelayUrl = null;
+    _lastRegisteredPublicKey = null;
+    _unregisteredWithoutConsentKey = null;
+    _otherAccountsRelayUrl = null;
+    _syncAgain = false;
+    _syncFuture = null;
     if (!PushProviderGuard.isFirebaseMessaging) {
       return 0;
     }

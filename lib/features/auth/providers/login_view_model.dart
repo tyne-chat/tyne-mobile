@@ -198,6 +198,10 @@ class LoginViewModel extends _$LoginViewModel {
 
   @override
   LoginViewState build() {
+    _suggestionTimer?.cancel();
+    _suggestionTimer = null;
+    _pendingRecoveredKit = null;
+    _recoveryPrefill = null;
     ref
       ..onDispose(() => _suggestionTimer?.cancel())
       ..listen<bool>(authStateProvider, (_, _) {

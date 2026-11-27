@@ -20,6 +20,8 @@ class OxygenUpdate extends _$OxygenUpdate {
 
   @override
   OxygenUpdateStatus build() {
+    _lastCheckedAt = null;
+    _checking = false;
     if (!OxygenUpdater.isInitialized) {
       return OxygenUpdateStatus.none;
     }

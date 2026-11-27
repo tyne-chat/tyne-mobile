@@ -66,6 +66,12 @@ class VoiceCallOverlay extends _$VoiceCallOverlay {
 
   @override
   VoiceCallOverlayState build() {
+    _cancelAutoHide();
+    _autoHideTimer = null;
+    _pinReleaseTimer?.cancel();
+    _pinReleaseTimer = null;
+    _completePhoneExit(updateState: false);
+    _phoneExit = null;
     ref
       ..onDispose(() {
         _cancelAutoHide();

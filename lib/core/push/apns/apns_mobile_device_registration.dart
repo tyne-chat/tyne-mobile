@@ -37,6 +37,12 @@ class ApnsMobileDeviceRegistration extends _$ApnsMobileDeviceRegistration {
 
   @override
   int build() {
+    _lastRegisteredUserId = null;
+    _apnsSandbox = kDebugMode;
+    _lastRegisteredRelayUrl = null;
+    _lastRegisteredPublicKey = null;
+    _unregisteredWithoutConsentKey = null;
+    _syncInFlight = false;
     if (!PushProviderGuard.isApple) {
       return 0;
     }

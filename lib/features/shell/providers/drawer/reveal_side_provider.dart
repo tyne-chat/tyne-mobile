@@ -17,6 +17,8 @@ class CurrentRevealSide extends _$CurrentRevealSide {
 
   @override
   RevealSide build() {
+    _lastAppliedFor = null;
+    _resyncAfterReconnect = false;
     ref
       ..listen<bool>(authStateProvider, (_, next) {
         if (!next) {

@@ -40,6 +40,13 @@ class ApnsVoipMobileDeviceRegistration
 
   @override
   int build() {
+    _lastRegisteredUserId = null;
+    _apnsSandbox = kDebugMode;
+    _lastRegisteredRelayUrl = null;
+    _lastRegisteredPublicKey = null;
+    _unregisteredWithoutConsentKey = null;
+    _syncInFlight = false;
+    _syncQueued = false;
     if (!PushProviderGuard.isApple) {
       return 0;
     }

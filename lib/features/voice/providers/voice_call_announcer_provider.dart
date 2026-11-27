@@ -92,6 +92,17 @@ class VoiceCallAnnouncer extends _$VoiceCallAnnouncer {
 
   @override
   String? build() {
+    _batchTimer?.cancel();
+    _batchTimer = null;
+    _settleTimer?.cancel();
+    _settleTimer = null;
+    _clearTimer?.cancel();
+    _clearTimer = null;
+    _pendingJoins.clear();
+    _pendingLeaves.clear();
+    _settling = true;
+    _rosterKey = null;
+    _roster = const <String, String>{};
     ref
       ..onDispose(() {
         _batchTimer?.cancel();

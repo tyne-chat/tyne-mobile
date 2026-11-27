@@ -9,6 +9,8 @@ class AwaitingTapAfterSignIn extends _$AwaitingTapAfterSignIn {
 
   @override
   bool build() {
+    _stopListening();
+    _listening = false;
     ref.onDispose(_stopListening);
     return false;
   }

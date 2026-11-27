@@ -72,6 +72,10 @@ class UnifiedPushMobileDeviceRegistration
 
   @override
   int build() {
+    _authSyncFuture = null;
+    _authSyncAgain = false;
+    _pendingDelete = null;
+    _deleteAttempt = null;
     if (!PushProviderGuard.isUnifiedPush) {
       return 0;
     }

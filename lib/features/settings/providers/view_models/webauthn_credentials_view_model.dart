@@ -37,6 +37,7 @@ class WebauthnCredentialsViewModel extends _$WebauthnCredentialsViewModel {
 
   @override
   WebauthnCredentialsViewState build(String accountUserId) {
+    ++_updateSeq;
     unawaited(Future.microtask(load));
     return const WebauthnCredentialsViewState();
   }

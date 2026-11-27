@@ -89,6 +89,7 @@ class InstanceSelector extends _$InstanceSelector {
 
   @override
   Future<InstanceSelectorState> build() async {
+    ++_connectSeq;
     final String instanceUrl = ref
         .read(activeInstanceProvider.notifier)
         .describeApiEndpoint();

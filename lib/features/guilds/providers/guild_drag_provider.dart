@@ -572,7 +572,16 @@ class GuildDrag extends _$GuildDrag {
   Offset? _hoverResolvedGlobalPosition;
 
   @override
-  DragState build() => const DragState();
+  DragState build() {
+    _dragStartGlobalPosition = null;
+    _lastHoverSpeedSampleY = null;
+    _lastHoverSpeedSampleTime = null;
+    _pendingDwellTargetId = null;
+    _pendingDwellStartedAt = null;
+    _lastRawDragGlobalPosition = null;
+    _hoverResolvedGlobalPosition = null;
+    return const DragState();
+  }
 
   void updateVerticalBounds({required double top, required double bottom}) {
     _verticalBoundsTop = top;
