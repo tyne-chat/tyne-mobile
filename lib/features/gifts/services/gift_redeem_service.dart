@@ -32,7 +32,11 @@ Future<bool> redeemGiftCode({
   }
 
   final normalizedCode = extractGiftCode(code);
-  switch (await _inAppClaimCheck(ref, normalizedCode)) {
+  // Fork: pre-capture container before `_inAppClaimCheck` so caller unmount
+  // during the check/redeem request does not throw StateError
+  // (tyne-chat/tyne#946).
+  final ProviderContainer container = ref.container;
+  switch (await _inAppClaimCheck(container, normalizedCode)) {
     case _InAppClaimCheck.allowed:
       break;
     case _InAppClaimCheck.blocked:
@@ -54,14 +58,14 @@ Future<bool> redeemGiftCode({
       }
       return false;
   }
-  final ProviderSubscription<AsyncValue<GiftEmbedState>> gift = ref
-      .listenManual(giftEmbedProvider(normalizedCode), (_, _) {});
+  final ProviderSubscription<AsyncValue<GiftEmbedState>> gift = container
+      .listen(giftEmbedProvider(normalizedCode), (_, _) {});
   try {
-    await ref.read(giftEmbedProvider(normalizedCode).notifier).redeem();
+    await container.read(giftEmbedProvider(normalizedCode).notifier).redeem();
     if (!context.mounted) {
       return true;
     }
-    ref
+    container
         .read(toastProvider.notifier)
         .show(
           FluxerToast(
@@ -77,7 +81,7 @@ Future<bool> redeemGiftCode({
     }
     await _showRedeemFailure(
       context: context,
-      ref: ref,
+      container: container,
       code: normalizedCode,
       failure: giftRedeemFailureFromDio(error),
       l10n: l10n,
@@ -100,12 +104,15 @@ Future<bool> redeemGiftCode({
 
 enum _InAppClaimCheck { allowed, blocked, unknown }
 
-Future<_InAppClaimCheck> _inAppClaimCheck(WidgetRef ref, String code) async {
+Future<_InAppClaimCheck> _inAppClaimCheck(
+  ProviderContainer container,
+  String code,
+) async {
   if (defaultTargetPlatform != TargetPlatform.iOS) {
     return _InAppClaimCheck.allowed;
   }
   try {
-    final GiftCodeResponse gift = await ref
+    final GiftCodeResponse gift = await container
         .read(fluxerClientProvider)
         .gifts
         .getGiftCode(code: code);
@@ -123,12 +130,12 @@ Future<_InAppClaimCheck> _inAppClaimCheck(WidgetRef ref, String code) async {
 
 Future<void> _showRedeemFailure({
   required BuildContext context,
-  required WidgetRef ref,
+  required ProviderContainer container,
   required String code,
   required GiftRedeemFailure failure,
   required FluxerLocalizations l10n,
 }) async {
-  final notifier = ref.read(giftEmbedProvider(code).notifier);
+  final notifier = container.read(giftEmbedProvider(code).notifier);
 
   switch (failure) {
     case GiftRedeemFailure.alreadyRedeemed:
@@ -164,7 +171,7 @@ Future<void> _showRedeemFailure({
               await copyToClipboard(
                 context: context,
                 value: giftShareUrl(
-                  giftBaseUrl: ref.read(instanceGiftBaseUrlProvider),
+                  giftBaseUrl: container.read(instanceGiftBaseUrlProvider),
                   code: code,
                 ),
               );

@@ -192,6 +192,9 @@ class _FolderContextMenuPageState extends State<_FolderContextMenuPage> {
   void _requestDeactivate(String key) {
     _hideTimer?.cancel();
     _hideTimer = Timer(const Duration(milliseconds: 100), () {
+      if (!mounted) {
+        return;
+      }
       if (_activeSubmenuKey == key && !_isSubmenuHovered) {
         setState(() => _activeSubmenuKey = null);
       }

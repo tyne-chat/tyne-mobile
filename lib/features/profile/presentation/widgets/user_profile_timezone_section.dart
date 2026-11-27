@@ -32,6 +32,9 @@ class _UserProfileTimezoneSectionState
     super.initState();
     _now = DateTime.now();
     _timer = Timer.periodic(const Duration(seconds: 30), (_) {
+      if (!mounted) {
+        return;
+      }
       setState(() {
         _now = DateTime.now();
       });

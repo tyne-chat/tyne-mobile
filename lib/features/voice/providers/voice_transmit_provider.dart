@@ -51,7 +51,13 @@ class VoiceTransmitHold extends _$VoiceTransmitHold {
 
   @override
   VoiceTransmitHoldState build() {
-    ref.onDispose(() => _releaseTimer?.cancel());
+    // Fork: reset and null timer across rebuilds (tyne-chat/tyne#946).
+    _releaseTimer?.cancel();
+    _releaseTimer = null;
+    ref.onDispose(() {
+      _releaseTimer?.cancel();
+      _releaseTimer = null;
+    });
     return const VoiceTransmitHoldState();
   }
 

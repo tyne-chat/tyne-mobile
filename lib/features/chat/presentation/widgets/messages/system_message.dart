@@ -495,6 +495,9 @@ class _PointerLongPressDetectorState extends State<_PointerLongPressDetector> {
     _pointerDownPosition = event.position;
     _holdTimer = Timer(_kSystemMessageLongPressDuration, () {
       _holdTimer = null;
+      if (!mounted) {
+        return;
+      }
       unawaited(_fireLongPress());
       setState(() => _absorbPointers = true);
       Future<void>.delayed(const Duration(milliseconds: 100), () {

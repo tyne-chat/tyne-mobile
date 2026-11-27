@@ -167,6 +167,9 @@ class _ContextMenuPageState extends State<_ContextMenuPage> {
   void _requestDeactivate(String key) {
     _hideTimer?.cancel();
     _hideTimer = Timer(const Duration(milliseconds: 100), () {
+      if (!mounted) {
+        return;
+      }
       if (_activeSubmenuKey == key && !_isSubmenuHovered) {
         setState(() => _activeSubmenuKey = null);
       }

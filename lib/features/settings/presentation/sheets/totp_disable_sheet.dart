@@ -54,10 +54,14 @@ class _TotpDisableSheetState extends ConsumerState<TotpDisableSheet> {
       _error = null;
     });
 
+    // Fork: pre-capture container before awaiting TOTP disable so dismissing
+    // the sheet mid-request still shows toast and reloads profile
+    // (tyne-chat/tyne#946).
+    final ProviderContainer container = ref.container;
     try {
-      await disableTotpMfa(dio: ref.read(fluxerDioProvider), code: code);
+      await disableTotpMfa(dio: container.read(fluxerDioProvider), code: code);
 
-      ref
+      container
           .read(toastProvider.notifier)
           .show(
             FluxerToast(
@@ -66,12 +70,17 @@ class _TotpDisableSheetState extends ConsumerState<TotpDisableSheet> {
             ),
           );
 
-      await ref.read(userSettingsViewModelProvider.notifier).loadProfile();
+      await container
+          .read(userSettingsViewModelProvider.notifier)
+          .loadProfile();
 
       if (mounted) {
         Navigator.of(context).pop();
       }
     } on DioException catch (e) {
+      if (!mounted) {
+        return;
+      }
       setState(() {
         _loading = false;
         _error = userFacingErrorMessage(e, l10n.invalidCode);
