@@ -539,3 +539,63 @@ void finishReviewedCheckOrNotes({
     }
   }
 }
+
+typedef ReviewedLinterStats = ({
+  int entryCount,
+  int suppressed,
+  List<ReviewedLintEntry> staleEntries,
+});
+
+typedef ReviewedMultiSummary = ({
+  Map<String, ReviewedLinterStats> byLinter,
+  int totalSuppressed,
+  List<ReviewedLintEntry> allStaleEntries,
+});
+
+/// Evaluates reviewed catalog coverage and staleness across multiple linters
+/// without exiting the process.
+ReviewedMultiSummary evaluateReviewedForLinters(
+  ReviewedLintCatalog? catalog,
+  Iterable<String> linters, {
+  Map<String, Set<String>>? rulesByLinter,
+}) {
+  final Map<String, ReviewedLinterStats> byLinter =
+      <String, ReviewedLinterStats>{};
+  final List<ReviewedLintEntry> allStaleEntries = <ReviewedLintEntry>[];
+  int totalSuppressed = 0;
+
+  if (catalog == null) {
+    return (
+      byLinter: byLinter,
+      totalSuppressed: 0,
+      allStaleEntries: allStaleEntries,
+    );
+  }
+
+  for (final String linter in linters) {
+    final Set<String>? rules = rulesByLinter?[linter];
+    final int entryCount = catalog.entryCountFor(linter, rules: rules);
+    final int suppressed = catalog.suppressedCount(linter);
+    final List<ReviewedLintEntry> staleEntries = catalog.unmatchedEntries(
+      linter,
+      rules: rules,
+    );
+    byLinter[linter] = (
+      entryCount: entryCount,
+      suppressed: suppressed,
+      staleEntries: staleEntries,
+    );
+    totalSuppressed += suppressed;
+    allStaleEntries.addAll(staleEntries);
+  }
+
+  return (
+    byLinter: byLinter,
+    totalSuppressed: totalSuppressed,
+    allStaleEntries: allStaleEntries,
+  );
+}
+
+/// Returns whether the catalog file for [reviewedPath] exists on disk.
+bool reviewedCatalogExists([String reviewedPath = kDefaultReviewedLintPath]) =>
+    File(reviewedPath).existsSync();
