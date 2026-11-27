@@ -56,11 +56,9 @@ Future<List<InvitePeopleRecipient>> loadInvitePeopleRecipients({
   required WidgetRef ref,
   required FluxerLocalizations l10n,
 }) async {
-  final List<Friend> friends = await ref
-      .read(friendRepositoryProvider)
-      .getRelationships();
-  final List<DmConversation> dms = await ref
-      .read(dmRepositoryProvider)
-      .getDmChannels();
+  final friendRepository = ref.read(friendRepositoryProvider);
+  final dmRepository = ref.read(dmRepositoryProvider);
+  final List<Friend> friends = await friendRepository.getRelationships();
+  final List<DmConversation> dms = await dmRepository.getDmChannels();
   return buildInvitePeopleRecipients(friends: friends, dms: dms, l10n: l10n);
 }

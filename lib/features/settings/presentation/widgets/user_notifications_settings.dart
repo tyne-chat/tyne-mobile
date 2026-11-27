@@ -264,14 +264,15 @@ Future<void> _handlePushRelayConsentChanged({
   required WidgetRef ref,
   required bool value,
 }) async {
+  final ProviderContainer container = ref.container;
   final PushRelayConsent consent = ref.read(pushRelayConsentProvider.notifier);
   await consent.ensureLoaded();
 
-  final String? userId = ref.read(currentUserIdProvider);
+  final String? userId = container.read(currentUserIdProvider);
 
   if (!value) {
-    await consent.revoke(userIds: await _signedInUserIds(ref, userId));
-    await _unregisterPushRelayMobileDevices(ref);
+    await consent.revoke(userIds: await _signedInUserIds(container, userId));
+    await _unregisterPushRelayMobileDevices(container);
     return;
   }
 
@@ -287,10 +288,10 @@ Future<void> _handlePushRelayConsentChanged({
 }
 
 Future<Set<String>> _signedInUserIds(
-  WidgetRef ref,
+  ProviderContainer container,
   String? activeUserId,
 ) async {
-  final sessions = await ref
+  final sessions = await container
       .read(fluxerDatabaseProvider)
       .authSessionDao
       .getAllSessions();
@@ -301,17 +302,19 @@ Future<Set<String>> _signedInUserIds(
   };
 }
 
-Future<void> _unregisterPushRelayMobileDevices(WidgetRef ref) async {
+Future<void> _unregisterPushRelayMobileDevices(
+  ProviderContainer container,
+) async {
   if (PushProviderGuard.isApple) {
-    await ref
+    await container
         .read(apnsMobileDeviceRegistrationProvider.notifier)
         .unregisterCurrentToken();
-    await ref
+    await container
         .read(apnsVoipMobileDeviceRegistrationProvider.notifier)
         .unregisterCurrentToken();
   }
   if (PushProviderGuard.isFirebaseMessaging) {
-    await ref
+    await container
         .read(fcmMobileDeviceRegistrationProvider.notifier)
         .unregisterCurrentToken();
   }

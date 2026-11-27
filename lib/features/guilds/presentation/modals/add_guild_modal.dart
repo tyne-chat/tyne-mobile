@@ -205,10 +205,10 @@ class _AddGuildFlowState extends ConsumerState<_AddGuildFlow> {
     final String randomCode = _randomInviteCode();
     try {
       await ref.read(wellKnownProvider.future);
-      final String inviteBase = ref.read(instanceInviteBaseUrlProvider);
       if (!mounted) {
         return;
       }
+      final String inviteBase = ref.read(instanceInviteBaseUrlProvider);
       setState(() {
         _instanceInviteUrlBases = <String>[inviteBase];
         _invitePlaceholder = '$inviteBase/$randomCode';

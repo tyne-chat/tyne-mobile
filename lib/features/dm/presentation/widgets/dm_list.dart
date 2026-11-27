@@ -252,19 +252,18 @@ class _DMListState extends ConsumerState<DMList> {
       if (!mounted || !context.mounted) {
         return;
       }
+      final Toast toasts = ref.read(toastProvider.notifier);
       if (ref.read(chatViewModelProvider).channelId == channelId) {
         await ref.read(chatViewModelProvider.notifier).reloadCurrentChannel();
       }
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: deletedCount > 0
-                  ? l10n.purgePersonalNotesSuccess(deletedCount)
-                  : l10n.purgePersonalNotesAlreadyEmpty,
-              variant: FluxerToastVariant.success,
-            ),
-          );
+      toasts.show(
+        FluxerToast(
+          message: deletedCount > 0
+              ? l10n.purgePersonalNotesSuccess(deletedCount)
+              : l10n.purgePersonalNotesAlreadyEmpty,
+          variant: FluxerToastVariant.success,
+        ),
+      );
     } on Exception {
       if (!mounted || !context.mounted) {
         return;
@@ -1454,7 +1453,8 @@ class _DMListState extends ConsumerState<DMList> {
     final List<Guild> guilds = ref.read(guildListViewModelProvider).guilds;
     final List<_InviteCandidate?> resolved = await Future.wait(
       guilds.map((Guild guild) async {
-        if (await db.memberDao.getMemberByUserId(userId, guild.id) != null) {
+        if (await db.memberDao.getMemberByUserId(userId, guild.id) != null ||
+            !mounted) {
           return null;
         }
         final InvitableChannelMatch? match = await resolveGuildInvitableChannel(
@@ -1493,17 +1493,13 @@ class _DMListState extends ConsumerState<DMList> {
     FluxerLocalizations l10n,
   ) async {
     final Toast toasts = ref.read(toastProvider.notifier);
+    final messageRepo = ref.read(messageRepositoryProvider);
     try {
       final String url = await communityInviteUrlFor(
         ref: ref,
         match: candidate.match,
       );
-      await sendInviteLinkMessage(
-        ref: ref,
-        channelId: convo.id,
-        recipientId: null,
-        url: url,
-      );
+      await messageRepo.sendMessage(channelId: convo.id, content: url);
       toasts.show(
         FluxerToast(
           message: l10n.dmInviteSentFor(candidate.guildName),
@@ -1535,6 +1531,9 @@ class _DMListState extends ConsumerState<DMList> {
     final isMuted = mutedIds.contains(convo.id);
     final db = ref.read(fluxerDatabaseProvider);
     final rels = await db.relationshipDao.getRelationships();
+    if (!mounted) {
+      return;
+    }
     final rel = rels.where((r) => r.userId == convo.recipientId).firstOrNull;
     final devMode = ref.read(userSettingsViewModelProvider).developerMode;
     final showFavorites = ref.read(

@@ -35,6 +35,7 @@ class _ChannelDetailsDrawerOverlayState
   late final AnimationController _translateController;
   late final ScrollController _scrollController;
   late final ChannelDetailsDrawerDragBridge _dragBridge;
+  late final ChannelDetailsDrawerReveal _revealNotifier;
   ChannelDetailsDrawerState? _content;
   double _lastWidth = 0;
   bool _interactiveDragActive = false;
@@ -49,14 +50,26 @@ class _ChannelDetailsDrawerOverlayState
     );
     _scrollController = ScrollController();
     _dragBridge = ref.read(channelDetailsDrawerDragBridgeProvider);
+    _revealNotifier = ref.read(channelDetailsDrawerRevealProvider.notifier);
     _dragBridge.attach(this);
+  }
+
+  void _resetRevealIfMountedNotifier() {
+    if (!mounted) {
+      _revealNotifier.setPixels(0);
+    }
   }
 
   @override
   void dispose() {
+    final bool shouldResetReveal =
+        _closeAnimationRunning || _translateController.value != 0;
     _dragBridge.detach(this);
     _translateController.dispose();
     _scrollController.dispose();
+    if (shouldResetReveal) {
+      unawaited(Future<void>.microtask(_resetRevealIfMountedNotifier));
+    }
     super.dispose();
   }
 
@@ -121,6 +134,7 @@ class _ChannelDetailsDrawerOverlayState
       return;
     }
     _closeAnimationRunning = true;
+    final ChannelDetailsDrawerReveal reveal = _revealNotifier;
     try {
       await animateHorizontalReveal(
         _translateController,
@@ -131,7 +145,7 @@ class _ChannelDetailsDrawerOverlayState
       if (mounted && ref.read(channelDetailsDrawerProvider) == null) {
         setState(() => _content = null);
       }
-      ref.read(channelDetailsDrawerRevealProvider.notifier).setPixels(0);
+      reveal.setPixels(0);
     } finally {
       _closeAnimationRunning = false;
     }

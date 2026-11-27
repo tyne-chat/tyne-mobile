@@ -319,6 +319,7 @@ class _UserThemeColorsState extends ConsumerState<UserThemeColors> {
     FluxerThemeMode editingMode,
     String modeLabel,
   ) async {
+    final themePreference = ref.read(themePreferenceProvider.notifier);
     final String title = l10n.lookAndFeelThemeColorsResetConfirmTitle;
     final String description = l10n.lookAndFeelThemeColorsResetConfirmBody(
       modeLabel,
@@ -340,9 +341,7 @@ class _UserThemeColorsState extends ConsumerState<UserThemeColors> {
             onConfirm: () {},
           );
     if (confirmed ?? false) {
-      await ref
-          .read(themePreferenceProvider.notifier)
-          .resetThemeColorOverridesForMode(editingMode);
+      await themePreference.resetThemeColorOverridesForMode(editingMode);
     }
   }
 

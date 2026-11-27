@@ -56,6 +56,7 @@ Future<void> startPremiumCheckout({
     return;
   }
 
+  final FluxerClient client = ref.read(fluxerClientProvider);
   CheckoutPaymentMethodEnum? paymentMethod;
   final String currency = priceIds.currency;
   if (!selected.isGift &&
@@ -93,7 +94,6 @@ Future<void> startPremiumCheckout({
   }
 
   try {
-    final FluxerClient client = ref.read(fluxerClientProvider);
     final CreateCheckoutSessionRequest body = CreateCheckoutSessionRequest(
       priceId: priceId,
       countryCode: countryCode,
@@ -180,36 +180,44 @@ Future<void> openPremiumManageAction(
   }
 }
 
-Future<void> _refreshPremiumBillingState(WidgetRef ref) async {
-  await ref
-      .read(currentUserPrivateReadProvider(readAccountUserId(ref)).notifier)
+Future<void> _refreshPremiumBillingState(
+  ProviderContainer container,
+  String accountUserId,
+) async {
+  await container
+      .read(currentUserPrivateReadProvider(accountUserId).notifier)
       .refresh();
-  await ref.read(premiumSettingsStateProvider.notifier).refresh();
+  await container.read(premiumSettingsStateProvider.notifier).refresh();
 }
 
 Future<void> cancelPremiumSubscription(WidgetRef ref) async {
+  final ProviderContainer container = ref.container;
+  final String accountUserId = readAccountUserId(ref);
   try {
-    await ref.read(fluxerClientProvider).premium.cancelSubscription();
+    await container.read(fluxerClientProvider).premium.cancelSubscription();
   } on Object catch (error) {
     await showApiErrorFromRoot(ApiErrorAction.cancelSubscription, error);
     return;
   }
-  await _refreshPremiumBillingState(ref);
+  await _refreshPremiumBillingState(container, accountUserId);
 }
 
 Future<void> reactivatePremiumSubscription(WidgetRef ref) async {
+  final ProviderContainer container = ref.container;
+  final String accountUserId = readAccountUserId(ref);
   try {
-    await ref.read(fluxerClientProvider).premium.reactivateSubscription();
+    await container.read(fluxerClientProvider).premium.reactivateSubscription();
   } on Object catch (error) {
     await showApiErrorFromRoot(ApiErrorAction.reactivateSubscription, error);
     return;
   }
-  await _refreshPremiumBillingState(ref);
+  await _refreshPremiumBillingState(container, accountUserId);
 }
 
 Future<bool> selfServeRefundLatest(WidgetRef ref) async {
+  final ProviderContainer container = ref.container;
   try {
-    await ref
+    await container
         .read(fluxerClientProvider)
         .billing
         .selfServeRefundLatestPurchase();
@@ -217,7 +225,7 @@ Future<bool> selfServeRefundLatest(WidgetRef ref) async {
     await showApiErrorFromRoot(ApiErrorAction.refundPurchase, error);
     return false;
   }
-  await ref.read(premiumSettingsStateProvider.notifier).refresh();
+  await container.read(premiumSettingsStateProvider.notifier).refresh();
   return true;
 }
 

@@ -47,6 +47,7 @@ Future<void> confirmSwitchToStandardVoiceCall(
   WidgetRef ref,
 ) async {
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+  final voiceSession = ref.read(voiceSessionProvider.notifier);
   final bool? confirmed = await showFluxerSettingsConfirmSheet(
     context,
     title: l10n.voiceP2pSwitchToStandard,
@@ -56,7 +57,7 @@ Future<void> confirmSwitchToStandardVoiceCall(
   if (confirmed != true) {
     return;
   }
-  ref.read(voiceSessionProvider.notifier).switchToStandardCall();
+  voiceSession.switchToStandardCall();
 }
 
 Future<void> setVoicePanelNoiseSuppression(

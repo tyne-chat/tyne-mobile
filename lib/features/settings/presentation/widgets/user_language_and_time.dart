@@ -246,17 +246,16 @@ class _RegionalFormatSection extends ConsumerWidget {
     final String autoExample = DateFormat.yMd(intlLocale).format(_sample);
 
     Future<void> run(Future<void> Function() action) async {
+      final toast = ref.read(toastProvider.notifier);
       try {
         await action();
       } on Object {
-        ref
-            .read(toastProvider.notifier)
-            .show(
-              FluxerToast(
-                message: l10n.languageAndTimeFormatSyncFailed,
-                variant: FluxerToastVariant.danger,
-              ),
-            );
+        toast.show(
+          FluxerToast(
+            message: l10n.languageAndTimeFormatSyncFailed,
+            variant: FluxerToastVariant.danger,
+          ),
+        );
       }
     }
 

@@ -337,18 +337,17 @@ class ChannelWebhooksWidget extends ConsumerWidget {
     WidgetRef ref,
     FluxerLocalizations l10n,
   ) async {
+    final toast = ref.read(toastProvider.notifier);
     try {
       await ref
           .read(channelWebhooksProvider(channel.id).notifier)
           .createWebhook(name: generateWebhookName());
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: l10n.channelSettingsWebhookCreated,
-              variant: FluxerToastVariant.success,
-            ),
-          );
+      toast.show(
+        FluxerToast(
+          message: l10n.channelSettingsWebhookCreated,
+          variant: FluxerToastVariant.success,
+        ),
+      );
     } on Object catch (error) {
       if (!context.mounted) {
         return;

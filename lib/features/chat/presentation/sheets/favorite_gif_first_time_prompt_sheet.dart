@@ -52,19 +52,21 @@ class _FavoriteGifFirstTimePromptBody extends ConsumerWidget {
   final Future<void> Function() onConfirm;
 
   Future<void> _chooseUrlOnly(WidgetRef ref) async {
+    final favoriteGifs = ref.read(favoriteGifsProvider.notifier);
     await ref
         .read(advancedPreferencesProvider.notifier)
         .setSaveGifFavoritesAsSavedMedia(value: false);
-    ref.read(favoriteGifsProvider.notifier).markFirstTimePromptSeen();
+    favoriteGifs.markFirstTimePromptSeen();
     onClose();
     await onConfirm();
   }
 
   Future<void> _chooseSavedMedia(WidgetRef ref) async {
+    final favoriteGifs = ref.read(favoriteGifsProvider.notifier);
     await ref
         .read(advancedPreferencesProvider.notifier)
         .setSaveGifFavoritesAsSavedMedia(value: true);
-    ref.read(favoriteGifsProvider.notifier).markFirstTimePromptSeen();
+    favoriteGifs.markFirstTimePromptSeen();
     onClose();
     await onConfirm();
   }

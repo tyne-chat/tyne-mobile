@@ -11,6 +11,7 @@ Future<void> showChannelDebugSheet(
   required String channelId,
   required String title,
 }) async {
+  final client = ref.read(fluxerClientProvider);
   Map<String, Object?>? data;
   final localChannel = await ref
       .read(fluxerDatabaseProvider)
@@ -20,10 +21,7 @@ Future<void> showChannelDebugSheet(
     data = channelResponseFromRow(localChannel).toJson();
   } else {
     try {
-      final channel = await ref
-          .read(fluxerClientProvider)
-          .channels
-          .getChannel(channelId: channelId);
+      final channel = await client.channels.getChannel(channelId: channelId);
       data = channel.toJson();
     } on Exception catch (_) {}
   }

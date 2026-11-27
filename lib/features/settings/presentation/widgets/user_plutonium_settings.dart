@@ -424,7 +424,7 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
       description: l10n.premiumRefundConfirmBody,
       confirmLabel: l10n.premiumRefundConfirm,
     );
-    if (confirmed != true) {
+    if (confirmed != true || !mounted) {
       return;
     }
     final bool refunded = await selfServeRefundLatest(ref);
@@ -451,7 +451,7 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
       description: l10n.premiumCancelSubscriptionBody,
       confirmLabel: l10n.premiumCancelSubscriptionConfirm,
     );
-    if (confirmed != true) {
+    if (confirmed != true || !mounted) {
       return;
     }
     setState(() => _cancelLoading = true);

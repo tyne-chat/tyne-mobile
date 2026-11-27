@@ -201,16 +201,15 @@ class ChatWallpaperSection extends ConsumerWidget {
       return;
     }
     FluxerHaptics.selection();
+    final notifier = ref.read(chatWallpaperProvider.notifier);
     if (snapshot.selection.kind != ChatWallpaperKind.custom &&
         snapshot.hasCustomImage) {
-      await ref
-          .read(chatWallpaperProvider.notifier)
-          .setSelection(
-            snapshot.selection.copyWith(
-              kind: ChatWallpaperKind.custom,
-              clearId: true,
-            ),
-          );
+      await notifier.setSelection(
+        snapshot.selection.copyWith(
+          kind: ChatWallpaperKind.custom,
+          clearId: true,
+        ),
+      );
       return;
     }
     final ({Uint8List bytes, String name})? picked =
@@ -218,9 +217,7 @@ class ChatWallpaperSection extends ConsumerWidget {
     if (picked == null) {
       return;
     }
-    final bool saved = await ref
-        .read(chatWallpaperProvider.notifier)
-        .setCustomImage(picked.bytes);
+    final bool saved = await notifier.setCustomImage(picked.bytes);
     if (!saved && context.mounted) {
       ref
           .read(toastProvider.notifier)

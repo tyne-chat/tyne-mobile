@@ -26,19 +26,18 @@ class _UserOperatorPassSectionState
 
   Future<void> _run(Future<void> Function() action) async {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final toast = ref.read(toastProvider.notifier);
     setState(() => _busy = true);
     try {
       await action();
     } on Object catch (error, stackTrace) {
       talker.warning('[OperatorPass] Update failed', error, stackTrace);
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: l10n.operatorPassUpdateFailed,
-              variant: FluxerToastVariant.danger,
-            ),
-          );
+      toast.show(
+        FluxerToast(
+          message: l10n.operatorPassUpdateFailed,
+          variant: FluxerToastVariant.danger,
+        ),
+      );
     } finally {
       if (mounted) {
         setState(() => _busy = false);

@@ -312,25 +312,25 @@ void registerKeybindHandlers({
         return false;
       }
       final repo = ref.read(readStateRepositoryProvider);
+      final readStateBatcher = ref.read(readStateWriteBatcherProvider);
+      final ackBatcher = ref.read(ackBatcherProvider);
       final String? messageId = await repo.latestAckableMessageId(channelId);
       if (messageId == null) {
         return false;
       }
-      ref.read(readStateWriteBatcherProvider)
+      readStateBatcher
         ..setCursorManual(channelId, manual: false, clearSticky: true)
         ..enqueueAck(
           channelId: channelId,
           messageId: messageId,
           clearSticky: true,
         );
-      ref
-          .read(ackBatcherProvider)
-          .queue(
-            channelId: channelId,
-            messageId: messageId,
-            immediate: true,
-            hadMentions: false,
-          );
+      ackBatcher.queue(
+        channelId: channelId,
+        messageId: messageId,
+        immediate: true,
+        hadMentions: false,
+      );
       return true;
     })
     ..register(KeybindAction.chatToggleInbox, () async {
@@ -338,17 +338,18 @@ void registerKeybindHandlers({
       return true;
     })
     ..register(KeybindAction.chatMarkInboxRead, () async {
+      final ProviderContainer container = ref.container;
+      final NotificationsRepository repo = ref.read(
+        notificationsRepositoryProvider,
+      );
       final List<UnreadInboxEntry> entries = await ref.read(
         unreadInboxChannelListProvider.future,
       );
       if (entries.isEmpty) {
         return false;
       }
-      final NotificationsRepository repo = ref.read(
-        notificationsRepositoryProvider,
-      );
       await repo.markAllInboxChannelsAsRead(<UnreadInboxEntry>[entries.first]);
-      ref.invalidate(unreadInboxChannelListProvider);
+      container.invalidate(unreadInboxChannelListProvider);
       return true;
     })
     ..register(KeybindAction.miscSearch, () async {

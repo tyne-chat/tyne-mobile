@@ -64,7 +64,7 @@ class ChannelDetailsDrawerReveal extends _$ChannelDetailsDrawerReveal {
   double build() => 0;
 
   void setPixels(double pixels) {
-    if (state == pixels) {
+    if (!ref.mounted || state == pixels) {
       return;
     }
     state = pixels;

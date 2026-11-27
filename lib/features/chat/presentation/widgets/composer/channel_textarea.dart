@@ -2085,7 +2085,11 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       return;
     }
 
+    final expressionPanel = ref.read(expressionPanelProvider.notifier);
     final perms = await _currentPermissions();
+    if (!mounted) {
+      return;
+    }
     if (_hasProviderShareUrl(meme)) {
       await ref
           .read(chatViewModelProvider.notifier)
@@ -2101,8 +2105,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       _insertGifUrl(meme.url);
     }
 
-    ref.read(expressionPanelProvider.notifier).close();
-    _focusNode.requestFocus();
+    expressionPanel.close();
+    if (mounted) {
+      _focusNode.requestFocus();
+    }
   }
 
   bool _hasProviderShareUrl(FavoriteMeme meme) =>
@@ -2565,6 +2571,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         !kRoleMentionWirePattern.hasMatch(content)) {
       return true;
     }
+    final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
     final int bits = await readEffectiveGuildChannelPermissionBits(
       container: ref.container,
       channelId: channelId,
@@ -2573,7 +2580,6 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       bits,
       Permission.mentionEveryone,
     );
-    final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
     final List<db.Member> members = await database.memberDao.getMembers(
       guildId,
     );
@@ -2591,6 +2597,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (!mentionsEveryone && !mentionsHere && roleImpact == null) {
       return true;
     }
+    if (!mounted) {
+      return false;
+    }
     if (mentionsEveryone || mentionsHere) {
       try {
         ref
@@ -2602,9 +2611,6 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       } on Object {
         // Fall back to stored guild counts.
       }
-    }
-    if (!mounted) {
-      return false;
     }
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final ChannelMemberCounts? liveCounts = ref
@@ -2791,6 +2797,12 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     switch (source) {
       case ComposerAttachSource.gallery:
         final String channelId = ref.read(chatViewModelProvider).channelId;
+        final uploadController = ref.read(
+          cloudUploadControllerProvider(
+            readAccountUserId(ref),
+            channelId,
+          ).notifier,
+        );
         final GallerySelectionChange change = await pickNativeGallerySelection(
           attachments: ref
               .read(
@@ -2804,13 +2816,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             instanceLimitProvider(LimitKeys.maxAttachmentsPerMessage),
           ),
         );
-        final FileUploadValidationResult result = await ref
-            .read(
-              cloudUploadControllerProvider(
-                readAccountUserId(ref),
-                channelId,
-              ).notifier,
-            )
+        final FileUploadValidationResult result = await uploadController
             .applyGallerySelection(change);
         if (mounted) {
           _toastUploadValidation(result);

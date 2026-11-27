@@ -196,6 +196,9 @@ class _CategoryHeader extends ConsumerWidget {
       guildId,
       category.id,
     );
+    if (!context.mounted) {
+      return;
+    }
     final String? mutedHint = isMuted
         ? formatMutedHintText(muteConfig, l10n)
         : null;
@@ -213,15 +216,15 @@ class _CategoryHeader extends ConsumerWidget {
         await ref.read(
           effectiveGuildChannelPermissionBitsProvider(category.id).future,
         );
+    if (!context.mounted) {
+      return;
+    }
     final Set<String> collapsedCategoryIds =
         ref.read(guildCollapsedCategoriesProvider(guildId)).value ??
         const <String>{};
     final bool allCategoriesCollapsed =
         allCategoryIds.isNotEmpty &&
         allCategoryIds.every(collapsedCategoryIds.contains);
-    if (!context.mounted) {
-      return;
-    }
     final CategoryMenuState menuState = resolveCategoryMenuState(
       hasUnread: hasUnread,
       isCollapsed: isCollapsed,
@@ -358,6 +361,7 @@ class _CategoryHeader extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) async {
+    final client = ref.read(fluxerClientProvider);
     final ChannelCreateRequest? request = await CreateChannelSheet.show(
       context,
       parentId: category.id,
@@ -367,10 +371,7 @@ class _CategoryHeader extends ConsumerWidget {
       return;
     }
     try {
-      await ref
-          .read(fluxerClientProvider)
-          .guilds
-          .createGuildChannel(guildId: guildId, body: request);
+      await client.guilds.createGuildChannel(guildId: guildId, body: request);
     } on Object catch (error) {
       await showApiErrorFromRoot(ApiErrorAction.generic, error);
     }
