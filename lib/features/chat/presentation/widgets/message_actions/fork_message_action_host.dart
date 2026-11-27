@@ -272,7 +272,6 @@ ValueChanged<QuickReactionItem>? forkGuardedQuickReaction(
           exception: exception,
           stack: stack,
           library: 'gesture',
-          // i18n-ignore: internal FlutterError diagnostic context, not UI text
           context: ErrorDescription('while handling a quick reaction'),
         ),
       );

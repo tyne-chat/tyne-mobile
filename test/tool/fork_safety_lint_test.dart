@@ -299,4 +299,134 @@ class ExampleWidget extends StatelessWidget {
       );
     },
   );
+
+  test(
+    'exempts sound keepAlive patterns (onDispose, ++ counters, try/finally mutexes, Future queues, whenComplete workers) (tyne-chat/tyne#950)',
+    () {
+      expect(
+        _lint(r'''
+@Riverpod(keepAlive: true)
+class SafeMutexAndQueueNotifier extends _$SafeMutexAndQueueNotifier {
+  int _nextId = 0;
+  Timer? _timer;
+  bool _busy = false;
+  Future<void>? _inFlight;
+  Future<void> _queue = Future<void>.value();
+  Future<void>? _reconcileInFlight;
+  bool _workerActive = false;
+  Future<void> _workerIdle = Future<void>.value();
+
+  @override
+  int build() {
+    ref.onDispose(_cancelTimer);
+    return 0;
+  }
+
+  void _cancelTimer() {
+    _timer?.cancel();
+    _timer = null;
+  }
+
+  int nextId() => _nextId++;
+
+  Future<void> runBusy() async {
+    _busy = true;
+    try {
+      await Future<void>.delayed(Duration.zero);
+    } finally {
+      _busy = false;
+    }
+  }
+
+  Future<void> runInFlight(Completer<void> completer) async {
+    _inFlight = completer.future;
+    try {
+      await Future<void>.delayed(Duration.zero);
+    } finally {
+      try {
+        await Future<void>.delayed(Duration.zero);
+      } finally {
+        _inFlight = null;
+      }
+    }
+  }
+
+  Future<void> enqueue(Future<void> Function() task) {
+    final Future<void> previous = _queue;
+    final Future<void> next = previous.then((_) => task());
+    _queue = next;
+    return next;
+  }
+
+  Future<void> reconcile() {
+    final Future<void> run = Future<void>.value();
+    _reconcileInFlight = run;
+    return run.whenComplete(() {
+      if (identical(_reconcileInFlight, run)) {
+        _reconcileInFlight = null;
+      }
+    });
+  }
+
+  void pumpWorker() {
+    _workerActive = true;
+    _workerIdle = Future<void>.value().whenComplete(() {
+      _workerActive = false;
+    });
+  }
+}
+'''),
+        isEmpty,
+      );
+    },
+  );
+
+  test(
+    'still flags conditional onDispose, un-reset mutexes, assigned ints, and unchained Future fields (tyne-chat/tyne#950)',
+    () {
+      final List<String> problems = _lint(r'''
+@Riverpod(keepAlive: true)
+class LeakyNotifier extends _$LeakyNotifier {
+  Timer? _conditionalTimer;
+  int _unusedCounter = 0;
+  int _assignedCounter = 0;
+  bool _unresetBusy = false;
+  Future<void> _unchainedFuture = Future<void>.value();
+  bool _notWorkerBool = false;
+  Future<void> _unrelatedFuture = Future<void>.value();
+
+  @override
+  int build() {
+    if (_assignedCounter > 0) {
+      return 1;
+    }
+    ref.onDispose(() {
+      _conditionalTimer?.cancel();
+      _conditionalTimer = null;
+    });
+    return 0;
+  }
+
+  void mutate() {
+    _assignedCounter = 5;
+    _assignedCounter++;
+    _unresetBusy = true;
+    _unchainedFuture = Future<void>.delayed(Duration.zero);
+    _unrelatedFuture = Future<void>.value().whenComplete(() {
+      _notWorkerBool = false;
+    });
+  }
+}
+''');
+      expect(problems, <String>[
+        'lib/example.dart:3:10: [keepalive-reset] mutable field `_conditionalTimer` on `@Riverpod(keepAlive: true)` notifier `LeakyNotifier` is not reset in `build()`',
+        'lib/example.dart:4:7: [keepalive-reset] mutable field `_unusedCounter` on `@Riverpod(keepAlive: true)` notifier `LeakyNotifier` is not reset in `build()`',
+        'lib/example.dart:5:7: [keepalive-reset] mutable field `_assignedCounter` on `@Riverpod(keepAlive: true)` notifier `LeakyNotifier` is not reset in `build()`',
+        'lib/example.dart:6:8: [keepalive-reset] mutable field `_unresetBusy` on `@Riverpod(keepAlive: true)` notifier `LeakyNotifier` is not reset in `build()`',
+        'lib/example.dart:7:16: [keepalive-reset] mutable field `_unchainedFuture` on `@Riverpod(keepAlive: true)` notifier `LeakyNotifier` is not reset in `build()`',
+        'lib/example.dart:8:8: [keepalive-reset] mutable field `_notWorkerBool` on `@Riverpod(keepAlive: true)` notifier `LeakyNotifier` is not reset in `build()`',
+        'lib/example.dart:9:16: [keepalive-reset] mutable field `_unrelatedFuture` on `@Riverpod(keepAlive: true)` notifier `LeakyNotifier` is not reset in `build()`',
+      ]);
+    },
+  );
 }

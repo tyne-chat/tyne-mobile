@@ -148,6 +148,9 @@ String? _optionalNonEmptyString(
 }
 
 /// One reviewed upstream exception recorded outside upstream source files.
+///
+/// `symbol` supports a `ClassName.*` trailing wildcard and `target` supports
+/// `"*"` to cover every UI sink kind in a reviewed developer-only file.
 class ReviewedLintEntry {
   const ReviewedLintEntry({
     required this.linter,
@@ -267,7 +270,7 @@ class ReviewedLintEntry {
         return false;
       }
     }
-    if (target != null && candidate.target != target) {
+    if (target != null && target != '*' && candidate.target != target) {
       return false;
     }
     if (code != null && !candidate.sourceLine.contains(code!)) {

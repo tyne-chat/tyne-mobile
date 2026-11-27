@@ -177,13 +177,15 @@ class _SettingsState extends ConsumerState<SettingsWidget> {
               file: 'lib/example.dart',
               enclosing: 'safeFlow',
               target: 'ctx',
-              reason: 'guarded inline',
+              reason: 'known-safe external lifetime',
             ),
           ]);
       const String source = '''
 Future<void> safeFlow(BuildContext? ctx) async {
   await Future<void>.delayed(Duration.zero);
-  if (ctx != null && ctx.mounted) {}
+  if (ctx != null) {
+    Navigator.of(ctx).pop();
+  }
 }
 
 Future<void> unreviewedSibling(WidgetRef ref) async {
@@ -198,7 +200,7 @@ Future<void> unreviewedSibling(WidgetRef ref) async {
         reviewed: catalog,
       );
       expect(problems, <String>[
-        'lib/example.dart:8:3: unguarded WidgetRef `ref` after `await`',
+        'lib/example.dart:10:3: unguarded WidgetRef `ref` after `await`',
       ]);
       expect(catalog.unmatchedEntries('async-ref'), isEmpty);
 
@@ -212,9 +214,105 @@ Future<void> unreviewedSibling(WidgetRef ref) async {
         reviewed: shiftedCatalog,
       );
       expect(shiftedProblems, <String>[
-        'lib/example.dart:11:3: unguarded WidgetRef `ref` after `await`',
+        'lib/example.dart:13:3: unguarded WidgetRef `ref` after `await`',
       ]);
       expect(shiftedCatalog.unmatchedEntries('async-ref'), isEmpty);
+    },
+  );
+
+  test(
+    'allows null checks, = reassignments that clear old guards, De Morgan exits, || chains, and dead exit code (tyne-chat/tyne#950)',
+    () {
+      expect(
+        _lint('''
+Future<void> safePatterns(
+  BuildContext? context,
+  WidgetRef ref,
+  bool flag,
+) async {
+  await Future<void>.delayed(Duration.zero);
+  if (context == null || !context.mounted) {
+    return;
+  }
+  if (identical(context, null)) {
+    return;
+  }
+  await handOffFluxerSheet(
+    context != null && context.mounted ? context : null,
+  );
+  final BuildContext? other = context != null && context.mounted
+      ? context
+      : null;
+  if (other == null || !other.mounted) {
+    return;
+  }
+  Navigator.of(other).pop();
+}
+
+Future<void> deMorganAndReassignment(
+  BuildContext? context,
+  BuildContext? Function() nextRoot,
+) async {
+  await Future<void>.delayed(Duration.zero);
+  if (context != null && !context.mounted) {
+    return;
+  }
+  BuildContext? ctx = context;
+  if (ctx == null || !ctx.mounted) {
+    await Future<void>.delayed(Duration.zero);
+    ctx = nextRoot();
+  }
+  if (ctx == null || !ctx.mounted) {
+    return;
+  }
+  Navigator.of(ctx).pop();
+}
+
+class _GateState extends ConsumerState<GateWidget> {
+  Future<void> check(bool ready, String userId) async {
+    final res = await fetchResult();
+    if (!mounted || ready || ref.read(userIdProvider) != userId || ref.read(extraProvider) != null) {
+      return;
+    }
+    return;
+    ref.read(deadProvider);
+  }
+}
+
+Future<void> switchDeadCode(BuildContext context, int kind) async {
+  switch (kind) {
+    case 1:
+      await handOffFluxerSheet(context);
+      return;
+      Navigator.of(context).pop();
+  }
+}
+'''),
+        isEmpty,
+      );
+
+      final List<String> unsoundCases = _lint('''
+Future<void> reassignedWithoutRecheck(
+  BuildContext? ctx,
+  BuildContext? Function() nextRoot,
+) async {
+  await Future<void>.delayed(Duration.zero);
+  if (ctx == null || !ctx.mounted) {
+    return;
+  }
+  ctx = nextRoot();
+  Navigator.of(ctx!).pop();
+}
+
+Future<void> compoundAssignmentStillReads(BuildContext? ctx) async {
+  await Future<void>.delayed(Duration.zero);
+  ctx ??= fallbackContext();
+}
+''');
+      expect(unsoundCases, <String>[
+        'lib/example.dart:10:16: unguarded BuildContext `ctx` after `await`',
+        'lib/example.dart:15:3: unguarded BuildContext `ctx` after `await`',
+      ]);
     },
   );
 
