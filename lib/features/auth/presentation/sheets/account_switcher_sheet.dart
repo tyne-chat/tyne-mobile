@@ -96,26 +96,25 @@ class AccountSwitcherSheetBody extends ConsumerWidget {
       onClose();
       return;
     }
+    // Fork: pre-capture notifiers before `onClose()` unmounts this sheet.
+    final AccountManager accounts = ref.read(accountManagerProvider.notifier);
+    final Toast toasts = ref.read(toastProvider.notifier);
     onClose();
     if (!account.isValid) {
       await _openAddAccount(expiredAccount: account);
       return;
     }
     try {
-      await ref
-          .read(accountManagerProvider.notifier)
-          .switchToAccount(account.userId, ignoreIfPending: true);
+      await accounts.switchToAccount(account.userId, ignoreIfPending: true);
     } on SessionExpiredFailure {
       await _openAddAccount(expiredAccount: account);
     } on Object catch (_) {
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: l10n.accountSwitchFailed,
-              variant: FluxerToastVariant.danger,
-            ),
-          );
+      toasts.show(
+        FluxerToast(
+          message: l10n.accountSwitchFailed,
+          variant: FluxerToastVariant.danger,
+        ),
+      );
     }
   }
 

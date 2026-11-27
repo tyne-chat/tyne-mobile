@@ -75,6 +75,11 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
         .read(syncedPreferencesStoreProvider)
         .hydrations
         .listen((_) => _syncSoundSettings());
+    // Fork: clear _messageSubscription on rebuild and reset _bootstrapScheduled
+    // on dispose so invalidating/rebuilding this kept-alive coordinator
+    // re-subscribes to pushService.watchMessages() (tyne-chat/tyne#946).
+    unawaited(_messageSubscription?.cancel());
+    _messageSubscription = null;
     _syncSoundSettings();
     if (defaultTargetPlatform == TargetPlatform.iOS) {
       ref
@@ -111,6 +116,7 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
       });
     }
     ref.onDispose(() {
+      _bootstrapScheduled = false;
       unawaited(_messageSubscription?.cancel());
       _messageSubscription = null;
       unawaited(_pickerSubscription?.cancel());
@@ -161,6 +167,9 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
   }
 
   Future<void> _runBootstrap() async {
+    if (!ref.mounted) {
+      return;
+    }
     try {
       ref.read(fcmNotificationTapBindingProvider);
       if (defaultTargetPlatform != TargetPlatform.iOS) {

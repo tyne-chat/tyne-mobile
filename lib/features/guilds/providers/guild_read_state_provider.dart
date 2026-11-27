@@ -125,6 +125,7 @@ class GuildReadState extends _$GuildReadState {
   int _guildSettingsRevision = 0;
   @override
   Map<String, GuildReadStateEntry> build() {
+    _forkResetForBuild();
     final db = ref.watch(fluxerDatabaseProvider);
     final currentUserId = ref.watch(currentUserIdProvider);
 
@@ -392,7 +393,11 @@ class GuildReadState extends _$GuildReadState {
       _reseedRequested = true;
       return;
     }
-    _seedInFlight = _seedAll(db, currentUserId).whenComplete(() {
+    final int forkEpoch = _forkBuildEpoch;
+    _seedInFlight = _seedAll(db, currentUserId, forkEpoch).whenComplete(() {
+      if (!ref.mounted || forkEpoch != _forkBuildEpoch) {
+        return;
+      }
       _seedInFlight = null;
       if (_reseedRequested) {
         _reseedRequested = false;
@@ -401,7 +406,12 @@ class GuildReadState extends _$GuildReadState {
     });
   }
 
-  Future<void> _seedAll(FluxerDatabase db, String? currentUserId) async {
+  Future<void> _seedAll(
+    FluxerDatabase db,
+    String? currentUserId, [
+    int? forkSeedEpoch,
+  ]) async {
+    final int forkEpoch = forkSeedEpoch ?? _forkBuildEpoch;
     _isInitialSeedComplete = false;
     _recomputeGeneration++;
     _clearCaches();
@@ -409,17 +419,26 @@ class GuildReadState extends _$GuildReadState {
     final int permissionRevision = _permissionInputsRevision;
     final UnreadPermissionInputs permissionInputs =
         await loadUnreadPermissionInputs(db, currentUserId);
+    if (!ref.mounted || forkEpoch != _forkBuildEpoch) {
+      return;
+    }
     final List<Server> guilds = permissionInputs.guilds;
     final int channelRevision = _channelRevision;
     final List<Channel> allChannels = await db.channelDao.getAllChannels(
       includeThreads: true,
     );
+    if (!ref.mounted || forkEpoch != _forkBuildEpoch) {
+      return;
+    }
     if (channelRevision == _channelRevision) {
       _channelSnapshot = {for (final c in allChannels) c.id: c};
     }
     final int joinedThreadRevision = _joinedThreadRevision;
     final List<ThreadMember> joinedThreads = await db.threadDao
         .getJoinedMembers();
+    if (!ref.mounted || forkEpoch != _forkBuildEpoch) {
+      return;
+    }
     if (joinedThreadRevision == _joinedThreadRevision) {
       _joinedThreadMembers = <String, ThreadMember>{
         for (final ThreadMember row in joinedThreads) row.threadId: row,
@@ -427,6 +446,9 @@ class GuildReadState extends _$GuildReadState {
     }
     final int readStateRevision = _readStateRevision;
     final List<ReadState> allReadStates = await db.readStateDao.getReadStates();
+    if (!ref.mounted || forkEpoch != _forkBuildEpoch) {
+      return;
+    }
     if (readStateRevision == _readStateRevision) {
       _readStateSnapshot = {for (final r in allReadStates) r.channelId: r};
     }
@@ -434,6 +456,9 @@ class GuildReadState extends _$GuildReadState {
     final List<UserGuildSettingsTableData> allSettings = await db
         .userGuildSettingsDao
         .getAll();
+    if (!ref.mounted || forkEpoch != _forkBuildEpoch) {
+      return;
+    }
     if (guildSettingsRevision == _guildSettingsRevision) {
       _updateGuildSettings(allSettings);
     }
@@ -479,6 +504,9 @@ class GuildReadState extends _$GuildReadState {
     }
     final Map<String, ChannelLatestMessageResolution> latestByChannel =
         await resolveLatestMessageIdsForChannelsBulk(db, trackableChannels);
+    if (!ref.mounted || forkEpoch != _forkBuildEpoch) {
+      return;
+    }
     final ReadStateWriteBatcher batcher = ref.read(
       readStateWriteBatcherProvider,
     );
@@ -646,6 +674,9 @@ class GuildReadState extends _$GuildReadState {
     }
     final ChannelUnreadPermissionSeedCache permissionCache =
         await _permissionSeedCacheForRecompute(db, currentUserId);
+    if (!ref.mounted || generation != _recomputeGeneration) {
+      return;
+    }
     final ReadStateWriteBatcher batcher = ref.read(
       readStateWriteBatcherProvider,
     );
@@ -1071,6 +1102,36 @@ class GuildReadState extends _$GuildReadState {
           guildSettings: guildSettings,
           now: now,
         );
+  }
+
+  // Fork: tyne-chat/tyne#946 — reset kept-alive instance fields and advance
+  // `_forkBuildEpoch` whenever `build()` re-runs (e.g., on account switch) so
+  // an in-flight `_seedAll` from the previous account cannot contaminate the
+  // new account's guild unread state or swallow its initial seed.
+  int _forkBuildEpoch = 0;
+
+  void _forkResetForBuild() {
+    _forkBuildEpoch = _forkBuildEpoch + 1;
+    _seedInFlight = null;
+    _reseedRequested = false;
+    _isInitialSeedComplete = false;
+    _pendingRecompute = null;
+    _recomputeGeneration = _recomputeGeneration + 1;
+    _overlayChannelIds = <String>{};
+    _roleSignatureByGuild = <String, String>{};
+    _memberSignatureByGuild = <String, String>{};
+    _guildOwnerById = <String, String>{};
+    _readStateSnapshot = <String, ReadState>{};
+    _channelSnapshot = <String, Channel>{};
+    _joinedThreadMembers = <String, ThreadMember>{};
+    _permissionInputsRevision = 0;
+    _channelRevision = 0;
+    _readStateRevision = 0;
+    _joinedThreadRevision = 0;
+    _guildSettingsRevision = 0;
+    _pendingReadStateRefresh.clear();
+    _pendingSeedChannelIds.clear();
+    _clearCaches();
   }
 }
 

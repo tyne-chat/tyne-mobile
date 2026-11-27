@@ -123,6 +123,9 @@ class _ChannelHeaderSearchFieldState
       ..addListener(_onFocusChanged)
       ..onKeyEvent = _handleKeyEvent;
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
       ref
           .read(channelHeaderSearchProvider.notifier)
           .bindChannel(channelId: widget.channelId, guildId: widget.guildId);

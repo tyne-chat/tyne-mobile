@@ -41,11 +41,18 @@ Future<void> navigateToChannelContent({
     return;
   }
 
+  // Fork: pre-capture threads repository and check `context.mounted` after
+  // `loadGuildChannelById` before awaiting `loadCachedThread` (tyne#946).
+  final ThreadsRepository threadsRepo = ref.read(threadsRepositoryProvider);
   Channel? resolvedChannel =
       channel ?? await loadGuildChannelById(ref, channelId);
-  resolvedChannel ??= await ref
-      .read(threadsRepositoryProvider)
-      .loadCachedThread(guildId: guildId, threadId: channelId);
+  if (!context.mounted) {
+    return;
+  }
+  resolvedChannel ??= await threadsRepo.loadCachedThread(
+    guildId: guildId,
+    threadId: channelId,
+  );
   if (!context.mounted) {
     return;
   }
@@ -360,7 +367,7 @@ void _openGuildChannelRoute({
   String? targetMessageId,
 }) {
   if (channel.type != ChannelType.guildVoice) {
-    ref
+    ref.container
         .read(recentChannelVisitsProvider.notifier)
         .recordVisit(
           channelId: channel.id,

@@ -40,6 +40,9 @@ class _ChannelPinsContentState extends ConsumerState<ChannelPinsContent> {
     super.initState();
     _scrollController.addListener(_onScroll);
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
       unawaited(
         ReadStateRepository(
           ref.read(fluxerClientProvider),

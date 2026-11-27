@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+// ignore: unused_import // Fork: upstream's import, unused since the fork's changes.
 import 'package:fluxer_app/features/chat/presentation/sheets/delete_message_confirm_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/message_debug_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/message_reactions_sheet.dart';
@@ -21,6 +22,12 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_confirm_preview.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
+
 Future<void> showSystemMessageActionsSheet(
   BuildContext context,
   WidgetRef ref, {
@@ -35,6 +42,9 @@ Future<void> showSystemMessageActionsSheet(
   final developerMode = ref.read(
     userSettingsViewModelProvider.select((s) => s.developerMode),
   );
+  // Fork: pre-capture notifier before awaiting the sheet so quick reactions and
+  // deletions succeed even if the originating chat host unmounts (tyne#946).
+  final ChatViewModel chatNotifier = ref.read(chatViewModelProvider.notifier);
   final action = await showMessageBottomSheet(
     context,
     message: message,
@@ -49,13 +59,13 @@ Future<void> showSystemMessageActionsSheet(
     developerMode: developerMode,
     quickReactionChannelId: message.channelId,
     quickReactionGuildId: guildId,
-    onQuickReaction: (item) => _toggleQuickReaction(ref, message, item),
+    onQuickReaction: (item) =>
+        _forkToggleQuickReaction(chatNotifier, message, item),
   );
   if (action == MessageAction.delete) {
     unawaited(
-      showDeleteMessageConfirmSheet(
-        null,
-        ref,
+      _forkConfirmDeleteSystemMessage(
+        chatNotifier,
         message: message,
         guildId: guildId,
       ),
@@ -194,4 +204,58 @@ void _toggleReactionFromEmoji(
     return;
   }
   unawaited(notifier.toggleReaction(message.id, emoji.surrogates));
+}
+
+// Fork: tyne-chat/tyne#946 — pre-captured ChatViewModel helpers so system
+// message quick reactions and delete confirmations survive caller unmount.
+// ignore: unused_element
+void _keepUpstreamQuickReactionRef() {
+  // Retains upstream's `_toggleQuickReaction` symbol without unused_element lint.
+  // ignore: unnecessary_statements
+  _toggleQuickReaction;
+}
+
+void _forkToggleQuickReaction(
+  ChatViewModel notifier,
+  Message message,
+  QuickReactionItem item,
+) {
+  switch (item) {
+    case UnicodeQuickReaction(:final emoji):
+      unawaited(notifier.toggleReaction(message.id, emoji));
+    case CustomQuickReaction(:final emoji):
+      unawaited(
+        notifier.toggleReaction(
+          message.id,
+          emoji.name,
+          emojiId: emoji.id,
+          animated: emoji.animated,
+        ),
+      );
+  }
+}
+
+Future<void> _forkConfirmDeleteSystemMessage(
+  ChatViewModel chatNotifier, {
+  required Message message,
+  String? guildId,
+}) async {
+  final BuildContext? root = rootNavigatorKey.currentContext;
+  if (root == null || !root.mounted) {
+    return;
+  }
+  final FluxerLocalizations l10n = FluxerLocalizations.of(root);
+  final bool? confirmed = await FluxerConfirmSheet.show(
+    root,
+    title: l10n.chatMessageDeleteConfirmTitle,
+    description: message.isCrossposted
+        ? l10n.chatMessageDeletePublished
+        : l10n.chatMessageDeleteConfirmDescription,
+    body: MessageConfirmPreview(message: message, guildId: guildId),
+    confirmLabel: l10n.chatMessageDelete,
+    isDanger: true,
+  );
+  if (confirmed ?? false) {
+    unawaited(chatNotifier.deleteMessage(message.id));
+  }
 }

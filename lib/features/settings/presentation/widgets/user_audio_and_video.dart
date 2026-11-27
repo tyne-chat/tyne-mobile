@@ -48,6 +48,9 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
       unawaited(ref.read(voiceMediaDevicesProvider.notifier).refresh());
     });
     ref.listenManual<(bool, bool)>(
@@ -57,8 +60,12 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
           state.isGranted(MacPermissionKind.camera),
         ),
       ),
-      (_, _) =>
-          unawaited(ref.read(voiceMediaDevicesProvider.notifier).refresh()),
+      (_, _) {
+        if (!mounted) {
+          return;
+        }
+        unawaited(ref.read(voiceMediaDevicesProvider.notifier).refresh());
+      },
     );
   }
 
