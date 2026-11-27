@@ -45,6 +45,9 @@ class _GuildMembersTabContentState
     super.initState();
     widget.scrollController.addListener(_handleScroll);
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
       prefetchGuildRolesIfMissing(
         ref: ref,
         database: ref.read(fluxerDatabaseProvider),

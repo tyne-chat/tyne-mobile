@@ -129,6 +129,9 @@ Future<void> executeDeclineIncomingVoiceCall(
 ) async {
   final FluxerLocalizations l10n = FluxerLocalizations.of(ctx);
   final VoiceSessionState voice = ref.read(voiceSessionProvider);
+  // Fork: pre-capture client before awaiting `leaveVoice` in case the caller
+  // unmounts mid-leave (tyne-chat/tyne#946).
+  final FluxerClient client = ref.read(fluxerClientProvider);
   ref
       .read(activeCallsProvider(readAccountUserId(ref)).notifier)
       .clearPendingRingForChannel(channelId);
@@ -136,7 +139,6 @@ Future<void> executeDeclineIncomingVoiceCall(
     await ref.read(voiceSessionProvider.notifier).leaveVoice(endCall: false);
   }
   try {
-    final FluxerClient client = ref.read(fluxerClientProvider);
     await client.channels.stopRingingCallRecipients(
       channelId: channelId,
       body: const CallRingBodySchema(),

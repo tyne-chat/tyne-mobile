@@ -117,6 +117,9 @@ class _ChannelAddOverridePickerContentState
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
       ref
           .read(guildSyncProvider(readAccountUserId(ref)).notifier)
           .syncIfNeeded(widget.guildId);

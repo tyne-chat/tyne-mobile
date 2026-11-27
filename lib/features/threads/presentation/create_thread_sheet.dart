@@ -309,11 +309,14 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
     }
     final String content = outgoing.text.trim();
     final Map<String, dynamic>? personaData = outgoing.personaData;
+    // Fork: capture container before awaiting network creation so dismissing the
+    // sheet mid-flight does not drop DB persistence or the starter message.
+    final ProviderContainer container = ref.container;
     setState(() => _submitting = true);
     final Map<String, Object?> json;
     try {
       json = await _create(
-        repo: ref.read(threadsRepositoryProvider),
+        repo: container.read(threadsRepositoryProvider),
         name: name,
         private: private,
         personaId: personaData?['id'] as String?,
@@ -341,7 +344,7 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
     final ChannelResponse created = ChannelResponse.fromJson(json);
     // Fork: with a persona remembered per channel, the new thread starts as
     // whoever opened it.
-    ref
+    container
         .read(activePersonaProvider.notifier)
         .startChannelAs(created.id, personaData?['id'] as String?);
     // Fork: Back from a new DM thread leaves for its DM (tyne-chat/tyne#699).
@@ -349,7 +352,7 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
       forkNoteDmThread(created.id, parent.id);
     }
     final Message? source = widget.sourceMessage;
-    final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
+    final db.FluxerDatabase database = container.read(fluxerDatabaseProvider);
     await database.transaction(() async {
       await database.messageDao.deleteMessagesForChannel(created.id);
       await database.channelDao.upsertChannel(
@@ -366,20 +369,20 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
         await database.channelDao.setLastMessageId(created.id, created.id);
       }
     });
-    ref.read(chatViewModelProvider.notifier).forgetChannel(created.id);
+    container.read(chatViewModelProvider.notifier).forgetChannel(created.id);
     if (source != null) {
-      ref.read(messageReferencesProvider.notifier).seed(source);
-      await ref
+      container.read(messageReferencesProvider.notifier).seed(source);
+      await container
           .read(readStateRepositoryProvider)
           .applyLocalAckUpTo(created.id, created.id);
     }
-    ref
+    container
         .read(threadCreateCooldownsProvider.notifier)
         .start(parent.id, parent.rateLimitPerUser);
     if (content.isNotEmpty) {
-      final Toast toasts = ref.read(toastProvider.notifier);
+      final Toast toasts = container.read(toastProvider.notifier);
       unawaited(
-        ref
+        container
             .read(messageRepositoryProvider)
             .sendMessage(
               channelId: created.id,
@@ -396,6 +399,9 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
               ),
             ),
       );
+    }
+    if (!mounted) {
+      return;
     }
     await _openThreadThenClose(threadId: created.id);
   }

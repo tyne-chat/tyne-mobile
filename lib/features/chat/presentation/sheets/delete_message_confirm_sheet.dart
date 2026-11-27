@@ -32,6 +32,9 @@ Future<bool?> showDeleteMessageConfirmSheet(
   }
   final l10n = FluxerLocalizations.of(sheetContext);
   final String messageId = message.id;
+  // Fork: pre-capture notifier in case the originating chat host unmounts while
+  // the root-navigator confirmation sheet is open (tyne-chat/tyne#946).
+  final ChatViewModel chatNotifier = ref.read(chatViewModelProvider.notifier);
   final bool? confirmed = await FluxerConfirmSheet.show(
     sheetContext,
     title: l10n.chatMessageDeleteConfirmTitle,
@@ -43,9 +46,7 @@ Future<bool?> showDeleteMessageConfirmSheet(
     isDanger: true,
   );
   if (confirmed ?? false) {
-    unawaited(
-      ref.read(chatViewModelProvider.notifier).deleteMessage(messageId),
-    );
+    unawaited(chatNotifier.deleteMessage(messageId));
   }
   return confirmed;
 }
@@ -61,6 +62,8 @@ Future<bool?> showDeleteAttachmentConfirmSheet(
     return null;
   }
   final l10n = FluxerLocalizations.of(sheetContext);
+  // Fork: pre-capture notifier before awaiting the confirmation sheet.
+  final ChatViewModel chatNotifier = ref.read(chatViewModelProvider.notifier);
   final bool? confirmed = await FluxerConfirmSheet.show(
     sheetContext,
     title: l10n.chatMessageDeleteAttachment,
@@ -70,12 +73,10 @@ Future<bool?> showDeleteAttachmentConfirmSheet(
   );
   if (confirmed ?? false) {
     unawaited(
-      ref
-          .read(chatViewModelProvider.notifier)
-          .deleteMessageAttachment(
-            messageId: messageId,
-            attachmentId: attachment.id,
-          ),
+      chatNotifier.deleteMessageAttachment(
+        messageId: messageId,
+        attachmentId: attachment.id,
+      ),
     );
   }
   return confirmed;
