@@ -203,6 +203,10 @@ class _ForumPostComposerState extends ConsumerState<_ForumPostComposer> {
       _error = null;
     });
     final Channel forum = widget.forum;
+    // Fork: pre-capture container and account user id before awaiting post
+    // creation in case the sheet closes mid-flight (tyne-chat/tyne#946).
+    final ProviderContainer container = ref.container;
+    final String accountUserId = readAccountUserId(ref);
     final ActivePersonaNotifier activePersonas = ref.read(
       activePersonaProvider.notifier,
     );
@@ -231,8 +235,8 @@ class _ForumPostComposerState extends ConsumerState<_ForumPostComposer> {
       );
       final Message? firstMessage = result.firstMessage;
       if (firstMessage != null) {
-        ref
-            .read(forumFirstMessagesProvider(readAccountUserId(ref)).notifier)
+        container
+            .read(forumFirstMessagesProvider(accountUserId).notifier)
             .put(firstMessage);
       }
     } on Object catch (failure) {
@@ -245,7 +249,7 @@ class _ForumPostComposerState extends ConsumerState<_ForumPostComposer> {
       });
       return;
     }
-    ref
+    container
         .read(threadCreateCooldownsProvider.notifier)
         .start(forum.id, forum.rateLimitPerUser);
     if (!mounted || !widget.hostContext.mounted) {

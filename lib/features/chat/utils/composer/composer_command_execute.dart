@@ -118,11 +118,14 @@ Future<void> _executeNick({
   required String nickname,
   required FluxerLocalizations l10n,
 }) async {
-  final String? currentUserId = ref.read(currentUserIdProvider);
+  // Fork: pre-capture container before `await` so composer unmount during
+  // `/nick` or `/msg` does not throw StateError (tyne-chat/tyne#946).
+  final ProviderContainer container = ref.container;
+  final String? currentUserId = container.read(currentUserIdProvider);
   String previous = l10n.composerCommandUnknownUser;
   String fallback = previous;
   if (currentUserId != null) {
-    final GuildUserDisplay? display = ref
+    final GuildUserDisplay? display = container
         .read(guildUserDisplayFromDbProvider((currentUserId, guildId)))
         .value;
     if (display != null) {
@@ -130,7 +133,7 @@ Future<void> _executeNick({
       previous = display.displayName;
     }
   }
-  await ref
+  await container
       .read(fluxerClientProvider)
       .guilds
       .updateCurrentGuildMember(
@@ -140,7 +143,7 @@ Future<void> _executeNick({
         ),
       );
   final String nextName = nickname.isEmpty ? fallback : nickname;
-  ref
+  container
       .read(chatViewModelProvider.notifier)
       .insertClientSystemMessage(
         l10n.composerCommandNicknameChanged(previous, nextName),
@@ -154,19 +157,20 @@ Future<void> _executeMsg({
   required String message,
   required FluxerLocalizations l10n,
 }) async {
+  final ProviderContainer container = ref.container;
   try {
-    final String dmChannelId = await ref
+    final String dmChannelId = await container
         .read(dmRepositoryProvider)
         .ensureDmChannel(userId);
-    await ref
+    await container
         .read(messageRepositoryProvider)
         .sendMessage(channelId: dmChannelId, content: message);
-    navigateToContentVia(ref, RoutePaths.dmChannel(dmChannelId));
+    navigateToContentViaContainer(container, RoutePaths.dmChannel(dmChannelId));
   } on Object catch (error, st) {
     talker.error('[ComposerCommand] /msg failed', error, st);
     String username = userId;
-    for (final guild in ref.read(guildListViewModelProvider).guilds) {
-      final GuildUserDisplay? display = ref
+    for (final guild in container.read(guildListViewModelProvider).guilds) {
+      final GuildUserDisplay? display = container
           .read(guildUserDisplayFromDbProvider((userId, guild.id)))
           .value;
       if (display != null) {
@@ -174,7 +178,7 @@ Future<void> _executeMsg({
         break;
       }
     }
-    ref
+    container
         .read(chatViewModelProvider.notifier)
         .insertClientSystemMessage(l10n.composerCommandMsgFailed(username));
   }

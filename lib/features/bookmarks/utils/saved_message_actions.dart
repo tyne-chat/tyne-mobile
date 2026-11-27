@@ -15,56 +15,75 @@ Future<void> toggleSavedMessageBookmark({
   required String channelId,
   required String messageId,
 }) async {
-  final SavedMessagesRepository repository = ref.read(
+  // Fork: pre-capture container before `await` / optimistic list removal so an
+  // unmounted row never throws StateError on toast/error (tyne-chat/tyne#946).
+  final ProviderContainer container = ref.container;
+  final SavedMessagesRepository repository = container.read(
     savedMessagesRepositoryProvider,
   );
-  if (await ref
+  if (await container
       .read(fluxerDatabaseProvider)
       .savedMessageDao
       .isSaved(messageId)) {
-    await unsaveMessageBookmark(ref: ref, l10n: l10n, messageId: messageId);
+    await _unsaveMessageBookmarkInContainer(
+      container: container,
+      l10n: l10n,
+      messageId: messageId,
+    );
     return;
   }
   try {
     await repository.saveMessage(channelId: channelId, messageId: messageId);
   } on Object catch (error) {
-    await _showBookmarkError(ref, error);
+    await _showBookmarkError(container, error);
     return;
   }
-  _showBookmarkToast(ref, l10n, added: true);
+  _showBookmarkToast(container, l10n, added: true);
 }
 
 Future<void> unsaveMessageBookmark({
   required WidgetRef ref,
   required FluxerLocalizations l10n,
   required String messageId,
+}) => _unsaveMessageBookmarkInContainer(
+  container: ref.container,
+  l10n: l10n,
+  messageId: messageId,
+);
+
+Future<void> _unsaveMessageBookmarkInContainer({
+  required ProviderContainer container,
+  required FluxerLocalizations l10n,
+  required String messageId,
 }) async {
-  ref.read(savedMessagesProvider.notifier).handleMessageDelete(messageId);
+  container.read(savedMessagesProvider.notifier).handleMessageDelete(messageId);
   try {
-    await ref.read(savedMessagesRepositoryProvider).unsaveMessage(messageId);
+    await container
+        .read(savedMessagesRepositoryProvider)
+        .unsaveMessage(messageId);
   } on Object catch (error) {
-    await _showBookmarkError(ref, error);
+    await _showBookmarkError(container, error);
     return;
   }
-  _showBookmarkToast(ref, l10n, added: false);
+  _showBookmarkToast(container, l10n, added: false);
 }
 
-Future<void> _showBookmarkError(WidgetRef ref, Object error) {
+Future<void> _showBookmarkError(ProviderContainer container, Object error) {
   return showApiErrorFromRoot(
     ApiErrorAction.saveBookmark,
     error,
     details: ApiErrorDetails(
-      count: ref.read(instanceLimitProvider(LimitKeys.maxBookmarks)),
+      count: container.read(instanceLimitProvider(LimitKeys.maxBookmarks)),
     ),
   );
 }
 
 void _showBookmarkToast(
-  WidgetRef ref,
+  ProviderContainer container,
   FluxerLocalizations l10n, {
   required bool added,
 }) {
-  ref
+  container
       .read(toastProvider.notifier)
       .show(
         FluxerToast(

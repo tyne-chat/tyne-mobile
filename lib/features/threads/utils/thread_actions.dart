@@ -57,18 +57,21 @@ Future<bool> runThreadAction(
   String? successMessage,
 }) async {
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+  // Fork: pre-capture container before `await` so caller unmount does not
+  // throw StateError when showing the result toast (tyne-chat/tyne#946).
+  final ProviderContainer container = ref.container;
   try {
-    await action(ref.read(threadsRepositoryProvider));
+    await action(container.read(threadsRepositoryProvider));
   } on Object catch (error) {
-    showThreadToast(
-      ref,
+    showThreadToastFromContainer(
+      container,
       threadErrorText(l10n, error),
       variant: FluxerToastVariant.danger,
     );
     return false;
   }
   if (successMessage != null) {
-    showThreadToast(ref, successMessage);
+    showThreadToastFromContainer(container, successMessage);
   }
   return true;
 }
@@ -277,3 +280,15 @@ Future<void> copyThreadLink(BuildContext context, Channel thread) =>
 
 Future<void> copyThreadId(BuildContext context, Channel thread) =>
     copyToClipboard(context: context, value: thread.id);
+
+// Fork: container-backed toast helper safe after caller unmount
+// (tyne-chat/tyne#946).
+void showThreadToastFromContainer(
+  ProviderContainer container,
+  String message, {
+  FluxerToastVariant variant = FluxerToastVariant.success,
+}) {
+  container
+      .read(toastProvider.notifier)
+      .show(FluxerToast(message: message, variant: variant));
+}

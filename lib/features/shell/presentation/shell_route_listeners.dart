@@ -199,7 +199,9 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
         bool? previous,
         bool next,
       ) {
-        if (next || !ref.read(pushRelayConsentPromptProvider)) {
+        // Fork: guard against deactivated `ref` in `listenManual` callback
+        // (tyne-chat/tyne#946).
+        if (!mounted || next || !ref.read(pushRelayConsentPromptProvider)) {
           return;
         }
         WidgetsBinding.instance.addPostFrameCallback((_) {

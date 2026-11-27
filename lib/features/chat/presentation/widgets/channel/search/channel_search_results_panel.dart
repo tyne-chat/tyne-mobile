@@ -186,6 +186,9 @@ class ChannelSearchResultsPanel extends ConsumerWidget {
     required MessageSearchScopeFilter currentScope,
   }) async {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    // Fork: pre-capture container before opening modal sheet/menu in case the
+    // search panel unmounts before selection completes (tyne-chat/tyne#946).
+    final ProviderContainer container = ref.container;
     final List<MessageSearchScopeFilter> options = channelSearchScopeOptions(
       isGuildChannel: isGuildChannel,
     );
@@ -208,11 +211,11 @@ class ChannelSearchResultsPanel extends ConsumerWidget {
     if (selected == null || selected == currentScope) {
       return;
     }
-    ref.read(channelHeaderSearchProvider.notifier).setScope(selected);
-    final ChannelSearchState state = ref.read(
+    container.read(channelHeaderSearchProvider.notifier).setScope(selected);
+    final ChannelSearchState state = container.read(
       channelSearchProvider(channelId, guildId),
     );
-    await ref
+    await container
         .read(channelSearchProvider(channelId, guildId).notifier)
         .search(query: state.query.copyWith(uiScope: selected, page: 1));
   }
@@ -224,6 +227,7 @@ class ChannelSearchResultsPanel extends ConsumerWidget {
     required MessageSearchSortFilter currentSort,
   }) async {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final ProviderContainer container = ref.container;
     final MessageSearchSortFilter? selected = !usesDesktopPointerUi(context)
         ? await _showSortBottomSheet(
             context: context,
@@ -239,11 +243,11 @@ class ChannelSearchResultsPanel extends ConsumerWidget {
     if (selected == null || selected == currentSort) {
       return;
     }
-    ref.read(channelHeaderSearchProvider.notifier).setSort(selected);
-    final ChannelSearchState state = ref.read(
+    container.read(channelHeaderSearchProvider.notifier).setSort(selected);
+    final ChannelSearchState state = container.read(
       channelSearchProvider(channelId, guildId),
     );
-    await ref
+    await container
         .read(channelSearchProvider(channelId, guildId).notifier)
         .search(query: state.query.copyWith(uiSort: selected, page: 1));
   }
